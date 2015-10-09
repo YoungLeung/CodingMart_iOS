@@ -27,7 +27,6 @@
             tableView.backgroundColor = [UIColor clearColor];
             tableView.delegate = self;
             tableView.dataSource = self;
-//            [tableView registerClass:[RewardListCell class] forCellReuseIdentifier:kCellIdentifier_RewardListCell];
             [tableView registerNib:[UINib nibWithNibName:kCellIdentifier_RewardListCell bundle:nil] forCellReuseIdentifier:kCellIdentifier_RewardListCell];
             tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
             [self addSubview:tableView];
@@ -112,5 +111,10 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (self.itemClickedBlock) {
+        self.itemClickedBlock(_dataList[indexPath.row]);
+    }
+}
 
 @end

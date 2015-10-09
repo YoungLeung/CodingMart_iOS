@@ -10,6 +10,9 @@
 #import "XTSegmentControl.h"
 #import "iCarousel.h"
 #import "RewardListView.h"
+#import "WebViewController.h"
+
+#import "Reward.h"
 
 #import <Masonry/Masonry.h>
 
@@ -84,9 +87,10 @@
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view{
     RewardListView *listView = (RewardListView *)view;
     if (!listView) {
+        __weak typeof(self) weakSelf = self;
         listView = [[RewardListView alloc] initWithFrame:carousel.bounds];
         listView.itemClickedBlock = ^(id clickedItem){
-            
+            [weakSelf goToReward:clickedItem];
         };
     }else if (listView.dataList){
         _rewardsDict[listView.key] = listView.dataList;//保存旧值
@@ -119,5 +123,9 @@
     }];
 }
 
-
+#pragma mark GoTo VC
+- (void)goToReward:(Reward *)curReward{
+    WebViewController *vc = [WebViewController webVCWithUrlStr:[NSString stringWithFormat:@"/p/%@", curReward.id.stringValue]];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 @end
