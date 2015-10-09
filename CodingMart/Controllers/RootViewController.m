@@ -1,0 +1,123 @@
+//
+//  RootViewController.m
+//  CodingMart
+//
+//  Created by Ease on 15/10/8.
+//  Copyright © 2015年 net.coding. All rights reserved.
+//
+
+#import "RootViewController.h"
+#import "XTSegmentControl.h"
+#import "iCarousel.h"
+#import "RewardListView.h"
+
+#import <Masonry/Masonry.h>
+
+
+@interface RootViewController ()<iCarouselDataSource, iCarouselDelegate>
+@property (strong, nonatomic) NSMutableArray *typeList, *statusList;
+@property (strong, nonatomic) NSMutableDictionary *rewardsDict;
+
+@property (strong, nonatomic) XTSegmentControl *mySegmentControl;
+@property (strong, nonatomic) iCarousel *myCarousel;
+
+@property (assign, nonatomic) NSInteger selectedStatusIndex;
+@end
+
+@implementation RootViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    self.title = @"码市";
+    _typeList = @[@"所有类型",
+                  @"网站",
+                  @"iOS APP",
+                  @"Android APP",
+                  @"微信开发",
+                  @"HTML5 应用",
+                  @"其他"].mutableCopy;
+    
+    _statusList = @[@"所有进度",
+                    @"未开始",
+                    @"招募中",
+                    @"开发中",
+                    @"已结束"].mutableCopy;
+    
+    _selectedStatusIndex = 0;
+    
+    _rewardsDict = [NSMutableDictionary new];
+    
+    CGFloat segment_height = 44.0;
+    
+    //添加myCarousel
+    _myCarousel = ({
+        iCarousel *icarousel = [[iCarousel alloc] init];
+        icarousel.dataSource = self;
+        icarousel.delegate = self;
+        icarousel.decelerationRate = 1.0;
+        icarousel.scrollSpeed = 1.0;
+        icarousel.type = iCarouselTypeLinear;
+        icarousel.pagingEnabled = YES;
+        icarousel.clipsToBounds = YES;
+        icarousel.bounceDistance = 0.2;
+        [self.view addSubview:icarousel];
+        [icarousel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(segment_height, 0, 0, 0));
+        }];
+        icarousel;
+    });
+    
+    //添加滑块
+    __weak typeof(_myCarousel) weakCarousel = _myCarousel;
+    _mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, segment_height) Items:_typeList selectedBlock:^(NSInteger index) {
+        [weakCarousel scrollToItemAtIndex:index animated:NO];
+    }];
+    [self.view addSubview:_mySegmentControl];
+}
+
+#pragma mark iCarousel M
+- (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel{
+    return _typeList.count;
+}
+
+- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view{
+    RewardListView *listView = (RewardListView *)view;
+    if (!listView) {
+        listView = [[RewardListView alloc] initWithFrame:carousel.bounds];
+        listView.itemClickedBlock = ^(id clickedItem){
+            
+        };
+    }else if (listView.dataList){
+        _rewardsDict[listView.key] = listView.dataList;//保存旧值
+    }
+    listView.type = _typeList[index];
+    listView.status = _statusList[_selectedStatusIndex];
+    listView.dataList = _rewardsDict[listView.key];//填充新值
+    [listView lazyRefreshData];
+    [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];
+    return listView;
+}
+
+- (void)carouselDidScroll:(iCarousel *)carousel{
+    [self.view endEditing:YES];
+    if (_mySegmentControl) {
+        float offset = carousel.scrollOffset;
+        if (offset > 0) {
+            [_mySegmentControl moveIndexWithProgress:offset];
+        }
+    }
+}
+
+- (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel{
+    if (_mySegmentControl) {
+        _mySegmentControl.currentIndex = carousel.currentItemIndex;
+    }
+    [(RewardListView *)carousel.currentItemView lazyRefreshData];
+    [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
+        [obj setSubScrollsToTop:(obj == carousel.currentItemView)];
+    }];
+}
+
+
+@end
