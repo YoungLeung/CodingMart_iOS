@@ -11,28 +11,10 @@
 #import <Masonry/Masonry.h>
 #import "UIBadgeView.h"
 #import "UIView+Frame.h"
+#import "UIView+Loding.h"
+#import "UIView+BlankPage.h"
 
-@class EaseLoadingView, EaseBlankPageView;
 
-typedef NS_ENUM(NSInteger, EaseBlankPageType)
-{
-    EaseBlankPageTypeView = 0,
-    EaseBlankPageTypeActivity,
-    EaseBlankPageTypeTask,
-    EaseBlankPageTypeTopic,
-    EaseBlankPageTypeTweet,
-    EaseBlankPageTypeTweetOther,
-    EaseBlankPageTypeProject,
-    EaseBlankPageTypeProjectOther,
-    EaseBlankPageTypeFileDleted,
-    EaseBlankPageTypeFolderDleted,
-    EaseBlankPageTypePrivateMsg,
-    EaseBlankPageTypeMyWatchedTopic,
-    EaseBlankPageTypeMyJoinedTopic,
-    EaseBlankPageTypeOthersWatchedTopic,
-    EaseBlankPageTypeOthersJoinedTopic,
-    EaseBlankPageTypeFileTypeCannotSupport,
-};
 
 typedef NS_ENUM(NSInteger, BadgePositionType) {
 
@@ -80,29 +62,5 @@ typedef NS_ENUM(NSInteger, BadgePositionType) {
 + (UIView *)lineViewWithPointYY:(CGFloat)pointY andColor:(UIColor *)color;
 + (UIView *)lineViewWithPointYY:(CGFloat)pointY andColor:(UIColor *)color andLeftSpace:(CGFloat)leftSpace;
 
-
-#pragma mark LoadingView
-@property (strong, nonatomic) EaseLoadingView *loadingView;
-- (void)beginLoading;
-- (void)endLoading;
-
-#pragma mark BlankPageView
-@property (strong, nonatomic) EaseBlankPageView *blankPageView;
-- (void)configBlankPage:(EaseBlankPageType)blankPageType hasData:(BOOL)hasData hasError:(BOOL)hasError reloadButtonBlock:(void(^)(id sender))block;
-@end
-
-@interface EaseLoadingView : UIView
-@property (strong, nonatomic) UIImageView *loopView, *monkeyView;
-@property (assign, nonatomic, readonly) BOOL isLoading;
-- (void)startAnimating;
-- (void)stopAnimating;
-@end
-
-@interface EaseBlankPageView : UIView
-@property (strong, nonatomic) UIImageView *monkeyView;
-@property (strong, nonatomic) UILabel *tipLabel;
-@property (strong, nonatomic) UIButton *reloadButton;
-@property (copy, nonatomic) void(^reloadButtonBlock)(id sender);
-- (void)configWithType:(EaseBlankPageType)blankPageType hasData:(BOOL)hasData hasError:(BOOL)hasError reloadButtonBlock:(void(^)(id sender))block;
 @end
 

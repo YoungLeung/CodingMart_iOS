@@ -102,7 +102,12 @@
 }
 #pragma mark VC
 - (BOOL)canAndGoOutWithLinkStr:(NSString *)linkStr{
+    DebugLog(@"%@", linkStr);
+
     BOOL canGoOut = NO;
+    if ([linkStr hasPrefix:@"https://coding.net/login"]) {
+        canGoOut = YES;
+    }
     return canGoOut;
 }
 

@@ -11,6 +11,7 @@
 #import "iCarousel.h"
 #import "RewardListView.h"
 #import "WebViewController.h"
+#import "KxMenu.h"
 
 #import "Reward.h"
 
@@ -23,6 +24,8 @@
 
 @property (strong, nonatomic) XTSegmentControl *mySegmentControl;
 @property (strong, nonatomic) iCarousel *myCarousel;
+
+@property (strong, nonatomic) UIButton *leftNavBtn, *rightNavBtn;
 
 @property (assign, nonatomic) NSInteger selectedStatusIndex;
 @end
@@ -52,6 +55,8 @@
     _rewardsDict = [NSMutableDictionary new];
     
     CGFloat segment_height = 44.0;
+    //nav item
+    [self setupNavItems];
     
     //添加myCarousel
     _myCarousel = ({
@@ -77,6 +82,69 @@
         [weakCarousel scrollToItemAtIndex:index animated:NO];
     }];
     [self.view addSubview:_mySegmentControl];
+}
+
+#pragma mark nav_item
+- (void)setupNavItems{
+    if (!_leftNavBtn) {
+        _leftNavBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+        [_leftNavBtn doCircleFrame];
+        [_leftNavBtn addTarget:self action:@selector(leftNavBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    }
+    if (!_rightNavBtn) {
+        _rightNavBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+        _rightNavBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+        [_rightNavBtn addTarget:self action:@selector(rightNavBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+        _rightNavBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+        [_rightNavBtn setImage:[UIImage imageNamed:@"nav_arrow_down"] forState:UIControlStateNormal];
+        [self configRightNavBtnWithTitle:_statusList[0]];
+    }
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.leftNavBtn];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightNavBtn];
+}
+
+- (void)configRightNavBtnWithTitle:(NSString *)title{
+    CGFloat title_width = [title getWidthWithFont:_rightNavBtn.titleLabel.font constrainedToSize:CGSizeMake(CGFLOAT_MAX, 30)];
+    CGFloat image_width = _rightNavBtn.imageView.width;
+    
+    _rightNavBtn.titleEdgeInsets = UIEdgeInsetsMake(0, -image_width, 0, image_width);
+    _rightNavBtn.imageEdgeInsets = UIEdgeInsetsMake(0, title_width, 0, -title_width);
+    [_rightNavBtn setTitle:title forState:UIControlStateNormal];
+}
+
+#pragma mark nav_item M
+- (void)leftNavBtnClicked{
+    
+}
+
+- (void)rightNavBtnClicked{
+    if ([KxMenu isShowingInView:self.view]) {
+        [KxMenu dismissMenu:YES];
+    }else{
+        [KxMenu setTitleFont:[UIFont systemFontOfSize:14]];
+        [KxMenu setTintColor:[UIColor whiteColor]];
+        [KxMenu setLineColor:[UIColor colorWithHexString:@"0xdddddd"]];
+        
+        NSMutableArray *menuItems = @[].mutableCopy;
+        [_statusList enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            KxMenuItem *menuItem = [KxMenuItem menuItem:obj image:nil target:self action:@selector(menuItemClicked:)];
+            menuItem.foreColor = [UIColor colorWithHexString:idx == _selectedStatusIndex? @"0x3bbd79": @"0x222222"];
+            [menuItems addObject:menuItem];
+        }];
+        CGRect senderFrame = CGRectMake(kScreen_Width - (kDevice_Is_iPhone6Plus? 30: 26), 0, 0, 0);
+        [KxMenu showMenuInView:self.view fromRect:senderFrame menuItems:menuItems];
+    }
+}
+
+- (void)menuItemClicked:(KxMenuItem *)item{
+    NSInteger selectedIndex = [_statusList indexOfObject:item.title];
+    if (selectedIndex == NSNotFound || selectedIndex == _selectedStatusIndex) {
+        return;
+    }
+    _selectedStatusIndex = selectedIndex;
+    [self configRightNavBtnWithTitle:_statusList[_selectedStatusIndex]];
+    [(RewardListView *)_myCarousel.currentItemView setStatus:_statusList[_selectedStatusIndex]];
+    [(RewardListView *)_myCarousel.currentItemView lazyRefreshData];
 }
 
 #pragma mark iCarousel M
@@ -117,6 +185,7 @@
     if (_mySegmentControl) {
         _mySegmentControl.currentIndex = carousel.currentItemIndex;
     }
+    [(RewardListView *)carousel.currentItemView setStatus:_statusList[_selectedStatusIndex]];
     [(RewardListView *)carousel.currentItemView lazyRefreshData];
     [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
         [obj setSubScrollsToTop:(obj == carousel.currentItemView)];

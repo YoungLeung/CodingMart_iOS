@@ -8,11 +8,14 @@
 
 #import "RewardListView.h"
 #import "RewardListCell.h"
+#import "ODRefreshControl.h"
 
 #import "Coding_NetAPIManager.h"
 
 @interface RewardListView ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *myTableView;
+@property (nonatomic, strong) ODRefreshControl *myRefreshControl;
+
 @property (assign, nonatomic) BOOL isLoading;
 @end
 
@@ -21,7 +24,6 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-//        self.backgroundColor = [UIColor randomColor];
         _myTableView = ({
             UITableView *tableView = [[UITableView alloc] init];
             tableView.backgroundColor = [UIColor clearColor];
@@ -34,12 +36,10 @@
                 make.edges.equalTo(self);
             }];
             tableView.rowHeight = [RewardListCell cellHeight];
-//            UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, 0, 0);
-//            tableView.contentInset = insets;
-//            tableView.scrollIndicatorInsets = insets;
             tableView;
         });
-
+        _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
+        [_myRefreshControl addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
     }
     return self;
 }
@@ -71,6 +71,7 @@
     if (_dataList.count > 0) {
         [_myTableView reloadData];
     }else{
+        [_myTableView reloadData];
         [self refreshData];
     }
 }
@@ -80,24 +81,22 @@
         return;
     }
     [self sendRequest];
-    
-//    NSLog(@"-------------refreshData");
-//    _dataList = @[].mutableCopy;
-//    if (self.subviews.count == 0) {
-//        UILabel *label = [[UILabel alloc] initWithFrame:self.bounds];
-//        label.text = [NSString stringWithFormat:@"type:%@, status:%@", _type, _status];
-//        [self addSubview:label];
-//    }
 }
 
 - (void)sendRequest{
+    [self beginLoading];
     self.isLoading = YES;
     [[Coding_NetAPIManager sharedManager] get_RewardListWithType:_type status:_status andBlock:^(id data, NSError *error) {
+        [self endLoading];
+        [self.myRefreshControl endRefreshing];
         self.isLoading = NO;
         if (data) {
             self.dataList = data;
             [self.myTableView reloadData];
         }
+        [self configBlankPage:EaseBlankPageTypeView hasData:self.dataList.count > 0 hasError:error != nil reloadButtonBlock:^(id sender) {
+            [self refreshData];
+        }];
     }];
 }
 
