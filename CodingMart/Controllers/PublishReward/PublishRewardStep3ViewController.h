@@ -7,7 +7,9 @@
 //
 
 #import "BaseTableViewController.h"
+#import "Reward.h"
 
 @interface PublishRewardStep3ViewController : BaseTableViewController
+@property (strong, nonatomic) Reward *rewardToBePublished;
 
 @end

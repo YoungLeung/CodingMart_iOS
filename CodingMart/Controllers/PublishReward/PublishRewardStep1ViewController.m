@@ -7,9 +7,11 @@
 //
 
 #import "PublishRewardStep1ViewController.h"
+#import "PublishRewardStep2ViewController.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "ActionSheetStringPicker.h"
 #import "TableViewFooterButton.h"
+
 
 @interface PublishRewardStep1ViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *docNotHaveBtn;
@@ -34,28 +36,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"发布悬赏";
+    self.tableView.backgroundColor = kColorTableSectionBg;
+    UIImage *line_dot_image = [UIImage imageNamed:@"line_dot"];
+    line_dot_image = [line_dot_image resizableImageWithCapInsets:UIEdgeInsetsZero resizingMode: UIImageResizingModeTile];
+    _line1V.image = _line2V.image = line_dot_image;
     
+    self.title = @"发布悬赏";
     _typeList = @[@"网站",
-                   @"iOS APP",
-                   @"Android APP",
-                   @"微信开发",
-                   @"HTML5 应用",
-                   @"其他"];
+                  @"iOS APP",
+                  @"Android APP",
+                  @"微信开发",
+                  @"HTML5 应用",
+                  @"其他"];
     _budgetList = @[@"1万以下",
                     @"1-3万",
                     @"3-5万",
                     @"5万以上"];
-
+    
     if (!_rewardToBePublished) {
         _rewardToBePublished = [Reward rewardToBePublished];
     }
-    
-    self.tableView.backgroundColor = kColorTableSectionBg;
-    
-    UIImage *line_dot_image = [UIImage imageNamed:@"line_dot"];
-    line_dot_image = [line_dot_image resizableImageWithCapInsets:UIEdgeInsetsZero resizingMode: UIImageResizingModeTile];
-    _line1V.image = _line2V.image = line_dot_image;
     
     __weak typeof(self) weakSelf = self;
     [RACObserve(self, rewardToBePublished.require_clear) subscribeNext:^(NSNumber *require_clear) {
@@ -85,7 +85,8 @@
         }
     }];
     RAC(self.nextStepBtn, enabled) = [RACSignal combineLatest:@[RACObserve(self, rewardToBePublished.type),
-                                                                RACObserve(self, rewardToBePublished.budget)] reduce:^id(NSNumber *type, NSNumber *budget){
+                                                                RACObserve(self, rewardToBePublished.budget),
+                                                                ] reduce:^id(NSNumber *type, NSNumber *budget){
                                                                     return @(type != nil && budget != nil);
                                                                 }];
 }
@@ -102,15 +103,12 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
+#pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    PublishRewardStep2ViewController *vc = [segue destinationViewController];
+    vc.rewardToBePublished = _rewardToBePublished;
 }
-*/
 
 #pragma mark Btn
 - (IBAction)docBtnClicked:(id)sender {
