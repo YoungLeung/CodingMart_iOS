@@ -17,5 +17,9 @@
 @property (strong, nonatomic) NSMutableArray *roleTypes, *winners;
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
 
+@property (strong, nonatomic) NSNumber *budget, *require_clear, *require_doc, *need_pm;
+@property (strong, nonatomic) NSString *name, *description_mine, *contact_name, *contact_email, *contact_mobile;
+
 @property (strong, nonatomic) NSString *typeDisplay, *typeImageName, *statusDisplay, *roleTypesDisplay;
++ (Reward *)rewardToBePublished;
 @end

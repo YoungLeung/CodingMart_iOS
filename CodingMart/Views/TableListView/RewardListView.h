@@ -13,6 +13,8 @@
 @property (strong, nonatomic, readonly) NSString *key;
 @property (strong, nonatomic) NSMutableArray *dataList;
 @property (nonatomic, copy) void(^itemClickedBlock)(id clickedItem);
+@property (nonatomic, copy) void(^martIntroduceBlock)();
+@property (nonatomic, copy) void(^publishRewardBlock)();
 
 - (void)refreshData;
 - (void)lazyRefreshData;

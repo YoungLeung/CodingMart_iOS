@@ -30,7 +30,7 @@
     if (!_typeImageName) {
         [self p_prepareToDisplay];
     }
-    return _typeDisplay;
+    return _typeImageName;
 }
 - (NSString *)statusDisplay{
     if (_statusDisplay) {
@@ -57,5 +57,14 @@
         [roleTypesDisplay appendFormat:idx == 0? @"%@": @"，%@", obj.name];
     }];
     _roleTypesDisplay = roleTypesDisplay;
+}
+
++ (Reward *)rewardToBePublished{
+    Reward *rewardToBePublished = [Reward new];
+    rewardToBePublished.require_clear = @0;
+    rewardToBePublished.need_pm = @0;
+//    rewardToBePublished.type = @0;
+//    rewardToBePublished.budget = @0;
+    return rewardToBePublished;
 }
 @end

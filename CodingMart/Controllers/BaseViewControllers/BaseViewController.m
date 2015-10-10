@@ -7,6 +7,7 @@
 //
 
 #import "BaseViewController.h"
+#import "WebViewController.h"
 
 @interface BaseViewController ()
 
@@ -46,6 +47,13 @@
         result = [(UINavigationController *)result topViewController];
     }
     return result;
+}
+
+- (void)goToWebVCWithUrlStr:(NSString *)curUrlStr{
+    WebViewController *vc = [WebViewController webVCWithUrlStr:curUrlStr];
+    if (vc) {
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 @end

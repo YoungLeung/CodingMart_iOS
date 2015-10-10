@@ -88,7 +88,7 @@
 - (void)setupNavItems{
     if (!_leftNavBtn) {
         _leftNavBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-        [_leftNavBtn doCircleFrame];
+        [_leftNavBtn setImage:[UIImage imageNamed:@"nav_icon_user"] forState:UIControlStateNormal];
         [_leftNavBtn addTarget:self action:@selector(leftNavBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     }
     if (!_rightNavBtn) {
@@ -96,7 +96,7 @@
         _rightNavBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
         [_rightNavBtn addTarget:self action:@selector(rightNavBtnClicked) forControlEvents:UIControlEventTouchUpInside];
         _rightNavBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-        [_rightNavBtn setImage:[UIImage imageNamed:@"nav_arrow_down"] forState:UIControlStateNormal];
+        [_rightNavBtn setImage:[UIImage imageNamed:@"nav_icon_down"] forState:UIControlStateNormal];
         [self configRightNavBtnWithTitle:_statusList[0]];
     }
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.leftNavBtn];
@@ -120,7 +120,9 @@
 - (void)rightNavBtnClicked{
     if ([KxMenu isShowingInView:self.view]) {
         [KxMenu dismissMenu:YES];
+        [_rightNavBtn setImage:[UIImage imageNamed:@"nav_icon_down"] forState:UIControlStateNormal];
     }else{
+        [_rightNavBtn setImage:[UIImage imageNamed:@"nav_icon_up"] forState:UIControlStateNormal];
         [KxMenu setTitleFont:[UIFont systemFontOfSize:14]];
         [KxMenu setTintColor:[UIColor whiteColor]];
         [KxMenu setLineColor:[UIColor colorWithHexString:@"0xdddddd"]];
@@ -137,6 +139,8 @@
 }
 
 - (void)menuItemClicked:(KxMenuItem *)item{
+    [_rightNavBtn setImage:[UIImage imageNamed:@"nav_icon_down"] forState:UIControlStateNormal];
+
     NSInteger selectedIndex = [_statusList indexOfObject:item.title];
     if (selectedIndex == NSNotFound || selectedIndex == _selectedStatusIndex) {
         return;
@@ -159,6 +163,12 @@
         listView = [[RewardListView alloc] initWithFrame:carousel.bounds];
         listView.itemClickedBlock = ^(id clickedItem){
             [weakSelf goToReward:clickedItem];
+        };
+        listView.martIntroduceBlock = ^(){
+            [weakSelf goToMartIntroduce];
+        };
+        listView.publishRewardBlock = ^(){
+            [weakSelf goToPublishReward];
         };
     }else if (listView.dataList){
         _rewardsDict[listView.key] = listView.dataList;//保存旧值
@@ -194,7 +204,14 @@
 
 #pragma mark GoTo VC
 - (void)goToReward:(Reward *)curReward{
-    WebViewController *vc = [WebViewController webVCWithUrlStr:[NSString stringWithFormat:@"/p/%@", curReward.id.stringValue]];
+    [self goToWebVCWithUrlStr:[NSString stringWithFormat:@"/p/%@", curReward.id.stringValue]];
+}
+- (void)goToMartIntroduce{
+    [self goToWebVCWithUrlStr:@"/about"];
+}
+- (void)goToPublishReward{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PublishReward" bundle:nil];
+    UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"PublishRewardStep1ViewController"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 @end

@@ -9,8 +9,10 @@
 #import "RewardListView.h"
 #import "RewardListCell.h"
 #import "ODRefreshControl.h"
+#import "RewardListHeaderView.h"
 
 #import "Coding_NetAPIManager.h"
+#import <BlocksKit/BlocksKit+UIKit.h>
 
 @interface RewardListView ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *myTableView;
@@ -24,8 +26,9 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
+//        table
         _myTableView = ({
-            UITableView *tableView = [[UITableView alloc] init];
+            UITableView *tableView = [UITableView new];
             tableView.backgroundColor = [UIColor clearColor];
             tableView.delegate = self;
             tableView.dataSource = self;
@@ -38,6 +41,21 @@
             tableView.rowHeight = [RewardListCell cellHeight];
             tableView;
         });
+//        header
+        RewardListHeaderView *headerV = [[RewardListHeaderView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 44.0)];
+        __weak typeof(self) weakSelf = self;
+        [headerV.leftBtn bk_addEventHandler:^(id sender) {
+            if (weakSelf.martIntroduceBlock) {
+                weakSelf.martIntroduceBlock();
+            }
+        } forControlEvents:UIControlEventTouchUpInside];
+        [headerV.rightBtn bk_addEventHandler:^(id sender) {
+            if (weakSelf.publishRewardBlock) {
+                weakSelf.publishRewardBlock();
+            }
+        } forControlEvents:UIControlEventTouchUpInside];
+        _myTableView.tableHeaderView = headerV;
+//        refresh
         _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
         [_myRefreshControl addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
     }
@@ -84,7 +102,9 @@
 }
 
 - (void)sendRequest{
-    [self beginLoading];
+    if (_dataList.count <= 0) {
+        [self beginLoading];
+    }
     self.isLoading = YES;
     [[Coding_NetAPIManager sharedManager] get_RewardListWithType:_type status:_status andBlock:^(id data, NSError *error) {
         [self endLoading];

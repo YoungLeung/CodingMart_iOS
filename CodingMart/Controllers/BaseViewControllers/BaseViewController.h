@@ -10,5 +10,5 @@
 
 @interface BaseViewController : UIViewController
 + (UIViewController *)presentingVC;
-
+- (void)goToWebVCWithUrlStr:(NSString *)curUrlStr;
 @end

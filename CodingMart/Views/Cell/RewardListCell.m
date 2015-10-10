@@ -10,6 +10,7 @@
 #import "UIImageView+WebCache.h"
 
 @interface RewardListCell()
+@property (weak, nonatomic) IBOutlet UIView *separationView;
 @property (weak, nonatomic) IBOutlet UILabel *rewardNumL;
 @property (weak, nonatomic) IBOutlet UIImageView *coverView;
 @property (weak, nonatomic) IBOutlet UILabel *titleL;
@@ -26,6 +27,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    _separationView.backgroundColor = [UIColor colorWithHexString:@"0xEEEEEE"];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -41,7 +43,7 @@
     _curReward = curReward;
 
     _rewardNumL.text = [NSString stringWithFormat:@" No.%@ ", _curReward.id.stringValue];
-    [_coverView sd_setImageWithURL:[NSURL URLWithString:_curReward.cover] placeholderImage:[UIImage imageNamed:@""]];
+    [_coverView sd_setImageWithURL:[NSURL URLWithString:_curReward.cover] placeholderImage:[UIImage imageNamed:@"placeholder_reward_cover"]];
     _titleL.text = _curReward.title;
     _typeImgView.image = [UIImage imageNamed:_curReward.typeImageName];
     _typeL.text = _curReward.typeDisplay;
