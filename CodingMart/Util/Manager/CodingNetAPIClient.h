@@ -9,12 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "AFNetworking.h"
 
-typedef enum {
+typedef NS_ENUM(NSInteger, NetworkMethod) {
 	Get = 0,
 	Post,
 	Put,
     Delete
-} NetworkMethod;
+};
 
 typedef NS_ENUM(NSInteger, IllegalContentType) {
     IllegalContentTypeTweet = 0,

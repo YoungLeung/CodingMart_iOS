@@ -48,6 +48,15 @@
     }
     return result;
 }
++ (void)presentVC:(UIViewController *)viewController dismissBtnTitle:(NSString *)title{
+    if (!viewController) {
+        return;
+    }
+    title = title.length > 0? title: @"关闭";
+    UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:viewController];
+    viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:viewController action:@selector(dismissModalViewControllerAnimatedYes)];
+    [[self presentingVC] presentViewController:nav animated:YES completion:nil];
+}
 
 - (void)goToWebVCWithUrlStr:(NSString *)curUrlStr{
     WebViewController *vc = [WebViewController webVCWithUrlStr:curUrlStr];

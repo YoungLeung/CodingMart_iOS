@@ -14,6 +14,8 @@
 #import "KxMenu.h"
 
 #import "Reward.h"
+#import "Login.h"
+#import "LoginViewController.h"
 
 #import <Masonry/Masonry.h>
 
@@ -114,7 +116,12 @@
 
 #pragma mark nav_item M
 - (void)leftNavBtnClicked{
-    
+    if ([Login isLogin]) {
+        
+    }else{
+        LoginViewController *vc = [LoginViewController loginVCWithType:LoginViewControllerTypeLogin mobile:nil];
+        [BaseViewController presentVC:vc dismissBtnTitle:@"取消"];
+    }
 }
 
 - (void)rightNavBtnClicked{

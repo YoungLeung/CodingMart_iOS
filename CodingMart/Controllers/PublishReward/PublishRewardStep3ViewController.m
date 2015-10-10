@@ -9,6 +9,8 @@
 #import "PublishRewardStep3ViewController.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "TableViewFooterButton.h"
+#import "LoginViewController.h"
+#import "Login.h"
 
 @interface PublishRewardStep3ViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *line1V;
@@ -95,6 +97,12 @@
 #pragma mark Btn
 - (IBAction)nextStepBtnClicked:(id)sender {
     NSLog(@"登录或者提交");
+    if ([Login isLogin]) {
+        
+    }else{
+        LoginViewController *vc = [LoginViewController loginVCWithType:LoginViewControllerTypeLoginAndRegister mobile:_rewardToBePublished.contact_mobile];
+        [BaseViewController presentVC:vc dismissBtnTitle:@"取消"];
+    }
 }
 
 @end

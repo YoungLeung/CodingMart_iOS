@@ -10,5 +10,7 @@
 
 @interface BaseViewController : UIViewController
 + (UIViewController *)presentingVC;
++ (void)presentVC:(UIViewController *)viewController dismissBtnTitle:(NSString *)title;
+
 - (void)goToWebVCWithUrlStr:(NSString *)curUrlStr;
 @end
