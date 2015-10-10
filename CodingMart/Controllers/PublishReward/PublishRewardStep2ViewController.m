@@ -89,6 +89,12 @@
 
 #pragma mark Text M
 - (void)p_setupTextEvents{
+    _nameF.text = _rewardToBePublished.name;
+    _descriptionTextView.text = _rewardToBePublished.description_mine;
+    _durationF.text = _rewardToBePublished.duration.stringValue;
+    _first_sampleF.text = _rewardToBePublished.first_sample;
+    _second_sampleF.text = _rewardToBePublished.second_sample;
+    
     __weak typeof(self) weakSelf = self;
     [_nameF.rac_textSignal subscribeNext:^(NSString *newText){
         weakSelf.rewardToBePublished.name = newText;

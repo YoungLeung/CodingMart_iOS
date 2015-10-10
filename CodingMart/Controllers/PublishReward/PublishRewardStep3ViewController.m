@@ -15,6 +15,10 @@
 @property (weak, nonatomic) IBOutlet UIImageView *line2V;
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *nextStepBtn;
 
+@property (weak, nonatomic) IBOutlet UITextField *contact_nameF;
+@property (weak, nonatomic) IBOutlet UITextField *contact_mobileF;
+@property (weak, nonatomic) IBOutlet UITextField *contact_emailF;
+
 
 @end
 
@@ -29,6 +33,16 @@
     _line1V.image = _line2V.image = line_dot_image;
     
     self.title = @"发布悬赏";
+    [self p_setupTextEvents];
+    RAC(self.nextStepBtn, enabled) = [RACSignal combineLatest:@[RACObserve(self, rewardToBePublished.contact_name),
+                                                                RACObserve(self, rewardToBePublished.contact_mobile),
+                                                                RACObserve(self, rewardToBePublished.contact_email)
+                                                                ] reduce:^id(NSString *contact_name, NSString *contact_mobile, NSString *contact_email){
+                                                                    BOOL enabled = YES;
+                                                                    enabled = (contact_name.length > 0 && contact_mobile.length > 0 && contact_email.length > 0);
+                                                                    return @(enabled);
+                                                                }];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,6 +74,27 @@
         sectionH = 10;
     }
     return sectionH;
+}
+#pragma mark Text M
+- (void)p_setupTextEvents{
+    _contact_nameF.text = _rewardToBePublished.contact_name;
+    _contact_mobileF.text = _rewardToBePublished.contact_mobile;
+    _contact_emailF.text = _rewardToBePublished.contact_email;
+    
+    __weak typeof(self) weakSelf = self;
+    [_contact_nameF.rac_textSignal subscribeNext:^(NSString *newText){
+        weakSelf.rewardToBePublished.contact_name = newText;
+    }];
+    [_contact_mobileF.rac_textSignal subscribeNext:^(NSString *newText){
+        weakSelf.rewardToBePublished.contact_mobile = newText;
+    }];
+    [_contact_emailF.rac_textSignal subscribeNext:^(NSString *newText){
+        weakSelf.rewardToBePublished.contact_email = newText;
+    }];
+}
+#pragma mark Btn
+- (IBAction)nextStepBtnClicked:(id)sender {
+    NSLog(@"登录或者提交");
 }
 
 @end
