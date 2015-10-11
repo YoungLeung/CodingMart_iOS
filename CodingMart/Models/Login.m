@@ -56,6 +56,17 @@ static User *curLoginUser;
 }
 
 + (BOOL)isLogin{
+    __block BOOL hasSid = NO;
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    [cookies enumerateObjectsUsingBlock:^(NSHTTPCookie *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj.name isEqualToString:@"sid"]) {
+            hasSid = YES;
+            *stop = YES;
+        }
+    }];
+    if (!hasSid) {
+        return NO;
+    }
     NSNumber *loginStatus = [[NSUserDefaults standardUserDefaults] objectForKey:kLoginStatus];
     if (loginStatus.boolValue && [Login curLoginUser]) {
         User *loginUser = [Login curLoginUser];
@@ -69,18 +80,18 @@ static User *curLoginUser;
 }
 
 + (void)doLogin:(NSDictionary *)loginData{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:[NSNumber numberWithBool:YES] forKey:kLoginStatus];
+
     if (loginData) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:[NSNumber numberWithBool:YES] forKey:kLoginStatus];
         [defaults setObject:loginData forKey:kLoginUserDict];
         curLoginUser = [NSObject objectOfClass:@"User" fromJSON:loginData];
-        [defaults synchronize];
-        [Login setXGAccountWithCurUser];
-        
+//        [Login setXGAccountWithCurUser];
         [self saveLoginData:loginData];
     }else{
-        [Login doLogout];
+        curLoginUser = [User userTourist];
     }
+    [defaults synchronize];
 }
 
 + (NSMutableDictionary *)readLoginDataList{
@@ -165,7 +176,7 @@ static User *curLoginUser;
 + (User *)curLoginUser{
     if (!curLoginUser) {
         NSDictionary *loginData = [[NSUserDefaults standardUserDefaults] objectForKey:kLoginUserDict];
-        curLoginUser = loginData? [NSObject objectOfClass:@"User" fromJSON:loginData]: nil;
+        curLoginUser = loginData? [NSObject objectOfClass:@"User" fromJSON:loginData]: [User userTourist];
     }
     return curLoginUser;
 }

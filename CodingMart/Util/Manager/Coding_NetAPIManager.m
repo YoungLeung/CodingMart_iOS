@@ -8,6 +8,7 @@
 
 #import "Coding_NetAPIManager.h"
 #import "Reward.h"
+#import "Login.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -18,7 +19,60 @@
     });
 	return shared_manager;
 }
-
+#pragma mark Login
+- (void)get_CurrentUserAutoShowError:(BOOL)autoShowError andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/current_user";
+    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get autoShowError:autoShowError andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = data[@"data"];
+            User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:data];
+            if (curLoginUser) {
+                [Login doLogin:data];
+            }
+            block(curLoginUser, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+- (void)post_ForVerifyCodeWithMobile:(NSString *)mobile andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/app/verify_code";
+    NSDictionary *params = @{@"mobile": mobile};
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+- (void)post_RegisterWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/app/register";
+    NSDictionary *params = @{@"mobile": mobile,
+                             @"verify_code": verify_code};
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [Login doLogin:data];
+        }
+        block(data, error);
+    }];
+}
+- (void)post_LoginWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code autoShowError:(BOOL)autoShowError andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/app/login";
+    NSDictionary *params = @{@"mobile": mobile,
+                             @"verify_code": verify_code};
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:autoShowError andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+- (void)post_LoginAndRegisterWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code andBlock:(void (^)(id data, NSError *error))block{
+    [self post_LoginWithMobile:mobile verify_code:verify_code autoShowError:NO andBlock:^(id data0, NSError *error0) {
+        if (data0) {
+            block(data0, nil);
+        }else{
+            [self post_RegisterWithMobile:mobile verify_code:verify_code andBlock:^(id data1, NSError *error1) {
+                block(data1, error1);
+            }];
+        }
+    }];
+}
+#pragma mark Reward
 - (void)get_RewardListWithType:(NSString *)type status:(NSString *)status andBlock:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/rewards";
     type = [NSObject rewardTypeDict][type];
@@ -32,6 +86,15 @@
         block(data, error);
     }];
 }
+- (void)post_Reward:(Reward *)reward andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path  = @"api/reward";
+    NSDictionary *params = [reward toPostParams];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+    
+}
+
 
 
 @end

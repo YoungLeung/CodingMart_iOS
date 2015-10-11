@@ -14,6 +14,15 @@
     curUser.global_key = global_key;
     return curUser;
 }
++ (User *)userTourist{
+    User *userTourist = [User new];
+    userTourist.phone = @"";
+    userTourist.avatar = @"";
+    userTourist.global_key = @"";
+    userTourist.name = @"";
+    userTourist.email = @"";
+    return userTourist;
+}
 - (BOOL)isSameToUser:(User *)user{
     if (!user) {
         return NO;

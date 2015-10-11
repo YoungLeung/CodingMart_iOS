@@ -9,8 +9,18 @@
 
 #import "CodingNetAPIClient.h"
 
+@class Reward;
 
 @interface Coding_NetAPIManager : NSObject
 + (instancetype)sharedManager;
+#pragma mark Login
+- (void)get_CurrentUserAutoShowError:(BOOL)autoShowError andBlock:(void (^)(id data, NSError *error))block;
+- (void)post_ForVerifyCodeWithMobile:(NSString *)mobile andBlock:(void (^)(id data, NSError *error))block;
+- (void)post_RegisterWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code andBlock:(void (^)(id data, NSError *error))block;
+- (void)post_LoginWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code autoShowError:(BOOL)autoShowError andBlock:(void (^)(id data, NSError *error))block;
+- (void)post_LoginAndRegisterWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code andBlock:(void (^)(id data, NSError *error))block;
+#pragma mark Reward
 - (void)get_RewardListWithType:(NSString *)type status:(NSString *)status andBlock:(void (^)(id data, NSError *error))block;
+- (void)post_Reward:(Reward *)reward andBlock:(void (^)(id data, NSError *error))block;
+
 @end

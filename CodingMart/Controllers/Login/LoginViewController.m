@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "TableViewFooterButton.h"
 #import "UITTTAttributedLabel.h"
+#import "Coding_NetAPIManager.h"
 
 @interface LoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *mobileF;
@@ -76,8 +77,27 @@
 */
 #pragma mark Btn
 - (IBAction)verify_codeBtnClicked:(id)sender {
+    _mobile = _mobileF.text;
+    [[Coding_NetAPIManager sharedManager] get_CurrentUserAutoShowError:NO andBlock:^(id dataNoUse, NSError *errorNoUse) {
+        [[Coding_NetAPIManager sharedManager] post_ForVerifyCodeWithMobile:_mobile andBlock:^(id data, NSError *error) {
+            if (data) {
+                [NSObject showHudTipStr:@"验证码发送成功"];
+            }
+        }];
+    }];
 }
 - (IBAction)footerBtnClicked:(id)sender {
+    _mobile = _mobileF.text;
+    _verify_code = _verify_codeF.text;
+    [NSObject showHUDQueryStr:@"正在登录"];
+    [[Coding_NetAPIManager sharedManager] get_CurrentUserAutoShowError:NO andBlock:^(id dataNoUse, NSError *errorNoUse) {
+        [[Coding_NetAPIManager sharedManager] post_LoginAndRegisterWithMobile:_mobile verify_code:_verify_code andBlock:^(id data, NSError *error) {
+            [NSObject hideHUDQuery];
+            if (data) {
+                [self dismissViewControllerAnimated:YES completion:self.loginSucessBlock];
+            }
+        }];
+    }];
 }
 
 @end

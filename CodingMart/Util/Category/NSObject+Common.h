@@ -19,6 +19,8 @@
 + (void)showStatusBarErrorStr:(NSString *)errorStr;
 + (void)showStatusBarError:(NSError *)error;
 
++ (instancetype)showHUDQueryStr:(NSString *)titleStr;
++ (BOOL)hideHUDQuery;
 #pragma mark BaseURL
 //+ (NSString *)baseURLStr;
 + (BOOL)baseURLStrIsTest;

@@ -16,6 +16,7 @@
 @property (readwrite, nonatomic, strong) NSDate *created_at, *last_logined_at, *last_activity_at, *updated_at;
 
 + (User *)userWithGlobalKey:(NSString *)global_key;
++ (User *)userTourist;
 
 - (BOOL)isSameToUser:(User *)user;
 

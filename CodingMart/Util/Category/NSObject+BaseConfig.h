@@ -10,6 +10,7 @@
 
 @interface NSObject (BaseConfig)
 + (NSString *)baseURLStr;
++ (NSString *)codingURLStr;
 + (NSDictionary *)rewardTypeDict;
 + (NSDictionary *)rewardStatusDict;
 @end

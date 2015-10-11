@@ -67,4 +67,29 @@
 //    rewardToBePublished.budget = @0;
     return rewardToBePublished;
 }
+- (NSDictionary *)toPostParams{
+    NSMutableDictionary *params = @{//step1
+                                    @"type": _type,
+                                    @"budget": _budget,
+                                    @"require_clear": _require_clear,
+                                    @"need_pm": _need_pm,
+                                    //*require_doc
+                                    //step2
+                                    @"name": _name,
+                                    @"description": _description_mine,
+                                    @"duration": _duration,
+                                    //*first_sample, *second_sample, *first_file, *second_file
+                                    //step3
+                                    @"contact_name": _contact_name,
+                                    @"contact_mobile": _contact_mobile,
+                                    @"contact_email": _contact_email,
+                                    }.mutableCopy;
+    
+    params[@"require_doc"] = _require_doc.length > 0? _require_doc: @"";
+    params[@"first_sample"] = _first_sample.length > 0? _first_sample: @"";
+    params[@"second_sample"] = _second_sample.length > 0? _second_sample: @"";
+    params[@"first_file"] = _first_file.length > 0? _first_file: @"";
+    params[@"second_file"] = _second_file.length > 0? _second_file: @"";
+    return params;
+}
 @end

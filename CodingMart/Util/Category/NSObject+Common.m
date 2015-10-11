@@ -15,7 +15,6 @@
 #import "Login.h"
 #import "AppDelegate.h"
 #import <MBProgressHUD/MBProgressHUD.h>
-//#import "MBProgressHUD+Add.h"
 #import "CodingNetAPIClient.h"
 
 @implementation NSObject (Common)
@@ -98,6 +97,17 @@
     [NSObject showStatusBarErrorStr:errorStr];
 }
 
++ (instancetype)showHUDQueryStr:(NSString *)titleStr{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:kKeyWindow animated:YES];
+    hud.labelText = titleStr;
+    hud.labelFont = [UIFont boldSystemFontOfSize:15.0];
+    hud.margin = 10.f;
+    return hud;
+}
++ (BOOL)hideHUDQuery{
+    return [MBProgressHUD hideHUDForView:kKeyWindow animated:YES];
+}
+
 #pragma mark BaseURL
 //+ (NSString *)baseURLStr{
 //    NSString *baseURLStr;
@@ -159,8 +169,6 @@
     }
     return isCreated;
 }
-
-
 
 // 图片缓存到本地
 + (BOOL) saveImage:(UIImage *)image imageName:(NSString *)imageName inFolder:(NSString *)folderName
@@ -292,17 +300,19 @@
     if (resultCode.intValue != 0) {
         error = [NSError errorWithDomain:[NSObject baseURLStr] code:resultCode.intValue userInfo:responseJSON];
 
-        if (resultCode.intValue == 1000 || resultCode.intValue == 3207) {//用户未登录
-            if ([Login isLogin]) {//已登录的状态要抹掉
-                [Login doLogout];
-//                [((AppDelegate *)[UIApplication sharedApplication].delegate) setupLoginViewController];
-                kTipAlert(@"%@", [NSObject tipFromError:error]);
-            }
-        }else{
+//        if (resultCode.intValue == 1000 || resultCode.intValue == 3207) {//用户未登录
+//            if ([Login isLogin]) {//已登录的状态要抹掉
+//                [Login doLogout];
+////                [((AppDelegate *)[UIApplication sharedApplication].delegate) setupLoginViewController];
+//                kTipAlert(@"%@", [NSObject tipFromError:error]);
+//            }
+//        }else{
             if (autoShowError) {
-                [NSObject showError:error];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [NSObject showError:error];
+                });
             }
-        }
+//        }
     }
     return error;
 }

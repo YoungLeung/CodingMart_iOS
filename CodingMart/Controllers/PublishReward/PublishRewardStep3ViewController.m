@@ -11,6 +11,7 @@
 #import "TableViewFooterButton.h"
 #import "LoginViewController.h"
 #import "Login.h"
+#import "Coding_NetAPIManager.h"
 
 @interface PublishRewardStep3ViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *line1V;
@@ -96,11 +97,22 @@
 }
 #pragma mark Btn
 - (IBAction)nextStepBtnClicked:(id)sender {
-    NSLog(@"登录或者提交");
     if ([Login isLogin]) {
-        
+        [NSObject showHUDQueryStr:@"正在发布悬赏"];
+        [[Coding_NetAPIManager sharedManager] get_CurrentUserAutoShowError:NO andBlock:^(id dataNoUse, NSError *errorNoUse) {
+            [[Coding_NetAPIManager sharedManager] post_Reward:_rewardToBePublished andBlock:^(id data, NSError *error) {
+                [NSObject hideHUDQuery];
+                if (data) {
+                    kTipAlert(@"悬赏发布成功！\n可以去到「个人中心」-「我发布的悬赏」中查找");
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                }
+            }];
+        }];
     }else{
         LoginViewController *vc = [LoginViewController loginVCWithType:LoginViewControllerTypeLoginAndRegister mobile:_rewardToBePublished.contact_mobile];
+        vc.loginSucessBlock = ^(){
+            [self nextStepBtnClicked:nil];
+        };
         [BaseViewController presentVC:vc dismissBtnTitle:@"取消"];
     }
 }

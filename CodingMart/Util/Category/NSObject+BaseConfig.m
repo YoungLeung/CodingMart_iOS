@@ -13,6 +13,10 @@
     NSString *baseURLStr = @"https://mart.coding.net/";
     return baseURLStr;
 }
++ (NSString *)codingURLStr{
+    NSString *codingURLStr = @"https://coding.net/";
+    return codingURLStr;
+}
 + (NSDictionary *)rewardTypeDict{
     static NSDictionary *_rewardTypeDict;
     static dispatch_once_t onceTypeToken;

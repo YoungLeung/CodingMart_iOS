@@ -16,16 +16,24 @@
 static CodingNetAPIClient *_sharedClient = nil;
 static dispatch_once_t onceToken;
 
+static CodingNetAPIClient *_codingClient = nil;
+static dispatch_once_t onceToken_Coding;
+
 + (CodingNetAPIClient *)sharedJsonClient {
     dispatch_once(&onceToken, ^{
         _sharedClient = [[CodingNetAPIClient alloc] initWithBaseURL:[NSURL URLWithString:self.baseURLStr]];
     });
     return _sharedClient;
 }
-
-+ (id)changeJsonClient{
++ (id)codingJsonClient{
+    dispatch_once(&onceToken_Coding, ^{
+        _codingClient = [[CodingNetAPIClient alloc] initWithBaseURL:[NSURL URLWithString:self.codingURLStr]];
+    });
+    return _codingClient;
+}
++ (void)changeJsonClient{
     _sharedClient = [[CodingNetAPIClient alloc] initWithBaseURL:[NSURL URLWithString:self.baseURLStr]];
-    return _sharedClient;
+    _codingClient = [[CodingNetAPIClient alloc] initWithBaseURL:[NSURL URLWithString:self.codingURLStr]];
 }
 
 - (id)initWithBaseURL:(NSURL *)url {

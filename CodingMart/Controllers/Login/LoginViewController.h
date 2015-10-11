@@ -19,4 +19,5 @@ typedef NS_ENUM(NSInteger, LoginViewControllerType) {
 @property (assign, nonatomic) LoginViewControllerType type;
 
 + (LoginViewController *)loginVCWithType:(LoginViewControllerType )type mobile:(NSString *)mobile;
+@property (copy, nonatomic) void (^loginSucessBlock)();
 @end
