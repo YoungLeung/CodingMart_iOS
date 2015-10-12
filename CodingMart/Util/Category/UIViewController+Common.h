@@ -11,6 +11,8 @@
 @interface UIViewController (Common)
 + (UIViewController *)presentingVC;
 + (void)presentVC:(UIViewController *)viewController dismissBtnTitle:(NSString *)title;
++ (void)handleNotificationInfo:(NSDictionary *)userInfo applicationState:(UIApplicationState)applicationState;
++ (void)presentLinkStr:(NSString *)linkStr;
 
 - (void)dismissModalViewControllerAnimatedYes;
 - (void)goToWebVCWithUrlStr:(NSString *)curUrlStr title:(NSString *)titleStr;

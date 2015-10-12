@@ -21,20 +21,21 @@
     // Override point for customization after application launch.
     [self customizeInterface];
 
+    //App 角标清零
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     
-//    //    信鸽推送
-//    [XGPush startApp:kXGPush_Id appKey:kXGPush_Key];
-//    [Login setXGAccountWithCurUser];
-//    //注销之后需要再次注册前的准备
-//    __weak typeof(self) weakSelf = self;
-//    void (^successCallback)(void) = ^(void){
-//        //如果变成需要注册状态
-//        if(![XGPush isUnRegisterStatus] && [Login isLogin]){
-//            [weakSelf registerPush];
-//        }
-//    };
-//    [XGPush initForReregister:successCallback];
-    
+    //    信鸽推送
+    [XGPush startApp:kXGPush_Id appKey:kXGPush_Key];
+    [Login setXGAccountWithCurUser];
+    //注销之后需要再次注册前的准备
+    __weak typeof(self) weakSelf = self;
+    void (^successCallback)(void) = ^(void){
+        //如果变成需要注册状态
+        if(![XGPush isUnRegisterStatus] && [Login isLogin]){
+            [weakSelf registerPush];
+        }
+    };
+    [XGPush initForReregister:successCallback];
     
     return YES;
 }
@@ -72,6 +73,8 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    //App 角标清零
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -80,18 +83,18 @@
 
 #pragma mark XGPush
 - (void)registerPush{
-//    float sysVer = [[[UIDevice currentDevice] systemVersion] floatValue];
-//    if(sysVer < 8){
-//        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
-//    }else{
-//#if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
-//        UIMutableUserNotificationCategory *categorys = [[UIMutableUserNotificationCategory alloc] init];
-//        UIUserNotificationSettings *userSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge|UIUserNotificationTypeSound|UIUserNotificationTypeAlert
-//                                                                                     categories:[NSSet setWithObject:categorys]];
-//        [[UIApplication sharedApplication] registerUserNotificationSettings:userSettings];
-//        [[UIApplication sharedApplication] registerForRemoteNotifications];
-//#endif
-//    }
+    float sysVer = [[[UIDevice currentDevice] systemVersion] floatValue];
+    if(sysVer < 8){
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
+    }else{
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
+        UIMutableUserNotificationCategory *categorys = [[UIMutableUserNotificationCategory alloc] init];
+        UIUserNotificationSettings *userSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge|UIUserNotificationTypeSound|UIUserNotificationTypeAlert
+                                                                                     categories:[NSSet setWithObject:categorys]];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:userSettings];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+#endif
+    }
 }
 
 #pragma mark - XGPush Message
@@ -105,7 +108,7 @@
 {
     DebugLog(@"didReceiveRemoteNotification-userInfo:-----\n%@", userInfo);
     [XGPush handleReceiveNotification:userInfo];
-//    [BaseViewController handleNotificationInfo:userInfo applicationState:[application applicationState]];
+    [UIViewController handleNotificationInfo:userInfo applicationState:[application applicationState]];
 }
 
 

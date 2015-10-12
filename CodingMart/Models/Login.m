@@ -82,7 +82,7 @@ static User *curLoginUser;
     if (loginData) {
         [defaults setObject:loginData forKey:kLoginUserDict];
         curLoginUser = [NSObject objectOfClass:@"User" fromJSON:loginData];
-//        [Login setXGAccountWithCurUser];
+        [Login setXGAccountWithCurUser];
         [self saveLoginData:loginData];
     }else{
         [defaults removeObjectForKey:kLoginUserDict];

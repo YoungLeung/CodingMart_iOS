@@ -43,6 +43,31 @@
     [[self presentingVC] presentViewController:nav animated:YES completion:nil];
 }
 
++ (void)handleNotificationInfo:(NSDictionary *)userInfo applicationState:(UIApplicationState)applicationState{
+    if (applicationState == UIApplicationStateInactive) {
+        //If the application state was inactive, this means the user pressed an action button from a notification.
+        //App 角标清零
+        [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+
+        //弹出临时会话
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            DebugLog(@"handleNotificationInfo : %@", userInfo);
+            NSString *param_url = [userInfo objectForKey:@"param_url"];
+            [self presentLinkStr:param_url];
+        });
+    }else if (applicationState == UIApplicationStateActive){
+        
+    }
+}
+
++ (void)presentLinkStr:(NSString *)linkStr{
+    WebViewController *vc = [WebViewController webVCWithUrlStr:linkStr];
+    if (vc) {
+        [self presentVC:vc dismissBtnTitle:@"关闭"];
+    }
+}
+
+
 - (void)dismissModalViewControllerAnimatedYes{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
