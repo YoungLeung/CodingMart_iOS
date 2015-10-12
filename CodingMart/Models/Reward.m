@@ -20,32 +20,11 @@
     }
     return self;
 }
-- (NSString *)typeDisplay{
-    if (!_typeDisplay) {
-        [self p_prepareToDisplay];
-    }
-    return _typeDisplay;
-}
 
-- (NSString *)typeImageName{
-    if (!_typeImageName) {
-        [self p_prepareToDisplay];
+- (void)prepareToDisplay{
+    if (_typeDisplay) {//已经有数据了，就不需要再 prepare 了
+        return;
     }
-    return _typeImageName;
-}
-- (NSString *)statusDisplay{
-    if (_statusDisplay) {
-        [self p_prepareToDisplay];
-    }
-    return _statusDisplay;
-}
-- (NSString *)roleTypesDisplay{
-    if (!_roleTypesDisplay) {
-        [self p_prepareToDisplay];
-    }
-    return _roleTypesDisplay;
-}
-- (void)p_prepareToDisplay{
     if (_type) {
         _typeDisplay = [[NSObject rewardTypeDict] findKeyFromStrValue:_type.stringValue];
         _typeImageName = [NSString stringWithFormat:@"reward_type_icon_%@", _type.stringValue];
@@ -57,6 +36,8 @@
     [_roleTypes enumerateObjectsUsingBlock:^(RewardRoleType *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [roleTypesDisplay appendFormat:idx == 0? @"%@": @"，%@", obj.name];
     }];
+    _statusStrColorHexStr = [[NSObject rewardStatusStrColorDict] objectForKey:_status.stringValue];
+    _statusBGColorHexStr = [[NSObject rewardStatusBGColorDict] objectForKey:_status.stringValue];
     _roleTypesDisplay = roleTypesDisplay;
 }
 

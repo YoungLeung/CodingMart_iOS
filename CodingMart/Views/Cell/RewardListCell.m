@@ -16,7 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleL;
 @property (weak, nonatomic) IBOutlet UIImageView *typeImgView;
 @property (weak, nonatomic) IBOutlet UILabel *typeL;
-@property (weak, nonatomic) IBOutlet UILabel *priveL;
+@property (weak, nonatomic) IBOutlet UILabel *_priceL;
 @property (weak, nonatomic) IBOutlet UILabel *statusL;
 @property (weak, nonatomic) IBOutlet UILabel *roleTypesL;
 @property (weak, nonatomic) IBOutlet UILabel *durationL;
@@ -41,14 +41,17 @@
         return;
     }
     _curReward = curReward;
+    [_curReward prepareToDisplay];
 
     _rewardNumL.text = [NSString stringWithFormat:@" No.%@ ", _curReward.id.stringValue];
     [_coverView sd_setImageWithURL:[NSURL URLWithString:_curReward.cover] placeholderImage:[UIImage imageNamed:@"placeholder_reward_cover"]];
     _titleL.text = _curReward.title;
     _typeImgView.image = [UIImage imageNamed:_curReward.typeImageName];
     _typeL.text = _curReward.typeDisplay;
-    _priveL.text = _curReward.format_price;
+    __priceL.text = _curReward.format_price;
     _statusL.text = _curReward.statusDisplay;
+    _statusL.textColor = [UIColor colorWithHexString:_curReward.statusStrColorHexStr];
+    _statusL.backgroundColor = [UIColor colorWithHexString:_curReward.statusBGColorHexStr];
     _roleTypesL.text = _curReward.roleTypesDisplay;
     _durationL.text = [NSString stringWithFormat:@"交付周期：%@天", _curReward.duration.stringValue];
 }

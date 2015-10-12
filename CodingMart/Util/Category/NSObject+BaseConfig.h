@@ -13,4 +13,6 @@
 + (NSString *)codingURLStr;
 + (NSDictionary *)rewardTypeDict;
 + (NSDictionary *)rewardStatusDict;
++ (NSDictionary *)rewardStatusStrColorDict;
++ (NSDictionary *)rewardStatusBGColorDict;
 @end
