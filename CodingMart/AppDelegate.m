@@ -101,7 +101,7 @@
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     NSString * deviceTokenStr = [XGPush registerDevice:deviceToken];
-    DebugLog(@"deviceTokenStr : %@", deviceTokenStr);
+    NSLog(@"deviceTokenStr : %@", deviceTokenStr);
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo

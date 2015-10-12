@@ -1018,6 +1018,11 @@
 					4EBDC2841BC645990037EB66 = {
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = QN5Z87S3LH;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1325,6 +1330,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PREFIX_HEADER = "CodingMart/CodingMart-Prefix.pch";
 				INFOPLIST_FILE = CodingMart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
@@ -1335,6 +1341,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.coding.CodingMart;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -1345,6 +1352,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PREFIX_HEADER = "CodingMart/CodingMart-Prefix.pch";
 				INFOPLIST_FILE = CodingMart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
@@ -1355,6 +1363,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.coding.CodingMart;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
