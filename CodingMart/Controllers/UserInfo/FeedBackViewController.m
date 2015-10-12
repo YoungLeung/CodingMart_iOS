@@ -12,6 +12,7 @@
 #import "Coding_NetAPIManager.h"
 #import <BlocksKit/BlocksKit+UIKit.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
+#import "UIViewController+BackButtonHandler.h"
 
 @interface FeedBackViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *nameF;
@@ -61,6 +62,17 @@
     _j_captchaF.text = _feedBackInfo.j_captcha;
     
 }
+#pragma mark Navigation
+- (BOOL)navigationShouldPopOnBackButton{
+    __weak typeof(self) weakSelf = self;
+    [[UIActionSheet bk_actionSheetCustomWithTitle:@"退出编辑后内容将会被清空" buttonTitles:@[@"退出编辑"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        if (index == 0) {
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        }
+    }] showInView:self.view];
+    return NO;
+}
+
 #pragma mark Btn
 - (IBAction)submitBtnClicked:(id)sender {
     _feedBackInfo.name = _nameF.text;
@@ -109,7 +121,5 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-
-
 
 @end
