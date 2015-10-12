@@ -48,6 +48,7 @@
     _curUser = curUser;
     [_user_iconV sd_setImageWithURL:[_curUser.avatar urlWithCodingPath] placeholderImage:[UIImage imageNamed:@"placeholder_user"]];
     _user_nameL.text = _curUser.name;
+    [self.tableView reloadData];
 }
 - (void)refreshData{
     [[Coding_NetAPIManager sharedManager] get_CurrentUserAutoShowError:YES andBlock:^(id data, NSError *error) {
@@ -77,7 +78,7 @@
 #pragma mark Table M
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *headerV;
-    if (section > 0) {
+    if (section >= 0) {
         headerV = [UIView new];
     }
     return headerV;
@@ -86,6 +87,8 @@
     CGFloat sectionH = 0;
     if (section > 0) {
         sectionH = 10;
+    }else{
+        sectionH = 20;
     }
     return sectionH;
 }
@@ -94,6 +97,12 @@
     return [Login isLogin]? 3: 2;
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        cell.separatorInset = UIEdgeInsetsZero;
+    }
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {

@@ -57,6 +57,7 @@
 - (void)post_LoginWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code autoShowError:(BOOL)autoShowError andBlock:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/app/login";
     NSDictionary *params = @{@"mobile": mobile,
+                             @"remember_me": @"true",
                              @"verify_code": verify_code};
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:autoShowError andBlock:^(id data, NSError *error) {
         if (data) {

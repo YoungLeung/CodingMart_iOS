@@ -21,7 +21,7 @@
     // Do any additional setup after loading the view.
     self.title = @"关于码市";
     [_footerL addLinkToStr:@"400-026-3464" whithValue:@"400-026-3464" andBlock:^(id value) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"4000263464"]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://4000263464"]];
     }];
 }
 

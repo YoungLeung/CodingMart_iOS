@@ -82,6 +82,7 @@
     return sectionH;
 }
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
     if (indexPath.section == 1 && indexPath.row == 1) {
         cell.separatorInset = UIEdgeInsetsMake(0, kScreen_Width, 0, 0);//隐藏掉它
     }
