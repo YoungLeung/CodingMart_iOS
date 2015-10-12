@@ -58,7 +58,7 @@
 + (CGFloat)cellHeight{
     CGFloat cellHeight = 0;
     cellHeight += 10 + 10 + (kScreen_Width - 20)/2 + 10;
-    cellHeight += 95.5;
+    cellHeight += 110;
     return cellHeight;
 }
 

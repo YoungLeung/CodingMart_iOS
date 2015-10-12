@@ -28,7 +28,7 @@
 @property (strong, nonatomic) XTSegmentControl *mySegmentControl;
 @property (strong, nonatomic) iCarousel *myCarousel;
 
-@property (strong, nonatomic) UIButton *leftNavBtn, *rightNavBtn;
+@property (strong, nonatomic) UIButton *rightNavBtn;
 
 @property (assign, nonatomic) NSInteger selectedStatusIndex;
 @end
@@ -91,11 +91,6 @@
 
 #pragma mark nav_item
 - (void)setupNavItems{
-    if (!_leftNavBtn) {
-        _leftNavBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-        [_leftNavBtn setImage:[UIImage imageNamed:@"nav_icon_user"] forState:UIControlStateNormal];
-        [_leftNavBtn addTarget:self action:@selector(leftNavBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-    }
     if (!_rightNavBtn) {
         _rightNavBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
         _rightNavBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
@@ -104,14 +99,15 @@
         [_rightNavBtn setImage:[UIImage imageNamed:@"nav_icon_down"] forState:UIControlStateNormal];
         [self configRightNavBtnWithTitle:_statusList[0]];
     }
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.leftNavBtn];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightNavBtn];
+
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_user"] style:UIBarButtonItemStylePlain target:self action:@selector(leftNavBtnClicked)] animated:NO];
 }
 
 - (void)configRightNavBtnWithTitle:(NSString *)title{
     CGFloat title_width = [title getWidthWithFont:_rightNavBtn.titleLabel.font constrainedToSize:CGSizeMake(CGFLOAT_MAX, 30)];
     CGFloat image_width = _rightNavBtn.imageView.width;
-    CGFloat padding = 10;
+    CGFloat padding = 5;
     
     _rightNavBtn.titleEdgeInsets = UIEdgeInsetsMake(0, -image_width - padding, 0, image_width + padding);
     _rightNavBtn.imageEdgeInsets = UIEdgeInsetsMake(0, title_width, 0, -title_width);
