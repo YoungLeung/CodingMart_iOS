@@ -7,6 +7,7 @@
 //
 
 #import "Reward.h"
+#import "Login.h"
 
 @implementation Reward
 - (instancetype)init
@@ -65,6 +66,12 @@
     rewardToBePublished.need_pm = @0;
 //    rewardToBePublished.type = @0;
 //    rewardToBePublished.budget = @0;
+    if ([Login isLogin]) {
+        User *curUser = [Login curLoginUser];
+        rewardToBePublished.contact_name = curUser.name;
+        rewardToBePublished.contact_mobile = curUser.phone;
+        rewardToBePublished.contact_email = curUser.email;
+    }
     return rewardToBePublished;
 }
 - (NSDictionary *)toPostParams{

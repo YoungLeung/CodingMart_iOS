@@ -11,6 +11,7 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "ActionSheetStringPicker.h"
 #import "TableViewFooterButton.h"
+#import "UIViewController+BackButtonHandler.h"
 
 
 @interface PublishRewardStep1ViewController ()
@@ -111,16 +112,20 @@
     [button setTitleColor:foreColor forState:UIControlStateNormal];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-
 #pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     PublishRewardStep2ViewController *vc = [segue destinationViewController];
     vc.rewardToBePublished = _rewardToBePublished;
+}
+
+- (BOOL)navigationShouldPopOnBackButton{
+    __weak typeof(self) weakSelf = self;
+    [[UIActionSheet bk_actionSheetCustomWithTitle:@"退出编辑后内容将会被清空" buttonTitles:@[@"退出编辑"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        if (index == 0) {
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        }
+    }] showInView:self.view];
+    return NO;
 }
 
 #pragma mark Btn
