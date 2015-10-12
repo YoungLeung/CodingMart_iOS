@@ -59,18 +59,18 @@
 }
 
 #pragma mark Btn
-- (IBAction)myPublishedBtnClicked:(id)sender {
+- (IBAction)myPublishedBtnClicked:(UIButton *)sender {
     if (![Login isLogin]) {
         [self goToLogin];
     }else{
-        [self goToWebVCWithUrlStr:@"/published"];
+        [self goToWebVCWithUrlStr:@"/published" title:sender.titleLabel.text];
     }
 }
-- (IBAction)myJoinedBtnClicked:(id)sender {
+- (IBAction)myJoinedBtnClicked:(UIButton *)sender {
     if (![Login isLogin]) {
         [self goToLogin];
     }else{
-        [self goToWebVCWithUrlStr:@"/joined"];
+        [self goToWebVCWithUrlStr:@"/joined" title:sender.titleLabel.text];
     }
 }
 
@@ -101,7 +101,7 @@
             [self goToLogin];
         }
     }else if (indexPath.section == 1 && indexPath.row == 0) {
-        [self goToWebVCWithUrlStr:@"/codersay"];
+        [self goToWebVCWithUrlStr:@"/codersay" title:@"码士说"];
     }else if (indexPath.section == 2){
         [[UIActionSheet bk_actionSheetCustomWithTitle:@"确定要退出当前账号" buttonTitles:nil destructiveTitle:@"确定退出" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0) {

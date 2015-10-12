@@ -13,6 +13,6 @@
 + (void)presentVC:(UIViewController *)viewController dismissBtnTitle:(NSString *)title;
 
 - (void)dismissModalViewControllerAnimatedYes;
-- (void)goToWebVCWithUrlStr:(NSString *)curUrlStr;
+- (void)goToWebVCWithUrlStr:(NSString *)curUrlStr title:(NSString *)titleStr;
 
 @end

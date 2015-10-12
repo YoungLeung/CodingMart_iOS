@@ -47,9 +47,10 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)goToWebVCWithUrlStr:(NSString *)curUrlStr{
+- (void)goToWebVCWithUrlStr:(NSString *)curUrlStr title:(NSString *)titleStr{
     WebViewController *vc = [WebViewController webVCWithUrlStr:curUrlStr];
     if (vc) {
+        vc.titleStr = titleStr;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

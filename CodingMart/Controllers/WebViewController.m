@@ -49,7 +49,7 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"加载中...";
+    self.title = _titleStr? _titleStr: @"加载中...";
     
     _progressProxy = [[NJKWebViewProgress alloc] init];
     self.delegate = _progressProxy;
@@ -99,6 +99,12 @@
     
     if (error) {
         [self handleError:error];
+    }
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView{
+    if (_titleStr) {
+        self.title = _titleStr;
     }
 }
 #pragma mark VC

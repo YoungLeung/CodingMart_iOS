@@ -9,6 +9,7 @@
 #import "SVWebViewController.h"
 
 @interface WebViewController : SVWebViewController
+@property (strong, nonatomic) NSString *titleStr;
 
 + (instancetype)webVCWithUrlStr:(NSString *)curUrlStr;
 

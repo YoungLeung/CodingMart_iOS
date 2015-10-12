@@ -214,10 +214,10 @@
 
 #pragma mark GoTo VC
 - (void)goToReward:(Reward *)curReward{
-    [self goToWebVCWithUrlStr:[NSString stringWithFormat:@"/p/%@", curReward.id.stringValue]];
+    [self goToWebVCWithUrlStr:[NSString stringWithFormat:@"/p/%@", curReward.id.stringValue] title:curReward.title];
 }
 - (void)goToMartIntroduce{
-    [self goToWebVCWithUrlStr:@"/about"];
+    [self goToWebVCWithUrlStr:@"/about" title:@"码市介绍"];
 }
 - (void)goToPublishReward{
     UIViewController *vc = [PublishRewardStep1ViewController publishRewardVC];
