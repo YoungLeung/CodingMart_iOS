@@ -9,6 +9,7 @@
 #import "RewardListHeaderView.h"
 @interface RewardListHeaderView()
 @property (strong, nonatomic) UIView *lineV;
+@property (strong, nonatomic) UIView *bootomLineV;
 @end
 
 @implementation RewardListHeaderView
@@ -20,6 +21,8 @@
         [self addSubview:self.leftBtn];
         [self addSubview:self.rightBtn];
         [self addSubview:self.lineV];
+        [self addSubview:self.bootomLineV];
+        
         [self.leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.top.bottom.equalTo(self);
         }];
@@ -33,6 +36,10 @@
             make.width.mas_equalTo(0.5);
             make.top.equalTo(self).offset(6);
             make.bottom.equalTo(self).offset(-6);
+        }];
+        [self.bootomLineV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.left.bottom.equalTo(self);
+            make.height.mas_equalTo(1.0);
         }];
     }
     return self;
@@ -67,6 +74,13 @@
         _lineV.backgroundColor = [UIColor colorWithHexString:@"0xDDDDDD"];
     }
     return _lineV;
+}
+- (UIView *)bootomLineV{
+    if (!_bootomLineV) {
+        _bootomLineV = [UIView new];
+        _bootomLineV.backgroundColor = [UIColor colorWithHexString:@"0xDDDDDD"];
+    }
+    return _bootomLineV;
 }
 
 @end

@@ -17,6 +17,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.navigationBar.barTintColor = [UIColor colorWithHexString:@"0x111111"];
+    [self hideBorderInView:self.navigationBar];
+}
+
+- (BOOL)hideBorderInView:(UIView *)view{
+    if ([view isKindOfClass:[UIImageView class]]
+        && view.frame.size.height <= 1) {
+        view.hidden = YES;
+        return YES;
+    }
+    for (UIView *subView in view.subviews) {
+        if ([self hideBorderInView:subView]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 - (void)didReceiveMemoryWarning {

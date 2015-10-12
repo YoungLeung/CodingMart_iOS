@@ -108,7 +108,7 @@
                 [Login doLogout];
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }
-        }] showInView:self.view];
+        }] showInView:kKeyWindow];
     }
 }
 #pragma mark goTo 

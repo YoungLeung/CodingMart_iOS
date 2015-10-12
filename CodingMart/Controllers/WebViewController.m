@@ -112,8 +112,13 @@
     DebugLog(@"%@", linkStr);
 
     BOOL canGoOut = NO;
-    if ([linkStr hasPrefix:@"https://coding.net/login"]) {
-        LoginViewController *vc = [LoginViewController loginVCWithType:LoginViewControllerTypeLogin mobile:nil];
+    if ([linkStr hasSuffix:@"/login"]
+        || [linkStr hasPrefix:@"/register"]) {
+        LoginViewControllerType loginType = LoginViewControllerTypeLogin;
+        if ([linkStr hasSuffix:@"/login"]) {
+            loginType = LoginViewControllerTypeRegister;
+        }
+        LoginViewController *vc = [LoginViewController loginVCWithType:loginType mobile:nil];
         vc.loginSucessBlock = ^(){
             [self reloadData];
         };

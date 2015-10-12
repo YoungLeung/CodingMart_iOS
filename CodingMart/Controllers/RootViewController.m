@@ -38,6 +38,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
     self.view.backgroundColor = kColorTableSectionBg;
     self.title = @"码市";
     _typeList = @[@"所有类型",

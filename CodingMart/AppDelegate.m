@@ -44,7 +44,7 @@
     //设置Nav的背景色和title色
     
     UINavigationBar *navigationBarAppearance = [UINavigationBar appearance];
-    [navigationBarAppearance setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
+//    [navigationBarAppearance setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"0x222222"]] forBarMetrics:UIBarMetricsDefault];
     [navigationBarAppearance setTintColor:[UIColor whiteColor]];//返回按钮的箭头颜色
     NSDictionary *textAttributes = @{
                                      NSFontAttributeName: [UIFont boldSystemFontOfSize:kNavTitleFontSize],

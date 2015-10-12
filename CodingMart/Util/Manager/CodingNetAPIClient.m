@@ -100,8 +100,10 @@ static dispatch_once_t onceToken_Coding;
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
                 !autoShowError || [NSObject showError:error];
-                id responseObject = [NSObject loadResponseWithPath:localPath];
-                block(responseObject, error);
+                if ([Login isLogin]) {
+                    id responseObject = [NSObject loadResponseWithPath:localPath];
+                    block(responseObject, error);
+                }
             }];
             break;}
         case Post:{

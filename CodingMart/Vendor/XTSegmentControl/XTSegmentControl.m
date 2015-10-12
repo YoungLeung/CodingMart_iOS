@@ -16,22 +16,10 @@
 
 #define XTSegmentControlAnimationTime (0.3)
 
-//#define XTSegmentControlIconWidth (50.0)
-//
-//#define XTSegmentControlIconSpace (4)
-//
-//typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
-//{
-//    XTSegmentControlItemTypeTitle = 0,
-//    XTSegmentControlItemTypeIconUrl,
-//    XTSegmentControlItemTypeTitleAndIcon,
-//};
-
 @interface XTSegmentControlItem : UIView
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIImageView *titleIconView;
-//@property (nonatomic, assign) XTSegmentControlItemType type;
 
 - (void)setSelected:(BOOL)selected;
 @end
@@ -46,7 +34,7 @@
             label.font = [UIFont systemFontOfSize:XTSegmentControlItemFont];
             label.textAlignment = NSTextAlignmentCenter;
             label.text = title;
-            label.textColor = [UIColor colorWithHexString:@"0x222222"];
+            label.textColor = [UIColor colorWithWhite:1.0 alpha:0.5];
             label.backgroundColor = [UIColor clearColor];
             label;
         });
@@ -56,7 +44,11 @@
 }
 
 - (void)setSelected:(BOOL)selected{
-    [_titleLabel setTextColor:(selected ? [UIColor colorWithHexString:@"0x3bbd79"]:[UIColor colorWithHexString:@"0x222222"])];
+    if (selected) {
+        _titleLabel.textColor = [UIColor colorWithHexString:@"0x3bbd79"];
+    }else{
+        _titleLabel.textColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+    }
 }
 
 - (void)resetTitle:(NSString *)title{
@@ -76,16 +68,11 @@
 @end
 
 @implementation XTSegmentControl
-//- (id)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem withIcon:(BOOL)isIcon{
-//    if (self = [super initWithFrame:frame]) {
-//        [self initUIWith:isIcon Items:titleItem];
-//    }
-//    return self;
-//}
 
 - (id)initWithFrame:(CGRect)frame Items:(NSArray *)titleItems
 {
     if (self = [super initWithFrame:frame]) {
+        self.backgroundColor = [UIColor colorWithHexString:@"0x202020"];
         _contentView = ({
             UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
             scrollView.backgroundColor = [UIColor clearColor];
@@ -103,23 +90,6 @@
     }
     return self;
 }
-
-
-//- (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem delegate:(id<XTSegmentControlDelegate>)delegate
-//{
-//    if (self = [self initWithFrame:frame Items:titleItem]) {
-//        self.delegate = delegate;
-//    }
-//    return self;
-//}
-//
-//- (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem withIcon:(BOOL)isIcon selectedBlock:(XTSegmentControlBlock)selectedHandle
-//{
-//    if (self = [self initWithFrame:frame Items:titleItem withIcon:isIcon]) {
-//        self.block = selectedHandle;
-//    }
-//    return self;
-//}
 
 - (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItems selectedBlock:(XTSegmentControlBlock)selectedHandle
 {
@@ -187,20 +157,20 @@
 
 - (void)addRedLine
 {
-    if (!_lineView) {
-        CGRect rect = [_itemFrames[0] CGRectValue];
-        _lineView = [[UIView alloc] initWithFrame:CGRectMake(
-                                                             CGRectGetMinX(rect),
-                                                             CGRectGetHeight(rect) - XTSegmentControlLineHeight,
-                                                             CGRectGetWidth(rect) - 2 * XTSegmentControlHspace,
-                                                             XTSegmentControlLineHeight)];
-        _lineView.backgroundColor = [UIColor colorWithHexString:@"0x3bbd79"];
-        [_contentView addSubview:_lineView];
-       
-        UIView *bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(rect)-0.5, CGRectGetWidth(self.bounds), 0.5)];
-        bottomLineView.backgroundColor = [UIColor colorWithHexString:@"0xc8c7cc"];
-        [self addSubview:bottomLineView];
-    }
+//    if (!_lineView) {
+//        CGRect rect = [_itemFrames[0] CGRectValue];
+//        _lineView = [[UIView alloc] initWithFrame:CGRectMake(
+//                                                             CGRectGetMinX(rect),
+//                                                             CGRectGetHeight(rect) - XTSegmentControlLineHeight,
+//                                                             CGRectGetWidth(rect) - 2 * XTSegmentControlHspace,
+//                                                             XTSegmentControlLineHeight)];
+//        _lineView.backgroundColor = [UIColor colorWithHexString:@"0x3bbd79"];
+//        [_contentView addSubview:_lineView];
+//       
+//        UIView *bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(rect)-0.5, CGRectGetWidth(self.bounds), 0.5)];
+//        bottomLineView.backgroundColor = [UIColor colorWithHexString:@"0xc8c7cc"];
+//        [self addSubview:bottomLineView];
+//    }
 }
 
 - (void)setTitle:(NSString *)title withIndex:(NSInteger)index
@@ -311,11 +281,6 @@
     }
     [self setScrollOffset:currentIndex];
 }
-
-//- (void)endMoveIndex:(NSInteger)index
-//{
-//    [self selectIndex:index];
-//}
 
 - (void)setScrollOffset:(NSInteger)index
 {

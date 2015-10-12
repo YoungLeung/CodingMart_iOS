@@ -118,6 +118,7 @@ const CGFloat kArrowSize = 10.f;
         _image = image;
         _target = target;
         _action = action;
+        _alignment = NSTextAlignmentCenter;
     }
     return self;
 }
@@ -401,8 +402,8 @@ typedef enum {
         return nil;
  
     const CGFloat kMinMenuItemHeight = 44.f;
-    const CGFloat kMinMenuItemWidth = 44.f;
-    const CGFloat kMarginX = 6.f;
+    const CGFloat kMinMenuItemWidth = 0.4 * kScreen_Width;
+    const CGFloat kMarginX = 0.f;
     const CGFloat kMarginY = 0.f;
     
     UIFont *titleFont = [KxMenu titleFont];
@@ -418,6 +419,9 @@ typedef enum {
         const CGSize imageSize = menuItem.image.size;        
         if (imageSize.width > maxImageWidth)
             maxImageWidth = imageSize.width;        
+    }
+    if (maxImageWidth <= 0) {
+        titleImagePadding = 0;
     }
     
     if (maxImageWidth) {

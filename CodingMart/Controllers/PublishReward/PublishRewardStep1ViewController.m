@@ -113,7 +113,7 @@
         if (index == 0) {
             [weakSelf.navigationController popViewControllerAnimated:YES];
         }
-    }] showInView:self.view];
+    }] showInView:kKeyWindow];
     return NO;
 }
 

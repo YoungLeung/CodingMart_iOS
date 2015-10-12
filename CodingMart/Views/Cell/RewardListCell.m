@@ -43,7 +43,7 @@
     _curReward = curReward;
     [_curReward prepareToDisplay];
 
-    _rewardNumL.text = [NSString stringWithFormat:@" No.%@ ", _curReward.id.stringValue];
+    _rewardNumL.text = [NSString stringWithFormat:@" No.%@  ", _curReward.id.stringValue];
     [_coverView sd_setImageWithURL:[NSURL URLWithString:_curReward.cover] placeholderImage:[UIImage imageNamed:@"placeholder_reward_cover"]];
     _titleL.text = _curReward.title;
     _typeImgView.image = [UIImage imageNamed:_curReward.typeImageName];
