@@ -85,6 +85,13 @@
     _isLoading = NO;
 }
 
+- (void)setDataList:(NSMutableArray *)dataList{
+    if (_dataList.count == 0 && dataList.count > 0) {
+        [self configBlankPage:EaseBlankPageTypeView hasData:YES hasError:NO reloadButtonBlock:nil];
+    }
+    _dataList = dataList;
+}
+
 - (void)lazyRefreshData{
     if (_dataList.count > 0) {
         [_myTableView reloadData];
