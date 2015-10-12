@@ -80,18 +80,18 @@
 
 #pragma mark XGPush
 - (void)registerPush{
-    float sysVer = [[[UIDevice currentDevice] systemVersion] floatValue];
-    if(sysVer < 8){
-        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
-    }else{
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
-        UIMutableUserNotificationCategory *categorys = [[UIMutableUserNotificationCategory alloc] init];
-        UIUserNotificationSettings *userSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge|UIUserNotificationTypeSound|UIUserNotificationTypeAlert
-                                                                                     categories:[NSSet setWithObject:categorys]];
-        [[UIApplication sharedApplication] registerUserNotificationSettings:userSettings];
-        [[UIApplication sharedApplication] registerForRemoteNotifications];
-#endif
-    }
+//    float sysVer = [[[UIDevice currentDevice] systemVersion] floatValue];
+//    if(sysVer < 8){
+//        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
+//    }else{
+//#if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
+//        UIMutableUserNotificationCategory *categorys = [[UIMutableUserNotificationCategory alloc] init];
+//        UIUserNotificationSettings *userSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge|UIUserNotificationTypeSound|UIUserNotificationTypeAlert
+//                                                                                     categories:[NSSet setWithObject:categorys]];
+//        [[UIApplication sharedApplication] registerUserNotificationSettings:userSettings];
+//        [[UIApplication sharedApplication] registerForRemoteNotifications];
+//#endif
+//    }
 }
 
 #pragma mark - XGPush Message

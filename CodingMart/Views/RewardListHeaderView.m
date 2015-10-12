@@ -16,6 +16,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.backgroundColor = [UIColor whiteColor];
         [self addSubview:self.leftBtn];
         [self addSubview:self.rightBtn];
         [self addSubview:self.lineV];
@@ -30,8 +31,8 @@
         [self.lineV mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self.mas_centerX);
             make.width.mas_equalTo(0.5);
-            make.top.equalTo(self).offset(5);
-            make.bottom.equalTo(self).offset(-5);
+            make.top.equalTo(self).offset(6);
+            make.bottom.equalTo(self).offset(-6);
         }];
     }
     return self;

@@ -68,11 +68,7 @@ static User *curLoginUser;
         return NO;
     }
     NSNumber *loginStatus = [[NSUserDefaults standardUserDefaults] objectForKey:kLoginStatus];
-    if (loginStatus.boolValue && [Login curLoginUser]) {
-        User *loginUser = [Login curLoginUser];
-        if (loginUser.status && loginUser.status.integerValue == 0) {
-            return NO;
-        }
+    if (loginStatus.boolValue) {
         return YES;
     }else{
         return NO;
@@ -89,6 +85,7 @@ static User *curLoginUser;
 //        [Login setXGAccountWithCurUser];
         [self saveLoginData:loginData];
     }else{
+        [defaults removeObjectForKey:kLoginUserDict];
         curLoginUser = [User userTourist];
     }
     [defaults synchronize];
@@ -153,9 +150,20 @@ static User *curLoginUser;
 + (void)doLogout{
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
     [defaults setObject:[NSNumber numberWithBool:NO] forKey:kLoginStatus];
+    [defaults removeObjectForKey:kLoginUserDict];
     [defaults synchronize];
+    curLoginUser = nil;
+    
+    //删掉sid
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    [cookies enumerateObjectsUsingBlock:^(NSHTTPCookie *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj.name isEqualToString:@"sid"]) {
+            [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:obj];
+            *stop = YES;
+        }
+    }];
+    
     [Login setXGAccountWithCurUser];
 }
 
@@ -176,7 +184,7 @@ static User *curLoginUser;
 + (User *)curLoginUser{
     if (!curLoginUser) {
         NSDictionary *loginData = [[NSUserDefaults standardUserDefaults] objectForKey:kLoginUserDict];
-        curLoginUser = loginData? [NSObject objectOfClass:@"User" fromJSON:loginData]: [User userTourist];
+        curLoginUser = [self isLogin] && loginData? [NSObject objectOfClass:@"User" fromJSON:loginData]: [User userTourist];
     }
     return curLoginUser;
 }

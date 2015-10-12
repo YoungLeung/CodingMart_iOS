@@ -38,8 +38,8 @@
                                                         <constraint firstAttribute="height" constant="60" id="EPW-iY-K8X"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="游客" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="al5-N1-tO5">
-                                                    <rect key="frame" x="86" y="36" width="218" height="20"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="游客" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="al5-N1-tO5">
+                                                    <rect key="frame" x="86" y="35" width="218" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="iqL-8c-mK5"/>
                                                     </constraints>
@@ -325,7 +325,10 @@
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="GWq-Ce-VjG"/>
                                     </constraints>
-                                    <state key="normal" title="下一步"/>
+                                    <state key="normal" title="提交"/>
+                                    <connections>
+                                        <action selector="submitBtnClicked:" destination="qIl-27-6aq" eventType="touchUpInside" id="i4z-Mn-j8Y"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -485,7 +488,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="验证码" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9u0-zp-4Ly">
-                                                    <rect key="frame" x="16" y="10" width="198" height="40"/>
+                                                    <rect key="frame" x="16" y="10" width="193" height="40"/>
                                                     <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="40" id="sR4-qd-bJX"/>
@@ -493,19 +496,35 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="owX-kU-vcf">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4bA-KR-lRu">
                                                     <rect key="frame" x="224" y="10" width="80" height="40"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DOJ-8V-X2g">
+                                                            <rect key="frame" x="10" y="8" width="60" height="25"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="60" id="9Vg-xe-MjL"/>
+                                                                <constraint firstAttribute="height" constant="25" id="WQA-fi-272"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <accessibility key="accessibilityConfiguration">
+                                                        <accessibilityTraits key="traits" button="YES"/>
+                                                        <bool key="isElement" value="YES"/>
+                                                    </accessibility>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="80" id="BUm-eb-LSu"/>
-                                                        <constraint firstAttribute="height" constant="40" id="Mwq-o0-3qj"/>
+                                                        <constraint firstItem="DOJ-8V-X2g" firstAttribute="centerX" secondItem="4bA-KR-lRu" secondAttribute="centerX" id="5H2-2F-6l3"/>
+                                                        <constraint firstAttribute="height" constant="40" id="LBf-La-m4V"/>
+                                                        <constraint firstItem="DOJ-8V-X2g" firstAttribute="centerY" secondItem="4bA-KR-lRu" secondAttribute="centerY" id="ZxP-Pn-ejf"/>
+                                                        <constraint firstAttribute="width" constant="80" id="qJt-ZT-JqE"/>
                                                     </constraints>
-                                                </imageView>
+                                                </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="owX-kU-vcf" firstAttribute="centerY" secondItem="9u0-zp-4Ly" secondAttribute="centerY" id="8ZI-Jd-N7G"/>
+                                                <constraint firstItem="4bA-KR-lRu" firstAttribute="leading" secondItem="9u0-zp-4Ly" secondAttribute="trailing" constant="15" id="S3R-5p-NCB"/>
                                                 <constraint firstItem="9u0-zp-4Ly" firstAttribute="leading" secondItem="vHd-Zd-AuW" secondAttribute="leadingMargin" constant="8" id="TPF-uO-kXA"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="owX-kU-vcf" secondAttribute="trailing" constant="8" id="WVd-fS-4eY"/>
-                                                <constraint firstItem="owX-kU-vcf" firstAttribute="leading" secondItem="9u0-zp-4Ly" secondAttribute="trailing" constant="10" id="YdX-5l-fxZ"/>
+                                                <constraint firstItem="4bA-KR-lRu" firstAttribute="centerY" secondItem="9u0-zp-4Ly" secondAttribute="centerY" id="cz4-yj-EuV"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="4bA-KR-lRu" secondAttribute="trailing" constant="8" id="sFG-xN-IPK"/>
                                                 <constraint firstItem="9u0-zp-4Ly" firstAttribute="centerY" secondItem="vHd-Zd-AuW" secondAttribute="centerY" id="sf3-w0-czB"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -519,6 +538,16 @@
                         </connections>
                     </tableView>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="contentF" destination="VrE-md-dOS" id="jDl-xG-gwl"/>
+                        <outlet property="emailF" destination="eV9-Yl-CaS" id="366-DK-tZQ"/>
+                        <outlet property="j_captchaBgView" destination="4bA-KR-lRu" id="INt-to-rue"/>
+                        <outlet property="j_captchaF" destination="9u0-zp-4Ly" id="Qu0-TV-89O"/>
+                        <outlet property="j_captchaImgV" destination="DOJ-8V-X2g" id="jzF-nF-BfW"/>
+                        <outlet property="nameF" destination="wCr-kY-lWz" id="sRi-Ve-oxd"/>
+                        <outlet property="phoneF" destination="QRc-7X-DD4" id="A2H-gx-9ys"/>
+                        <outlet property="submitBtn" destination="dso-Ll-jDZ" id="fhQ-P5-OwT"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UVh-Vs-3wi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

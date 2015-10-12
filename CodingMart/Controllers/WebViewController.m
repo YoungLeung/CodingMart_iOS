@@ -10,6 +10,7 @@
 #import "NJKWebViewProgress.h"
 #import "NJKWebViewProgressView.h"
 #import "BaseViewController.h"
+#import "LoginViewController.h"
 
 @interface WebViewController ()<UIWebViewDelegate>
 //@property (strong, nonatomic) UIWebView *myWebView;
@@ -106,6 +107,11 @@
 
     BOOL canGoOut = NO;
     if ([linkStr hasPrefix:@"https://coding.net/login"]) {
+        LoginViewController *vc = [LoginViewController loginVCWithType:LoginViewControllerTypeLogin mobile:nil];
+        vc.loginSucessBlock = ^(){
+            [self reloadData];
+        };
+        [UIViewController presentVC:vc dismissBtnTitle:@"取消"];
         canGoOut = YES;
     }
     return canGoOut;

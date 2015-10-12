@@ -16,6 +16,10 @@
 - (NSString *)md5Str;
 - (NSString*) sha1Str;
 
+- (NSURL *)urlWithCodingPath;
+- (NSURL *)urlImageWithCodePathResize:(CGFloat)width;
+- (NSURL *)urlImageWithCodePathResize:(CGFloat)width crop:(BOOL)needCrop;
+- (NSURL *)urlImageWithCodePathResizeToView:(UIView *)view;
 
 - (CGSize)getSizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size;
 - (CGFloat)getHeightWithFont:(UIFont *)font constrainedToSize:(CGSize)size;

@@ -8,6 +8,7 @@
 
 #import "UserInfoViewController.h"
 #import "WebViewController.h"
+#import "LoginViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "ODRefreshControl.h"
 #import "User.h"
@@ -30,14 +31,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = @"个人中心";
+
     self.curUser = [Login curLoginUser];
     [_user_iconV doCircleFrame];
     
-//        refresh
-    _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
-    [_myRefreshControl addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
-    
-    [self refreshData];
+////        refresh
+//    _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
+//    [_myRefreshControl addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
+    if ([Login isLogin]) {
+        [self refreshData];
+    }
 }
 
 - (void)setCurUser:(User *)curUser{
@@ -56,12 +60,19 @@
 
 #pragma mark Btn
 - (IBAction)myPublishedBtnClicked:(id)sender {
-    [self goToWebVCWithUrlStr:@"/published"];
+    if (![Login isLogin]) {
+        [self goToLogin];
+    }else{
+        [self goToWebVCWithUrlStr:@"/published"];
+    }
 }
 - (IBAction)myJoinedBtnClicked:(id)sender {
-    [self goToWebVCWithUrlStr:@"/joined"];
+    if (![Login isLogin]) {
+        [self goToLogin];
+    }else{
+        [self goToWebVCWithUrlStr:@"/joined"];
+    }
 }
-
 
 #pragma mark Table M
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -79,9 +90,17 @@
     return sectionH;
 }
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return [Login isLogin]? 3: 2;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 1 && indexPath.row == 0) {
+    if (indexPath.section == 0) {
+        if (![Login isLogin]) {
+            [self goToLogin];
+        }
+    }else if (indexPath.section == 1 && indexPath.row == 0) {
         [self goToWebVCWithUrlStr:@"/codersay"];
     }else if (indexPath.section == 2){
         [[UIActionSheet bk_actionSheetCustomWithTitle:@"确定要退出当前账号" buttonTitles:nil destructiveTitle:@"确定退出" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
@@ -92,5 +111,12 @@
         }] showInView:self.view];
     }
 }
-
+#pragma mark goTo 
+- (void)goToLogin{
+    LoginViewController *vc = [LoginViewController loginVCWithType:LoginViewControllerTypeLogin mobile:nil];
+    vc.loginSucessBlock = ^(){
+        [self refreshData];
+    };
+    [UIViewController presentVC:vc dismissBtnTitle:@"取消"];
+}
 @end

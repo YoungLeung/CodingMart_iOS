@@ -9,6 +9,7 @@
 #import "Coding_NetAPIManager.h"
 #import "Reward.h"
 #import "Login.h"
+#import "FeedBackInfo.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -48,7 +49,7 @@
                              @"verify_code": verify_code};
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
-            [Login doLogin:data];
+            [Login doLogin:nil];
         }
         block(data, error);
     }];
@@ -58,6 +59,9 @@
     NSDictionary *params = @{@"mobile": mobile,
                              @"verify_code": verify_code};
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:autoShowError andBlock:^(id data, NSError *error) {
+        if (data) {
+            [Login doLogin:nil];
+        }
         block(data, error);
     }];
 }
@@ -94,7 +98,26 @@
     }];
     
 }
-
-
+#pragma mark FeedBack
+- (void)post_FeedBack:(FeedBackInfo *)feedBackInfo  andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path  = @"api/feedback";
+    NSDictionary *params = [feedBackInfo toPostParams];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+#pragma mark CaptchaImg
+- (void)loadCaptchaImgWithCompleteBlock:(void (^)(UIImage *image, NSError *error))block{
+    NSString *captcha_path = [NSString stringWithFormat:@"%@api/captcha", [NSObject baseURLStr]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:captcha_path]];
+    AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    requestOperation.responseSerializer = [AFImageResponseSerializer serializer];
+    [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        block(responseObject, nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block(nil, error);
+    }];
+    [requestOperation start];
+}
 
 @end

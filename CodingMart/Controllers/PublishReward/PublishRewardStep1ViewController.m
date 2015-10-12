@@ -32,7 +32,10 @@
 @end
 
 @implementation PublishRewardStep1ViewController
-
++ (PublishRewardStep1ViewController *)publishRewardVC{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PublishReward" bundle:nil];
+    return [storyboard instantiateViewControllerWithIdentifier:@"PublishRewardStep1ViewController"];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -63,7 +66,7 @@
         _rewardToBePublished.duration = @90;
         _rewardToBePublished.first_sample = @"http://www.baidu.com";
         _rewardToBePublished.contact_name = @"哼哼";
-        _rewardToBePublished.contact_mobile = @"18620126943";
+        _rewardToBePublished.contact_mobile = @"";
         _rewardToBePublished.contact_email = @"wangyuanchuang@qq.com";
     }
     

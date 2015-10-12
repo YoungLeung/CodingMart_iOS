@@ -124,7 +124,7 @@ static char BlankPageViewKey;
             case EaseBlankPageTypeActivity://项目动态
             {
                 imageName = @"blankpage_image_Sleep";
-                tipStr = @"这里还什么都没有\n赶快起来弄出一点动静吧";
+                tipStr = @"这里还什么都没有";
             }
                 break;
             case EaseBlankPageTypeTask://任务列表

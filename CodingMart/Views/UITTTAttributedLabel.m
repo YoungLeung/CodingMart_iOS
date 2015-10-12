@@ -6,13 +6,18 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kUITTTAttributedLabel_linkKey @"link_key"
+
 #import "UITTTAttributedLabel.h"
 
-@interface UITTTAttributedLabel ()
+@interface UITTTAttributedLabel ()<TTTAttributedLabelDelegate>
+
 @property (nonatomic, assign) BOOL isSelectedForMenu;
 @property (nonatomic, copy) UITTTLabelTapBlock tapBlock;
 @property (nonatomic, copy) UITTTLabelTapBlock deleteBlock;
 @property (nonatomic, copy) UIColor *copyingColor;
+
+@property (copy, nonatomic) void(^linkBlock) (id value);
 @end
 
 @implementation UITTTAttributedLabel
@@ -100,6 +105,36 @@
 - (void)delete:(__unused id)sender {
     if (_deleteBlock) {
         _deleteBlock(self);
+    }
+}
+
+#pragma mark Link
+- (void)setupUIStyle{
+    self.linkAttributes = @{(__bridge NSString *)kCTUnderlineStyleAttributeName : [NSNumber numberWithBool:YES],
+                            (NSString *)kCTForegroundColorAttributeName : (__bridge id)[UIColor colorWithHexString:@"0x2FAEEA"].CGColor};
+    self.activeLinkAttributes = @{(NSString *)kCTUnderlineStyleAttributeName : [NSNumber numberWithBool:YES],
+                                  (NSString *)kCTForegroundColorAttributeName : (__bridge id)[[UIColor colorWithHexString:@"0x1b9d59"] CGColor]};
+}
+- (void)addLinkToStr:(NSString *)str whithValue:(id)value andBlock:(void (^)(id value))block{
+    if (str.length <= 0) {
+        return;
+    }
+    if (!value) {
+        value = str;
+    }
+    [self setupUIStyle];
+    self.delegate = self;
+    self.linkBlock = block;
+    NSRange range = [self.text rangeOfString:str];
+    if (range.location != NSNotFound) {
+        [self addLinkToTransitInformation:@{kUITTTAttributedLabel_linkKey: value} withRange:range];
+    }
+}
+
+#pragma mark TTTAttributedLabelDelegate
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithTransitInformation:(NSDictionary *)components{
+    if (self.linkBlock) {
+        self.linkBlock(components[kUITTTAttributedLabel_linkKey]);
     }
 }
 

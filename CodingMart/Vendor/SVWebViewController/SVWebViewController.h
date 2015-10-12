@@ -14,6 +14,6 @@
 - (instancetype)initWithURL:(NSURL*)URL;
 - (instancetype)initWithURLRequest:(NSURLRequest *)request;
 - (void)updateToolbarItems;
-
+- (void)reloadData;
 @property (nonatomic, weak) id<UIWebViewDelegate> delegate;
 @end

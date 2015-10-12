@@ -16,11 +16,8 @@
 }
 + (User *)userTourist{
     User *userTourist = [User new];
-    userTourist.phone = @"";
-    userTourist.avatar = @"";
-    userTourist.global_key = @"";
-    userTourist.name = @"";
-    userTourist.email = @"";
+    userTourist.global_key = @"user_tourist";
+    userTourist.name = @"请登录";
     return userTourist;
 }
 - (BOOL)isSameToUser:(User *)user{

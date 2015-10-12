@@ -295,24 +295,35 @@
 -(id)handleResponse:(id)responseJSON autoShowError:(BOOL)autoShowError{
     NSError *error = nil;
     //code为非0值时，表示有错
-    NSNumber *resultCode = [responseJSON valueForKeyPath:@"code"];
+    NSNumber *resultCode = responseJSON[@"code"];
     
     if (resultCode.intValue != 0) {
         error = [NSError errorWithDomain:[NSObject baseURLStr] code:resultCode.intValue userInfo:responseJSON];
-
-//        if (resultCode.intValue == 1000 || resultCode.intValue == 3207) {//用户未登录
-//            if ([Login isLogin]) {//已登录的状态要抹掉
-//                [Login doLogout];
-////                [((AppDelegate *)[UIApplication sharedApplication].delegate) setupLoginViewController];
+        BOOL user_not_login = NO;
+        if (resultCode.intValue == 1000 || resultCode.intValue == 3207) {//用户未登录
+            user_not_login = YES;
+        }else{
+            NSDictionary *msgList = responseJSON[@"msg"];
+            for (NSString *msgKey in msgList.allKeys) {
+                if ([msgKey isEqualToString:@"user_not_login"]) {
+                    user_not_login = YES;
+                    break;
+                }
+            }
+        }
+        if (user_not_login) {
+            if ([Login isLogin]) {//已登录的状态要抹掉
+                [Login doLogout];
+//                [((AppDelegate *)[UIApplication sharedApplication].delegate) setupLoginViewController];
 //                kTipAlert(@"%@", [NSObject tipFromError:error]);
-//            }
-//        }else{
+            }
+        }else{
             if (autoShowError) {
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     [NSObject showError:error];
                 });
             }
-//        }
+        }
     }
     return error;
 }

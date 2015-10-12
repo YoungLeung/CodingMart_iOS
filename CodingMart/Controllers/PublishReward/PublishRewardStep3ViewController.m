@@ -113,7 +113,7 @@
         vc.loginSucessBlock = ^(){
             [self nextStepBtnClicked:nil];
         };
-        [BaseViewController presentVC:vc dismissBtnTitle:@"取消"];
+        [UIViewController presentVC:vc dismissBtnTitle:@"取消"];
     }
 }
 

@@ -260,6 +260,10 @@
 
 #pragma mark - Target actions
 
+- (void)reloadData{
+    [self.webView reload];
+}
+
 - (void)goBackTapped:(UIBarButtonItem *)sender {
     [self.webView goBack];
 }

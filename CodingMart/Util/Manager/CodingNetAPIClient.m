@@ -82,8 +82,7 @@ static dispatch_once_t onceToken_Coding;
                 DebugLog(@"\n===========response===========\n%@:\n%@", aPath, responseObject);
                 id error = [self handleResponse:responseObject autoShowError:autoShowError];
                 if (error) {
-                    responseObject = [NSObject loadResponseWithPath:localPath];
-                    block(responseObject, error);
+                    block(nil, error);
                 }else{
                     if ([responseObject isKindOfClass:[NSDictionary class]]) {
                         //判断数据是否符合预期，给出提示

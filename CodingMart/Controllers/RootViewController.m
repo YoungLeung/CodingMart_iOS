@@ -15,7 +15,8 @@
 
 #import "Reward.h"
 #import "Login.h"
-#import "LoginViewController.h"
+#import "UserInfoViewController.h"
+#import "PublishRewardStep1ViewController.h"
 
 #import <Masonry/Masonry.h>
 
@@ -37,6 +38,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.view.backgroundColor = kColorTableSectionBg;
     self.title = @"码市";
     _typeList = @[@"所有类型",
                   @"网站",
@@ -108,20 +110,17 @@
 - (void)configRightNavBtnWithTitle:(NSString *)title{
     CGFloat title_width = [title getWidthWithFont:_rightNavBtn.titleLabel.font constrainedToSize:CGSizeMake(CGFLOAT_MAX, 30)];
     CGFloat image_width = _rightNavBtn.imageView.width;
+    CGFloat padding = 10;
     
-    _rightNavBtn.titleEdgeInsets = UIEdgeInsetsMake(0, -image_width, 0, image_width);
+    _rightNavBtn.titleEdgeInsets = UIEdgeInsetsMake(0, -image_width - padding, 0, image_width + padding);
     _rightNavBtn.imageEdgeInsets = UIEdgeInsetsMake(0, title_width, 0, -title_width);
     [_rightNavBtn setTitle:title forState:UIControlStateNormal];
 }
 
 #pragma mark nav_item M
 - (void)leftNavBtnClicked{
-    if ([Login isLogin]) {
-        
-    }else{
-        LoginViewController *vc = [LoginViewController loginVCWithType:LoginViewControllerTypeLogin mobile:nil];
-        [BaseViewController presentVC:vc dismissBtnTitle:@"取消"];
-    }
+    UIViewController *vc = [UserInfoViewController userInfoVC];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)rightNavBtnClicked{
@@ -183,8 +182,12 @@
     listView.type = _typeList[index];
     listView.status = _statusList[_selectedStatusIndex];
     listView.dataList = _rewardsDict[listView.key];//填充新值
-    [listView lazyRefreshData];
+    
     [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];
+
+    if (index == carousel.currentItemIndex) {
+        [listView lazyRefreshData];
+    }
     return listView;
 }
 
@@ -217,8 +220,7 @@
     [self goToWebVCWithUrlStr:@"/about"];
 }
 - (void)goToPublishReward{
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PublishReward" bundle:nil];
-    UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"PublishRewardStep1ViewController"];
+    UIViewController *vc = [PublishRewardStep1ViewController publishRewardVC];
     [self.navigationController pushViewController:vc animated:YES];
 }
 @end

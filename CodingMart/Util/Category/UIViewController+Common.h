@@ -9,5 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface UIViewController (Common)
++ (UIViewController *)presentingVC;
++ (void)presentVC:(UIViewController *)viewController dismissBtnTitle:(NSString *)title;
+
 - (void)dismissModalViewControllerAnimatedYes;
+- (void)goToWebVCWithUrlStr:(NSString *)curUrlStr;
+
 @end
