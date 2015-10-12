@@ -59,18 +59,7 @@
     
     if (!_rewardToBePublished) {
         _rewardToBePublished = [Reward rewardToBePublished];
-        _rewardToBePublished.type = @0;
-        _rewardToBePublished.budget = @0;
-        
-        _rewardToBePublished.name = @"我要Coding";
-        _rewardToBePublished.description_mine = @"我觉得要深入理解Git，还是得看源码。相较于其他的（如 svn，甚至 hg），我觉得 git 的实现更像一个 file system，从里到外（或从上到下）的几个设计层面来看都是 symlink 和 data blob 的结构，这点是我认为和其他 VCS (SCM) 的本质区别可能是这样，加上早期使用者仅限于开发者的情况，git cli 设计有明显的 leaky abstraction，即必须知道具体实现，才能理解和正确使用本来应该为 blackbox 的各种 subcommand";
-        _rewardToBePublished.duration = @90;
-        _rewardToBePublished.first_sample = @"http://www.baidu.com";
-        _rewardToBePublished.contact_name = @"哼哼";
-        _rewardToBePublished.contact_mobile = @"";
-        _rewardToBePublished.contact_email = @"wangyuanchuang@qq.com";
     }
-    
     __weak typeof(self) weakSelf = self;
     [RACObserve(self, rewardToBePublished.require_clear) subscribeNext:^(NSNumber *require_clear) {
         [weakSelf p_setButton:_docNotHaveBtn toSelected:!require_clear.boolValue];
