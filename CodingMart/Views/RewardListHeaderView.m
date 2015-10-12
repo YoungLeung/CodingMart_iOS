@@ -34,8 +34,8 @@
         [self.lineV mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self.mas_centerX);
             make.width.mas_equalTo(0.5);
-            make.top.equalTo(self).offset(6);
-            make.bottom.equalTo(self).offset(-6);
+            make.top.equalTo(self).offset(10);
+            make.bottom.equalTo(self).offset(-10);
         }];
         [self.bootomLineV mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.left.bottom.equalTo(self);

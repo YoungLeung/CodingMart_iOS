@@ -64,12 +64,16 @@
 }
 #pragma mark Navigation
 - (BOOL)navigationShouldPopOnBackButton{
+    if (_contentF.text.length <= 0) {
+        return YES;
+    }
+    [self.view endEditing:YES];
     __weak typeof(self) weakSelf = self;
     [[UIActionSheet bk_actionSheetCustomWithTitle:@"退出编辑后内容将会被清空" buttonTitles:@[@"退出编辑"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
         if (index == 0) {
             [weakSelf.navigationController popViewControllerAnimated:YES];
         }
-    }] showInView:kKeyWindow];
+    }] showInView:self.view];
     return NO;
 }
 

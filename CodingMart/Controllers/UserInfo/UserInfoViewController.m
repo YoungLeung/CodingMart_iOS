@@ -103,12 +103,13 @@
     }else if (indexPath.section == 1 && indexPath.row == 0) {
         [self goToWebVCWithUrlStr:@"/codersay" title:@"码士说"];
     }else if (indexPath.section == 2){
+        [self.view endEditing:YES];
         [[UIActionSheet bk_actionSheetCustomWithTitle:@"确定要退出当前账号" buttonTitles:nil destructiveTitle:@"确定退出" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0) {
                 [Login doLogout];
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }
-        }] showInView:kKeyWindow];
+        }] showInView:self.view];
     }
 }
 #pragma mark goTo 

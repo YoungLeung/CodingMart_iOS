@@ -42,7 +42,7 @@
             tableView;
         });
 //        header
-        RewardListHeaderView *headerV = [[RewardListHeaderView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 44.0)];
+        RewardListHeaderView *headerV = [[RewardListHeaderView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 50.0)];
         __weak typeof(self) weakSelf = self;
         [headerV.leftBtn bk_addEventHandler:^(id sender) {
             if (weakSelf.martIntroduceBlock) {
