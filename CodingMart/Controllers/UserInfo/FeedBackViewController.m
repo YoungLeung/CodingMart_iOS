@@ -42,16 +42,22 @@
     [_j_captchaBgView bk_whenTapped:^{
         [weakSelf refreshCaptchaImage];
     }];
-    RAC(self.submitBtn, enabled) = [RACSignal combineLatest:@[RACObserve(self, feedBackInfo.name),
-                                                                RACObserve(self, feedBackInfo.phone),
-                                                              RACObserve(self, feedBackInfo.email),
-                                                              RACObserve(self, feedBackInfo.content),
-                                                              RACObserve(self, feedBackInfo.j_captcha),
-                                                                ] reduce:^id(NSString *name, NSString *phone, NSString *email, NSString *content, NSString *j_captcha){
-                                                                    BOOL enabled = YES;
-                                                                    enabled = (name.length > 0 && phone.length > 0 && email.length > 0 && content.length > 0 && j_captcha.length > 0);
-                                                                    return @(enabled);
-                                                                }];
+    RAC(self.submitBtn, enabled) = [RACSignal combineLatest:@[_nameF.rac_textSignal,
+                                                              _phoneF.rac_textSignal,
+                                                              _emailF.rac_textSignal,
+                                                              _contentF.rac_textSignal,
+                                                              _j_captchaF.rac_textSignal,
+                                                              ]
+                                                     reduce:^id(NSString *name,
+                                                                NSString *phone,
+                                                                NSString *email,
+                                                                NSString *content,
+                                                                NSString *j_captcha
+                                                                ){
+                                                         BOOL enabled = YES;
+                                                         enabled = (name.length > 0 && phone.length > 0 && email.length > 0 && content.length > 0 && j_captcha.length > 0);
+                                                         return @(enabled);
+                                                     }];
     
     [self refreshCaptchaImage];
 }
