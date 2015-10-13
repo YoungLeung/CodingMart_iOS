@@ -44,7 +44,7 @@
                                                                 RACObserve(self, rewardToBePublished.duration)
                                                                 ] reduce:^id(NSString *name, NSString *description_mine, NSNumber *duration){
                                                                     BOOL enabled = YES;
-                                                                    if (name.length <= 0 || description_mine.length < 5) {
+                                                                    if (name.length <= 0 || description_mine.length < 50) {
                                                                         enabled = NO;
                                                                     }
                                                                     if (duration.integerValue <= 0 || duration.integerValue > 999) {
