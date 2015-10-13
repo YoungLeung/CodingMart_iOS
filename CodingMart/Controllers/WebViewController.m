@@ -112,10 +112,11 @@
     DebugLog(@"%@", linkStr);
 
     BOOL canGoOut = NO;
-    if ([linkStr hasSuffix:@"/login"]
-        || [linkStr hasPrefix:@"/register"]) {
+    
+    if ([linkStr rangeOfString:@"/login"].location != NSNotFound
+        || [linkStr rangeOfString:@"/register"].location != NSNotFound) {
         LoginViewControllerType loginType = LoginViewControllerTypeLogin;
-        if ([linkStr hasSuffix:@"/login"]) {
+        if ([linkStr rangeOfString:@"/register"].location != NSNotFound) {
             loginType = LoginViewControllerTypeRegister;
         }
         LoginViewController *vc = [LoginViewController loginVCWithType:loginType mobile:nil];
