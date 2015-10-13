@@ -39,22 +39,20 @@
 ////        refresh
 //    _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
 //    [_myRefreshControl addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
-    if ([Login isLogin]) {
-        [self refreshData];
-    }
+    [self refreshData];
 }
 
 - (void)setCurUser:(User *)curUser{
     _curUser = curUser;
     [_user_iconV sd_setImageWithURL:[_curUser.avatar urlWithCodingPath] placeholderImage:[UIImage imageNamed:@"placeholder_user"]];
     _user_nameL.text = _curUser.name;
-    [self.tableView reloadData];
 }
 - (void)refreshData{
     [[Coding_NetAPIManager sharedManager] get_CurrentUserAutoShowError:YES andBlock:^(id data, NSError *error) {
         [self.myRefreshControl endRefreshing];
         if (data) {
             self.curUser = data;
+            [self.tableView reloadData];
         }
     }];
 }
