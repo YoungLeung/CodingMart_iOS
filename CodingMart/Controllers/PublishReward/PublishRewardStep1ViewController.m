@@ -47,8 +47,7 @@
     
     self.title = @"发布悬赏";
     _typeList = @[@"网站",
-                  @"iOS APP",
-                  @"Android APP",
+                  @"APP",
                   @"微信开发",
                   @"HTML5 应用",
                   @"其他"];

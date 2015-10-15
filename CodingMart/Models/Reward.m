@@ -16,7 +16,6 @@
     if (self) {
         _propertyArrayMap = @{@"roleTypes" : @"RewardRoleType",
                               @"winners" : @"RewardWinnerInfo"};
-
     }
     return self;
 }
@@ -27,6 +26,9 @@
     }
     if (_type) {
         _typeDisplay = [[NSObject rewardTypeDict] findKeyFromStrValue:_type.stringValue];
+        if ([_typeDisplay hasSuffix:@"APP"]) {
+            _typeDisplay = @"APP";
+        }
         _typeImageName = [NSString stringWithFormat:@"reward_type_icon_%@", _type.stringValue];
     }
     if (_status) {
