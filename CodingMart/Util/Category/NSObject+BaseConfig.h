@@ -11,6 +11,7 @@
 @interface NSObject (BaseConfig)
 + (NSString *)baseURLStr;
 + (NSString *)codingURLStr;
++ (NSString *)userAgent;
 + (NSDictionary *)rewardTypeDict;
 + (NSDictionary *)rewardStatusDict;
 + (NSDictionary *)rewardStatusStrColorDict;

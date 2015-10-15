@@ -82,14 +82,40 @@
     NSString *path = @"api/rewards";
     type = [NSObject rewardTypeDict][type];
     status = [NSObject rewardStatusDict][status];
-    NSDictionary *params = @{@"type": type,
-                             @"status": status};
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
-        if (data) {
-            data = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"Reward"];
-        }
-        block(data, error);
-    }];
+    NSArray *typeList = [type componentsSeparatedByString:@","];
+
+    if (typeList.count == 2) {
+        NSDictionary *params0 = @{@"type": typeList[0],
+                                 @"status": status};
+        NSDictionary *params1 = @{@"type": typeList[1],
+                                  @"status": status};
+        [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params0 withMethodType:Get andBlock:^(id data0, NSError *error) {
+            if (data0) {
+                data0 = [NSObject arrayFromJSON:data0[@"data"] ofObjects:@"Reward"];
+                [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params1 withMethodType:Get andBlock:^(id data1, NSError *error1) {
+                    if (data1) {
+                        data1 = [NSObject arrayFromJSON:data1[@"data"] ofObjects:@"Reward"];
+                        NSMutableArray *resultA = [(NSArray *)data0 mutableCopy];
+                        [resultA addObjectsFromArray:data1];
+                        block(resultA, nil);
+                    }else{
+                        block(data0, error1);
+                    }
+                }];
+            }else{
+                block(nil, error);
+            }
+        }];
+    }else{
+        NSDictionary *params = @{@"type": type,
+                                 @"status": status};
+        [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
+            if (data) {
+                data = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"Reward"];
+            }
+            block(data, error);
+        }];
+    }
 }
 - (void)post_Reward:(Reward *)reward andBlock:(void (^)(id data, NSError *error))block{
     NSString *path  = @"api/reward";

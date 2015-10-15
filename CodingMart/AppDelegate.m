@@ -19,11 +19,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+//    统一设置UI风格（appearance）
     [self customizeInterface];
-
+//    注册 WebView 的UA
+    [self registerWebViewUserAgent];
     //App 角标清零
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-    
     //    信鸽推送
     [XGPush startApp:kXGPush_Id appKey:kXGPush_Key];
     [Login setXGAccountWithCurUser];
@@ -44,7 +45,6 @@
     //设置Nav的背景色和title色
     
     UINavigationBar *navigationBarAppearance = [UINavigationBar appearance];
-//    [navigationBarAppearance setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"0x222222"]] forBarMetrics:UIBarMetricsDefault];
     [navigationBarAppearance setTintColor:[UIColor whiteColor]];//返回按钮的箭头颜色
     NSDictionary *textAttributes = @{
                                      NSFontAttributeName: [UIFont boldSystemFontOfSize:kNavTitleFontSize],
@@ -55,6 +55,12 @@
     [[UITextField appearance] setTintColor:[UIColor colorWithHexString:@"0x3bbc79"]];//设置UITextField的光标颜色
     [[UITextView appearance] setTintColor:[UIColor colorWithHexString:@"0x3bbc79"]];//设置UITextView的光标颜色
     [[UISearchBar appearance] setBackgroundImage:[UIImage imageWithColor:kColorTableSectionBg] forBarPosition:0 barMetrics:UIBarMetricsDefault];
+}
+
+#pragma mark UserAgent
+- (void)registerWebViewUserAgent{
+    NSDictionary *dictionary = @{@"UserAgent" : [NSObject userAgent]};//User-Agent
+    [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
