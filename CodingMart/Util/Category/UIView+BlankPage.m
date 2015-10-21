@@ -204,7 +204,7 @@ static char BlankPageViewKey;
             default://其它页面（这里没有提到的页面，都属于其它）
             {
                 imageName = @"blankpage_image_Sleep";
-                tipStr = @"这里还什么都没有\n赶快起来弄出一点动静吧";
+                tipStr = @"这里还什么都没有";
             }
                 break;
         }
