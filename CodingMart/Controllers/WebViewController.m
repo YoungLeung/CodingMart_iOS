@@ -103,8 +103,15 @@
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    [self updateToolbarItems];
+    if ([self.delegate respondsToSelector:@selector(webViewDidFinishLoad:)]) {
+        [self.delegate webViewDidFinishLoad:webView];
+    }
     if (_titleStr) {
         self.title = _titleStr;
+    }else{
+        self.navigationItem.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
     }
 }
 #pragma mark VC
