@@ -6,6 +6,8 @@
 //  Copyright © 2015年 net.coding. All rights reserved.
 //
 
+#define kRewardDraftPath @"reward_draft_path"
+
 #import "Reward.h"
 #import "Login.h"
 
@@ -42,13 +44,26 @@
     _statusBGColorHexStr = [[NSObject rewardStatusBGColorDict] objectForKey:_status.stringValue];
     _roleTypesDisplay = roleTypesDisplay;
 }
-
++ (BOOL)saveDraft:(Reward *)curReward{
+    if (!curReward) {
+        return NO;
+    }
+    return [NSObject saveResponseData:[curReward toPostParams] toPath:kRewardDraftPath];
+}
++ (BOOL)deleteCurDraft{
+    return [NSObject deleteResponseCacheForPath:kRewardDraftPath];
+}
 + (Reward *)rewardToBePublished{
-    Reward *rewardToBePublished = [Reward new];
-    rewardToBePublished.require_clear = @0;
-    rewardToBePublished.need_pm = @0;
-//    rewardToBePublished.type = @0;
-//    rewardToBePublished.budget = @0;
+    Reward *rewardToBePublished;
+    rewardToBePublished = [Reward objectOfClass:@"Reward" fromJSON:[NSObject loadResponseWithPath:kRewardDraftPath]]
+    ;
+    if (!rewardToBePublished) {
+        rewardToBePublished = [Reward new];
+        rewardToBePublished.require_clear = @0;
+        rewardToBePublished.need_pm = @0;
+        //    rewardToBePublished.type = @0;
+        //    rewardToBePublished.budget = @0;
+    }
     if ([Login isLogin]) {
         User *curUser = [Login curLoginUser];
         rewardToBePublished.contact_name = curUser.name;
@@ -58,28 +73,30 @@
     return rewardToBePublished;
 }
 - (NSDictionary *)toPostParams{
-    NSMutableDictionary *params = @{//step1
-                                    @"type": _type,
-                                    @"budget": _budget,
-                                    @"require_clear": _require_clear,
-                                    @"need_pm": _need_pm,
-                                    //*require_doc
-                                    //step2
-                                    @"name": _name,
-                                    @"description": _description_mine,
-                                    @"duration": _duration,
-                                    //*first_sample, *second_sample, *first_file, *second_file
-                                    //step3
-                                    @"contact_name": _contact_name,
-                                    @"contact_mobile": _contact_mobile,
-                                    @"contact_email": _contact_email,
-                                    }.mutableCopy;
+    NSMutableDictionary *params = @{}.mutableCopy;
     
+    //step1
+    params[@"type"] = _type;
+    params[@"budget"] = _budget;
+    params[@"require_clear"] = _require_clear;
+    params[@"need_pm"] = _need_pm;
+    //*require_doc
+    params[@"require_doc"] = _require_doc.length > 0? _require_doc: @"";
+    //step2
+    params[@"name"] = _name;
+    params[@"description"] = _description_mine;
+    params[@"duration"] = _duration;
+    //*first_sample, *second_sample, *first_file, *second_file
     params[@"require_doc"] = _require_doc.length > 0? _require_doc: @"";
     params[@"first_sample"] = _first_sample.length > 0? _first_sample: @"";
     params[@"second_sample"] = _second_sample.length > 0? _second_sample: @"";
     params[@"first_file"] = _first_file.length > 0? _first_file: @"";
     params[@"second_file"] = _second_file.length > 0? _second_file: @"";
+    //step3
+    params[@"contact_name"] = _contact_name;
+    params[@"contact_mobile"] = _contact_mobile;
+    params[@"contact_email"] = _contact_email;
+    
     return params;
 }
 @end

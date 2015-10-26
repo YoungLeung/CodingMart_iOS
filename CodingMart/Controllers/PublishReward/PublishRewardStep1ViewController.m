@@ -110,10 +110,14 @@
     if (!_rewardToBePublished.type && !_rewardToBePublished.budget) {
         return YES;
     }
-    [self.view endEditing:YES];
     __weak typeof(self) weakSelf = self;
-    [[UIActionSheet bk_actionSheetCustomWithTitle:@"退出编辑后内容将会被清空" buttonTitles:@[@"退出编辑"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-        if (index == 0) {
+    [[UIActionSheet bk_actionSheetCustomWithTitle:@"是否需要保存草稿？" buttonTitles:@[@"保存并退出"] destructiveTitle:@"删除并退出" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        if (index < 2) {
+            if (index == 0) {
+                [Reward saveDraft:weakSelf.rewardToBePublished];
+            }else{
+                [Reward deleteCurDraft];
+            }
             [weakSelf.navigationController popViewControllerAnimated:YES];
         }
     }] showInView:self.view];

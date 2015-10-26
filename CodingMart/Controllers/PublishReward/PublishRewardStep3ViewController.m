@@ -103,6 +103,7 @@
             [[Coding_NetAPIManager sharedManager] post_Reward:_rewardToBePublished andBlock:^(id data, NSError *error) {
                 [NSObject hideHUDQuery];
                 if (data) {
+                    [Reward deleteCurDraft];
                     kTipAlert(@"悬赏发布成功！\n可以去到「个人中心」-「我发布的悬赏」中查找");
                     [self.navigationController popToRootViewControllerAnimated:YES];
                 }

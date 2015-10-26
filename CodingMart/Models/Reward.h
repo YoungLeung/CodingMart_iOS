@@ -25,5 +25,7 @@
 - (void)prepareToDisplay;
 - (NSDictionary *)toPostParams;
 
++ (BOOL)saveDraft:(Reward *)curReward;
++ (BOOL)deleteCurDraft;
 + (Reward *)rewardToBePublished;
 @end
