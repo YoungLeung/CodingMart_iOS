@@ -52,7 +52,7 @@
 */
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    cell.separatorInset = UIEdgeInsetsMake(0, 16, 0, 0);//默认左边空 16
+    cell.separatorInset = UIEdgeInsetsMake(0, 15, 0, 0);//默认左边空 16
 }
 
 /*

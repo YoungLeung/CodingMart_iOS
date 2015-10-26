@@ -98,7 +98,7 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
     if (indexPath.section == 0 && indexPath.row == 0) {
-        cell.separatorInset = UIEdgeInsetsZero;
+        cell.separatorInset = UIEdgeInsetsMake(0, -8, 0, 0);
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
