@@ -7,6 +7,7 @@
 //
 
 #import "UIViewController+Common.h"
+#import "MartWebViewController.h"
 #import "WebViewController.h"
 
 @implementation UIViewController (Common)
@@ -61,7 +62,7 @@
 }
 
 + (void)presentLinkStr:(NSString *)linkStr{
-    WebViewController *vc = [WebViewController webVCWithUrlStr:linkStr];
+    MartWebViewController *vc = [[MartWebViewController alloc] initWithUrlStr:linkStr];
     if (vc) {
         [self presentVC:vc dismissBtnTitle:@"关闭"];
     }
@@ -73,7 +74,7 @@
 }
 
 - (void)goToWebVCWithUrlStr:(NSString *)curUrlStr title:(NSString *)titleStr{
-    WebViewController *vc = [WebViewController webVCWithUrlStr:curUrlStr];
+    MartWebViewController *vc = [[MartWebViewController alloc] initWithUrlStr:curUrlStr];
     if (vc) {
         vc.titleStr = titleStr;
         [self.navigationController pushViewController:vc animated:YES];
