@@ -305,7 +305,8 @@
         }else{
             NSDictionary *msgList = responseJSON[@"msg"];
             for (NSString *msgKey in msgList.allKeys) {
-                if ([msgKey isEqualToString:@"user_not_login"]) {
+                if ([@[@"user.not.login",
+                      @"user_not_login"] containsObject:msgKey]) {
                     user_not_login = YES;
                     break;
                 }
