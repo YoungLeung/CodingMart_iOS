@@ -10,6 +10,7 @@
 #import "TableViewFooterButton.h"
 #import <BlocksKit/BlocksKit+UIKit.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
+#import "EAMultiSelectView.h"
 
 @interface FillSkillsViewController ()
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *submitBtn;
@@ -119,5 +120,20 @@
             break;
     }
 }
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == 0) {
+        NSString *all_skill = @"Web 开发,后端开发,iOS 开发,Android 开发,需求分析,UI 设计";
+        [EAMultiSelectView showInView:self.view withTitle:@"选择能胜任的工作类型" dataList:[all_skill componentsSeparatedByString:@","]selectedList:nil  andConfirmBlock:^(NSArray *selectedList) {
+            NSString *skill = [selectedList componentsJoinedByString:@","];
+            
+            NSLog(@"%@", skill);
+        }];
+    }else if (indexPath.row == 1){
+        NSString *all_work_type = @"Java,PHP,Ruby,Python,Go,C/C++,Objective-C,ASP.NET,C#,Perl,JavaScript,HTML/CSS,Android,iOS,Windows Phone,微信开发,网站开发,ERP/OA,即时通讯,端游开发,页游开发,手游开发,HTML5 游戏,算法,操作系统,编译器,硬件驱动,搜索技术,大数据,Docker,OpenStack,开源硬件";
+        [EAMultiSelectView showInView:self.view withTitle:@"擅长的技术" dataList:[all_work_type componentsSeparatedByString:@","]selectedList:nil  andConfirmBlock:^(NSArray *selectedList) {
+            NSString *work_type = [selectedList componentsJoinedByString:@","];
+            NSLog(@"%@", work_type);
+        }];
+    }
+}
 @end
