@@ -23,6 +23,9 @@
 }
 
 #pragma mark Btn
+- (IBAction)submitBtnClicked:(id)sender {
+}
+
 - (IBAction)showWorkExp:(id)sender {
     NSString *tipStr =
     @"【示例】\n\

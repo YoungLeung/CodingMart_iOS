@@ -10,6 +10,7 @@
 #import "Reward.h"
 #import "Login.h"
 #import "FeedBackInfo.h"
+#import "SettingNotificationInfo.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -124,6 +125,20 @@
         block(data, error);
     }];
     
+}
+#pragma mark Setting
+- (void)get_SettingNotificationInfoWithBlock:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/app/setting/notification" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"SettingNotificationInfo"];
+        }
+        block(data, error);
+    }];
+}
+- (void)post_SettingNotificationParams:(NSDictionary *)params andBlock:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/app/setting/notification" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
 }
 #pragma mark FeedBack
 - (void)post_FeedBack:(FeedBackInfo *)feedBackInfo  andBlock:(void (^)(id data, NSError *error))block{

@@ -29,6 +29,10 @@
     _phone_code_separatorLC.constant = 0.5;
     
 }
+#pragma mark Btn
+- (IBAction)submitBtnClicked:(id)sender {
+}
+
 #pragma mark Table M
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     return [UIView new];

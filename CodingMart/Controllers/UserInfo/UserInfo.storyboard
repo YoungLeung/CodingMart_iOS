@@ -403,6 +403,9 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Idy-lA-Moc">
                                                     <rect key="frame" x="256" y="6" width="51" height="31"/>
                                                     <animations/>
+                                                    <connections>
+                                                        <action selector="switchValueChanged:" destination="GzO-jW-r1O" eventType="valueChanged" id="R8t-cq-Xf7"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                             <animations/>
@@ -436,6 +439,9 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jy4-3f-Qni">
                                                     <rect key="frame" x="256" y="6" width="51" height="31"/>
                                                     <animations/>
+                                                    <connections>
+                                                        <action selector="switchValueChanged:" destination="GzO-jW-r1O" eventType="valueChanged" id="71n-eS-Foi"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                             <animations/>
@@ -473,6 +479,9 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TAy-W0-kWw">
                                                     <rect key="frame" x="256" y="6" width="51" height="31"/>
                                                     <animations/>
+                                                    <connections>
+                                                        <action selector="switchValueChanged:" destination="GzO-jW-r1O" eventType="valueChanged" id="l2z-g7-rSu"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                             <animations/>
@@ -495,6 +504,11 @@
                         </connections>
                     </tableView>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="freshPublishedSwitch" destination="TAy-W0-kWw" id="8rq-bn-udb"/>
+                        <outlet property="myJoinedSwitch" destination="Idy-lA-Moc" id="Jxa-kS-kb4"/>
+                        <outlet property="myPublishedSwitch" destination="Jy4-3f-Qni" id="lAn-7T-Sms"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qha-Qd-NBe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -521,7 +535,7 @@
                                     </constraints>
                                     <state key="normal" title="保存资料"/>
                                     <connections>
-                                        <action selector="submitBtnClicked:" destination="1CQ-gP-BfE" eventType="touchUpInside" id="LmB-jn-MOk"/>
+                                        <action selector="submitBtnClicked:" destination="rge-QJ-4fR" eventType="touchUpInside" id="6br-L2-YUP"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -1641,7 +1655,7 @@
                                     </constraints>
                                     <state key="normal" title="保存资料"/>
                                     <connections>
-                                        <action selector="submitBtnClicked:" destination="1CQ-gP-BfE" eventType="touchUpInside" id="bEq-Rv-qHn"/>
+                                        <action selector="submitBtnClicked:" destination="1CQ-gP-BfE" eventType="touchUpInside" id="oV3-zq-ZGK"/>
                                     </connections>
                                 </button>
                             </subviews>

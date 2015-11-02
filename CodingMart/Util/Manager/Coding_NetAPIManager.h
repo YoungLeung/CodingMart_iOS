@@ -9,7 +9,7 @@
 
 #import "CodingNetAPIClient.h"
 
-@class Reward, FeedBackInfo;
+@class Reward, FeedBackInfo, SettingNotificationInfo;
 
 @interface Coding_NetAPIManager : NSObject
 + (instancetype)sharedManager;
@@ -22,6 +22,9 @@
 #pragma mark Reward
 - (void)get_RewardListWithType:(NSString *)type status:(NSString *)status andBlock:(void (^)(id data, NSError *error))block;
 - (void)post_Reward:(Reward *)reward andBlock:(void (^)(id data, NSError *error))block;
+#pragma mark Setting
+- (void)get_SettingNotificationInfoWithBlock:(void (^)(id data, NSError *error))block;
+- (void)post_SettingNotificationParams:(NSDictionary *)params andBlock:(void (^)(id data, NSError *error))block;
 #pragma mark FeedBack
 - (void)post_FeedBack:(FeedBackInfo *)feedBackInfo  andBlock:(void (^)(id data, NSError *error))block;
 #pragma mark CaptchaImg
