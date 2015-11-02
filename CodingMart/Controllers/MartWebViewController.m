@@ -61,6 +61,7 @@
     self.title = _titleStr? _titleStr: @"加载中...";
     //UIWebView
     _webView = [UIWebView new];
+    _webView.backgroundColor = [UIColor clearColor];
     _webView.scalesPageToFit = YES;
     [self.view addSubview:_webView];
     [_webView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -134,9 +135,9 @@
     DebugLog(@"%@", linkStr);
     LoginViewController *loginVC;
     if ([linkStr rangeOfString:@"/login"].location != NSNotFound){
-        loginVC = [LoginViewController loginVCWithType:LoginViewControllerTypeLogin mobile:nil];
+        loginVC = [LoginViewController storyboardVCWithType:LoginViewControllerTypeLogin mobile:nil];
     }else if ([linkStr rangeOfString:@"/register"].location != NSNotFound) {
-        loginVC = [LoginViewController loginVCWithType:LoginViewControllerTypeRegister mobile:nil];
+        loginVC = [LoginViewController storyboardVCWithType:LoginViewControllerTypeRegister mobile:nil];
     }else{
         loginVC = nil;
     }

@@ -139,9 +139,7 @@
     [defaults setObject:@(isTest) forKey:kTestKey];
     [defaults synchronize];
     
-    [CodingNetAPIClient changeJsonClient];
-    
-    [[UINavigationBar appearance] setBackgroundImage: [UIImage imageWithColor:[UIColor colorWithHexString:isTest?@"0x3bbd79": @"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
+    [CodingNetAPIClient changeJsonClient];    
 }
 
 #pragma mark File M

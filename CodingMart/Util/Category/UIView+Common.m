@@ -13,6 +13,19 @@
 #import <objc/runtime.h>
 
 @implementation UIView (Common)
+@dynamic borderColor,borderWidth,cornerRadius;
+
+-(void)setBorderColor:(UIColor *)borderColor{
+    [self.layer setBorderColor:borderColor.CGColor];
+}
+
+-(void)setBorderWidth:(CGFloat)borderWidth{
+    [self.layer setBorderWidth:borderWidth];
+}
+
+-(void)setCornerRadius:(CGFloat)cornerRadius{
+    [self.layer setCornerRadius:cornerRadius];
+}
 
 - (void)doCircleFrame{
     self.layer.masksToBounds = YES;
@@ -254,17 +267,6 @@
 }
 
 - (void)addLineUp:(BOOL)hasUp andDown:(BOOL)hasDown andColor:(UIColor *)color{
-    [self removeViewWithTag:kTagLineView];
-    if (hasUp) {
-        UIView *upView = [UIView lineViewWithPointYY:0 andColor:color];
-        upView.tag = kTagLineView;
-        [self addSubview:upView];
-    }
-    if (hasDown) {
-        UIView *downView = [UIView lineViewWithPointYY:CGRectGetMaxY(self.bounds)-0.5 andColor:color];
-        downView.tag = kTagLineView;
-        [self addSubview:downView];
-    }
     return [self addLineUp:hasUp andDown:hasDown andColor:color andLeftSpace:0];
 }
 - (void)addLineUp:(BOOL)hasUp andDown:(BOOL)hasDown andColor:(UIColor *)color andLeftSpace:(CGFloat)leftSpace{

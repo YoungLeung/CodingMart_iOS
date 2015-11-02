@@ -23,6 +23,10 @@ typedef NS_ENUM(NSInteger, BadgePositionType) {
 };
 
 @interface UIView (Common)
+@property (nonatomic) IBInspectable UIColor *borderColor;
+@property (nonatomic) IBInspectable CGFloat borderWidth;
+@property (nonatomic) IBInspectable CGFloat cornerRadius;
+
 - (void)doCircleFrame;
 - (void)doNotCircleFrame;
 - (void)doBorderWidth:(CGFloat)width color:(UIColor *)color cornerRadius:(CGFloat)cornerRadius;

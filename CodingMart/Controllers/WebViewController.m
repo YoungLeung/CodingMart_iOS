@@ -126,7 +126,7 @@
         if ([linkStr rangeOfString:@"/register"].location != NSNotFound) {
             loginType = LoginViewControllerTypeRegister;
         }
-        LoginViewController *vc = [LoginViewController loginVCWithType:loginType mobile:nil];
+        LoginViewController *vc = [LoginViewController storyboardVCWithType:loginType mobile:nil];
         vc.loginSucessBlock = ^(){
             [self reloadData];
         };

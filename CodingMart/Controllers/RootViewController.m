@@ -10,7 +10,7 @@
 #import "XTSegmentControl.h"
 #import "iCarousel.h"
 #import "RewardListView.h"
-#import "WebViewController.h"
+#import "RewardDetailViewController.h"
 #import "KxMenu.h"
 
 #import "Reward.h"
@@ -39,7 +39,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.view.backgroundColor = kColorTableSectionBg;
     self.title = @"码市";
     _typeList = @[@"所有类型",
                   @"网站",
@@ -117,7 +116,7 @@
 
 #pragma mark nav_item M
 - (void)leftNavBtnClicked{
-    UIViewController *vc = [UserInfoViewController userInfoVC];
+    UIViewController *vc = [UserInfoViewController storyboardVC];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -212,13 +211,15 @@
 
 #pragma mark GoTo VC
 - (void)goToReward:(Reward *)curReward{
-    [self goToWebVCWithUrlStr:[NSString stringWithFormat:@"/p/%@", curReward.id.stringValue] title:curReward.title];
+    RewardDetailViewController *vc = [RewardDetailViewController new];
+    vc.curReward = curReward;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)goToMartIntroduce{
     [self goToWebVCWithUrlStr:@"/about" title:@"码市介绍"];
 }
 - (void)goToPublishReward{
-    UIViewController *vc = [PublishRewardStep1ViewController publishRewardVC];
+    UIViewController *vc = [PublishRewardStep1ViewController storyboardVC];
     [self.navigationController pushViewController:vc animated:YES];
 }
 @end

@@ -30,7 +30,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.tableView.backgroundColor = kColorTableSectionBg;
     UIImage *line_dot_image = [UIImage imageNamed:@"line_dot"];
     line_dot_image = [line_dot_image resizableImageWithCapInsets:UIEdgeInsetsZero resizingMode: UIImageResizingModeTile];
     _line1V.image = _line2V.image = line_dot_image;
@@ -110,7 +109,7 @@
             }];
         }];
     }else{
-        LoginViewController *vc = [LoginViewController loginVCWithType:LoginViewControllerTypeLoginAndRegister mobile:_rewardToBePublished.contact_mobile];
+        LoginViewController *vc = [LoginViewController storyboardVCWithType:LoginViewControllerTypeLoginAndRegister mobile:_rewardToBePublished.contact_mobile];
         vc.loginSucessBlock = ^(){
             [self nextStepBtnClicked:nil];
         };

@@ -7,6 +7,7 @@
 //
 
 #import "PublishRewardStep1ViewController.h"
+#import <FDFullscreenPopGesture/UINavigationController+FDFullscreenPopGesture.h>
 #import "PublishRewardStep2ViewController.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "ActionSheetStringPicker.h"
@@ -33,14 +34,13 @@
 @end
 
 @implementation PublishRewardStep1ViewController
-+ (PublishRewardStep1ViewController *)publishRewardVC{
++ (instancetype)storyboardVC{
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PublishReward" bundle:nil];
     return [storyboard instantiateViewControllerWithIdentifier:@"PublishRewardStep1ViewController"];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.tableView.backgroundColor = kColorTableSectionBg;
     UIImage *line_dot_image = [UIImage imageNamed:@"line_dot"];
     line_dot_image = [line_dot_image resizableImageWithCapInsets:UIEdgeInsetsZero resizingMode: UIImageResizingModeTile];
     _line1V.image = _line2V.image = line_dot_image;
@@ -70,6 +70,7 @@
     }];
     [RACObserve(self, rewardToBePublished.type) subscribeNext:^(NSNumber *type) {
         if (type) {
+            weakSelf.fd_interactivePopDisabled = YES;
             weakSelf.typeL.textColor = [UIColor blackColor];
             weakSelf.typeL.text = [[NSObject rewardTypeDict] findKeyFromStrValue:type.stringValue];
         }else{
@@ -79,6 +80,7 @@
     }];
     [RACObserve(self, rewardToBePublished.budget) subscribeNext:^(NSNumber *budget) {
         if (budget) {
+            weakSelf.fd_interactivePopDisabled = YES;
             weakSelf.budgetL.textColor = [UIColor blackColor];
             weakSelf.budgetL.text = weakSelf.budgetList[budget.integerValue];
         }else{

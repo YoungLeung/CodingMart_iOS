@@ -18,6 +18,6 @@ typedef NS_ENUM(NSInteger, LoginViewControllerType) {
 @interface LoginViewController : BaseTableViewController
 @property (assign, nonatomic) LoginViewControllerType type;
 
-+ (LoginViewController *)loginVCWithType:(LoginViewControllerType )type mobile:(NSString *)mobile;
++ (instancetype)storyboardVCWithType:(LoginViewControllerType )type mobile:(NSString *)mobile;
 @property (copy, nonatomic) void (^loginSucessBlock)();
 @end

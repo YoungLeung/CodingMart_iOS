@@ -27,6 +27,10 @@
     return ((self.id && user.id && self.id.integerValue == user.id.integerValue)
             || (self.global_key && user.global_key && [self.global_key isEqualToString:user.global_key]));
 }
+- (BOOL)canJoinReward{
+    return ![self isSameToUser:[User userTourist]];
+//    return YES;
+}
 - (NSString *)toUserInfoPath{
     return [NSString stringWithFormat:@"api/user/key/%@", _global_key];
 }

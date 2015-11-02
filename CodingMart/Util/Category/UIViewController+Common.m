@@ -8,7 +8,6 @@
 
 #import "UIViewController+Common.h"
 #import "MartWebViewController.h"
-#import "WebViewController.h"
 
 @implementation UIViewController (Common)
 + (UIViewController *)presentingVC{

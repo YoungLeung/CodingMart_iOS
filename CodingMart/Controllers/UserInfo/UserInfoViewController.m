@@ -7,54 +7,104 @@
 //
 
 #import "UserInfoViewController.h"
-#import "WebViewController.h"
 #import "LoginViewController.h"
+#import "FillTypesViewController.h"
 #import "Coding_NetAPIManager.h"
-#import "ODRefreshControl.h"
 #import "User.h"
 #import "Login.h"
 #import "UIImageView+WebCache.h"
+#import <BlocksKit/BlocksKit+UIKit.h>
 
-@interface UserInfoViewController ()
+@interface UserInfoViewController ()<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *user_iconV;
 @property (weak, nonatomic) IBOutlet UILabel *user_nameL;
-@property (nonatomic, strong) ODRefreshControl *myRefreshControl;
+@property (weak, nonatomic) IBOutlet UIImageView *headerBGV;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerBGVTop;
+@property (weak, nonatomic) IBOutlet UIButton *tipView;
+@property (weak, nonatomic) IBOutlet UILabel *tipLabel;
 
 @property (strong, nonatomic) User *curUser;
+@property (assign, nonatomic) BOOL isDisappearForLogin;
 @end
 
 @implementation UserInfoViewController
-+ (UserInfoViewController *)userInfoVC{
++ (instancetype)storyboardVC{
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"UserInfo" bundle:nil];
     return [storyboard instantiateViewControllerWithIdentifier:@"UserInfoViewController"];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"个人中心";
-
+//    self.title = @"个人中心";
     self.curUser = [Login curLoginUser];
     [_user_iconV doCircleFrame];
+    __weak typeof(self) weakSelf = self;
+    [self.tableView.tableHeaderView bk_whenTapped:^{
+        [weakSelf headerViewTapped];
+    }];
+    [self.tipView bk_addEventHandler:^(id sender) {
+        [weakSelf tipViewTapped];
+    } forControlEvents:UIControlEventTouchUpInside];
     
-////        refresh
-//    _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
-//    [_myRefreshControl addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
     [self refreshData];
+}
+
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.navigationBar.barTintColor = [UIColor clearColor];
+    _isDisappearForLogin = NO;
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    if (!_isDisappearForLogin) {
+        self.navigationController.navigationBar.translucent = NO;
+        self.navigationController.navigationBar.barTintColor = kNavBarTintColor;
+    }
 }
 
 - (void)setCurUser:(User *)curUser{
     _curUser = curUser;
+    [self refreshUI];
+}
+
+- (void)refreshUI{    
     [_user_iconV sd_setImageWithURL:[_curUser.avatar urlWithCodingPath] placeholderImage:[UIImage imageNamed:@"placeholder_user"]];
     _user_nameL.text = _curUser.name;
+    [self setupNavBarBtn];
+    self.tipLabel.text = [_curUser canJoinReward]? @"您已通过码士认证，请前往首页参加悬赏吧 >>": @"完善码市认证，才能参与悬赏哦 >>";
+    [self.tableView reloadData];
 }
+
 - (void)refreshData{
     [[Coding_NetAPIManager sharedManager] get_CurrentUserAutoShowError:YES andBlock:^(id data, NSError *error) {
-        [self.myRefreshControl endRefreshing];
-        if (data) {
-            self.curUser = data;
-            [self.tableView reloadData];
-        }
+        self.curUser = data? data: [Login curLoginUser];
     }];
+}
+
+#pragma mark Right_Nav
+- (void)setupNavBarBtn{
+    if ([Login isLogin]) {
+        if (!self.navigationItem.rightBarButtonItem) {
+            UIButton *rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 75, 20)];
+            rightBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+            [rightBtn setTitle:@"完善资料" forState:UIControlStateNormal];
+            [rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [rightBtn doBorderWidth:0.5 color:[UIColor whiteColor] cornerRadius:10];
+            
+            [rightBtn addTarget:self action:@selector(rightNavBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+            [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:rightBtn] animated:YES];
+        }
+    }else{
+        [self.navigationItem setRightBarButtonItem:nil animated:YES];
+    }
+}
+
+- (void)rightNavBtnClicked{
+    FillTypesViewController *vc = [FillTypesViewController storyboardVC];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark Btn
@@ -86,30 +136,20 @@
     if (section > 0) {
         sectionH = 10;
     }else{
-        sectionH = 20;
+        sectionH = 0;
     }
     return sectionH;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return [Login isLogin]? 3: 2;
+    return [Login isLogin]? 4: 3;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
-    if (indexPath.section == 0 && indexPath.row == 0) {
-        cell.separatorInset = UIEdgeInsetsMake(0, -8, 0, 0);
-    }
-}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 0) {
-        if (![Login isLogin]) {
-            [self goToLogin];
-        }
-    }else if (indexPath.section == 1 && indexPath.row == 0) {
+    if (indexPath.section == 2 && indexPath.row == 0) {
         [self goToWebVCWithUrlStr:@"/codersay" title:@"码士说"];
-    }else if (indexPath.section == 2){
+    }else if (indexPath.section == 3){
         [self.view endEditing:YES];
         [[UIActionSheet bk_actionSheetCustomWithTitle:@"确定要退出当前账号" buttonTitles:nil destructiveTitle:@"确定退出" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0) {
@@ -119,9 +159,32 @@
         }] showInView:self.view];
     }
 }
-#pragma mark goTo 
+#pragma mark header
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (scrollView.contentOffset.y <= -64) {
+        _headerBGVTop.constant = scrollView.contentOffset.y;
+    }
+}
+
+- (void)headerViewTapped{
+    if (![Login isLogin]) {
+        [self goToLogin];
+    }
+}
+- (void)tipViewTapped{
+    if (![Login isLogin]) {
+        [self goToLogin];
+    }else if (![_curUser canJoinReward]){
+        [self rightNavBtnClicked];
+    }else{
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
+#pragma mark goTo
 - (void)goToLogin{
-    LoginViewController *vc = [LoginViewController loginVCWithType:LoginViewControllerTypeLogin mobile:nil];
+    _isDisappearForLogin = YES;
+    LoginViewController *vc = [LoginViewController storyboardVCWithType:LoginViewControllerTypeLogin mobile:nil];
     vc.loginSucessBlock = ^(){
         [self refreshData];
     };

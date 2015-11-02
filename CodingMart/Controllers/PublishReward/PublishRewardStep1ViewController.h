@@ -12,5 +12,5 @@
 @interface PublishRewardStep1ViewController : BaseTableViewController
 @property (strong, nonatomic) Reward *rewardToBePublished;
 
-+ (PublishRewardStep1ViewController *)publishRewardVC;
++ (instancetype)storyboardVC;
 @end

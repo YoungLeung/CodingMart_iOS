@@ -7,6 +7,7 @@
 //
 
 #import "BaseNavigationController.h"
+#import <FDFullscreenPopGesture/UINavigationController+FDFullscreenPopGesture.h>
 
 @interface BaseNavigationController ()
 
@@ -17,7 +18,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationBar.barTintColor = [UIColor colorWithHexString:@"0x111111"];
+    //为了导航栏的背景色显示的确实是 barTintColor，需要做一些处理
+    self.navigationBar.translucent = NO;
+    [self.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    [self.navigationBar setShadowImage:[UIImage new]];
+    self.navigationBar.barTintColor = kNavBarTintColor;
     [self hideBorderInView:self.navigationBar];
 }
 

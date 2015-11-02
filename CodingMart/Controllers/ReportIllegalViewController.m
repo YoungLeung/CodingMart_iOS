@@ -48,7 +48,7 @@
         tableView.delegate = self;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [tableView registerClass:[ValueListCell class] forCellReuseIdentifier:kCellIdentifier_ValueList];
-        tableView.backgroundColor = kColorTableSectionBg;
+        tableView.backgroundColor = [UIColor clearColor];
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
@@ -110,8 +110,6 @@
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 40)];
-    headerView.backgroundColor = kColorTableSectionBg;
-    
     UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     headerLabel.font = [UIFont systemFontOfSize:15];
     headerLabel.textColor = [UIColor lightGrayColor];

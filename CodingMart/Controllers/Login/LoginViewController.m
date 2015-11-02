@@ -29,7 +29,7 @@
 @end
 
 @implementation LoginViewController
-+ (LoginViewController *)loginVCWithType:(LoginViewControllerType )type mobile:(NSString *)mobile{
++ (instancetype)storyboardVCWithType:(LoginViewControllerType )type mobile:(NSString *)mobile{
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
     NSString *identifier = [NSString stringWithFormat:@"LoginViewController_%ld", (long)type];
     LoginViewController *vc = [storyboard instantiateViewControllerWithIdentifier:identifier];
@@ -104,6 +104,8 @@
     button.enabled = enabled;
     if (enabled) {
         [button setTitle:@"发送验证码" forState:UIControlStateNormal];
+    }else if ([button.titleLabel.text isEqualToString:@"发送验证码"]){
+        [button setTitle:@"正在发送..." forState:UIControlStateNormal];
     }
 }
 
@@ -189,7 +191,7 @@
 }
 
 - (void)goToRegisterVC{
-    LoginViewController *vc = [LoginViewController loginVCWithType:LoginViewControllerTypeRegister mobile:_mobile];
+    LoginViewController *vc = [LoginViewController storyboardVCWithType:LoginViewControllerTypeRegister mobile:_mobile];
     vc.loginSucessBlock = self.loginSucessBlock;
     [self.navigationController pushViewController:vc animated:YES];
 }

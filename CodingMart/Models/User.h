@@ -19,6 +19,7 @@
 + (User *)userTourist;
 
 - (BOOL)isSameToUser:(User *)user;
+- (BOOL)canJoinReward;
 
 - (NSString *)toUserInfoPath;
 

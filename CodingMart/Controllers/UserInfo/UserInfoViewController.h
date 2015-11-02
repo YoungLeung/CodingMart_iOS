@@ -9,5 +9,5 @@
 #import "BaseTableViewController.h"
 
 @interface UserInfoViewController : BaseTableViewController
-+ (UserInfoViewController *)userInfoVC;
++ (instancetype)storyboardVC;
 @end
