@@ -113,7 +113,7 @@
         [self beginLoading];
     }
     self.isLoading = YES;
-    [[Coding_NetAPIManager sharedManager] get_RewardListWithType:_type status:_status andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] get_RewardListWithType:_type status:_status block:^(id data, NSError *error) {
         [self endLoading];
         [self.myRefreshControl endRefreshing];
         self.isLoading = NO;

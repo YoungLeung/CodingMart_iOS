@@ -517,7 +517,7 @@
         <!--Fill Skills View Controller-->
         <scene sceneID="LzO-um-MVw">
             <objects>
-                <tableViewController id="rge-QJ-4fR" customClass="FillSkillsViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="FillSkillsViewController" id="rge-QJ-4fR" customClass="FillSkillsViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="PYj-4R-mVB" customClass="TPKeyboardAvoidingTableView">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1533,7 +1533,7 @@
                                                         <constraint firstAttribute="height" constant="19" id="IOP-ef-uMY"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fill_unchecked" translatesAutoresizingMaskIntoConstraints="NO" id="nIC-Xe-k8P">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fill_checked" translatesAutoresizingMaskIntoConstraints="NO" id="nIC-Xe-k8P">
                                                     <rect key="frame" x="292" y="16" width="13" height="13"/>
                                                     <animations/>
                                                     <constraints>
@@ -1629,6 +1629,10 @@
                         </connections>
                     </tableView>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="skillsCheckV" destination="U8b-58-f01" id="CAo-Qk-God"/>
+                        <outlet property="userinfoCheckV" destination="nIC-Xe-k8P" id="Hhy-cT-QYP"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gia-bR-KzC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1637,7 +1641,7 @@
         <!--Fill User Info View Controller-->
         <scene sceneID="W2T-Qf-9Td">
             <objects>
-                <tableViewController id="1CQ-gP-BfE" customClass="FillUserInfoViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="FillUserInfoViewController" id="1CQ-gP-BfE" customClass="FillUserInfoViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="W4M-JI-IDz" customClass="TPKeyboardAvoidingTableView">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1862,6 +1866,9 @@
                                                             <real key="value" value="2"/>
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="codeBtnClicked:" destination="1CQ-gP-BfE" eventType="touchUpInside" id="hMm-sQ-cqx"/>
+                                                    </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已验证" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SkM-pU-M34">
                                                     <rect key="frame" x="93" y="13" width="45" height="20"/>
@@ -2000,6 +2007,9 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <animations/>
+                                        <connections>
+                                            <segue destination="bhm-lu-VFZ" kind="show" id="ren-Un-ar1"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -2011,10 +2021,14 @@
                     </tableView>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="codeBtn" destination="XAn-fX-yhj" id="yIl-Yl-YKz"/>
                         <outlet property="codeF" destination="lug-bu-Vpo" id="XHc-dz-Jni"/>
+                        <outlet property="codeLineV" destination="KpN-ry-H9q" id="fpK-hR-bEb"/>
                         <outlet property="emailF" destination="Xs0-nP-bPW" id="cUw-0v-lzC"/>
+                        <outlet property="locationF" destination="EMj-pL-5cQ" id="x06-cc-wpx"/>
                         <outlet property="nameF" destination="NGC-kg-TTj" id="IAl-8c-vNn"/>
                         <outlet property="phoneF" destination="lxy-xq-pYc" id="Qty-G3-gBc"/>
+                        <outlet property="phoneVerifiedL" destination="SkM-pU-M34" id="xep-Vm-8r9"/>
                         <outlet property="phone_code_separatorLC" destination="5Oe-eK-ADv" id="YWz-Nc-XIa"/>
                         <outlet property="qqNumF" destination="bcD-q7-Ebn" id="Kkn-x9-hjd"/>
                         <outlet property="submitBtn" destination="oAz-4E-YCW" id="MTB-pa-pop"/>
@@ -2024,12 +2038,68 @@
             </objects>
             <point key="canvasLocation" x="1552" y="-424"/>
         </scene>
+        <!--Location View Controller-->
+        <scene sceneID="8CU-lZ-P0s">
+            <objects>
+                <tableViewController storyboardIdentifier="LocationViewController" id="bhm-lu-VFZ" customClass="LocationViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="bZH-av-TXg">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="LocationCell" id="azw-cw-Wot" customClass="LocationCell">
+                                <rect key="frame" x="0.0" y="50" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="azw-cw-Wot" id="4MQ-1J-pYQ">
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s2p-Ha-gVB">
+                                            <rect key="frame" x="226" y="13" width="53" height="18"/>
+                                            <animations/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Njb-GO-34D">
+                                            <rect key="frame" x="15" y="13" width="30" height="18"/>
+                                            <animations/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <animations/>
+                                    <constraints>
+                                        <constraint firstItem="s2p-Ha-gVB" firstAttribute="centerY" secondItem="4MQ-1J-pYQ" secondAttribute="centerY" id="6d9-UP-EQC"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="s2p-Ha-gVB" secondAttribute="trailing" id="6u6-H4-pmJ"/>
+                                        <constraint firstItem="Njb-GO-34D" firstAttribute="leading" secondItem="4MQ-1J-pYQ" secondAttribute="leadingMargin" constant="7" id="dZQ-Yh-RBm"/>
+                                        <constraint firstItem="Njb-GO-34D" firstAttribute="centerY" secondItem="4MQ-1J-pYQ" secondAttribute="centerY" id="iO7-E5-MlO"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <animations/>
+                                <connections>
+                                    <outlet property="leftL" destination="Njb-GO-34D" id="GU0-Qs-0dm"/>
+                                    <outlet property="rightL" destination="s2p-Ha-gVB" id="0FU-po-AVe"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="bhm-lu-VFZ" id="656-d8-v4O"/>
+                            <outlet property="delegate" destination="bhm-lu-VFZ" id="euT-sX-lnt"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="E6L-53-wnG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2059" y="-419"/>
+        </scene>
     </scenes>
     <resources>
         <image name="button_userinfo_joined" width="19" height="19"/>
         <image name="button_userinfo_published" width="19" height="19"/>
         <image name="fill_checked" width="13" height="13"/>
-        <image name="fill_unchecked" width="13" height="13"/>
         <image name="icon_fill_skills" width="19" height="19"/>
         <image name="icon_fill_userinfo" width="19" height="19"/>
         <image name="icon_info" width="15" height="15"/>
@@ -2039,6 +2109,6 @@
         <image name="icon_userinfo_setting" width="19" height="19"/>
         <image name="logo_mart_about" width="125" height="125"/>
         <image name="placeholder_user" width="60" height="60"/>
-        <image name="userinfo_bg" width="622" height="1104"/>
+        <image name="userinfo_bg" width="1012" height="692"/>
     </resources>
 </document>

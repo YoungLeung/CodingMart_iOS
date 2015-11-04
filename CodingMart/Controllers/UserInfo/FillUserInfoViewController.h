@@ -7,7 +7,8 @@
 //
 
 #import "BaseTableViewController.h"
+#import "FillUserInfo.h"
 
 @interface FillUserInfoViewController : BaseTableViewController
-
+@property (strong, nonatomic) FillUserInfo *userInfo;
 @end

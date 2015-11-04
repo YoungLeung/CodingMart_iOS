@@ -98,8 +98,8 @@
         [NSObject showHUDQueryStr:tipStr];
         return;
     }
-    [NSObject showHUDQueryStr:@"正在发送"];
-    [[Coding_NetAPIManager sharedManager] post_FeedBack:_feedBackInfo andBlock:^(id data, NSError *error) {
+    [NSObject showHUDQueryStr:@"正在发送..."];
+    [[Coding_NetAPIManager sharedManager] post_FeedBack:_feedBackInfo block:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data) {
             [self.navigationController popViewControllerAnimated:YES];
@@ -109,7 +109,7 @@
 }
 - (void)refreshCaptchaImage{
     [self.j_captchaImgV setImage:nil];
-    [[Coding_NetAPIManager sharedManager] get_CurrentUserAutoShowError:NO andBlock:^(id dataNoUse, NSError *errorNoUse) {
+    [[Coding_NetAPIManager sharedManager] get_SidBlock:^(id dataNoUse, NSError *errorNoUse) {
         [[Coding_NetAPIManager sharedManager] loadCaptchaImgWithCompleteBlock:^(UIImage *image, NSError *error) {
             [self.j_captchaImgV setImage:image];
         }];

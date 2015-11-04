@@ -134,7 +134,7 @@
         _bgView.alpha = 0.0;
     } completion:^(BOOL finished) {
         if ([[self superview] isKindOfClass:[UIScrollView class]]) {
-            [(UIScrollView *)[self superview] setScrollEnabled:NO];
+            [(UIScrollView *)[self superview] setScrollEnabled:YES];
         }
         [self removeFromSuperview];
     }];
@@ -208,9 +208,6 @@
     _text = text;
     if (!_contentLabel) {
         self.contentView.layer.cornerRadius = 2.0;
-//        self.layer.cornerRadius = 2.0;
-//        self.contentView.layer.borderColor = [UIColor colorWithHexString:@"0xCCCCCC"].CGColor;
-//        self.layer.borderColor = [UIColor colorWithHexString:@"0xCCCCCC"].CGColor;
         _contentLabel = [UILabel new];
         _contentLabel.font = [UIFont systemFontOfSize:15];
         _contentLabel.textAlignment = NSTextAlignmentCenter;
@@ -228,8 +225,6 @@
     _hasBeenSeleted = hasBeenSeleted;
     _contentLabel.textColor = [UIColor colorWithHexString:hasBeenSeleted? @"0xFFFFFF": @"0x666666"];
     self.contentView.backgroundColor = [UIColor colorWithHexString:hasBeenSeleted? @"0x3BBD79": @"0xF3F3F3"];
-//    self.contentView.layer.borderWidth = hasBeenSeleted? 0.0: 0.5;
-//    self.layer.borderWidth = hasBeenSeleted? 0.0: 0.5;
 }
 
 @end

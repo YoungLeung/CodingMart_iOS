@@ -79,7 +79,7 @@
 }
 
 - (void)refreshData{
-    [[Coding_NetAPIManager sharedManager] get_CurrentUserAutoShowError:YES andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id data, NSError *error) {
         self.curUser = data? data: [Login curLoginUser];
     }];
 }

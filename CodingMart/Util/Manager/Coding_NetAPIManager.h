@@ -9,24 +9,32 @@
 
 #import "CodingNetAPIClient.h"
 
-@class Reward, FeedBackInfo, SettingNotificationInfo;
+@class Reward, FeedBackInfo, SettingNotificationInfo, VerifiedInfo, FillUserInfo, FillSkills;
 
 @interface Coding_NetAPIManager : NSObject
 + (instancetype)sharedManager;
 #pragma mark Login
-- (void)get_CurrentUserAutoShowError:(BOOL)autoShowError andBlock:(void (^)(id data, NSError *error))block;
-- (void)post_ForVerifyCodeWithMobile:(NSString *)mobile andBlock:(void (^)(id data, NSError *error))block;
-- (void)post_RegisterWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code andBlock:(void (^)(id data, NSError *error))block;
-- (void)post_LoginWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code autoShowError:(BOOL)autoShowError andBlock:(void (^)(id data, NSError *error))block;
-- (void)post_LoginAndRegisterWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code andBlock:(void (^)(id data, NSError *error))block;
+- (void)get_SidBlock:(void (^)(id data, NSError *error))block;
+- (void)get_CurrentUserBlock:(void (^)(id data, NSError *error))block;
+- (void)post_LoginVerifyCodeWithMobile:(NSString *)mobile block:(void (^)(id data, NSError *error))block;
+- (void)post_RegisterWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code block:(void (^)(id data, NSError *error))block;
+- (void)post_LoginWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code autoShowError:(BOOL)autoShowError block:(void (^)(id data, NSError *error))block;
+- (void)post_LoginAndRegisterWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code block:(void (^)(id data, NSError *error))block;
 #pragma mark Reward
-- (void)get_RewardListWithType:(NSString *)type status:(NSString *)status andBlock:(void (^)(id data, NSError *error))block;
-- (void)post_Reward:(Reward *)reward andBlock:(void (^)(id data, NSError *error))block;
+- (void)get_RewardListWithType:(NSString *)type status:(NSString *)status block:(void (^)(id data, NSError *error))block;
+- (void)post_Reward:(Reward *)reward block:(void (^)(id data, NSError *error))block;
 #pragma mark Setting
-- (void)get_SettingNotificationInfoWithBlock:(void (^)(id data, NSError *error))block;
-- (void)post_SettingNotificationParams:(NSDictionary *)params andBlock:(void (^)(id data, NSError *error))block;
+- (void)get_VerifyInfoBlock:(void (^)(id data, NSError *error))block;
+- (void)get_FillUserInfoBlock:(void (^)(id data, NSError *error))block;
+- (void)get_FillSkillsBlock:(void (^)(id data, NSError *error))block;
+- (void)post_FillUserInfo:(FillUserInfo *)info block:(void (^)(id data, NSError *error))block;
+- (void)post_FillSkills:(FillSkills *)skills block:(void (^)(id data, NSError *error))block;
+- (void)get_LocationListWithParams:(NSDictionary *)params block:(void (^)(id data, NSError *error))block;
+- (void)post_UserInfoVerifyCodeWithMobile:(NSString *)mobile block:(void (^)(id data, NSError *error))block;
+- (void)get_SettingNotificationInfoBlock:(void (^)(id data, NSError *error))block;
+- (void)post_SettingNotificationParams:(NSDictionary *)params block:(void (^)(id data, NSError *error))block;
 #pragma mark FeedBack
-- (void)post_FeedBack:(FeedBackInfo *)feedBackInfo  andBlock:(void (^)(id data, NSError *error))block;
+- (void)post_FeedBack:(FeedBackInfo *)feedBackInfo  block:(void (^)(id data, NSError *error))block;
 #pragma mark CaptchaImg
 - (void)loadCaptchaImgWithCompleteBlock:(void (^)(UIImage *image, NSError *error))block;
 @end

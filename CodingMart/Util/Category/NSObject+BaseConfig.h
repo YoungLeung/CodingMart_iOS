@@ -16,4 +16,7 @@
 + (NSDictionary *)rewardStatusDict;
 + (NSDictionary *)rewardStatusStrColorDict;
 + (NSDictionary *)rewardStatusBGColorDict;
++ (NSArray *)currentJobList;
++ (NSArray *)careerYearsList;
+
 @end

@@ -131,23 +131,21 @@
     }
     [self p_setButton:_verify_codeBtn toEnabled:NO];
     _mobile = _mobileF.text;
-    [[Coding_NetAPIManager sharedManager] get_CurrentUserAutoShowError:NO andBlock:^(id dataNoUse, NSError *errorNoUse) {
-        [[Coding_NetAPIManager sharedManager] post_ForVerifyCodeWithMobile:_mobile andBlock:^(id data, NSError *error) {
-            if (data) {
-                [NSObject showHudTipStr:@"验证码发送成功"];
-                [self startUpTimer];
-            }else{
-                [self p_setButton:self.verify_codeBtn toEnabled:YES];
-            }
-        }];
+    [[Coding_NetAPIManager sharedManager] post_LoginVerifyCodeWithMobile:_mobile block:^(id data, NSError *error) {
+        if (data) {
+            [NSObject showHudTipStr:@"验证码发送成功"];
+            [self startUpTimer];
+        }else{
+            [self p_setButton:self.verify_codeBtn toEnabled:YES];
+        }
     }];
 }
 - (IBAction)footerBtnClicked:(id)sender {
     _mobile = _mobileF.text;
     _verify_code = _verify_codeF.text;
     [NSObject showHUDQueryStr:_type == LoginViewControllerTypeRegister? @"正在注册": @"正在登录"];
-    [[Coding_NetAPIManager sharedManager] get_CurrentUserAutoShowError:NO andBlock:^(id dataNoUse, NSError *errorNoUse) {
-        [[Coding_NetAPIManager sharedManager] post_LoginAndRegisterWithMobile:_mobile verify_code:_verify_code andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] get_SidBlock:^(id dataNoUse, NSError *errorNoUse) {
+        [[Coding_NetAPIManager sharedManager] post_LoginAndRegisterWithMobile:_mobile verify_code:_verify_code block:^(id data, NSError *error) {
             [NSObject hideHUDQuery];
             if (data) {
                 [self dismissViewControllerAnimated:YES completion:self.loginSucessBlock];

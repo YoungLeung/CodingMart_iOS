@@ -7,8 +7,10 @@
 //
 
 #import "BaseTableViewController.h"
+#import "VerifiedInfo.h"
 
 @interface FillTypesViewController : BaseTableViewController
+@property (strong, nonatomic) VerifiedInfo *info;
 + (instancetype)storyboardVC;
 
 @end

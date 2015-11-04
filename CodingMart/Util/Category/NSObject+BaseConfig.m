@@ -26,55 +26,87 @@
     NSString *userAgent = [NSString stringWithFormat:@"%@_iOS/%@ (%@; iOS %@; Scale/%0.2f)", [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleExecutableKey] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleIdentifierKey], (__bridge id)CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), kCFBundleVersionKey) ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleVersionKey], deviceString, [[UIDevice currentDevice] systemVersion], ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] ? [[UIScreen mainScreen] scale] : 1.0f)];
     return userAgent;
 }
-+ (NSDictionary *)rewardTypeDict{
-    static NSDictionary *rewardTypeDict;
+
++ (NSMutableDictionary *)p_baseDictInfo{
+    static NSMutableDictionary *baseDictInfo;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        rewardTypeDict = @{@"所有类型": @"",
-                           @"网站": @"0",
-                           @"APP":@"5,6",
-                           @"iOS APP": @"5",
-                           @"Android APP": @"6",
-                           @"微信开发": @"2",
-                           @"HTML5 应用": @"3",
-                           @"其他": @"4"};
+        baseDictInfo = @{}.mutableCopy;
     });
-    return rewardTypeDict;
+    return baseDictInfo;
+}
++ (NSDictionary *)rewardTypeDict{
+    NSMutableDictionary *baseDictInfo = [self p_baseDictInfo];
+    NSString *key = @"rewardTypeDict";
+    if (!baseDictInfo[key]) {
+        baseDictInfo[key] = @{@"所有类型": @"",
+                              @"网站": @"0",
+                              @"APP":@"5,6",
+                              @"iOS APP": @"5",
+                              @"Android APP": @"6",
+                              @"微信开发": @"2",
+                              @"HTML5 应用": @"3",
+                              @"其他": @"4"};
+    }
+    return baseDictInfo[key];
 }
 + (NSDictionary *)rewardStatusDict{
-    static NSDictionary *rewardStatusDict;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        rewardStatusDict = @{@"所有进度": @"",
-                             @"未开始": @"4",
-                             @"招募中": @"5",
-                             @"开发中": @"6",
-                             @"已结束": @"7"};
-    });
-    return rewardStatusDict;
+    NSMutableDictionary *baseDictInfo = [self p_baseDictInfo];
+    NSString *key = @"rewardStatusDict";
+    if (!baseDictInfo[key]) {
+        baseDictInfo[key] = @{@"所有进度": @"",
+                              @"未开始": @"4",
+                              @"招募中": @"5",
+                              @"开发中": @"6",
+                              @"已结束": @"7"};
+    }
+    return baseDictInfo[key];
 }
 + (NSDictionary *)rewardStatusStrColorDict{
-    static NSDictionary *rewardStatusStrColorDict;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        rewardStatusStrColorDict = @{@"4": @"0x666666",//未开始
-                                     @"5": @"0xFFFFFF",//招募中
-                                     @"6": @"0xFFFFFF",//开发中
-                                     @"7": @"0xFFFFFF",//已结束
-                                     };
-    });
-    return rewardStatusStrColorDict;
+    NSMutableDictionary *baseDictInfo = [self p_baseDictInfo];
+    NSString *key = @"rewardStatusStrColorDict";
+    if (!baseDictInfo[key]) {
+        baseDictInfo[key] = @{@"4": @"0x666666",//未开始
+                              @"5": @"0xFFFFFF",//招募中
+                              @"6": @"0xFFFFFF",//开发中
+                              @"7": @"0xFFFFFF",//已结束
+                              };
+    }
+    return baseDictInfo[key];
 }
 + (NSDictionary *)rewardStatusBGColorDict{
-    static NSDictionary *rewardStatusBGColorDict;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        rewardStatusBGColorDict = @{@"4": @"0xEEEEEE",//未开始
-                                    @"5": @"0x3BBD79",//招募中
-                                    @"6": @"0x2FAEEA",//开发中
-                                    @"7": @"0xCCCCCC",//已结束
-                                    };
-    });
-    return rewardStatusBGColorDict;
+    NSMutableDictionary *baseDictInfo = [self p_baseDictInfo];
+    NSString *key = @"rewardStatusBGColorDict";
+    if (!baseDictInfo[key]) {
+        baseDictInfo[key] = @{@"4": @"0xEEEEEE",//未开始
+                              @"5": @"0x3BBD79",//招募中
+                              @"6": @"0x2FAEEA",//开发中
+                              @"7": @"0xCCCCCC",//已结束
+                              };
+    }
+    return baseDictInfo[key];
+}
++ (NSArray *)currentJobList{
+    NSMutableDictionary *baseDictInfo = [self p_baseDictInfo];
+    NSString *key = @"currentJobList";
+    if (!baseDictInfo[key]) {
+        baseDictInfo[key] = @[@"全职工作",
+                              @"自由职业者",
+                              @"在校生",
+                              ];
+    }
+    return baseDictInfo[key];
+}
++ (NSArray *)careerYearsList{
+    NSMutableDictionary *baseDictInfo = [self p_baseDictInfo];
+    NSString *key = @"rewardStatusBGColorDict";
+    if (!baseDictInfo[key]) {
+        baseDictInfo[key] = @[@"1 年以下",
+                              @"1 - 3 年",
+                              @"3 - 5 年",
+                              @"5 年以上",
+                              ];
+    }
+    return baseDictInfo[key];
 }
 @end

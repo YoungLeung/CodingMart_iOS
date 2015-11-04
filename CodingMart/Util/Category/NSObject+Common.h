@@ -20,7 +20,7 @@
 + (void)showStatusBarError:(NSError *)error;
 
 + (instancetype)showHUDQueryStr:(NSString *)titleStr;
-+ (BOOL)hideHUDQuery;
++ (NSUInteger)hideHUDQuery;
 #pragma mark BaseURL
 //+ (NSString *)baseURLStr;
 + (BOOL)baseURLStrIsTest;

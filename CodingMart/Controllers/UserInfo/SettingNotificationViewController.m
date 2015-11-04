@@ -23,7 +23,7 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     self.title = @"推送消息设置";
-    [[Coding_NetAPIManager sharedManager] get_SettingNotificationInfoWithBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] get_SettingNotificationInfoBlock:^(id data, NSError *error) {
         self.settingInfo = data? data: [SettingNotificationInfo defaultInfo];
     }];
 }
@@ -45,7 +45,7 @@
     }else if (sender == _freshPublishedSwitch){
         params[@"freshPublished"] = @(!_settingInfo.freshPublished.boolValue);
     }
-    [[Coding_NetAPIManager sharedManager] post_SettingNotificationParams:params andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] post_SettingNotificationParams:params block:^(id data, NSError *error) {
         NSString *key = params.allKeys.firstObject;
         NSNumber *value = params[key];
         if (!error) {

@@ -97,16 +97,14 @@
 #pragma mark Btn
 - (IBAction)nextStepBtnClicked:(id)sender {
     if ([Login isLogin]) {
-        [NSObject showHUDQueryStr:@"正在发布悬赏"];
-        [[Coding_NetAPIManager sharedManager] get_CurrentUserAutoShowError:NO andBlock:^(id dataNoUse, NSError *errorNoUse) {
-            [[Coding_NetAPIManager sharedManager] post_Reward:_rewardToBePublished andBlock:^(id data, NSError *error) {
-                [NSObject hideHUDQuery];
-                if (data) {
-                    [Reward deleteCurDraft];
-                    kTipAlert(@"悬赏发布成功！\n可以去到「个人中心」-「我发布的悬赏」中查找");
-                    [self.navigationController popToRootViewControllerAnimated:YES];
-                }
-            }];
+        [NSObject showHUDQueryStr:@"正在发布悬赏..."];
+        [[Coding_NetAPIManager sharedManager] post_Reward:_rewardToBePublished block:^(id data, NSError *error) {
+            [NSObject hideHUDQuery];
+            if (data) {
+                [Reward deleteCurDraft];
+                kTipAlert(@"悬赏发布成功！\n可以去到「个人中心」-「我发布的悬赏」中查找");
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            }
         }];
     }else{
         LoginViewController *vc = [LoginViewController storyboardVCWithType:LoginViewControllerTypeLoginAndRegister mobile:_rewardToBePublished.contact_mobile];

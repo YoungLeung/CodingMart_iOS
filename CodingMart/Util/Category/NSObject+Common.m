@@ -7,8 +7,8 @@
 //
 #define kPath_ImageCache @"ImageCache"
 #define kPath_ResponseCache @"ResponseCache"
-
 #define kTestKey @"BaseURLIsTest"
+#define kHUDQueryViewTag 101
 
 #import "NSObject+Common.h"
 #import "JDStatusBarNotification.h"
@@ -98,14 +98,24 @@
 }
 
 + (instancetype)showHUDQueryStr:(NSString *)titleStr{
+    titleStr = titleStr.length > 0? titleStr: @"正在获取数据...";
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:kKeyWindow animated:YES];
+    hud.tag = kHUDQueryViewTag;
     hud.labelText = titleStr;
     hud.labelFont = [UIFont boldSystemFontOfSize:15.0];
     hud.margin = 10.f;
     return hud;
 }
-+ (BOOL)hideHUDQuery{
-    return [MBProgressHUD hideHUDForView:kKeyWindow animated:YES];
++ (NSUInteger)hideHUDQuery{
+    __block NSUInteger count = 0;
+    NSArray *huds = [MBProgressHUD allHUDsForView:kKeyWindow];
+    [huds enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
+        if (obj.tag == kHUDQueryViewTag) {
+            [obj removeFromSuperview];
+            count++;
+        }
+    }];
+    return count;
 }
 
 #pragma mark BaseURL
@@ -318,9 +328,7 @@
             }
         }else{
             if (autoShowError) {
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [NSObject showError:error];
-                });
+                [NSObject showError:error];
             }
         }
     }
