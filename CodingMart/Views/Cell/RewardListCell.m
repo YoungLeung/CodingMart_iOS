@@ -10,7 +10,6 @@
 #import "UIImageView+WebCache.h"
 
 @interface RewardListCell()
-@property (weak, nonatomic) IBOutlet UIView *separationView;
 @property (weak, nonatomic) IBOutlet UILabel *rewardNumL;
 @property (weak, nonatomic) IBOutlet UIImageView *coverView;
 @property (weak, nonatomic) IBOutlet UILabel *titleL;
@@ -27,7 +26,11 @@
 
 - (void)awakeFromNib {
     // Initialization code
-    _separationView.backgroundColor = [UIColor colorWithHexString:@"0xEEEEEE"];
+    CGFloat coverViewWidth = kScreen_Width - 24.0;
+    UIBezierPath *path = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, coverViewWidth, coverViewWidth/2)];
+    CAShapeLayer *mask = [CAShapeLayer layer];
+    mask.path = path.CGPath;
+    _coverView.layer.mask = mask;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -57,7 +60,7 @@
 }
 + (CGFloat)cellHeight{
     CGFloat cellHeight = 0;
-    cellHeight += 10 + 10 + (kScreen_Width - 20)/2 + 10;
+    cellHeight += 10 + 10 + (kScreen_Width - 24)/2 + 10;
     cellHeight += 110;
     return cellHeight;
 }

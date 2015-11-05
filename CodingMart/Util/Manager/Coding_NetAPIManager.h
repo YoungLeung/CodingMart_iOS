@@ -9,7 +9,7 @@
 
 #import "CodingNetAPIClient.h"
 
-@class Reward, FeedBackInfo, SettingNotificationInfo, VerifiedInfo, FillUserInfo, FillSkills;
+@class Reward, FeedBackInfo, SettingNotificationInfo, VerifiedInfo, FillUserInfo, FillSkills, RewardDetail, JoinInfo;
 
 @interface Coding_NetAPIManager : NSObject
 + (instancetype)sharedManager;
@@ -23,6 +23,10 @@
 #pragma mark Reward
 - (void)get_RewardListWithType:(NSString *)type status:(NSString *)status block:(void (^)(id data, NSError *error))block;
 - (void)post_Reward:(Reward *)reward block:(void (^)(id data, NSError *error))block;
+- (void)get_RewardDetailWithId:(NSInteger)rewardId block:(void (^)(id data, NSError *error))block;
+- (void)get_JoinInfoWithRewardId:(NSInteger)rewardId block:(void (^)(id data, NSError *error))block;
+- (void)post_JoinInfo:(JoinInfo *)info block:(void (^)(id data, NSError *error))block;
+
 #pragma mark Setting
 - (void)get_VerifyInfoBlock:(void (^)(id data, NSError *error))block;
 - (void)get_FillUserInfoBlock:(void (^)(id data, NSError *error))block;

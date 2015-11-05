@@ -10,11 +10,12 @@
 #import "FillUserInfoViewController.h"
 #import "FillSkillsViewController.h"
 #import "Coding_NetAPIManager.h"
+#import "Login.h"
 
 @interface FillTypesViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *userinfoCheckV;
 @property (weak, nonatomic) IBOutlet UIImageView *skillsCheckV;
-
+@property (strong, nonatomic) User *curUser;
 @end
 
 @implementation FillTypesViewController
@@ -25,24 +26,28 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     self.title = @"完善资料";
+    self.curUser = [Login curLoginUser];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     [self refresh];
 }
 
 - (void)refresh{
     [NSObject showHUDQueryStr:nil];
-    [[Coding_NetAPIManager sharedManager] get_VerifyInfoBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data) {
-            self.info = data;
+            self.curUser = data;
         }
     }];
 }
 
-- (void)setInfo:(VerifiedInfo *)info{
-    _info = info;
-    
-    _userinfoCheckV.image = [UIImage imageNamed:_info.userinfo.boolValue? @"fill_checked": @"fill_unchecked"];
-    _skillsCheckV.image = [UIImage imageNamed:_info.skills.boolValue? @"fill_checked": @"fill_unchecked"];
+- (void)setCurUser:(User *)curUser{
+    _curUser = curUser;
+    _userinfoCheckV.image = [UIImage imageNamed:_curUser.fullInfo.boolValue? @"fill_checked": @"fill_unchecked"];
+    _skillsCheckV.image = [UIImage imageNamed:_curUser.fullSkills.boolValue? @"fill_checked": @"fill_unchecked"];
 }
 
 #pragma mark Table M

@@ -82,7 +82,7 @@
     _progressProxy.webViewProxyDelegate = self;
     __weak typeof(self) weakSelf = self;
     _progressProxy.progressBlock = ^(float progress) {
-        [weakSelf.progressView setProgress:progress animated:NO];
+        [weakSelf.progressView setProgress:progress animated:YES];
     };
     
     //UIRefreshControl
@@ -132,22 +132,24 @@
 #pragma mark VC
 
 - (BOOL)canAndGoOutWithLinkStr:(NSString *)linkStr{
-    DebugLog(@"%@", linkStr);
-    LoginViewController *loginVC;
-    if ([linkStr rangeOfString:@"/login"].location != NSNotFound){
-        loginVC = [LoginViewController storyboardVCWithType:LoginViewControllerTypeLogin mobile:nil];
-    }else if ([linkStr rangeOfString:@"/register"].location != NSNotFound) {
-        loginVC = [LoginViewController storyboardVCWithType:LoginViewControllerTypeRegister mobile:nil];
-    }else{
-        loginVC = nil;
-    }
-    if (loginVC) {
-        loginVC.loginSucessBlock = ^(){
-            [self.webView reload];
-        };
-        [UIViewController presentVC:loginVC dismissBtnTitle:@"取消"];
-    }
-    return (loginVC != nil);
+    return NO;
+    
+//    DebugLog(@"%@", linkStr);
+//    LoginViewController *loginVC;
+//    if ([linkStr rangeOfString:@"/login"].location != NSNotFound){
+//        loginVC = [LoginViewController storyboardVCWithType:LoginViewControllerTypeLogin mobile:nil];
+//    }else if ([linkStr rangeOfString:@"/register"].location != NSNotFound) {
+//        loginVC = [LoginViewController storyboardVCWithType:LoginViewControllerTypeRegister mobile:nil];
+//    }else{
+//        loginVC = nil;
+//    }
+//    if (loginVC) {
+//        loginVC.loginSucessBlock = ^(){
+//            [self.webView reload];
+//        };
+//        [UIViewController presentVC:loginVC dismissBtnTitle:@"取消"];
+//    }
+//    return (loginVC != nil);
 }
 
 #pragma mark Error

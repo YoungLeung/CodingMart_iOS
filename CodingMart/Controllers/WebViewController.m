@@ -55,7 +55,7 @@
     self.delegate = _progressProxy;
     __weak typeof(self) weakSelf = self;
     _progressProxy.progressBlock = ^(float progress) {
-        [weakSelf.progressView setProgress:progress animated:NO];
+        [weakSelf.progressView setProgress:progress animated:YES];
     };
     
     CGFloat progressBarHeight = 2.f;
@@ -117,23 +117,24 @@
 #pragma mark VC
 - (BOOL)canAndGoOutWithLinkStr:(NSString *)linkStr{
     DebugLog(@"%@", linkStr);
-
-    BOOL canGoOut = NO;
+    return NO;
     
-    if ([linkStr rangeOfString:@"/login"].location != NSNotFound
-        || [linkStr rangeOfString:@"/register"].location != NSNotFound) {
-        LoginViewControllerType loginType = LoginViewControllerTypeLogin;
-        if ([linkStr rangeOfString:@"/register"].location != NSNotFound) {
-            loginType = LoginViewControllerTypeRegister;
-        }
-        LoginViewController *vc = [LoginViewController storyboardVCWithType:loginType mobile:nil];
-        vc.loginSucessBlock = ^(){
-            [self reloadData];
-        };
-        [UIViewController presentVC:vc dismissBtnTitle:@"取消"];
-        canGoOut = YES;
-    }
-    return canGoOut;
+//    BOOL canGoOut = NO;
+//    
+//    if ([linkStr rangeOfString:@"/login"].location != NSNotFound
+//        || [linkStr rangeOfString:@"/register"].location != NSNotFound) {
+//        LoginViewControllerType loginType = LoginViewControllerTypeLogin;
+//        if ([linkStr rangeOfString:@"/register"].location != NSNotFound) {
+//            loginType = LoginViewControllerTypeRegister;
+//        }
+//        LoginViewController *vc = [LoginViewController storyboardVCWithType:loginType mobile:nil];
+//        vc.loginSucessBlock = ^(){
+//            [self reloadData];
+//        };
+//        [UIViewController presentVC:vc dismissBtnTitle:@"取消"];
+//        canGoOut = YES;
+//    }
+//    return canGoOut;
 }
 
 #pragma mark Error

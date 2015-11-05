@@ -11,20 +11,94 @@
 #import <BlocksKit/BlocksKit+UIKit.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "EAMultiSelectView.h"
+#import "Coding_NetAPIManager.h"
+#import "UIPlaceHolderTextView.h"
+#import "ActionSheetStringPicker.h"
 
 @interface FillSkillsViewController ()
+@property (weak, nonatomic) IBOutlet UITextField *work_typeF;
+@property (weak, nonatomic) IBOutlet UITextField *skillF;
+@property (weak, nonatomic) IBOutlet UITextField *specialtyF;
+@property (weak, nonatomic) IBOutlet UIPlaceHolderTextView *work_expT;
+@property (weak, nonatomic) IBOutlet UIPlaceHolderTextView *project_expT;
+@property (weak, nonatomic) IBOutlet UITextField *first_linkF;
+@property (weak, nonatomic) IBOutlet UITextField *second_linkF;
+@property (weak, nonatomic) IBOutlet UITextField *third_linkF;
+@property (weak, nonatomic) IBOutlet UITextField *current_jobF;
+@property (weak, nonatomic) IBOutlet UITextField *career_yearsF;
+
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *submitBtn;
 
 @end
 
+
+
 @implementation FillSkillsViewController
 - (void)viewDidLoad{
     [super viewDidLoad];
-    self.title = @"技能提示";
+    self.title = @"技能展示";
+    [self p_setupEvents];
+    [self refresh];
+}
+- (void)p_setupEvents{
+    __weak typeof(self) weakSelf = self;
+    [_specialtyF.rac_textSignal subscribeNext:^(NSString *newText){
+        weakSelf.skills.specialty = newText;
+    }];
+    [_work_expT.rac_textSignal subscribeNext:^(NSString *newText){
+        weakSelf.skills.work_exp = newText;
+    }];
+    [_project_expT.rac_textSignal subscribeNext:^(NSString *newText){
+        weakSelf.skills.project_exp = newText;
+    }];
+    [_first_linkF.rac_textSignal subscribeNext:^(NSString *newText){
+        weakSelf.skills.first_link = newText;
+    }];
+    [_second_linkF.rac_textSignal subscribeNext:^(NSString *newText){
+        weakSelf.skills.second_link= newText;
+    }];
+    [_third_linkF.rac_textSignal subscribeNext:^(NSString *newText){
+        weakSelf.skills.third_link= newText;
+    }];
+    [RACObserve(self, skills.current_job) subscribeNext:^(NSNumber *obj) {
+        weakSelf.current_jobF.text = [NSObject currentJobList][obj.integerValue];
+    }];
+    [RACObserve(self, skills.career_years) subscribeNext:^(NSNumber *obj) {
+        weakSelf.career_yearsF.text = [NSObject careerYearsList][obj.integerValue];
+    }];
+}
+- (void)refresh{
+    [NSObject showHUDQueryStr:@"正在获取技能展示..."];
+    [[Coding_NetAPIManager sharedManager] get_FillSkillsBlock:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (data) {
+            self.skills = data;
+        }
+    }];
+}
+
+- (void)setSkills:(FillSkills *)skills{
+    _skills = skills;
+    _work_typeF.text = _skills.work_type_string;
+    _skillF.text = _skills.skill;
+    _specialtyF.text = _skills.specialty;
+    _work_expT.text = _skills.work_exp;
+    _project_expT.text = _skills.project_exp;
+    _first_linkF.text = _skills.first_link;
+    _second_linkF.text = _skills.second_link;
+    _third_linkF.text = _skills.third_link;
 }
 
 #pragma mark Btn
 - (IBAction)submitBtnClicked:(id)sender {
+    [NSObject showHUDQueryStr:@"正在保存技能展示..."];
+    [[Coding_NetAPIManager sharedManager] post_FillSkills:_skills block:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (data) {
+            [NSObject showHudTipStr:@"技能展示保存成功"];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }];
 }
 
 - (IBAction)showWorkExp:(id)sender {
@@ -66,13 +140,14 @@
     if (tipStr.length <= 0) {
         return;
     }
-    UIView *tipV = [[UIView alloc] initWithFrame:kScreen_Bounds];
+    UIView *tipV = [[UIView alloc] initWithFrame:self.view.bounds];
     tipV.backgroundColor = [UIColor colorWithWhite:0.2 alpha:0.9];
     [tipV bk_whenTapped:^{
         [UIView animateWithDuration:0.3 animations:^{
             tipV.alpha = 0.0;
         } completion:^(BOOL finished) {
             [tipV removeFromSuperview];
+            self.tableView.scrollEnabled = YES;
         }];
     }];
     UITextView *textV = [UITextView new];
@@ -87,13 +162,14 @@
     }];
     [tipV addSubview:textV];
     [textV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(tipV).insets(UIEdgeInsetsMake(64, 7, 0, 7));
+        make.edges.equalTo(tipV).insets(UIEdgeInsetsMake(0, 7, 0, 7));
     }];
     tipV.alpha = 0.0;
     
-    [kKeyWindow addSubview:tipV];
+    [self.view addSubview:tipV];
     [UIView animateWithDuration:0.3 animations:^{
         tipV.alpha = 1.0;
+        self.tableView.scrollEnabled = NO;
     }];
 }
 
@@ -121,19 +197,34 @@
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0) {
+    __weak typeof(self) weakSelf = self;
+    if (indexPath.row == 0) {//工作类型
         NSString *all_skill = @"Web 开发,后端开发,iOS 开发,Android 开发,需求分析,UI 设计";
-        [EAMultiSelectView showInView:self.view withTitle:@"选择能胜任的工作类型" dataList:[all_skill componentsSeparatedByString:@","]selectedList:nil  andConfirmBlock:^(NSArray *selectedList) {
-            NSString *skill = [selectedList componentsJoinedByString:@","];
-            
-            NSLog(@"%@", skill);
-        }];
-    }else if (indexPath.row == 1){
+        [EAMultiSelectView showInView:self.view
+                            withTitle:@"选择能胜任的工作类型"
+                             dataList:[all_skill componentsSeparatedByString:@","]
+                         selectedList:[_skills.work_type_string componentsSeparatedByString:@","]
+                      andConfirmBlock:^(NSArray *selectedList) {
+                          weakSelf.skills.work_type_string = [selectedList componentsJoinedByString:@","];
+                          weakSelf.work_typeF.text = weakSelf.skills.work_type_string;
+                      }];
+    }else if (indexPath.row == 1){//擅长技术
         NSString *all_work_type = @"Java,PHP,Ruby,Python,Go,C/C++,Objective-C,ASP.NET,C#,Perl,JavaScript,HTML/CSS,Android,iOS,Windows Phone,微信开发,网站开发,ERP/OA,即时通讯,端游开发,页游开发,手游开发,HTML5 游戏,算法,操作系统,编译器,硬件驱动,搜索技术,大数据,Docker,OpenStack,开源硬件";
-        [EAMultiSelectView showInView:self.view withTitle:@"擅长的技术" dataList:[all_work_type componentsSeparatedByString:@","]selectedList:nil  andConfirmBlock:^(NSArray *selectedList) {
-            NSString *work_type = [selectedList componentsJoinedByString:@","];
-            NSLog(@"%@", work_type);
-        }];
+        [EAMultiSelectView showInView:self.view withTitle:@"擅长的技术"
+                             dataList:[all_work_type componentsSeparatedByString:@","]
+                         selectedList:[_skills.skill componentsSeparatedByString:@","]
+                      andConfirmBlock:^(NSArray *selectedList) {
+                          weakSelf.skills.skill = [selectedList componentsJoinedByString:@","];
+                          weakSelf.skillF.text = weakSelf.skills.skill;
+                      }];
+    }else if (indexPath.row == 6){//工作现状
+        [ActionSheetStringPicker showPickerWithTitle:nil rows:@[[NSObject currentJobList]] initialSelection:@[@(_skills.current_job.integerValue)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
+            weakSelf.skills.current_job = selectedIndex.firstObject;
+        } cancelBlock:nil origin:self.view];
+    }else if (indexPath.row == 7){//工作年限
+        [ActionSheetStringPicker showPickerWithTitle:nil rows:@[[NSObject careerYearsList]] initialSelection:@[@(_skills.career_years.integerValue)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
+            weakSelf.skills.career_years = selectedIndex.firstObject;
+        } cancelBlock:nil origin:self.view];
     }
 }
 @end

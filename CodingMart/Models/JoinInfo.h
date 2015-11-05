@@ -9,8 +9,9 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSInteger, JoinStatus) {
-    JoinStatusNone = 0,
-    JoinStatusWaiting,
+    JoinStatusNotJoin = -1,
+    JoinStatusFresh,
+    JoinStatusChecked,//Coding 人员 checked，才交给甲方处理
     JoinStatusSucessed,
     JoinStatusFailed,
     JoinStatusCanceled
@@ -19,4 +20,6 @@ typedef NS_ENUM(NSInteger, JoinStatus) {
 @interface JoinInfo : NSObject
 @property (strong, nonatomic) NSNumber *id, *reward_id, *role_type_id, *status;
 @property (strong, nonatomic) NSString *message, *created_at, *updated_at;
+- (NSDictionary *)toParams;
++(instancetype)joinInfoWithRewardId:(NSNumber *)reward_id;
 @end

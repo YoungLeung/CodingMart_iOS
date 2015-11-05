@@ -7,6 +7,7 @@
 //
 
 #import "BaseTableViewController.h"
-
+#import "FillSkills.h"
 @interface FillSkillsViewController : BaseTableViewController
+@property (strong, nonatomic) FillSkills *skills;
 @end

@@ -99,7 +99,7 @@
 }
 + (NSArray *)careerYearsList{
     NSMutableDictionary *baseDictInfo = [self p_baseDictInfo];
-    NSString *key = @"rewardStatusBGColorDict";
+    NSString *key = @"careerYearsList";
     if (!baseDictInfo[key]) {
         baseDictInfo[key] = @[@"1 年以下",
                               @"1 - 3 年",

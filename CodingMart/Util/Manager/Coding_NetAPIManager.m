@@ -15,6 +15,8 @@
 #import "FillUserInfo.h"
 #import "FillSkills.h"
 #import "JoinInfo.h"
+#import "RewardDetail.h"
+#import "JoinInfo.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -142,6 +144,32 @@
         block(data, error);
     }];
 }
+- (void)get_RewardDetailWithId:(NSInteger)rewardId block:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/p/%ld", (long)rewardId];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject objectOfClass:@"RewardDetail" fromJSON:data[@"data"]];
+        }
+        block(data, error);
+    }];
+}
+
+- (void)get_JoinInfoWithRewardId:(NSInteger)rewardId block:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/reward/%ld/apply", (long)rewardId];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject objectOfClass:@"JoinInfo" fromJSON:data[@"data"]];
+        }
+        block(data, nil);
+    }];
+}
+- (void)post_JoinInfo:(JoinInfo *)info block:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/join";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:[info toParams] withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, nil);
+    }];
+}
+
 #pragma mark Setting
 - (void)get_VerifyInfoBlock:(void (^)(id data, NSError *error))block{
     NSString *path  = @"api/current_user/verified_types";
@@ -165,7 +193,7 @@
     NSString *path  = @"api/skills";
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
-            data = [NSObject objectOfClass:@"FillSkills" fromJSON:data[@"data"]];
+            data = [NSObject objectOfClass:@"FillSkills" fromJSON:data[@"data"][@"info"]];
         }
         block(data, error);
     }];

@@ -16,6 +16,7 @@
 @property (nonatomic, strong, readonly) NSURLRequest *request;
 
 - (instancetype)initWithUrlStr:(NSString *)curUrlStr;
+- (void)handleRefresh;
 
 + (NSURLRequest *)requestFromStr:(NSString *)URLStr;
 @end

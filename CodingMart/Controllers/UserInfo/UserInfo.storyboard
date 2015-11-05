@@ -601,7 +601,7 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits"/>
                                                         </textField>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jaM-Ls-7s7">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="button_arrow_down" translatesAutoresizingMaskIntoConstraints="NO" id="jaM-Ls-7s7">
                                                             <rect key="frame" x="260" y="13" width="15" height="15"/>
                                                             <animations/>
                                                             <constraints>
@@ -677,7 +677,7 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits"/>
                                                         </textField>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="U3Z-vs-nGn">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="button_arrow_down" translatesAutoresizingMaskIntoConstraints="NO" id="U3Z-vs-nGn">
                                                             <rect key="frame" x="260" y="13" width="15" height="15"/>
                                                             <animations/>
                                                             <constraints>
@@ -994,7 +994,7 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits"/>
                                                         </textField>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VUO-Kr-4zB">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="button_arrow_down" translatesAutoresizingMaskIntoConstraints="NO" id="VUO-Kr-4zB">
                                                             <rect key="frame" x="260" y="13" width="15" height="15"/>
                                                             <animations/>
                                                             <constraints>
@@ -1067,7 +1067,7 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits"/>
                                                         </textField>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gpc-B8-1Gm">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="button_arrow_down" translatesAutoresizingMaskIntoConstraints="NO" id="gpc-B8-1Gm">
                                                             <rect key="frame" x="260" y="13" width="15" height="15"/>
                                                             <animations/>
                                                             <constraints>
@@ -1121,7 +1121,17 @@
                     </tableView>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="career_yearsF" destination="J50-uy-6AT" id="S7k-Dz-BzP"/>
+                        <outlet property="current_jobF" destination="uYZ-xD-at0" id="pPq-gt-9oR"/>
+                        <outlet property="first_linkF" destination="qBe-sI-Kck" id="2xL-86-UIC"/>
+                        <outlet property="project_expT" destination="2Kz-C5-HJ1" id="z9d-t9-ApK"/>
+                        <outlet property="second_linkF" destination="Ndg-EI-WEm" id="qjR-bT-fwN"/>
+                        <outlet property="skillF" destination="gX1-ZH-Tk2" id="bF5-HB-zBp"/>
+                        <outlet property="specialtyF" destination="3ln-FG-dQa" id="JqE-sF-y9b"/>
                         <outlet property="submitBtn" destination="EDV-Cw-Sxn" id="G4D-eA-6Sz"/>
+                        <outlet property="third_linkF" destination="qgc-QM-qGB" id="1Ao-xa-LxG"/>
+                        <outlet property="work_expT" destination="y29-ZE-74G" id="SdD-GL-b5f"/>
+                        <outlet property="work_typeF" destination="MQQ-rs-r39" id="a7I-Ra-wdO"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QjF-RF-JfT" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1964,7 +1974,7 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits"/>
                                                         </textField>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aij-Fx-FYx">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="button_arrow_left" translatesAutoresizingMaskIntoConstraints="NO" id="aij-Fx-FYx">
                                                             <rect key="frame" x="260" y="13" width="15" height="15"/>
                                                             <animations/>
                                                             <constraints>
@@ -2097,6 +2107,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="button_arrow_down" width="15" height="15"/>
+        <image name="button_arrow_left" width="15" height="15"/>
         <image name="button_userinfo_joined" width="19" height="19"/>
         <image name="button_userinfo_published" width="19" height="19"/>
         <image name="fill_checked" width="13" height="13"/>
@@ -2109,6 +2121,6 @@
         <image name="icon_userinfo_setting" width="19" height="19"/>
         <image name="logo_mart_about" width="125" height="125"/>
         <image name="placeholder_user" width="60" height="60"/>
-        <image name="userinfo_bg" width="1012" height="692"/>
+        <image name="userinfo_bg" width="80" height="80"/>
     </resources>
 </document>

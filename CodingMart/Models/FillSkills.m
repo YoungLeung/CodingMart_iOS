@@ -12,7 +12,7 @@
 
 - (NSDictionary *)toParams{
     NSMutableDictionary *params = @{}.mutableCopy;
-    params[@"work_type"] = _work_type;
+    params[@"work_type"] = _work_type_string;
     params[@"skill"] = _skill;
     params[@"specialty"] = _specialty;
     params[@"work_exp"] = _work_exp;
