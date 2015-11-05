@@ -13,6 +13,10 @@ const float NJKInitialProgressValue = 0.1f;
 const float NJKInteractiveProgressValue = 0.5f;
 const float NJKFinalProgressValue = 0.9f;
 
+@interface NJKWebViewProgress ()
+@property (strong, nonatomic) NSTimer *timer;
+@end
+
 @implementation NJKWebViewProgress
 {
     NSUInteger _loadingCount;
@@ -35,6 +39,7 @@ const float NJKFinalProgressValue = 0.9f;
 {
     if (_progress < NJKInitialProgressValue) {
         [self setProgress:NJKInitialProgressValue];
+        [self startUpTimer];
     }
 }
 
@@ -52,6 +57,7 @@ const float NJKFinalProgressValue = 0.9f;
 - (void)completeProgress
 {
     [self setProgress:1.0];
+    [self invalidateTimer];
 }
 
 - (void)setProgress:(float)progress
@@ -74,7 +80,27 @@ const float NJKFinalProgressValue = 0.9f;
     _interactive = NO;
     [self setProgress:0.0];
 }
+#pragma mark timer
+- (void)startUpTimer{
+    NSTimeInterval timeStep = 0.1;
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:timeStep
+                                                  target:self
+                                                selector:@selector(timerStep:)
+                                                userInfo:nil
+                                                 repeats:YES];
+}
 
+- (void)invalidateTimer{
+    [self.timer invalidate];
+    self.timer = nil;
+}
+
+- (void)timerStep:(NSTimer *)timer {
+    static float progressStep = 0.02;
+    if (_progress + progressStep <= 0.9) {
+        self.progress += progressStep;
+    }
+}
 #pragma mark -
 #pragma mark UIWebViewDelegate
 
