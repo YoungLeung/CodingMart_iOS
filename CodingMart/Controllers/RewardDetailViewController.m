@@ -16,12 +16,25 @@
 #import <BlocksKit/BlocksKit+UIKit.h>
 
 @interface RewardDetailViewController ()
+@property (strong, nonatomic) Reward *curReward;
 @property (strong, nonatomic) RewardDetail *rewardDetal;
 @property (strong, nonatomic) UIView *bottomV;
 @property (strong, nonatomic) UILabel *topTipL;
 @end
 
 @implementation RewardDetailViewController
+
+
++ (instancetype)vcWithReward:(Reward *)reward{
+    RewardDetailViewController *vc = [self new];
+    vc.curReward = reward;
+    return vc;
+}
++ (instancetype)vcWithRewardId:(NSUInteger)rewardId{
+    Reward *reward = [Reward rewardWithId:rewardId];
+    return [self vcWithReward:reward];
+}
+
 - (void)setCurReward:(Reward *)curReward{
     _curReward = curReward;
     self.curUrlStr = [NSString stringWithFormat:@"/p/%@", _curReward.id.stringValue];

@@ -211,8 +211,7 @@
 
 #pragma mark GoTo VC
 - (void)goToReward:(Reward *)curReward{
-    RewardDetailViewController *vc = [RewardDetailViewController new];
-    vc.curReward = curReward;
+    RewardDetailViewController *vc = [RewardDetailViewController vcWithReward:curReward];
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)goToMartIntroduce{

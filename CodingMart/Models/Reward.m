@@ -53,6 +53,11 @@
 + (BOOL)deleteCurDraft{
     return [NSObject deleteResponseCacheForPath:kRewardDraftPath];
 }
++ (Reward *)rewardWithId:(NSUInteger)r_id{
+    Reward *r = [self new];
+    r.id = @(r_id);
+    return r;
+}
 + (Reward *)rewardToBePublished{
     Reward *rewardToBePublished;
     rewardToBePublished = [Reward objectOfClass:@"Reward" fromJSON:[NSObject loadResponseWithPath:kRewardDraftPath]]

@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface NSString (Common)
-+ (NSString *)userAgentStr;
 
 - (NSString *)URLEncoding;
 - (NSString *)URLDecoding;

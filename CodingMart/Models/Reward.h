@@ -29,5 +29,6 @@
 
 + (BOOL)saveDraft:(Reward *)curReward;
 + (BOOL)deleteCurDraft;
++ (Reward *)rewardWithId:(NSUInteger)r_id;
 + (Reward *)rewardToBePublished;
 @end

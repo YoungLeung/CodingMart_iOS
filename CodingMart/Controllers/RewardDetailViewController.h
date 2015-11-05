@@ -10,5 +10,6 @@
 #import "Reward.h"
 
 @interface RewardDetailViewController : MartWebViewController
-@property (strong, nonatomic) Reward *curReward;
++ (instancetype)vcWithReward:(Reward *)reward;
++ (instancetype)vcWithRewardId:(NSUInteger)rewardId;
 @end

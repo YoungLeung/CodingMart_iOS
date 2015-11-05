@@ -7,7 +7,9 @@
 //
 
 #import "UIViewController+Common.h"
+#import <RegexKitLite-NoWarning/RegexKitLite.h>
 #import "MartWebViewController.h"
+#import "RewardDetailViewController.h"
 
 @implementation UIViewController (Common)
 + (UIViewController *)presentingVC{
@@ -60,13 +62,25 @@
     }
 }
 
-+ (void)presentLinkStr:(NSString *)linkStr{
-    MartWebViewController *vc = [[MartWebViewController alloc] initWithUrlStr:linkStr];
-    if (vc) {
-        [self presentVC:vc dismissBtnTitle:@"关闭"];
++ (UIViewController *)analyseVCFromLinkStr:(NSString *)linkStr{
+    UIViewController *resultVC;
+    NSArray *matchedCaptures;
+    NSString *rewardRegexStr = @"/p/([0-9]+)$";
+    if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:rewardRegexStr]).count > 0){
+        NSString *reward_id = matchedCaptures[1];
+        resultVC = [RewardDetailViewController vcWithRewardId:reward_id.integerValue];
+    }else{
+        resultVC = [[MartWebViewController alloc] initWithUrlStr:linkStr];
     }
+    return resultVC;
 }
 
++ (void)presentLinkStr:(NSString *)linkStr{
+    UIViewController *resultVC = [self analyseVCFromLinkStr:linkStr];
+    if (resultVC) {
+        [self presentVC:resultVC dismissBtnTitle:@"关闭"];
+    }
+}
 
 - (void)dismissModalViewControllerAnimatedYes{
     [self dismissViewControllerAnimated:YES completion:nil];

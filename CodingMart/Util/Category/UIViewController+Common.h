@@ -12,6 +12,7 @@
 + (UIViewController *)presentingVC;
 + (void)presentVC:(UIViewController *)viewController dismissBtnTitle:(NSString *)title;
 + (void)handleNotificationInfo:(NSDictionary *)userInfo applicationState:(UIApplicationState)applicationState;
++ (UIViewController *)analyseVCFromLinkStr:(NSString *)linkStr;
 + (void)presentLinkStr:(NSString *)linkStr;
 
 - (void)dismissModalViewControllerAnimatedYes;
