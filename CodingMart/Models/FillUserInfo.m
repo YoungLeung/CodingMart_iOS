@@ -37,7 +37,12 @@
     copy->_district_name = [_district_name copy];
     return copy;
 }
-//- (BOOL)isEqualToObj:(FillUserInfo *)obj{
-//    return ([_name isEmptyOrListening]);
-//}
+- (BOOL)canPost{
+    BOOL canPost;
+    canPost = _name.length > 0 &&
+    _email.length > 0 &&
+    _mobile.length > 0 &&
+    _province && _city && _district;
+    return canPost;
+}
 @end

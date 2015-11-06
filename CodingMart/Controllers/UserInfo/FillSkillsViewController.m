@@ -66,6 +66,15 @@
     [RACObserve(self, skills.career_years) subscribeNext:^(NSNumber *obj) {
         weakSelf.career_yearsF.text = [NSObject careerYearsList][obj.integerValue];
     }];
+    RAC(self, submitBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, skills.work_type_string),
+                                                              RACObserve(self, skills.skill),
+                                                              RACObserve(self, skills.work_exp),
+                                                              RACObserve(self, skills.project_exp),
+                                                              RACObserve(self, skills.current_job),
+                                                              RACObserve(self, skills.career_years),
+                                                              ] reduce:^id{
+                                                                  return @([weakSelf.skills canPost]);
+                                                              }];
 }
 - (void)refresh{
     [NSObject showHUDQueryStr:@"正在获取技能展示..."];

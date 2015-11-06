@@ -70,6 +70,24 @@
     [_qqNumF.rac_textSignal subscribeNext:^(NSString *newText){
         weakSelf.userInfo.qq= newText;
     }];
+    RAC(self, submitBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, userInfo.name),
+                                                              RACObserve(self, userInfo.email),
+                                                              RACObserve(self, userInfo.mobile),
+                                                              RACObserve(self, userInfo.province),
+                                                              RACObserve(self, userInfo.city),
+                                                              RACObserve(self, userInfo.district),
+                                                              RACObserve(self, userInfo.code),
+                                                              ] reduce:^id{
+                                                                  BOOL canPost = NO;
+                                                                  if ([weakSelf.userInfo canPost]) {
+                                                                      if ([weakSelf.userInfo.mobile isEqualToString:weakSelf.originalMobile]) {
+                                                                          canPost = YES;
+                                                                      }else{
+                                                                          canPost = weakSelf.userInfo.code.length > 0;
+                                                                      }
+                                                                  }
+                                                                  return @(canPost);
+                                                              }];
 }
 
 - (void)refresh{

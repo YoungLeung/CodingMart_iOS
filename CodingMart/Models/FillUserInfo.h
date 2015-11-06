@@ -14,5 +14,5 @@
 @property (strong, nonatomic) NSNumber *province, *city, *district;
 @property (strong, nonatomic) NSString *province_name, *city_name, *district_name;
 - (NSDictionary *)toParams;
-//- (BOOL)isEqualToObj:(FillUserInfo *)obj;
+- (BOOL)canPost;
 @end

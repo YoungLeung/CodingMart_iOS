@@ -24,4 +24,13 @@
     params[@"career_years"] = _career_years;
     return params;
 }
+- (BOOL)canPost{
+    BOOL canPost;
+    canPost = _work_type_string.length > 0 &&
+    _skill.length > 0 &&
+    _work_exp.length > 100 &&
+    _project_exp.length > 100 &&
+    _current_job && _career_years;
+    return canPost;
+}
 @end
