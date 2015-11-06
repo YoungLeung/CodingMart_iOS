@@ -94,4 +94,30 @@
     }
 }
 
+#pragma mark Back Button
+- (void)customViewWillDisappear:(BOOL)animated{
+    //    返回按钮
+    if (!self.navigationItem.backBarButtonItem
+        && self.navigationController.viewControllers.count > 1) {//设置返回按钮(backBarButtonItem的图片不能设置；如果用leftBarButtonItem属性，则iOS7自带的滑动返回功能会失效)
+        self.navigationItem.backBarButtonItem = [self backButton];
+    }
+    [self customViewWillDisappear:animated];
+}
+- (UIBarButtonItem *)backButton{
+    UIBarButtonItem *backButtonItem = [UIBarButtonItem new];
+    backButtonItem.title = @"返回";
+    return backButtonItem;
+}
++ (void)load{
+    swizzleAllViewController();
+}
 @end
+
+void swizzleAllViewController(){
+    Class c = [UIViewController class];
+    SEL origSEL = @selector(viewWillDisappear:);
+    SEL newSEL = @selector(customViewWillDisappear:);
+    Method origMethod = class_getInstanceMethod(c, origSEL);
+    Method newMethod = class_getInstanceMethod(c, newSEL);
+    method_exchangeImplementations(origMethod, newMethod);
+}

@@ -19,3 +19,5 @@
 - (void)goToWebVCWithUrlStr:(NSString *)curUrlStr title:(NSString *)titleStr;
 
 @end
+
+void swizzleAllViewController();
