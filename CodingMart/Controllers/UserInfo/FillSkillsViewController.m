@@ -77,12 +77,11 @@
                                                               }];
 }
 - (void)refresh{
-    [NSObject showHUDQueryStr:@"正在获取技能展示..."];
+    self.skills = nil;
+    [self.view beginLoading];
     [[Coding_NetAPIManager sharedManager] get_FillSkillsBlock:^(id data, NSError *error) {
-        [NSObject hideHUDQuery];
-        if (data) {
-            self.skills = data;
-        }
+        [self.view endLoading];
+        self.skills = data? data: [FillSkills new];
     }];
 }
 
@@ -96,6 +95,9 @@
     _first_linkF.text = _skills.first_link;
     _second_linkF.text = _skills.second_link;
     _third_linkF.text = _skills.third_link;
+    
+    _submitBtn.hidden = (_skills == nil);
+    [self.tableView reloadData];
 }
 
 #pragma mark Btn
@@ -189,7 +191,9 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 20;
 }
-
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return _skills? 1: 0;
+}
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
     switch (indexPath.row) {

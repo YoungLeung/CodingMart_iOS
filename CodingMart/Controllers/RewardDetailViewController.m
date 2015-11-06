@@ -92,7 +92,7 @@
                         make.height.mas_equalTo(27);
                     }];
                 }
-                _topTipL.text = (!loginUser.fullInfo.boolValue || !loginUser.fullSkills.boolValue)? @"未完善个人资料不能参与悬赏，去完善 >>": @"您的账号还未激活，请前往 Coding 网站激活 ";
+                _topTipL.text = (!loginUser.fullInfo.boolValue || !loginUser.fullSkills.boolValue)? @"未完善个人资料不能参与悬赏，去完善 >>": @"您的账号还未激活，请前往 Coding 网站激活";
             }else{
                 [_topTipL removeFromSuperview];
             }
@@ -114,35 +114,26 @@
                 [obj removeFromSuperview];
             }
         }];
+        
+//        if (_rewardDetal.joinStatus.integerValue == JoinStatusNotJoin) {
+//            <#statements#>
+//        }else{
+//            
+//        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
         UIButton *button = [self p_bottomBtnWithStatus:_rewardDetal.joinStatus];
         [_bottomV addSubview:button];
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.bottomV).insets(UIEdgeInsetsMake(10, 15, 10, 15));
         }];
-        
-        
-//        if (rand()%2) {
-//            UIButton *button = [self p_joinBtn];
-//            [_bottomV addSubview:button];
-//            [button mas_makeConstraints:^(MASConstraintMaker *make) {
-//                make.edges.equalTo(self.bottomV).insets(UIEdgeInsetsMake(10, 15, 10, 15));
-//            }];
-//        }else{
-//            UIButton *button1 = [self p_canceledBtn];
-//            UIButton *button2 = [self p_rejectedBtn];
-//            [_bottomV addSubview:button1];
-//            [_bottomV addSubview:button2];
-//            [button1 mas_makeConstraints:^(MASConstraintMaker *make) {
-//                make.left.equalTo(self.bottomV).offset(15);
-//                make.right.equalTo(button2.mas_left).offset(-15);
-//                make.width.top.bottom.equalTo(button2);
-//            }];
-//            [button2 mas_makeConstraints:^(MASConstraintMaker *make) {
-//                make.right.equalTo(self.bottomV).offset(-15);
-//                make.top.equalTo(self.bottomV).offset(10);
-//                make.bottom.equalTo(self.bottomV).offset(-10);
-//            }];
-//        }
     }else{
         [_topTipL removeFromSuperview];
         [_bottomV removeFromSuperview];
@@ -187,26 +178,6 @@
     return bottomBtn;
 }
 
-
-//- (UIButton *)p_joinBtn{
-//    return [self p_bottomBtnWithTitle:@"参与悬赏" bgColorHexStr:@"0x3BBD79"];
-//}
-//- (UIButton *)p_waitingBtn{
-//    return [self p_bottomBtnWithTitle:@"待审核" bgColorHexStr:@"0xBBCED7"];
-//}
-//- (UIButton *)p_rejectedBtn{
-//    return [self p_bottomBtnWithTitle:@"已拒绝" bgColorHexStr:@"0xE3706E"];
-//}
-//- (UIButton *)p_canceledBtn{
-//    return [self p_bottomBtnWithTitle:@"已取消" bgColorHexStr:@"0xDDDDDD"];
-//}
-//- (UIButton *)p_reJoinBtn{
-//    return [self p_bottomBtnWithTitle:@"重新报名" bgColorHexStr:@"0x3BBD79"];
-//}
-//- (UIButton *)p_passedBtn{
-//    return [self p_bottomBtnWithTitle:@"已通过" bgColorHexStr:@"0x549FD5"];
-//}
-
 - (void)bottomBtnClicked:(UIButton *)sender{
     if ([Login isLogin]) {
         User *loginUser = [Login curLoginUser];
@@ -214,7 +185,7 @@
             FillTypesViewController *vc = [FillTypesViewController storyboardVC];
             [self.navigationController pushViewController:vc animated:YES];
         }else if (!loginUser.status.boolValue){//未激活
-            [self goToWebVCWithUrlStr:@"https://coding.net/login?phone=phone" title:@"激活账号"];
+//            [self goToWebVCWithUrlStr:@"https://coding.net/login?phone=phone" title:@"激活账号"];
         }else{//去提交
             if (_rewardDetal) {
                 RewardApplyViewController *vc = [RewardApplyViewController storyboardVC];
@@ -226,7 +197,7 @@
         __weak typeof(self) weakSelf = self;
         LoginViewController *vc = [LoginViewController storyboardVCWithType:LoginViewControllerTypeLoginAndRegister mobile:nil];
         vc.loginSucessBlock = ^(){
-            [weakSelf handleRefresh];
+            [weakSelf bottomBtnClicked:nil];
         };
         [UIViewController presentVC:vc dismissBtnTitle:@"取消"];
     }

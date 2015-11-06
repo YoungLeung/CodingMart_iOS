@@ -58,9 +58,9 @@
 }
 
 - (void)refresh{
-    [NSObject showHUDQueryStr:nil];
+    [self.view beginLoading];
     [[Coding_NetAPIManager sharedManager] get_LocationListWithParams:_params block:^(id data, NSError *error) {
-        [NSObject hideHUDQuery];
+        [self.view endLoading];
         if (data) {
             self.dataList = data;
             [self.tableView reloadData];
@@ -78,6 +78,9 @@
 }
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     return @"全部";
+}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return _dataList? 1: 0;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _dataList.count;

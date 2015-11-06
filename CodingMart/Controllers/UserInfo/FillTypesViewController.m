@@ -39,9 +39,7 @@
 }
 
 - (void)refresh{
-    [NSObject showHUDQueryStr:nil];
     [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id data, NSError *error) {
-        [NSObject hideHUDQuery];
         if (data) {
             self.curUser = data;
         }

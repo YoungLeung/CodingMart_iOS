@@ -91,12 +91,11 @@
 }
 
 - (void)refresh{
-    [NSObject showHUDQueryStr:@"正在获取个人信息..."];
+    self.userInfo = nil;
+    [self.view beginLoading];
     [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id data, NSError *error) {
-        [NSObject hideHUDQuery];
-        if (data) {
-            self.userInfo = data;
-        }
+        [self.view endLoading];
+        self.userInfo = data? data: [FillUserInfo new];
     }];
 }
 
@@ -115,6 +114,9 @@
     }else{
         _locationF.text = @"";
     }
+    
+    _submitBtn.hidden = (_userInfo == nil);
+    [self.tableView reloadData];
 }
 
 #pragma mark Btn
@@ -188,6 +190,9 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 20;
+}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return _userInfo? 1: 0;
 }
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];

@@ -95,7 +95,7 @@
     _feedBackInfo.j_captcha = _j_captchaF.text;
     NSString *tipStr = [_feedBackInfo hasErrorTip];
     if (tipStr.length > 0) {
-        [NSObject showHUDQueryStr:tipStr];
+        [NSObject showHudTipStr:tipStr];
         return;
     }
     [NSObject showHUDQueryStr:@"正在发送..."];

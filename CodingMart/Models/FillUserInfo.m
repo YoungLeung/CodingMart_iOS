@@ -42,7 +42,8 @@
     canPost = _name.length > 0 &&
     _email.length > 0 &&
     _mobile.length > 0 &&
-    _province && _city && _district;
+    _province;//省、市、区 有一个就好
+//    && _city && _district;
     return canPost;
 }
 @end

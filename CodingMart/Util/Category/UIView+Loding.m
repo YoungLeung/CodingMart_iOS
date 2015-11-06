@@ -25,10 +25,8 @@ static char LoadingViewKey;
     if (!self.loadingView) { //初始化LoadingView
         self.loadingView = [[EaseLoadingView alloc] initWithFrame:self.bounds];
     }
+    self.loadingView.frame = self.bounds;
     [self addSubview:self.loadingView];
-    [self.loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.self.edges.equalTo(self);
-    }];
     [self.loadingView startAnimating];
 }
 

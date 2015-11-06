@@ -31,14 +31,10 @@
     [super viewDidLoad];
     self.title = _rewardDetail.reward.title;
     if (_rewardDetail.joinStatus.integerValue != JoinStatusNotJoin) {
-        [NSObject showHUDQueryStr:@"正在获取报名数据..."];
+        [self.view beginLoading];
         [[Coding_NetAPIManager sharedManager] get_JoinInfoWithRewardId:_rewardDetail.reward.id.integerValue block:^(id data, NSError *error) {
-            [NSObject hideHUDQuery];
-            if (data) {
-                self.curJoinInfo = data;
-            }else{
-                self.curJoinInfo = [JoinInfo joinInfoWithRewardId:self.rewardDetail.reward.id];
-            }
+            [self.view endLoading];
+            self.curJoinInfo = data? data: [JoinInfo joinInfoWithRewardId:self.rewardDetail.reward.id];
         }];
     }else{
         _curJoinInfo = [JoinInfo joinInfoWithRewardId:self.rewardDetail.reward.id];
@@ -108,6 +104,9 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 20;
+}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return _curJoinInfo? 1: 0;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
