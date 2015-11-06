@@ -40,20 +40,18 @@
     }];
 }
 - (void)get_CurrentUserBlock:(void (^)(id data, NSError *error))block{
-    [[Coding_NetAPIManager sharedManager] get_SidBlock:^(id data, NSError *error) {
-        NSString *path = @"api/current_user";
-        [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
-            if (data) {
-                data = data[@"data"];
-                User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:data];
-                if (curLoginUser) {
-                    [Login doLogin:data];
-                }
-                block(curLoginUser, nil);
-            }else{
-                block(nil, error);
+    NSString *path = @"api/current_user";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = data[@"data"];
+            User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:data];
+            if (curLoginUser) {
+                [Login doLogin:data];
             }
-        }];
+            block(curLoginUser, nil);
+        }else{
+            block(nil, error);
+        }
     }];
 }
 - (void)post_LoginVerifyCodeWithMobile:(NSString *)mobile block:(void (^)(id data, NSError *error))block{

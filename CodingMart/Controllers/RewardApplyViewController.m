@@ -29,7 +29,7 @@
 }
 - (void)viewDidLoad{
     [super viewDidLoad];
-    self.title = @"报名悬赏";
+    self.title = _rewardDetail.reward.title;
     if (_rewardDetail.joinStatus.integerValue != JoinStatusNotJoin) {
         [NSObject showHUDQueryStr:@"正在获取报名数据..."];
         [[Coding_NetAPIManager sharedManager] get_JoinInfoWithRewardId:_rewardDetail.reward.id.integerValue block:^(id data, NSError *error) {

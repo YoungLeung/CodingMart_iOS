@@ -28,6 +28,17 @@
     }];
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    BOOL isAllowedNotification = [UIDevice isAllowedNotification];
+    _myJoinedSwitch.enabled =
+    _myPublishedSwitch.enabled =
+    _freshPublishedSwitch.enabled = isAllowedNotification;
+    if (!isAllowedNotification) {
+        kTipAlert(@"为了显示通知，您需要在\n「设置」->「通知」->「Coding」\n中启用通知才能接收到相应的通知");
+    }
+}
+
 - (void)setSettingInfo:(SettingNotificationInfo *)settingInfo{
     _settingInfo = settingInfo;
     
@@ -62,5 +73,9 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 20;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
 }
 @end

@@ -861,7 +861,9 @@ static UIFont *gTitleFont;
         [_menuView dismissMenu:animated];
         _menuView = nil;
     }
-    
+    if (_dismissBlock) {
+        _dismissBlock(self);
+    }
     if (_observing) {
         
         _observing = NO;

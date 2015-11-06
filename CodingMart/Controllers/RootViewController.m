@@ -116,6 +116,8 @@
 
 #pragma mark nav_item M
 - (void)leftNavBtnClicked{
+    [KxMenu dismissMenu:YES];
+
     UIViewController *vc = [UserInfoViewController storyboardVC];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -123,7 +125,6 @@
 - (void)rightNavBtnClicked{
     if ([KxMenu isShowingInView:self.view]) {
         [KxMenu dismissMenu:YES];
-        [_rightNavBtn setImage:[UIImage imageNamed:@"nav_icon_down"] forState:UIControlStateNormal];
     }else{
         [_rightNavBtn setImage:[UIImage imageNamed:@"nav_icon_up"] forState:UIControlStateNormal];
         [KxMenu setTitleFont:[UIFont systemFontOfSize:14]];
@@ -138,6 +139,10 @@
         }];
         CGRect senderFrame = CGRectMake(kScreen_Width - (kDevice_Is_iPhone6Plus? 30: 26), 0, 0, 0);
         [KxMenu showMenuInView:self.view fromRect:senderFrame menuItems:menuItems];
+        __weak typeof(self) weakSelf = self;
+        [KxMenu sharedMenu].dismissBlock = ^(KxMenu *menu){
+            [weakSelf.rightNavBtn setImage:[UIImage imageNamed:@"nav_icon_down"] forState:UIControlStateNormal];
+        };
     }
 }
 

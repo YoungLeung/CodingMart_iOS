@@ -74,7 +74,7 @@
     [_user_iconV sd_setImageWithURL:[_curUser.avatar urlWithCodingPath] placeholderImage:[UIImage imageNamed:@"placeholder_user"]];
     _user_nameL.text = _curUser.name;
     [self setupNavBarBtn];
-    self.tipLabel.text = [_curUser canJoinReward]? @"您已通过码士认证，请前往首页参加悬赏吧 >>": @"完善码市认证，才能参与悬赏哦 >>";
+    self.tipView.hidden = [_curUser canJoinReward];
     [self.tableView reloadData];
 }
 

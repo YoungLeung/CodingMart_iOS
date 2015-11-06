@@ -26,12 +26,16 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     self.title = @"完善资料";
-    self.curUser = [Login curLoginUser];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self refresh];
+    if (!_curUser) {
+        _curUser = [Login curLoginUser];
+    }else{
+        [self refresh];
+    }
+
 }
 
 - (void)refresh{
