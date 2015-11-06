@@ -19,6 +19,8 @@
 - (instancetype)init{
     self = [super init];
     if (self) {
+        _maxSelectNum = NSUIntegerMax;
+        
         _bgView = [UIView new];
         _bgView.backgroundColor = [UIColor blackColor];
         [self addSubview:_bgView];
@@ -196,7 +198,12 @@
     if ([_selectedList containsObject:dataStr]) {
         [_selectedList removeObject:dataStr];
     }else{
-        [_selectedList addObject:dataStr];
+        if (_selectedList.count >= _maxSelectNum) {
+            ccell.hasBeenSeleted = !ccell.hasBeenSeleted;
+            [NSObject showHudTipStr:[NSString stringWithFormat:@"最多能选择 %ld 个", _maxSelectNum]];
+        }else{
+            [_selectedList addObject:dataStr];
+        }
     }
 }
 @end

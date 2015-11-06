@@ -14,6 +14,7 @@
 #import "Coding_NetAPIManager.h"
 #import "UIPlaceHolderTextView.h"
 #import "ActionSheetStringPicker.h"
+#import "UIViewController+BackButtonHandler.h"
 
 @interface FillSkillsViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *work_typeF;
@@ -103,6 +104,18 @@
     
     _submitBtn.hidden = (_skills == nil);
     [self.tableView reloadData];
+}
+
+#pragma mark Navigation
+- (BOOL)navigationShouldPopOnBackButton{
+    [self.view endEditing:YES];
+    __weak typeof(self) weakSelf = self;
+    [[UIActionSheet bk_actionSheetCustomWithTitle:@"返回后，修改的数据将不会被保存" buttonTitles:@[@"确定返回"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        if (index == 0) {
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        }
+    }] showInView:self.view];
+    return NO;
 }
 
 #pragma mark Btn
@@ -228,13 +241,14 @@
                       }];
     }else if (indexPath.row == 1){//擅长技术
         NSString *all_work_type = @"Java,PHP,Ruby,Python,Go,C/C++,Objective-C,ASP.NET,C#,Perl,JavaScript,HTML/CSS,Android,iOS,Windows Phone,微信开发,网站开发,ERP/OA,即时通讯,端游开发,页游开发,手游开发,HTML5 游戏,算法,操作系统,编译器,硬件驱动,搜索技术,大数据,Docker,OpenStack,开源硬件";
-        [EAMultiSelectView showInView:self.view withTitle:@"擅长的技术"
+        EAMultiSelectView *selectView = [EAMultiSelectView showInView:self.view withTitle:@"擅长的技术"
                              dataList:[all_work_type componentsSeparatedByString:@","]
                          selectedList:[_skills.skill componentsSeparatedByString:@","]
                       andConfirmBlock:^(NSArray *selectedList) {
                           weakSelf.skills.skill = [selectedList componentsJoinedByString:@","];
                           weakSelf.skillF.text = weakSelf.skills.skill;
                       }];
+        selectView.maxSelectNum = 10;
     }else if (indexPath.row == 6){//工作现状
         [ActionSheetStringPicker showPickerWithTitle:nil rows:@[[NSObject currentJobList]] initialSelection:@[@(_skills.current_job.integerValue)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
             weakSelf.skills.current_job = selectedIndex.firstObject;

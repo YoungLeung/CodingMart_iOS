@@ -14,6 +14,8 @@
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSArray *dataList;
 @property (strong, nonatomic) NSMutableArray *selectedList;
+@property (assign, nonatomic) NSUInteger maxSelectNum;
+
 @property (copy, nonatomic) void(^confirmBlock)(NSArray *selectedList);
 - (void)showInView:(UIView *)view;
 + (instancetype)showInView:(UIView *)view withTitle:(NSString *)title dataList:(NSArray *)dataList selectedList:(NSArray *)selectedList andConfirmBlock:(void(^)(NSArray *selectedList))block;

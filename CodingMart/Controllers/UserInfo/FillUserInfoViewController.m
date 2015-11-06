@@ -11,7 +11,7 @@
 #import "Coding_NetAPIManager.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "LocationViewController.h"
-
+#import "UIViewController+BackButtonHandler.h"
 
 @interface FillUserInfoViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *nameF;
@@ -117,6 +117,18 @@
     
     _submitBtn.hidden = (_userInfo == nil);
     [self.tableView reloadData];
+}
+
+#pragma mark Navigation
+- (BOOL)navigationShouldPopOnBackButton{
+    [self.view endEditing:YES];
+    __weak typeof(self) weakSelf = self;
+    [[UIActionSheet bk_actionSheetCustomWithTitle:@"返回后，修改的数据将不会被保存" buttonTitles:@[@"确定返回"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        if (index == 0) {
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        }
+    }] showInView:self.view];
+    return NO;
 }
 
 #pragma mark Btn
