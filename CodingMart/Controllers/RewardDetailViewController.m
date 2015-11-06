@@ -97,8 +97,8 @@
                 [_topTipL removeFromSuperview];
             }
         }
-        //底部按钮
-        contentInset.bottom = 64;
+        //底部 按钮 + 状态
+        contentInset.bottom = 50;
         if (!_bottomV) {
             _bottomV = [UIView new];
             _bottomV.backgroundColor = self.view.backgroundColor;
@@ -106,34 +106,29 @@
             [self.view addSubview:_bottomV];
             [_bottomV mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.right.bottom.equalTo(self.view);
-                make.height.mas_equalTo(64);
+                make.height.mas_equalTo(50);
             }];
         }
         [[_bottomV subviews] enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ([obj isKindOfClass:[UIButton class]]) {
+            if ([obj isKindOfClass:[UIButton class]] || [obj isKindOfClass:[UILabel class]]) {
                 [obj removeFromSuperview];
             }
         }];
-        
-//        if (_rewardDetal.joinStatus.integerValue == JoinStatusNotJoin) {
-//            <#statements#>
-//        }else{
-//            
-//        }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        UIButton *button = [self p_bottomBtnWithStatus:_rewardDetal.joinStatus];
-        [_bottomV addSubview:button];
-        [button mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.bottomV).insets(UIEdgeInsetsMake(10, 15, 10, 15));
-        }];
+        UIButton *bottomBtn = [self p_bottomBtnWithStatus:_rewardDetal.joinStatus];
+        if (bottomBtn) {
+            [_bottomV addSubview:bottomBtn];
+            CGFloat btnLeftInset = _rewardDetal.joinStatus.integerValue == JoinStatusNotJoin? 15: (CGRectGetWidth(self.view.frame) - 15 - 110);//110
+            [bottomBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.edges.equalTo(self.bottomV).insets(UIEdgeInsetsMake(8, btnLeftInset, 8, 15));
+            }];
+        }
+        UILabel *bottomL = [self p_bottomLWithStatus:_rewardDetal.joinStatus];
+        if (bottomL) {
+            [_bottomV addSubview:bottomL];
+            [bottomL mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.edges.equalTo(self.bottomV).insets(UIEdgeInsetsMake(8, 15, 8, 140));
+            }];
+        }
     }else{
         [_topTipL removeFromSuperview];
         [_bottomV removeFromSuperview];
@@ -146,7 +141,7 @@
     UIButton *button = [UIButton new];
     button.layer.masksToBounds = YES;
     button.layer.cornerRadius = 3.0;
-    button.titleLabel.font = [UIFont systemFontOfSize:17];
+    button.titleLabel.font = [UIFont systemFontOfSize:15];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(bottomBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -156,26 +151,67 @@
 }
 
 - (UIButton *)p_bottomBtnWithStatus:(NSNumber *)joinStatus{
-    UIButton *bottomBtn;
+    UIButton *bottomBtn = nil;
     switch (joinStatus.integerValue) {
         case JoinStatusFresh:
-        case JoinStatusChecked:
-            bottomBtn = [self p_bottomBtnWithTitle:@"待审核" bgColorHexStr:@"0xBBCED7"];
+            bottomBtn = [self p_bottomBtnWithTitle:@"编辑" bgColorHexStr:@"0x3BBD79"];
             break;
+        case JoinStatusChecked:
         case JoinStatusSucessed:
-            bottomBtn = [self p_bottomBtnWithTitle:@"已通过" bgColorHexStr:@"0x549FD5"];
             break;
         case JoinStatusFailed:
-            bottomBtn = [self p_bottomBtnWithTitle:@"已拒绝" bgColorHexStr:@"0xE3706E"];
+            bottomBtn = [self p_bottomBtnWithTitle:@"重新报名" bgColorHexStr:@"0x3BBD79"];
             break;
         case JoinStatusCanceled:
-            bottomBtn = [self p_bottomBtnWithTitle:@"已取消" bgColorHexStr:@"0xDDDDDD"];
+            bottomBtn = [self p_bottomBtnWithTitle:@"重新报名" bgColorHexStr:@"0x3BBD79"];
             break;
         default:
             bottomBtn = [self p_bottomBtnWithTitle:@"参与悬赏" bgColorHexStr:@"0x3BBD79"];
             break;
     }
     return bottomBtn;
+}
+
+- (UILabel *)p_bottomLWithStatus:(NSNumber *)joinStatus{
+    if (joinStatus.integerValue == JoinStatusNotJoin) {
+        return nil;
+    }
+    UILabel *bottomL = [UILabel new];
+    NSString *valueStr, *colorHexStr;
+    switch (joinStatus.integerValue) {
+        case JoinStatusFresh:
+            valueStr = @"待审核";
+            colorHexStr = @"0x727F8D";
+            break;
+        case JoinStatusChecked:
+            valueStr = @"已审核";
+            colorHexStr = @"0xF5A623";
+            break;
+        case JoinStatusSucessed:
+            valueStr = @"已通过";
+            colorHexStr = @"0x2FAEEA";
+            break;
+        case JoinStatusFailed:
+            valueStr = @"已拒绝";
+            colorHexStr = @"0xE84D60";
+            break;
+        case JoinStatusCanceled:
+            valueStr = @"已取消";
+            colorHexStr = @"0x99999";
+            break;
+        default:
+            break;
+    }
+    NSString *titleStr =@"审核状态：";
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@", titleStr, valueStr]];
+    [attrString addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:15],
+                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x666666"]}
+                        range:NSMakeRange(0, titleStr.length)];
+    [attrString addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:15],
+                                NSForegroundColorAttributeName : [UIColor colorWithHexString:colorHexStr]}
+                        range:NSMakeRange(titleStr.length, valueStr.length)];
+    bottomL.attributedText = attrString;
+    return bottomL;
 }
 
 - (void)bottomBtnClicked:(UIButton *)sender{

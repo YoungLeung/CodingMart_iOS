@@ -56,4 +56,16 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 30;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row == 1) {
+        if (!self.curUser.fullInfo.boolValue) {
+            [NSObject showHudTipStr:@"请先完善个人信息"];
+            return;
+        }
+        FillSkillsViewController *vc = [FillSkillsViewController storyboardVC];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
 @end

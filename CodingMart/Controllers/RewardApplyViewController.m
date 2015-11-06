@@ -31,13 +31,14 @@
     [super viewDidLoad];
     self.title = _rewardDetail.reward.title;
     if (_rewardDetail.joinStatus.integerValue != JoinStatusNotJoin) {
+        self.curJoinInfo = nil;
         [self.view beginLoading];
         [[Coding_NetAPIManager sharedManager] get_JoinInfoWithRewardId:_rewardDetail.reward.id.integerValue block:^(id data, NSError *error) {
             [self.view endLoading];
             self.curJoinInfo = data? data: [JoinInfo joinInfoWithRewardId:self.rewardDetail.reward.id];
         }];
     }else{
-        _curJoinInfo = [JoinInfo joinInfoWithRewardId:self.rewardDetail.reward.id];
+        self.curJoinInfo = [JoinInfo joinInfoWithRewardId:self.rewardDetail.reward.id];
     }
     [self p_setupEvents];
 }
@@ -58,6 +59,9 @@
 - (void)setCurJoinInfo:(JoinInfo *)curJoinInfo{
     _curJoinInfo = curJoinInfo;
     _messageT.text = _curJoinInfo.message;
+    
+    _submitBtn.hidden = (_curJoinInfo == nil);
+    [self.tableView reloadData];
 }
 
 - (NSString *)p_NameOfRoleType:(NSNumber *)role_type{

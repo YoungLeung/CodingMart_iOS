@@ -34,6 +34,11 @@
 
 
 @implementation FillSkillsViewController
++ (instancetype)storyboardVC{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"UserInfo" bundle:nil];
+    return [storyboard instantiateViewControllerWithIdentifier:@"FillSkillsViewController"];
+}
+
 - (void)viewDidLoad{
     [super viewDidLoad];
     self.title = @"技能展示";
