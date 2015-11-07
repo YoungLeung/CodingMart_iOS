@@ -181,18 +181,12 @@
 - (void)get_FillUserInfoBlock:(void (^)(id data, NSError *error))block{
     NSString *path  = @"api/userinfo";
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
-        if (data) {
-            data = [NSObject objectOfClass:@"FillUserInfo" fromJSON:data[@"data"][@"info"]];
-        }
         block(data, error);
     }];
 }
 - (void)get_FillSkillsBlock:(void (^)(id data, NSError *error))block{
     NSString *path  = @"api/skills";
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
-        if (data) {
-            data = [NSObject objectOfClass:@"FillSkills" fromJSON:data[@"data"][@"info"]];
-        }
         block(data, error);
     }];
 }

@@ -12,5 +12,6 @@
 @property (strong, nonatomic) NSString *work_type_string, *skill, *specialty, *work_exp, *project_exp, *first_link, *second_link, *third_link;
 @property (strong, nonatomic) NSNumber *current_job, *career_years;
 - (NSDictionary *)toParams;
-- (BOOL)canPost;
+- (BOOL)canPost:(FillSkills *)originalObj;
+- (BOOL)isSameTo:(FillSkills *)obj;
 @end

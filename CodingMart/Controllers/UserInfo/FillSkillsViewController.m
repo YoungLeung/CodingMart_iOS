@@ -27,9 +27,9 @@
 @property (weak, nonatomic) IBOutlet UITextField *third_linkF;
 @property (weak, nonatomic) IBOutlet UITextField *current_jobF;
 @property (weak, nonatomic) IBOutlet UITextField *career_yearsF;
-
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *submitBtn;
 
+@property (strong, nonatomic) FillSkills *skills, *originalSkills;
 @end
 
 
@@ -79,7 +79,7 @@
                                                               RACObserve(self, skills.current_job),
                                                               RACObserve(self, skills.career_years),
                                                               ] reduce:^id{
-                                                                  return @([weakSelf.skills canPost]);
+                                                                  return @([weakSelf.skills canPost:weakSelf.originalSkills]);
                                                               }];
 }
 - (void)refresh{
@@ -87,7 +87,8 @@
     [self.view beginLoading];
     [[Coding_NetAPIManager sharedManager] get_FillSkillsBlock:^(id data, NSError *error) {
         [self.view endLoading];
-        self.skills = data? data: [FillSkills new];
+        self.skills = data[@"data"][@"info"]? [NSObject objectOfClass:@"FillSkills" fromJSON:data[@"data"][@"info"]]: [FillSkills new];
+        self.originalSkills = data[@"data"][@"info"]? [NSObject objectOfClass:@"FillSkills" fromJSON:data[@"data"][@"info"]]: [FillSkills new];
     }];
 }
 
@@ -109,13 +110,17 @@
 #pragma mark Navigation
 - (BOOL)navigationShouldPopOnBackButton{
     [self.view endEditing:YES];
-    __weak typeof(self) weakSelf = self;
-    [[UIActionSheet bk_actionSheetCustomWithTitle:@"返回后，修改的数据将不会被保存" buttonTitles:@[@"确定返回"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-        if (index == 0) {
-            [weakSelf.navigationController popViewControllerAnimated:YES];
-        }
-    }] showInView:self.view];
-    return NO;
+    if ([_skills isSameTo:_originalSkills]) {
+        return YES;
+    }else{
+        __weak typeof(self) weakSelf = self;
+        [[UIActionSheet bk_actionSheetCustomWithTitle:@"返回后，修改的数据将不会被保存" buttonTitles:@[@"确定返回"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            if (index == 0) {
+                [weakSelf.navigationController popViewControllerAnimated:YES];
+            }
+        }] showInView:self.view];
+        return NO;
+    }
 }
 
 #pragma mark Btn

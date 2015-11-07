@@ -28,7 +28,8 @@
 
 @property (nonatomic, strong, readwrite) NSTimer *timer;
 @property (assign, nonatomic) NSTimeInterval durationToValidity;
-@property (strong, nonatomic) NSString *originalMobile;
+
+@property (strong, nonatomic) FillUserInfo *userInfo, *originalUserInfo;
 @end
 
 
@@ -52,7 +53,7 @@
     [_phoneF.rac_textSignal subscribeNext:^(NSString *newText){
         weakSelf.userInfo.mobile = newText;
         if (newText.length > 0) {
-            BOOL isVerified = [newText isEqualToString:weakSelf.originalMobile];//已验证
+            BOOL isVerified = [newText isEqualToString:weakSelf.originalUserInfo.mobile];//已验证
             weakSelf.phoneVerifiedL.hidden = !isVerified;
             weakSelf.codeBtn.hidden = isVerified;
             weakSelf.codeF.hidden = isVerified;
@@ -73,14 +74,15 @@
     RAC(self, submitBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, userInfo.name),
                                                               RACObserve(self, userInfo.email),
                                                               RACObserve(self, userInfo.mobile),
+                                                              RACObserve(self, userInfo.qq),
                                                               RACObserve(self, userInfo.province),
                                                               RACObserve(self, userInfo.city),
                                                               RACObserve(self, userInfo.district),
                                                               RACObserve(self, userInfo.code),
                                                               ] reduce:^id{
                                                                   BOOL canPost = NO;
-                                                                  if ([weakSelf.userInfo canPost]) {
-                                                                      if ([weakSelf.userInfo.mobile isEqualToString:weakSelf.originalMobile]) {
+                                                                  if ([weakSelf.userInfo canPost:weakSelf.originalUserInfo]) {
+                                                                      if ([weakSelf.userInfo.mobile isEqualToString:weakSelf.originalUserInfo.mobile]) {
                                                                           canPost = YES;
                                                                       }else{
                                                                           canPost = weakSelf.userInfo.code.length > 0;
@@ -95,7 +97,8 @@
     [self.view beginLoading];
     [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id data, NSError *error) {
         [self.view endLoading];
-        self.userInfo = data? data: [FillUserInfo new];
+        self.userInfo = data[@"data"][@"info"]? [NSObject objectOfClass:@"FillUserInfo" fromJSON:data[@"data"][@"info"]]: [FillUserInfo new];
+        self.originalUserInfo = data[@"data"][@"info"]? [NSObject objectOfClass:@"FillUserInfo" fromJSON:data[@"data"][@"info"]]: [FillUserInfo new];
     }];
 }
 
@@ -104,8 +107,8 @@
     
     _nameF.text = _userInfo.name;
     _emailF.text = _userInfo.email;
-    _phoneF.text = _originalMobile = _userInfo.mobile;
-    _phoneVerifiedL.hidden = (_originalMobile.length == 0);
+    _phoneF.text = _userInfo.mobile;
+    _phoneVerifiedL.hidden = (_userInfo.mobile.length == 0);
     _qqNumF.text = _userInfo.qq;
     if (_userInfo.district_name.length > 0) {
         _locationF.text = [NSString stringWithFormat:@"%@ - %@ - %@", _userInfo.province_name, _userInfo.city_name, _userInfo.district_name];
@@ -122,13 +125,17 @@
 #pragma mark Navigation
 - (BOOL)navigationShouldPopOnBackButton{
     [self.view endEditing:YES];
-    __weak typeof(self) weakSelf = self;
-    [[UIActionSheet bk_actionSheetCustomWithTitle:@"返回后，修改的数据将不会被保存" buttonTitles:@[@"确定返回"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-        if (index == 0) {
-            [weakSelf.navigationController popViewControllerAnimated:YES];
-        }
-    }] showInView:self.view];
-    return NO;
+    if ([_userInfo isSameTo:_originalUserInfo]) {
+        return YES;
+    }else{
+        __weak typeof(self) weakSelf = self;
+        [[UIActionSheet bk_actionSheetCustomWithTitle:@"返回后，修改的数据将不会被保存" buttonTitles:@[@"确定返回"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            if (index == 0) {
+                [weakSelf.navigationController popViewControllerAnimated:YES];
+            }
+        }] showInView:self.view];
+        return NO;
+    }
 }
 
 #pragma mark Btn
@@ -156,7 +163,7 @@
 }
 
 - (IBAction)submitBtnClicked:(id)sender {
-    if ([_originalMobile isEqualToString:_userInfo.mobile]) {
+    if ([_userInfo.mobile isEqualToString:_originalUserInfo.mobile]) {
         _userInfo.code = nil;
     }
     [NSObject showHUDQueryStr:@"正在保存个人信息..."];
