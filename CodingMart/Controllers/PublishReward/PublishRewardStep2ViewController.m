@@ -12,8 +12,6 @@
 #import "TableViewFooterButton.h"
 
 @interface PublishRewardStep2ViewController ()
-@property (weak, nonatomic) IBOutlet UIImageView *line1V;
-@property (weak, nonatomic) IBOutlet UIImageView *line2V;
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *nextStepBtn;
 
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
@@ -30,13 +28,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    UIImage *line_dot_image = [UIImage imageNamed:@"line_dot"];
-    line_dot_image = [line_dot_image resizableImageWithCapInsets:UIEdgeInsetsZero resizingMode: UIImageResizingModeTile];
-    _line1V.image = _line2V.image = line_dot_image;
-    
     self.title = @"发布悬赏";
+    UIView *tableHeaderView = self.tableView.tableHeaderView;
+    tableHeaderView.height = 0.35 * kScreen_Width;
+    self.tableView.tableHeaderView = tableHeaderView;
     
     [_descriptionTextView doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0xDDDDDD"] cornerRadius:1];
+    _descriptionTextView.textContainerInset = UIEdgeInsetsMake(10, 8, 10, 8);
     [self p_setupTextEvents];
     RAC(self.nextStepBtn, enabled) = [RACSignal combineLatest:@[RACObserve(self, rewardToBePublished.name),
                                                                 RACObserve(self, rewardToBePublished.description_mine),
@@ -67,23 +65,17 @@
 }
 #pragma mark Table M
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView *headerV;
-    if (section > 0) {
-        headerV = [UIView new];
-    }
-    return headerV;
+    return [UIView new];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    CGFloat sectionH = 0;
-    if (section > 0) {
-        sectionH = 10;
-    }
-    return sectionH;
+    return 10;
 }
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
-    if (indexPath.section == 1 && indexPath.row == 1) {
+    if (indexPath.section == 0 && indexPath.row == 1) {
         cell.separatorInset = UIEdgeInsetsMake(0, kScreen_Width, 0, 0);//隐藏掉它
+    }else{
+        cell.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15);
     }
 }
 

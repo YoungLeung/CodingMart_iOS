@@ -42,7 +42,8 @@
             tableView;
         });
 //        header
-        RewardListHeaderView *headerV = [[RewardListHeaderView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 50.0)];
+        CGFloat headerHeight = kDevice_Is_iPhone6Plus? 55: 50;
+        RewardListHeaderView *headerV = [[RewardListHeaderView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, headerHeight)];
         __weak typeof(self) weakSelf = self;
         [headerV.leftBtn bk_addEventHandler:^(id sender) {
             if (weakSelf.martIntroduceBlock) {
@@ -136,6 +137,13 @@
     cell.curReward = _dataList[indexPath.row];
     return cell;
 }
+
+//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+//    cell.layer.transform = CATransform3DMakeScale(0.8, 0.8, 0.8);
+//    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut |UIViewAnimationOptionTransitionCrossDissolve animations:^{
+//        cell.layer.transform = CATransform3DMakeScale(1, 1, 1);
+//    } completion:nil];
+//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.itemClickedBlock) {

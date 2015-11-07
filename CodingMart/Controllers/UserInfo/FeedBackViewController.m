@@ -36,7 +36,9 @@
     self.feedBackInfo = [FeedBackInfo makeFeedBack];
     [_j_captchaBgView doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0xCCCCCC"] cornerRadius:1.0];
     [_contentF doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0xDDDDDD"] cornerRadius:1];
+    _contentF.textContainerInset = UIEdgeInsetsMake(10, 8, 10, 8);
     [_j_captchaF doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0xDDDDDD"] cornerRadius:1];
+
 
     __weak typeof(self) weakSelf = self;
     [_j_captchaBgView bk_whenTapped:^{
@@ -134,6 +136,8 @@
     [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
     if (indexPath.row == 3) {
         cell.separatorInset = UIEdgeInsetsMake(0, kScreen_Width, 0, 0);//隐藏掉它
+    }else{
+        cell.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15);//隐藏掉它
     }
 }
 

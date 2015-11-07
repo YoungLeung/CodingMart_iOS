@@ -21,9 +21,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *pmNotNeedBtn;
 @property (weak, nonatomic) IBOutlet UIButton *pmNeedBtn;
 
-@property (weak, nonatomic) IBOutlet UIImageView *line1V;
-@property (weak, nonatomic) IBOutlet UIImageView *line2V;
-
 @property (weak, nonatomic) IBOutlet UILabel *typeL;
 @property (weak, nonatomic) IBOutlet UILabel *budgetL;
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *nextStepBtn;
@@ -41,11 +38,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    UIImage *line_dot_image = [UIImage imageNamed:@"line_dot"];
-    line_dot_image = [line_dot_image resizableImageWithCapInsets:UIEdgeInsetsZero resizingMode: UIImageResizingModeTile];
-    _line1V.image = _line2V.image = line_dot_image;
-    
     self.title = @"发布悬赏";
+    UIView *tableHeaderView = self.tableView.tableHeaderView;
+    tableHeaderView.height = 0.35 * kScreen_Width;
+    self.tableView.tableHeaderView = tableHeaderView;
+    
     _typeList = @[@"网站",
                   @"APP",
                   @"微信开发",
@@ -143,23 +140,15 @@
 
 #pragma mark Table M
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView *headerV;
-    if (section > 0) {
-        headerV = [UIView new];
-    }
-    return headerV;
+    return [UIView new];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    CGFloat sectionH = 0;
-    if (section > 0) {
-        sectionH = 10;
-    }
-    return sectionH;
+    return 10;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 1) {
+    if (indexPath.section == 0) {
         NSArray *list;
         NSInteger curRow;
         if (indexPath.row == 0) {

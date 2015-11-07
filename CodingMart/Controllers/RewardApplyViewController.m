@@ -29,6 +29,8 @@
 }
 - (void)viewDidLoad{
     [super viewDidLoad];
+    _messageT.textContainerInset = UIEdgeInsetsMake(10, 8, 10, 8);
+    
     self.title = _rewardDetail.reward.title;
     if (_rewardDetail.joinStatus.integerValue != JoinStatusNotJoin) {
         self.curJoinInfo = nil;

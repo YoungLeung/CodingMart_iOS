@@ -217,6 +217,8 @@
     [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
     if (indexPath.row == 2) {
         cell.separatorInset = UIEdgeInsetsMake(0, kScreen_Width, 0, 0);//隐藏掉它
+    }else{
+        cell.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15);
     }
 }
 

@@ -31,7 +31,7 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     if (!_curUser) {
-        _curUser = [Login curLoginUser];
+        self.curUser = [Login curLoginUser];
     }else{
         [self refresh];
     }
@@ -53,9 +53,6 @@
 }
 
 #pragma mark Table M
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 30;
-}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
