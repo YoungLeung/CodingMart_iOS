@@ -11,6 +11,7 @@
 
 @interface AboutViewController ()
 @property (weak, nonatomic) IBOutlet UITTTAttributedLabel *footerL;
+@property (weak, nonatomic) IBOutlet UILabel *versionL;
 
 @end
 
@@ -23,6 +24,7 @@
     [_footerL addLinkToStr:@"400-026-3464" whithValue:@"400-026-3464" andBlock:^(id value) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://4000263464"]];
     }];
+    _versionL.text = [NSString stringWithFormat:@"V%@", [NSObject appVersion]];
 }
 
 - (void)didReceiveMemoryWarning {

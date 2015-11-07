@@ -12,6 +12,8 @@
 + (NSString *)baseURLStr;
 + (NSString *)codingURLStr;
 + (NSString *)userAgent;
++ (NSString *)appVersion;
++ (NSString *)appBuildVersion;
 + (NSDictionary *)rewardTypeDict;
 + (NSDictionary *)rewardStatusDict;
 + (NSDictionary *)rewardStatusStrColorDict;

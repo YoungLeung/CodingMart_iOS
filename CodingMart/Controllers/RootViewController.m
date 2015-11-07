@@ -12,13 +12,12 @@
 #import "RewardListView.h"
 #import "RewardDetailViewController.h"
 #import "KxMenu.h"
-
 #import "Reward.h"
 #import "Login.h"
 #import "UserInfoViewController.h"
 #import "PublishRewardStep1ViewController.h"
-
 #import <Masonry/Masonry.h>
+#import "FunctionTipsManager.h"
 
 
 @interface RootViewController ()<iCarouselDataSource, iCarouselDelegate>
@@ -28,7 +27,7 @@
 @property (strong, nonatomic) XTSegmentControl *mySegmentControl;
 @property (strong, nonatomic) iCarousel *myCarousel;
 
-@property (strong, nonatomic) UIButton *rightNavBtn;
+@property (strong, nonatomic) UIButton * leftNavBtn, *rightNavBtn;
 
 @property (assign, nonatomic) NSInteger selectedStatusIndex;
 @end
@@ -98,10 +97,17 @@
         _rightNavBtn.titleLabel.font = [UIFont systemFontOfSize:14];
         [_rightNavBtn setImage:[UIImage imageNamed:@"nav_icon_down"] forState:UIControlStateNormal];
         [self configRightNavBtnWithTitle:_statusList[0]];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightNavBtn];
     }
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightNavBtn];
-
-    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_user"] style:UIBarButtonItemStylePlain target:self action:@selector(leftNavBtnClicked)] animated:NO];
+    if (!_leftNavBtn) {
+        _leftNavBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 22, 22)];
+        [_leftNavBtn addTarget:self action:@selector(leftNavBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+        [_leftNavBtn setImage:[UIImage imageNamed:@"nav_icon_user"] forState:UIControlStateNormal];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.leftNavBtn];
+    }
+    if ([FunctionTipsManager needToTip:kFunctionTipStr_UserInfo]) {
+        [_leftNavBtn addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(25, 0)];
+    }
 }
 
 - (void)configRightNavBtnWithTitle:(NSString *)title{
@@ -116,6 +122,10 @@
 
 #pragma mark nav_item M
 - (void)leftNavBtnClicked{
+    if ([FunctionTipsManager needToTip:kFunctionTipStr_UserInfo]) {
+        [FunctionTipsManager markTiped:kFunctionTipStr_UserInfo];
+        [_leftNavBtn removeBadgeTips];
+    }
     [KxMenu dismissMenu:YES];
 
     UIViewController *vc = [UserInfoViewController storyboardVC];
