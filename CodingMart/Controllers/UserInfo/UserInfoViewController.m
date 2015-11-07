@@ -83,7 +83,7 @@
     
     _user_iconV.layer.masksToBounds = YES;
     _user_iconV.layer.cornerRadius = 0.1 * kScreen_Width;
-
+    
     [self.tableView reloadData];
 }
 
