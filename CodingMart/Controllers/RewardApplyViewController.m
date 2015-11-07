@@ -111,6 +111,10 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 20;
 }
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
+    cell.separatorInset = UIEdgeInsetsMake(0, kScreen_Width, 0, 0);
+}
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return _curJoinInfo? 1: 0;
 }

@@ -21,17 +21,17 @@
                             <rect key="frame" x="0.0" y="0.0" width="320" height="150"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_userinfo_Score" translatesAutoresizingMaskIntoConstraints="NO" id="BrE-pF-xhC" userLabel="headerBGV">
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg_userinfo" translatesAutoresizingMaskIntoConstraints="NO" id="BrE-pF-xhC" userLabel="headerBGV">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="150"/>
                                     <animations/>
-                                    <color key="backgroundColor" red="0.23137254900000001" green="0.74117647060000003" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </imageView>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder_user" translatesAutoresizingMaskIntoConstraints="NO" id="Xki-0F-J4Y">
-                                    <rect key="frame" x="128" y="43" width="64" height="64"/>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="placeholder_user" translatesAutoresizingMaskIntoConstraints="NO" id="Xki-0F-J4Y">
+                                    <rect key="frame" x="128" y="44" width="64" height="64"/>
                                     <animations/>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="游客" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="al5-N1-tO5">
-                                    <rect key="frame" x="0.0" y="127" width="320" height="20"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="游客" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="al5-N1-tO5">
+                                    <rect key="frame" x="0.0" y="128" width="320" height="20"/>
                                     <animations/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="20" id="iqL-8c-mK5"/>
@@ -2182,6 +2182,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="bg_userinfo" width="621" height="340"/>
         <image name="button_arrow_down" width="15" height="15"/>
         <image name="button_arrow_left" width="15" height="15"/>
         <image name="button_userinfo_joined" width="20" height="20"/>
@@ -2190,7 +2191,6 @@
         <image name="icon_fill_skills" width="20" height="20"/>
         <image name="icon_fill_userinfo" width="20" height="20"/>
         <image name="icon_info" width="15" height="15"/>
-        <image name="icon_userinfo_Score" width="15" height="15"/>
         <image name="icon_userinfo_about" width="20" height="20"/>
         <image name="icon_userinfo_book" width="20" height="20"/>
         <image name="icon_userinfo_feedback" width="20" height="20"/>

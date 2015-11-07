@@ -243,7 +243,7 @@
         [EAMultiSelectView showInView:self.view
                             withTitle:@"选择能胜任的工作类型"
                              dataList:[all_skill componentsSeparatedByString:@","]
-                         selectedList:[_skills.work_type_string componentsSeparatedByString:@","]
+                         selectedList:_skills.work_type_string.length > 0? [_skills.work_type_string componentsSeparatedByString:@","]: nil
                       andConfirmBlock:^(NSArray *selectedList) {
                           weakSelf.skills.work_type_string = [selectedList componentsJoinedByString:@","];
                           weakSelf.work_typeF.text = weakSelf.skills.work_type_string;
@@ -252,7 +252,7 @@
         NSString *all_work_type = @"Java,PHP,Ruby,Python,Go,C/C++,Objective-C,ASP.NET,C#,Perl,JavaScript,HTML/CSS,Android,iOS,Windows Phone,微信开发,网站开发,ERP/OA,即时通讯,端游开发,页游开发,手游开发,HTML5 游戏,算法,操作系统,编译器,硬件驱动,搜索技术,大数据,Docker,OpenStack,开源硬件";
         EAMultiSelectView *selectView = [EAMultiSelectView showInView:self.view withTitle:@"擅长的技术"
                              dataList:[all_work_type componentsSeparatedByString:@","]
-                         selectedList:[_skills.skill componentsSeparatedByString:@","]
+                         selectedList:_skills.skill.length > 0? [_skills.skill componentsSeparatedByString:@","]: nil
                       andConfirmBlock:^(NSArray *selectedList) {
                           weakSelf.skills.skill = [selectedList componentsJoinedByString:@","];
                           weakSelf.skillF.text = weakSelf.skills.skill;

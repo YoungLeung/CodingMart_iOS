@@ -339,15 +339,19 @@
 + (BOOL)isSameStr:(NSString *)obj1 to:(NSString *)obj2{
     if (obj1.length == 0 && obj2.length == 0) {
         return YES;
-    }else{
+    }else if (obj2 != nil){
         return [obj1 isEqualToString:obj2];
+    }else{
+        return obj1.length == 0;
     }
 }
 + (BOOL)isSameNum:(NSNumber *)obj1 to:(NSNumber *)obj2{
     if (obj1 == nil && obj2 == nil) {
         return YES;
-    }else{
+    }else if (obj2 != nil){
         return [obj1 isEqualToNumber:obj2];
+    }else{
+        return obj1 == nil;
     }
 }
 @end
