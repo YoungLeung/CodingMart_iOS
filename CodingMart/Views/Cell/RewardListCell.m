@@ -56,7 +56,13 @@
     _statusL.textColor = [UIColor colorWithHexString:_curReward.statusStrColorHexStr];
     _statusL.backgroundColor = [UIColor colorWithHexString:_curReward.statusBGColorHexStr];
     _roleTypesL.text = _curReward.roleTypesDisplay;
-    _durationL.text = [NSString stringWithFormat:@"交付周期：%@天", _curReward.duration.stringValue];
+    
+    NSString *durationStr = [NSString stringWithFormat:@"交付周期：%@天", _curReward.duration.stringValue];
+    NSMutableAttributedString *attrStr =[[NSMutableAttributedString alloc] initWithString:durationStr];
+    [attrStr addAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0xFF497F"]}
+                        range:NSMakeRange(durationStr.length - _curReward.duration.stringValue.length - 1, _curReward.duration.stringValue.length)];
+
+    _durationL.attributedText = attrStr;
 }
 + (CGFloat)cellHeight{
     CGFloat cellHeight = 0;

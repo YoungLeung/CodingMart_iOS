@@ -30,8 +30,6 @@
 - (void)doCircleFrame{
     self.layer.masksToBounds = YES;
     self.layer.cornerRadius = self.frame.size.width/2;
-    self.layer.borderWidth = 0.5;
-    self.layer.borderColor = [UIColor colorWithHexString:@"0xdddddd"].CGColor;
 }
 - (void)doNotCircleFrame{
     self.layer.cornerRadius = 0.0;

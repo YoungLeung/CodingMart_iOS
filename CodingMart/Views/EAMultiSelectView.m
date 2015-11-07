@@ -200,7 +200,7 @@
     }else{
         if (_selectedList.count >= _maxSelectNum) {
             ccell.hasBeenSeleted = !ccell.hasBeenSeleted;
-            [NSObject showHudTipStr:[NSString stringWithFormat:@"最多能选择 %ld 个", _maxSelectNum]];
+            [NSObject showHudTipStr:[NSString stringWithFormat:@"最多能选择 %ld 个", (unsigned long)_maxSelectNum]];
         }else{
             [_selectedList addObject:dataStr];
         }

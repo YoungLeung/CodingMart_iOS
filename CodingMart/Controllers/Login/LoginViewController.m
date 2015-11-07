@@ -11,6 +11,7 @@
 #import "UITTTAttributedLabel.h"
 #import "Coding_NetAPIManager.h"
 #import <BlocksKit/BlocksKit+UIKit.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 @interface LoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *mobileF;
@@ -95,6 +96,9 @@
         [weakSelf goToServiceTerms];
     }];
     [self p_setButton:_verify_codeBtn toEnabled:YES];
+    RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[_mobileF.rac_textSignal, _verify_codeF.rac_textSignal] reduce:^id(NSString *mobile, NSString *verify_code){
+        return @(mobile.length > 0 && verify_code.length > 0);
+    }];
 }
 
 - (void)p_setButton:(UIButton *)button toEnabled:(BOOL)enabled{

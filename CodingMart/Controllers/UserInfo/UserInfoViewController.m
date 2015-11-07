@@ -21,7 +21,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *headerBGV;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerBGVTop;
 @property (weak, nonatomic) IBOutlet UIButton *tipView;
-@property (weak, nonatomic) IBOutlet UILabel *tipLabel;
+@property (weak, nonatomic) IBOutlet UIView *tableHeaderView;
 
 @property (strong, nonatomic) User *curUser;
 @property (assign, nonatomic) BOOL isDisappearForLogin;
@@ -37,7 +37,7 @@
     // Do any additional setup after loading the view.
 //    self.title = @"个人中心";
     self.curUser = [Login curLoginUser];
-    [_user_iconV doCircleFrame];
+
     __weak typeof(self) weakSelf = self;
     [self.tableView.tableHeaderView bk_whenTapped:^{
         [weakSelf headerViewTapped];
@@ -74,7 +74,16 @@
     [_user_iconV sd_setImageWithURL:[_curUser.avatar urlWithCodingPath] placeholderImage:[UIImage imageNamed:@"placeholder_user"]];
     _user_nameL.text = _curUser.name;
     [self setupNavBarBtn];
-    self.tipView.hidden = [_curUser canJoinReward];
+    
+    BOOL canJoinReward = [_curUser canJoinReward];
+    self.tipView.hidden = canJoinReward;
+    
+    _tableHeaderView.height = 0.4 * kScreen_Width + (canJoinReward? 0: CGRectGetHeight(_tipView.frame));
+    self.tableView.tableHeaderView = _tableHeaderView;
+    
+    _user_iconV.layer.masksToBounds = YES;
+    _user_iconV.layer.cornerRadius = 0.1 * kScreen_Width;
+
     [self.tableView reloadData];
 }
 
@@ -88,11 +97,11 @@
 - (void)setupNavBarBtn{
     if ([Login isLogin]) {
         if (!self.navigationItem.rightBarButtonItem) {
-            UIButton *rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 75, 20)];
+            UIButton *rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 75, 25)];
             rightBtn.titleLabel.font = [UIFont systemFontOfSize:12];
             [rightBtn setTitle:@"完善资料" forState:UIControlStateNormal];
             [rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            [rightBtn doBorderWidth:0.5 color:[UIColor whiteColor] cornerRadius:10];
+            [rightBtn doBorderWidth:0.5 color:[UIColor whiteColor] cornerRadius:13];
             
             [rightBtn addTarget:self action:@selector(rightNavBtnClicked) forControlEvents:UIControlEventTouchUpInside];
             [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:rightBtn] animated:YES];
@@ -132,22 +141,30 @@
     return headerV;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    CGFloat sectionH = 0;
-    if (section > 0) {
-        sectionH = 10;
-    }else{
-        sectionH = 0;
+    if (section == 0 &&![_curUser canJoinReward]) {
+        return 0;
     }
-    return sectionH;
+    return 10;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return [Login isLogin]? 4: 3;
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
+    cell.separatorInset = UIEdgeInsetsMake(0, 20, 0, 0);
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 2 && indexPath.row == 0) {
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            [self myPublishedBtnClicked:nil];
+        }else{
+            [self myJoinedBtnClicked:nil];
+        }
+    }if (indexPath.section == 2 && indexPath.row == 0) {
         [self goToWebVCWithUrlStr:@"/codersay" title:@"码士说"];
     }else if (indexPath.section == 3){
         [self.view endEditing:YES];
