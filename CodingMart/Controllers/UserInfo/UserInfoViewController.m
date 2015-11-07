@@ -164,8 +164,12 @@
         }else{
             [self myJoinedBtnClicked:nil];
         }
-    }if (indexPath.section == 2 && indexPath.row == 0) {
-        [self goToWebVCWithUrlStr:@"/codersay" title:@"码士说"];
+    }if (indexPath.section == 2) {
+        if (indexPath.row == 0) {//码士说
+            [self goToWebVCWithUrlStr:@"/codersay" title:@"码士说"];
+        }else if (indexPath.row == 3){//去评分
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kAppReviewURL]];
+        }
     }else if (indexPath.section == 3){
         [self.view endEditing:YES];
         [[UIActionSheet bk_actionSheetCustomWithTitle:@"确定要退出当前账号" buttonTitles:nil destructiveTitle:@"确定退出" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
