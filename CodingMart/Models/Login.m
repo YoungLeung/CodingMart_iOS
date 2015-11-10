@@ -155,12 +155,11 @@ static User *curLoginUser;
     [defaults synchronize];
     curLoginUser = nil;
     
-    //删掉sid
+    //删掉 coding 的 cookie
     NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
     [cookies enumerateObjectsUsingBlock:^(NSHTTPCookie *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([obj.name isEqualToString:@"sid"]) {
+        if ([obj.domain hasSuffix:@".coding.net"]) {
             [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:obj];
-            *stop = YES;
         }
     }];
     
