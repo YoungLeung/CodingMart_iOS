@@ -47,7 +47,7 @@
     if (!baseDictInfo[key]) {
         baseDictInfo[key] = @{@"所有类型": @"",
                               @"网站": @"0",
-                              @"APP":@"5,6",
+                              @"APP":@"56",
                               @"iOS APP": @"5",
                               @"Android APP": @"6",
                               @"微信开发": @"2",

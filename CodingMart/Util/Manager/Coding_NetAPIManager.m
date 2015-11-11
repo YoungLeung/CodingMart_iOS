@@ -100,12 +100,11 @@
     NSString *path = @"api/rewards";
     type = [NSObject rewardTypeDict][type];
     status = [NSObject rewardStatusDict][status];
-    NSArray *typeList = [type componentsSeparatedByString:@","];
-
-    if (typeList.count == 2) {
-        NSDictionary *params0 = @{@"type": typeList[0],
+    
+    if (type.integerValue > 10) {
+        NSDictionary *params0 = @{@"type": @(type.integerValue / 10),
                                  @"status": status};
-        NSDictionary *params1 = @{@"type": typeList[1],
+        NSDictionary *params1 = @{@"type": @(type.integerValue % 10),
                                   @"status": status};
         [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params0 withMethodType:Get andBlock:^(id data0, NSError *error) {
             if (data0) {

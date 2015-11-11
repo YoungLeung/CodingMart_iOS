@@ -81,7 +81,7 @@
     NSMutableDictionary *params = @{}.mutableCopy;
     
     //step1
-    params[@"type"] = _type;
+    params[@"type"] = _type.integerValue > 10? @(_type.integerValue / 10): _type;
     params[@"budget"] = _budget;
     params[@"require_clear"] = _require_clear;
     params[@"need_pm"] = _need_pm;
