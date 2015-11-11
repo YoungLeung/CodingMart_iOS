@@ -15,6 +15,8 @@
 @interface FillTypesViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *userinfoCheckV;
 @property (weak, nonatomic) IBOutlet UIImageView *skillsCheckV;
+@property (weak, nonatomic) IBOutlet UIImageView *testingCheckV;
+@property (weak, nonatomic) IBOutlet UIImageView *statusCheckV;
 @property (strong, nonatomic) User *curUser;
 @end
 
@@ -46,10 +48,16 @@
     }];
 }
 
-- (void)setCurUser:(User *)curUser{
+- (void)setCurUser:(User *)curUser
+{
     _curUser = curUser;
     _userinfoCheckV.image = [UIImage imageNamed:_curUser.fullInfo.boolValue? @"fill_checked": @"fill_unchecked"];
     _skillsCheckV.image = [UIImage imageNamed:_curUser.fullSkills.boolValue? @"fill_checked": @"fill_unchecked"];
+    
+    _testingCheckV.image = [UIImage imageNamed:_curUser.passingSurvey.boolValue? @"fill_checked": @"fill_unchecked"];
+    _statusCheckV.image = [UIImage imageNamed:_curUser.status.boolValue? @"fill_checked": @"fill_unchecked"];
+    
+    
 }
 
 #pragma mark Table M
@@ -64,5 +72,13 @@
         FillSkillsViewController *vc = [FillSkillsViewController storyboardVC];
         [self.navigationController pushViewController:vc animated:YES];
     }
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section==0)
+        return 30;
+    else
+        return 20;
 }
 @end
