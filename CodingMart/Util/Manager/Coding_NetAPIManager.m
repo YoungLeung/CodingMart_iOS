@@ -134,6 +134,24 @@
         }];
     }
 }
+- (void)get_JoinedRewardListBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/joined";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"Reward"];
+        }
+        block(data, error);
+    }];
+}
+- (void)get_PublishededRewardListBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/published";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"Reward"];
+        }
+        block(data, error);
+    }];
+}
 - (void)post_Reward:(Reward *)reward block:(void (^)(id data, NSError *error))block{
     NSString *path  = @"api/reward";
     NSDictionary *params = [reward toPostParams];

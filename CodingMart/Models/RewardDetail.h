@@ -13,7 +13,6 @@
 
 @interface RewardDetail : NSObject
 @property (strong, nonatomic) Reward *reward;
-//@property (strong, nonatomic) TempC *reward;
 //CurrentUser
 @property (strong, nonatomic) NSNumber *isOwner, *joinStatus;
 

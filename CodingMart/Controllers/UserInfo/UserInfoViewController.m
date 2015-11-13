@@ -14,6 +14,8 @@
 #import "Login.h"
 #import "UIImageView+WebCache.h"
 #import <BlocksKit/BlocksKit+UIKit.h>
+#import "JoinedRewardsViewController.h"
+#import "PublishedRewardsViewController.h"
 
 @interface UserInfoViewController ()<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *user_iconV;
@@ -121,14 +123,16 @@
     if (![Login isLogin]) {
         [self goToLogin];
     }else{
-        [self goToWebVCWithUrlStr:@"/published" title:sender.titleLabel.text];
+        [self.navigationController pushViewController:[PublishedRewardsViewController storyboardVC] animated:YES];
+//        [self goToWebVCWithUrlStr:@"/published" title:sender.titleLabel.text];
     }
 }
 - (IBAction)myJoinedBtnClicked:(UIButton *)sender {
     if (![Login isLogin]) {
         [self goToLogin];
     }else{
-        [self goToWebVCWithUrlStr:@"/joined" title:sender.titleLabel.text];
+        [self.navigationController pushViewController:[JoinedRewardsViewController storyboardVC] animated:YES];
+//        [self goToWebVCWithUrlStr:@"/joined" title:sender.titleLabel.text];
     }
 }
 

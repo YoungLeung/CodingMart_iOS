@@ -18,9 +18,6 @@
     return self;
 }
 
-//- (Reward *)reward{
-//    return nil;
-//}
 @end
 
 @implementation TempC
