@@ -66,6 +66,7 @@
 		4E36A56A1BE09EBD00BC3ADE /* SettingNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E36A5691BE09EBD00BC3ADE /* SettingNotificationViewController.m */; };
 		4E36A56D1BE1C4B700BC3ADE /* RewardDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E36A56C1BE1C4B700BC3ADE /* RewardDetailViewController.m */; };
 		4E6318A51BDE12A500EFED97 /* MartWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6318A41BDE12A400EFED97 /* MartWebViewController.m */; };
+		4E8547BA1BFB36D30038BA9B /* CodingShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8547B91BFB36D30038BA9B /* CodingShareView.m */; };
 		4E934B191BF5C8A800F1A02A /* JoinedRewardsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E934B181BF5C8A800F1A02A /* JoinedRewardsViewController.m */; };
 		4E934B1C1BF5C8C800F1A02A /* PublishedRewardsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E934B1B1BF5C8C800F1A02A /* PublishedRewardsViewController.m */; };
 		4E934B1F1BF5E20900F1A02A /* JoinedRewardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E934B1E1BF5E20900F1A02A /* JoinedRewardCell.m */; };
@@ -274,6 +275,8 @@
 		4E36A56C1BE1C4B700BC3ADE /* RewardDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RewardDetailViewController.m; sourceTree = "<group>"; };
 		4E6318A31BDE12A400EFED97 /* MartWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MartWebViewController.h; sourceTree = "<group>"; };
 		4E6318A41BDE12A400EFED97 /* MartWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MartWebViewController.m; sourceTree = "<group>"; };
+		4E8547B81BFB36D30038BA9B /* CodingShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodingShareView.h; sourceTree = "<group>"; };
+		4E8547B91BFB36D30038BA9B /* CodingShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodingShareView.m; sourceTree = "<group>"; };
 		4E934B171BF5C8A800F1A02A /* JoinedRewardsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JoinedRewardsViewController.h; sourceTree = "<group>"; };
 		4E934B181BF5C8A800F1A02A /* JoinedRewardsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JoinedRewardsViewController.m; sourceTree = "<group>"; };
 		4E934B1A1BF5C8C800F1A02A /* PublishedRewardsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishedRewardsViewController.h; sourceTree = "<group>"; };
@@ -735,6 +738,8 @@
 				4E2A0DA01BC933A80091CA77 /* UITTTAttributedLabel.m */,
 				4EFD8EB21BE756BB00E9C284 /* EAMultiSelectView.h */,
 				4EFD8EB31BE756BB00E9C284 /* EAMultiSelectView.m */,
+				4E8547B81BFB36D30038BA9B /* CodingShareView.h */,
+				4E8547B91BFB36D30038BA9B /* CodingShareView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1270,6 +1275,7 @@
 				4E2693AD1BC67B1300F9E332 /* NSObject+ObjectMap.m in Sources */,
 				4E36A56A1BE09EBD00BC3ADE /* SettingNotificationViewController.m in Sources */,
 				4E2693C21BC75F3F00F9E332 /* Reward.m in Sources */,
+				4E8547BA1BFB36D30038BA9B /* CodingShareView.m in Sources */,
 				4EFD8EC01BE88CA900E9C284 /* JoinInfo.m in Sources */,
 				4EDAE3F61BC7BCBE00255FE8 /* NJKWebViewProgress.m in Sources */,
 				4EDAE42D1BC8B8BC00255FE8 /* PublishRewardStep1ViewController.m in Sources */,
@@ -1484,6 +1490,21 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PREFIX_HEADER = "CodingMart/CodingMart-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/include/libxml2",
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/BlocksKit\"",
+					"\"${PODS_ROOT}/Headers/Public/FDFullscreenPopGesture\"",
+					"\"${PODS_ROOT}/Headers/Public/MBProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/ReactiveCocoa\"",
+					"\"${PODS_ROOT}/Headers/Public/RegexKitLite-NoWarning\"",
+					"\"${PODS_ROOT}/Headers/Public/TPKeyboardAvoiding\"",
+					"\"${PODS_ROOT}/Headers/Public/TTTAttributedLabel\"",
+					"\"${PODS_ROOT}/Headers/Public/UMengSocial\"",
+					"\"${PODS_ROOT}/Headers/Public/evernote-cloud-sdk-ios\"/**",
+				);
 				INFOPLIST_FILE = CodingMart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1506,6 +1527,21 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PREFIX_HEADER = "CodingMart/CodingMart-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/include/libxml2",
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/BlocksKit\"",
+					"\"${PODS_ROOT}/Headers/Public/FDFullscreenPopGesture\"",
+					"\"${PODS_ROOT}/Headers/Public/MBProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/ReactiveCocoa\"",
+					"\"${PODS_ROOT}/Headers/Public/RegexKitLite-NoWarning\"",
+					"\"${PODS_ROOT}/Headers/Public/TPKeyboardAvoiding\"",
+					"\"${PODS_ROOT}/Headers/Public/TTTAttributedLabel\"",
+					"\"${PODS_ROOT}/Headers/Public/UMengSocial\"",
+					"\"${PODS_ROOT}/Headers/Public/evernote-cloud-sdk-ios\"/**",
+				);
 				INFOPLIST_FILE = CodingMart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

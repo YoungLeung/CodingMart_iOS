@@ -14,6 +14,7 @@
 #import "FillTypesViewController.h"
 #import "RewardApplyViewController.h"
 #import <BlocksKit/BlocksKit+UIKit.h>
+#import "CodingShareView.h"
 
 @interface RewardDetailViewController ()
 @property (strong, nonatomic) Reward *curReward;
@@ -46,6 +47,11 @@
 - (void)setRewardDetal:(RewardDetail *)rewardDetal{
     _rewardDetal = rewardDetal;
     self.titleStr = _rewardDetal.reward.title;
+}
+
+- (void)viewDidLoad{
+    [super viewDidLoad];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_more"] style:UIBarButtonItemStylePlain target:self action:@selector(navBtnClicked:)];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -238,6 +244,11 @@
         [UIViewController presentVC:vc dismissBtnTitle:@"取消"];
     }
     NSLog(@"bottomBtnClicked : %@", sender.titleLabel.text);
+}
+
+- (void)navBtnClicked:(id)sender{
+    CodingShareView *shareView = [CodingShareView showShareViewWithObj:_rewardDetal.reward];
+    shareView.extraWebView = self.webView;
 }
 
 @end

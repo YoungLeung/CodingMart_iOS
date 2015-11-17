@@ -10,6 +10,12 @@
 #import "XGPush.h"
 #import "Login.h"
 
+#import <UMengSocial/UMSocial.h>
+#import <UMengSocial/UMSocialWechatHandler.h>
+#import <UMengSocial/UMSocialQQHandler.h>
+#import <evernote-cloud-sdk-ios/ENSDK/ENSDK.h>
+#import <UMengSocial/UMSocialSinaSSOHandler.h>
+
 @interface AppDelegate ()
 
 @end
@@ -25,18 +31,10 @@
     [self registerWebViewUserAgent];
     //App 角标清零
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-    //    信鸽推送
-    [XGPush startApp:kXGPush_Id appKey:kXGPush_Key];
-    [Login setXGAccountWithCurUser];
-    //注销之后需要再次注册前的准备
-    __weak typeof(self) weakSelf = self;
-    void (^successCallback)(void) = ^(void){
-        //如果变成需要注册状态
-        if(![XGPush isUnRegisterStatus] && [Login isLogin]){
-            [weakSelf registerPush];
-        }
-    };
-    [XGPush initForReregister:successCallback];
+//    推送
+    [self registerRemoteNotification];
+//    友盟分享
+    [self registerSocialData];
     
     return YES;
 }
@@ -57,10 +55,49 @@
     [[UISearchBar appearance] setBackgroundImage:[UIImage imageWithColor:kColorTableSectionBg] forBarPosition:0 barMetrics:UIBarMetricsDefault];
 }
 
-#pragma mark UserAgent
+- (void)registerRemoteNotification{
+    //    信鸽推送
+    [XGPush startApp:kXGPush_Id appKey:kXGPush_Key];
+    [Login setXGAccountWithCurUser];
+    //注销之后需要再次注册前的准备
+    __weak typeof(self) weakSelf = self;
+    void (^successCallback)(void) = ^(void){
+        //如果变成需要注册状态
+        if(![XGPush isUnRegisterStatus] && [Login isLogin]){
+            [weakSelf registerPush];
+        }
+    };
+    [XGPush initForReregister:successCallback];
+}
+
 - (void)registerWebViewUserAgent{
     NSDictionary *dictionary = @{@"UserAgent" : [NSObject userAgent]};//User-Agent
     [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
+}
+
+- (void)registerSocialData{
+    //    UMENG Social Account
+    [UMSocialData setAppKey:kUmeng_AppKey];
+    [UMSocialWechatHandler setWXAppId:kSocial_WX_ID appSecret:kSocial_WX_Secret url:[NSObject baseURLStr]];
+    [UMSocialQQHandler setQQWithAppId:kSocial_QQ_ID appKey:kSocial_QQ_Secret url:[NSObject baseURLStr]];
+    [ENSession setSharedSessionConsumerKey:kSocial_EN_Key consumerSecret:kSocial_EN_Secret optionalHost:nil];
+    [UMSocialSinaSSOHandler openNewSinaSSOWithRedirectURL:kSocial_Sina_RedirectURL];
+    
+    //    UMENG Social Config
+    [UMSocialConfig setFollowWeiboUids:@{UMShareToSina : kSocial_Sina_OfficailAccount}];//设置默认关注官方账号
+    [UMSocialConfig setFinishToastIsHidden:YES position:UMSocialiToastPositionCenter];
+//    [UMSocialConfig setNavigationBarConfig:^(UINavigationBar *bar, UIButton *closeButton, UIButton *backButton, UIButton *postButton, UIButton *refreshButton, UINavigationItem *navigationItem) {
+//        if (bar) {
+//            [bar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:[NSObject baseURLStrIsTest]? @"0x3bbd79" : @"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
+//        }
+//        if (navigationItem) {
+//            if ([[navigationItem titleView] isKindOfClass:[UILabel class]]) {
+//                UILabel *titleL = (UILabel *)[navigationItem titleView];
+//                titleL.font = [UIFont boldSystemFontOfSize:kNavTitleFontSize];
+//                titleL.textColor = [UIColor whiteColor];
+//            }
+//        }
+//    }];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

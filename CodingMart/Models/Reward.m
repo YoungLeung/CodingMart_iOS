@@ -110,4 +110,13 @@
     
     return params;
 }
+
+- (NSString *)toShareLinkStr{
+    if ([_id isKindOfClass:[NSNumber class]]) {
+        return [NSString stringWithFormat:@"%@p/%@", [NSObject baseURLStr],  _id.stringValue];
+    }else{
+        return [NSObject baseURLStr];
+    }
+}
+
 @end
