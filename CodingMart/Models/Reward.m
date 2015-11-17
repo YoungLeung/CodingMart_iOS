@@ -35,6 +35,8 @@
     }
     if (_status) {
         _statusDisplay = [[NSObject rewardStatusDict] findKeyFromStrValue:_status.stringValue];
+    }else if (_reward_status){
+        _statusDisplay = [[NSObject rewardStatusDict] findKeyFromStrValue:_reward_status.stringValue];
     }
     __block NSMutableString *roleTypesDisplay = @"".mutableCopy;
     [_roleTypes enumerateObjectsUsingBlock:^(RewardRoleType *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -101,6 +103,10 @@
     params[@"contact_name"] = _contact_name;
     params[@"contact_mobile"] = _contact_mobile;
     params[@"contact_email"] = _contact_email;
+    params[@"recommend"] = @"";
+    if ([_id isKindOfClass:[NSNumber class]]) {
+        params[@"id"] = _id;
+    }
     
     return params;
 }

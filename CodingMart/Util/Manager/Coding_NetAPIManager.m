@@ -138,7 +138,7 @@
     NSString *path = @"api/joined";
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
-            data = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"Reward"];
+            data = [NSObject arrayFromJSON:data[@"data"][@"rewards"][@"list"] ofObjects:@"Reward"];
         }
         block(data, error);
     }];
@@ -147,7 +147,7 @@
     NSString *path = @"api/published";
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
-            data = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"Reward"];
+            data = [NSObject arrayFromJSON:data[@"data"][@"rewards"][@"list"] ofObjects:@"Reward"];
         }
         block(data, error);
     }];
@@ -155,6 +155,16 @@
 - (void)post_Reward:(Reward *)reward block:(void (^)(id data, NSError *error))block{
     NSString *path  = @"api/reward";
     NSDictionary *params = [reward toPostParams];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+- (void)post_CancelRewardId:(NSNumber *)rewardId block:(void (^)(id data, NSError *error))block{
+    if (![rewardId isKindOfClass:[NSNumber class]]) {
+        return;
+    }
+    NSString *path = @"api/cancel";
+    NSDictionary *params = @{@"id": rewardId};
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         block(data, error);
     }];

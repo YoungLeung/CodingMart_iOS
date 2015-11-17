@@ -19,8 +19,3 @@
 }
 
 @end
-
-@implementation TempC
-
-
-@end

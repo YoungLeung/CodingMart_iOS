@@ -27,6 +27,10 @@
     [self.layer setCornerRadius:cornerRadius];
 }
 
+- (void)setMasksToBounds:(BOOL)masksToBounds{
+    [self.layer setMasksToBounds:masksToBounds];
+}
+
 - (void)doCircleFrame{
     self.layer.masksToBounds = YES;
     self.layer.cornerRadius = self.frame.size.width/2;

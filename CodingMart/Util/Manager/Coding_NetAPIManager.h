@@ -25,6 +25,7 @@
 - (void)get_JoinedRewardListBlock:(void (^)(id data, NSError *error))block;
 - (void)get_PublishededRewardListBlock:(void (^)(id data, NSError *error))block;
 - (void)post_Reward:(Reward *)reward block:(void (^)(id data, NSError *error))block;
+- (void)post_CancelRewardId:(NSNumber *)rewardId block:(void (^)(id data, NSError *error))block;
 - (void)get_RewardDetailWithId:(NSInteger)rewardId block:(void (^)(id data, NSError *error))block;
 - (void)get_JoinInfoWithRewardId:(NSInteger)rewardId block:(void (^)(id data, NSError *error))block;
 - (void)post_JoinInfo:(JoinInfo *)info block:(void (^)(id data, NSError *error))block;
