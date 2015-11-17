@@ -378,11 +378,11 @@
                                     <outlet property="delegate" destination="gQ1-IN-x00" id="iAy-b8-yQ8"/>
                                 </connections>
                             </tableView>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="paO-SF-y7s">
-                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="paO-SF-y7s">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder_reward_cover" translatesAutoresizingMaskIntoConstraints="NO" id="9JI-hA-ZoM">
-                                        <rect key="frame" x="250" y="133" width="100" height="100"/>
+                                        <rect key="frame" x="250" y="153" width="100" height="100"/>
                                         <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="100" id="Kh9-hB-uwr"/>
@@ -390,21 +390,21 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="您还没有参与过悬赏项目" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wFf-Ze-5yS">
-                                        <rect key="frame" x="223" y="248" width="154" height="17"/>
+                                        <rect key="frame" x="223" y="268" width="154" height="17"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="去看看有哪些您感兴趣的悬赏项目" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rNI-tq-6Td">
-                                        <rect key="frame" x="210" y="273" width="180" height="15"/>
+                                        <rect key="frame" x="210" y="293" width="180" height="15"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <color key="textColor" red="0.70980392156862748" green="0.70980392156862748" blue="0.70980392156862748" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9r9-zl-kTu">
-                                        <rect key="frame" x="250" y="308" width="100" height="36"/>
+                                        <rect key="frame" x="250" y="328" width="100" height="36"/>
                                         <animations/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="ElA-3x-OhM"/>
@@ -445,19 +445,15 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="YD3-Yq-jj3" firstAttribute="top" secondItem="paO-SF-y7s" secondAttribute="bottom" id="9YR-lu-Kn6"/>
                             <constraint firstItem="paO-SF-y7s" firstAttribute="centerX" secondItem="S1D-S3-S6o" secondAttribute="centerX" id="B9e-PD-5uy"/>
-                            <constraint firstItem="paO-SF-y7s" firstAttribute="top" secondItem="GMk-WX-TOx" secondAttribute="bottom" id="Kmd-TM-awn"/>
                             <constraint firstItem="paO-SF-y7s" firstAttribute="height" secondItem="S1D-S3-S6o" secondAttribute="height" id="LYT-EX-UpT"/>
                             <constraint firstItem="paO-SF-y7s" firstAttribute="centerY" secondItem="S1D-S3-S6o" secondAttribute="centerY" id="UDI-9u-fhL"/>
                             <constraint firstItem="kMt-hu-xh7" firstAttribute="width" secondItem="S1D-S3-S6o" secondAttribute="width" id="X50-Ci-GJv"/>
                             <constraint firstItem="rNI-tq-6Td" firstAttribute="centerX" secondItem="S1D-S3-S6o" secondAttribute="centerX" id="bkQ-tF-5wW"/>
                             <constraint firstItem="paO-SF-y7s" firstAttribute="width" secondItem="S1D-S3-S6o" secondAttribute="width" id="eZM-2w-l3B"/>
                             <constraint firstItem="kMt-hu-xh7" firstAttribute="height" secondItem="S1D-S3-S6o" secondAttribute="height" id="jQU-wj-X6N"/>
-                            <constraint firstItem="paO-SF-y7s" firstAttribute="leading" secondItem="S1D-S3-S6o" secondAttribute="leading" id="kar-0V-kgr"/>
                             <constraint firstItem="rNI-tq-6Td" firstAttribute="centerY" secondItem="S1D-S3-S6o" secondAttribute="centerY" id="sI5-yt-wgL"/>
                             <constraint firstItem="kMt-hu-xh7" firstAttribute="centerX" secondItem="S1D-S3-S6o" secondAttribute="centerX" id="x2A-06-dky"/>
-                            <constraint firstAttribute="trailing" secondItem="paO-SF-y7s" secondAttribute="trailing" id="xK7-m4-5Bo"/>
                             <constraint firstItem="kMt-hu-xh7" firstAttribute="centerY" secondItem="S1D-S3-S6o" secondAttribute="centerY" id="zFi-QG-4Az"/>
                         </constraints>
                     </view>

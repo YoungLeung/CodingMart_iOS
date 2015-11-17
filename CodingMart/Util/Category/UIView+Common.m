@@ -13,7 +13,7 @@
 #import <objc/runtime.h>
 
 @implementation UIView (Common)
-@dynamic borderColor,borderWidth,cornerRadius;
+@dynamic borderColor,borderWidth,cornerRadius, masksToBounds;
 
 -(void)setBorderColor:(UIColor *)borderColor{
     [self.layer setBorderColor:borderColor.CGColor];
