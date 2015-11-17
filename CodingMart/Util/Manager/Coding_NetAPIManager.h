@@ -41,4 +41,7 @@
 - (void)post_FeedBack:(FeedBackInfo *)feedBackInfo  block:(void (^)(id data, NSError *error))block;
 #pragma mark CaptchaImg
 - (void)loadCaptchaImgWithCompleteBlock:(void (^)(UIImage *image, NSError *error))block;
+#pragma mark 码市试题测试
+- (void)get_CodingExamTesting:(void (^)(id data, NSError *error))block;
+- (void)post_CodingExamTesting:(NSDictionary *)params block:(void (^)(id data, NSError *error))block;
 @end

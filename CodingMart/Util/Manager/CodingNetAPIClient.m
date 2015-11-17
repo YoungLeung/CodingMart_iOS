@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kNetworkMethodName @[@"Get", @"Post", @"Put", @"Delete"]
+#define kNetworkMethodName @[@"Get", @"Post", @"Put", @"Delete",@"Post_Mulit"]
 
 #import "CodingNetAPIClient.h"
 #import "Login.h"
@@ -120,6 +120,32 @@ static dispatch_once_t onceToken_Coding;
                 !autoShowError || [NSObject showError:error];
                 block(nil, error);
             }];
+            break;}
+        case Post_Mulit:{
+            [self POST:aPath parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData)
+            {
+                NSMutableData *data = [[NSMutableData alloc] init];
+                NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+                [archiver encodeObject:params[@"answers"] forKey:@"answers"];
+                [archiver finishEncoding];
+                
+                [formData appendPartWithFormData:data name:@"answers"];
+            } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, responseObject);
+//                id error = [self handleResponse:responseObject autoShowError:autoShowError];
+//                if (error)
+//                {
+//                    block(nil, error);
+//                }else{
+//                    block(responseObject, nil);
+//                }
+                block(responseObject, nil);
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
+                !autoShowError || [NSObject showError:error];
+                block(nil, error);
+            }];
+            
             break;}
         case Put:{
             [self PUT:aPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {

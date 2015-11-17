@@ -13,7 +13,8 @@ typedef NS_ENUM(NSInteger, NetworkMethod) {
 	Get = 0,
 	Post,
 	Put,
-    Delete
+    Delete,
+    Post_Mulit
 };
 
 typedef NS_ENUM(NSInteger, IllegalContentType) {

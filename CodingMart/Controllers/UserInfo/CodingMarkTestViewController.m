@@ -11,6 +11,8 @@
 #import "WPAttributedStyleAction.h"
 #import "WPHotspotLabel.h"
 #import "CodingMarkServerWebViewController.h"
+#import "Coding_NetAPIManager.h"
+#import "ExamViewController.h"
 
 #define kHeardImgRatio 297/580
 #define kHeardImgheight (kScreen_Width-20)*kHeardImgRatio
@@ -45,6 +47,8 @@
     
     UIFont *textFont =[UIFont fontWithName:@"HelveticaNeue" size:18];
     UIColor *nameCorlor=[UIColor colorWithHexString:@"3BBD79"];
+    self.confirmationBtn.layer.masksToBounds=YES;
+    self.confirmationBtn.layer.cornerRadius=5;
 
    
         
@@ -83,18 +87,21 @@
 //    }];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 - (IBAction)tapAction:(id)sender
 {
-    
+    [NSObject showHUDQueryStr:@"正在加载试题..."];
+    WEAKSELF
+    [[Coding_NetAPIManager sharedManager]get_CodingExamTesting:^(id data, NSError *error)
+    {
+        [NSObject hideHUDQuery];
+        if (!error)
+        {
+            ExamViewController *av =[ExamViewController new];
+            av.dataSource=data;
+            [weakSelf.navigationController pushViewController:av animated:YES];
+        }
+        
+    }];
 }
 @end

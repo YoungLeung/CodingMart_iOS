@@ -9,3 +9,7 @@ pod 'Masonry', '0.5.3'
 pod 'MBProgressHUD', '0.9'
 pod 'TTTAttributedLabel', '1.10.1'
 pod 'FDFullscreenPopGesture', '1.1'
+
+pod 'DCKeyValueObjectMapping'
+pod 'UITableView+FDTemplateLayoutCell'
+pod 'RDHCollectionViewGridLayout', '~> 1.2'

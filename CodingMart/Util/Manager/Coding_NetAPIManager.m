@@ -17,6 +17,16 @@
 #import "JoinInfo.h"
 #import "RewardDetail.h"
 #import "JoinInfo.h"
+#import "CodingExamModel.h"
+#import "CodingExamOptionsModel.h"
+
+#import "DCObjectMapping.h"
+#import "DCParserConfiguration.h"
+#import "DCArrayMapping.h"
+#import "DCKeyValueObjectMapping.h"
+
+
+
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -148,6 +158,54 @@
         if (data) {
             data = [NSObject objectOfClass:@"RewardDetail" fromJSON:data[@"data"]];
         }
+        block(data, error);
+    }];
+}
+
+- (void)get_CodingExamTesting:(void (^)(id data, NSError *error))block
+{
+    NSString *path = [NSString stringWithFormat:@"/api/app/survey"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data)
+        {
+            NSArray *dataArr =data[@"data"][@"questions"];
+            
+            DCArrayMapping *optionArrMap =[DCArrayMapping mapperForClassElements:[CodingExamOptionsModel class] forAttribute:@"options" onClass:[CodingExamModel class]];
+            
+            DCParserConfiguration *config =[DCParserConfiguration configuration];
+            [config addArrayMapper:optionArrMap];
+            
+            DCKeyValueObjectMapping *parser =[DCKeyValueObjectMapping mapperForClass:[CodingExamModel class] andConfiguration:config];
+            NSMutableArray *dataSource =[NSMutableArray new];
+            
+            for (NSDictionary *dic in dataArr)
+            {
+                CodingExamModel *model =[parser parseDictionary:dic];
+                
+                [dataSource addObject:model];
+            }
+            
+           NSArray *sortArr = [dataSource sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2)
+            {
+                CodingExamModel *a = (CodingExamModel *)obj1;
+                CodingExamModel *b = (CodingExamModel *)obj2;
+                
+                return [a.sort compare:b.sort];
+            }];
+            
+            data=sortArr;
+            
+        }
+        
+        block(data, error);
+    }];
+}
+
+- (void)post_CodingExamTesting:(NSDictionary *)params block:(void (^)(id data, NSError *error))block
+{
+    NSString *path = [NSString stringWithFormat:@"/api/app/survey"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post_Mulit andBlock:^(id data, NSError *error)
+    {
         block(data, error);
     }];
 }
