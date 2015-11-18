@@ -7,6 +7,9 @@
 //
 
 #import "IdentityAuthenticationViewController.h"
+#import "KLCPopup.h"
+#import <QuartzCore/QuartzCore.h>
+#import "ExampleView.h"
 
 @interface IdentityAuthenticationViewController ()<UITextFieldDelegate>
 
@@ -77,80 +80,49 @@
 
 -(void)showExampleViewWithTag:(NSInteger)tag
 {
-    UIView *bgView =[[UIView alloc]init];
-    bgView.backgroundColor=[UIColor blackColor];
-//    bgView.alpha=0.5;
-    bgView.tag=999;
+
     
-    UIView *contentView =[UIView new];
-    contentView.backgroundColor=[UIColor whiteColor];
-    contentView.layer.masksToBounds=YES;
-    contentView.layer.cornerRadius=10;
+    ExampleView *exmp =[ExampleView createExameView];
     
-    UILabel *titleLb =[UILabel new];
-    titleLb.textAlignment=NSTextAlignmentLeft;
-    titleLb.font=[UIFont systemFontOfSize:17];
-    
-    UIButton *closeBtn =[UIButton buttonWithType:UIButtonTypeCustom];
-    [closeBtn setBackgroundImage:[UIImage imageNamed:@"icon-showAll"] forState:UIControlStateNormal];
-    [closeBtn addTarget:self action:@selector(closeExAction) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIView *line =[UIView new];
-    line.backgroundColor=[UIColor grayColor];
-    
-    UIImageView *contentImgView =[UIImageView new];
-    contentImgView.contentMode=UIViewContentModeScaleToFill;
-    
-    [contentView addSubview:titleLb];
-    [contentView addSubview:closeBtn];
-    [contentView addSubview:line];
-    [contentView addSubview:contentImgView];
-    
-    [bgView addSubview:contentView];
-    
-    [self.view insertSubview:bgView atIndex:1];
-    [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
     
     if (tag==87 || tag==88)
     {
         if (tag==87)
         {
-            [contentImgView setImage:[UIImage imageNamed:@"IDCard1_example"]];
+            [exmp.exampleImgView setImage:[UIImage imageNamed:@"IDCard1_example"]];
+            exmp.aTitleLabel.text=@"上传手持身份证正面图片";
         }else
         {
-             [contentImgView setImage:[UIImage imageNamed:@"IDCard1_example"]];
+             [exmp.exampleImgView setImage:[UIImage imageNamed:@"IDCard2_example"]];
+            exmp.aTitleLabel.text=@"上传手持身份证背面图片";
         }
-        //ui
-        [contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(bgView.mas_left).offset(20);
-            make.right.equalTo(bgView.mas_right).offset(-20);
-            make.height.equalTo(contentView.mas_width);
-            make.centerY.equalTo(bgView.mas_centerY).offset(100);
-        }];
+
+        CGFloat width =kScreen_Width-20-20;
         
-        [contentImgView mas_makeConstraints:^(MASConstraintMaker *make)
-        {
-            make.left.equalTo(contentView.mas_left).offset(10);
-            make.right.equalTo(contentView.mas_right).offset(-10);
-            make.height.equalTo(contentImgView.mas_width);
-            make.bottom.equalTo(contentView.mas_bottom).offset(-10);
-        }];
+        [exmp setFrame:CGRectMake(0, 0, width, width)];
+        
+        
         
     }else
     {
+        [exmp.exampleImgView setImage:[UIImage imageNamed:@"Document_example"]];
+        exmp.aTitleLabel.text=@"上传授权说明图片";
+        
+        CGFloat width =kScreen_Width-20-20;
+        
+        [exmp setFrame:CGRectMake(0, 0, width, 1.5*width)];
         
     }
     
+    KLCPopupLayout layout = KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutCenter);
+    
+    KLCPopup* popup = [KLCPopup popupWithContentView:exmp showType:KLCPopupShowTypeBounceInFromTop dismissType:KLCPopupDismissTypeBounceOutToBottom maskType:KLCPopupMaskTypeDimmed dismissOnBackgroundTouch:NO dismissOnContentTouch:NO];
+    
+    [popup showWithLayout:layout];
+
     
 }
 
--(void)closeExAction
-{
-    UIView *showView =[self.view viewWithTag:999];
-    [showView removeFromSuperview];
-    
-}
+
 
 @end

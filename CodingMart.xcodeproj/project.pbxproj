@@ -27,6 +27,9 @@
 		32C503F61BFA3F280017F02B /* FlexibleAlignButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 32C503F51BFA3F280017F02B /* FlexibleAlignButton.m */; settings = {ASSET_TAGS = (); }; };
 		32C503FC1BFB118C0017F02B /* IdentityAuthenticationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32C503FB1BFB118C0017F02B /* IdentityAuthenticationViewController.m */; settings = {ASSET_TAGS = (); }; };
 		32DC68A81BF1F56B00295BBD /* CodingMarkServerWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32DC68A71BF1F56B00295BBD /* CodingMarkServerWebViewController.m */; settings = {ASSET_TAGS = (); }; };
+		32F2F2A51BFC129600DC600D /* KLCPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F2F2A41BFC129600DC600D /* KLCPopup.m */; settings = {ASSET_TAGS = (); }; };
+		32F2F2A71BFC1D9200DC600D /* ExampleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32F2F2A61BFC1D9200DC600D /* ExampleView.xib */; settings = {ASSET_TAGS = (); }; };
+		32F2F2AA1BFC1E8600DC600D /* ExampleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F2F2A91BFC1E8600DC600D /* ExampleView.m */; settings = {ASSET_TAGS = (); }; };
 		3754BDBDFFFDC4A51A701329 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F45C1A1B00E018F3A9769B84 /* libPods.a */; };
 		4E0FD91D1BC9238E00C552A0 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E0FD91C1BC9238E00C552A0 /* Login.storyboard */; };
 		4E0FD9201BC9285500C552A0 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0FD91F1BC9285500C552A0 /* LoginViewController.m */; };
@@ -222,6 +225,11 @@
 		32C503FB1BFB118C0017F02B /* IdentityAuthenticationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IdentityAuthenticationViewController.m; sourceTree = "<group>"; };
 		32DC68A61BF1F56B00295BBD /* CodingMarkServerWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodingMarkServerWebViewController.h; sourceTree = "<group>"; };
 		32DC68A71BF1F56B00295BBD /* CodingMarkServerWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodingMarkServerWebViewController.m; sourceTree = "<group>"; };
+		32F2F2A31BFC129600DC600D /* KLCPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLCPopup.h; sourceTree = "<group>"; };
+		32F2F2A41BFC129600DC600D /* KLCPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLCPopup.m; sourceTree = "<group>"; };
+		32F2F2A61BFC1D9200DC600D /* ExampleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExampleView.xib; sourceTree = "<group>"; };
+		32F2F2A81BFC1E8600DC600D /* ExampleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExampleView.h; sourceTree = "<group>"; };
+		32F2F2A91BFC1E8600DC600D /* ExampleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExampleView.m; sourceTree = "<group>"; };
 		4E0FD91C1BC9238E00C552A0 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		4E0FD91E1BC9285500C552A0 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		4E0FD91F1BC9285500C552A0 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
@@ -574,6 +582,15 @@
 			path = UIbutton;
 			sourceTree = "<group>";
 		};
+		32F2F2A21BFC129600DC600D /* PopView */ = {
+			isa = PBXGroup;
+			children = (
+				32F2F2A31BFC129600DC600D /* KLCPopup.h */,
+				32F2F2A41BFC129600DC600D /* KLCPopup.m */,
+			);
+			path = PopView;
+			sourceTree = "<group>";
+		};
 		4E0FD9191BC9234F00C552A0 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -822,6 +839,7 @@
 		4EBDC2A01BC64D750037EB66 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				32F2F2A21BFC129600DC600D /* PopView */,
 				32C503F31BFA3F130017F02B /* UIbutton */,
 				4EBDC2CA1BC65ACF0037EB66 /* TableListView */,
 				4E2693BA1BC75CE500F9E332 /* Cell */,
@@ -1176,6 +1194,9 @@
 				32C503F11BFA36FC0017F02B /* CodingTestResultViewController.m */,
 				32C503FA1BFB118C0017F02B /* IdentityAuthenticationViewController.h */,
 				32C503FB1BFB118C0017F02B /* IdentityAuthenticationViewController.m */,
+				32F2F2A61BFC1D9200DC600D /* ExampleView.xib */,
+				32F2F2A81BFC1E8600DC600D /* ExampleView.h */,
+				32F2F2A91BFC1E8600DC600D /* ExampleView.m */,
 				328E4B9B1BF96D7E006A8D58 /* ExamCardQuestionCell.h */,
 				328E4B9C1BF96D7E006A8D58 /* ExamCardQuestionCell.m */,
 				328E4B9E1BF96D9D006A8D58 /* ExamCardAnswCell.h */,
@@ -1252,7 +1273,7 @@
 				TargetAttributes = {
 					4EBDC2841BC645990037EB66 = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = MUBLDUU4SU;
+						DevelopmentTeam = KMB2BDRT85;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -1304,6 +1325,7 @@
 				4EDAE3EC1BC7BCB000255FE8 /* SVWebViewControllerActivitySafari-iPad.png in Resources */,
 				4EDAE3EF1BC7BCB000255FE8 /* SVWebViewControllerActivitySafari@2x.png in Resources */,
 				4EDFFF1F1BCA43DE007DF702 /* UserInfo.storyboard in Resources */,
+				32F2F2A71BFC1D9200DC600D /* ExampleView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1410,6 +1432,7 @@
 				4EBDC28D1BC645990037EB66 /* AppDelegate.m in Sources */,
 				4EDAE4481BC8F21200255FE8 /* ActionSheetDatePicker.m in Sources */,
 				4EBDC2D91BC66D610037EB66 /* UIImage+Common.m in Sources */,
+				32F2F2A51BFC129600DC600D /* KLCPopup.m in Sources */,
 				4E2693791BC676EC00F9E332 /* AFHTTPSessionManager.m in Sources */,
 				4E2693841BC676EC00F9E332 /* UIProgressView+AFNetworking.m in Sources */,
 				4EBDC28A1BC645990037EB66 /* main.m in Sources */,
@@ -1441,6 +1464,7 @@
 				4E224B091BEC4EF300F8475F /* UIDevice+Common.m in Sources */,
 				4EBDC2C51BC6530E0037EB66 /* UIColor+expanded.m in Sources */,
 				4EDAE3C01BC78CD400255FE8 /* UIView+WebCacheOperation.m in Sources */,
+				32F2F2AA1BFC1E8600DC600D /* ExampleView.m in Sources */,
 				4EDAE4101BC7CC2A00255FE8 /* ODRefreshControl.m in Sources */,
 				4EDAE4471BC8F21200255FE8 /* ActionSheetCustomPicker.m in Sources */,
 				4EDAE3B31BC78CD400255FE8 /* SDImageCache.m in Sources */,
