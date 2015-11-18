@@ -39,17 +39,18 @@
 - (void)setCurReward:(Reward *)curReward{
     _curReward = curReward;
     self.curUrlStr = [NSString stringWithFormat:@"/p/%@", _curReward.id.stringValue];
-    if (_curReward.title.length > 0) {
-        self.titleStr = _curReward.title;
-    }
+//    if (_curReward.title.length > 0) {
+//        self.titleStr = _curReward.title;
+//    }
 }
 
 - (void)setRewardDetal:(RewardDetail *)rewardDetal{
     _rewardDetal = rewardDetal;
-    self.titleStr = _rewardDetal.reward.title;
+//    self.titleStr = _rewardDetal.reward.title;
 }
 
 - (void)viewDidLoad{
+    self.titleStr = @"悬赏详情";
     [super viewDidLoad];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_more"] style:UIBarButtonItemStylePlain target:self action:@selector(navBtnClicked:)];
 }

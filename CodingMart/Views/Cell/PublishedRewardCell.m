@@ -33,7 +33,7 @@
     // Configure the view for the selected state
 }
 - (void)setReward:(Reward *)reward{
-    _reward = reward;
+    _reward = reward;    
     [_reward prepareToDisplay];
 
     if (_reward.status.integerValue >= RewardStatusRecruiting) {
@@ -49,10 +49,51 @@
     _typeImgV.image = [UIImage imageNamed:_reward.typeImageName];
     _typeL.text = _reward.typeDisplay;
     _roleTypesL.text = _reward.roleTypesDisplay;
-#warning 参与悬赏列表的接口里面缺少 format_price
-    _priceL.text = _reward.format_price? _reward.format_price: _reward.price.stringValue;
+    _priceL.text = _reward.format_price;
     _durationL.text = [NSString stringWithFormat:@"%@天", _reward.duration.stringValue];
     _statusL.text = _reward.statusDisplay;
+    
+    NSString *bgHexStr, *textHexStr;
+    switch (_reward.status.integerValue) {
+        case RewardStatusFresh:
+            bgHexStr = @"0xEEEEEE";
+            textHexStr = @"0x666666";
+            break;
+        case RewardStatusAccepted:
+            bgHexStr = @"0xF0C02D";
+            textHexStr = @"0xFFFFFF";
+            break;
+        case RewardStatusRejected:
+            bgHexStr = @"0xFF497F";
+            textHexStr = @"0xFFFFFF";
+            break;
+        case RewardStatusCanceled:
+            bgHexStr = @"0xDDDDDD";
+            textHexStr = @"0xFFFFFF";
+            break;
+        case RewardStatusPassed:
+            bgHexStr = @"0xEEEEEE";
+            textHexStr = @"0x666666";
+            break;
+        case RewardStatusRecruiting:
+            bgHexStr = @"0x3BBD79";
+            textHexStr = @"0xFFFFFF";
+            break;
+        case RewardStatusDeveloping:
+            bgHexStr = @"0x2FAEEA";
+            textHexStr = @"0xFFFFFF";
+            break;
+        case RewardStatusFinished:
+            bgHexStr = @"0xBBCED7";
+            textHexStr = @"0xFFFFFF";
+            break;
+        default://RewardStatusFresh
+            bgHexStr = @"0xEEEEEE";
+            textHexStr = @"0x666666";
+            break;
+    }
+    _statusL.backgroundColor = [UIColor colorWithHexString:bgHexStr];
+    _statusL.textColor = [UIColor colorWithHexString:textHexStr];
 }
 
 - (IBAction)rePublishedBtnClicked:(id)sender {
@@ -74,6 +115,6 @@
 }
 
 + (CGFloat)cellHeight{
-    return 105;
+    return 110;
 }
 @end

@@ -75,6 +75,9 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     JoinedRewardCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_JoinedRewardCell forIndexPath:indexPath];
+//    [(Reward *)_rewardList[indexPath.row] setReward_status:@(random()%3 + RewardStatusRecruiting)];
+//    [(Reward *)_rewardList[indexPath.row] setApply_status:@(random()%(JoinStatusCanceled +1))];
+    
     cell.reward = _rewardList[indexPath.row];
     return cell;
 }

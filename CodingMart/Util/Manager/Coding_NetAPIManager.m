@@ -161,6 +161,7 @@
 }
 - (void)post_CancelRewardId:(NSNumber *)rewardId block:(void (^)(id data, NSError *error))block{
     if (![rewardId isKindOfClass:[NSNumber class]]) {
+        block(nil, nil);
         return;
     }
     NSString *path = @"api/cancel";

@@ -85,8 +85,13 @@
 - (void)cancelReward:(Reward *)reward{
     [[UIActionSheet bk_actionSheetCustomWithTitle:@"确定要取消申请吗？" buttonTitles:@[@"确定"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
         if (index == 0) {
+            [NSObject showHUDQueryStr:@"正在取消悬赏..."];
             [[Coding_NetAPIManager sharedManager] post_CancelRewardId:reward.id block:^(id data, NSError *error) {
-                [self refresh];
+                [NSObject hideHUDQuery];
+                if (data) {
+                    [NSObject showHudTipStr:@"悬赏已取消"];
+                    [self refresh];
+                }
             }];
         }
     }] showInView:self.view];
@@ -98,6 +103,8 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     Reward *curReward = _rewardList[indexPath.row];
+//    curReward.status = @(random()%(RewardStatusFinished+1));
+
     NSString *cellIdentifier;
     switch (curReward.status.integerValue) {
         case RewardStatusFresh:
@@ -128,9 +135,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-//    RewardDetailViewController *vc = [RewardDetailViewController vcWithReward:_rewardList[indexPath.row]];
-//    [self.navigationController pushViewController:vc animated:YES];
+    Reward *curReward = _rewardList[indexPath.row];
+    if (curReward.status.integerValue >= RewardStatusRecruiting) {
+        NSString *detailStr = [NSString stringWithFormat:@"/reward/%@", curReward.id.stringValue];
+//        detailStr = @"/reward/316";
+        [self goToWebVCWithUrlStr:detailStr title:@"悬赏详情"];
+    }
 }
 
 @end
