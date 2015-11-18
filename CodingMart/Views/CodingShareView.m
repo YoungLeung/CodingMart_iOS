@@ -13,10 +13,10 @@
 
 #import "CodingShareView.h"
 #import <UMengSocial/UMSocial.h>
-#import <evernote-cloud-sdk-ios/ENSDK/ENSDK.h>
 
 #import "Coding_NetAPIManager.h"
 #import <BlocksKit/BlocksKit+UIKit.h>
+#import "ReportIllegalViewController.h"
 //#import <Masonry/Masonry.h>
 
 @interface CodingShareView ()<UMSocialUIDelegate>
@@ -145,14 +145,14 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         snsNameDict = @{
-                        @"coding": @"Coding好友",
+                        @"coding": @"Coding冒泡",
                         @"copylink": @"复制链接",
-                        @"evernote": @"印象笔记",
                         @"sina": @"新浪微博",
                         @"qzone": @"QQ空间",
                         @"qq": @"QQ好友",
                         @"wxtimeline": @"朋友圈",
                         @"wxsession": @"微信好友",
+                        @"inform": @"举报",
                         };
     });
     return snsNameDict;
@@ -171,9 +171,9 @@
                                          @"qq",
                                          @"qzone",
                                          @"sina",
-                                         @"evernote",
                                          @"coding",
                                          @"copylink",
+                                         @"inform",
                                          ] mutableCopy];
     if (![self p_canOpen:@"weixin://"]) {
         [resultSnsValues removeObjectsInArray:@[
@@ -189,9 +189,6 @@
     }
     if (![self p_canOpen:@"weibosdk://request"]) {
         [resultSnsValues removeObjectsInArray:@[@"sina"]];
-    }
-    if (![self p_canOpen:@"evernote://"]) {
-        [resultSnsValues removeObjectsInArray:@[@"evernote"]];
     }
     return resultSnsValues;
 }
@@ -267,46 +264,14 @@
         [NSObject showHudTipStr:@"链接已拷贝到粘贴板"];
     }else if ([snsName isEqualToString:@"coding"]){
         [self goToCoding];
-    }else if ([snsName isEqualToString:@"evernote"]){
-        __weak typeof(self) weakSelf = self;
-        [self p_shareENNoteWithompletion:^(ENNote *note) {
-            [weakSelf p_willUploadENNote:note];
-        }];
+    }else if ([snsName isEqualToString:@"inform"]){
+        [self goToInform];
     }else{
         [[UMSocialControllerService defaultControllerService] setSocialUIDelegate:self];
         UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:snsName];
         if (snsPlatform) {
             snsPlatform.snsClickHandler([BaseViewController presentingVC],[UMSocialControllerService defaultControllerService],YES);
         }
-    }
-}
-- (void)p_willUploadENNote:(ENNote *)noteToSave{
-    if (!noteToSave) {
-        [NSObject showHudTipStr:@"不支持保存到印象笔记"];
-        return;
-    }
-    if (![[ENSession sharedSession] isAuthenticated]) {
-        [[ENSession sharedSession] authenticateWithViewController:[BaseViewController presentingVC] preferRegistration:NO completion:^(NSError *authenticateError) {
-            if (!authenticateError) {
-                [self p_doUploadENNote:noteToSave];
-            }else if (authenticateError.code != ENErrorCodeCancelled){
-                [NSObject showHudTipStr:@"授权失败"];
-            }
-        }];
-    }else{
-        [self p_doUploadENNote:noteToSave];
-    }
-}
-- (void)p_doUploadENNote:(ENNote *)noteToSave{
-    if (noteToSave) {
-        [NSObject showStatusBarQueryStr:@"正在保存到印象笔记"];
-        [[ENSession sharedSession] uploadNote:noteToSave notebook:nil completion:^(ENNoteRef *noteRef, NSError *uploadNoteError) {
-            if (noteRef) {
-                [NSObject showStatusBarSuccessStr:@"笔记保存成功"];
-            }else{
-                [NSObject showStatusBarError:uploadNoteError];
-            }
-        }];
     }
 }
 #pragma mark objToShare
@@ -365,24 +330,14 @@
     }
     return imageUrl;
 }
-- (void)p_shareENNoteWithompletion:(ENNotePopulateFromWebViewCompletionHandler)completion{
-    if ([_objToShare isKindOfClass:[UIWebView class]]){
-        [ENNote populateNoteFromWebView:(UIWebView *)_objToShare completion:completion];
-    }else if (_extraWebView){
-        [ENNote populateNoteFromWebView:_extraWebView completion:completion];
-    }else if ([_objToShare isKindOfClass:[Reward class]]){
-        ENNote *note = [ENNote new];
-        note.title = [self p_shareTitle];
-        NSString *htmlStr = [(Reward *)_objToShare format_content];
-        htmlStr = [htmlStr stringByAppendingFormat:@"<p><a href=\"%@\">原始链接</a></p>", [self p_shareLinkStr]];
-        note.content = [ENNoteContent noteContentWithSanitizedHTML:htmlStr];
-        completion(note);
-    }
-}
 #pragma mark Coding Tweet
 - (void)goToCoding{
 #warning share to coding
     
+}
+
+- (void)goToInform{
+    [ReportIllegalViewController showReportWithIllegalContent:[self p_shareLinkStr] andType:IllegalContentTypeWebsite];
 }
 
 #pragma mark UMSocialUIDelegate

@@ -31,7 +31,7 @@
     NSURL *inputURL = self.URLToOpen;
     NSString *absoluteString = [inputURL absoluteString];
     if (absoluteString.length > 0) {
-        [ReportIllegalViewController showReportWithIllegalContent:absoluteString andType:IllegalContentTypeTweet];
+        [ReportIllegalViewController showReportWithIllegalContent:absoluteString andType:IllegalContentTypeWebsite];
     }
 }
 

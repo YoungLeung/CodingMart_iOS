@@ -215,20 +215,11 @@ static dispatch_once_t onceToken_Coding;
                           withParams:(NSDictionary*)params{
     NSString *aPath;
     switch (type) {
-        case IllegalContentTypeTweet:
-            aPath = @"/api/inform/tweet";
-            break;
-        case IllegalContentTypeTopic:
-            aPath = @"/api/inform/topic";
-            break;
-        case IllegalContentTypeProject:
-            aPath = @"/api/inform/project";
-            break;
         case IllegalContentTypeWebsite:
             aPath = @"/api/inform/website";
             break;
         default:
-            aPath = @"/api/inform/tweet";
+            aPath = @"/api/inform/website";
             break;
     }
     DebugLog(@"\n===========request===========\n%@:\n%@", aPath, params);
