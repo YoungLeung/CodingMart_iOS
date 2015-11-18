@@ -10,16 +10,22 @@
 #import "KLCPopup.h"
 #import <QuartzCore/QuartzCore.h>
 #import "ExampleView.h"
+#import "LCActionSheet.h"
 
-@interface IdentityAuthenticationViewController ()<UITextFieldDelegate>
+@interface IdentityAuthenticationViewController ()<UITextFieldDelegate,LCActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
 //示例Action tag 【87-身份证正面；88-身份证背面；89-授权文件】
 //选择照片Action tag【87-身份证正面；88-身份证背面；89-授权文件】
+
+@property(nonatomic,assign) NSInteger currentSelectImgTag;
 
 @property (weak, nonatomic) IBOutlet UITextField *userNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *identityIDTextFiled;
 @property (weak, nonatomic) IBOutlet UITextField *aliyPayTextField;
 @property (weak, nonatomic) IBOutlet BEMCheckBox *codingCheckBox;
+@property (weak, nonatomic) IBOutlet UIButton *idCard1AddButton;
+@property (weak, nonatomic) IBOutlet UIButton *idCard2AddButton;
+@property (weak, nonatomic) IBOutlet UIButton *documentAddButton;
 
 - (IBAction)showExampleAction:(id)sender;
 - (IBAction)selectImgAction:(id)sender;
@@ -68,14 +74,30 @@
 
 - (IBAction)selectImgAction:(id)sender
 {
+    UIButton *btn =(UIButton*)sender;
+    self.currentSelectImgTag=btn.tag;
+    [self showSelectImgView];
 }
 
 - (IBAction)downloadAction:(id)sender
 {
+    
 }
 - (IBAction)submitAction:(id)sender
 {
     
+}
+
+
+-(void)showSelectImgView
+{
+    //增加照片选择功能
+    LCActionSheet *sheet = [LCActionSheet sheetWithTitle:nil
+                                            buttonTitles:@[@"拍照", @"从相册选择"]
+                                          redButtonIndex:-1
+                                                delegate:self];
+    [sheet show];
+
 }
 
 -(void)showExampleViewWithTag:(NSInteger)tag
@@ -121,6 +143,55 @@
     [popup showWithLayout:layout];
 
     
+}
+
+#pragma mark -- LCActionSheetDelegate
+- (void)actionSheet:(LCActionSheet *)actionSheet didClickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    NSLog(@"> Clicked Index: %ld", (long)buttonIndex);
+    
+    
+    switch (buttonIndex) {
+        case 0://照相机
+        {
+            UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+            imagePicker.delegate = self;
+            imagePicker.allowsEditing = YES;
+            imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+            //            [self presentModalViewController:imagePicker animated:YES];
+            [self presentViewController:imagePicker animated:YES completion:nil];
+        }
+            break;
+        case 1://本地相簿
+        {
+            UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+            imagePicker.delegate = self;
+            imagePicker.allowsEditing = YES;
+            imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            //            [self presentModalViewController:imagePicker animated:YES];
+            [self presentViewController:imagePicker animated:YES completion:nil];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+
+
+#pragma mark -- UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    UIImage *image = info[@"UIImagePickerControllerEditedImage"];
+//    NSData* imageDataHD = [UIImage compressImage:image compressType:ImageSizeHight];
+//    NSData *imageData=UIImageJPEGRepresentation([UIImage imageWithData:imageDataHD],kAvatarScaleRate);
+//    UIImage *compressedImage = [UIImage imageWithData:imageData];
+//    
+//    self.avatarImg=compressedImage;
+//    [self.avtorButton setBackgroundImage:self.avatarImg forState:UIControlStateNormal];
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 

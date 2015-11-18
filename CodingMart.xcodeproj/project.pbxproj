@@ -30,6 +30,9 @@
 		32F2F2A51BFC129600DC600D /* KLCPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F2F2A41BFC129600DC600D /* KLCPopup.m */; settings = {ASSET_TAGS = (); }; };
 		32F2F2A71BFC1D9200DC600D /* ExampleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32F2F2A61BFC1D9200DC600D /* ExampleView.xib */; settings = {ASSET_TAGS = (); }; };
 		32F2F2AA1BFC1E8600DC600D /* ExampleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F2F2A91BFC1E8600DC600D /* ExampleView.m */; settings = {ASSET_TAGS = (); }; };
+		32F2F2B11BFC4BA100DC600D /* bgImage_HL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 32F2F2AD1BFC4BA100DC600D /* bgImage_HL@2x.png */; settings = {ASSET_TAGS = (); }; };
+		32F2F2B21BFC4BA100DC600D /* cellLine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 32F2F2AE1BFC4BA100DC600D /* cellLine@2x.png */; settings = {ASSET_TAGS = (); }; };
+		32F2F2B31BFC4BA100DC600D /* LCActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F2F2B01BFC4BA100DC600D /* LCActionSheet.m */; settings = {ASSET_TAGS = (); }; };
 		3754BDBDFFFDC4A51A701329 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F45C1A1B00E018F3A9769B84 /* libPods.a */; };
 		4E0FD91D1BC9238E00C552A0 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E0FD91C1BC9238E00C552A0 /* Login.storyboard */; };
 		4E0FD9201BC9285500C552A0 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0FD91F1BC9285500C552A0 /* LoginViewController.m */; };
@@ -230,6 +233,10 @@
 		32F2F2A61BFC1D9200DC600D /* ExampleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExampleView.xib; sourceTree = "<group>"; };
 		32F2F2A81BFC1E8600DC600D /* ExampleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExampleView.h; sourceTree = "<group>"; };
 		32F2F2A91BFC1E8600DC600D /* ExampleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExampleView.m; sourceTree = "<group>"; };
+		32F2F2AD1BFC4BA100DC600D /* bgImage_HL@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgImage_HL@2x.png"; sourceTree = "<group>"; };
+		32F2F2AE1BFC4BA100DC600D /* cellLine@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cellLine@2x.png"; sourceTree = "<group>"; };
+		32F2F2AF1BFC4BA100DC600D /* LCActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCActionSheet.h; sourceTree = "<group>"; };
+		32F2F2B01BFC4BA100DC600D /* LCActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCActionSheet.m; sourceTree = "<group>"; };
 		4E0FD91C1BC9238E00C552A0 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		4E0FD91E1BC9285500C552A0 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		4E0FD91F1BC9285500C552A0 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
@@ -591,6 +598,25 @@
 			path = PopView;
 			sourceTree = "<group>";
 		};
+		32F2F2AB1BFC4BA100DC600D /* LCActionSheet */ = {
+			isa = PBXGroup;
+			children = (
+				32F2F2AC1BFC4BA100DC600D /* Image */,
+				32F2F2AF1BFC4BA100DC600D /* LCActionSheet.h */,
+				32F2F2B01BFC4BA100DC600D /* LCActionSheet.m */,
+			);
+			path = LCActionSheet;
+			sourceTree = "<group>";
+		};
+		32F2F2AC1BFC4BA100DC600D /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				32F2F2AD1BFC4BA100DC600D /* bgImage_HL@2x.png */,
+				32F2F2AE1BFC4BA100DC600D /* cellLine@2x.png */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
 		4E0FD9191BC9234F00C552A0 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -839,6 +865,7 @@
 		4EBDC2A01BC64D750037EB66 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				32F2F2AB1BFC4BA100DC600D /* LCActionSheet */,
 				32F2F2A21BFC129600DC600D /* PopView */,
 				32C503F31BFA3F130017F02B /* UIbutton */,
 				4EBDC2CA1BC65ACF0037EB66 /* TableListView */,
@@ -1316,11 +1343,13 @@
 				4E2693BF1BC75D1A00F9E332 /* RewardListCell.xib in Resources */,
 				4EDAE3E31BC7BCB000255FE8 /* SVWebViewController.bundle in Resources */,
 				4E0FD91D1BC9238E00C552A0 /* Login.storyboard in Resources */,
+				32F2F2B21BFC4BA100DC600D /* cellLine@2x.png in Resources */,
 				4EBDC2951BC645990037EB66 /* Assets.xcassets in Resources */,
 				4E224B061BEA117A00F8475F /* Independence.storyboard in Resources */,
 				4EBDC2931BC645990037EB66 /* Main.storyboard in Resources */,
 				4EDAE41E1BC8B4A200255FE8 /* PublishReward.storyboard in Resources */,
 				4EDAE3E81BC7BCB000255FE8 /* SVWebViewControllerActivityChrome@2x.png in Resources */,
+				32F2F2B11BFC4BA100DC600D /* bgImage_HL@2x.png in Resources */,
 				4EDAE3E11BC7BCB000255FE8 /* SVWebViewController.strings in Resources */,
 				4EDAE3EC1BC7BCB000255FE8 /* SVWebViewControllerActivitySafari-iPad.png in Resources */,
 				4EDAE3EF1BC7BCB000255FE8 /* SVWebViewControllerActivitySafari@2x.png in Resources */,
@@ -1430,6 +1459,7 @@
 				328E4B9A1BF8B7BA006A8D58 /* ExamCardView.m in Sources */,
 				4E2693781BC676EC00F9E332 /* AFURLConnectionOperation.m in Sources */,
 				4EBDC28D1BC645990037EB66 /* AppDelegate.m in Sources */,
+				32F2F2B31BFC4BA100DC600D /* LCActionSheet.m in Sources */,
 				4EDAE4481BC8F21200255FE8 /* ActionSheetDatePicker.m in Sources */,
 				4EBDC2D91BC66D610037EB66 /* UIImage+Common.m in Sources */,
 				32F2F2A51BFC129600DC600D /* KLCPopup.m in Sources */,

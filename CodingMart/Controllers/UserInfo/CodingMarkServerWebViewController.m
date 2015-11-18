@@ -9,7 +9,7 @@
 #import "CodingMarkServerWebViewController.h"
 #import "ZZBWebView.h"
 
-#define kServerUrl @"https://dn-coding-net-production-static.qbox.me/Developer_Service_Guide_v1.pdf"
+#define kServerUrl @"https://dn-coding-net-production-static.qbox.me/Developer_Service_Guide_v1.html"
 
 @interface CodingMarkServerWebViewController ()
 
