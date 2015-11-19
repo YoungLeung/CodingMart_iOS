@@ -210,6 +210,25 @@
     }];
 }
 
+- (void)post_Authentication:(NSDictionary *)params block:(void (^)(id data, NSError *error))block
+{
+    NSString *path = [NSString stringWithFormat:@"/api/identity"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error)
+     {
+         block(data, error);
+     }];
+}
+
+- (void)get_AppInfo:(void (^)(id data, NSError *error))block
+{
+    NSString *path = [NSString stringWithFormat:@"/api/app/info"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error)
+     {
+         block(data, error);
+     }];
+
+}
+
 - (void)get_JoinInfoWithRewardId:(NSInteger)rewardId block:(void (^)(id data, NSError *error))block{
     NSString *path = [NSString stringWithFormat:@"api/reward/%ld/apply", (long)rewardId];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {

@@ -28,8 +28,21 @@ NSString* kWPAttributedMarkupLinkName = @"WPAttributedMarkupLinkName";
     
     NSMutableAttributedString* as = [[NSMutableAttributedString alloc] initWithString:ms];
     
+//    // Setup base attributes
+//    [as setAttributes:@{NSUnderlineStyleAttributeName:[NSNumber numberWithInteger:NSUnderlineStyleNone]} range:NSMakeRange(0,[as length])];
+    
+    NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    //    style.lineSpacing = 10;//增加行高
+    //    style.headIndent = 10;//头部缩进，相当于左padding
+//        style.tailIndent = -50;//相当于右padding
+    //    style.lineHeightMultiple = 1.5;//行间距是多少倍
+    style.alignment = NSTextAlignmentLeft;//对齐方式
+    //    style.firstLineHeadIndent = 20;//首行头缩进
+    //    style.paragraphSpacing = 10;//段落后面的间距
+    //    style.paragraphSpacingBefore = 20;//段落之前的间距
+//    [as addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, as.length)];
     // Setup base attributes
-    [as setAttributes:@{NSUnderlineStyleAttributeName:[NSNumber numberWithInteger:NSUnderlineStyleNone]} range:NSMakeRange(0,[as length])];
+    [as setAttributes:@{NSUnderlineStyleAttributeName:[NSNumber numberWithInteger:NSUnderlineStyleNone],NSParagraphStyleAttributeName:style} range:NSMakeRange(0,[as length])];
     
     NSObject* bodyStyle = fontbook[@"body"];
     if (bodyStyle) {

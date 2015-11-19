@@ -60,4 +60,22 @@ typedef NS_ENUM(NSInteger, IllegalContentType) {
            withPath:(NSString *)path
          withParams:(NSDictionary*)params
            andBlock:(void (^)(id data, NSError *error))block;
+/**
+ *  @author YangHui
+ *
+ *  @  下载文件
+ *
+ *  @param paramDic   附加post参数
+ *  @param requestURL 请求地址
+ *  @param savedPath  保存 在磁盘的位置
+ *  @param success    下载成功回调
+ *  @param failure    下载失败回调
+ *  @param progress   实时下载进度回调
+ */
+- (void)downloadFileWithOption:(NSDictionary *)paramDic
+                 withInferface:(NSString*)requestURL
+                     savedPath:(NSString*)savedPath
+               downloadSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+               downloadFailure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+                      progress:(void (^)(float progress))progress;
 @end
