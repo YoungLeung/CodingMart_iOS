@@ -65,17 +65,17 @@
 //             认证通过 1
 //             认证失败 2
 //             认证中 3
-             NSDictionary *data =data[@"data"];
-             NSInteger status=[data[@"status"] integerValue];
+             NSDictionary *dataDic =data[@"data"];
+             NSInteger status=[dataDic[@"status"] integerValue];
              
              IdentityAuthenticationModel *model =[[IdentityAuthenticationModel alloc]initForlocalCache];
-             model.alipay=data[@"alipay"];
-             model.identity=data[@"identity"];
-             model.identity_img_auth=data[@"identity_img_auth"];
-             model.identity_img_back=data[@"identity_img_back"];
-             model.identity_img_front=data[@"identity_img_front"];
-             model.name=data[@"name"];
-             model.identityIsPass=data[@"status"];
+             model.alipay=dataDic[@"alipay"];
+             model.identity=dataDic[@"identity"];
+             model.identity_img_auth=dataDic[@"identity_img_auth"];
+             model.identity_img_back=dataDic[@"identity_img_back"];
+             model.identity_img_front=dataDic[@"identity_img_front"];
+             model.name=dataDic[@"name"];
+             model.identityIsPass=dataDic[@"status"];
              
              if (status==2)
              {
