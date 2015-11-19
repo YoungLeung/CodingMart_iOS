@@ -18,9 +18,9 @@
 #import "PublishRewardStep1ViewController.h"
 #import <Masonry/Masonry.h>
 #import "FunctionTipsManager.h"
+#import "UINavigationBar+Awesome.h"
 
-
-@interface RootViewController ()<iCarouselDataSource, iCarouselDelegate>
+@interface RootViewController ()<iCarouselDataSource, iCarouselDelegate, RewardListViewScrollDelegate>
 @property (strong, nonatomic) NSMutableArray *typeList, *statusList;
 @property (strong, nonatomic) NSMutableDictionary *rewardsDict;
 
@@ -30,6 +30,8 @@
 @property (strong, nonatomic) UIButton * leftNavBtn, *rightNavBtn;
 
 @property (assign, nonatomic) NSInteger selectedStatusIndex;
+
+@property (assign, nonatomic) CGFloat navBarOffsetY;
 @end
 
 @implementation RootViewController
@@ -62,6 +64,10 @@
     //nav item
     [self setupNavItems];
     
+    self.edgesForExtendedLayout = UIRectEdgeAll;
+    self.extendedLayoutIncludesOpaqueBars = YES;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
     //添加myCarousel
     _myCarousel = ({
         iCarousel *icarousel = [[iCarousel alloc] init];
@@ -75,17 +81,22 @@
         icarousel.bounceDistance = 0.2;
         [self.view addSubview:icarousel];
         [icarousel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(segment_height, 0, 0, 0));
+            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(64.0, 0, 0, 0));
         }];
         icarousel;
     });
     
     //添加滑块
     __weak typeof(_myCarousel) weakCarousel = _myCarousel;
-    _mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, segment_height) Items:_typeList selectedBlock:^(NSInteger index) {
+    _mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 64.0, kScreen_Width, segment_height) Items:_typeList selectedBlock:^(NSInteger index) {
         [weakCarousel scrollToItemAtIndex:index animated:NO];
     }];
     [self.view addSubview:_mySegmentControl];
+    
+}
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    self.navBarOffsetY = 0;
 }
 
 #pragma mark nav_item
@@ -147,7 +158,7 @@
             menuItem.foreColor = [UIColor colorWithHexString:idx == _selectedStatusIndex? @"0x3bbd79": @"0x222222"];
             [menuItems addObject:menuItem];
         }];
-        CGRect senderFrame = CGRectMake(kScreen_Width - (kDevice_Is_iPhone6Plus? 30: 26), 0, 0, 0);
+        CGRect senderFrame = CGRectMake(kScreen_Width - (kDevice_Is_iPhone6Plus? 30: 26), 64, 0, 0);
         [KxMenu showMenuInView:self.view fromRect:senderFrame menuItems:menuItems];
         __weak typeof(self) weakSelf = self;
         [KxMenu sharedMenu].dismissBlock = ^(KxMenu *menu){
@@ -169,6 +180,66 @@
     [(RewardListView *)_myCarousel.currentItemView lazyRefreshData];
 }
 
+#pragma mark LTNavigationBar & RewardListViewScrollDelegate
+- (void)setNavBarOffsetY:(CGFloat)navBarOffsetY{
+    navBarOffsetY = MIN(0, navBarOffsetY);
+    navBarOffsetY = MAX(-44, navBarOffsetY);
+    
+    if (_navBarOffsetY == navBarOffsetY) {
+        return;
+    }
+    _navBarOffsetY = navBarOffsetY;
+    //更新UI
+    [self.navigationController.navigationBar lt_setTranslationY:_navBarOffsetY];
+    [self.navigationController.navigationBar lt_setElementsAlpha:(1 - ABS(_navBarOffsetY/44.0))];
+    [_mySegmentControl setY:_navBarOffsetY + 64.0];
+}
+
+- (void)setNavBarOffsetY:(CGFloat)navBarOffsetY animate:(BOOL)animate{
+    if (!animate) {
+        self.navBarOffsetY = navBarOffsetY;
+    }else{
+        NSTimeInterval duration = ABS(_navBarOffsetY - navBarOffsetY)/44.0 * 0.2;
+        [UIView animateWithDuration:duration animations:^{
+            self.navBarOffsetY = navBarOffsetY;
+        }];
+    }
+}
+
+static CGFloat startContentOffsetY, startNavBarOffsetY;
+- (void)scrollViewWillBeginDrag:(RewardListView *)view{
+    startContentOffsetY = view.myTableView.contentOffset.y;
+    startNavBarOffsetY = self.navBarOffsetY;
+}
+
+- (void)scrollViewDidDrag:(RewardListView *)view{
+    CGFloat curContentOffsetY = view.myTableView.contentOffset.y;
+    CGFloat curNavBarOffsetY = startNavBarOffsetY + (startContentOffsetY - curContentOffsetY);
+    self.navBarOffsetY = curNavBarOffsetY;
+}
+
+- (void)scrollViewWillDecelerating:(RewardListView *)view withVelocity:(CGFloat)velocityY{
+    if (view != _myCarousel.currentItemView) {
+        return;
+    }
+    NSLog(@"velocityY = %.2f", velocityY);
+    CGFloat navBarOffsetY;
+    if (ABS(velocityY) < 0.3) {//认为页面内容不滑动的阈值
+        if (_navBarOffsetY == -44.0 || _navBarOffsetY == 0) {
+            return;
+        }else{
+            navBarOffsetY = startNavBarOffsetY;
+        }
+    }else if (velocityY > 0){
+        navBarOffsetY = -44.0;
+    }else if (velocityY < 0){
+        navBarOffsetY = 0;
+    }
+    [self setNavBarOffsetY:navBarOffsetY animate:YES];
+}
+
+
+
 #pragma mark iCarousel M
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel{
     return _typeList.count;
@@ -188,6 +259,7 @@
         listView.publishRewardBlock = ^(){
             [weakSelf goToPublishReward];
         };
+        listView.delegate = self;
     }else if (listView.dataList){
         _rewardsDict[listView.key] = listView.dataList;//保存旧值
     }
@@ -217,11 +289,18 @@
     if (_mySegmentControl) {
         _mySegmentControl.currentIndex = carousel.currentItemIndex;
     }
-    [(RewardListView *)carousel.currentItemView setStatus:_statusList[_selectedStatusIndex]];
-    [(RewardListView *)carousel.currentItemView lazyRefreshData];
+    
     [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
         [obj setSubScrollsToTop:(obj == carousel.currentItemView)];
     }];
+    
+    RewardListView *listView = (RewardListView *)carousel.currentItemView;
+    
+    [listView setStatus:_statusList[_selectedStatusIndex]];
+    [listView lazyRefreshData];
+    if (_navBarOffsetY == -44 && listView.myTableView.contentOffset.y < 0) {
+        listView.myTableView.contentOffset = CGPointMake(0, 0);
+    }
 }
 
 #pragma mark GoTo VC

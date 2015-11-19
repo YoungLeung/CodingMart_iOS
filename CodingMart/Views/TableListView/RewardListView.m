@@ -13,9 +13,10 @@
 
 #import "Coding_NetAPIManager.h"
 #import <BlocksKit/BlocksKit+UIKit.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 @interface RewardListView ()<UITableViewDataSource, UITableViewDelegate>
-@property (nonatomic, strong) UITableView *myTableView;
+@property (nonatomic, strong, readwrite) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *myRefreshControl;
 
 @property (assign, nonatomic) BOOL isLoading;
@@ -34,6 +35,7 @@
             tableView.dataSource = self;
             [tableView registerNib:[UINib nibWithNibName:kCellIdentifier_RewardListCell bundle:nil] forCellReuseIdentifier:kCellIdentifier_RewardListCell];
             tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+            tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
             [self addSubview:tableView];
             [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.edges.equalTo(self);
@@ -57,7 +59,7 @@
         } forControlEvents:UIControlEventTouchUpInside];
         _myTableView.tableHeaderView = headerV;
 //        refresh
-        _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
+        _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView activityIndicatorView:nil ignoreContentInset:YES];
         [_myRefreshControl addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
     }
     return self;
@@ -151,4 +153,33 @@
     }
 }
 
+#pragma mark Scroll M
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(scrollViewWillBeginDrag:)]) {
+        [self.delegate scrollViewWillBeginDrag:self];
+    }
+}
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView.isTracking) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(scrollViewDidDrag:)]) {
+            [self.delegate scrollViewDidDrag:self];
+        }
+    }
+}
+
+- (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(scrollViewDidDrag:)]) {
+        [self.delegate scrollViewWillDecelerating:self withVelocity:-5];
+    }
+    return YES;
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(scrollViewWillDecelerating:withVelocity:)]) {
+        [self.delegate scrollViewWillDecelerating:self withVelocity:velocity.y];
+    }
+}
 @end

@@ -200,7 +200,7 @@
 - (void)setSubScrollsToTop:(BOOL)scrollsToTop{
     [[self subviews] enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
         if ([obj isKindOfClass:[UIScrollView class]]) {
-            [(UIScrollView *)obj setScrollEnabled:scrollsToTop];
+            [(UIScrollView *)obj setScrollsToTop:scrollsToTop];
             *stop = YES;
         }
     }];
