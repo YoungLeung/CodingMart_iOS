@@ -11,6 +11,7 @@
 
 @interface ExamCardQuestionCell()
 @property (nonatomic, strong) UILabel *lblTitle;
+@property (nonatomic, strong) UILabel *lblMark;
 @property (nonatomic, strong) UIView *lblTitleBgView;
 
 @end
@@ -25,8 +26,14 @@
         
         
         [self.lblTitleBgView addSubview:self.lblTitle];
+        [self.lblTitleBgView addSubview:self.lblMark];
 
         [self.contentView addSubview:self.lblTitleBgView];
+        
+        self.lblTitleBgView.layer.masksToBounds=YES;
+        self.lblTitleBgView.layer.cornerRadius=3;
+        self.lblTitleBgView.layer.borderWidth=0.5;
+        self.lblTitleBgView.layer.borderColor=[UIColor colorWithHexString:@"e3e3e3"].CGColor;
         
         
         [self.lblTitleBgView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -36,10 +43,17 @@
             make.bottom.equalTo(self.contentView.mas_bottom).offset(-10);
         }];
         
+        [self.lblMark mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.lblTitleBgView.mas_top);
+            make.width.equalTo(@(19));
+            make.left.equalTo(self.lblTitleBgView.mas_left).offset(5);
+            make.bottom.equalTo(self.lblTitleBgView.mas_bottom);
+        }];
+        
         [self.lblTitle mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.lblTitleBgView.mas_top);
             make.right.equalTo(self.lblTitleBgView.mas_right);
-            make.left.equalTo(self.lblTitleBgView.mas_left).offset(5);
+            make.left.equalTo(self.lblMark.mas_right);
             make.bottom.equalTo(self.lblTitleBgView.mas_bottom);
         }];
     }
@@ -48,7 +62,8 @@
 
 - (void)updateExamCardQuestionCell:(CodingExamOptionsModel *)item
 {
-    self.lblTitle.text=[NSString stringWithFormat:@"%@.%@",item.mark,item.content];
+    self.lblMark.text=[NSString stringWithFormat:@"%@.",item.mark];
+    self.lblTitle.text=[NSString stringWithFormat:@"%@",item.content];
     
 //    if (self.markSelect)
 //    {
@@ -70,15 +85,18 @@
         {
             self.lblTitleBgView.backgroundColor=[UIColor colorWithHexString:@"FF4B80"];
             self.lblTitle.textColor=[UIColor whiteColor];
+            self.lblMark.textColor=self.lblTitle.textColor;
         }else
         {
             self.lblTitleBgView.backgroundColor=[UIColor colorWithHexString:@"44C07F"];
             self.lblTitle.textColor=[UIColor whiteColor];
+            self.lblMark.textColor=self.lblTitle.textColor;
         }
     }else
     {
-        self.lblTitleBgView.backgroundColor=[UIColor colorWithHexString:@"D9D9D9"];
+        self.lblTitleBgView.backgroundColor=[UIColor colorWithHexString:@"f4f4f4"];
         self.lblTitle.textColor=[UIColor colorWithHexString:@"666666"];
+        self.lblMark.textColor=self.lblTitle.textColor;
     }
 }
 
@@ -114,6 +132,17 @@
         _lblTitle.textColor=[UIColor colorWithHexString:@"666666"];
     }
     return _lblTitle;
+}
+
+- (UILabel *)lblMark {
+    if (!_lblMark) {
+        _lblMark = [UILabel new];
+        _lblMark.numberOfLines = 0;
+        _lblMark.backgroundColor=[UIColor clearColor];
+        _lblMark.font=[UIFont systemFontOfSize:17];
+        _lblMark.textColor=[UIColor colorWithHexString:@"666666"];
+    }
+    return _lblMark;
 }
 
 

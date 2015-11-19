@@ -54,7 +54,7 @@
     
     NSString* textLabelCont=@"请您认真阅读《开发者服务指南》, 了解作为开发者如何规范地在 Coding 码市平台上参与悬赏。 阅读完成后，请参与如下的测试问卷，以便于 Coding 码市知悉您对码市平台开发流程的学习成果。 通过本次秘笈测试，您就可以报名码市的悬赏了！";
     
-    self.contentTextView.font=[UIFont boldSystemFontOfSize:17];
+    self.contentTextView.font=[UIFont systemFontOfSize:17];
     self.contentTextView.text = textLabelCont;
     self.contentTextView.textAlignment=NSTextAlignmentLeft;
     

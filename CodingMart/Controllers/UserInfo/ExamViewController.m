@@ -114,7 +114,7 @@
     }];
     
     [self.showAllBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.view.mas_right).offset(-10);
+        make.right.equalTo(self.view.mas_right).offset(-18);
         make.size.mas_equalTo(CGSizeMake(20, 20));
         make.top.equalTo(@(55/2-20/2));
     }];

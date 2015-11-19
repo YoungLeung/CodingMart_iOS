@@ -1194,8 +1194,13 @@
                                     <constraint firstAttribute="height" constant="200" id="Udn-Td-nd2"/>
                                 </constraints>
                             </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="请您认真阅读《开发者服务指南》, 了解作为开发者如何规范地在 Coding 码市平台上参与悬赏。 阅读完成后，请参与如下的测试问卷，以便于 Coding 码市知悉您对码市平台开发流程的学习成果。 通过本次秘笈测试，您就可以报名码市的悬赏了！" translatesAutoresizingMaskIntoConstraints="NO" id="L9n-lC-8oy" customClass="HBVLinkedTextView">
+                                <rect key="frame" x="3" y="240" width="314" height="160.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FQH-oY-nlu">
-                                <rect key="frame" x="31" y="480.5" width="258" height="44"/>
+                                <rect key="frame" x="11" y="480" width="298" height="44"/>
                                 <color key="backgroundColor" red="0.23137254901960785" green="0.74117647058823533" blue="0.47450980392156861" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="kGL-E8-h8P"/>
@@ -1208,11 +1213,6 @@
                                     <action selector="tapAction:" destination="uZc-rS-Grv" eventType="touchUpInside" id="aVE-hS-Sgl"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="请您认真阅读《开发者服务指南》, 了解作为开发者如何规范地在 Coding 码市平台上参与悬赏。 阅读完成后，请参与如下的测试问卷，以便于 Coding 码市知悉您对码市平台开发流程的学习成果。 通过本次秘笈测试，您就可以报名码市的悬赏了！" translatesAutoresizingMaskIntoConstraints="NO" id="L9n-lC-8oy" customClass="HBVLinkedTextView">
-                                <rect key="frame" x="6" y="240" width="308" height="160.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1221,18 +1221,22 @@
                             <constraint firstAttribute="trailingMargin" secondItem="FQH-oY-nlu" secondAttribute="trailing" constant="15" id="Bat-lE-xtt"/>
                             <constraint firstItem="L9n-lC-8oy" firstAttribute="leading" secondItem="S5W-I4-QKj" secondAttribute="leadingMargin" id="GP2-Xn-Sdk"/>
                             <constraint firstItem="Vgu-SC-dBS" firstAttribute="leading" secondItem="S5W-I4-QKj" secondAttribute="leading" constant="10" id="Hpm-f4-lvh"/>
-                            <constraint firstItem="L9n-lC-8oy" firstAttribute="leading" secondItem="S5W-I4-QKj" secondAttribute="leadingMargin" constant="-10" id="Psn-Ga-gzS"/>
+                            <constraint firstItem="L9n-lC-8oy" firstAttribute="leading" secondItem="S5W-I4-QKj" secondAttribute="leadingMargin" constant="-13" id="Psn-Ga-gzS"/>
                             <constraint firstItem="L9n-lC-8oy" firstAttribute="top" secondItem="Vgu-SC-dBS" secondAttribute="bottom" constant="10" id="Rq5-Nb-e8G"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="FQH-oY-nlu" secondAttribute="trailing" constant="-5" id="TQd-rq-2XG"/>
                             <constraint firstItem="aup-xG-ern" firstAttribute="top" secondItem="FQH-oY-nlu" secondAttribute="bottom" constant="43.5" id="VPf-90-uRb"/>
+                            <constraint firstItem="FQH-oY-nlu" firstAttribute="leading" secondItem="S5W-I4-QKj" secondAttribute="leadingMargin" constant="-5" id="ZxD-Oo-6ch"/>
                             <constraint firstItem="Vgu-SC-dBS" firstAttribute="top" secondItem="rvs-gR-aau" secondAttribute="bottom" constant="10" id="aQC-8O-72B"/>
                             <constraint firstItem="FQH-oY-nlu" firstAttribute="leading" secondItem="S5W-I4-QKj" secondAttribute="leadingMargin" constant="15" id="auc-qa-c0I"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="L9n-lC-8oy" secondAttribute="trailing" constant="-10" id="kLg-o5-IHh"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="L9n-lC-8oy" secondAttribute="trailing" constant="-13" id="kLg-o5-IHh"/>
                             <constraint firstAttribute="trailingMargin" secondItem="L9n-lC-8oy" secondAttribute="trailing" id="tJq-jM-IDO"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="GP2-Xn-Sdk"/>
                                 <exclude reference="tJq-jM-IDO"/>
+                                <exclude reference="Bat-lE-xtt"/>
+                                <exclude reference="auc-qa-c0I"/>
                             </mask>
                         </variation>
                     </view>
