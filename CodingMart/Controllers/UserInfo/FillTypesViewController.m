@@ -81,6 +81,7 @@
              {
                  weakSelf.statusCheckV.hidden=YES;
                  weakSelf.identityStatusLabel.hidden=NO;
+                 weakSelf.identityStatusLabel.textColor=[UIColor colorWithHexString:@"FF4B80"];
                  weakSelf.identityStatusLabel.text=@"认证失败";
              }else if(status==3)
              {
@@ -129,8 +130,18 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section==0)
+    {
         return 30;
-    else
+    }
+    else if(section==1)
+    {
         return 20;
+    }else if (section==2)
+    {
+        return 8;
+    }else
+    {
+        return 1;
+    }
 }
 @end

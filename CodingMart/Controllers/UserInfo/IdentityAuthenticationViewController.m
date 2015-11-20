@@ -17,6 +17,7 @@
 #import "TableViewFooterButton.h"
 #import <QuickLook/QuickLook.h>
 #import "UIButton+WebCache.h"
+#import "UITableView+FDTemplateLayoutCell.h"
 
 
 #define kDownloadPath @"https://mart.coding.net/api/download/auth_file"
@@ -29,6 +30,7 @@
 
 @property(nonatomic,assign) NSInteger currentSelectImgTag;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewHeight;
 @property (weak, nonatomic) IBOutlet UITextField *userNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *identityIDTextFiled;
 @property (weak, nonatomic) IBOutlet UITextField *aliyPayTextField;
@@ -91,6 +93,7 @@
     {
         [self.downloadDCButton setTitle:@"下载模板" forState:UIControlStateNormal];
     }
+    self.codingCheckBox.on=YES;
     self.codingCheckBox.onCheckColor=[UIColor colorWithHexString:@"65C279"];
     self.codingCheckBox.lineWidth=2;
     self.codingCheckBox.onTintColor=[UIColor colorWithHexString:@"E8E8E8"];
@@ -101,6 +104,8 @@
     
     [self setupDefValue];
     [self setupEvent];
+    
+    self.textViewHeight.constant=self.textViewHeight.constant-50;
 }
 
 -(void)setupEvent
@@ -222,6 +227,19 @@
         default:
             cell.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15);
             break;
+    }
+}
+
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section==0)
+    {
+        return 17;
+    }else
+    {
+        return 5;
     }
 }
 
