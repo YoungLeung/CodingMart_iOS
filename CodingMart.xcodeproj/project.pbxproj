@@ -21,6 +21,7 @@
 		328E4B9D1BF96D7E006A8D58 /* ExamCardQuestionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 328E4B9C1BF96D7E006A8D58 /* ExamCardQuestionCell.m */; settings = {ASSET_TAGS = (); }; };
 		328E4BA01BF96D9E006A8D58 /* ExamCardAnswCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 328E4B9F1BF96D9E006A8D58 /* ExamCardAnswCell.m */; settings = {ASSET_TAGS = (); }; };
 		328E4BA31BF96DBB006A8D58 /* ExamCardTitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 328E4BA21BF96DBB006A8D58 /* ExamCardTitleCell.m */; settings = {ASSET_TAGS = (); }; };
+		32AB93901BFEC40B007DF39C /* DottedLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 32AB938F1BFEC40B007DF39C /* DottedLineView.m */; settings = {ASSET_TAGS = (); }; };
 		32C503EC1BF9CC7B0017F02B /* ShowAllanswsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32C503EB1BF9CC7B0017F02B /* ShowAllanswsViewController.m */; settings = {ASSET_TAGS = (); }; };
 		32C503EF1BF9D0C70017F02B /* AnswsCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 32C503EE1BF9D0C70017F02B /* AnswsCollectionCell.m */; settings = {ASSET_TAGS = (); }; };
 		32C503F21BFA36FC0017F02B /* CodingTestResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32C503F11BFA36FC0017F02B /* CodingTestResultViewController.m */; settings = {ASSET_TAGS = (); }; };
@@ -220,6 +221,8 @@
 		328E4B9F1BF96D9E006A8D58 /* ExamCardAnswCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamCardAnswCell.m; sourceTree = "<group>"; };
 		328E4BA11BF96DBB006A8D58 /* ExamCardTitleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExamCardTitleCell.h; sourceTree = "<group>"; };
 		328E4BA21BF96DBB006A8D58 /* ExamCardTitleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamCardTitleCell.m; sourceTree = "<group>"; };
+		32AB938E1BFEC40B007DF39C /* DottedLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DottedLineView.h; sourceTree = "<group>"; };
+		32AB938F1BFEC40B007DF39C /* DottedLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DottedLineView.m; sourceTree = "<group>"; };
 		32C503EA1BF9CC7B0017F02B /* ShowAllanswsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowAllanswsViewController.h; sourceTree = "<group>"; };
 		32C503EB1BF9CC7B0017F02B /* ShowAllanswsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowAllanswsViewController.m; sourceTree = "<group>"; };
 		32C503ED1BF9D0C70017F02B /* AnswsCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnswsCollectionCell.h; sourceTree = "<group>"; };
@@ -1250,6 +1253,8 @@
 				32F2F2A61BFC1D9200DC600D /* ExampleView.xib */,
 				32F2F2A81BFC1E8600DC600D /* ExampleView.h */,
 				32F2F2A91BFC1E8600DC600D /* ExampleView.m */,
+				32AB938E1BFEC40B007DF39C /* DottedLineView.h */,
+				32AB938F1BFEC40B007DF39C /* DottedLineView.m */,
 				328E4B9B1BF96D7E006A8D58 /* ExamCardQuestionCell.h */,
 				328E4B9C1BF96D7E006A8D58 /* ExamCardQuestionCell.m */,
 				328E4B9E1BF96D9D006A8D58 /* ExamCardAnswCell.h */,
@@ -1559,6 +1564,7 @@
 				4E2693BE1BC75D1A00F9E332 /* RewardListCell.m in Sources */,
 				4EDFFF251BCA515C007DF702 /* FeedBackViewController.m in Sources */,
 				328E4BA31BF96DBB006A8D58 /* ExamCardTitleCell.m in Sources */,
+				32AB93901BFEC40B007DF39C /* DottedLineView.m in Sources */,
 				4EDAE3FA1BC7BCD300255FE8 /* WebViewController.m in Sources */,
 				4EDAE4091BC7C6B200255FE8 /* UIView+Loding.m in Sources */,
 				4E2693801BC676EC00F9E332 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
@@ -1697,7 +1703,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/CodingMart/Vendor/XGPush",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.coding.CodingMart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.funnystore.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "912b3cea-92c6-4417-9853-93d9764bceb2";
 			};
@@ -1719,7 +1725,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/CodingMart/Vendor/XGPush",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.coding.CodingMart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.funnystore.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "912b3cea-92c6-4417-9853-93d9764bceb2";
 			};

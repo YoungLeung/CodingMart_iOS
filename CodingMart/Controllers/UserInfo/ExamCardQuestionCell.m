@@ -44,10 +44,10 @@
         }];
         
         [self.lblMark mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.lblTitleBgView.mas_top);
+            make.top.equalTo(@(8));
             make.width.equalTo(@(19));
             make.left.equalTo(self.lblTitleBgView.mas_left).offset(5);
-            make.bottom.equalTo(self.lblTitleBgView.mas_bottom);
+            make.height.equalTo(@(24));
         }];
         
         [self.lblTitle mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -57,6 +57,9 @@
             make.bottom.equalTo(self.lblTitleBgView.mas_bottom);
         }];
     }
+    
+    [self.contentView setNeedsLayout];
+    [self.contentView layoutIfNeeded];
     return self;
 }
 
