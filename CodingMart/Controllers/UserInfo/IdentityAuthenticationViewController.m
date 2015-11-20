@@ -205,6 +205,26 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
+    switch (indexPath.row)
+    {
+
+        case 3:
+            cell.separatorInset = UIEdgeInsetsMake(0, kScreen_Width, 0, 0);//隐藏掉它
+            break;
+        case 4:
+            cell.separatorInset = UIEdgeInsetsMake(0, kScreen_Width, 0, 0);//隐藏掉它
+            break;
+        case 5:
+            cell.separatorInset = UIEdgeInsetsMake(0, kScreen_Width, 0, 0);//隐藏掉它
+            break;
+        default:
+            cell.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15);
+            break;
+    }
+}
+
 //- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
 //    [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
 //    if (indexPath.row == 2) {
