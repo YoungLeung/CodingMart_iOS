@@ -122,6 +122,25 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+#pragma mark Application
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+    NSLog(@"%@", url);
+    if ([[url scheme] isEqualToString:kAppScheme]) {
+        NSDictionary *queryParams = [url queryParams];
+        if ([queryParams[@"type"] isEqualToString:@"handle_result"]) {
+            NSNumber *handle_result = queryParams[@"handle_result"];
+            if (handle_result.integerValue == 0) {
+                [NSObject showHudTipStr:@"已取消"];
+            }else{
+                [NSObject showHudTipStr:@"已发送"];
+            }
+            return YES;
+        }
+    }
+    return NO;
+}
+
 #pragma mark XGPush
 - (void)registerPush{
     float sysVer = [[[UIDevice currentDevice] systemVersion] floatValue];

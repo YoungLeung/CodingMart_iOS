@@ -17,6 +17,7 @@
 #import "Coding_NetAPIManager.h"
 #import <BlocksKit/BlocksKit+UIKit.h>
 #import "ReportIllegalViewController.h"
+#import "SDWebImageManager.h"
 //#import <Masonry/Masonry.h>
 
 @interface CodingShareView ()<UMSocialUIDelegate>
@@ -145,7 +146,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         snsNameDict = @{
-                        @"coding": @"Coding冒泡",
+                        @"coding-net": @"Coding冒泡",
                         @"copylink": @"复制链接",
                         @"sina": @"新浪微博",
                         @"qzone": @"QQ空间",
@@ -171,7 +172,7 @@
                                          @"qq",
                                          @"qzone",
                                          @"sina",
-                                         @"coding",
+                                         @"coding-net",
                                          @"copylink",
                                          @"inform",
                                          ] mutableCopy];
@@ -189,6 +190,9 @@
     }
     if (![self p_canOpen:@"weibosdk://request"]) {
         [resultSnsValues removeObjectsInArray:@[@"sina"]];
+    }
+    if (![self p_canOpen:@"coding-net://"]) {
+        [resultSnsValues removeObjectsInArray:@[@"coding-net"]];
     }
     return resultSnsValues;
 }
@@ -262,7 +266,7 @@
     if ([snsName isEqualToString:@"copylink"]) {
         [[UIPasteboard generalPasteboard] setString:[self p_shareLinkStr]];
         [NSObject showHudTipStr:@"链接已拷贝到粘贴板"];
-    }else if ([snsName isEqualToString:@"coding"]){
+    }else if ([snsName isEqualToString:@"coding-net"]){
         [self goToCoding];
     }else if ([snsName isEqualToString:@"inform"]){
         [self goToInform];
@@ -330,10 +334,42 @@
     }
     return imageUrl;
 }
+
+- (NSURL *)p_shareCodingTweetURL{
+    NSString *callback, *type, *content;
+    BOOL has_image_in_pasteboard = NO;
+    callback = kAppScheme;
+    type = @"tweet";
+    if ([_objToShare isKindOfClass:[Reward class]]) {
+        content = [NSString stringWithFormat:@"%@ - [链接](%@)", self.p_shareText, self.p_shareLinkStr];
+        content = [content URLEncoding];
+    }else{
+        content = @"";
+    }
+    NSString *imageStr = [self p_imageUrlSquare:NO];
+    if (imageStr.length > 0) {
+        NSURL *imageURL = [NSURL URLWithString:imageStr];
+        if (imageURL) {
+            SDWebImageManager *manager = [SDWebImageManager sharedManager];
+            if ([manager diskImageExistsForURL:imageURL]) {
+                UIImage *image = [[manager imageCache] imageFromDiskCacheForKey:imageURL.absoluteString];
+                if (image) {
+                    has_image_in_pasteboard = YES;
+                    [[UIPasteboard generalPasteboard] setImage:image];
+                }
+            }
+        }
+    }
+    NSURL *shareURL;
+    NSString *shareStr = [NSString stringWithFormat:@"coding-net://mart.coding.net?callback=%@&type=%@&content=%@&has_image_in_pasteboard=%@", callback, type, content, has_image_in_pasteboard? @(1): @(0)];
+    shareURL = [NSURL URLWithString:shareStr];
+    return shareURL;
+}
+
 #pragma mark Coding Tweet
 - (void)goToCoding{
-#warning share to coding
-    
+//    coding-net
+    [[UIApplication sharedApplication] openURL:[self p_shareCodingTweetURL]];
 }
 
 - (void)goToInform{

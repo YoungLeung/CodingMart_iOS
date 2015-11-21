@@ -38,12 +38,11 @@
     _reward = reward;
     [_reward prepareToDisplay];
     
-    [_coverImgV sd_setImageWithURL:[NSURL URLWithString:_reward.cover] placeholderImage:[UIImage imageNamed:@"placeholder_reward_cover"]];
+    [_coverImgV sd_setImageWithURL:[NSURL URLWithString:_reward.cover] placeholderImage:[UIImage imageNamed:@"placeholder_reward_cover_square"]];
     _titleL.text = _reward.title;
     _typeImgV.image = [UIImage imageNamed:_reward.typeImageName];
     _typeL.text = _reward.typeDisplay;
     _roleTypesL.text = _reward.roleTypesDisplay;
-#warning 参与悬赏列表的接口里面缺少 format_price
     _priceL.text = _reward.format_price? _reward.format_price: [NSString stringWithFormat:@"￥%@", _reward.price.stringValue];
     _durationL.text = [NSString stringWithFormat:@"%@天", _reward.duration.stringValue];
     
