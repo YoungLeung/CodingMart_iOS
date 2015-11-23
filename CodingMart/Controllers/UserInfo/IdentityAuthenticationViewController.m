@@ -20,13 +20,23 @@
 #import "UITableView+FDTemplateLayoutCell.h"
 
 
+//buton  的tag 对于此
+typedef NS_ENUM(NSInteger, UIIdentityMode)
+{
+    identity_img_front=87,
+    identity_img_back=88,
+    identity_img_auth=89
+};
+
+//示例Action tag 【87-身份证正面；88-身份证背面；89-授权文件】
+//选择照片Action tag【87-身份证正面；88-身份证背面；89-授权文件】
+
+
 #define kDownloadPath @"https://mart.coding.net/api/download/auth_file"
 #define kUploadImgPath @"https://mart.coding.net/api/upload"
 
 @interface IdentityAuthenticationViewController ()<UITextFieldDelegate,LCActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,QLPreviewControllerDataSource,BEMCheckBoxDelegate>
 
-//示例Action tag 【87-身份证正面；88-身份证背面；89-授权文件】
-//选择照片Action tag【87-身份证正面；88-身份证背面；89-授权文件】
 
 @property(nonatomic,assign) NSInteger currentSelectImgTag;
 
@@ -35,24 +45,34 @@
 @property (weak, nonatomic) IBOutlet UITextField *identityIDTextFiled;
 @property (weak, nonatomic) IBOutlet UITextField *aliyPayTextField;
 @property (weak, nonatomic) IBOutlet BEMCheckBox *codingCheckBox;
-@property (weak, nonatomic) IBOutlet UIButton *idCard1AddButton;
-@property (weak, nonatomic) IBOutlet UIButton *idCard2AddButton;
-@property (weak, nonatomic) IBOutlet UIButton *documentAddButton;
 
-@property (weak, nonatomic) IBOutlet UIProgressView *idCard1Progress;
-@property (weak, nonatomic) IBOutlet UIImageView *idCard1StatusIcon;
-@property (weak, nonatomic) IBOutlet UILabel *idCard1StatusLabel;
-@property (weak, nonatomic) IBOutlet UIProgressView *idCard2Progress;
-@property (weak, nonatomic) IBOutlet UIImageView *idCard2StatusIcon;
-@property (weak, nonatomic) IBOutlet UILabel *idCard2StatusLabel;
-@property (weak, nonatomic) IBOutlet UIProgressView *documentProgress;
-@property (weak, nonatomic) IBOutlet UIImageView *documentStatusIcon;
-@property (weak, nonatomic) IBOutlet UILabel *documentStatusLabel;
-@property (weak, nonatomic) IBOutlet UIButton *downloadDCButton;
+@property (weak, nonatomic) IBOutlet UIButton *identity_img_front_Button;
+@property (weak, nonatomic) IBOutlet UIButton *identity_img_back_Button;
+@property (weak, nonatomic) IBOutlet UIButton *identity_img_auth_Button;
+
+@property (weak, nonatomic) IBOutlet UIButton *identity_img_front_DeleteBtn;
+@property (weak, nonatomic) IBOutlet UIButton *identity_img_back_DeleteBtn;
+@property (weak, nonatomic) IBOutlet UIButton *identity_img_auth_DeleteBtn;
+
+@property (weak, nonatomic) IBOutlet UIProgressView *identity_img_front_Progress;
+@property (weak, nonatomic) IBOutlet UIImageView *identity_img_front_StatusIcon;
+@property (weak, nonatomic) IBOutlet UILabel *identity_img_front_StatusLabel;
+
+@property (weak, nonatomic) IBOutlet UIProgressView *identity_img_back_Progress;
+@property (weak, nonatomic) IBOutlet UIImageView *identity_img_back_StatusIcon;
+@property (weak, nonatomic) IBOutlet UILabel *identity_img_back_StatusLabel;
+
+@property (weak, nonatomic) IBOutlet UIProgressView *identity_img_auth_Progress;
+@property (weak, nonatomic) IBOutlet UIImageView *identity_img_auth_StatusIcon;
+@property (weak, nonatomic) IBOutlet UILabel *identity_img_auth_StatusLabel;
+
+@property (weak, nonatomic) IBOutlet UIButton *download_identity_img_auth_Button;
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *submitBtn;
+@property (weak, nonatomic) IBOutlet UITextView *userAgreementTextView;
 
 
-@property (strong,nonatomic)UIImage *idCard1Img,*idCard2Img,*documentImg;
+
+//@property (strong,nonatomic)UIImage *idCard1Img,*idCard2Img,*documentImg;
 @property (strong,nonatomic)IdentityAuthenticationModel *model;
 @property (assign,nonatomic)BOOL canEedit;
 
@@ -63,6 +83,7 @@
 - (IBAction)selectImgAction:(id)sender;
 - (IBAction)downloadAction:(id)sender;
 - (IBAction)submitAction:(id)sender;
+- (IBAction)identityImgDeleteAction:(id)sender;
 
 @end
 
@@ -77,9 +98,9 @@
 
 -(void)dealloc
 {
-    self.idCard1Img=nil;
-    self.idCard2Img=nil;
-    self.documentImg=nil;
+//    self.idCard1Img=nil;
+//    self.idCard2Img=nil;
+//    self.documentImg=nil;
 }
 
 -(void)configUI
@@ -88,10 +109,10 @@
     
     if ([self isDocumentExistsAtPath])
     {
-        [self.downloadDCButton setTitle:@"打开模板" forState:UIControlStateNormal];
+        [self.download_identity_img_auth_Button setTitle:@"打开模板" forState:UIControlStateNormal];
     }else
     {
-        [self.downloadDCButton setTitle:@"下载模板" forState:UIControlStateNormal];
+        [self.download_identity_img_auth_Button setTitle:@"下载模板" forState:UIControlStateNormal];
     }
     self.codingCheckBox.on=YES;
     self.codingCheckBox.onCheckColor=[UIColor colorWithHexString:@"65C279"];
@@ -105,7 +126,17 @@
     [self setupDefValue];
     [self setupEvent];
     
-    self.textViewHeight.constant=self.textViewHeight.constant-50;
+    if (kDevice_Is_iPhone5)
+    {
+        self.textViewHeight.constant=self.textViewHeight.constant-110;
+        
+    }else if(kDevice_Is_iPhone6)
+    {
+        self.textViewHeight.constant=self.textViewHeight.constant-180;
+    }else if(kDevice_Is_iPhone6Plus)
+    {
+        self.textViewHeight.constant=self.textViewHeight.constant-195;
+    }
 }
 
 -(void)setupEvent
@@ -130,6 +161,7 @@
         if (newText.length<1)
             return ;
         
+        [weakSelf checkIdentityCardValidity];
         weakSelf.model.alipay = newText;
         
     }];
@@ -154,17 +186,23 @@
     self.userNameTextField.text=self.model.name;
     self.identityIDTextFiled.text=self.model.identity;
     self.aliyPayTextField.text=self.model.alipay;
+    self.identity_img_auth_DeleteBtn.hidden=YES;
+    self.identity_img_back_DeleteBtn.hidden=YES;
+    self.identity_img_front_DeleteBtn.hidden=YES;
+    
+    UIImage *defImg =[UIImage imageNamed:@"image_ia_addfile"];
+    
     if (self.model.identity_img_front)
     {
-        [self.idCard1AddButton sd_setBackgroundImageWithURL:[NSURL URLWithString:self.model.identity_img_front] forState:UIControlStateNormal];
+        [self.identity_img_front_Button sd_setBackgroundImageWithURL:[NSURL URLWithString:self.model.identity_img_front]  forState:UIControlStateNormal placeholderImage:defImg] ;
     }
     if (self.model.identity_img_back)
     {
-        [self.idCard2AddButton sd_setBackgroundImageWithURL:[NSURL URLWithString:self.model.identity_img_back] forState:UIControlStateNormal];
+        [self.identity_img_back_Button sd_setBackgroundImageWithURL:[NSURL URLWithString:self.model.identity_img_back] forState:UIControlStateNormal placeholderImage:defImg];
     }
     if (self.model.identity_img_auth)
     {
-        [self.documentAddButton sd_setBackgroundImageWithURL:[NSURL URLWithString:self.model.identity_img_auth] forState:UIControlStateNormal];
+        [self.identity_img_auth_Button sd_setBackgroundImageWithURL:[NSURL URLWithString:self.model.identity_img_auth] forState:UIControlStateNormal placeholderImage:defImg];
     }
     
     if ([self.model.identityIsPass integerValue]==3 ||[self.model.identityIsPass integerValue]==1)
@@ -177,6 +215,17 @@
     
 }
 
+-(void)checkIdentityCardValidity
+{
+    if (self.model.identity.length<15)
+    {
+        KAlert(@"身份证格式错误，请重新填写:身份证证号不能少于15位");
+    }else if (self.model.identity.length>18)
+    {
+        KAlert(@"身份证格式错误，请重新填写:身份证证号不能多于18位");
+    }
+}
+
 -(void)setCanEedit:(BOOL)canEedit
 {
     _canEedit=canEedit;
@@ -184,10 +233,13 @@
     self.userNameTextField.enabled=canEedit;
     self.identityIDTextFiled.enabled=canEedit;
     self.aliyPayTextField.enabled=canEedit;
-    self.idCard1AddButton.enabled=canEedit;
-    self.idCard2AddButton.enabled=canEedit;
-    self.documentAddButton.enabled=canEedit;
+    self.identity_img_front_Button.enabled=canEedit;
+    self.identity_img_back_Button.enabled=canEedit;
+    self.identity_img_auth_Button.enabled=canEedit;
     self.submitBtn.enabled=canEedit;
+    self.identity_img_auth_DeleteBtn.hidden=!canEedit;
+    self.identity_img_back_DeleteBtn.hidden=!canEedit;
+    self.identity_img_front_DeleteBtn.hidden=!canEedit;
     
     if (!canEedit)
     {
@@ -197,7 +249,7 @@
               aTitle=@"等待认证";
         }else if ( [self.model.identityIsPass integerValue]==1)
         {
-            aTitle=@"认证通过";
+              aTitle=@"认证通过";
         }
         
         [self.submitBtn setBackgroundColor:[UIColor colorWithHexString:@"D8D8D8"]];
@@ -230,18 +282,64 @@
     }
 }
 
+//132-80-75-182-147-148-636
 
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (section==0)
+    switch (indexPath.row)
     {
-        return 17;
-    }else
-    {
-        return 5;
+        case 0:
+            return 132;
+            break;
+        case 1:
+            return 80;
+            break;
+        case 2:
+            return 75;
+            break;
+        case 3:
+            return 182;
+            break;
+        case 4:
+            return 147;
+            break;
+        case 5:
+            return 148;
+            break;
+        case 6:
+        {
+            CGFloat height =636;
+            if (kDevice_Is_iPhone5)
+            {
+                height= height-73;
+            }else if (kDevice_Is_iPhone6)
+            {
+                height= height-140;
+
+            }else if (kDevice_Is_iPhone6Plus)
+            {
+                height= height-160;
+            }
+            return height;
+            break;
+        }
+            
+        default:
+            return 0;
+            break;
     }
 }
+
+//-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+//{
+//    if (section==0)
+//    {
+//        return 17;
+//    }else
+//    {
+//        return 5;
+//    }
+//}
 
 //- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
 //    [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
@@ -338,7 +436,7 @@
     [[CodingNetAPIClient sharedJsonClient]downloadFileWithOption:nil withInferface:kDownloadPath savedPath:aPth downloadSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
      {
          DebugLog(@"下载模板成功");
-         [weakSelf.downloadDCButton setTitle:@"打开模板" forState:UIControlStateNormal];
+         [weakSelf.download_identity_img_auth_Button setTitle:@"打开模板" forState:UIControlStateNormal];
          
      } downloadFailure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
@@ -378,72 +476,75 @@
 
 -(void)updateImgState:(NSString *)imgPath
 {
-    if (self.currentSelectImgTag==97)
+    if (self.currentSelectImgTag==identity_img_front)
     {
-        self.idCard1StatusIcon.hidden=NO;
-        self.idCard1StatusLabel.hidden=NO;
-        self.idCard1Progress.hidden=YES;
+        self.identity_img_front_StatusIcon.hidden=NO;
+        self.identity_img_front_StatusLabel.hidden=NO;
+        self.identity_img_front_Progress.hidden=YES;
         
         if (imgPath)
         {
             //成功
-            self.idCard1StatusIcon.image=[UIImage imageNamed:@"fill_checked"];
-            self.idCard1StatusLabel.text=@"上传成功";
+            self.identity_img_front_StatusIcon.image=[UIImage imageNamed:@"fill_checked"];
+            self.identity_img_front_StatusLabel.text=@"上传成功";
             self.model.identity_img_front=imgPath;
+            self.identity_img_front_DeleteBtn.hidden=NO;
         }else
         {
-            self.idCard1StatusIcon.image=[UIImage imageNamed:@"fail_pass"];
-            self.idCard1StatusLabel.text=@"上传失败";
+            self.identity_img_front_StatusIcon.image=[UIImage imageNamed:@"fail_pass"];
+            self.identity_img_front_StatusLabel.text=@"上传失败";
         }
-    }else if (self.currentSelectImgTag==98)
+    }else if (self.currentSelectImgTag==identity_img_back)
     {
-        self.idCard2StatusIcon.hidden=NO;
-        self.idCard2StatusLabel.hidden=NO;
-        self.idCard2Progress.hidden=YES;
+        self.identity_img_back_StatusIcon.hidden=NO;
+        self.identity_img_back_StatusLabel.hidden=NO;
+        self.identity_img_back_Progress.hidden=YES;
         if (imgPath)
         {
             //成功
-            self.idCard2StatusIcon.image=[UIImage imageNamed:@"fill_checked"];
-            self.idCard2StatusLabel.text=@"上传成功";
+            self.identity_img_back_StatusIcon.image=[UIImage imageNamed:@"fill_checked"];
+            self.identity_img_back_StatusLabel.text=@"上传成功";
             self.model.identity_img_back=imgPath;
+            self.identity_img_back_DeleteBtn.hidden=NO;
         }else
         {
-            self.idCard2StatusIcon.image=[UIImage imageNamed:@"fail_pass"];
-            self.idCard2StatusLabel.text=@"上传失败";
+            self.identity_img_back_StatusIcon.image=[UIImage imageNamed:@"fail_pass"];
+            self.identity_img_back_StatusLabel.text=@"上传失败";
         }
     }else
     {
-        self.documentStatusIcon.hidden=NO;
-        self.documentStatusLabel.hidden=NO;
-        self.documentProgress.hidden=YES;
+        self.identity_img_auth_StatusIcon.hidden=NO;
+        self.identity_img_auth_StatusLabel.hidden=NO;
+        self.identity_img_auth_Progress.hidden=YES;
         if (imgPath)
         {
             //成功
-            self.documentStatusIcon.image=[UIImage imageNamed:@"fill_checked"];
-            self.documentStatusLabel.text=@"上传成功";
+            self.identity_img_auth_StatusIcon.image=[UIImage imageNamed:@"fill_checked"];
+            self.identity_img_auth_StatusLabel.text=@"上传成功";
             self.model.identity_img_auth=imgPath;
+            self.identity_img_auth_DeleteBtn.hidden=NO;
         }else
         {
-            self.documentStatusIcon.image=[UIImage imageNamed:@"fail_pass"];
-            self.documentStatusLabel.text=@"上传失败";
+            self.identity_img_auth_StatusIcon.image=[UIImage imageNamed:@"fail_pass"];
+            self.identity_img_auth_StatusLabel.text=@"上传失败";
         }
     }
 }
 
 -(void)updateImgProgressValue:(CGFloat)progressValue
 {
-    if (self.currentSelectImgTag==97)
+    if (self.currentSelectImgTag==identity_img_front)
     {
-        self.idCard1Progress.hidden=NO;
-        self.idCard1Progress.progress=progressValue;
-    }else if (self.currentSelectImgTag==98)
+        self.identity_img_front_Progress.hidden=NO;
+        self.identity_img_front_Progress.progress=progressValue;
+    }else if (self.currentSelectImgTag==identity_img_back)
     {
-        self.idCard2Progress.hidden=NO;
-        self.idCard2Progress.progress=progressValue;
+        self.identity_img_back_Progress.hidden=NO;
+        self.identity_img_back_Progress.progress=progressValue;
     }else
     {
-        self.documentProgress.hidden=NO;
-        self.documentProgress.progress=progressValue;
+        self.identity_img_auth_Progress.hidden=NO;
+        self.identity_img_auth_Progress.progress=progressValue;
     }
 }
 
@@ -464,6 +565,40 @@
     }];
 }
 
+- (IBAction)identityImgDeleteAction:(id)sender
+{
+     UIButton *btn =(UIButton*)sender;
+    if (btn.tag==identity_img_front)
+    {
+//        KAlert(@"删除正面");
+        self.model.identity_img_front=@"";
+        self.identity_img_front_StatusIcon.hidden=YES;
+        self.identity_img_front_StatusLabel.hidden=YES;
+        self.identity_img_front_Progress.hidden=YES;
+        self.identity_img_front_DeleteBtn.hidden=YES;
+        [self.identity_img_front_Button setBackgroundImage:[UIImage imageNamed:@"image_ia_addfile"] forState:UIControlStateNormal];
+        
+    }else if (btn.tag==identity_img_back)
+    {
+        self.model.identity_img_back=@"";
+        self.identity_img_back_StatusIcon.hidden=YES;
+        self.identity_img_back_StatusLabel.hidden=YES;
+        self.identity_img_back_Progress.hidden=YES;
+        self.identity_img_back_DeleteBtn.hidden=YES;
+        [self.identity_img_back_Button setBackgroundImage:[UIImage imageNamed:@"image_ia_addfile"] forState:UIControlStateNormal];
+    }else
+    {
+        self.model.identity_img_auth=@"";
+        self.identity_img_auth_Button.hidden=YES;
+        self.identity_img_auth_StatusLabel.hidden=YES;
+        self.identity_img_auth_Progress.hidden=YES;
+        self.identity_img_auth_DeleteBtn.hidden=YES;
+        [self.identity_img_auth_Button setBackgroundImage:[UIImage imageNamed:@"image_ia_addfile"] forState:UIControlStateNormal];
+    }
+    
+    [self.tableView reloadData];
+}
+
 
 -(void)showSelectImgView
 {
@@ -479,17 +614,17 @@
 
 -(void)hideAllStatusEx
 {
-    self.idCard1Progress.hidden=YES;
-    self.idCard1StatusIcon.hidden=YES;
-    self.idCard1StatusLabel.hidden=YES;
+    self.identity_img_front_Progress.hidden=YES;
+    self.identity_img_front_StatusIcon.hidden=YES;
+    self.identity_img_front_StatusLabel.hidden=YES;
     
-    self.idCard2Progress.hidden=YES;
-    self.idCard2StatusIcon.hidden=YES;
-    self.idCard2StatusLabel.hidden=YES;
+    self.identity_img_back_Progress.hidden=YES;
+    self.identity_img_back_StatusIcon.hidden=YES;
+    self.identity_img_back_StatusLabel.hidden=YES;
     
-    self.documentProgress.hidden=YES;
-    self.documentStatusIcon.hidden=YES;
-    self.documentStatusLabel.hidden=YES;
+    self.identity_img_auth_Progress.hidden=YES;
+    self.identity_img_auth_StatusIcon.hidden=YES;
+    self.identity_img_auth_StatusLabel.hidden=YES;
 }
 
 -(void)showExampleViewWithTag:(NSInteger)tag
@@ -499,9 +634,9 @@
     ExampleView *exmp =[ExampleView createExameView];
     
     
-    if (tag==87 || tag==88)
+    if (tag==identity_img_front || tag==identity_img_front)
     {
-        if (tag==87)
+        if (tag==identity_img_front)
         {
             [exmp.exampleImgView setImage:[UIImage imageNamed:@"IDCard1_example"]];
             exmp.aTitleLabel.text=@"上传手持身份证正面图片";
@@ -610,15 +745,15 @@
 -(void)updateImageDataForCell:(NSData *)imgData
 {
     UIImage *imgV=[UIImage imageWithData:imgData];
-    if (self.currentSelectImgTag==97)
+    if (self.currentSelectImgTag==identity_img_front)
     {
-        [self.idCard1AddButton setImage:imgV forState:UIControlStateNormal];
-    }else if (self.currentSelectImgTag==98)
+        [self.identity_img_front_Button setBackgroundImage:imgV forState:UIControlStateNormal];
+    }else if (self.currentSelectImgTag==identity_img_back)
     {
-        [self.idCard2AddButton setImage:imgV forState:UIControlStateNormal];
+        [self.identity_img_back_Button setBackgroundImage:imgV forState:UIControlStateNormal];
     }else
     {
-        [self.documentAddButton setImage:imgV forState:UIControlStateNormal];
+        [self.identity_img_auth_Button setBackgroundImage:imgV forState:UIControlStateNormal];
     }
     
     [self.tableView reloadData];

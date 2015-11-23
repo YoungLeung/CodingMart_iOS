@@ -85,7 +85,7 @@
     [self.view addSubview:self.carousel];
     [self.carousel mas_makeConstraints:^(MASConstraintMaker *make)
      {
-         make.top.equalTo(line.mas_bottom).offset(20);
+         make.top.equalTo(line.mas_bottom).offset(8);
          make.left.equalTo(self.view.mas_left);
          make.right.equalTo(self.view.mas_right);
          make.bottom.equalTo(self.view.mas_bottom);
@@ -99,7 +99,6 @@
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left).offset(10);
         make.right.equalTo(self.view.mas_right).offset(-10);
-
         make.top.equalTo(self.view.mas_top).offset(55);
         make.height.equalTo(@1);
     }];
