@@ -96,15 +96,21 @@
 
 #pragma mark swizzle M
 - (void)customViewWillAppear:(BOOL)animated{
-    DebugLog(@"customViewWillAppear : %@", [NSString stringWithUTF8String:object_getClassName(self)]);
-    [MobClick beginLogPageView:[NSString stringWithUTF8String:object_getClassName(self)]];
+    NSString *className = [NSString stringWithUTF8String:object_getClassName(self)];
+    if (![className hasPrefix:@"Base"] && ![className isEqualToString:@"UIInputWindowController"]) {
+        DebugLog(@"ea_swizzle : %@", className);
+        [MobClick endLogPageView:className];
+    }
     
-    [self customViewWillDisappear:animated];
+    [self customViewWillAppear:animated];
 }
 
 - (void)customViewWillDisappear:(BOOL)animated{
-    DebugLog(@"customViewWillDisappear : %@", [NSString stringWithUTF8String:object_getClassName(self)]);
-    [MobClick endLogPageView:[NSString stringWithUTF8String:object_getClassName(self)]];
+    NSString *className = [NSString stringWithUTF8String:object_getClassName(self)];
+    if (![className hasPrefix:@"Base"] && ![className isEqualToString:@"UIInputWindowController"]) {
+        DebugLog(@"ea_swizzle : %@", className);
+        [MobClick endLogPageView:className];
+    }
 
     //    返回按钮
     if (!self.navigationItem.backBarButtonItem
