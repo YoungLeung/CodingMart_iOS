@@ -43,7 +43,7 @@
     if (_isLoading) {
         return;
     }
-    if (_rewardList.count <= 0) {
+    if (_rewardList.count <= 0 && _emptyView.hidden) {
         [self.view beginLoading];
     }
     _isLoading = YES;
