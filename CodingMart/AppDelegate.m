@@ -84,18 +84,19 @@
     //    UMENG Social Config
     [UMSocialConfig setFollowWeiboUids:@{UMShareToSina : kSocial_Sina_OfficailAccount}];//设置默认关注官方账号
     [UMSocialConfig setFinishToastIsHidden:YES position:UMSocialiToastPositionCenter];
-//    [UMSocialConfig setNavigationBarConfig:^(UINavigationBar *bar, UIButton *closeButton, UIButton *backButton, UIButton *postButton, UIButton *refreshButton, UINavigationItem *navigationItem) {
-//        if (bar) {
-//            [bar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:[NSObject baseURLStrIsTest]? @"0x3bbd79" : @"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
-//        }
-//        if (navigationItem) {
-//            if ([[navigationItem titleView] isKindOfClass:[UILabel class]]) {
-//                UILabel *titleL = (UILabel *)[navigationItem titleView];
-//                titleL.font = [UIFont boldSystemFontOfSize:kNavTitleFontSize];
-//                titleL.textColor = [UIColor whiteColor];
-//            }
-//        }
-//    }];
+    [UMSocialConfig setNavigationBarConfig:^(UINavigationBar *bar, UIButton *closeButton, UIButton *backButton, UIButton *postButton, UIButton *refreshButton, UINavigationItem *navigationItem) {
+        bar.translucent = NO;
+        [bar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+        [bar setShadowImage:[UIImage new]];
+        bar.barTintColor = kNavBarTintColor;
+        if (navigationItem) {
+            if ([[navigationItem titleView] isKindOfClass:[UILabel class]]) {
+                UILabel *titleL = (UILabel *)[navigationItem titleView];
+                titleL.font = [UIFont boldSystemFontOfSize:kNavTitleFontSize];
+                titleL.textColor = [UIColor whiteColor];
+            }
+        }
+    }];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -125,7 +126,7 @@
 #pragma mark Application
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
-    NSLog(@"%@", url);
+    DebugLog(@"sourceApplication : %@", url);
     if ([[url scheme] isEqualToString:kAppScheme]) {
         NSDictionary *queryParams = [url queryParams];
         if ([queryParams[@"type"] isEqualToString:@"handle_result"]) {
@@ -137,6 +138,8 @@
             }
             return YES;
         }
+    }else{
+        return  [UMSocialSnsService handleOpenURL:url];
     }
     return NO;
 }

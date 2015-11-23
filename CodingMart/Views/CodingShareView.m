@@ -305,11 +305,11 @@
 - (NSString *)p_shareTitle{
     NSString *title;
     if ([_objToShare isKindOfClass:[Reward class]]) {
-        title = @"Coding 悬赏";
+        title = @"Coding 码市";
     }else if ([_objToShare isKindOfClass:[UIWebView class]]){
-        title = @"Coding 链接";
+        title = @"Coding 码市";
     }else{
-        title = @"Coding";
+        title = @"Coding 码市";
     }
     return title;
 }
@@ -320,7 +320,7 @@
     }else if ([_objToShare isKindOfClass:[UIWebView class]]){
         text =[(UIWebView *)_objToShare stringByEvaluatingJavaScriptFromString:@"document.title"];
     }else{
-        text = @"Coding 让开发更简单！";
+        text = @"品质众包，可靠交付！";
     }
     return text;
 }
@@ -341,7 +341,7 @@
     callback = kAppScheme;
     type = @"tweet";
     if ([_objToShare isKindOfClass:[Reward class]]) {
-        content = [NSString stringWithFormat:@"%@ - [链接](%@)", self.p_shareText, self.p_shareLinkStr];
+        content = [NSString stringWithFormat:@"#%@# %@ - [码市链接](%@)", self.p_shareTitle, self.p_shareText, self.p_shareLinkStr];
         content = [content URLEncoding];
     }else{
         content = @"";
@@ -420,7 +420,7 @@
         socialData.extConfig.qzoneData = qzoneData;
     }else if ([platformName isEqualToString:@"sina"]){
         NSString *shareTitle, *shareText, *shareTail;
-        shareTitle = [NSString stringWithFormat:@"「%@」", [self p_shareTitle]];
+        shareTitle = [NSString stringWithFormat:@"#%@# ", [self p_shareTitle]];
         shareText = [self p_shareText];
         shareTail = [NSString stringWithFormat:@"%@（分享自@Coding）", [self p_shareLinkStr]];
         NSInteger maxShareLength = 140;
