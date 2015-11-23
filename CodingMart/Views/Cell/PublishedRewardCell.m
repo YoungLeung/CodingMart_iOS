@@ -38,10 +38,10 @@
 
     if (_reward.status.integerValue >= RewardStatusRecruiting) {
         self.selectionStyle = UITableViewCellSelectionStyleDefault;
-        self.backgroundColor = [UIColor whiteColor];
+//        self.backgroundColor = [UIColor whiteColor];
     }else{
-        self.backgroundColor = [UIColor colorWithHexString:@"0xF8F8F8"];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+//        self.backgroundColor = [UIColor colorWithHexString:@"0xF8F8F8"];
     }
     
     [_coverImgV sd_setImageWithURL:[NSURL URLWithString:_reward.cover] placeholderImage:[UIImage imageNamed:@"placeholder_reward_cover_square"]];
@@ -115,6 +115,6 @@
 }
 
 + (CGFloat)cellHeight{
-    return 110;
+    return 120;
 }
 @end
