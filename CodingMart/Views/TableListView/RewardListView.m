@@ -48,11 +48,13 @@
         RewardListHeaderView *headerV = [[RewardListHeaderView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, headerHeight)];
         __weak typeof(self) weakSelf = self;
         [headerV.leftBtn bk_addEventHandler:^(id sender) {
+            [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"发布悬赏"];
             if (weakSelf.martIntroduceBlock) {
                 weakSelf.martIntroduceBlock();
             }
         } forControlEvents:UIControlEventTouchUpInside];
         [headerV.rightBtn bk_addEventHandler:^(id sender) {
+            [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"码市介绍"];
             if (weakSelf.publishRewardBlock) {
                 weakSelf.publishRewardBlock();
             }

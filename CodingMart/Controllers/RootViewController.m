@@ -139,6 +139,7 @@
     }
     [KxMenu dismissMenu:YES];
 
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"个人中心"];
     UIViewController *vc = [UserInfoViewController storyboardVC];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -175,6 +176,8 @@
         return;
     }
     _selectedStatusIndex = selectedIndex;
+    
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:[NSString stringWithFormat:@"进度_%@", _statusList[_selectedStatusIndex]]];
     [self configRightNavBtnWithTitle:_statusList[_selectedStatusIndex]];
     [(RewardListView *)_myCarousel.currentItemView setStatus:_statusList[_selectedStatusIndex]];
     [(RewardListView *)_myCarousel.currentItemView lazyRefreshData];

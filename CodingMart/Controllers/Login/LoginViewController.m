@@ -145,6 +145,16 @@
     }];
 }
 - (IBAction)footerBtnClicked:(id)sender {
+    NSString *typeStr;
+    if (self.type == LoginViewControllerTypeLogin) {
+        typeStr = @"登录";
+    }else if (self.type == LoginViewControllerTypeRegister){
+        typeStr = @"注册";
+    }else{
+        typeStr = @"快速登录";
+    }
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:typeStr];
+
     _mobile = _mobileF.text;
     _verify_code = _verify_codeF.text;
     [NSObject showHUDQueryStr:_type == LoginViewControllerTypeRegister? @"正在注册": @"正在登录"];
@@ -193,6 +203,8 @@
 }
 
 - (void)goToRegisterVC{
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"去注册"];
+
     LoginViewController *vc = [LoginViewController storyboardVCWithType:LoginViewControllerTypeRegister mobile:_mobile];
     vc.loginSucessBlock = self.loginSucessBlock;
     [self.navigationController pushViewController:vc animated:YES];

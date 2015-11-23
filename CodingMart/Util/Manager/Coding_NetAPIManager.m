@@ -270,6 +270,9 @@
     NSString *path  = @"api/feedback";
     NSDictionary *params = [feedBackInfo toPostParams];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"意见反馈"];
+        }
         block(data, error);
     }];
 }

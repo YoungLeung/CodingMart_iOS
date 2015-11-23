@@ -106,6 +106,8 @@
 }
 
 - (void)publishSucessed{
+    [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"发布悬赏_提交成功"];
+    
     if (![_rewardToBePublished.id isKindOfClass:[NSNumber class]]) {
         [Reward deleteCurDraft];
     }

@@ -120,6 +120,8 @@
 
 #pragma mark Btn
 - (IBAction)myPublishedBtnClicked:(UIButton *)sender {
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"我发布的悬赏列表"];
+
     if (![Login isLogin]) {
         [self goToLogin];
     }else{
@@ -128,6 +130,8 @@
     }
 }
 - (IBAction)myJoinedBtnClicked:(UIButton *)sender {
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"我参与的悬赏列表"];
+
     if (![Login isLogin]) {
         [self goToLogin];
     }else{
@@ -170,14 +174,19 @@
         }
     }if (indexPath.section == 2) {
         if (indexPath.row == 0) {//码士说
+            [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"码士说"];
+
             [self goToWebVCWithUrlStr:@"/codersay" title:@"码士说"];
         }else if (indexPath.row == 3){//去评分
+            [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"去评分"];
+
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kAppReviewURL]];
         }
     }else if (indexPath.section == 3){
         [self.view endEditing:YES];
         [[UIActionSheet bk_actionSheetCustomWithTitle:@"确定要退出当前账号" buttonTitles:nil destructiveTitle:@"确定退出" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0) {
+                [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"退出登录"];
                 [Login doLogout];
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }
@@ -208,6 +217,8 @@
 
 #pragma mark goTo
 - (void)goToLogin{
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"个人中心_弹出登录"];
+    
     _isDisappearForLogin = YES;
     LoginViewController *vc = [LoginViewController storyboardVCWithType:LoginViewControllerTypeLogin mobile:nil];
     vc.loginSucessBlock = ^(){
