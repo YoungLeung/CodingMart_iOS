@@ -248,8 +248,7 @@
 }
 
 - (void)navBtnClicked:(id)sender{
-    CodingShareView *shareView = [CodingShareView showShareViewWithObj:_rewardDetal.reward];
-    shareView.extraWebView = self.webView;
+    [CodingShareView showShareViewWithObj:_rewardDetal.reward];
 }
 
 @end
