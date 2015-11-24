@@ -589,7 +589,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     }else
     {
         self.model.identity_img_auth=@"";
-        self.identity_img_auth_Button.hidden=YES;
+        self.identity_img_auth_StatusIcon.hidden=YES;
         self.identity_img_auth_StatusLabel.hidden=YES;
         self.identity_img_auth_Progress.hidden=YES;
         self.identity_img_auth_DeleteBtn.hidden=YES;
