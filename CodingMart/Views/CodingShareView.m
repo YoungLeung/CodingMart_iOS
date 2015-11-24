@@ -29,6 +29,7 @@
 
 @property (strong, nonatomic) NSArray *shareSnsValues;
 @property (weak, nonatomic) NSObject *objToShare;
+@property (assign, nonatomic) CodingShareType type;
 @end
 
 @implementation CodingShareView
@@ -157,15 +158,16 @@
                         };
     });
     return snsNameDict;
-
 }
 
++ (instancetype)showShareViewWithObj:(NSObject *)curObj type:(CodingShareType)type{
+    return [[self sharedInstance] showShareViewWithObj:curObj type:type];
+}
 + (instancetype)showShareViewWithObj:(NSObject *)curObj{
-    [(CodingShareView *)[self sharedInstance] setExtraWebView:nil];//重置 extraWebView
-    return [[self sharedInstance] showShareViewWithObj:curObj];
+    return [[self sharedInstance] showShareViewWithObj:curObj type:CodingShareTypeDefault];
 }
 
-+(NSArray *)supportSnsValues{
++(NSArray *)supportSnsValuesWithType:(CodingShareType)type{
     NSMutableArray *resultSnsValues = [@[
                                          @"wxsession",
                                          @"wxtimeline",
@@ -194,6 +196,13 @@
     if (![self p_canOpen:@"coding-net://"]) {
         [resultSnsValues removeObjectsInArray:@[@"coding-net"]];
     }
+    switch (type) {
+        case CodingShareTypeApp:
+            [resultSnsValues removeObjectsInArray:@[@"coding-net", @"copylink", @"inform"]];
+            break;
+        default://CodingShareTypeDefault
+            break;
+    }
     return resultSnsValues;
 }
 
@@ -201,8 +210,9 @@
     return [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:url]];
 }
 
-- (instancetype)showShareViewWithObj:(NSObject *)curObj{
+- (instancetype)showShareViewWithObj:(NSObject *)curObj type:(CodingShareType)type{
     self.objToShare = curObj;
+    self.type = type;
     [self p_show];
     return self;
 }
@@ -210,6 +220,11 @@
 - (void)p_show{
     [self p_checkTitle];
     [self p_checkShareSnsValues];
+    
+    if (self.shareSnsValues.count <= 0) {
+        return;
+    }
+    
     [kKeyWindow addSubview:self];
 
     //animate to show
@@ -250,7 +265,7 @@
     }];
 }
 - (void)p_checkShareSnsValues{
-    self.shareSnsValues = [CodingShareView supportSnsValues];
+    self.shareSnsValues = [CodingShareView supportSnsValuesWithType:_type];
 }
 
 - (void)p_shareItemClickedWithSnsName:(NSString *)snsName{
@@ -390,7 +405,7 @@
     //设置分享内容，和回调对象
     {
         socialData.shareText = [self p_shareText];
-        socialData.shareImage = [UIImage imageNamed:@"logo_about"];
+        socialData.shareImage = [UIImage imageNamed:@"logo_mart_about"];
         NSString *imageUrl = [self p_imageUrlSquare:![platformName isEqualToString:@"sina"]];
         socialData.urlResource.url = imageUrl;
         socialData.urlResource.resourceType = imageUrl.length > 0? UMSocialUrlResourceTypeImage: UMSocialUrlResourceTypeDefault;
