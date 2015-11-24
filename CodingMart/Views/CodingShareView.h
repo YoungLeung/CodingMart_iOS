@@ -9,14 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "Reward.h"
 
-typedef NS_ENUM(NSInteger, CodingShareType) {
-    CodingShareTypeDefault = 0,
-    CodingShareTypeApp,
-};
-
 @interface CodingShareView : UIView
 + (instancetype)showShareViewWithObj:(NSObject *)curObj;
-+ (instancetype)showShareViewWithObj:(NSObject *)curObj type:(CodingShareType)type;
 @end
 
 @interface CodingShareView_Item : UIView

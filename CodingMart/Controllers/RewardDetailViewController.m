@@ -248,7 +248,10 @@
 }
 
 - (void)navBtnClicked:(id)sender{
-    [CodingShareView showShareViewWithObj:_rewardDetal.reward];
+    NSObject *shareObj = _rewardDetal.reward? _rewardDetal.reward: _curReward? _curReward: nil;
+    if (shareObj) {
+        [CodingShareView showShareViewWithObj:shareObj];
+    }
 }
 
 @end

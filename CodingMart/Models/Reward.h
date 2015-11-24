@@ -26,7 +26,7 @@ typedef NS_ENUM(NSInteger, RewardStatus) {
 @interface Reward : NSObject
 //List
 @property (strong, nonatomic) NSNumber *id, *type, *status, *progress, *price, *duration, *reward_status, *apply_status;
-@property (strong, nonatomic) NSString *title, *format_price, *format_content;
+@property (strong, nonatomic) NSString *title, *format_price, *format_content, *plain_content;
 @property (strong, nonatomic) NSString *cover, *home;
 @property (strong, nonatomic) NSMutableArray *roleTypes, *winners;
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;

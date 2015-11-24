@@ -29,7 +29,6 @@
 
 @property (strong, nonatomic) NSArray *shareSnsValues;
 @property (weak, nonatomic) NSObject *objToShare;
-@property (assign, nonatomic) CodingShareType type;
 @end
 
 @implementation CodingShareView
@@ -160,14 +159,11 @@
     return snsNameDict;
 }
 
-+ (instancetype)showShareViewWithObj:(NSObject *)curObj type:(CodingShareType)type{
-    return [[self sharedInstance] showShareViewWithObj:curObj type:type];
-}
 + (instancetype)showShareViewWithObj:(NSObject *)curObj{
-    return [[self sharedInstance] showShareViewWithObj:curObj type:CodingShareTypeDefault];
+    return [[self sharedInstance] showShareViewWithObj:curObj];
 }
 
-+(NSArray *)supportSnsValuesWithType:(CodingShareType)type{
++(NSArray *)supportSnsValuesWithObj:(NSObject *)obj{
     NSMutableArray *resultSnsValues = [@[
                                          @"wxsession",
                                          @"wxtimeline",
@@ -196,12 +192,8 @@
     if (![self p_canOpen:@"coding-net://"]) {
         [resultSnsValues removeObjectsInArray:@[@"coding-net"]];
     }
-    switch (type) {
-        case CodingShareTypeApp:
-            [resultSnsValues removeObjectsInArray:@[@"coding-net", @"copylink", @"inform"]];
-            break;
-        default://CodingShareTypeDefault
-            break;
+    if (!obj) {
+        [resultSnsValues removeObjectsInArray:@[@"coding-net", @"copylink", @"inform"]];
     }
     return resultSnsValues;
 }
@@ -210,9 +202,8 @@
     return [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:url]];
 }
 
-- (instancetype)showShareViewWithObj:(NSObject *)curObj type:(CodingShareType)type{
+- (instancetype)showShareViewWithObj:(NSObject *)curObj{
     self.objToShare = curObj;
-    self.type = type;
     [self p_show];
     return self;
 }
@@ -265,7 +256,7 @@
     }];
 }
 - (void)p_checkShareSnsValues{
-    self.shareSnsValues = [CodingShareView supportSnsValuesWithType:_type];
+    self.shareSnsValues = [CodingShareView supportSnsValuesWithObj:_objToShare];
 }
 
 - (void)p_shareItemClickedWithSnsName:(NSString *)snsName{
@@ -301,7 +292,7 @@
     }else if ([_objToShare isKindOfClass:[UIWebView class]]){
         title = @"链接分享到";
     }else{
-        title = @"分享到";
+        title = @"App 分享到";
     }
     _titleL.text = title;
 }
@@ -320,22 +311,22 @@
 - (NSString *)p_shareTitle{
     NSString *title;
     if ([_objToShare isKindOfClass:[Reward class]]) {
-        title = @"Coding 码市";
+        title = [(Reward *)_objToShare title];
     }else if ([_objToShare isKindOfClass:[UIWebView class]]){
         title = @"Coding 码市";
     }else{
-        title = @"Coding 码市";
+        title = @"Coding 码市 - 品质众包，可靠交付";
     }
     return title;
 }
 - (NSString *)p_shareText{
     NSString *text;
     if ([_objToShare isKindOfClass:[Reward class]]) {
-        text = [(Reward *)_objToShare title];
+        text = [(Reward *)_objToShare plain_content];
     }else if ([_objToShare isKindOfClass:[UIWebView class]]){
         text =[(UIWebView *)_objToShare stringByEvaluatingJavaScriptFromString:@"document.title"];
     }else{
-        text = @"品质众包，可靠交付！";
+        text = @"#Coding 码市# 你有想法，我来实现；品质众包，可靠交付 http://mart.coding.net/mobile";
     }
     return text;
 }
@@ -356,11 +347,14 @@
     callback = kAppScheme;
     type = @"tweet";
     if ([_objToShare isKindOfClass:[Reward class]]) {
-        content = [NSString stringWithFormat:@"#%@# %@ - [码市链接](%@)", self.p_shareTitle, self.p_shareText, self.p_shareLinkStr];
-        content = [content URLEncoding];
+        content = [NSString stringWithFormat:@"#Coding 码市# 分享了一个悬赏《%@》[网页链接](%@)", [self p_shareTitle], [self p_shareLinkStr]];
+    }else if (_objToShare){
+        content = [NSString stringWithFormat:@"#Coding 码市# %@ %@", [self p_shareTitle], [self p_shareLinkStr]];
     }else{
-        content = @"";
+        content = [NSString stringWithFormat:@"#Coding 码市# 品质众包，可靠交付 %@", [self p_shareLinkStr]];
     }
+    content = [content URLEncoding];
+    
     NSString *imageStr = [self p_imageUrlSquare:NO];
     if (imageStr.length > 0) {
         NSURL *imageURL = [NSURL URLWithString:imageStr];
@@ -405,7 +399,7 @@
     //设置分享内容，和回调对象
     {
         socialData.shareText = [self p_shareText];
-        socialData.shareImage = [UIImage imageNamed:@"logo_mart_about"];
+        socialData.shareImage = [UIImage imageNamed:@"app_icon"];
         NSString *imageUrl = [self p_imageUrlSquare:![platformName isEqualToString:@"sina"]];
         socialData.urlResource.url = imageUrl;
         socialData.urlResource.resourceType = imageUrl.length > 0? UMSocialUrlResourceTypeImage: UMSocialUrlResourceTypeDefault;
@@ -418,7 +412,7 @@
         socialData.extConfig.wechatSessionData = wechatSessionData;
     }else if ([platformName isEqualToString:@"wxtimeline"]){
         UMSocialWechatTimelineData *wechatTimelineData = [UMSocialWechatTimelineData new];
-        wechatTimelineData.shareText = [NSString stringWithFormat:@"「%@」%@", [self p_shareTitle], [self p_shareText]];
+        wechatTimelineData.shareText = _objToShare? [NSString stringWithFormat:@"%@ - Coding 码市", [self p_shareTitle]]: [self p_shareTitle];
         wechatTimelineData.url = [self p_shareLinkStr];
         wechatTimelineData.wxMessageType = UMSocialWXMessageTypeWeb;
         socialData.extConfig.wechatTimelineData = wechatTimelineData;
@@ -434,21 +428,17 @@
         qzoneData.url = [self p_shareLinkStr];
         socialData.extConfig.qzoneData = qzoneData;
     }else if ([platformName isEqualToString:@"sina"]){
-        NSString *shareTitle, *shareText, *shareTail;
-        shareTitle = [NSString stringWithFormat:@"#%@# ", [self p_shareTitle]];
-        shareText = [self p_shareText];
-        shareTail = [NSString stringWithFormat:@"%@（分享自@Coding）", [self p_shareLinkStr]];
-        NSInteger maxShareLength = 140;
-        NSInteger maxTextLength = maxShareLength - shareTitle.length - shareTail.length;
-        if (shareText.length > maxTextLength) {
-            shareText = [shareText stringByReplacingCharactersInRange:NSMakeRange(maxTextLength - 3, shareText.length - (maxTextLength - 3)) withString:@"..."];
+        NSString *shareText;
+        if ([_objToShare isKindOfClass:[Reward class]]) {
+            shareText = [NSString stringWithFormat:@"#Coding 码市# 分享了一个悬赏《%@》%@", [self p_shareTitle], [self p_shareLinkStr]];
+        }else if (_objToShare){
+            shareText = [NSString stringWithFormat:@"#Coding 码市# %@ %@", [self p_shareTitle], [self p_shareLinkStr]];
+        }else{
+            shareText = [NSString stringWithFormat:@"#Coding 码市# 品质众包，可靠交付 %@", [self p_shareLinkStr]];
         }
-        NSString *shareContent = [NSString stringWithFormat:@"%@%@%@", shareTitle, shareText, shareTail];
-
-        socialData.shareText = shareContent;
+        socialData.shareText = shareText;
         socialData.shareImage = nil;
     }
-
     NSLog(@"%@ : %@", platformName, socialData);
 }
 
