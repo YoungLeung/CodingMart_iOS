@@ -11,7 +11,7 @@
 #define kCodingShareView_BottomHeight 60.0
 #define kCodingShareView_Padding 15.0
 
-#import "CodingShareView.h"
+#import "MartShareView.h"
 #import <UMengSocial/UMSocial.h>
 
 #import "Coding_NetAPIManager.h"
@@ -20,7 +20,7 @@
 #import "SDWebImageManager.h"
 //#import <Masonry/Masonry.h>
 
-@interface CodingShareView ()<UMSocialUIDelegate>
+@interface MartShareView ()<UMSocialUIDelegate>
 @property (strong, nonatomic) UIView *bgView;
 @property (strong, nonatomic) UIView *contentView;
 @property (strong, nonatomic) UILabel *titleL;
@@ -31,7 +31,7 @@
 @property (weak, nonatomic) NSObject *objToShare;
 @end
 
-@implementation CodingShareView
+@implementation MartShareView
 #pragma mark init M
 - (instancetype)init
 {
@@ -133,7 +133,7 @@
 
 #pragma mark common M
 + (instancetype)sharedInstance{
-    static CodingShareView *shared_instance = nil;
+    static MartShareView *shared_instance = nil;
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
         shared_instance = [[self alloc] init];
@@ -256,7 +256,7 @@
     }];
 }
 - (void)p_checkShareSnsValues{
-    self.shareSnsValues = [CodingShareView supportSnsValuesWithObj:_objToShare];
+    self.shareSnsValues = [MartShareView supportSnsValuesWithObj:_objToShare];
 }
 
 - (void)p_shareItemClickedWithSnsName:(NSString *)snsName{
@@ -498,7 +498,7 @@
     if (![_snsName isEqualToString:snsName]) {
         _snsName = snsName;
         NSString *imageName = [NSString stringWithFormat:@"share_btn_%@", snsName];
-        NSString *title = [[CodingShareView snsNameDict] objectForKey:snsName];
+        NSString *title = [[MartShareView snsNameDict] objectForKey:snsName];
         [_button setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
         _titleL.text = title;
     }

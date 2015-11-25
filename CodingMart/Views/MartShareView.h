@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Reward.h"
 
-@interface CodingShareView : UIView
+@interface MartShareView : UIView
 + (instancetype)showShareViewWithObj:(NSObject *)curObj;
 @end
 

@@ -14,7 +14,7 @@
 #import "FillTypesViewController.h"
 #import "RewardApplyViewController.h"
 #import <BlocksKit/BlocksKit+UIKit.h>
-#import "CodingShareView.h"
+#import "MartShareView.h"
 
 @interface RewardDetailViewController ()
 @property (strong, nonatomic) Reward *curReward;
@@ -250,7 +250,7 @@
 - (void)navBtnClicked:(id)sender{
     NSObject *shareObj = _rewardDetal.reward? _rewardDetal.reward: _curReward? _curReward: nil;
     if (shareObj) {
-        [CodingShareView showShareViewWithObj:shareObj];
+        [MartShareView showShareViewWithObj:shareObj];
     }
 }
 
