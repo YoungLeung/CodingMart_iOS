@@ -73,9 +73,9 @@
 		4E934B1C1BF5C8C800F1A02A /* PublishedRewardsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E934B1B1BF5C8C800F1A02A /* PublishedRewardsViewController.m */; };
 		4E934B1F1BF5E20900F1A02A /* JoinedRewardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E934B1E1BF5E20900F1A02A /* JoinedRewardCell.m */; };
 		4E934B221BF5E83C00F1A02A /* PublishedRewardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E934B211BF5E83C00F1A02A /* PublishedRewardCell.m */; };
+		4E9F5D261C055D61007CCDCC /* MartStartViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E9F5D251C055D61007CCDCC /* MartStartViewManager.m */; };
 		4EBDC28A1BC645990037EB66 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBDC2891BC645990037EB66 /* main.m */; };
 		4EBDC28D1BC645990037EB66 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBDC28C1BC645990037EB66 /* AppDelegate.m */; };
-		4EBDC2931BC645990037EB66 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4EBDC2911BC645990037EB66 /* Main.storyboard */; };
 		4EBDC2951BC645990037EB66 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4EBDC2941BC645990037EB66 /* Assets.xcassets */; };
 		4EBDC2A71BC64E140037EB66 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBDC2A61BC64E140037EB66 /* BaseViewController.m */; };
 		4EBDC2AA1BC64E400037EB66 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBDC2A91BC64E400037EB66 /* BaseNavigationController.m */; };
@@ -292,11 +292,12 @@
 		4E934B1E1BF5E20900F1A02A /* JoinedRewardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JoinedRewardCell.m; sourceTree = "<group>"; };
 		4E934B201BF5E83C00F1A02A /* PublishedRewardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishedRewardCell.h; sourceTree = "<group>"; };
 		4E934B211BF5E83C00F1A02A /* PublishedRewardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishedRewardCell.m; sourceTree = "<group>"; };
+		4E9F5D241C055D61007CCDCC /* MartStartViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MartStartViewManager.h; sourceTree = "<group>"; };
+		4E9F5D251C055D61007CCDCC /* MartStartViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MartStartViewManager.m; sourceTree = "<group>"; };
 		4EBDC2851BC645990037EB66 /* CodingMart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodingMart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EBDC2891BC645990037EB66 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4EBDC28B1BC645990037EB66 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4EBDC28C1BC645990037EB66 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		4EBDC2921BC645990037EB66 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4EBDC2941BC645990037EB66 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4EBDC2991BC645990037EB66 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4EBDC2A51BC64E140037EB66 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
@@ -685,7 +686,6 @@
 			children = (
 				4EBDC28B1BC645990037EB66 /* AppDelegate.h */,
 				4EBDC28C1BC645990037EB66 /* AppDelegate.m */,
-				4EBDC2911BC645990037EB66 /* Main.storyboard */,
 				4EBDC2941BC645990037EB66 /* Assets.xcassets */,
 				4EBDC2991BC645990037EB66 /* Info.plist */,
 				4EBDC2C61BC653D60037EB66 /* CodingMart-Prefix.pch */,
@@ -758,6 +758,8 @@
 				4EFD8EB31BE756BB00E9C284 /* EAMultiSelectView.m */,
 				4E8547B81BFB36D30038BA9B /* MartShareView.h */,
 				4E8547B91BFB36D30038BA9B /* MartShareView.m */,
+				4E9F5D241C055D61007CCDCC /* MartStartViewManager.h */,
+				4E9F5D251C055D61007CCDCC /* MartStartViewManager.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1204,7 +1206,6 @@
 				4E0FD91D1BC9238E00C552A0 /* Login.storyboard in Resources */,
 				4EBDC2951BC645990037EB66 /* Assets.xcassets in Resources */,
 				4E224B061BEA117A00F8475F /* Independence.storyboard in Resources */,
-				4EBDC2931BC645990037EB66 /* Main.storyboard in Resources */,
 				4EDAE41E1BC8B4A200255FE8 /* PublishReward.storyboard in Resources */,
 				4EDAE3E81BC7BCB000255FE8 /* SVWebViewControllerActivityChrome@2x.png in Resources */,
 				4EDAE3E11BC7BCB000255FE8 /* SVWebViewController.strings in Resources */,
@@ -1357,6 +1358,7 @@
 				4EBDC2C51BC6530E0037EB66 /* UIColor+expanded.m in Sources */,
 				4EDAE3C01BC78CD400255FE8 /* UIView+WebCacheOperation.m in Sources */,
 				4EDAE4101BC7CC2A00255FE8 /* ODRefreshControl.m in Sources */,
+				4E9F5D261C055D61007CCDCC /* MartStartViewManager.m in Sources */,
 				4EDAE4471BC8F21200255FE8 /* ActionSheetCustomPicker.m in Sources */,
 				4EDAE3B31BC78CD400255FE8 /* SDImageCache.m in Sources */,
 				4E224AFD1BE9F83A00F8475F /* RewardDetail.m in Sources */,
@@ -1405,14 +1407,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		4EBDC2911BC645990037EB66 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4EBDC2921BC645990037EB66 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		4EDAE3C51BC7BCAF00255FE8 /* SVWebViewController.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

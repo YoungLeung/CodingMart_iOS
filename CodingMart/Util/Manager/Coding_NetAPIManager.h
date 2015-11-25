@@ -44,4 +44,7 @@
 - (void)post_FeedBack:(FeedBackInfo *)feedBackInfo  block:(void (^)(id data, NSError *error))block;
 #pragma mark CaptchaImg
 - (void)loadCaptchaImgWithCompleteBlock:(void (^)(UIImage *image, NSError *error))block;
+
+#pragma mark Other
+- (void)get_StartModelBlock:(void (^)(id data, NSError *error))block;
 @end

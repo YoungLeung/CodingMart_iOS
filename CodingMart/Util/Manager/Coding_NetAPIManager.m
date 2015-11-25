@@ -289,5 +289,11 @@
     }];
     [requestOperation start];
 }
-
+#pragma mark Other
+- (void)get_StartModelBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/banner/app";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
 @end

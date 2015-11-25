@@ -9,11 +9,13 @@
 #import "AppDelegate.h"
 #import "XGPush.h"
 #import "Login.h"
+#import "MartStartViewManager.h"
 
 #import <UMengSocial/UMSocial.h>
 #import <UMengSocial/UMSocialWechatHandler.h>
 #import <UMengSocial/UMSocialQQHandler.h>
 #import <UMengSocial/UMSocialSinaSSOHandler.h>
+#import "RootViewController.h"
 
 @interface AppDelegate ()
 
@@ -34,6 +36,14 @@
     [self registerRemoteNotification];
 //    友盟分享
     [self registerSocialData];
+//    makeKeyAndVisible
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:[RootViewController new]];
+    self.window.rootViewController = nav;
+    [self.window makeKeyAndVisible];
+//    启动宣传页
+    [[MartStartViewManager makeStartView] show];
+    [MartStartViewManager refreshStartModel];
     
     return YES;
 }
