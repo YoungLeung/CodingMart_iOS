@@ -76,6 +76,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 @property (strong,nonatomic)KLCPopup* popup;
 @property (assign,nonatomic)BOOL canEedit;
 
+@property (assign,nonatomic)CGFloat userAgreementTextViewHeight;
 
 
 
@@ -88,6 +89,11 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 @end
 
 @implementation IdentityAuthenticationViewController
+
++ (instancetype)storyboardVC{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"UserInfo" bundle:nil];
+    return [storyboard instantiateViewControllerWithIdentifier:@"IdentityAuthenticationViewController"];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -126,17 +132,12 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     [self setupDefValue];
     [self setupEvent];
     
-    if (kDevice_Is_iPhone5)
-    {
-        self.textViewHeight.constant=self.textViewHeight.constant-110;
-        
-    }else if(kDevice_Is_iPhone6)
-    {
-        self.textViewHeight.constant=self.textViewHeight.constant-180;
-    }else if(kDevice_Is_iPhone6Plus)
-    {
-        self.textViewHeight.constant=self.textViewHeight.constant-195;
-    }
+    //计算textview高度
+     self.userAgreementTextViewHeight =[IdentityAuthenticationViewController heightForString:[self userProtocol] fontSize:12 andWidth:kScreen_Width-30]+160;
+    
+     self.textViewHeight.constant=self.userAgreementTextViewHeight;
+    
+
 }
 
 -(void)setupEvent
@@ -147,6 +148,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
             return ;
         
         weakSelf.model.name = newText;
+        [weakSelf checkSubmitBtnEnabledStatus];
         
     }];
     
@@ -155,6 +157,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
             return ;
         
         weakSelf.model.identity = newText;
+        [weakSelf checkSubmitBtnEnabledStatus];
         
     }];
     [self.aliyPayTextField.rac_textSignal subscribeNext:^(NSString *newText){
@@ -163,22 +166,43 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
         
         [weakSelf checkIdentityCardValidity];
         weakSelf.model.alipay = newText;
+        [weakSelf checkSubmitBtnEnabledStatus];
         
     }];
     
-    RAC(self, submitBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, model.name),
-                                                              RACObserve(self, model.identity),
-                                                              RACObserve(self, model.alipay),
-                                                              RACObserve(self, model.identity_img_auth),
-                                                              RACObserve(self, model.identity_img_back),
-                                                              RACObserve(self, model.identity_img_front),
-                                                              RACObserve(self, codingCheckBox.on),
-                                                              
-                                                              ] reduce:^(NSNumber *isCheckOn){
-                                                                  return @([weakSelf.model canPost] && [isCheckOn boolValue]);
-                                                              }];
+//    RAC(self, submitBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, model.name),
+//                                                              RACObserve(self, model.identity),
+//                                                              RACObserve(self, model.alipay),
+//                                                              RACObserve(self, model.identity_img_auth),
+//                                                              RACObserve(self, model.identity_img_back),
+//                                                              RACObserve(self, model.identity_img_front),
+//                                                              RACObserve(self, codingCheckBox.on),
+//                                                              
+//                                                              ] reduce:^(NSNumber *isCheckOn){
+//                                                                  return @([weakSelf.model canPost] && [isCheckOn boolValue]);
+//                                                              }];
    
   
+}
+
+-(void)checkSubmitBtnEnabledStatus
+{
+    BOOL isEnable =NO;
+    if (self.model.name!=nil && self.model.identity!=nil &&self.model.name!=nil &&self.model.alipay!=nil &&self.model.identity_img_auth!=nil &&self.model.identity_img_back!=nil &&self.model.identity_img_front!=nil )
+    {
+        if (self.model.name.length>1&& self.model.identity.length>1 &&self.model.name.length>1 &&self.model.alipay.length>1 &&self.model.identity_img_auth.length>1 &&self.model.identity_img_back.length>1 &&self.model.identity_img_front.length>1 && self. codingCheckBox.on==YES && [self.model canPost]==YES)
+        {
+            isEnable=YES;
+        }else
+        {
+            isEnable=NO;
+        }
+        
+    }else
+    {
+        isEnable=NO;
+    }
+    self.submitBtn.enabled=isEnable;
 }
 
 -(void)setupDefValue
@@ -189,6 +213,18 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     self.identity_img_auth_DeleteBtn.hidden=YES;
     self.identity_img_back_DeleteBtn.hidden=YES;
     self.identity_img_front_DeleteBtn.hidden=YES;
+    
+    
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineSpacing = 5;// 字体的行间距
+    
+    NSDictionary *attributes = @{
+                                 NSFontAttributeName:[UIFont systemFontOfSize:12],
+                                 NSParagraphStyleAttributeName:paragraphStyle
+                                 };
+    self.userAgreementTextView.attributedText = [[NSAttributedString alloc] initWithString:[self userProtocol] attributes:attributes];
+    
+    
     
     UIImage *defImg =[UIImage imageNamed:@"image_ia_addfile"];
     
@@ -311,17 +347,17 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
             break;
         case 6:
         {
-            CGFloat height =636;
+            CGFloat height =self.userAgreementTextViewHeight;
             if (kDevice_Is_iPhone5)
             {
-                height= height-73;
+                height= height+100;
             }else if (kDevice_Is_iPhone6)
             {
-                height= height-140;
+                height= height+100;
 
             }else if (kDevice_Is_iPhone6Plus)
             {
-                height= height-160;
+                height= height+100;
             }
             return height;
             break;
@@ -440,6 +476,17 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 
 -(void)uploadImage:(UIImage*)img
 {
+    if (self.currentSelectImgTag==identity_img_front)
+    {
+        self.identity_img_front_Button.alpha=0.5;
+        
+    }else if (self.currentSelectImgTag==identity_img_back)
+    {
+        self.identity_img_back_Button.alpha=0.5;
+    }else
+    {
+        self.identity_img_auth_Button.alpha=0.5;
+    }
     
     WEAKSELF
     [[CodingNetAPIClient sharedJsonClient]uploadImage:img path:kUploadImgPath name:@"111" successBlock:^(AFHTTPRequestOperation *operation, id responseObject)
@@ -472,6 +519,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
         self.identity_img_front_StatusIcon.hidden=NO;
         self.identity_img_front_StatusLabel.hidden=NO;
         self.identity_img_front_Progress.hidden=YES;
+        self.identity_img_front_Button.alpha=1;
         
         if (imgPath)
         {
@@ -490,6 +538,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
         self.identity_img_back_StatusIcon.hidden=NO;
         self.identity_img_back_StatusLabel.hidden=NO;
         self.identity_img_back_Progress.hidden=YES;
+        self.identity_img_back_Button.alpha=1;
         if (imgPath)
         {
             //成功
@@ -507,6 +556,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
         self.identity_img_auth_StatusIcon.hidden=NO;
         self.identity_img_auth_StatusLabel.hidden=NO;
         self.identity_img_auth_Progress.hidden=YES;
+        self.identity_img_front_Button.alpha=1;
         if (imgPath)
         {
             //成功
@@ -520,6 +570,8 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
             self.identity_img_auth_StatusLabel.text=@"上传失败";
         }
     }
+    
+    [self checkSubmitBtnEnabledStatus];
 }
 
 -(void)updateImgProgressValue:(CGFloat)progressValue
@@ -587,6 +639,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
         [self.identity_img_auth_Button setBackgroundImage:[UIImage imageNamed:@"image_ia_addfile"] forState:UIControlStateNormal];
     }
     
+     [self checkSubmitBtnEnabledStatus];
     [self.tableView reloadData];
 }
 
@@ -708,7 +761,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
         {
             UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
             imagePicker.delegate = self;
-            imagePicker.allowsEditing = YES;
+            imagePicker.allowsEditing = NO;
             imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
             UINavigationBar *navBar =  [UINavigationBar appearanceWhenContainedIn:[UIImagePickerController class], nil];
             
@@ -725,7 +778,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
         {
             UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
             imagePicker.delegate = self;
-            imagePicker.allowsEditing = YES;
+            imagePicker.allowsEditing = NO;
             imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
             UINavigationBar *navBar =  [UINavigationBar appearanceWhenContainedIn:[UIImagePickerController class], nil];
             
@@ -748,7 +801,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    UIImage *image = info[@"UIImagePickerControllerEditedImage"];
+    UIImage *image = info[@"UIImagePickerControllerOriginalImage"];
     NSData *imgData =UIImageJPEGRepresentation(image, 0.5);
     [self uploadImage:image];
     [self updateImageDataForCell:imgData];
@@ -791,11 +844,27 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 - (id <QLPreviewItem>)previewController: (QLPreviewController *)controller previewItemAtIndex:(NSInteger)index
 {
     return [NSURL fileURLWithPath:[self documentLocalPath]];
+    
 }
 
 - (void)didTapCheckBox:(BEMCheckBox*)checkBox
 {
     self.model.isAgree=checkBox.on;
+    [self checkSubmitBtnEnabledStatus];
+}
+
+-(NSString*)userProtocol
+{
+    return @"尊敬的 Coding 码市用户：\n     您好！\n     欢迎您使用 Coding 码市平台！\n     基于保障用户资金安全的原则，深圳市希云科技有限公司即 Coding 码市平台（以下简称“Coding 码市”）需要对涉及资金往来的用户进行身份认证。 为使您更好地使用 Coding 码市平台，请您认真阅读并遵守《码市平台身份认证说明》（以下简称“本说明”）。\n     用户应保证其提供给 Coding 码市的所有资料和信息的真实性、合法性、准确性和有效性；否则，Coding 码市有权终止和取消用户通过 Coding 码市获取的服务和酬金。因用户提供的资料偏差给 Coding 码市或第三方造成损害的，该用户应依法承担相应的责任。\n     保护用户信息是 Coding 码市的一项基本原则，Coding 码市会采取合理有效的措施确保用户信息的安全性，请您放心！除法律法规规定的情形外，未经用户许可 Coding 码市绝不会向任何第三方泄漏用户的资料和信息。\n     用户理解并同意：授权 Coding 码市对其提交的资料和信息进行甄别核实；Coding 码市基于法律法规对已授权的用户提供的资料和信息进行身份审核和认证。\n     请您按照需求上传手持身份证正面照、身份证背面照和授权说明书。其中手持身份证正面照应保证面部和身份证信息均清晰可见； 身份证背面照和授权说明书字体清晰无污迹。请勿用任何软件编辑修改照片； 否则，认证将不予通过。\n     感谢您的配合，祝您顺利通过认证！\n \n Coding 码市团队";
+}
+
++ (float) heightForString:(NSString *)value fontSize:(float)fontSize andWidth:(float)width
+{
+    UITextView *detailTextView = [[UITextView alloc]initWithFrame:CGRectMake(0, 0, width, 0)];
+    detailTextView.font = [UIFont systemFontOfSize:fontSize];
+    detailTextView.text = value;
+    CGSize deSize = [detailTextView sizeThatFits:CGSizeMake(width,CGFLOAT_MAX)];
+    return deSize.height;
 }
 
 @end

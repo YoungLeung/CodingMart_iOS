@@ -38,8 +38,8 @@
         
         [self.lblTitleBgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.contentView.mas_top).offset(10);
-            make.right.equalTo(self.contentView.mas_right).offset(-10);
-            make.left.equalTo(self.contentView.mas_left).offset(10);
+            make.right.equalTo(self.contentView.mas_right).offset(-15);
+            make.left.equalTo(self.contentView.mas_left).offset(15);
             make.bottom.equalTo(self.contentView.mas_bottom).offset(-10);
         }];
         

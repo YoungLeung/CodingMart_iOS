@@ -13,6 +13,19 @@
 #import "Login.h"
 #import "IdentityAuthenticationModel.h"
 #import "CodingMarkTestViewController.h"
+#import "IdentityAuthenticationViewController.h"
+
+//             未认证 0
+//             认证通过 1
+//             认证失败 2
+//             认证中 3
+typedef NS_ENUM(NSInteger, IdentityStatusCode)
+{
+    identity_Unautherized=0,
+    identity_Certificate=1,
+    identity_Authfaild=2,
+    identity_Authing=3
+};
 
 @interface FillTypesViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *userinfoCheckV;
@@ -21,6 +34,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *statusCheckV;
 @property (weak, nonatomic) IBOutlet UILabel *identityStatusLabel;
 @property (strong, nonatomic) User *curUser;
+
+@property (assign,nonatomic)IdentityStatusCode identityCode;
 @end
 
 @implementation FillTypesViewController
@@ -61,30 +76,36 @@
      {
          if (data)
          {
-             NSLog(@"===[%@]",data);
+             NSLog(@"认证状态===[%@]",data);
 //             未认证 0
 //             认证通过 1
 //             认证失败 2
 //             认证中 3
              NSDictionary *dataDic =data[@"data"];
              NSInteger status=[dataDic[@"status"] integerValue];
+             weakSelf.identityCode=status;
              
-             IdentityAuthenticationModel *model =[[IdentityAuthenticationModel alloc]initForlocalCache];
-             model.alipay=dataDic[@"alipay"];
-             model.identity=dataDic[@"identity"];
-             model.identity_img_auth=dataDic[@"identity_img_auth"];
-             model.identity_img_back=dataDic[@"identity_img_back"];
-             model.identity_img_front=dataDic[@"identity_img_front"];
-             model.name=dataDic[@"name"];
-             model.identityIsPass=dataDic[@"status"];
              
-             if (status==2)
+             if (weakSelf.identityCode==identity_Unautherized || weakSelf.identityCode==identity_Certificate)
+             {
+                 IdentityAuthenticationModel *model =[[IdentityAuthenticationModel alloc]initForlocalCache];
+                 model.alipay=dataDic[@"alipay"];
+                 model.identity=dataDic[@"identity"];
+                 model.identity_img_auth=dataDic[@"identity_img_auth"];
+                 model.identity_img_back=dataDic[@"identity_img_back"];
+                 model.identity_img_front=dataDic[@"identity_img_front"];
+                 model.name=dataDic[@"name"];
+                 model.identityIsPass=dataDic[@"status"];
+             }
+             
+             
+             if (weakSelf.identityCode==identity_Authfaild)
              {
                  weakSelf.statusCheckV.hidden=YES;
                  weakSelf.identityStatusLabel.hidden=NO;
                  weakSelf.identityStatusLabel.textColor=[UIColor colorWithHexString:@"FF4B80"];
                  weakSelf.identityStatusLabel.text=@"认证失败";
-             }else if(status==3)
+             }else if(weakSelf.identityCode==identity_Authing)
              {
                  weakSelf.statusCheckV.hidden=YES;
                  weakSelf.identityStatusLabel.hidden=NO;
@@ -132,6 +153,16 @@
 
         CodingMarkTestViewController *vc = [CodingMarkTestViewController storyboardVC];
         vc.hasPassTheTesting=_curUser.passingSurvey.boolValue;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if (indexPath.section==1 &&indexPath.row==0)
+    {
+        if (self.identityCode==identity_Authing)
+        {
+            [NSObject showHudTipStr:@"已提交认证，将在工作日48小时内进行审核"];
+            return;
+        }
+        
+        IdentityAuthenticationViewController *vc = [IdentityAuthenticationViewController storyboardVC];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

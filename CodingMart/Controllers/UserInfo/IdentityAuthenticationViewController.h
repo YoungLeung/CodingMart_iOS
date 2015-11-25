@@ -13,5 +13,5 @@
 
 @interface IdentityAuthenticationViewController : BaseTableViewController
 
-
++ (instancetype)storyboardVC;
 @end

@@ -95,14 +95,14 @@
     
     
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view.mas_left).offset(10);
-        make.right.equalTo(self.view.mas_right).offset(-10);
+        make.left.equalTo(self.view.mas_left).offset(15);
+        make.right.equalTo(self.view.mas_right).offset(-15);
         make.top.equalTo(self.view.mas_top).offset(55);
         make.height.equalTo(@1);
     }];
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view.mas_left).offset(10);
+        make.left.equalTo(self.view.mas_left).offset(15);
         make.height.equalTo(@(35));
         make.width.equalTo(@200);
         make.top.equalTo(@(55/2-35/2));
