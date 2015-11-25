@@ -23,6 +23,8 @@
 @property(nonatomic,strong)UICollectionView *collectionView;
 @property(nonatomic,assign)int correctCount;
 
+@property(nonatomic,strong)NSMutableDictionary *userSelectDic;
+
 @end
 
 @implementation CodingTestResultViewController
@@ -45,12 +47,13 @@
     {
         
         [self.titleNoticeButton setTitle:@"恭喜您，成功通过本次秘籍测试" forState:UIControlStateNormal];
+        
         [self.titleNoticeButton setImage:[UIImage imageNamed:@"fill_checked"] forState:UIControlStateNormal];
         [self.view addSubview:self.titleNoticeButton];
         
         self.detailLabel =[UILabel new];
         self.detailLabel.text=@"马上开始报名码市悬赏吧";
-        self.detailLabel.font=[UIFont systemFontOfSize:17];
+        self.detailLabel.font=[UIFont systemFontOfSize:14];
         self.detailLabel.textAlignment=NSTextAlignmentCenter;
         [self.view addSubview:self.detailLabel];
         
@@ -81,47 +84,50 @@
         }];
     }else
     {
-        UIScrollView *bgScrollView =[UIScrollView new];
-        [self.view addSubview:bgScrollView];
-        [bgScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view);
-        }];
+//        UIScrollView *bgScrollView =[UIScrollView new];
+//        [self.view addSubview:bgScrollView];
+//        [bgScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.edges.equalTo(self.view);
+//        }];
+//        bgScrollView.contentSize=CGSizeMake(kScreen_Width, kScreen_Height);
         
         [self.titleNoticeButton setTitle:@"您未能通过本次秘笈测试" forState:UIControlStateNormal];
         [self.titleNoticeButton setImage:[UIImage imageNamed:@"fail_pass"] forState:UIControlStateNormal];
-        [bgScrollView addSubview:self.titleNoticeButton];
+        [self.view addSubview:self.titleNoticeButton];
         
         self.detailLabel =[UILabel new];
         
-        self.detailLabel.font=[UIFont systemFontOfSize:17];
+        self.detailLabel.font=[UIFont systemFontOfSize:14];
         self.detailLabel.textAlignment=NSTextAlignmentCenter;
         self.detailLabel.numberOfLines=0;
-        [bgScrollView addSubview:self.detailLabel];
+        [self.view addSubview:self.detailLabel];
         
-        [bgScrollView addSubview:self.configBtn];
+        [self.view addSubview:self.configBtn];
         [self.configBtn setTitle:@"重新答题" forState:UIControlStateNormal];
         
-        [bgScrollView addSubview:self.collectionView];
+        [self.view addSubview:self.collectionView];
+        
+        
         
         [self.titleNoticeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.view.mas_top).offset(20);
+            make.top.equalTo(self.view.mas_top).offset(17);
             make.left.equalTo(self.view.mas_left);
             make.right.equalTo(self.view.mas_right);
-            make.height.equalTo(@45);
+            make.height.equalTo(@25);
         }];
         
         [self.detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.titleNoticeButton.mas_bottom).offset(20);
+            make.top.equalTo(self.titleNoticeButton.mas_bottom).offset(16);
             make.left.equalTo(self.view.mas_left).offset(20);
             make.right.equalTo(self.view.mas_right).offset(-20);
-            make.height.equalTo(@50);
+            make.height.equalTo(@35);
         }];
         
         UIView *line =[UIView new];
         line.backgroundColor=[UIColor colorWithHexString:@"F3F3F3"];
-        [bgScrollView addSubview:line];
+        [self.view addSubview:line];
         [line mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.detailLabel.mas_bottom).offset(20);
+            make.top.equalTo(self.detailLabel.mas_bottom).offset(16);
             make.left.equalTo(self.view.mas_left);
             make.right.equalTo(self.view.mas_right);
             make.height.equalTo(@20);
@@ -131,7 +137,7 @@
             make.top.equalTo(line.mas_bottom).offset(20);
             make.left.equalTo(self.view.mas_left).offset(20);
             make.right.equalTo(self.view.mas_right).offset(-20);
-            make.height.equalTo(@320);
+            make.height.equalTo(self.collectionView.mas_width);
         }];
         
         [self.configBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -186,7 +192,7 @@
         _titleNoticeButton =[[FlexibleAlignButton alloc]init];
         [_titleNoticeButton setTitle:@"评论" forState:UIControlStateNormal];
         [_titleNoticeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        _titleNoticeButton.titleLabel.font=[UIFont boldSystemFontOfSize:17];
+        _titleNoticeButton.titleLabel.font=[UIFont boldSystemFontOfSize:16];
         [_titleNoticeButton setImage:[UIImage imageNamed:@"fill_checked"] forState:UIControlStateNormal];
    
         _titleNoticeButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
@@ -257,9 +263,15 @@
     av.dataSource=[NSMutableArray arrayWithArray:self.dataSource];
     av.viewerModel=YES;
     av.scorIndex=indexPath.row;
+    av.userSelectAnswers=self.userSelectDic;
     [self.navigationController pushViewController:av animated:YES];
 }
 
+-(void)setUserSelectAnswers:(NSMutableDictionary *)userSelectAnswers
+{
+    _userSelectAnswers=userSelectAnswers;
+    self.userSelectDic=[NSMutableDictionary dictionaryWithDictionary:userSelectAnswers];
+}
 
 -(void)configAction
 {
@@ -274,6 +286,15 @@
     }
     
 }
+
+//-(NSMutableDictionary*)userSelectDic
+//{
+//    if (!_userSelectDic) {
+//        _userSelectDic=[[NSMutableDictionary alloc]init];
+//        
+//    }
+//    return _userSelectDic;
+//}
 
 /*
 #pragma mark - Navigation

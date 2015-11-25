@@ -31,6 +31,11 @@
     self.contentLabel.textAlignment=NSTextAlignmentCenter;
     [self.contentView addSubview:self.contentLabel];
     self.contentLabel.backgroundColor=[UIColor colorWithHexString:@"F3F3F3"];
+    self.contentLabel.layer.masksToBounds=YES;
+    self.contentLabel.layer.cornerRadius=3;
+    self.contentLabel.layer.borderWidth=0.5;
+    self.contentLabel.layer.borderColor=[UIColor colorWithHexString:@"e3e3e3"].CGColor;
+    
     
     [self.contentLabel mas_makeConstraints:^(MASConstraintMaker *make)
     {

@@ -18,6 +18,7 @@
 #import <QuickLook/QuickLook.h>
 #import "UIButton+WebCache.h"
 #import "UITableView+FDTemplateLayoutCell.h"
+#import "UIImageView+WebCache.h"
 
 
 //buton  的tag 对于此
@@ -71,9 +72,8 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 @property (weak, nonatomic) IBOutlet UITextView *userAgreementTextView;
 
 
-
-//@property (strong,nonatomic)UIImage *idCard1Img,*idCard2Img,*documentImg;
 @property (strong,nonatomic)IdentityAuthenticationModel *model;
+@property (strong,nonatomic)KLCPopup* popup;
 @property (assign,nonatomic)BOOL canEedit;
 
 
@@ -192,6 +192,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     
     UIImage *defImg =[UIImage imageNamed:@"image_ia_addfile"];
     
+    
     if (self.model.identity_img_front)
     {
         [self.identity_img_front_Button sd_setBackgroundImageWithURL:[NSURL URLWithString:self.model.identity_img_front]  forState:UIControlStateNormal placeholderImage:defImg] ;
@@ -219,10 +220,12 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 {
     if (self.model.identity.length<15)
     {
-        KAlert(@"身份证格式错误，请重新填写:身份证证号不能少于15位");
+        [NSObject showHudTipStr:@"身份证格式错误，请重新填写:身份证证号不能少于15位"];
+//        KAlert(@"身份证格式错误，请重新填写:身份证证号不能少于15位");
     }else if (self.model.identity.length>18)
     {
-        KAlert(@"身份证格式错误，请重新填写:身份证证号不能多于18位");
+        [NSObject showHudTipStr:@"身份证格式错误，请重新填写:身份证证号不能多于18位"];
+//        KAlert(@"身份证格式错误，请重新填写:身份证证号不能多于18位");
     }
 }
 
@@ -233,9 +236,9 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     self.userNameTextField.enabled=canEedit;
     self.identityIDTextFiled.enabled=canEedit;
     self.aliyPayTextField.enabled=canEedit;
-    self.identity_img_front_Button.enabled=canEedit;
-    self.identity_img_back_Button.enabled=canEedit;
-    self.identity_img_auth_Button.enabled=canEedit;
+//    self.identity_img_front_Button.enabled=canEedit;
+//    self.identity_img_back_Button.enabled=canEedit;
+//    self.identity_img_auth_Button.enabled=canEedit;
     self.submitBtn.enabled=canEedit;
     self.identity_img_auth_DeleteBtn.hidden=!canEedit;
     self.identity_img_back_DeleteBtn.hidden=!canEedit;
@@ -330,35 +333,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     }
 }
 
-//-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-//{
-//    if (section==0)
-//    {
-//        return 17;
-//    }else
-//    {
-//        return 5;
-//    }
-//}
 
-//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-//    [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
-//    if (indexPath.row == 2) {
-//        cell.separatorInset = UIEdgeInsetsMake(0, kScreen_Width, 0, 0);//隐藏掉它
-//    }else{
-//        cell.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15);
-//    }
-//}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 - (IBAction)showExampleAction:(id)sender
 {
@@ -370,7 +345,20 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 {
     UIButton *btn =(UIButton*)sender;
     self.currentSelectImgTag=btn.tag;
-    [self showSelectImgView];
+    
+    if (self.currentSelectImgTag==identity_img_front && self.model.identity_img_front.length>3)
+    {
+        [self showBigIdentityImgWithImgPath:self.model.identity_img_front];
+    }else if (self.currentSelectImgTag==identity_img_back && self.model.identity_img_back.length>3)
+    {
+        [self showBigIdentityImgWithImgPath:self.model.identity_img_back];
+    }else if (self.currentSelectImgTag==identity_img_auth && self.model.identity_img_auth.length>3)
+    {
+        [self showBigIdentityImgWithImgPath:self.model.identity_img_auth];
+    }else
+    {
+       [self showSelectImgView];
+    }
 }
 
 - (IBAction)downloadAction:(id)sender
@@ -395,6 +383,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 //    ql.navigationController.navigationBarHidden = YES;
     // Set data source
     ql.dataSource =self;
+//    ql.title=@"授权说明文件";
     
     // Which item to preview
     [ql setCurrentPreviewItemIndex:0];
@@ -407,8 +396,10 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     [navBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     [navBar setShadowImage:[UIImage new]];
     navBar.barTintColor = kNavBarTintColor;
+    
 
     [self presentViewController:ql animated:YES completion:nil];
+   
 
    
 }
@@ -612,6 +603,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 
 }
 
+
 -(void)hideAllStatusEx
 {
     self.identity_img_front_Progress.hidden=YES;
@@ -634,7 +626,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     ExampleView *exmp =[ExampleView createExameView];
     
     
-    if (tag==identity_img_front || tag==identity_img_front)
+    if (tag==identity_img_front || tag==identity_img_back)
     {
         if (tag==identity_img_front)
         {
@@ -665,10 +657,43 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     
     KLCPopupLayout layout = KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutCenter);
     
-    KLCPopup* popup = [KLCPopup popupWithContentView:exmp showType:KLCPopupShowTypeBounceInFromTop dismissType:KLCPopupDismissTypeBounceOutToBottom maskType:KLCPopupMaskTypeDimmed dismissOnBackgroundTouch:YES dismissOnContentTouch:NO];
+    self.popup = [KLCPopup popupWithContentView:exmp showType:KLCPopupShowTypeBounceInFromTop dismissType:KLCPopupDismissTypeBounceOutToBottom maskType:KLCPopupMaskTypeDimmed dismissOnBackgroundTouch:YES dismissOnContentTouch:NO];
     
-    [popup showWithLayout:layout];
+    [self.popup showWithLayout:layout];
+    
+    WEAKSELF
+    exmp.tapBlock=^(id obj)
+    {
+        [weakSelf.popup dismiss:YES];
+    };
+    
+}
 
+-(void)showBigIdentityImgWithImgPath:(NSString*)imgPath
+{
+    UIView* contentView = [[UIView alloc] init];
+    contentView.translatesAutoresizingMaskIntoConstraints = NO;
+    contentView.backgroundColor = [UIColor clearColor];
+    [contentView setClipsToBounds:YES];
+    
+    UIImageView *imgBig =[[UIImageView alloc]init];
+    imgBig.contentMode=UIViewContentModeScaleAspectFit;
+    
+
+    [contentView addSubview:imgBig];
+    
+    CGFloat width =kScreen_Width-20-20;
+    [contentView setFrame:CGRectMake(0, 0, width, kScreen_Height-40)];
+    [imgBig setFrame:contentView.frame];
+
+    
+    [imgBig sd_setImageWithURL:[NSURL URLWithString:imgPath] placeholderImage:[UIImage imageNamed:@"blankpage_image_Sleep"]];
+    
+    KLCPopupLayout layout = KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutCenter);
+    
+    self.popup = [KLCPopup popupWithContentView:contentView showType:KLCPopupShowTypeBounceIn dismissType:KLCPopupDismissTypeBounceOut maskType:KLCPopupMaskTypeDimmed dismissOnBackgroundTouch:YES dismissOnContentTouch:YES];
+    
+    [self.popup showWithLayout:layout];
     
 }
 

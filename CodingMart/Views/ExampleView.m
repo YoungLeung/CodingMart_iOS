@@ -33,7 +33,8 @@
 */
 - (IBAction)closeAction:(id)sender
 {
-    [KLCPopup dismissAllPopups];
+    self.tapBlock(self);
+//    [KLCPopup dismissAllPopups];
 }
 
 @end

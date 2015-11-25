@@ -20,5 +20,6 @@
 @property(nonatomic,assign)BOOL isPass;
 @property(nonatomic,strong)NSMutableArray *dataSource;
 @property(nonatomic,weak)id<CodingTestResultViewControllerDelegate> delegate;
+@property(nonatomic,strong)NSMutableDictionary *userSelectAnswers;
 
 @end

@@ -26,8 +26,6 @@
 //@property(nonatomic,assign)NSInteger scorIndex;
 
 
-@property(nonatomic,strong)NSMutableDictionary *userSelectAnswers;
-
 @end
 
 @implementation ExamViewController
@@ -50,7 +48,7 @@
 -(void)buildUI
 {
     self.view.backgroundColor=[UIColor whiteColor];
-    self.title=self.viewerModel?@"查看错题":@"码市测试";
+    self.title=self.viewerModel?@"查看题目":@"码市测试";
     
     self.titleLabel=[UILabel new];
     self.titleLabel.textColor=[UIColor colorWithHexString:@"44C07F"];
@@ -192,6 +190,9 @@
 
 -(void)submitAction
 {
+//    [self isPassForTesting:YES];
+//    return;
+    
     if ([self.userSelectAnswers allKeys].count!=self.dataSource.count)
     {
         NSInteger undo =self.dataSource.count-self.userSelectAnswers.count;
@@ -235,6 +236,7 @@
     av.dataSource=self.dataSource;
     av.isPass=pass;
     av.delegate=self;
+    av.userSelectAnswers=self.userSelectAnswers;
     [self.navigationController pushViewController:av animated:YES];
 }
 //查看未做

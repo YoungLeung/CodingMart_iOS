@@ -12,6 +12,7 @@
 #import "Coding_NetAPIManager.h"
 #import "Login.h"
 #import "IdentityAuthenticationModel.h"
+#import "CodingMarkTestViewController.h"
 
 @interface FillTypesViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *userinfoCheckV;
@@ -117,12 +118,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row == 1) {
+    if (indexPath.row == 1 &&indexPath.section==0)
+    {
         if (!self.curUser.fullInfo.boolValue) {
             [NSObject showHudTipStr:@"请先完善个人信息"];
             return;
         }
         FillSkillsViewController *vc = [FillSkillsViewController storyboardVC];
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if (indexPath.section==2 &&indexPath.row==0)
+    {
+        
+
+        CodingMarkTestViewController *vc = [CodingMarkTestViewController storyboardVC];
+        vc.hasPassTheTesting=_curUser.passingSurvey.boolValue;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

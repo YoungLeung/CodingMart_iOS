@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^ExampleViewTapBlock)(id aObj);
+
 @interface ExampleView : UIView
 + (instancetype)createExameView;
 @property (weak, nonatomic) IBOutlet UILabel *aTitleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *exampleImgView;
+@property (nonatomic, copy) ExampleViewTapBlock tapBlock;
 
 @end

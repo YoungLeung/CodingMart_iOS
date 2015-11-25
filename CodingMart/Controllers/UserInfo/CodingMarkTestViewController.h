@@ -10,6 +10,7 @@
 #import "WPHotspotLabel.h"
 
 @interface CodingMarkTestViewController : BaseViewController
-
+@property(nonatomic,assign)BOOL hasPassTheTesting;
++ (instancetype)storyboardVC;
 
 @end

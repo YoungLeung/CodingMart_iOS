@@ -15,6 +15,7 @@
 #import "UIImageView+WebCache.h"
 #import <BlocksKit/BlocksKit+UIKit.h>
 
+
 @interface UserInfoViewController ()<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *user_iconV;
 @property (weak, nonatomic) IBOutlet UILabel *user_nameL;

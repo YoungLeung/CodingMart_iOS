@@ -218,7 +218,7 @@
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init] ;
     [paragraphStyle setAlignment:self.textAlignment];
     [paragraphStyle setLineBreakMode:NSLineBreakByWordWrapping];
-    
+    paragraphStyle.lineSpacing=5;
     
     [mutableAttributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:allTextRange];
     
