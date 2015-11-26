@@ -186,7 +186,7 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
         
         
         CodingMarkTestViewController *vc = [CodingMarkTestViewController storyboardVC];
-        vc.hasPassTheTesting=_curUser.passingSurvey.boolValue;
+//        vc.hasPassTheTesting=_curUser.passingSurvey.boolValue;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

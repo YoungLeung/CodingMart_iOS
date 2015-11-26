@@ -444,20 +444,27 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     [ql setCurrentPreviewItemIndex:0];
 
 //    ql.edgesForExtendedLayout = UIRectEdgeNone;
-    ql.automaticallyAdjustsScrollViewInsets=YES;
-    UINavigationBar *navBar =  [UINavigationBar appearanceWhenContainedIn:[QLPreviewController class], nil];
+//    ql.automaticallyAdjustsScrollViewInsets=YES;
+//    UINavigationBar *navBar =  [UINavigationBar appearanceWhenContainedIn:[QLPreviewController class], nil];
+//    
+//    navBar.translucent = NO;
+//    [navBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+//    [navBar setShadowImage:[UIImage new]];
+//    navBar.barTintColor = kNavBarTintColor;
     
-    navBar.translucent = NO;
-    [navBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    [navBar setShadowImage:[UIImage new]];
-    navBar.barTintColor = kNavBarTintColor;
     
     
+//    [self presentViewController:ql animated:YES completion:nil];
     
-    [self presentViewController:ql animated:YES completion:nil];
+//    CGRect cgr =ql.view.frame;
+//    ql.view.frame=CGRectMake(0, 64, cgr.size.width, cgr.size.height);
     
-    CGRect cgr =ql.view.frame;
-    ql.view.frame=CGRectMake(0, 64, cgr.size.width, cgr.size.height);
+    UIViewController *vc =[[UIViewController alloc]init];
+    vc.view.backgroundColor=[UIColor whiteColor];
+    vc.title=@"授权说明文件";
+    [vc.view setFrame:self.view.bounds];
+    [vc.view addSubview:ql.view];
+    [self.navigationController pushViewController:vc animated:YES];
    
 }
 
@@ -891,7 +898,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 
 -(NSString*)userProtocol
 {
-    return @"尊敬的 Coding 码市用户：\n     您好！\n     欢迎您使用 Coding 码市平台！\n     基于保障用户资金安全的原则，深圳市希云科技有限公司即 Coding 码市平台（以下简称“Coding 码市”）需要对涉及资金往来的用户进行身份认证。 为使您更好地使用 Coding 码市平台，请您认真阅读并遵守《码市平台身份认证说明》（以下简称“本说明”）。\n     用户应保证其提供给 Coding 码市的所有资料和信息的真实性、合法性、准确性和有效性；否则，Coding 码市有权终止和取消用户通过 Coding 码市获取的服务和酬金。因用户提供的资料偏差给 Coding 码市或第三方造成损害的，该用户应依法承担相应的责任。\n     保护用户信息是 Coding 码市的一项基本原则，Coding 码市会采取合理有效的措施确保用户信息的安全性，请您放心！除法律法规规定的情形外，未经用户许可 Coding 码市绝不会向任何第三方泄漏用户的资料和信息。\n     用户理解并同意：授权 Coding 码市对其提交的资料和信息进行甄别核实；Coding 码市基于法律法规对已授权的用户提供的资料和信息进行身份审核和认证。\n     请您按照需求上传手持身份证正面照、身份证背面照和授权说明书。其中手持身份证正面照应保证面部和身份证信息均清晰可见； 身份证背面照和授权说明书字体清晰无污迹。请勿用任何软件编辑修改照片； 否则，认证将不予通过。\n     感谢您的配合，祝您顺利通过认证！\n \n Coding 码市团队";
+    return @"尊敬的 Coding 码市用户：\n       您好！\n       欢迎您使用 Coding 码市平台！\n       基于保障用户资金安全的原则，深圳市希云科技有限公司即 Coding 码市平台（以下简称“Coding 码市”）需要对涉及资金往来的用户进行身份认证。 为使您更好地使用 Coding 码市平台，请您认真阅读并遵守《码市平台身份认证说明》（以下简称“本说明”）。\n       用户应保证其提供给 Coding 码市的所有资料和信息的真实性、合法性、准确性和有效性；否则，Coding 码市有权终止和取消用户通过 Coding 码市获取的服务和酬金。因用户提供的资料偏差给 Coding 码市或第三方造成损害的，该用户应依法承担相应的责任。\n       保护用户信息是 Coding 码市的一项基本原则，Coding 码市会采取合理有效的措施确保用户信息的安全性，请您放心！除法律法规规定的情形外，未经用户许可 Coding 码市绝不会向任何第三方泄漏用户的资料和信息。\n       用户理解并同意：授权 Coding 码市对其提交的资料和信息进行甄别核实；Coding 码市基于法律法规对已授权的用户提供的资料和信息进行身份审核和认证。\n       请您按照需求上传手持身份证正面照、身份证背面照和授权说明书。其中手持身份证正面照应保证面部和身份证信息均清晰可见； 身份证背面照和授权说明书字体清晰无污迹。请勿用任何软件编辑修改照片； 否则，认证将不予通过。\n       感谢您的配合，祝您顺利通过认证！\n \n       Coding 码市团队";
 }
 
 + (float) heightForString:(NSString *)value fontSize:(float)fontSize andWidth:(float)width

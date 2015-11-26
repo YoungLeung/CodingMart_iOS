@@ -156,7 +156,7 @@
     _identity_img_front=identity_img_front;
     if (identity_img_front.length==0)
     {
-        [self.localCache removeObjectForKey:@"name"];
+        [self.localCache removeObjectForKey:@"identity_img_front"];
     }else
     {
     
