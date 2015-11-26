@@ -10,6 +10,7 @@
 #import "DCKeyValueObjectMapping.h"
 #import "User.h"
 #import "Login.h"
+#import "NSString+Verify.h"
 
 //#define kLocalModelKey @"kLocalModelKey"
 
@@ -49,7 +50,7 @@
 
 -(BOOL)canPost
 {
-    if (self.identity.length>15 && self.identity.length<30 && self.name.length <30)
+    if (self.identity.length>15 && self.identity.length<30 && self.name.length <30 &&([self.alipay validateEmail]||[self.alipay validateMobile]))
     {
         return YES;
     }else

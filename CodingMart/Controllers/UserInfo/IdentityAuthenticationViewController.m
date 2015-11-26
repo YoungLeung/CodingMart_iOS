@@ -19,6 +19,7 @@
 #import "UIButton+WebCache.h"
 #import "UITableView+FDTemplateLayoutCell.h"
 #import "UIImageView+WebCache.h"
+#import "NSString+Verify.h"
 
 
 //buton  的tag 对于此
@@ -148,7 +149,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     {
 //        if (newText.length<1)
 //            return ;
-        
+        weakSelf.userNameTextField.textColor=[UIColor blackColor];
         weakSelf.model.name = newText;
         [weakSelf checkSubmitBtnEnabledStatus];
         
@@ -158,6 +159,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 //        if (newText.length<1)
 //            return ;
         
+        weakSelf.identityIDTextFiled.textColor=[UIColor blackColor];
         weakSelf.model.identity = newText;
         [weakSelf checkSubmitBtnEnabledStatus];
         
@@ -167,6 +169,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 //            return ;
         
 //        [weakSelf checkIdentityCardValidity];
+        weakSelf.aliyPayTextField.textColor=[UIColor blackColor];
         weakSelf.model.alipay = newText;
         [weakSelf checkSubmitBtnEnabledStatus];
         
@@ -190,17 +193,17 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 -(void)checkSubmitBtnEnabledStatus
 {
     BOOL isEnable =NO;
-    if (self.model.name!=nil && self.model.identity!=nil &&self.model.name!=nil &&self.model.alipay!=nil &&self.model.identity_img_auth!=nil &&self.model.identity_img_back!=nil &&self.model.identity_img_front!=nil )
-    {
-        if (self.model.name.length>1&& self.model.identity.length>1 &&self.model.identity_img_back.length>1 &&self.model.identity_img_front.length>1 &&self.model.identity_img_auth.length>1 && self.codingCheckBox.on==YES &&self.model.alipay.length>2)
+//    if (self.model.name!=nil && self.model.identity!=nil &&self.model.name!=nil &&self.model.alipay!=nil &&self.model.identity_img_auth!=nil &&self.model.identity_img_back!=nil &&self.model.identity_img_front!=nil && self.codingCheckBox.on==YES)
+//    {
+        if (self.model.name.length>0&& self.model.identity.length>0 &&self.model.identity_img_back.length>0 &&self.model.identity_img_front.length>0 &&self.model.identity_img_auth.length>0 && self.codingCheckBox.on==YES &&self.model.alipay.length>0 )
         {
             isEnable=YES;
         }else
-        {
-            isEnable=NO;
-        }
-        
-    }else
+//        {
+//            isEnable=NO;
+//        }
+//        
+//    }else
     {
         isEnable=NO;
     }
@@ -634,6 +637,11 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 
 - (IBAction)submitAction:(id)sender
 {
+    if (![self checkVerify])
+    {
+        [self.tableView reloadData];
+        return;
+    }
     
     [NSObject showHUDQueryStr:@"正在提交身份认证..."];
     WEAKSELF
@@ -647,6 +655,33 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 
         
     }];
+}
+
+-(BOOL)checkVerify
+{
+    BOOL isRight =NO;
+    if (self.model.name.length<2)
+    {
+        isRight=NO;
+        [NSObject showHudTipStr:@"姓名填写格式不正确"];
+        self.userNameTextField.textColor=[UIColor colorWithHexString:@"ff4b80"];
+    }else if (self.model.identity.length<15||self.model.identity.length>18)
+    {
+        isRight=NO;
+        [NSObject showHudTipStr:@"身份证号填写格式不正确"];
+        self.identityIDTextFiled.textColor=[UIColor colorWithHexString:@"ff4b80"];
+    }else if (!([self.model.alipay validateEmail] ||[self.model.alipay validateMobile]))
+    {
+        isRight=NO;
+        [NSObject showHudTipStr:@"支付宝账号填写格式不正确"];
+        self.aliyPayTextField.textColor=[UIColor colorWithHexString:@"ff4b80"];
+    }else
+    {
+        isRight=YES;
+    }
+    
+    
+    return isRight;
 }
 
 - (IBAction)identityImgDeleteAction:(id)sender
