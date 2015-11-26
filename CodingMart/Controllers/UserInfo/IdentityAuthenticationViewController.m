@@ -133,8 +133,9 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     [self setupEvent];
     
     //计算textview高度
-     self.userAgreementTextViewHeight =[IdentityAuthenticationViewController heightForString:[self userProtocol] fontSize:14 andWidth:kScreen_Width-30]+230;
+//     self.userAgreementTextViewHeight =[IdentityAuthenticationViewController heightForString:[self userProtocol] fontSize:14 andWidth:kScreen_Width-30]+230;
     
+         self.userAgreementTextViewHeight =[IdentityAuthenticationViewController heightForString:[self userProtocol] fontSize:14 andWidth:kScreen_Width-30]+15;
      self.textViewHeight.constant=self.userAgreementTextViewHeight;
     
 
@@ -897,9 +898,23 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 {
     UITextView *detailTextView = [[UITextView alloc]initWithFrame:CGRectMake(0, 0, width, 0)];
     detailTextView.font = [UIFont systemFontOfSize:fontSize];
-    detailTextView.text = value;
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineSpacing = 5;// 字体的行间距
+    
+    NSDictionary *attributes = @{
+                                 NSFontAttributeName:[UIFont systemFontOfSize:14],
+                                 NSParagraphStyleAttributeName:paragraphStyle
+                                 };
+    detailTextView.attributedText = [[NSAttributedString alloc] initWithString:value attributes:attributes];
+    detailTextView.textContainerInset=UIEdgeInsetsMake(10, 5, 0, 10);
+//    detailTextView.text = value;
     CGSize deSize = [detailTextView sizeThatFits:CGSizeMake(width,CGFLOAT_MAX)];
     return deSize.height;
 }
+
+//+(NSAttributedString*)userProtocolAttributedString
+//{
+//    
+//}
 
 @end
