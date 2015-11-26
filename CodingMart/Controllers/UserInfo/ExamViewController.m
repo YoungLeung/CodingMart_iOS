@@ -109,11 +109,13 @@
     }];
     
     [self.showAllBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.view.mas_right).offset(-18);
-        make.size.mas_equalTo(CGSizeMake(20, 20));
-        make.top.equalTo(@(55/2-20/2));
+        make.right.equalTo(self.view.mas_right).offset(-10);
+        make.size.mas_equalTo(CGSizeMake(40, 40));
+        make.top.equalTo(@(55/2-40/2));
     }];
     
+    
+    self.showAllBtn.imageEdgeInsets=UIEdgeInsetsMake(5, 5, 5, 5);
     
     [self.carousel reloadData];
     [self updateLabelState:1];
@@ -179,6 +181,7 @@
 
 -(void)showAllAction
 {
+      
     ShowAllanswsViewController *av =[[ShowAllanswsViewController alloc]init];
     av.dataSource=self.dataSource;
     av.isShowAll=YES;
@@ -208,7 +211,7 @@
 //    NSDictionary *postDataMM =[[NSUserDefaults standardUserDefaults]objectForKey:@"myTesting2"];
 //
 
-    
+    WEAKSELF
     [[Coding_NetAPIManager sharedManager]post_CodingExamTesting:postData block:^(id data, NSError *error)
     {
         [NSObject hideHUDQuery];
@@ -216,11 +219,11 @@
         if (code==0)
         {
             //成功
-            [self isPassForTesting:YES];
+            [weakSelf isPassForTesting:YES];
         }else
         {
             //失败
-            [self isPassForTesting:NO];
+            [weakSelf isPassForTesting:NO];
             
         }
         

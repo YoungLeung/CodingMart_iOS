@@ -86,7 +86,7 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
              weakSelf.identityCode=status;
              
              
-             if (weakSelf.identityCode==identity_Unautherized || weakSelf.identityCode==identity_Certificate)
+             if ( weakSelf.identityCode==identity_Certificate)
              {
                  [weakSelf updateUserLocalStoreWithDic:dataDic];
              }

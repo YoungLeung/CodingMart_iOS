@@ -288,15 +288,15 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     
     if(self.model.identity_img_front.length>2)
     {
-     self.identity_img_auth_DeleteBtn.hidden=!canEedit;
+      self.identity_img_front_DeleteBtn.hidden=!canEedit;
     }
     if (self.model.identity_img_back.length>2)
     {
-    self.identity_img_back_DeleteBtn.hidden=!canEedit;
+     self.identity_img_back_DeleteBtn.hidden=!canEedit;
     }
     if (self.model.identity_img_auth.length>2)
     {
-        self.identity_img_front_DeleteBtn.hidden=!canEedit;
+        self.identity_img_auth_DeleteBtn.hidden=!canEedit;
     }
     
     if (!canEedit)

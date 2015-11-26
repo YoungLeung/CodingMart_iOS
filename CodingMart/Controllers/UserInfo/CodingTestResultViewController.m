@@ -60,28 +60,32 @@
         [self.view addSubview:self.configBtn];
         [self.configBtn setTitle:@"查看悬赏" forState:UIControlStateNormal];
         
-        [self.configBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            
-            make.centerY.equalTo(self.view.mas_centerY);
-            make.left.equalTo(self.view.mas_left).offset(20);
-            make.right.equalTo(self.view.mas_right).offset(-20);
+        [self.titleNoticeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.view.mas_top).offset(82);
+            make.left.equalTo(self.view.mas_left);
+            make.right.equalTo(self.view.mas_right);
             make.height.equalTo(@45);
         }];
         
         [self.detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.configBtn.mas_top).offset(-100);
+            make.bottom.equalTo(self.titleNoticeButton.mas_bottom).offset(17);
             make.left.equalTo(self.view.mas_left);
             make.right.equalTo(self.view.mas_right);
             make.height.equalTo(@18);
             
         }];
         
-        [self.titleNoticeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.detailLabel.mas_top).offset(-30);
-            make.left.equalTo(self.view.mas_left);
-            make.right.equalTo(self.view.mas_right);
+        [self.configBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            make.top.equalTo(self.detailLabel.mas_bottom).offset(82);
+            make.left.equalTo(self.view.mas_left).offset(20);
+            make.right.equalTo(self.view.mas_right).offset(-20);
             make.height.equalTo(@45);
         }];
+        
+     
+        
+       
     }else
     {
 //        UIScrollView *bgScrollView =[UIScrollView new];
