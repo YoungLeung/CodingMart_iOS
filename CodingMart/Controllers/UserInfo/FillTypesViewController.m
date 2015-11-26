@@ -149,7 +149,7 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
     _skillsCheckV.image = [UIImage imageNamed:_curUser.fullSkills.boolValue? @"fill_checked": @"fill_unchecked"];
     
     _testingCheckV.image = [UIImage imageNamed:_curUser.passingSurvey.boolValue? @"fill_checked": @"fill_unchecked"];
-    _statusCheckV.image = [UIImage imageNamed:_curUser.status.boolValue? @"fill_checked": @"fill_unchecked"];
+    _statusCheckV.image = [UIImage imageNamed:_curUser.identityChecked.boolValue? @"fill_checked": @"fill_unchecked"];
     
     
 }
@@ -186,7 +186,7 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
         
         
         CodingMarkTestViewController *vc = [CodingMarkTestViewController storyboardVC];
-//        vc.hasPassTheTesting=_curUser.passingSurvey.boolValue;
+        vc.hasPassTheTesting=_curUser.passingSurvey.boolValue;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

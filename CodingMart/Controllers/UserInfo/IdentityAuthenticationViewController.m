@@ -75,7 +75,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 @property (strong,nonatomic)IdentityAuthenticationModel *model;
 @property (strong,nonatomic)KLCPopup* popup;
 @property (assign,nonatomic)BOOL canEedit;
-
+@property (assign,nonatomic)BOOL isUploadingImg;
 @property (assign,nonatomic)CGFloat userAgreementTextViewHeight;
 
 
@@ -398,20 +398,24 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 
 - (IBAction)selectImgAction:(id)sender
 {
-    UIButton *btn =(UIButton*)sender;
-    self.currentSelectImgTag=btn.tag;
     
-    if (self.currentSelectImgTag==identity_img_front && self.model.identity_img_front.length>3)
+    UIButton *btn =(UIButton*)sender;
+
+    if (btn.tag==identity_img_front && self.model.identity_img_front.length>3)
     {
         [self showBigIdentityImgWithImgPath:self.model.identity_img_front];
-    }else if (self.currentSelectImgTag==identity_img_back && self.model.identity_img_back.length>3)
+    }else if (btn.tag==identity_img_back && self.model.identity_img_back.length>3)
     {
         [self showBigIdentityImgWithImgPath:self.model.identity_img_back];
-    }else if (self.currentSelectImgTag==identity_img_auth && self.model.identity_img_auth.length>3)
+    }else if (btn.tag==identity_img_auth && self.model.identity_img_auth.length>3)
     {
         [self showBigIdentityImgWithImgPath:self.model.identity_img_auth];
     }else
     {
+        if(self.isUploadingImg)
+            return;
+        
+      self.currentSelectImgTag=btn.tag;
        [self showSelectImgView];
     }
 }
@@ -518,6 +522,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
         self.identity_img_auth_Button.alpha=0.5;
         self.identity_img_auth_Button.enabled=NO;
     }
+    self.isUploadingImg=YES;
     
     WEAKSELF
     [[CodingNetAPIClient sharedJsonClient]uploadImage:img path:kUploadImgPath name:@"111" successBlock:^(AFHTTPRequestOperation *operation, id responseObject)
@@ -552,6 +557,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
         self.identity_img_front_Progress.hidden=YES;
         self.identity_img_front_Button.alpha=1;
         self.identity_img_front_Button.enabled=YES;
+       
         
         if (imgPath)
         {
@@ -605,6 +611,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
         }
     }
     
+    self.isUploadingImg=NO;
     [self checkSubmitBtnEnabledStatus];
 }
 
