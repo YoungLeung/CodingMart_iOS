@@ -44,7 +44,9 @@ static dispatch_once_t onceToken_Coding;
     self.responseSerializer = [AFJSONResponseSerializer serializer];
     self.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/plain", @"text/javascript", @"text/json", @"text/html", nil];
     
+
     [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+//    [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [self.requestSerializer setValue:url.absoluteString forHTTPHeaderField:@"Referer"];
     
     self.securityPolicy.allowInvalidCertificates = YES;
@@ -120,33 +122,58 @@ static dispatch_once_t onceToken_Coding;
                 !autoShowError || [NSObject showError:error];
                 block(nil, error);
             }];
-            break;}
-        case Post_Mulit:{
-            [self POST:aPath parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData)
-            {
-                NSMutableData *data = [[NSMutableData alloc] init];
-                NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-                [archiver encodeObject:params[@"answers"] forKey:@"answers"];
-                [archiver finishEncoding];
-                
-                [formData appendPartWithFormData:data name:@"answers"];
-            } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            break;
+        }
+        case Post_Mulit:
+        {
+           
+            [self POST:aPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 DebugLog(@"\n===========response===========\n%@:\n%@", aPath, responseObject);
-//                id error = [self handleResponse:responseObject autoShowError:autoShowError];
-//                if (error)
-//                {
-//                    block(nil, error);
-//                }else{
-//                    block(responseObject, nil);
-//                }
-                block(responseObject, nil);
+               
+                    block(responseObject, nil);
+                
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
                 !autoShowError || [NSObject showError:error];
                 block(nil, error);
             }];
+            break;
+
             
-            break;}
+//            
+//            [self POST:aPath parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData)
+//            {
+////                NSMutableData *dataPost = [[NSMutableData alloc] init];
+////                NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:dataPost];
+////                [archiver encodeObject:params[@"answers"] forKey:@"answers"];
+////                [archiver finishEncoding];
+//                
+////                DebugLog(@"\n===========send===========\n%@:\n%@", dataPost)
+//                NSError *error;
+//                NSData *jsonData = [NSJSONSerialization dataWithJSONObject:params
+//                                                                   options:NSJSONWritingPrettyPrinted // Pass 0 if you don't care about the readability of the generated string
+//                                                                     error:&error];
+//                
+////                [formData appendPartWithFormData:jsonData name:@"answer"];
+//                
+//            } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, responseObject);
+////                id error = [self handleResponse:responseObject autoShowError:autoShowError];
+////                if (error)
+////                {
+////                    block(nil, error);
+////                }else{
+////                    block(responseObject, nil);
+////                }
+//                block(responseObject, nil);
+//            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
+//                !autoShowError || [NSObject showError:error];
+//                block(nil, error);
+//            }];
+//            
+//            break;
+        }
         case Put:{
             [self PUT:aPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 DebugLog(@"\n===========response===========\n%@:\n%@", aPath, responseObject);

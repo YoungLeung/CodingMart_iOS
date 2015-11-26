@@ -576,6 +576,28 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="calibratedRGB"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="aga-ha-RMz">
+                            <rect key="frame" x="0.0" y="1103" width="320" height="90"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bln-Fn-9jB" customClass="TableViewFooterButton">
+                                    <rect key="frame" x="15" y="20" width="290" height="44"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="44" id="BbM-bW-B0L"/>
+                                    </constraints>
+                                    <state key="normal" title="保存资料"/>
+                                    <connections>
+                                        <action selector="submitBtnClicked:" destination="rge-QJ-4fR" eventType="touchUpInside" id="sH0-84-gxf"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="Bln-Fn-9jB" firstAttribute="leading" secondItem="aga-ha-RMz" secondAttribute="leading" constant="15" id="4Bh-Xt-w7o"/>
+                                <constraint firstAttribute="trailing" secondItem="Bln-Fn-9jB" secondAttribute="trailing" constant="15" id="ZBC-wf-ho3"/>
+                                <constraint firstItem="Bln-Fn-9jB" firstAttribute="top" secondItem="aga-ha-RMz" secondAttribute="top" constant="20" id="eXw-yW-3TG"/>
+                            </constraints>
+                        </view>
                         <sections>
                             <tableViewSection headerTitle="0" id="yJ2-uS-DmG">
                                 <cells>
@@ -1167,6 +1189,7 @@
                         <outlet property="second_linkF" destination="Ndg-EI-WEm" id="qjR-bT-fwN"/>
                         <outlet property="skillF" destination="gX1-ZH-Tk2" id="bF5-HB-zBp"/>
                         <outlet property="specialtyF" destination="3ln-FG-dQa" id="JqE-sF-y9b"/>
+                        <outlet property="submitBtn" destination="Bln-Fn-9jB" id="Xl7-cO-1cR"/>
                         <outlet property="third_linkF" destination="qgc-QM-qGB" id="1Ao-xa-LxG"/>
                         <outlet property="work_expT" destination="y29-ZE-74G" id="SdD-GL-b5f"/>
                         <outlet property="work_typeF" destination="MQQ-rs-r39" id="a7I-Ra-wdO"/>
@@ -1195,7 +1218,7 @@
                                 </constraints>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="请您认真阅读《开发者服务指南》, 了解作为开发者如何规范地在 Coding 码市平台上参与悬赏。 阅读完成后，请参与如下的测试问卷，以便于 Coding 码市知悉您对码市平台开发流程的学习成果。 通过本次秘笈测试，您就可以报名码市的悬赏了！" translatesAutoresizingMaskIntoConstraints="NO" id="L9n-lC-8oy" customClass="HBVLinkedTextView">
-                                <rect key="frame" x="15" y="250" width="570" height="242"/>
+                                <rect key="frame" x="15" y="243" width="570" height="249"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -1222,7 +1245,7 @@
                             <constraint firstItem="L9n-lC-8oy" firstAttribute="leading" secondItem="S5W-I4-QKj" secondAttribute="leadingMargin" id="GP2-Xn-Sdk"/>
                             <constraint firstItem="Vgu-SC-dBS" firstAttribute="leading" secondItem="S5W-I4-QKj" secondAttribute="leading" constant="15" id="Hpm-f4-lvh"/>
                             <constraint firstItem="L9n-lC-8oy" firstAttribute="leading" secondItem="S5W-I4-QKj" secondAttribute="leadingMargin" constant="-5" id="Psn-Ga-gzS"/>
-                            <constraint firstItem="L9n-lC-8oy" firstAttribute="top" secondItem="Vgu-SC-dBS" secondAttribute="bottom" constant="15" id="Rq5-Nb-e8G"/>
+                            <constraint firstItem="L9n-lC-8oy" firstAttribute="top" secondItem="Vgu-SC-dBS" secondAttribute="bottom" constant="8" id="Rq5-Nb-e8G"/>
                             <constraint firstAttribute="trailingMargin" secondItem="FQH-oY-nlu" secondAttribute="trailing" constant="-3" id="TQd-rq-2XG"/>
                             <constraint firstItem="aup-xG-ern" firstAttribute="top" secondItem="FQH-oY-nlu" secondAttribute="bottom" constant="43.5" id="VPf-90-uRb"/>
                             <constraint firstItem="FQH-oY-nlu" firstAttribute="leading" secondItem="S5W-I4-QKj" secondAttribute="leadingMargin" constant="-3" id="ZxD-Oo-6ch"/>
@@ -1555,10 +1578,10 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" tag="87" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2t5-NH-0KC">
-                                                    <rect key="frame" x="71" y="106" width="12" height="12"/>
+                                                    <rect key="frame" x="67" y="106" width="16" height="16"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="12" id="1Bn-Tz-8Ct"/>
-                                                        <constraint firstAttribute="height" constant="12" id="iV8-vL-EVg"/>
+                                                        <constraint firstAttribute="width" constant="16" id="1Bn-Tz-8Ct"/>
+                                                        <constraint firstAttribute="height" constant="16" id="iV8-vL-EVg"/>
                                                     </constraints>
                                                     <state key="normal" image="imgDelete"/>
                                                     <connections>
@@ -1661,10 +1684,10 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" tag="88" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9pZ-ld-RPj">
-                                                    <rect key="frame" x="71" y="75" width="12" height="12"/>
+                                                    <rect key="frame" x="67" y="75" width="16" height="16"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="12" id="XAz-6A-ngv"/>
-                                                        <constraint firstAttribute="height" constant="12" id="gJg-9u-Ee3"/>
+                                                        <constraint firstAttribute="width" constant="16" id="XAz-6A-ngv"/>
+                                                        <constraint firstAttribute="height" constant="16" id="gJg-9u-Ee3"/>
                                                     </constraints>
                                                     <state key="normal" image="imgDelete"/>
                                                     <connections>
@@ -1806,10 +1829,10 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" tag="89" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aMm-ci-f5B">
-                                                    <rect key="frame" x="71" y="75.5" width="12" height="12"/>
+                                                    <rect key="frame" x="67" y="75.5" width="16" height="16"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="12" id="0A2-ts-5JV"/>
-                                                        <constraint firstAttribute="width" constant="12" id="cUh-y3-m1g"/>
+                                                        <constraint firstAttribute="height" constant="16" id="0A2-ts-5JV"/>
+                                                        <constraint firstAttribute="width" constant="16" id="cUh-y3-m1g"/>
                                                     </constraints>
                                                     <state key="normal" image="imgDelete"/>
                                                     <connections>
@@ -1952,7 +1975,7 @@
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="Gii-zD-hHC"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -1962,6 +1985,7 @@
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="570.5" id="0Sv-pL-5Ev"/>
                                                     </constraints>
+                                                    <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="20" maxY="0.0"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
@@ -3181,7 +3205,7 @@
         <image name="icon_userinfo_score" width="20" height="20"/>
         <image name="icon_userinfo_setting" width="20" height="20"/>
         <image name="image_ia_addfile" width="118" height="118"/>
-        <image name="imgDelete" width="12" height="12"/>
+        <image name="imgDelete" width="15" height="15"/>
         <image name="logo_mart_about" width="125" height="125"/>
         <image name="placeholder_user" width="60" height="60"/>
     </resources>

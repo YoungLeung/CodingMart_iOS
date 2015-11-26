@@ -7,14 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CodingExamModel.h"
 
 @class CodingExamOptionsModel;
 
 @interface ExamCardQuestionCell : UITableViewCell
-@property(nonatomic,assign)BOOL markSelect;
-@property(nonatomic,assign)BOOL markFail;
+//@property(nonatomic,assign)BOOL markSelect;
+//@property(nonatomic,assign)BOOL markFail;
 
-- (void)updateExamCardQuestionCell:(CodingExamOptionsModel *)item;
+@property(nonatomic,strong)CodingExamModel *model;
+
+- (void)updateExamCardQuestionCell:(CodingExamOptionsModel *)item isViewModel:(BOOL)markFail isMarkSelect:(BOOL)isMarkSelect;
 
 
 @end

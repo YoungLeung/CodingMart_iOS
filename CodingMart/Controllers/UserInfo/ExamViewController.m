@@ -21,9 +21,7 @@
 @property(nonatomic,strong)UIButton *showAllBtn;
 @property(nonatomic,strong)iCarousel *carousel;
 
-//查看结果模式
-//@property(nonatomic,assign)BOOL viewerModel;
-//@property(nonatomic,assign)NSInteger scorIndex;
+
 
 
 @end
@@ -83,7 +81,7 @@
     [self.view addSubview:self.carousel];
     [self.carousel mas_makeConstraints:^(MASConstraintMaker *make)
      {
-         make.top.equalTo(line.mas_bottom).offset(8);
+         make.top.equalTo(line.mas_bottom);
          make.left.equalTo(self.view.mas_left);
          make.right.equalTo(self.view.mas_right);
          make.bottom.equalTo(self.view.mas_bottom);
@@ -190,8 +188,7 @@
 
 -(void)submitAction
 {
-//    [self isPassForTesting:YES];
-//    return;
+   
     
     if ([self.userSelectAnswers allKeys].count!=self.dataSource.count)
     {
@@ -202,15 +199,16 @@
     }
     
     
-    NSMutableArray *postArr =[NSMutableArray new];
-    for (NSString *key in self.userSelectAnswers)
-    {
-        NSDictionary *data =[NSDictionary dictionaryWithObject:[self.userSelectAnswers objectForKey:key] forKey:key];
-        [postArr addObject:data];
-    }
-    
     [NSObject showHUDQueryStr:@"正在提交试题..."];
-    NSDictionary *postData =[NSDictionary dictionaryWithObject:postArr forKey:@"answers"];
+    NSDictionary *postData =[NSDictionary dictionaryWithObject:self.userSelectAnswers forKey:@"answers"];
+    
+    
+//    [[NSUserDefaults standardUserDefaults]setObject:postData forKey:@"myTesting2"];
+////
+//    NSDictionary *postDataMM =[[NSUserDefaults standardUserDefaults]objectForKey:@"myTesting2"];
+//
+
+    
     [[Coding_NetAPIManager sharedManager]post_CodingExamTesting:postData block:^(id data, NSError *error)
     {
         [NSObject hideHUDQuery];
@@ -230,6 +228,7 @@
     
 }
 
+
 -(void)isPassForTesting:(BOOL)pass
 {
     CodingTestResultViewController *av =[CodingTestResultViewController new];
@@ -248,10 +247,7 @@
 //查看错题,有答案
 -(void)testResultTapItemForIndex:(NSInteger)index
 {
-//     self.viewerModel=YES;
-//    [self.carousel reloadData];
-//    
-//    [self.carousel scrollToItemAtIndex:index animated:NO];
+
 }
 
 

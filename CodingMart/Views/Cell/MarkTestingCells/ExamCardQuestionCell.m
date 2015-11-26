@@ -14,6 +14,7 @@
 @property (nonatomic, strong) UILabel *lblMark;
 @property (nonatomic, strong) UIView *lblTitleBgView;
 
+
 @end
 
 @implementation ExamCardQuestionCell
@@ -63,11 +64,49 @@
     return self;
 }
 
-- (void)updateExamCardQuestionCell:(CodingExamOptionsModel *)item
+- (void)updateExamCardQuestionCell:(CodingExamOptionsModel *)item isViewModel:(BOOL)markFail isMarkSelect:(BOOL)isMarkSelect
 {
     self.lblMark.text=[NSString stringWithFormat:@"%@.",item.mark];
     self.lblTitle.text=[NSString stringWithFormat:@"%@",item.content];
     
+    if(markFail && isMarkSelect)
+    {
+        if (self.model.isRight)
+        {
+            self.lblTitleBgView.backgroundColor=[UIColor colorWithHexString:@"44C07F"];
+            self.lblTitle.textColor=[UIColor whiteColor];
+            self.lblMark.textColor=self.lblTitle.textColor;
+        }else
+        {
+            self.lblTitleBgView.backgroundColor=[UIColor colorWithHexString:@"FF4B80"];
+            self.lblTitle.textColor=[UIColor whiteColor];
+            self.lblMark.textColor=self.lblTitle.textColor;
+        }
+    }else if (markFail &&!isMarkSelect)
+    {
+        self.lblTitleBgView.backgroundColor=[UIColor colorWithHexString:@"f4f4f4"];
+        self.lblTitle.textColor=[UIColor colorWithHexString:@"666666"];
+        self.lblMark.textColor=self.lblTitle.textColor;
+    }else if (!markFail && isMarkSelect)
+    {
+        self.lblTitleBgView.backgroundColor=[UIColor colorWithHexString:@"44C07F"];
+        self.lblTitle.textColor=[UIColor whiteColor];
+        self.lblMark.textColor=self.lblTitle.textColor;
+    }else if (!markFail &&!isMarkSelect)
+    {
+        self.lblTitleBgView.backgroundColor=[UIColor colorWithHexString:@"f4f4f4"];
+        self.lblTitle.textColor=[UIColor colorWithHexString:@"666666"];
+        self.lblMark.textColor=self.lblTitle.textColor;
+
+    }
+    
+}
+
+- (void)updateExamCardQuestionCell:(CodingExamOptionsModel *)item
+{
+    self.lblMark.text=[NSString stringWithFormat:@"%@.",item.mark];
+    self.lblTitle.text=[NSString stringWithFormat:@"%@",item.content];
+  
 //    if (self.markSelect)
 //    {
 //        self.lblTitleBgView.backgroundColor=[UIColor colorWithHexString:@"44C07F"];
@@ -78,30 +117,59 @@
     
 }
 
--(void)setMarkSelect:(BOOL)markSelect
-{
-    _markSelect=markSelect;
-    
-    if (markSelect)
-    {
-        if (self.markFail)
-        {
-            self.lblTitleBgView.backgroundColor=[UIColor colorWithHexString:@"FF4B80"];
-            self.lblTitle.textColor=[UIColor whiteColor];
-            self.lblMark.textColor=self.lblTitle.textColor;
-        }else
-        {
-            self.lblTitleBgView.backgroundColor=[UIColor colorWithHexString:@"44C07F"];
-            self.lblTitle.textColor=[UIColor whiteColor];
-            self.lblMark.textColor=self.lblTitle.textColor;
-        }
-    }else
-    {
-        self.lblTitleBgView.backgroundColor=[UIColor colorWithHexString:@"f4f4f4"];
-        self.lblTitle.textColor=[UIColor colorWithHexString:@"666666"];
-        self.lblMark.textColor=self.lblTitle.textColor;
-    }
-}
+//-(void)setMarkSelect:(BOOL)markSelect
+//{
+//    _markSelect=markSelect;
+//    
+//    //查看未做模式下
+//    if (markSelect)
+//    {
+//      
+//        self.lblTitleBgView.backgroundColor=[UIColor colorWithHexString:@"44C07F"];
+//        self.lblTitle.textColor=[UIColor whiteColor];
+//        self.lblMark.textColor=self.lblTitle.textColor;
+//        
+//        
+//    }else
+//    {
+//        
+//        self.lblTitleBgView.backgroundColor=[UIColor colorWithHexString:@"f4f4f4"];
+//        self.lblTitle.textColor=[UIColor colorWithHexString:@"666666"];
+//        self.lblMark.textColor=self.lblTitle.textColor;
+//    }
+//    
+//}
+//
+//-(void)setMarkFail:(BOOL)markFail
+//{
+//    _markFail=markFail;
+//    //错题模式
+//    if (markFail)
+//    {
+//
+//    if (self.model.isRight)
+//    {
+//        self.lblTitleBgView.backgroundColor=[UIColor colorWithHexString:@"44C07F"];
+//        self.lblTitle.textColor=[UIColor whiteColor];
+//        self.lblMark.textColor=self.lblTitle.textColor;
+// 
+//    }else
+//    {
+//        
+//        self.lblTitleBgView.backgroundColor=[UIColor colorWithHexString:@"FF4B80"];
+//        self.lblTitle.textColor=[UIColor whiteColor];
+//        self.lblMark.textColor=self.lblTitle.textColor;
+//
+//    }
+//        
+//    }else
+//    {
+//        self.lblTitleBgView.backgroundColor=[UIColor colorWithHexString:@"f4f4f4"];
+//        self.lblTitle.textColor=[UIColor colorWithHexString:@"666666"];
+//        self.lblMark.textColor=self.lblTitle.textColor;
+//    }
+//    
+//}
 
 
 

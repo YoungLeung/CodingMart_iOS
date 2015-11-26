@@ -88,14 +88,7 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
              
              if (weakSelf.identityCode==identity_Unautherized || weakSelf.identityCode==identity_Certificate)
              {
-                 IdentityAuthenticationModel *model =[[IdentityAuthenticationModel alloc]initForlocalCache];
-                 model.alipay=dataDic[@"alipay"];
-                 model.identity=dataDic[@"identity"];
-                 model.identity_img_auth=dataDic[@"identity_img_auth"];
-                 model.identity_img_back=dataDic[@"identity_img_back"];
-                 model.identity_img_front=dataDic[@"identity_img_front"];
-                 model.name=dataDic[@"name"];
-                 model.identityIsPass=dataDic[@"status"];
+                 [weakSelf updateUserLocalStoreWithDic:dataDic];
              }
              
              
@@ -105,11 +98,24 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
                  weakSelf.identityStatusLabel.hidden=NO;
                  weakSelf.identityStatusLabel.textColor=[UIColor colorWithHexString:@"FF4B80"];
                  weakSelf.identityStatusLabel.text=@"认证失败";
+                 
+                 IdentityAuthenticationModel *model =[[IdentityAuthenticationModel alloc]initForlocalCache];
+                 
+                 if ([[model toParams]allKeys].count<2)
+                 {
+                     //没有缓存，用服务器的来更新
+                     [weakSelf updateUserLocalStoreWithDic:dataDic];
+                     
+                 }
+                 
              }else if(weakSelf.identityCode==identity_Authing)
              {
                  weakSelf.statusCheckV.hidden=YES;
                  weakSelf.identityStatusLabel.hidden=NO;
+                 weakSelf.identityStatusLabel.textColor=[UIColor colorWithHexString:@"F5A623"];
                  weakSelf.identityStatusLabel.text=@"认证中";
+                 
+                 
 
              }else
              {
@@ -121,6 +127,19 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
          }
          
      }];
+}
+
+-(void)updateUserLocalStoreWithDic:(NSDictionary *)dataDic
+{
+ 
+    IdentityAuthenticationModel *model =[[IdentityAuthenticationModel alloc]initForlocalCache];
+    model.alipay=dataDic[@"alipay"];
+    model.identity=dataDic[@"identity"];
+    model.identity_img_auth=dataDic[@"identity_img_auth"];
+    model.identity_img_back=dataDic[@"identity_img_back"];
+    model.identity_img_front=dataDic[@"identity_img_front"];
+    model.name=dataDic[@"name"];
+    model.identityIsPass=dataDic[@"status"];
 }
 
 - (void)setCurUser:(User *)curUser
@@ -147,15 +166,13 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
         }
         FillSkillsViewController *vc = [FillSkillsViewController storyboardVC];
         [self.navigationController pushViewController:vc animated:YES];
-    }else if (indexPath.section==2 &&indexPath.row==0)
-    {
-        
-
-        CodingMarkTestViewController *vc = [CodingMarkTestViewController storyboardVC];
-        vc.hasPassTheTesting=_curUser.passingSurvey.boolValue;
-        [self.navigationController pushViewController:vc animated:YES];
     }else if (indexPath.section==1 &&indexPath.row==0)
     {
+        if (!self.curUser.fullSkills.boolValue) {
+            [NSObject showHudTipStr:@"请先完善个人信息"];
+            return;
+        }
+        
         if (self.identityCode==identity_Authing)
         {
             [NSObject showHudTipStr:@"已提交认证，将在工作日48小时内进行审核"];
@@ -163,6 +180,13 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
         }
         
         IdentityAuthenticationViewController *vc = [IdentityAuthenticationViewController storyboardVC];
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if (indexPath.section==2 &&indexPath.row==0)
+    {
+        
+        
+        CodingMarkTestViewController *vc = [CodingMarkTestViewController storyboardVC];
+        vc.hasPassTheTesting=_curUser.passingSurvey.boolValue;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

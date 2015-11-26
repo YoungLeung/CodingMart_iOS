@@ -60,6 +60,7 @@
         _tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
         _tableView.delegate=self;
         _tableView.dataSource=self;
+        _tableView.contentInset=UIEdgeInsetsMake(8, 0, 0, 0);
         
         [_tableView registerClass:[ExamCardTitleCell class] forCellReuseIdentifier:@"ExamCardTitleCell"];
         [_tableView registerClass:[ExamCardQuestionCell class] forCellReuseIdentifier:@"ExamCardQuestionCell"];
@@ -105,18 +106,22 @@
     {
         ExamCardQuestionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ExamCardQuestionCell"];
         CodingExamOptionsModel *modelOption =[self.model.options objectAtIndex:indexPath.row-1];
-        
-        [cell updateExamCardQuestionCell:modelOption];
-        cell.markFail=self.viewerModel;
-        
+        cell.model=self.model;
+//        [cell updateExamCardQuestionCell:modelOption];
+//        cell.model=self.model;
+//        cell.markFail=self.viewerModel;
+//        
         NSArray *temp =[self.userAnswers objectForKey:self.questionID];
+        BOOL isMark;
         if ([temp containsObject:modelOption.id])
         {
-            cell.markSelect=YES;
+            isMark=YES;
         }else
         {
-            cell.markSelect=NO;
+            isMark=NO;
         }
+        
+        [cell updateExamCardQuestionCell:modelOption isViewModel:self.viewerModel isMarkSelect:isMark];
         
         return cell;
     }
@@ -141,10 +146,23 @@
     }else
     {
         WEAKSELF
-        return [tableView fd_heightForCellWithIdentifier:@"ExamCardQuestionCell" cacheByIndexPath:indexPath configuration:^(id cell)
+        return [tableView fd_heightForCellWithIdentifier:@"ExamCardQuestionCell" cacheByIndexPath:indexPath configuration:^(ExamCardQuestionCell* cell)
                 {
                     CodingExamOptionsModel *modelOption =[weakSelf.model.options objectAtIndex:indexPath.row-1];
-                    [cell updateExamCardQuestionCell:modelOption];
+                    
+                    cell.model=weakSelf.model;
+                    NSArray *temp =[self.userAnswers objectForKey:self.questionID];
+                    BOOL isMark;
+                    if ([temp containsObject:modelOption.id])
+                    {
+                        isMark=YES;
+                    }else
+                    {
+                        isMark=NO;
+                    }
+                    
+                    [cell updateExamCardQuestionCell:modelOption isViewModel:self.viewerModel isMarkSelect:isMark];
+//                    [cell updateExamCardQuestionCell:modelOption];
 
                 }]+20;
     }

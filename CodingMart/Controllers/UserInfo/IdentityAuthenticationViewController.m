@@ -133,7 +133,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     [self setupEvent];
     
     //计算textview高度
-     self.userAgreementTextViewHeight =[IdentityAuthenticationViewController heightForString:[self userProtocol] fontSize:12 andWidth:kScreen_Width-30]+160;
+     self.userAgreementTextViewHeight =[IdentityAuthenticationViewController heightForString:[self userProtocol] fontSize:14 andWidth:kScreen_Width-30]+230;
     
      self.textViewHeight.constant=self.userAgreementTextViewHeight;
     
@@ -143,9 +143,10 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 -(void)setupEvent
 {
     WEAKSELF
-    [self.userNameTextField.rac_textSignal subscribeNext:^(NSString *newText){
-        if (newText.length<1)
-            return ;
+    [self.userNameTextField.rac_textSignal subscribeNext:^(NSString *newText)
+    {
+//        if (newText.length<1)
+//            return ;
         
         weakSelf.model.name = newText;
         [weakSelf checkSubmitBtnEnabledStatus];
@@ -153,18 +154,18 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     }];
     
     [self.identityIDTextFiled.rac_textSignal subscribeNext:^(NSString *newText){
-        if (newText.length<1)
-            return ;
+//        if (newText.length<1)
+//            return ;
         
         weakSelf.model.identity = newText;
         [weakSelf checkSubmitBtnEnabledStatus];
         
     }];
     [self.aliyPayTextField.rac_textSignal subscribeNext:^(NSString *newText){
-        if (newText.length<1)
-            return ;
+//        if (newText.length<1)
+//            return ;
         
-        [weakSelf checkIdentityCardValidity];
+//        [weakSelf checkIdentityCardValidity];
         weakSelf.model.alipay = newText;
         [weakSelf checkSubmitBtnEnabledStatus];
         
@@ -190,7 +191,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     BOOL isEnable =NO;
     if (self.model.name!=nil && self.model.identity!=nil &&self.model.name!=nil &&self.model.alipay!=nil &&self.model.identity_img_auth!=nil &&self.model.identity_img_back!=nil &&self.model.identity_img_front!=nil )
     {
-        if (self.model.name.length>1&& self.model.identity.length>1 &&self.model.name.length>1 &&self.model.alipay.length>1 &&self.model.identity_img_auth.length>1 &&self.model.identity_img_back.length>1 &&self.model.identity_img_front.length>1 && self. codingCheckBox.on==YES && [self.model canPost]==YES)
+        if (self.model.name.length>1&& self.model.identity.length>1 &&self.model.identity_img_back.length>1 &&self.model.identity_img_front.length>1 &&self.model.identity_img_auth.length>1 && self.codingCheckBox.on==YES &&self.model.alipay.length>2)
         {
             isEnable=YES;
         }else
@@ -210,19 +211,26 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     self.userNameTextField.text=self.model.name;
     self.identityIDTextFiled.text=self.model.identity;
     self.aliyPayTextField.text=self.model.alipay;
+    
     self.identity_img_auth_DeleteBtn.hidden=YES;
     self.identity_img_back_DeleteBtn.hidden=YES;
     self.identity_img_front_DeleteBtn.hidden=YES;
+    
+    self.identity_img_front_Button.imageView.contentMode=UIViewContentModeScaleAspectFill;
+    self.identity_img_back_Button.imageView.contentMode=UIViewContentModeScaleAspectFill;
+    self.identity_img_auth_Button.imageView.contentMode=UIViewContentModeScaleAspectFill;
     
     
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.lineSpacing = 5;// 字体的行间距
     
     NSDictionary *attributes = @{
-                                 NSFontAttributeName:[UIFont systemFontOfSize:12],
+                                 NSFontAttributeName:[UIFont systemFontOfSize:14],
                                  NSParagraphStyleAttributeName:paragraphStyle
                                  };
     self.userAgreementTextView.attributedText = [[NSAttributedString alloc] initWithString:[self userProtocol] attributes:attributes];
+    
+    self.userAgreementTextView.textContainerInset=UIEdgeInsetsMake(10, 5, 0, 10);
     
     
     
@@ -231,15 +239,15 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     
     if (self.model.identity_img_front)
     {
-        [self.identity_img_front_Button sd_setBackgroundImageWithURL:[NSURL URLWithString:self.model.identity_img_front]  forState:UIControlStateNormal placeholderImage:defImg] ;
+        [self.identity_img_front_Button sd_setImageWithURL:[NSURL URLWithString:self.model.identity_img_front]  forState:UIControlStateNormal placeholderImage:defImg] ;
     }
     if (self.model.identity_img_back)
     {
-        [self.identity_img_back_Button sd_setBackgroundImageWithURL:[NSURL URLWithString:self.model.identity_img_back] forState:UIControlStateNormal placeholderImage:defImg];
+        [self.identity_img_back_Button sd_setImageWithURL:[NSURL URLWithString:self.model.identity_img_back] forState:UIControlStateNormal placeholderImage:defImg];
     }
     if (self.model.identity_img_auth)
     {
-        [self.identity_img_auth_Button sd_setBackgroundImageWithURL:[NSURL URLWithString:self.model.identity_img_auth] forState:UIControlStateNormal placeholderImage:defImg];
+        [self.identity_img_auth_Button sd_setImageWithURL:[NSURL URLWithString:self.model.identity_img_auth] forState:UIControlStateNormal placeholderImage:defImg];
     }
     
     if ([self.model.identityIsPass integerValue]==3 ||[self.model.identityIsPass integerValue]==1)
@@ -276,9 +284,19 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 //    self.identity_img_back_Button.enabled=canEedit;
 //    self.identity_img_auth_Button.enabled=canEedit;
     self.submitBtn.enabled=canEedit;
-    self.identity_img_auth_DeleteBtn.hidden=!canEedit;
+    
+    if(self.model.identity_img_front.length>2)
+    {
+     self.identity_img_auth_DeleteBtn.hidden=!canEedit;
+    }
+    if (self.model.identity_img_back.length>2)
+    {
     self.identity_img_back_DeleteBtn.hidden=!canEedit;
-    self.identity_img_front_DeleteBtn.hidden=!canEedit;
+    }
+    if (self.model.identity_img_auth.length>2)
+    {
+        self.identity_img_front_DeleteBtn.hidden=!canEedit;
+    }
     
     if (!canEedit)
     {
@@ -424,8 +442,8 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     // Which item to preview
     [ql setCurrentPreviewItemIndex:0];
 
-    ql.edgesForExtendedLayout = UIRectEdgeNone;
-    ql.automaticallyAdjustsScrollViewInsets=NO;
+//    ql.edgesForExtendedLayout = UIRectEdgeNone;
+    ql.automaticallyAdjustsScrollViewInsets=YES;
     UINavigationBar *navBar =  [UINavigationBar appearanceWhenContainedIn:[QLPreviewController class], nil];
     
     navBar.translucent = NO;
@@ -433,10 +451,12 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     [navBar setShadowImage:[UIImage new]];
     navBar.barTintColor = kNavBarTintColor;
     
-
+    
+    
     [self presentViewController:ql animated:YES completion:nil];
-   
-
+    
+    CGRect cgr =ql.view.frame;
+    ql.view.frame=CGRectMake(0, 64, cgr.size.width, cgr.size.height);
    
 }
 
@@ -479,13 +499,16 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     if (self.currentSelectImgTag==identity_img_front)
     {
         self.identity_img_front_Button.alpha=0.5;
+        self.identity_img_front_Button.enabled=NO;
         
     }else if (self.currentSelectImgTag==identity_img_back)
     {
         self.identity_img_back_Button.alpha=0.5;
+        self.identity_img_back_Button.enabled=NO;
     }else
     {
         self.identity_img_auth_Button.alpha=0.5;
+        self.identity_img_auth_Button.enabled=NO;
     }
     
     WEAKSELF
@@ -520,6 +543,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
         self.identity_img_front_StatusLabel.hidden=NO;
         self.identity_img_front_Progress.hidden=YES;
         self.identity_img_front_Button.alpha=1;
+        self.identity_img_front_Button.enabled=YES;
         
         if (imgPath)
         {
@@ -539,6 +563,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
         self.identity_img_back_StatusLabel.hidden=NO;
         self.identity_img_back_Progress.hidden=YES;
         self.identity_img_back_Button.alpha=1;
+        self.identity_img_back_Button.enabled=YES;
         if (imgPath)
         {
             //成功
@@ -556,7 +581,8 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
         self.identity_img_auth_StatusIcon.hidden=NO;
         self.identity_img_auth_StatusLabel.hidden=NO;
         self.identity_img_auth_Progress.hidden=YES;
-        self.identity_img_front_Button.alpha=1;
+        self.identity_img_auth_Button.alpha=1;
+        self.identity_img_auth_Button.enabled=YES;
         if (imgPath)
         {
             //成功
@@ -619,7 +645,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
         self.identity_img_front_StatusLabel.hidden=YES;
         self.identity_img_front_Progress.hidden=YES;
         self.identity_img_front_DeleteBtn.hidden=YES;
-        [self.identity_img_front_Button setBackgroundImage:[UIImage imageNamed:@"image_ia_addfile"] forState:UIControlStateNormal];
+        [self.identity_img_front_Button setImage:[UIImage imageNamed:@"image_ia_addfile"] forState:UIControlStateNormal];
         
     }else if (btn.tag==identity_img_back)
     {
@@ -628,7 +654,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
         self.identity_img_back_StatusLabel.hidden=YES;
         self.identity_img_back_Progress.hidden=YES;
         self.identity_img_back_DeleteBtn.hidden=YES;
-        [self.identity_img_back_Button setBackgroundImage:[UIImage imageNamed:@"image_ia_addfile"] forState:UIControlStateNormal];
+        [self.identity_img_back_Button setImage:[UIImage imageNamed:@"image_ia_addfile"] forState:UIControlStateNormal];
     }else
     {
         self.model.identity_img_auth=@"";
@@ -636,7 +662,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
         self.identity_img_auth_StatusLabel.hidden=YES;
         self.identity_img_auth_Progress.hidden=YES;
         self.identity_img_auth_DeleteBtn.hidden=YES;
-        [self.identity_img_auth_Button setBackgroundImage:[UIImage imageNamed:@"image_ia_addfile"] forState:UIControlStateNormal];
+        [self.identity_img_auth_Button setImage:[UIImage imageNamed:@"image_ia_addfile"] forState:UIControlStateNormal];
     }
     
      [self checkSubmitBtnEnabledStatus];
@@ -647,12 +673,15 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 -(void)showSelectImgView
 {
     [self.view endEditing:YES];
-    //增加照片选择功能
-    LCActionSheet *sheet = [LCActionSheet sheetWithTitle:nil
-                                            buttonTitles:@[@"拍照", @"从相册选择"]
-                                          redButtonIndex:-1
-                                                delegate:self];
-    [sheet show];
+    __weak typeof(self) weakSelf = self;
+    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"拍照",@"从相册选择"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index)
+    {
+
+            if (index!= 2)
+            {
+                [weakSelf actionSheetDidClickedButtonAtIndex:index];
+            }
+    }] showInView:self.view];
 
 }
 
@@ -684,11 +713,11 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
         if (tag==identity_img_front)
         {
             [exmp.exampleImgView setImage:[UIImage imageNamed:@"IDCard1_example"]];
-            exmp.aTitleLabel.text=@"上传手持身份证正面图片";
+            exmp.aTitleLabel.text=@"手持身份证正面图片示例";
         }else
         {
              [exmp.exampleImgView setImage:[UIImage imageNamed:@"IDCard2_example"]];
-            exmp.aTitleLabel.text=@"上传手持身份证背面图片";
+            exmp.aTitleLabel.text=@"手持身份证背面图片示例";
         }
 
         CGFloat width =kScreen_Width-20-20;
@@ -700,7 +729,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     }else
     {
         [exmp.exampleImgView setImage:[UIImage imageNamed:@"Document_example"]];
-        exmp.aTitleLabel.text=@"上传授权说明图片";
+        exmp.aTitleLabel.text=@"授权说明图片示例";
         
         CGFloat width =kScreen_Width-20-20;
         
@@ -708,9 +737,12 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
         
     }
     
+    exmp.layer.cornerRadius = 2.0;
+    exmp.layer.masksToBounds = YES;
+    
     KLCPopupLayout layout = KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutCenter);
     
-    self.popup = [KLCPopup popupWithContentView:exmp showType:KLCPopupShowTypeBounceInFromTop dismissType:KLCPopupDismissTypeBounceOutToBottom maskType:KLCPopupMaskTypeDimmed dismissOnBackgroundTouch:YES dismissOnContentTouch:NO];
+    self.popup = [KLCPopup popupWithContentView:exmp showType:KLCPopupShowTypeBounceInFromBottom dismissType:KLCPopupDismissTypeBounceOutToBottom maskType:KLCPopupMaskTypeDimmed dismissOnBackgroundTouch:YES dismissOnContentTouch:NO];
     
     [self.popup showWithLayout:layout];
     
@@ -738,9 +770,13 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     CGFloat width =kScreen_Width-20-20;
     [contentView setFrame:CGRectMake(0, 0, width, kScreen_Height-40)];
     [imgBig setFrame:contentView.frame];
-
     
-    [imgBig sd_setImageWithURL:[NSURL URLWithString:imgPath] placeholderImage:[UIImage imageNamed:@"blankpage_image_Sleep"]];
+    WEAKSELF
+    [self.view beginLoading];
+    [imgBig sd_setImageWithURL:[NSURL URLWithString:imgPath]placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)
+    {
+        [weakSelf.view endLoading];
+    }];
     
     KLCPopupLayout layout = KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutCenter);
     
@@ -750,8 +786,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     
 }
 
-#pragma mark -- LCActionSheetDelegate
-- (void)actionSheet:(LCActionSheet *)actionSheet didClickedButtonAtIndex:(NSInteger)buttonIndex {
+- (void)actionSheetDidClickedButtonAtIndex:(NSInteger)buttonIndex {
     
     NSLog(@"> Clicked Index: %ld", (long)buttonIndex);
     
@@ -825,13 +860,13 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     UIImage *imgV=[UIImage imageWithData:imgData];
     if (self.currentSelectImgTag==identity_img_front)
     {
-        [self.identity_img_front_Button setBackgroundImage:imgV forState:UIControlStateNormal];
+        [self.identity_img_front_Button setImage:imgV forState:UIControlStateNormal];
     }else if (self.currentSelectImgTag==identity_img_back)
     {
-        [self.identity_img_back_Button setBackgroundImage:imgV forState:UIControlStateNormal];
+        [self.identity_img_back_Button setImage:imgV forState:UIControlStateNormal];
     }else
     {
-        [self.identity_img_auth_Button setBackgroundImage:imgV forState:UIControlStateNormal];
+        [self.identity_img_auth_Button setImage:imgV forState:UIControlStateNormal];
     }
     
     [self.tableView reloadData];

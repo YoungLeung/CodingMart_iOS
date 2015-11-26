@@ -45,7 +45,7 @@
     self.title = @"技能展示";
     _work_expT.textContainerInset = UIEdgeInsetsMake(10, 8, 10, 8);
     _project_expT.textContainerInset = UIEdgeInsetsMake(10, 8, 10, 8);
-    
+//    self.tableView.tableFooterView=[UIView new];
     [self p_setupEvents];
     [self refresh];
 }
