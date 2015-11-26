@@ -212,18 +212,31 @@
 //
 
     WEAKSELF
-    [[Coding_NetAPIManager sharedManager]post_CodingExamTesting:postData block:^(id data, NSError *error)
+    [[Coding_NetAPIManager sharedManager]post_CodingExamTesting:postData block:^(id reSpdata, NSError *error)
     {
         [NSObject hideHUDQuery];
-        NSInteger code =[data[@"code"] integerValue];
+        NSInteger code =[reSpdata[@"code"] integerValue];
         if (code==0)
         {
             //成功
-            [weakSelf isPassForTesting:YES];
+            NSDictionary *score=reSpdata[@"data"][@"score"];
+            NSNumber *correct=score[@"correct"];
+            NSNumber *total=score[@"total"];
+            
+            if ([correct intValue]==[total intValue])
+            {
+                //pass
+                 [weakSelf isPassForTesting:YES];
+            }else
+            {
+                //失败
+                [weakSelf isPassForTesting:NO];
+            }
+            
+           
         }else
         {
-            //失败
-            [weakSelf isPassForTesting:NO];
+            [NSObject showHudTipStr:@"发生一个错误"];
             
         }
         
