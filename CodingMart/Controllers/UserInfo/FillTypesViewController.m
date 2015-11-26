@@ -46,6 +46,7 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 - (void)viewDidLoad{
     [super viewDidLoad];
     self.title = @"完善资料";
+    [self getUserinfo];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -152,6 +153,22 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
     _statusCheckV.image = [UIImage imageNamed:_curUser.identityChecked.boolValue? @"fill_checked": @"fill_unchecked"];
     
     
+}
+
+-(void)getUserinfo
+{
+    [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id data, NSError *error)
+    {
+      
+        FillUserInfo *userInfo = data[@"data"][@"info"]? [NSObject objectOfClass:@"FillUserInfo" fromJSON:data[@"data"][@"info"]]: [FillUserInfo new];
+        if (userInfo.name)
+        {
+            IdentityAuthenticationModel *model =[[IdentityAuthenticationModel alloc]initForlocalCache];
+            model.name=userInfo.name;
+//            NSLog(@"成功缓存了用户名====[%@]",userInfo.name);
+        }
+       
+    }];
 }
 
 #pragma mark Table M

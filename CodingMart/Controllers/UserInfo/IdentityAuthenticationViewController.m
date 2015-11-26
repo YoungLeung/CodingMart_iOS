@@ -756,7 +756,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 
     
     ExampleView *exmp =[ExampleView createExameView];
-    
+    exmp.contentMode=UIViewContentModeScaleAspectFill;
     
     if (tag==identity_img_front || tag==identity_img_back)
     {
