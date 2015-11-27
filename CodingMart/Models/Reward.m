@@ -35,6 +35,8 @@
     }
     if (_status) {
         _statusDisplay = [[NSObject rewardStatusDict] findKeyFromStrValue:_status.stringValue];
+    }else if (_reward_status){
+        _statusDisplay = [[NSObject rewardStatusDict] findKeyFromStrValue:_reward_status.stringValue];
     }
     __block NSMutableString *roleTypesDisplay = @"".mutableCopy;
     [_roleTypes enumerateObjectsUsingBlock:^(RewardRoleType *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -81,7 +83,7 @@
     NSMutableDictionary *params = @{}.mutableCopy;
     
     //step1
-    params[@"type"] = _type;
+    params[@"type"] = _type.integerValue > 10? @(_type.integerValue / 10): _type;
     params[@"budget"] = _budget;
     params[@"require_clear"] = _require_clear;
     params[@"need_pm"] = _need_pm;
@@ -101,7 +103,20 @@
     params[@"contact_name"] = _contact_name;
     params[@"contact_mobile"] = _contact_mobile;
     params[@"contact_email"] = _contact_email;
+    params[@"recommend"] = @"";
+    if ([_id isKindOfClass:[NSNumber class]]) {
+        params[@"id"] = _id;
+    }
     
     return params;
 }
+
+- (NSString *)toShareLinkStr{
+    if ([_id isKindOfClass:[NSNumber class]]) {
+        return [NSString stringWithFormat:@"%@p/%@", [NSObject baseURLStr],  _id.stringValue];
+    }else{
+        return [NSObject baseURLStr];
+    }
+}
+
 @end

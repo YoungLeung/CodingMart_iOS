@@ -109,6 +109,9 @@
     if (!_rewardToBePublished.type && !_rewardToBePublished.budget) {
         return YES;
     }
+    if ([_rewardToBePublished.id isKindOfClass:[NSNumber class]]) {
+        return YES;
+    }
     __weak typeof(self) weakSelf = self;
     [[UIActionSheet bk_actionSheetCustomWithTitle:@"是否需要保存草稿？" buttonTitles:@[@"保存并退出"] destructiveTitle:@"删除并退出" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
         if (index < 2) {
@@ -156,6 +159,9 @@
             if (_rewardToBePublished.type) {
                 NSString *key = [[NSObject rewardTypeDict] findKeyFromStrValue:_rewardToBePublished.type.stringValue];
                 curRow = [list indexOfObject:key];
+                if (curRow == NSNotFound) {
+                    curRow = 1;
+                }
             }else{
                 curRow = 0;
             }

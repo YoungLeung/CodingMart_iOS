@@ -34,6 +34,8 @@
 // use custom activity indicator
 - (id)initInScrollView:(UIScrollView *)scrollView activityIndicatorView:(UIView *)activity;
 
+- (id)initInScrollView:(UIScrollView *)scrollView activityIndicatorView:(UIView *)activity ignoreContentInset:(BOOL)ignoreContentInset;
+
 // Tells the control that a refresh operation was started programmatically
 - (void)beginRefreshing;
 

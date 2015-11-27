@@ -53,7 +53,13 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
 
 - (id)initInScrollView:(UIScrollView *)scrollView activityIndicatorView:(UIView *)activity
 {
-    self = [super initWithFrame:CGRectMake(0, -(kTotalViewHeight + scrollView.contentInset.top), scrollView.frame.size.width, kTotalViewHeight)];
+    return [self initInScrollView:scrollView activityIndicatorView:nil ignoreContentInset:NO];
+}
+
+
+- (id)initInScrollView:(UIScrollView *)scrollView activityIndicatorView:(UIView *)activity ignoreContentInset:(BOOL)ignoreContentInset
+{
+    self = [super initWithFrame:CGRectMake(0, ignoreContentInset? -kTotalViewHeight: -(kTotalViewHeight + scrollView.contentInset.top), scrollView.frame.size.width, kTotalViewHeight)];
     
     if (self) {
         self.scrollView = scrollView;

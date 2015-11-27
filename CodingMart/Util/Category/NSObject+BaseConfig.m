@@ -47,7 +47,7 @@
     if (!baseDictInfo[key]) {
         baseDictInfo[key] = @{@"所有类型": @"",
                               @"网站": @"0",
-                              @"APP":@"5,6",
+                              @"APP":@"56",
                               @"iOS APP": @"5",
                               @"Android APP": @"6",
                               @"微信开发": @"2",
@@ -61,10 +61,26 @@
     NSString *key = @"rewardStatusDict";
     if (!baseDictInfo[key]) {
         baseDictInfo[key] = @{@"所有进度": @"",
+                              @"待审核": @"0",
+                              @"审核中": @"1",
+                              @"未通过": @"2",
+                              @"已取消": @"3",
                               @"未开始": @"4",
                               @"招募中": @"5",
                               @"开发中": @"6",
                               @"已结束": @"7"};
+    }
+    return baseDictInfo[key];
+}
++ (NSDictionary *)applyStatusDict{
+    NSMutableDictionary *baseDictInfo = [self p_baseDictInfo];
+    NSString *key = @"applyStatusDict";
+    if (!baseDictInfo[key]) {
+        baseDictInfo[key] = @{@"待审核": @"0",
+                              @"已审核": @"1",
+                              @"已通过": @"2",
+                              @"已拒绝": @"3",
+                              @"已取消": @"4"};
     }
     return baseDictInfo[key];
 }

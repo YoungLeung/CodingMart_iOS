@@ -13,7 +13,7 @@
 #import <objc/runtime.h>
 
 @implementation UIView (Common)
-@dynamic borderColor,borderWidth,cornerRadius;
+@dynamic borderColor,borderWidth,cornerRadius, masksToBounds;
 
 -(void)setBorderColor:(UIColor *)borderColor{
     [self.layer setBorderColor:borderColor.CGColor];
@@ -25,6 +25,10 @@
 
 -(void)setCornerRadius:(CGFloat)cornerRadius{
     [self.layer setCornerRadius:cornerRadius];
+}
+
+- (void)setMasksToBounds:(BOOL)masksToBounds{
+    [self.layer setMasksToBounds:masksToBounds];
 }
 
 - (void)doCircleFrame{
@@ -196,7 +200,7 @@
 - (void)setSubScrollsToTop:(BOOL)scrollsToTop{
     [[self subviews] enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
         if ([obj isKindOfClass:[UIScrollView class]]) {
-            [(UIScrollView *)obj setScrollEnabled:scrollsToTop];
+            [(UIScrollView *)obj setScrollsToTop:scrollsToTop];
             *stop = YES;
         }
     }];

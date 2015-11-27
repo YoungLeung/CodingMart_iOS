@@ -11,10 +11,22 @@
 #import "RewardWinnerInfo.h"
 #import "JoinInfo.h"
 
+typedef NS_ENUM(NSInteger, RewardStatus) {
+    RewardStatusFresh = 0,//待审核
+    RewardStatusAccepted,//审核中
+    RewardStatusRejected,//未通过
+    RewardStatusCanceled,//已取消
+    RewardStatusPassed,//未开始
+    RewardStatusRecruiting,//招募中
+    RewardStatusDeveloping,//开发中
+    RewardStatusFinished//已结束
+};
+
+
 @interface Reward : NSObject
 //List
-@property (strong, nonatomic) NSNumber *id, *type, *status, *progress, *price, *duration;
-@property (strong, nonatomic) NSString *title, *format_price;
+@property (strong, nonatomic) NSNumber *id, *type, *status, *progress, *price, *duration, *reward_status, *apply_status;
+@property (strong, nonatomic) NSString *title, *format_price, *format_content, *plain_content;
 @property (strong, nonatomic) NSString *cover, *home;
 @property (strong, nonatomic) NSMutableArray *roleTypes, *winners;
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
@@ -26,6 +38,8 @@
 
 - (void)prepareToDisplay;
 - (NSDictionary *)toPostParams;
+
+- (NSString *)toShareLinkStr;
 
 + (BOOL)saveDraft:(Reward *)curReward;
 + (BOOL)deleteCurDraft;

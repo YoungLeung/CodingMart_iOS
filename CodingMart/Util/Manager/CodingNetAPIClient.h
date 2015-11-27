@@ -18,9 +18,6 @@ typedef NS_ENUM(NSInteger, NetworkMethod) {
 };
 
 typedef NS_ENUM(NSInteger, IllegalContentType) {
-    IllegalContentTypeTweet = 0,
-    IllegalContentTypeTopic,
-    IllegalContentTypeProject,
     IllegalContentTypeWebsite
 };
 

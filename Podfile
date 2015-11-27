@@ -10,7 +10,12 @@ pod 'MBProgressHUD', '0.9'
 pod 'TTTAttributedLabel', '1.10.1'
 pod 'FDFullscreenPopGesture', '1.1'
 
+
 pod 'DCKeyValueObjectMapping'
 pod 'UITableView+FDTemplateLayoutCell'
 pod 'RDHCollectionViewGridLayout', '~> 1.2'
 pod 'BEMCheckBox'
+
+pod 'UMengSocial', '4.3'
+pod 'UMengAnalytics-NO-IDFA', '3.6.5'
+

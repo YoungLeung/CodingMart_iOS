@@ -94,8 +94,24 @@
     }
 }
 
-#pragma mark Back Button
+#pragma mark swizzle M
+- (void)customViewWillAppear:(BOOL)animated{
+    NSString *className = [NSString stringWithUTF8String:object_getClassName(self)];
+    if (![className hasPrefix:@"Base"] && ![className isEqualToString:@"UIInputWindowController"]) {
+        DebugLog(@"ea_swizzle : %@", className);
+        [MobClick endLogPageView:className];
+    }
+    
+    [self customViewWillAppear:animated];
+}
+
 - (void)customViewWillDisappear:(BOOL)animated{
+    NSString *className = [NSString stringWithUTF8String:object_getClassName(self)];
+    if (![className hasPrefix:@"Base"] && ![className isEqualToString:@"UIInputWindowController"]) {
+        DebugLog(@"ea_swizzle : %@", className);
+        [MobClick endLogPageView:className];
+    }
+
     //    返回按钮
     if (!self.navigationItem.backBarButtonItem
         && self.navigationController.viewControllers.count > 1) {//设置返回按钮(backBarButtonItem的图片不能设置；如果用leftBarButtonItem属性，则iOS7自带的滑动返回功能会失效)
@@ -103,21 +119,28 @@
     }
     [self customViewWillDisappear:animated];
 }
+
 - (UIBarButtonItem *)backButton{
     UIBarButtonItem *backButtonItem = [UIBarButtonItem new];
     backButtonItem.title = @"返回";
     return backButtonItem;
 }
 + (void)load{
-    swizzleAllViewController();
+    ea_swizzleAllViewController();
 }
 @end
 
-void swizzleAllViewController(){
-    Class c = [UIViewController class];
-    SEL origSEL = @selector(viewWillDisappear:);
-    SEL newSEL = @selector(customViewWillDisappear:);
+
+void ea_swizzle(Class c, SEL origSEL, SEL newSEL){
+    //    Class c = [UIViewController class];
+    //    SEL origSEL = @selector(viewWillDisappear:);
+    //    SEL newSEL = @selector(customViewWillDisappear:);
     Method origMethod = class_getInstanceMethod(c, origSEL);
     Method newMethod = class_getInstanceMethod(c, newSEL);
     method_exchangeImplementations(origMethod, newMethod);
+}
+
+void ea_swizzleAllViewController(){
+    ea_swizzle([UIViewController class], @selector(viewWillAppear:), @selector(customViewWillAppear:));
+    ea_swizzle([UIViewController class], @selector(viewWillDisappear:), @selector(customViewWillDisappear:));
 }

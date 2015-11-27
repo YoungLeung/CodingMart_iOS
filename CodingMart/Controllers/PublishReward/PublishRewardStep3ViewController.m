@@ -12,6 +12,8 @@
 #import "LoginViewController.h"
 #import "Login.h"
 #import "Coding_NetAPIManager.h"
+#import "PublishedRewardsViewController.h"
+#import "UserInfoViewController.h"
 
 @interface PublishRewardStep3ViewController ()
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *nextStepBtn;
@@ -91,9 +93,7 @@
         [[Coding_NetAPIManager sharedManager] post_Reward:_rewardToBePublished block:^(id data, NSError *error) {
             [NSObject hideHUDQuery];
             if (data) {
-                [Reward deleteCurDraft];
-                kTipAlert(@"悬赏发布成功！\n可以去到「个人中心」-「我发布的悬赏」中查找");
-                [self.navigationController popToRootViewControllerAnimated:YES];
+                [self publishSucessed];
             }
         }];
     }else{
@@ -102,6 +102,34 @@
             [self nextStepBtnClicked:nil];
         };
         [UIViewController presentVC:vc dismissBtnTitle:@"取消"];
+    }
+}
+
+- (void)publishSucessed{
+    [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"发布悬赏_提交成功"];
+    
+    if (![_rewardToBePublished.id isKindOfClass:[NSNumber class]]) {
+        [Reward deleteCurDraft];
+    }
+    __block UIViewController *vc;
+    [self.navigationController.childViewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isKindOfClass:[PublishedRewardsViewController class]]) {
+            vc = obj;
+            *stop = YES;
+        }
+    }];
+    if (vc) {
+        [self.navigationController popToViewController:vc animated:YES];
+    }else{
+        UINavigationController *nav = self.navigationController;
+        [nav popToRootViewControllerAnimated:NO];
+        UserInfoViewController *userVC = [UserInfoViewController storyboardVC];
+        PublishedRewardsViewController *publishedVC = [PublishedRewardsViewController storyboardVC];
+        [nav pushViewController:userVC animated:NO];
+        [nav pushViewController:publishedVC animated:YES];
+        
+//        kTipAlert(@"悬赏发布成功！\n可以去到「个人中心」-「我发布的悬赏」中查找");
+//        [self.navigationController popToRootViewControllerAnimated:YES];
     }
 }
 

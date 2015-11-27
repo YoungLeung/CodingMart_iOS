@@ -9,15 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "Reward.h"
 
-@class TempC;
-
 @interface RewardDetail : NSObject
 @property (strong, nonatomic) Reward *reward;
-//@property (strong, nonatomic) TempC *reward;
 //CurrentUser
 @property (strong, nonatomic) NSNumber *isOwner, *joinStatus;
-
-//- (Reward *)reward;
 
 @end
 

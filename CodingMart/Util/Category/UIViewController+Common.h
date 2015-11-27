@@ -20,4 +20,5 @@
 
 @end
 
-void swizzleAllViewController();
+void ea_swizzleAllViewController();
+void ea_swizzle(Class c, SEL origSEL, SEL newSEL);
