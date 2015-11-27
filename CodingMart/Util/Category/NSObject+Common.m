@@ -323,8 +323,8 @@
         if (user_not_login) {
             if ([Login isLogin]) {//已登录的状态要抹掉
                 [Login doLogout];
-//                [((AppDelegate *)[UIApplication sharedApplication].delegate) setupLoginViewController];
-//                kTipAlert(@"%@", [NSObject tipFromError:error]);
+                kTipAlert(@"%@", [NSObject tipFromError:error]);
+                [((UINavigationController *)((AppDelegate *)[UIApplication sharedApplication].delegate).window.rootViewController) popToRootViewControllerAnimated:YES];
             }
         }else{
             if (autoShowError) {
