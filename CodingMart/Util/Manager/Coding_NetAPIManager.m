@@ -17,6 +17,16 @@
 #import "JoinInfo.h"
 #import "RewardDetail.h"
 #import "JoinInfo.h"
+#import "CodingExamModel.h"
+#import "CodingExamOptionsModel.h"
+
+#import "DCObjectMapping.h"
+#import "DCParserConfiguration.h"
+#import "DCArrayMapping.h"
+#import "DCKeyValueObjectMapping.h"
+
+
+
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -178,6 +188,101 @@
         }
         block(data, error);
     }];
+}
+
+- (void)get_CodingExamTesting:(void (^)(id data, NSError *error))block
+{
+    NSString *path = [NSString stringWithFormat:@"/api/app/survey"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data)
+        {
+            NSArray *dataArr =data[@"data"][@"questions"];
+            
+            DCArrayMapping *optionArrMap =[DCArrayMapping mapperForClassElements:[CodingExamOptionsModel class] forAttribute:@"options" onClass:[CodingExamModel class]];
+            
+            DCParserConfiguration *config =[DCParserConfiguration configuration];
+            [config addArrayMapper:optionArrMap];
+            
+            DCKeyValueObjectMapping *parser =[DCKeyValueObjectMapping mapperForClass:[CodingExamModel class] andConfiguration:config];
+            NSMutableArray *dataSource =[NSMutableArray new];
+            
+            for (NSDictionary *dic in dataArr)
+            {
+                CodingExamModel *model =[parser parseDictionary:dic];
+                
+                [dataSource addObject:model];
+            }
+            
+           NSArray *sortArr = [dataSource sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2)
+            {
+                CodingExamModel *a = (CodingExamModel *)obj1;
+                CodingExamModel *b = (CodingExamModel *)obj2;
+                
+                return [a.sort compare:b.sort];
+            }];
+            
+            data=sortArr;
+            
+        }
+        
+        block(data, error);
+    }];
+}
+
+- (void)post_CodingExamTesting:(NSDictionary *)params block:(void (^)(id data, NSError *error))block
+{
+    //基于提交码市测试后台的特殊性，独立开辟一个请求。不修改总网络请求
+    NSString *baseUrlString =[NSObject baseURLStr];
+    NSString *path = [NSString stringWithFormat:@"/api/app/survey"];
+    NSURL *baseURL =[NSURL URLWithString:baseUrlString];
+    
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]initWithBaseURL:baseURL];
+    //申明返回的结果是json类型
+    //申明请求的数据是json类型
+    manager.requestSerializer=[AFJSONRequestSerializer serializer];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/plain", @"text/javascript", @"text/json", @"text/html", nil];
+
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"ContentType"];
+    
+    [manager.requestSerializer setValue:baseURL.absoluteString forHTTPHeaderField:@"Referer"];
+    
+    manager.securityPolicy.allowInvalidCertificates = YES;
+
+    //发送请求
+    [manager POST:path parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         block(responseObject,nil);
+     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         block(params,error);
+     }];
+    
+//    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post_Mulit andBlock:^(id data, NSError *error)
+//    {
+//        block(data, error);
+//    }];
+}
+
+- (void)post_Authentication:(NSDictionary *)params block:(void (^)(id data, NSError *error))block
+{
+    NSString *path = [NSString stringWithFormat:@"/api/identity"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error)
+     {
+         block(data, error);
+     }];
+}
+
+- (void)get_AppInfo:(void (^)(id data, NSError *error))block
+{
+    NSString *path = [NSString stringWithFormat:@"/api/app/info"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error)
+     {
+         block(data, error);
+     }];
+
 }
 
 - (void)get_JoinInfoWithRewardId:(NSInteger)rewardId block:(void (^)(id data, NSError *error))block{

@@ -11,11 +11,32 @@
 #import "FillSkillsViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "Login.h"
+#import "IdentityAuthenticationModel.h"
+#import "CodingMarkTestViewController.h"
+#import "IdentityAuthenticationViewController.h"
+
+//             未认证 0
+//             认证通过 1
+//             认证失败 2
+//             认证中 3
+typedef NS_ENUM(NSInteger, IdentityStatusCode)
+{
+    identity_Unautherized=0,
+    identity_Certificate=1,
+    identity_Authfaild=2,
+    identity_Authing=3
+};
 
 @interface FillTypesViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *userinfoCheckV;
 @property (weak, nonatomic) IBOutlet UIImageView *skillsCheckV;
+@property (weak, nonatomic) IBOutlet UIImageView *testingCheckV;
+@property (weak, nonatomic) IBOutlet UIImageView *statusCheckV;
+@property (weak, nonatomic) IBOutlet UILabel *identityStatusLabel;
 @property (strong, nonatomic) User *curUser;
+
+@property (assign,nonatomic)IdentityStatusCode identityCode;
+@property (strong,nonatomic)NSDictionary *identity_server_CacheDataDic;
 @end
 
 @implementation FillTypesViewController
@@ -26,6 +47,7 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     self.title = @"完善资料";
+    [self getUserinfo];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -35,34 +57,174 @@
     }else{
         [self refresh];
     }
-
+ 
+    [self refreshIdCardCheck];
 }
 
 - (void)refresh{
+
     [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id data, NSError *error) {
         if (data) {
             self.curUser = data;
         }
     }];
+    
 }
 
-- (void)setCurUser:(User *)curUser{
+-(void)refreshIdCardCheck
+{
+    WEAKSELF
+    [[Coding_NetAPIManager sharedManager]get_AppInfo:^(id data, NSError *error)
+     {
+         if (data)
+         {
+             NSLog(@"认证状态===[%@]",data);
+//             未认证 0
+//             认证通过 1
+//             认证失败 2
+//             认证中 3
+             NSDictionary *dataDic =data[@"data"];
+             NSInteger status=[dataDic[@"status"] integerValue];
+             weakSelf.identityCode=status;
+             
+             
+//             if ( weakSelf.identityCode==identity_Certificate)
+//             {
+//                 [weakSelf updateUserLocalStoreWithDic:dataDic];
+//             }
+             weakSelf.identity_server_CacheDataDic=data[@"data"];
+             
+             
+             if (weakSelf.identityCode==identity_Authfaild)
+             {
+                 weakSelf.statusCheckV.hidden=YES;
+                 weakSelf.identityStatusLabel.hidden=NO;
+                 weakSelf.identityStatusLabel.textColor=[UIColor colorWithHexString:@"FF4B80"];
+                 weakSelf.identityStatusLabel.text=@"认证失败";
+                 
+//                 IdentityAuthenticationModel *model =[[IdentityAuthenticationModel alloc]initForlocalCache];
+//                 
+//                 if ([[model toParams]allKeys].count<2)
+//                 {
+//                     //没有缓存，用服务器的来更新
+//                     [weakSelf updateUserLocalStoreWithDic:dataDic];
+//                     
+//                 }
+                 
+             }else if(weakSelf.identityCode==identity_Authing)
+             {
+                 weakSelf.statusCheckV.hidden=YES;
+                 weakSelf.identityStatusLabel.hidden=NO;
+                 weakSelf.identityStatusLabel.textColor=[UIColor colorWithHexString:@"F5A623"];
+                 weakSelf.identityStatusLabel.text=@"认证中";
+                 
+                 
+
+             }else
+             {
+                 weakSelf.statusCheckV.hidden=NO;
+                 weakSelf.identityStatusLabel.hidden=YES;
+    
+             }
+             
+         }
+         
+     }];
+}
+
+//-(void)updateUserLocalStoreWithDic:(NSDictionary *)dataDic
+//{
+// 
+//    IdentityAuthenticationModel *model =[[IdentityAuthenticationModel alloc]initForlocalCache];
+//    model.alipay=dataDic[@"alipay"];
+//    model.identity=dataDic[@"identity"];
+//    model.identity_img_auth=dataDic[@"identity_img_auth"];
+//    model.identity_img_back=dataDic[@"identity_img_back"];
+//    model.identity_img_front=dataDic[@"identity_img_front"];
+//    model.name=dataDic[@"name"];
+//    model.identityIsPass=dataDic[@"status"];
+//}
+
+- (void)setCurUser:(User *)curUser
+{
     _curUser = curUser;
     _userinfoCheckV.image = [UIImage imageNamed:_curUser.fullInfo.boolValue? @"fill_checked": @"fill_unchecked"];
     _skillsCheckV.image = [UIImage imageNamed:_curUser.fullSkills.boolValue? @"fill_checked": @"fill_unchecked"];
+    
+    _testingCheckV.image = [UIImage imageNamed:_curUser.passingSurvey.boolValue? @"fill_checked": @"fill_unchecked"];
+    _statusCheckV.image = [UIImage imageNamed:_curUser.identityChecked.boolValue? @"fill_checked": @"fill_unchecked"];
+    
+    
+}
+
+-(void)getUserinfo
+{
+    [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id data, NSError *error)
+    {
+      
+        FillUserInfo *userInfo = data[@"data"][@"info"]? [NSObject objectOfClass:@"FillUserInfo" fromJSON:data[@"data"][@"info"]]: [FillUserInfo new];
+        if (userInfo.name)
+        {
+            [IdentityAuthenticationModel cacheUserName:userInfo.name];
+//            NSLog(@"成功缓存了用户名====[%@]",userInfo.name);
+        }
+       
+    }];
 }
 
 #pragma mark Table M
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row == 1) {
+    if (indexPath.row == 1 &&indexPath.section==0)
+    {
         if (!self.curUser.fullInfo.boolValue) {
             [NSObject showHudTipStr:@"请先完善个人信息"];
             return;
         }
         FillSkillsViewController *vc = [FillSkillsViewController storyboardVC];
         [self.navigationController pushViewController:vc animated:YES];
+    }else if (indexPath.section==1 &&indexPath.row==0)
+    {
+        if (!self.curUser.fullSkills.boolValue) {
+            [NSObject showHudTipStr:@"请先完善个人信息"];
+            return;
+        }
+        
+        if (self.identityCode==identity_Authing)
+        {
+            [NSObject showHudTipStr:@"已提交认证，将在工作日48小时内进行审核"];
+            return;
+        }
+        
+        IdentityAuthenticationViewController *vc = [IdentityAuthenticationViewController storyboardVC];
+        vc.identity_server_CacheDataDic=self.identity_server_CacheDataDic;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if (indexPath.section==2 &&indexPath.row==0)
+    {
+        
+        
+        CodingMarkTestViewController *vc = [CodingMarkTestViewController storyboardVC];
+        vc.hasPassTheTesting=_curUser.passingSurvey.boolValue;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section==0)
+    {
+        return 30;
+    }
+    else if(section==1)
+    {
+        return 20;
+    }else if (section==2)
+    {
+        return 8;
+    }else
+    {
+        return 1;
     }
 }
 @end
