@@ -16,6 +16,8 @@
 #import <BlocksKit/BlocksKit+UIKit.h>
 #import "JoinedRewardsViewController.h"
 #import "PublishedRewardsViewController.h"
+#import "MartShareView.h"
+#import "UITTTAttributedLabel.h"
 
 
 @interface UserInfoViewController ()<UIScrollViewDelegate>
@@ -24,6 +26,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *headerBGV;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerBGVTop;
 @property (weak, nonatomic) IBOutlet UIButton *tipView;
+@property (weak, nonatomic) IBOutlet UITTTAttributedLabel *tipL;
+
 @property (weak, nonatomic) IBOutlet UIView *tableHeaderView;
 
 @property (strong, nonatomic) User *curUser;
@@ -38,16 +42,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    self.title = @"个人中心";
     self.curUser = [Login curLoginUser];
 
     __weak typeof(self) weakSelf = self;
-    [self.tableView.tableHeaderView bk_whenTapped:^{
+    [_headerBGV bk_whenTapped:^{
         [weakSelf headerViewTapped];
     }];
-    [self.tipView bk_addEventHandler:^(id sender) {
-        [weakSelf tipViewTapped];
-    } forControlEvents:UIControlEventTouchUpInside];
+    
+    [_tipL addLinkToStr:@"400-992-1001" whithValue:@"400-992-1001" andBlock:^(id value) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://400-992-1001"]];
+    }];
     
     [self refreshData];
 }
@@ -78,10 +82,10 @@
     _user_nameL.text = _curUser.name;
     [self setupNavBarBtn];
     
-    BOOL canJoinReward = [_curUser canJoinReward];
-    self.tipView.hidden = canJoinReward;
+    BOOL tipViewHiden = NO;
+    self.tipView.hidden = tipViewHiden;
     
-    _tableHeaderView.height = 0.4 * kScreen_Width + (canJoinReward? 0: CGRectGetHeight(_tipView.frame));
+    _tableHeaderView.height = 0.4 * kScreen_Width + (tipViewHiden? 0: CGRectGetHeight(_tipView.frame));
     self.tableView.tableHeaderView = _tableHeaderView;
     
     _user_iconV.layer.masksToBounds = YES;
@@ -150,7 +154,7 @@
     return headerV;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (section == 0 &&![_curUser canJoinReward]) {
+    if (section == 0) {
         return 0;
     }
     return 10;
@@ -182,6 +186,8 @@
             [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"去评分"];
 
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kAppReviewURL]];
+        }else if (indexPath.row == 4){//推荐码市
+            [MartShareView showShareViewWithObj:nil];
         }
     }else if (indexPath.section == 3){
         [self.view endEditing:YES];
@@ -204,15 +210,6 @@
 - (void)headerViewTapped{
     if (![Login isLogin]) {
         [self goToLogin];
-    }
-}
-- (void)tipViewTapped{
-    if (![Login isLogin]) {
-        [self goToLogin];
-    }else if (![_curUser canJoinReward]){
-        [self rightNavBtnClicked];
-    }else{
-        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 

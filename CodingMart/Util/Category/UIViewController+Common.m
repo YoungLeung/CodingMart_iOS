@@ -95,23 +95,28 @@
 }
 
 #pragma mark swizzle M
-- (void)customViewWillAppear:(BOOL)animated{
+- (void)customViewDidAppear:(BOOL)animated{
     NSString *className = [NSString stringWithUTF8String:object_getClassName(self)];
     if (![className hasPrefix:@"Base"] && ![className isEqualToString:@"UIInputWindowController"]) {
         DebugLog(@"ea_swizzle : %@", className);
         [MobClick endLogPageView:className];
     }
     
-    [self customViewWillAppear:animated];
+    [self customViewDidAppear:animated];
 }
 
-- (void)customViewWillDisappear:(BOOL)animated{
+
+- (void)customViewDidDisappear:(BOOL)animated{
     NSString *className = [NSString stringWithUTF8String:object_getClassName(self)];
     if (![className hasPrefix:@"Base"] && ![className isEqualToString:@"UIInputWindowController"]) {
         DebugLog(@"ea_swizzle : %@", className);
         [MobClick endLogPageView:className];
     }
+    [self customViewDidDisappear:animated];
+}
 
+
+- (void)customViewWillDisappear:(BOOL)animated{
     //    返回按钮
     if (!self.navigationItem.backBarButtonItem
         && self.navigationController.viewControllers.count > 1) {//设置返回按钮(backBarButtonItem的图片不能设置；如果用leftBarButtonItem属性，则iOS7自带的滑动返回功能会失效)
@@ -141,6 +146,8 @@ void ea_swizzle(Class c, SEL origSEL, SEL newSEL){
 }
 
 void ea_swizzleAllViewController(){
-    ea_swizzle([UIViewController class], @selector(viewWillAppear:), @selector(customViewWillAppear:));
     ea_swizzle([UIViewController class], @selector(viewWillDisappear:), @selector(customViewWillDisappear:));
+
+    ea_swizzle([UIViewController class], @selector(viewDidAppear:), @selector(customViewDidAppear:));
+    ea_swizzle([UIViewController class], @selector(viewDidDisappear:), @selector(customViewDidDisappear:));
 }

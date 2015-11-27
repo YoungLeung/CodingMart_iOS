@@ -39,7 +39,6 @@
 		32F2F2B81BFCAD3900DC600D /* IdentityAuthenticationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F2F2B71BFCAD3900DC600D /* IdentityAuthenticationModel.m */; };
 		32F2F2BE1BFDA1F400DC600D /* HBVLinkedTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F2F2BB1BFDA1F400DC600D /* HBVLinkedTextView.m */; };
 		32F2F2BF1BFDA1F400DC600D /* UIColor+HBVHarmonies.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F2F2BD1BFDA1F400DC600D /* UIColor+HBVHarmonies.m */; };
-		3754BDBDFFFDC4A51A701329 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F45C1A1B00E018F3A9769B84 /* libPods.a */; };
 		4E0E6FBA1BFF2ED9009EB20D /* NSURL+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0E6FB91BFF2ED9009EB20D /* NSURL+Common.m */; };
 		4E0FD91D1BC9238E00C552A0 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E0FD91C1BC9238E00C552A0 /* Login.storyboard */; };
 		4E0FD9201BC9285500C552A0 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0FD91F1BC9285500C552A0 /* LoginViewController.m */; };
@@ -196,6 +195,7 @@
 		4EFD8EC01BE88CA900E9C284 /* JoinInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EFD8EBF1BE88CA900E9C284 /* JoinInfo.m */; };
 		4EFD8EC31BE8B3BE00E9C284 /* LocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EFD8EC21BE8B3BE00E9C284 /* LocationViewController.m */; };
 		4EFD8EC61BE8B57300E9C284 /* LocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EFD8EC51BE8B57300E9C284 /* LocationCell.m */; };
+		DA0041F20473823B1C241218 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E49C0D61FE756FE44DB24F91 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -558,7 +558,7 @@
 		4EFD8EC21BE8B3BE00E9C284 /* LocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationViewController.m; sourceTree = "<group>"; };
 		4EFD8EC41BE8B57300E9C284 /* LocationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationCell.h; sourceTree = "<group>"; };
 		4EFD8EC51BE8B57300E9C284 /* LocationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationCell.m; sourceTree = "<group>"; };
-		F45C1A1B00E018F3A9769B84 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E49C0D61FE756FE44DB24F91 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -573,8 +573,8 @@
 				4E2693B31BC67F5C00F9E332 /* CoreTelephony.framework in Frameworks */,
 				4E2693B11BC67F4E00F9E332 /* SystemConfiguration.framework in Frameworks */,
 				4E2693AF1BC67F2000F9E332 /* CFNetwork.framework in Frameworks */,
-				3754BDBDFFFDC4A51A701329 /* libPods.a in Frameworks */,
 				4E2693A91BC67AD000F9E332 /* libXG-SDK.a in Frameworks */,
+				DA0041F20473823B1C241218 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1348,7 +1348,7 @@
 				4E2693B21BC67F5C00F9E332 /* CoreTelephony.framework */,
 				4E2693B01BC67F4E00F9E332 /* SystemConfiguration.framework */,
 				4E2693AE1BC67F2000F9E332 /* CFNetwork.framework */,
-				F45C1A1B00E018F3A9769B84 /* libPods.a */,
+				E49C0D61FE756FE44DB24F91 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1374,6 +1374,7 @@
 				4EBDC2821BC645990037EB66 /* Frameworks */,
 				4EBDC2831BC645990037EB66 /* Resources */,
 				5BE37CCFF7CF11527B18F9D2 /* Copy Pods Resources */,
+				7F1216B113791A9DF4317B9A /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1395,7 +1396,7 @@
 				TargetAttributes = {
 					4EBDC2841BC645990037EB66 = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = KMB2BDRT85;
+						DevelopmentTeam = QN5Z87S3LH;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -1468,6 +1469,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7F1216B113791A9DF4317B9A /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A4E0B75016CD85ECE7DC090B /* Check Pods Manifest.lock */ = {
@@ -1783,7 +1799,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.coding.CodingMart;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "912b3cea-92c6-4417-9853-93d9764bceb2";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -1819,7 +1835,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.coding.CodingMart;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "912b3cea-92c6-4417-9853-93d9764bceb2";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

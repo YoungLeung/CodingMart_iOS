@@ -383,19 +383,12 @@ void Swizzle(Class c, SEL orig, SEL new)
     else if(self.currentTitle){
         UIFont *font = self.titleLabel.font;
         
-        if([self.currentTitle respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)]) {
-            CGRect boundingRect = [self.currentTitle boundingRectWithSize:contentRect.size
-                                                                  options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-                                                               attributes:@{NSFontAttributeName: font}
-                                                                  context:nil];
-            return ROUND_SIZE(boundingRect.size);
-        }
-        else {
-            CGSize size = [self.currentTitle sizeWithFont:font
-                                        constrainedToSize:contentRect.size
-                                            lineBreakMode:self.titleLabel.lineBreakMode];
-            return ROUND_SIZE(size);
-        }
+        CGRect boundingRect = [self.currentTitle boundingRectWithSize:contentRect.size
+                                                              options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                                           attributes:@{NSFontAttributeName: font}
+                                                              context:nil];
+        return ROUND_SIZE(boundingRect.size);
+        
     }
     else
         return CGSizeZero;

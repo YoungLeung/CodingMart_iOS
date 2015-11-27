@@ -23,8 +23,8 @@
     [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"关于页面"];
     
     self.title = @"关于码市";
-    [_footerL addLinkToStr:@"400-026-3464" whithValue:@"400-026-3464" andBlock:^(id value) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://4000263464"]];
+    [_footerL addLinkToStr:@"400-992-1001" whithValue:@"400-992-1001" andBlock:^(id value) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://400-992-1001"]];
     }];
     _versionL.text = [NSString stringWithFormat:@"V%@", [NSObject appVersion]];
 }
