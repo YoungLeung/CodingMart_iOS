@@ -19,6 +19,7 @@
     params[@"province"] = _province;
     params[@"city"] = _city;
     params[@"district"] = _district;
+//    params[@"acceptNewRewardEmailNotification"] = @"true";
     return params;
 }
 
