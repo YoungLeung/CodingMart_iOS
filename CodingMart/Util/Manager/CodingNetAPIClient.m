@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kNetworkMethodName @[@"Get", @"Post", @"Put", @"Delete"]
+#define kNetworkMethodName @[@"Get", @"Post", @"Put", @"Delete",@"Post_Mulit"]
 
 #import "CodingNetAPIClient.h"
 #import "Login.h"
@@ -44,7 +44,9 @@ static dispatch_once_t onceToken_Coding;
     self.responseSerializer = [AFJSONResponseSerializer serializer];
     self.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/plain", @"text/javascript", @"text/json", @"text/html", nil];
     
+
     [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+//    [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [self.requestSerializer setValue:url.absoluteString forHTTPHeaderField:@"Referer"];
     
     self.securityPolicy.allowInvalidCertificates = YES;
@@ -120,7 +122,58 @@ static dispatch_once_t onceToken_Coding;
                 !autoShowError || [NSObject showError:error];
                 block(nil, error);
             }];
-            break;}
+            break;
+        }
+        case Post_Mulit:
+        {
+           
+            [self POST:aPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, responseObject);
+               
+                    block(responseObject, nil);
+                
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
+                !autoShowError || [NSObject showError:error];
+                block(nil, error);
+            }];
+            break;
+
+            
+//            
+//            [self POST:aPath parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData)
+//            {
+////                NSMutableData *dataPost = [[NSMutableData alloc] init];
+////                NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:dataPost];
+////                [archiver encodeObject:params[@"answers"] forKey:@"answers"];
+////                [archiver finishEncoding];
+//                
+////                DebugLog(@"\n===========send===========\n%@:\n%@", dataPost)
+//                NSError *error;
+//                NSData *jsonData = [NSJSONSerialization dataWithJSONObject:params
+//                                                                   options:NSJSONWritingPrettyPrinted // Pass 0 if you don't care about the readability of the generated string
+//                                                                     error:&error];
+//                
+////                [formData appendPartWithFormData:jsonData name:@"answer"];
+//                
+//            } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, responseObject);
+////                id error = [self handleResponse:responseObject autoShowError:autoShowError];
+////                if (error)
+////                {
+////                    block(nil, error);
+////                }else{
+////                    block(responseObject, nil);
+////                }
+//                block(responseObject, nil);
+//            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
+//                !autoShowError || [NSObject showError:error];
+//                block(nil, error);
+//            }];
+//            
+//            break;
+        }
         case Put:{
             [self PUT:aPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 DebugLog(@"\n===========response===========\n%@:\n%@", aPath, responseObject);
@@ -303,5 +356,52 @@ static dispatch_once_t onceToken_Coding;
     }];
     
     [operation start];
+}
+- (void)downloadFileWithOption:(NSDictionary *)paramDic
+                 withInferface:(NSString*)requestURL
+                     savedPath:(NSString*)savedPath
+               downloadSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+               downloadFailure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+                      progress:(void (^)(float progress))progress
+
+{
+    
+    //沙盒路径    //NSString *savedPath = [NSHomeDirectory() stringByAppendingString:@"/Documents/xxx.zip"];
+    AFHTTPRequestSerializer *serializer = [AFHTTPRequestSerializer serializer];
+    NSMutableURLRequest *request =[serializer requestWithMethod:@"GET" URLString:requestURL parameters:paramDic error:nil];
+    
+    //以下是手动创建request方法 AFQueryStringFromParametersWithEncoding有时候会保存
+    //    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:requestURL]];
+    //   NSMutableURLRequest *request =[[[AFHTTPRequestOperationManager manager]requestSerializer]requestWithMethod:@"POST" URLString:requestURL parameters:paramaterDic error:nil];
+    //
+    //    NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
+    //
+    //    [request setValue:[NSString stringWithFormat:@"application/x-www-form-urlencoded; charset=%@", charset] forHTTPHeaderField:@"Content-Type"];
+    //    [request setHTTPMethod:@"POST"];
+    //
+    //    [request setHTTPBody:[AFQueryStringFromParametersWithEncoding(paramaterDic, NSASCIIStringEncoding) dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc]initWithRequest:request];
+    [operation setOutputStream:[NSOutputStream outputStreamToFileAtPath:savedPath append:NO]];
+    [operation setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+        float p = (float)totalBytesRead / totalBytesExpectedToRead;
+        progress(p);
+        DebugLog(@"download：%f", (float)totalBytesRead / totalBytesExpectedToRead);
+        
+    }];
+    
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        success(operation,responseObject);
+        DebugLog(@"下载成功");
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        success(operation,error);
+        
+        DebugLog(@"下载失败");
+        
+    }];
+    
+    [operation start];
+    
 }
 @end

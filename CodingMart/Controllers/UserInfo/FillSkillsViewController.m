@@ -45,7 +45,7 @@
     self.title = @"技能展示";
     _work_expT.textContainerInset = UIEdgeInsetsMake(10, 8, 10, 8);
     _project_expT.textContainerInset = UIEdgeInsetsMake(10, 8, 10, 8);
-    
+//    self.tableView.tableFooterView=[UIView new];
     [self p_setupEvents];
     [self refresh];
 }
@@ -214,7 +214,8 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     return [UIView new];
 }
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
     return 20;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
