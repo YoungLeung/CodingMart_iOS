@@ -40,7 +40,9 @@
         SDWebImageManager *manager = [SDWebImageManager sharedManager];
         if (![manager diskImageExistsForURL:imageURL]) {
             [manager downloadImageWithURL:imageURL options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                NSLog(@"imageURL : %@", imageURL.description);
+                if (image && cacheType != SDImageCacheTypeDisk) {
+                    [[SDWebImageManager sharedManager] saveImageToCache:image forURL:imageURL];
+                }
             }];
         }
     }
@@ -87,7 +89,7 @@
         _model = model;
         
         _imageV = [[UIImageView alloc] initWithImage:_model.sd_image];
-        _imageV.contentMode = UIViewContentModeScaleAspectFit;
+        _imageV.contentMode = UIViewContentModeScaleAspectFill;
         _imageV.userInteractionEnabled = YES;
         __weak typeof(self) weakSelf = self;
         [_imageV bk_whenTapped:^{
@@ -114,6 +116,13 @@
 }
 
 - (void)imageViewTapped{
+    static bool has_taped = false;
+    if (has_taped) {//只处理一次
+        return;
+    }else{
+        has_taped = true;
+    }
+    
     [[UIViewController presentingVC] goToWebVCWithUrlStr:_model.link title:nil];
     [self dismiss];
 }
@@ -122,8 +131,9 @@
     static bool has_dismissed = false;
     if (has_dismissed) {//只显示一次，也只消失一次
         return;
+    }else{
+        has_dismissed = true;
     }
-    has_dismissed = true;
     __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:0.3 animations:^{
         self.alpha = 0.0;
