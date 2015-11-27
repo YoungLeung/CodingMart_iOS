@@ -33,6 +33,10 @@ static NSString *kFunctionTipStr_Version = @"version";
             _tipsDict = [@{kFunctionTipStr_Version: [NSObject appBuildVersion],
                            //Function Need To Tip
                            kFunctionTipStr_UserInfo: @(YES),
+                           kFunctionTipStr_PublishedR: @(YES),
+                           kFunctionTipStr_JoinedR: @(YES),
+                           kFunctionTipStr_ShareR: @(YES),
+                           kFunctionTipStr_ShareApp: @(YES),
                            } mutableCopy];
             [_tipsDict writeToFile:[self p_cacheFilePath] atomically:YES];
         }

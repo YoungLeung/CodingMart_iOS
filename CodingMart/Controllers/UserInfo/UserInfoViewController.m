@@ -18,6 +18,7 @@
 #import "PublishedRewardsViewController.h"
 #import "MartShareView.h"
 #import "UITTTAttributedLabel.h"
+#import "FunctionTipsManager.h"
 
 
 @interface UserInfoViewController ()<UIScrollViewDelegate>
@@ -167,11 +168,26 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
     cell.separatorInset = UIEdgeInsetsMake(0, 20, 0, 0);
+    
+    NSString *functionStr;
+    if (indexPath.section == 0) {
+        functionStr = indexPath.row == 0? kFunctionTipStr_PublishedR: kFunctionTipStr_JoinedR;
+    }else if (indexPath.section == 2){
+        if (indexPath.row == 4) {
+            functionStr = kFunctionTipStr_ShareApp;
+        }
+    }
+    if ([FunctionTipsManager needToTip:functionStr]) {
+        [cell.contentView addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(kScreen_Width - 40, 22)];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    NSString *functionStr;
     if (indexPath.section == 0) {
+        functionStr = indexPath.row == 0? kFunctionTipStr_PublishedR: kFunctionTipStr_JoinedR;
         if (indexPath.row == 0) {
             [self myPublishedBtnClicked:nil];
         }else{
@@ -188,6 +204,7 @@
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kAppReviewURL]];
         }else if (indexPath.row == 4){//推荐码市
             [MartShareView showShareViewWithObj:nil];
+            functionStr = kFunctionTipStr_ShareApp;
         }
     }else if (indexPath.section == 3){
         [self.view endEditing:YES];
@@ -198,6 +215,11 @@
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }
         }] showInView:self.view];
+    }
+    if (functionStr && [FunctionTipsManager needToTip:functionStr]) {
+        [FunctionTipsManager markTiped:functionStr];
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        [cell.contentView removeBadgeTips];
     }
 }
 #pragma mark header

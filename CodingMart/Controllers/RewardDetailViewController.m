@@ -15,12 +15,15 @@
 #import "RewardApplyViewController.h"
 #import <BlocksKit/BlocksKit+UIKit.h>
 #import "MartShareView.h"
+#import "FunctionTipsManager.h"
 
 @interface RewardDetailViewController ()
 @property (strong, nonatomic) Reward *curReward;
 @property (strong, nonatomic) RewardDetail *rewardDetal;
 @property (strong, nonatomic) UIView *bottomV;
 @property (strong, nonatomic) UILabel *topTipL;
+@property (strong, nonatomic) UIButton *rightNavBtn;
+
 @end
 
 @implementation RewardDetailViewController
@@ -52,7 +55,15 @@
 - (void)viewDidLoad{
     self.titleStr = @"悬赏详情";
     [super viewDidLoad];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_more"] style:UIBarButtonItemStylePlain target:self action:@selector(navBtnClicked:)];
+    if (!_rightNavBtn) {
+        _rightNavBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 22, 22)];
+        [_rightNavBtn addTarget:self action:@selector(navBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [_rightNavBtn setImage:[UIImage imageNamed:@"nav_icon_more"] forState:UIControlStateNormal];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightNavBtn];
+    }
+    if ([FunctionTipsManager needToTip:kFunctionTipStr_ShareR]) {
+        [_rightNavBtn addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(25, 0)];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -250,6 +261,10 @@
 - (void)navBtnClicked:(id)sender{
     NSObject *shareObj = _rewardDetal.reward? _rewardDetal.reward: _curReward? _curReward: nil;
     if (shareObj) {
+        if ([FunctionTipsManager needToTip:kFunctionTipStr_ShareR]) {
+            [FunctionTipsManager markTiped:kFunctionTipStr_ShareR];
+            [_rightNavBtn removeBadgeTips];
+        }
         [MartShareView showShareViewWithObj:shareObj];
     }
 }

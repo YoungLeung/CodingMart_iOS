@@ -6,9 +6,15 @@
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
-//version: 3.0
-static NSString *kFunctionTipStr_UserInfo = @"UserInfo";
+//version: 1.2
+//static NSString *kFunctionTipStr_UserInfo = @"UserInfo";
 
+//version: 1.5
+static NSString *kFunctionTipStr_UserInfo = @"UserInfo_1.5";
+static NSString *kFunctionTipStr_PublishedR = @"PublishedR";
+static NSString *kFunctionTipStr_JoinedR = @"JoinedR";
+static NSString *kFunctionTipStr_ShareR = @"ShareR";
+static NSString *kFunctionTipStr_ShareApp = @"ShareApp";
 
 #import <Foundation/Foundation.h>
 

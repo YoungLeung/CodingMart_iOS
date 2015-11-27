@@ -27,7 +27,7 @@
 @property (strong, nonatomic) XTSegmentControl *mySegmentControl;
 @property (strong, nonatomic) iCarousel *myCarousel;
 
-@property (strong, nonatomic) UIButton * leftNavBtn, *rightNavBtn;
+@property (strong, nonatomic) UIButton *leftNavBtn, *rightNavBtn;
 
 @property (assign, nonatomic) NSInteger selectedStatusIndex;
 

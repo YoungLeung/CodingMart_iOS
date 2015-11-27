@@ -326,7 +326,7 @@
     }else if ([_objToShare isKindOfClass:[UIWebView class]]){
         text =[(UIWebView *)_objToShare stringByEvaluatingJavaScriptFromString:@"document.title"];
     }else{
-        text = @"#Coding 码市# 你有想法，我来实现；品质众包，可靠交付 http://mart.coding.net/mobile";
+        text = @"#Coding 码市# 你有想法，我来实现；品质众包，可靠交付 http://mart.coding.net";
     }
     return text;
 }
