@@ -74,6 +74,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 
 
 @property (strong,nonatomic)IdentityAuthenticationModel *model;
+@property (strong,nonatomic)IdentityAuthenticationModel *originalModel;
 @property (strong,nonatomic)KLCPopup* popup;
 @property (assign,nonatomic)BOOL canEedit;
 @property (assign,nonatomic)BOOL isUploadingImg;
@@ -110,6 +111,24 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 //    self.documentImg=nil;
 }
 
+#pragma mark Navigation
+- (BOOL)navigationShouldPopOnBackButton{
+    [self.view endEditing:YES];
+    if ([self.model isSameTo:self.originalModel]) {
+        return YES;
+    }else{
+        __weak typeof(self) weakSelf = self;
+        [[UIActionSheet bk_actionSheetCustomWithTitle:@"返回后，修改的数据将不会被保存" buttonTitles:@[@"确定返回"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            if (index == 0) {
+                [weakSelf.navigationController popViewControllerAnimated:YES];
+            }
+        }] showInView:self.view];
+        return NO;
+    }
+}
+
+
+
 -(void)configUI
 {
     [self hideAllStatusEx];
@@ -127,8 +146,6 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     self.codingCheckBox.onTintColor=[UIColor colorWithHexString:@"E8E8E8"];
     self.codingCheckBox.onFillColor=[UIColor colorWithHexString:@"F4F4F4"];
     self.codingCheckBox.delegate=self;
-    
-    self.model =[[IdentityAuthenticationModel alloc]initForlocalCache];
     
     [self setupDefValue];
     [self setupEvent];
@@ -212,6 +229,16 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 
 -(void)setupDefValue
 {
+
+    self.model =self.identity_server_CacheDataDic?[NSObject objectOfClass:@"IdentityAuthenticationModel" fromJSON:self.identity_server_CacheDataDic]:[IdentityAuthenticationModel new];
+    self.originalModel =self.identity_server_CacheDataDic?[NSObject objectOfClass:@"IdentityAuthenticationModel" fromJSON:self.identity_server_CacheDataDic]:[IdentityAuthenticationModel new];
+    
+    if ([IdentityAuthenticationModel getcacheUserName])
+    {
+        self.model.name=[IdentityAuthenticationModel getcacheUserName];
+        self.originalModel.name=[IdentityAuthenticationModel getcacheUserName];
+    }
+    
     self.userNameTextField.text=self.model.name;
     self.identityIDTextFiled.text=self.model.identity;
     self.aliyPayTextField.text=self.model.alipay;

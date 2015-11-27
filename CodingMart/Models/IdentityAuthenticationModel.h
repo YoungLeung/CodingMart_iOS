@@ -33,5 +33,8 @@
 
 - (NSDictionary *)toParams;
 
+- (BOOL)isSameTo:(IdentityAuthenticationModel *)obj;
 
++(void)cacheUserName:(NSString*)userName;
++(NSString*)getcacheUserName;
 @end

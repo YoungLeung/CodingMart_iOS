@@ -12,6 +12,6 @@
 
 
 @interface IdentityAuthenticationViewController : BaseTableViewController
-
+@property(nonatomic,strong)NSDictionary *identity_server_CacheDataDic;
 + (instancetype)storyboardVC;
 @end

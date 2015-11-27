@@ -36,6 +36,7 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 @property (strong, nonatomic) User *curUser;
 
 @property (assign,nonatomic)IdentityStatusCode identityCode;
+@property (strong,nonatomic)NSDictionary *identity_server_CacheDataDic;
 @end
 
 @implementation FillTypesViewController
@@ -87,10 +88,11 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
              weakSelf.identityCode=status;
              
              
-             if ( weakSelf.identityCode==identity_Certificate)
-             {
-                 [weakSelf updateUserLocalStoreWithDic:dataDic];
-             }
+//             if ( weakSelf.identityCode==identity_Certificate)
+//             {
+//                 [weakSelf updateUserLocalStoreWithDic:dataDic];
+//             }
+             weakSelf.identity_server_CacheDataDic=data[@"data"];
              
              
              if (weakSelf.identityCode==identity_Authfaild)
@@ -100,14 +102,14 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
                  weakSelf.identityStatusLabel.textColor=[UIColor colorWithHexString:@"FF4B80"];
                  weakSelf.identityStatusLabel.text=@"认证失败";
                  
-                 IdentityAuthenticationModel *model =[[IdentityAuthenticationModel alloc]initForlocalCache];
-                 
-                 if ([[model toParams]allKeys].count<2)
-                 {
-                     //没有缓存，用服务器的来更新
-                     [weakSelf updateUserLocalStoreWithDic:dataDic];
-                     
-                 }
+//                 IdentityAuthenticationModel *model =[[IdentityAuthenticationModel alloc]initForlocalCache];
+//                 
+//                 if ([[model toParams]allKeys].count<2)
+//                 {
+//                     //没有缓存，用服务器的来更新
+//                     [weakSelf updateUserLocalStoreWithDic:dataDic];
+//                     
+//                 }
                  
              }else if(weakSelf.identityCode==identity_Authing)
              {
@@ -130,18 +132,18 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
      }];
 }
 
--(void)updateUserLocalStoreWithDic:(NSDictionary *)dataDic
-{
- 
-    IdentityAuthenticationModel *model =[[IdentityAuthenticationModel alloc]initForlocalCache];
-    model.alipay=dataDic[@"alipay"];
-    model.identity=dataDic[@"identity"];
-    model.identity_img_auth=dataDic[@"identity_img_auth"];
-    model.identity_img_back=dataDic[@"identity_img_back"];
-    model.identity_img_front=dataDic[@"identity_img_front"];
-    model.name=dataDic[@"name"];
-    model.identityIsPass=dataDic[@"status"];
-}
+//-(void)updateUserLocalStoreWithDic:(NSDictionary *)dataDic
+//{
+// 
+//    IdentityAuthenticationModel *model =[[IdentityAuthenticationModel alloc]initForlocalCache];
+//    model.alipay=dataDic[@"alipay"];
+//    model.identity=dataDic[@"identity"];
+//    model.identity_img_auth=dataDic[@"identity_img_auth"];
+//    model.identity_img_back=dataDic[@"identity_img_back"];
+//    model.identity_img_front=dataDic[@"identity_img_front"];
+//    model.name=dataDic[@"name"];
+//    model.identityIsPass=dataDic[@"status"];
+//}
 
 - (void)setCurUser:(User *)curUser
 {
@@ -163,8 +165,7 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
         FillUserInfo *userInfo = data[@"data"][@"info"]? [NSObject objectOfClass:@"FillUserInfo" fromJSON:data[@"data"][@"info"]]: [FillUserInfo new];
         if (userInfo.name)
         {
-            IdentityAuthenticationModel *model =[[IdentityAuthenticationModel alloc]initForlocalCache];
-            model.name=userInfo.name;
+            [IdentityAuthenticationModel cacheUserName:userInfo.name];
 //            NSLog(@"成功缓存了用户名====[%@]",userInfo.name);
         }
        
@@ -197,6 +198,7 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
         }
         
         IdentityAuthenticationViewController *vc = [IdentityAuthenticationViewController storyboardVC];
+        vc.identity_server_CacheDataDic=self.identity_server_CacheDataDic;
         [self.navigationController pushViewController:vc animated:YES];
     }else if (indexPath.section==2 &&indexPath.row==0)
     {

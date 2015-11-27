@@ -82,6 +82,22 @@
     
 }
 
++(void)cacheUserName:(NSString*)userName;
+{
+    if (userName)
+    {
+          [[NSUserDefaults standardUserDefaults]setObject:userName forKey:[IdentityAuthenticationModel localModelStoreKey]];
+    }
+}
+
++(NSString*)getcacheUserName
+{
+    NSString *user=nil;
+    user= [[NSUserDefaults standardUserDefaults]objectForKey:[IdentityAuthenticationModel localModelStoreKey]];
+    return user;
+    
+}
+
 +(NSString*)localModelStoreKey
 {
     NSString *key =[NSString stringWithFormat:@"kLocalModelKey-%@",[[Login curLoginUser].id stringValue]];
@@ -94,18 +110,18 @@
     return [nub stringValue];
 }
 
--(void)setId:(NSString *)id
-{
-    _id=id;
-    if (id.length==0)
-    {
-        [self.localCache removeObjectForKey:@"id"];
-    }else
-    {
-    [self.localCache setObject:id forKey:@"id"];
-    }
-    [self updateLocalCache];
-}
+//-(void)setId:(NSString *)id
+//{
+//    _id=id;
+//    if (id.length==0)
+//    {
+//        [self.localCache removeObjectForKey:@"id"];
+//    }else
+//    {
+//    [self.localCache setObject:id forKey:@"id"];
+//    }
+//    [self updateLocalCache];
+//}
 
 -(void)setIdentityIsPass:(NSNumber *)identityIsPass
 {
@@ -115,81 +131,98 @@
     [self updateLocalCache];
 }
 
--(void)setIdentity:(NSString *)identity
+//-(void)setIdentity:(NSString *)identity
+//{
+//    _identity =identity;
+//    if (identity.length==0)
+//    {
+//        [self.localCache removeObjectForKey:@"identity"];
+//    }else
+//    {
+//    [self.localCache setObject:identity forKey:@"identity"];
+//    }
+//    [self updateLocalCache];
+//}
+
+//-(void)setIdentity_img_auth:(NSString *)identity_img_auth
+//{
+//    _identity_img_auth=identity_img_auth;
+//    if (identity_img_auth.length==0)
+//    {
+//        [self.localCache removeObjectForKey:@"identity_img_auth"];
+//    }else
+//    {
+//    [self.localCache setObject:identity_img_auth forKey:@"identity_img_auth"];
+//    }
+//    [self updateLocalCache];
+//}
+//-(void)setIdentity_img_back:(NSString *)identity_img_back
+//{
+//    _identity_img_back=identity_img_back;
+//    if (identity_img_back.length==0)
+//    {
+//        [self.localCache removeObjectForKey:@"identity_img_back"];
+//    }else
+//    {
+//    [self.localCache setObject:identity_img_back forKey:@"identity_img_back"];
+//    }
+//    [self updateLocalCache];
+//}
+//-(void)setIdentity_img_front:(NSString *)identity_img_front
+//{
+//    _identity_img_front=identity_img_front;
+//    if (identity_img_front.length==0)
+//    {
+//        [self.localCache removeObjectForKey:@"identity_img_front"];
+//    }else
+//    {
+//    
+//    [self.localCache setObject:identity_img_front forKey:@"identity_img_front"];
+//    }
+//    [self updateLocalCache];
+//}
+
+//-(void)setAlipay:(NSString *)alipay
+//{
+//    _alipay=alipay;
+//    if (alipay.length==0)
+//    {
+//        [self.localCache removeObjectForKey:@"alipay"];
+//    }else
+//    {
+//    [self.localCache setObject:alipay forKey:@"alipay"];
+//    }
+//    [self updateLocalCache];
+//}
+
+//-(void)setName:(NSString *)name
+//{
+//    _name=name;
+//    
+//    if (name.length==0)
+//    {
+//         [self.localCache removeObjectForKey:@"name"];
+//    }else
+//    {
+//         [self.localCache setObject:name forKey:@"name"];
+//    }
+//
+//    [self updateLocalCache];
+//}
+
+- (BOOL)isSameTo:(IdentityAuthenticationModel *)obj
 {
-    _identity =identity;
-    if (identity.length==0)
-    {
-        [self.localCache removeObjectForKey:@"identity"];
-    }else
-    {
-    [self.localCache setObject:identity forKey:@"identity"];
-    }
-    [self updateLocalCache];
+    return
+    ([NSObject isSameStr:self.name to:obj.name] &&
+     [NSObject isSameStr:self.identity to:obj.identity] &&
+     [NSObject isSameStr:self.alipay to:obj.alipay] &&
+     [NSObject isSameStr:self.identity_img_front to:obj.identity_img_front] &&
+     [NSObject isSameStr:self.identity_img_back to:obj.identity_img_back] &&
+     [NSObject isSameStr:self.identity_img_auth to:obj.identity_img_auth]
+     );
+    return NO;
 }
 
--(void)setIdentity_img_auth:(NSString *)identity_img_auth
-{
-    _identity_img_auth=identity_img_auth;
-    if (identity_img_auth.length==0)
-    {
-        [self.localCache removeObjectForKey:@"identity_img_auth"];
-    }else
-    {
-    [self.localCache setObject:identity_img_auth forKey:@"identity_img_auth"];
-    }
-    [self updateLocalCache];
-}
--(void)setIdentity_img_back:(NSString *)identity_img_back
-{
-    _identity_img_back=identity_img_back;
-    if (identity_img_back.length==0)
-    {
-        [self.localCache removeObjectForKey:@"identity_img_back"];
-    }else
-    {
-    [self.localCache setObject:identity_img_back forKey:@"identity_img_back"];
-    }
-    [self updateLocalCache];
-}
--(void)setIdentity_img_front:(NSString *)identity_img_front
-{
-    _identity_img_front=identity_img_front;
-    if (identity_img_front.length==0)
-    {
-        [self.localCache removeObjectForKey:@"identity_img_front"];
-    }else
-    {
-    
-    [self.localCache setObject:identity_img_front forKey:@"identity_img_front"];
-    }
-    [self updateLocalCache];
-}
--(void)setName:(NSString *)name
-{
-    _name=name;
-    
-    if (name.length==0)
-    {
-         [self.localCache removeObjectForKey:@"name"];
-    }else
-    {
-         [self.localCache setObject:name forKey:@"name"];
-    }
 
-    [self updateLocalCache];
-}
--(void)setAlipay:(NSString *)alipay
-{
-    _alipay=alipay;
-    if (alipay.length==0)
-    {
-        [self.localCache removeObjectForKey:@"alipay"];
-    }else
-    {
-    [self.localCache setObject:alipay forKey:@"alipay"];
-    }
-    [self updateLocalCache];
-}
 
 @end
