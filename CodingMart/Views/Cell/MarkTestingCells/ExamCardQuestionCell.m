@@ -47,7 +47,7 @@
         [self.lblMark mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(@(8));
             make.width.equalTo(@(19));
-            make.left.equalTo(self.lblTitleBgView.mas_left).offset(5);
+            make.left.equalTo(self.lblTitleBgView.mas_left).offset(12);
             make.height.equalTo(@(24));
         }];
         
@@ -199,7 +199,7 @@
         _lblTitle = [UILabel new];
         _lblTitle.numberOfLines = 0;
         _lblTitle.backgroundColor=[UIColor clearColor];
-        _lblTitle.font=[UIFont systemFontOfSize:17];
+        _lblTitle.font=[UIFont systemFontOfSize:15];
         _lblTitle.textColor=[UIColor colorWithHexString:@"666666"];
     }
     return _lblTitle;
@@ -210,7 +210,7 @@
         _lblMark = [UILabel new];
         _lblMark.numberOfLines = 0;
         _lblMark.backgroundColor=[UIColor clearColor];
-        _lblMark.font=[UIFont systemFontOfSize:17];
+        _lblMark.font=[UIFont systemFontOfSize:15];
         _lblMark.textColor=[UIColor colorWithHexString:@"666666"];
     }
     return _lblMark;

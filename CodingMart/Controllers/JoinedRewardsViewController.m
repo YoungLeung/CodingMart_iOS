@@ -70,6 +70,9 @@
 }
 
 #pragma mark Table M
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    cell.separatorInset = UIEdgeInsetsMake(0, 15, 0, 0);//默认左边空 15
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _rewardList.count;
 }

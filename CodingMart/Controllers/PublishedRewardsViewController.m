@@ -83,7 +83,7 @@
 }
 
 - (void)cancelReward:(Reward *)reward{
-    [[UIActionSheet bk_actionSheetCustomWithTitle:@"确定要取消申请吗？" buttonTitles:@[@"确定"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+    [[UIActionSheet bk_actionSheetCustomWithTitle:@"确定要取消发布吗？" buttonTitles:@[@"确定"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
         if (index == 0) {
             [NSObject showHUDQueryStr:@"正在取消悬赏..."];
             [[Coding_NetAPIManager sharedManager] post_CancelRewardId:reward.id block:^(id data, NSError *error) {
@@ -98,6 +98,9 @@
 }
 
 #pragma mark Table M
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    cell.separatorInset = UIEdgeInsetsMake(0, 15, 0, 0);//默认左边空 15
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _rewardList.count;
 }

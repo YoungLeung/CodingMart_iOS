@@ -43,7 +43,7 @@
         _lblTitle = [UILabel new];
         _lblTitle.numberOfLines = 0;
         _lblTitle.backgroundColor=[UIColor clearColor];
-        _lblTitle.font=[UIFont boldSystemFontOfSize:18];
+        _lblTitle.font=[UIFont boldSystemFontOfSize:17];
         _lblTitle.textAlignment=NSTextAlignmentLeft;
         _lblTitle.textColor=[UIColor colorWithHexString:@"3BBD79"];
     }

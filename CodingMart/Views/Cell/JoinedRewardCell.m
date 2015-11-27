@@ -48,7 +48,7 @@
     
     _statusL.text = _reward.statusDisplay;
     NSString *rewardHexStr;
-    switch (_reward.status.integerValue) {
+    switch (_reward.reward_status.integerValue) {
         case RewardStatusRecruiting:
             rewardHexStr = @"0x3BBD79";
             break;
