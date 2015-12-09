@@ -34,6 +34,8 @@
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 //    推送
     [self registerRemoteNotification];
+//    友盟统计
+    [MobClick startWithAppkey:kUmeng_AppKey reportPolicy:BATCH channelId:nil];
 //    友盟分享
     [self registerSocialData];
 //    makeKeyAndVisible
