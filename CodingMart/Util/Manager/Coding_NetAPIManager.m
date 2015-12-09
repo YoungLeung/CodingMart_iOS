@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kRegisterChannel @"codemart-ios"
+
 #import "Coding_NetAPIManager.h"
 #import "Reward.h"
 #import "Login.h"
@@ -74,7 +76,8 @@
 - (void)post_RegisterWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code block:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/app/register";
     NSDictionary *params = @{@"mobile": mobile,
-                             @"verify_code": verify_code};
+                             @"verify_code": verify_code,
+                             @"channel": kRegisterChannel};
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             [Login doLogin:nil];
