@@ -133,23 +133,6 @@
 
 - (BOOL)canAndGoOutWithLinkStr:(NSString *)linkStr{
     return NO;
-    
-//    DebugLog(@"%@", linkStr);
-//    LoginViewController *loginVC;
-//    if ([linkStr rangeOfString:@"/login"].location != NSNotFound){
-//        loginVC = [LoginViewController storyboardVCWithType:QuickLoginViewControllerTypeLogin mobile:nil];
-//    }else if ([linkStr rangeOfString:@"/register"].location != NSNotFound) {
-//        loginVC = [LoginViewController storyboardVCWithType:QuickLoginViewControllerTypeRegister mobile:nil];
-//    }else{
-//        loginVC = nil;
-//    }
-//    if (loginVC) {
-//        loginVC.loginSucessBlock = ^(){
-//            [self.webView reload];
-//        };
-//        [UIViewController presentVC:loginVC dismissBtnTitle:@"取消"];
-//    }
-//    return (loginVC != nil);
 }
 
 #pragma mark Error

@@ -116,25 +116,7 @@
 }
 #pragma mark VC
 - (BOOL)canAndGoOutWithLinkStr:(NSString *)linkStr{
-    DebugLog(@"%@", linkStr);
     return NO;
-    
-//    BOOL canGoOut = NO;
-//    
-//    if ([linkStr rangeOfString:@"/login"].location != NSNotFound
-//        || [linkStr rangeOfString:@"/register"].location != NSNotFound) {
-//        QuickLoginViewControllerType loginType = QuickLoginViewControllerTypeLogin;
-//        if ([linkStr rangeOfString:@"/register"].location != NSNotFound) {
-//            loginType = QuickLoginViewControllerTypeRegister;
-//        }
-//        LoginViewController *vc = [LoginViewController storyboardVCWithType:loginType mobile:nil];
-//        vc.loginSucessBlock = ^(){
-//            [self reloadData];
-//        };
-//        [UIViewController presentVC:vc dismissBtnTitle:@"取消"];
-//        canGoOut = YES;
-//    }
-//    return canGoOut;
 }
 
 #pragma mark Error
