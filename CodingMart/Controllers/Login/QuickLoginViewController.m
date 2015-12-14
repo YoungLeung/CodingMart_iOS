@@ -6,14 +6,14 @@
 //  Copyright © 2015年 net.coding. All rights reserved.
 //
 
-#import "LoginViewController.h"
+#import "QuickLoginViewController.h"
 #import "TableViewFooterButton.h"
 #import "UITTTAttributedLabel.h"
 #import "Coding_NetAPIManager.h"
 #import <BlocksKit/BlocksKit+UIKit.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
-@interface LoginViewController ()
+@interface QuickLoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *mobileF;
 @property (weak, nonatomic) IBOutlet UITextField *verify_codeF;
 @property (weak, nonatomic) IBOutlet UIButton *verify_codeBtn;
@@ -29,11 +29,11 @@
 @property (assign, nonatomic) NSTimeInterval durationToValidity;
 @end
 
-@implementation LoginViewController
-+ (instancetype)storyboardVCWithType:(LoginViewControllerType )type mobile:(NSString *)mobile{
+@implementation QuickLoginViewController
++ (instancetype)storyboardVCWithType:(QuickLoginViewControllerType )type mobile:(NSString *)mobile{
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
-    NSString *identifier = [NSString stringWithFormat:@"LoginViewController_%ld", (long)type];
-    LoginViewController *vc = [storyboard instantiateViewControllerWithIdentifier:identifier];
+    NSString *identifier = [NSString stringWithFormat:@"QuickLoginViewController_%ld", (long)type];
+    QuickLoginViewController *vc = [storyboard instantiateViewControllerWithIdentifier:identifier];
     vc.type = type;
     vc.mobile = mobile;
     return vc;
@@ -47,14 +47,14 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    if (self.type == LoginViewControllerTypeLogin) {
+    if (self.type == QuickLoginViewControllerTypeLogin) {
         self.bottomButton.hidden = NO;
     }
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    if (self.type == LoginViewControllerTypeLogin) {
+    if (self.type == QuickLoginViewControllerTypeLogin) {
         self.bottomButton.hidden = YES;
     }
 }
@@ -78,11 +78,11 @@
 }
 - (void)setupUI{
     switch (_type) {
-        case LoginViewControllerTypeLogin:
+        case QuickLoginViewControllerTypeLogin:
             self.title = @"登录";
             self.bottomButton.hidden = NO;
             break;
-        case LoginViewControllerTypeRegister:
+        case QuickLoginViewControllerTypeRegister:
             self.title = @"注册";
             break;
         default:
@@ -146,9 +146,9 @@
 }
 - (IBAction)footerBtnClicked:(id)sender {
     NSString *typeStr;
-    if (self.type == LoginViewControllerTypeLogin) {
+    if (self.type == QuickLoginViewControllerTypeLogin) {
         typeStr = @"登录";
-    }else if (self.type == LoginViewControllerTypeRegister){
+    }else if (self.type == QuickLoginViewControllerTypeRegister){
         typeStr = @"注册";
     }else{
         typeStr = @"快速登录";
@@ -157,7 +157,7 @@
 
     _mobile = _mobileF.text;
     _verify_code = _verify_codeF.text;
-    [NSObject showHUDQueryStr:_type == LoginViewControllerTypeRegister? @"正在注册": @"正在登录"];
+    [NSObject showHUDQueryStr:_type == QuickLoginViewControllerTypeRegister? @"正在注册": @"正在登录"];
     [[Coding_NetAPIManager sharedManager] get_SidBlock:^(id dataNoUse, NSError *errorNoUse) {
         [[Coding_NetAPIManager sharedManager] post_LoginAndRegisterWithMobile:_mobile verify_code:_verify_code block:^(id data, NSError *error) {
             [NSObject hideHUDQuery];
@@ -205,7 +205,7 @@
 - (void)goToRegisterVC{
     [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"去注册"];
 
-    LoginViewController *vc = [LoginViewController storyboardVCWithType:LoginViewControllerTypeRegister mobile:_mobile];
+    QuickLoginViewController *vc = [QuickLoginViewController storyboardVCWithType:QuickLoginViewControllerTypeRegister mobile:_mobile];
     vc.loginSucessBlock = self.loginSucessBlock;
     [self.navigationController pushViewController:vc animated:YES];
 }

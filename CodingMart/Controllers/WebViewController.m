@@ -10,7 +10,7 @@
 #import "NJKWebViewProgress.h"
 #import "NJKWebViewProgressView.h"
 #import "BaseViewController.h"
-#import "LoginViewController.h"
+#import "QuickLoginViewController.h"
 
 @interface WebViewController ()<UIWebViewDelegate>
 //@property (strong, nonatomic) UIWebView *myWebView;
@@ -123,9 +123,9 @@
 //    
 //    if ([linkStr rangeOfString:@"/login"].location != NSNotFound
 //        || [linkStr rangeOfString:@"/register"].location != NSNotFound) {
-//        LoginViewControllerType loginType = LoginViewControllerTypeLogin;
+//        QuickLoginViewControllerType loginType = QuickLoginViewControllerTypeLogin;
 //        if ([linkStr rangeOfString:@"/register"].location != NSNotFound) {
-//            loginType = LoginViewControllerTypeRegister;
+//            loginType = QuickLoginViewControllerTypeRegister;
 //        }
 //        LoginViewController *vc = [LoginViewController storyboardVCWithType:loginType mobile:nil];
 //        vc.loginSucessBlock = ^(){

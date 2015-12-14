@@ -9,7 +9,7 @@
 #import "MartWebViewController.h"
 #import "NJKWebViewProgress.h"
 #import "NJKWebViewProgressView.h"
-#import "LoginViewController.h"
+#import "QuickLoginViewController.h"
 
 
 @interface MartWebViewController ()<UIWebViewDelegate>
@@ -137,9 +137,9 @@
 //    DebugLog(@"%@", linkStr);
 //    LoginViewController *loginVC;
 //    if ([linkStr rangeOfString:@"/login"].location != NSNotFound){
-//        loginVC = [LoginViewController storyboardVCWithType:LoginViewControllerTypeLogin mobile:nil];
+//        loginVC = [LoginViewController storyboardVCWithType:QuickLoginViewControllerTypeLogin mobile:nil];
 //    }else if ([linkStr rangeOfString:@"/register"].location != NSNotFound) {
-//        loginVC = [LoginViewController storyboardVCWithType:LoginViewControllerTypeRegister mobile:nil];
+//        loginVC = [LoginViewController storyboardVCWithType:QuickLoginViewControllerTypeRegister mobile:nil];
 //    }else{
 //        loginVC = nil;
 //    }

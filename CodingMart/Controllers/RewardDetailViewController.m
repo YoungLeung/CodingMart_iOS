@@ -10,7 +10,7 @@
 #import "Coding_NetAPIManager.h"
 #import "RewardDetail.h"
 #import "Login.h"
-#import "LoginViewController.h"
+#import "QuickLoginViewController.h"
 #import "FillTypesViewController.h"
 #import "RewardApplyViewController.h"
 #import <BlocksKit/BlocksKit+UIKit.h>
@@ -249,7 +249,7 @@
         }
     }else{
         __weak typeof(self) weakSelf = self;
-        LoginViewController *vc = [LoginViewController storyboardVCWithType:LoginViewControllerTypeLoginAndRegister mobile:nil];
+        QuickLoginViewController *vc = [QuickLoginViewController storyboardVCWithType:QuickLoginViewControllerTypeLoginAndRegister mobile:nil];
         vc.loginSucessBlock = ^(){
             [weakSelf bottomBtnClicked:nil];
         };
