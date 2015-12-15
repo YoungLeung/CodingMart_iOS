@@ -7,9 +7,15 @@
 //
 
 #import "PasswordEmailViewController.h"
+#import "MartCaptchaCell.h"
+#import "TableViewFooterButton.h"
 
 @interface PasswordEmailViewController ()
+@property (weak, nonatomic) IBOutlet UILabel *headerL;
+@property (weak, nonatomic) IBOutlet UITextField *emailF;
+@property (weak, nonatomic) IBOutlet MartCaptchaCell *captchaCell;
 
+@property (weak, nonatomic) IBOutlet TableViewFooterButton *footerBtn;
 @end
 
 @implementation PasswordEmailViewController
@@ -22,6 +28,10 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+#pragma mark - Button
+
+- (IBAction)footerBtnClicked:(id)sender {
 }
 
 /*

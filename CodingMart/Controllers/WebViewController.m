@@ -10,7 +10,6 @@
 #import "NJKWebViewProgress.h"
 #import "NJKWebViewProgressView.h"
 #import "BaseViewController.h"
-#import "QuickLoginViewController.h"
 
 @interface WebViewController ()<UIWebViewDelegate>
 //@property (strong, nonatomic) UIWebView *myWebView;

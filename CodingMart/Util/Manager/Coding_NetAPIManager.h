@@ -16,10 +16,15 @@
 #pragma mark Login
 - (void)get_SidBlock:(void (^)(id data, NSError *error))block;
 - (void)get_CurrentUserBlock:(void (^)(id data, NSError *error))block;
+
 - (void)post_LoginVerifyCodeWithMobile:(NSString *)mobile block:(void (^)(id data, NSError *error))block;
 - (void)post_RegisterWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code block:(void (^)(id data, NSError *error))block;
 - (void)post_LoginWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code autoShowError:(BOOL)autoShowError block:(void (^)(id data, NSError *error))block;
 - (void)post_LoginAndRegisterWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code block:(void (^)(id data, NSError *error))block;
+
+- (void)get_LoginCaptchaIsNeededBlock:(void (^)(id data, NSError *error))block;
+
+
 #pragma mark Reward
 - (void)get_RewardListWithType:(NSString *)type status:(NSString *)status block:(void (^)(id data, NSError *error))block;
 - (void)get_JoinedRewardListBlock:(void (^)(id data, NSError *error))block;

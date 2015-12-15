@@ -10,4 +10,7 @@
 
 @interface LoginViewController : BaseViewController
 
++ (instancetype)storyboardVCWithUser:(NSString *)userStr;
+
+@property (copy, nonatomic) void (^loginSucessBlock)();
 @end

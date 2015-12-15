@@ -7,9 +7,17 @@
 //
 
 #import "RegisterPasswordViewController.h"
+#import "TableViewFooterButton.h"
+#import "UITTTAttributedLabel.h"
 
 @interface RegisterPasswordViewController ()
+@property (weak, nonatomic) IBOutlet UITextField *passwordF;
+@property (weak, nonatomic) IBOutlet UITextField *confirm_passwordF;
 
+@property (weak, nonatomic) IBOutlet TableViewFooterButton *footerBtn;
+@property (weak, nonatomic) IBOutlet UITTTAttributedLabel *footerL;
+
+@property (strong, nonatomic) NSString *password, *confirm_password;
 @end
 
 @implementation RegisterPasswordViewController
@@ -22,6 +30,11 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Button
+
+- (IBAction)footerBtnClicked:(id)sender {
 }
 
 /*

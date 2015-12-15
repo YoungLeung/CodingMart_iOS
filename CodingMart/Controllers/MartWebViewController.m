@@ -9,7 +9,6 @@
 #import "MartWebViewController.h"
 #import "NJKWebViewProgress.h"
 #import "NJKWebViewProgressView.h"
-#import "QuickLoginViewController.h"
 
 
 @interface MartWebViewController ()<UIWebViewDelegate>

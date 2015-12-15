@@ -104,6 +104,9 @@
 		4E4BF2D71C1EB7CE005B1D90 /* PasswordEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4BF2D61C1EB7CE005B1D90 /* PasswordEmailViewController.m */; };
 		4E4BF2DA1C1EB7DF005B1D90 /* PasswordPhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4BF2D91C1EB7DF005B1D90 /* PasswordPhoneViewController.m */; };
 		4E4BF2DD1C1EB816005B1D90 /* PasswordResetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4BF2DC1C1EB816005B1D90 /* PasswordResetViewController.m */; };
+		4E4BF2E31C1FF717005B1D90 /* MartTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4BF2E21C1FF717005B1D90 /* MartTextFieldCell.m */; };
+		4E4BF2E61C1FF7FD005B1D90 /* MartCaptchaCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4BF2E51C1FF7FD005B1D90 /* MartCaptchaCell.m */; };
+		4E4BF2E91C200569005B1D90 /* PhoneCodeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4BF2E81C200569005B1D90 /* PhoneCodeButton.m */; };
 		4E6318A51BDE12A500EFED97 /* MartWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6318A41BDE12A400EFED97 /* MartWebViewController.m */; };
 		4E8547BA1BFB36D30038BA9B /* MartShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8547B91BFB36D30038BA9B /* MartShareView.m */; };
 		4E8547E61BFC81C10038BA9B /* UINavigationBar+Awesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8547E51BFC81C10038BA9B /* UINavigationBar+Awesome.m */; };
@@ -392,6 +395,12 @@
 		4E4BF2D91C1EB7DF005B1D90 /* PasswordPhoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasswordPhoneViewController.m; sourceTree = "<group>"; };
 		4E4BF2DB1C1EB816005B1D90 /* PasswordResetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasswordResetViewController.h; sourceTree = "<group>"; };
 		4E4BF2DC1C1EB816005B1D90 /* PasswordResetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasswordResetViewController.m; sourceTree = "<group>"; };
+		4E4BF2E11C1FF717005B1D90 /* MartTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MartTextFieldCell.h; sourceTree = "<group>"; };
+		4E4BF2E21C1FF717005B1D90 /* MartTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MartTextFieldCell.m; sourceTree = "<group>"; };
+		4E4BF2E41C1FF7FD005B1D90 /* MartCaptchaCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MartCaptchaCell.h; sourceTree = "<group>"; };
+		4E4BF2E51C1FF7FD005B1D90 /* MartCaptchaCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MartCaptchaCell.m; sourceTree = "<group>"; };
+		4E4BF2E71C200569005B1D90 /* PhoneCodeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneCodeButton.h; sourceTree = "<group>"; };
+		4E4BF2E81C200569005B1D90 /* PhoneCodeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneCodeButton.m; sourceTree = "<group>"; };
 		4E6318A31BDE12A400EFED97 /* MartWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MartWebViewController.h; sourceTree = "<group>"; };
 		4E6318A41BDE12A400EFED97 /* MartWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MartWebViewController.m; sourceTree = "<group>"; };
 		4E8547B81BFB36D30038BA9B /* MartShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MartShareView.h; sourceTree = "<group>"; };
@@ -711,10 +720,10 @@
 			isa = PBXGroup;
 			children = (
 				4E0FD91C1BC9238E00C552A0 /* Login.storyboard */,
-				4E0FD91E1BC9285500C552A0 /* QuickLoginViewController.h */,
-				4E0FD91F1BC9285500C552A0 /* QuickLoginViewController.m */,
 				4E4BF2C61C1EB5F8005B1D90 /* LoginViewController.h */,
 				4E4BF2C71C1EB5F8005B1D90 /* LoginViewController.m */,
+				4E0FD91E1BC9285500C552A0 /* QuickLoginViewController.h */,
+				4E0FD91F1BC9285500C552A0 /* QuickLoginViewController.m */,
 				4E4BF2CF1C1EB708005B1D90 /* RegisterPhoneViewController.h */,
 				4E4BF2D01C1EB708005B1D90 /* RegisterPhoneViewController.m */,
 				4E4BF2CC1C1EB66E005B1D90 /* RegisterPasswordViewController.h */,
@@ -885,6 +894,10 @@
 				4E934B1E1BF5E20900F1A02A /* JoinedRewardCell.m */,
 				4E934B201BF5E83C00F1A02A /* PublishedRewardCell.h */,
 				4E934B211BF5E83C00F1A02A /* PublishedRewardCell.m */,
+				4E4BF2E11C1FF717005B1D90 /* MartTextFieldCell.h */,
+				4E4BF2E21C1FF717005B1D90 /* MartTextFieldCell.m */,
+				4E4BF2E41C1FF7FD005B1D90 /* MartCaptchaCell.h */,
+				4E4BF2E51C1FF7FD005B1D90 /* MartCaptchaCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -996,6 +1009,8 @@
 				4EDAE4161BC7E6D000255FE8 /* RewardListHeaderView.m */,
 				4EDAE44E1BC8FFD000255FE8 /* TableViewFooterButton.h */,
 				4EDAE44F1BC8FFD000255FE8 /* TableViewFooterButton.m */,
+				4E4BF2E71C200569005B1D90 /* PhoneCodeButton.h */,
+				4E4BF2E81C200569005B1D90 /* PhoneCodeButton.m */,
 				4EDAE4511BC90C0200255FE8 /* UIPlaceHolderTextView.h */,
 				4EDAE4521BC90C0200255FE8 /* UIPlaceHolderTextView.m */,
 				4E2A0D9F1BC933A80091CA77 /* UITTTAttributedLabel.h */,
@@ -1576,6 +1591,7 @@
 				326A29111BF1F7DE0002FE94 /* ZZBWebView.m in Sources */,
 				32C503FC1BFB118C0017F02B /* IdentityAuthenticationViewController.m in Sources */,
 				4EDAE4031BC7BE0D00255FE8 /* UIBarButtonItem+Common.m in Sources */,
+				4E4BF2E31C1FF717005B1D90 /* MartTextFieldCell.m in Sources */,
 				4EDAE44B1BC8F21200255FE8 /* ActionSheetStringPicker.m in Sources */,
 				4E2693C81BC761D900F9E332 /* RewardWinnerInfo.m in Sources */,
 				4EDAE3B21BC78CD400255FE8 /* NSData+ImageContentType.m in Sources */,
@@ -1610,6 +1626,7 @@
 				4EDAE3B61BC78CD400255FE8 /* SDWebImageDownloader.m in Sources */,
 				4EDAE3BA1BC78CD400255FE8 /* UIButton+WebCache.m in Sources */,
 				4E26934A1BC676E000F9E332 /* CodingNetAPIClient.m in Sources */,
+				4E4BF2E61C1FF7FD005B1D90 /* MartCaptchaCell.m in Sources */,
 				4EFD8EC31BE8B3BE00E9C284 /* LocationViewController.m in Sources */,
 				4EDAE4531BC90C0200255FE8 /* UIPlaceHolderTextView.m in Sources */,
 				4E934B221BF5E83C00F1A02A /* PublishedRewardCell.m in Sources */,
@@ -1706,6 +1723,7 @@
 				32DC68A81BF1F56B00295BBD /* CodingMarkServerWebViewController.m in Sources */,
 				4EDAE4301BC8B8C900255FE8 /* PublishRewardStep2ViewController.m in Sources */,
 				4EDFFFF81BCA8573007DF702 /* FeedBackInfo.m in Sources */,
+				4E4BF2E91C200569005B1D90 /* PhoneCodeButton.m in Sources */,
 				4EBDC2AA1BC64E400037EB66 /* BaseNavigationController.m in Sources */,
 				4E4BF2D71C1EB7CE005B1D90 /* PasswordEmailViewController.m in Sources */,
 				4E6318A51BDE12A500EFED97 /* MartWebViewController.m in Sources */,

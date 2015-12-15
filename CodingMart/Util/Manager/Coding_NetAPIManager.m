@@ -108,6 +108,15 @@
         }
     }];
 }
+- (void)get_LoginCaptchaIsNeededBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/captcha/login";
+    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = data[@"data"];
+        }
+        block(data, error);
+    }];
+}
 #pragma mark Reward
 - (void)get_RewardListWithType:(NSString *)type status:(NSString *)status block:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/rewards";

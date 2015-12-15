@@ -8,16 +8,14 @@
 
 #import "BaseTableViewController.h"
 
-typedef NS_ENUM(NSInteger, QuickLoginViewControllerType) {
-    QuickLoginViewControllerTypeLogin = 0,
-    QuickLoginViewControllerTypeRegister,
-    QuickLoginViewControllerTypeLoginAndRegister,
-    
-};
+//typedef NS_ENUM(NSInteger, QuickLoginViewControllerType) {
+//    QuickLoginViewControllerTypeLogin = 0,
+//    QuickLoginViewControllerTypeRegister,
+//    QuickLoginViewControllerTypeLoginAndRegister,
+//};
 
 @interface QuickLoginViewController : BaseTableViewController
-@property (assign, nonatomic) QuickLoginViewControllerType type;
+//@property (assign, nonatomic) QuickLoginViewControllerType type;
 
-+ (instancetype)storyboardVCWithType:(QuickLoginViewControllerType )type mobile:(NSString *)mobile;
 @property (copy, nonatomic) void (^loginSucessBlock)();
 @end

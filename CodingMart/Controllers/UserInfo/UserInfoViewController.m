@@ -7,7 +7,7 @@
 //
 
 #import "UserInfoViewController.h"
-#import "QuickLoginViewController.h"
+#import "LoginViewController.h"
 #import "FillTypesViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "User.h"
@@ -240,7 +240,7 @@
     [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"个人中心_弹出登录"];
     
     _isDisappearForLogin = YES;
-    QuickLoginViewController *vc = [QuickLoginViewController storyboardVCWithType:QuickLoginViewControllerTypeLogin mobile:nil];
+    LoginViewController *vc = [LoginViewController storyboardVCWithUser:nil];
     vc.loginSucessBlock = ^(){
         [self refreshData];
     };

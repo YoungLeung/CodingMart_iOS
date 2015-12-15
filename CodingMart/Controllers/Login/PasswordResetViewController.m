@@ -7,9 +7,17 @@
 //
 
 #import "PasswordResetViewController.h"
+#import "TableViewFooterButton.h"
+#import "MartCaptchaCell.h"
 
 @interface PasswordResetViewController ()
+@property (weak, nonatomic) IBOutlet UITextField *passwordF;
+@property (weak, nonatomic) IBOutlet UITextField *confirm_passwordF;
+@property (weak, nonatomic) IBOutlet MartCaptchaCell *captchaCell;
 
+@property (weak, nonatomic) IBOutlet TableViewFooterButton *footerBtn;
+
+@property (strong, nonatomic) NSString *password, *confirm_password;
 @end
 
 @implementation PasswordResetViewController
@@ -22,6 +30,11 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Button
+
+- (IBAction)footerBtnClicked:(id)sender {
 }
 
 /*

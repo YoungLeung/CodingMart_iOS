@@ -7,9 +7,12 @@
 //
 
 #import "CannotLoginViewController.h"
+#import "TableViewFooterButton.h"
 
 @interface CannotLoginViewController ()
+@property (weak, nonatomic) IBOutlet UITextField *userStrF;
 
+@property (weak, nonatomic) IBOutlet TableViewFooterButton *footerBtn;
 @end
 
 @implementation CannotLoginViewController
@@ -22,6 +25,10 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+#pragma mark - Button
+
+- (IBAction)footerBtnClicked:(id)sender {
 }
 
 /*

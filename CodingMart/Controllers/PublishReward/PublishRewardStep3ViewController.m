@@ -9,7 +9,7 @@
 #import "PublishRewardStep3ViewController.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "TableViewFooterButton.h"
-#import "QuickLoginViewController.h"
+#import "LoginViewController.h"
 #import "Login.h"
 #import "Coding_NetAPIManager.h"
 #import "PublishedRewardsViewController.h"
@@ -97,7 +97,7 @@
             }
         }];
     }else{
-        QuickLoginViewController *vc = [QuickLoginViewController storyboardVCWithType:QuickLoginViewControllerTypeLoginAndRegister mobile:_rewardToBePublished.contact_mobile];
+        LoginViewController *vc = [LoginViewController storyboardVCWithUser:_rewardToBePublished.contact_mobile];
         vc.loginSucessBlock = ^(){
             [self nextStepBtnClicked:nil];
         };
