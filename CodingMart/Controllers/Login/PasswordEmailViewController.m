@@ -29,6 +29,7 @@
     self.title = (_reasonType == CannotLoginReasonForget)? @"忘记密码": @"设置密码";
     _headerL.text = (_reasonType == CannotLoginReasonForget)? @"为了重置密码，我们将发邮件到您的邮箱": @"为了设置密码，我们将发邮件到您的邮箱";
     [_footerBtn setTitle:(_reasonType == CannotLoginReasonForget)? @"发送重置密码邮件": @"重发激活邮件" forState:UIControlStateNormal];
+    _emailF.text = _email;
     RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[self.emailF.rac_textSignal, self.captchaCell.textF.rac_textSignal] reduce:^id(NSString *email, NSString *captcha){
         return @(email.length > 0 && captcha.length > 0);
     }];

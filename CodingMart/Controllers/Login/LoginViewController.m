@@ -66,9 +66,6 @@
 }
 
 #pragma mark - Table M
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 20;
-}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _captchaNeeded? 3 : 2;;
