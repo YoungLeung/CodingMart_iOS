@@ -19,6 +19,7 @@
 #import <Masonry/Masonry.h>
 #import "FunctionTipsManager.h"
 #import "UINavigationBar+Awesome.h"
+#import "LoginViewController.h"
 
 @interface RootViewController ()<iCarouselDataSource, iCarouselDelegate, RewardListViewScrollDelegate>
 @property (strong, nonatomic) NSMutableArray *typeList, *statusList;
@@ -315,7 +316,15 @@ static CGFloat startContentOffsetY, startNavBarOffsetY;
     [self goToWebVCWithUrlStr:@"/about" title:@"码市介绍"];
 }
 - (void)goToPublishReward{
-    UIViewController *vc = [PublishRewardStep1ViewController storyboardVC];
-    [self.navigationController pushViewController:vc animated:YES];
+    if ([Login isLogin]) {
+        UIViewController *vc = [PublishRewardStep1ViewController storyboardVC];
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        LoginViewController *vc = [LoginViewController storyboardVCWithUser:nil];
+        vc.loginSucessBlock = ^(){
+            [self goToPublishReward];
+        };
+        [UIViewController presentVC:vc dismissBtnTitle:@"取消"];
+    }
 }
 @end
