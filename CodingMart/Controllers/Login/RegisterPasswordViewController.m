@@ -68,7 +68,7 @@
 #pragma mark - Button
 
 - (IBAction)footerBtnClicked:(id)sender {
-    if ([_passwordF.text isEqualToString:_confirm_passwordF.text]) {
+    if (![_passwordF.text isEqualToString:_confirm_passwordF.text]) {
         [NSObject showHudTipStr:@"两次输入密码不一致"];
         return;
     }
