@@ -152,7 +152,7 @@
 
 - (IBAction)codeBtnClicked:(id)sender {
     [self p_setButton:_codeBtn toEnabled:NO];
-    [[Coding_NetAPIManager sharedManager] post_LoginVerifyCodeWithMobile:_userInfo.mobile block:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] post_UserInfoVerifyCodeWithMobile:_userInfo.mobile block:^(id data, NSError *error) {
         if (data) {
             [NSObject showHudTipStr:@"验证码发送成功"];
             [self startUpTimer];

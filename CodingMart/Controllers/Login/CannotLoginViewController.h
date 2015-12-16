@@ -8,6 +8,12 @@
 
 #import "BaseTableViewController.h"
 
-@interface CannotLoginViewController : BaseTableViewController
+typedef NS_ENUM(NSInteger, CannotLoginReasonType) {
+    CannotLoginReasonForget = 0,
+    CannotLoginReasonNonSet
+};
 
+@interface CannotLoginViewController : BaseTableViewController
+@property (assign, nonatomic) CannotLoginReasonType reasonType;
+@property (strong, nonatomic) NSString *userStr;
 @end

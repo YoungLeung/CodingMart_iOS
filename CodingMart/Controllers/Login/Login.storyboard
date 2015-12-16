@@ -127,14 +127,14 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                 </textField>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DFe-xe-77T">
+                                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DFe-xe-77T">
                                                     <rect key="frame" x="245" y="9" width="60" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="25" id="S5V-XK-dZY"/>
                                                         <constraint firstAttribute="width" constant="60" id="eeg-AK-dYq"/>
                                                     </constraints>
                                                 </imageView>
-                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="dKY-zb-qob">
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="dKY-zb-qob">
                                                     <rect key="frame" x="265" y="11" width="20" height="20"/>
                                                 </activityIndicatorView>
                                             </subviews>
@@ -453,7 +453,7 @@
                         <outlet property="mobileF" destination="WPQ-Aj-i59" id="mBV-06-GKU"/>
                         <outlet property="verify_codeBtn" destination="uNz-x7-gy0" id="Kyd-kn-eU4"/>
                         <outlet property="verify_codeF" destination="AIG-Co-0kd" id="F7I-ZW-UDb"/>
-                        <segue destination="TSB-0e-Ibq" kind="show" identifier="PasswordResetViewController" id="fKd-bo-jJY"/>
+                        <segue destination="TSB-0e-Ibq" kind="show" identifier="PasswordPhoneSetViewController" id="fKd-bo-jJY"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IMt-or-y4c" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -463,7 +463,7 @@
         <!--重置密码 / 设置密码-->
         <scene sceneID="X8J-J7-yo9">
             <objects>
-                <tableViewController title="重置密码 / 设置密码" id="TSB-0e-Ibq" customClass="PasswordResetViewController" sceneMemberID="viewController">
+                <tableViewController title="重置密码 / 设置密码" id="TSB-0e-Ibq" customClass="PasswordPhoneSetViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="DQE-k3-Afl" customClass="TPKeyboardAvoidingTableView">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -512,7 +512,7 @@
                                                         <constraint firstAttribute="height" constant="20" id="8er-3v-A4t"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                                 </textField>
                                             </subviews>
                                             <constraints>
@@ -535,7 +535,7 @@
                                                         <constraint firstAttribute="height" constant="20" id="9Hr-Bu-og6"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                                 </textField>
                                             </subviews>
                                             <constraints>
@@ -560,14 +560,14 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                 </textField>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4fb-xw-u52">
+                                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4fb-xw-u52">
                                                     <rect key="frame" x="245" y="9" width="60" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="25" id="9EY-wK-9AX"/>
                                                         <constraint firstAttribute="width" constant="60" id="gcw-RA-7Tc"/>
                                                     </constraints>
                                                 </imageView>
-                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="GBZ-sM-O4Y">
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="GBZ-sM-O4Y">
                                                     <rect key="frame" x="265" y="11" width="20" height="20"/>
                                                 </activityIndicatorView>
                                             </subviews>
@@ -601,7 +601,6 @@
                         <outlet property="confirm_passwordF" destination="3Vd-Ue-29J" id="DvP-ov-QuZ"/>
                         <outlet property="footerBtn" destination="HIA-Gn-dHz" id="6Lb-eS-dos"/>
                         <outlet property="passwordF" destination="ZRC-B1-5SN" id="P1S-ta-1GJ"/>
-                        <outlet property="verify_codeF" destination="ZRC-B1-5SN" id="Qwr-uK-Y3Q"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KKT-Bv-uRy" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -673,7 +672,7 @@
                                                         <constraint firstAttribute="height" constant="20" id="Eep-aO-Gv0"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                                                 </textField>
                                             </subviews>
                                             <constraints>
@@ -698,14 +697,14 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                 </textField>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ea0-Bp-jKo">
+                                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ea0-Bp-jKo">
                                                     <rect key="frame" x="245" y="9" width="60" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="60" id="DVG-Wv-51j"/>
                                                         <constraint firstAttribute="height" constant="25" id="mrP-AW-DrS"/>
                                                     </constraints>
                                                 </imageView>
-                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="OU1-e0-sBj">
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="OU1-e0-sBj">
                                                     <rect key="frame" x="265" y="11" width="20" height="20"/>
                                                 </activityIndicatorView>
                                             </subviews>
@@ -797,7 +796,7 @@
                                                         <constraint firstAttribute="height" constant="20" id="I4X-Rn-9hK"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </subviews>
                                             <constraints>
@@ -841,7 +840,7 @@
                             <color key="backgroundColor" red="0.93333333330000001" green="0.93333333330000001" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
                         </view>
                         <view key="tableFooterView" contentMode="scaleToFill" id="1np-Ld-hb7">
-                            <rect key="frame" x="0.0" y="108" width="320" height="128"/>
+                            <rect key="frame" x="0.0" y="152" width="320" height="128"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EhO-jl-Z2N" customClass="TableViewFooterButton">
@@ -888,7 +887,7 @@
                                                         <constraint firstAttribute="height" constant="20" id="YFu-55-Ihz"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                                 </textField>
                                             </subviews>
                                             <constraints>
@@ -911,7 +910,7 @@
                                                         <constraint firstAttribute="height" constant="20" id="mj2-ty-mmA"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                                 </textField>
                                             </subviews>
                                             <constraints>
@@ -920,6 +919,48 @@
                                                 <constraint firstAttribute="trailingMargin" secondItem="SRQ-9K-sDa" secondAttribute="trailing" constant="7" id="U5j-Xz-beL"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="MartCaptchaCell" id="xwF-Rq-khz" customClass="MartCaptchaCell">
+                                        <rect key="frame" x="0.0" y="108" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xwF-Rq-khz" id="BLe-2o-bqi">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="验证码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2bB-jg-Q9x">
+                                                    <rect key="frame" x="15" y="11" width="220" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="s9U-mw-yxe"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                </textField>
+                                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xma-Is-gRA">
+                                                    <rect key="frame" x="245" y="9" width="60" height="25"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="25" id="Zvg-kY-nqi"/>
+                                                        <constraint firstAttribute="width" constant="60" id="bly-eD-Odb"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="T90-wb-s2H">
+                                                    <rect key="frame" x="265" y="11" width="20" height="20"/>
+                                                </activityIndicatorView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="xma-Is-gRA" secondAttribute="trailing" constant="7" id="1PH-Oy-c8m"/>
+                                                <constraint firstItem="T90-wb-s2H" firstAttribute="centerY" secondItem="xma-Is-gRA" secondAttribute="centerY" id="BV7-RM-xlf"/>
+                                                <constraint firstItem="xma-Is-gRA" firstAttribute="leading" relation="lessThanOrEqual" secondItem="2bB-jg-Q9x" secondAttribute="trailing" constant="10" id="HRf-fk-UTS"/>
+                                                <constraint firstItem="xma-Is-gRA" firstAttribute="centerY" secondItem="2bB-jg-Q9x" secondAttribute="centerY" id="Njv-u8-8mT"/>
+                                                <constraint firstItem="2bB-jg-Q9x" firstAttribute="leading" secondItem="BLe-2o-bqi" secondAttribute="leadingMargin" constant="7" id="Yij-vZ-aMn"/>
+                                                <constraint firstItem="T90-wb-s2H" firstAttribute="centerX" secondItem="xma-Is-gRA" secondAttribute="centerX" id="tUJ-Qy-caX"/>
+                                                <constraint firstItem="2bB-jg-Q9x" firstAttribute="centerY" secondItem="BLe-2o-bqi" secondAttribute="centerY" id="xae-TM-iTK"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="activityIndicator" destination="T90-wb-s2H" id="Ff0-AY-n3Z"/>
+                                            <outlet property="imgV" destination="xma-Is-gRA" id="AMK-vG-pOM"/>
+                                            <outlet property="textF" destination="2bB-jg-Q9x" id="3mQ-3F-pRY"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -931,6 +972,7 @@
                     </tableView>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="captchaCell" destination="xwF-Rq-khz" id="gri-Ez-RoJ"/>
                         <outlet property="confirm_passwordF" destination="SRQ-9K-sDa" id="kEU-mY-UQa"/>
                         <outlet property="footerBtn" destination="EhO-jl-Z2N" id="cry-sf-C2w"/>
                         <outlet property="footerL" destination="LL8-OQ-Eum" id="DQ0-gA-f5v"/>

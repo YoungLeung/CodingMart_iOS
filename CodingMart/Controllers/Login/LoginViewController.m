@@ -23,7 +23,7 @@
 
 
 
-@property (strong, nonatomic) NSString *userStr, *passwordStr, *captchaStr;
+@property (strong, nonatomic) NSString *userStr, *password, *captcha;
 @property (assign, nonatomic) BOOL captchaNeeded;
 
 @end
@@ -41,6 +41,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"注册" target:self action:@selector(rightBarItemClicked)];
+    RAC(self, loginBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, userStr), RACObserve(self, password), RACObserve(self, captcha), RACObserve(self, captchaNeeded)] reduce:^id(NSString *userStr, NSString *password, NSString *captcha, NSNumber *captchaNeeded){
+        return @(userStr.length > 0 && password.length > 0 && (captcha.length > 0 || !captchaNeeded.boolValue));
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -56,7 +59,7 @@
             if (self.captchaNeeded) {
                 [self.myTableView reloadData];
             }else{
-                self.captchaStr = nil;
+                self.captcha = nil;
             }
         }
     }];
@@ -80,12 +83,12 @@
     }else if (indexPath.row == 1){
         MartTextFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MartTextFieldCell_Password forIndexPath:indexPath];
         cell.textF.text = _userStr;
-        RAC(self, passwordStr) = [cell.textF.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
+        RAC(self, password) = [cell.textF.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
         return cell;
     }else{
         MartCaptchaCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MartCaptchaCell forIndexPath:indexPath];
-        cell.textF.text = _captchaStr;
-        RAC(self, captchaStr) = [cell.textF.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
+        cell.textF.text = _captcha;
+        RAC(self, captcha) = [cell.textF.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
         return cell;
     }
 }
@@ -97,7 +100,17 @@
 #pragma mark - Button
 
 - (IBAction)loginBtnClicked:(id)sender {
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"登录"];
     
+    [NSObject showHUDQueryStr:@"正在登录..."];
+    [[Coding_NetAPIManager sharedManager] post_LoginWithUserStr:_userStr password:_password captcha:(_captchaNeeded? _captcha: nil) block:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (data) {
+            [self dismissViewControllerAnimated:YES completion:self.loginSucessBlock];
+        }else{
+            [self refreshCaptchaNeeded];
+        }
+    }];
 }
 
 
@@ -115,10 +128,26 @@
 
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([segue.destinationViewController isKindOfClass:[RegisterPhoneViewController class]]) {
+        RegisterPhoneViewController *vc = (RegisterPhoneViewController *)segue.destinationViewController;
+        vc.loginSucessBlock = _loginSucessBlock;
+        if ([_userStr isPhoneNo]) {
+            vc.mobile = _userStr;
+        }
+    }else if ([segue.destinationViewController isKindOfClass:[CannotLoginViewController class]]){
+        CannotLoginViewController *vc = (CannotLoginViewController *)segue.destinationViewController;
+        vc.reasonType = [(NSNumber *)sender integerValue];
+        if ([_userStr isPhoneNo] || [_userStr isEmail]) {
+            vc.userStr = _userStr;
+        }
+    }else if ([segue.destinationViewController isKindOfClass:[QuickLoginViewController class]]){
+        QuickLoginViewController *vc = (QuickLoginViewController *)segue.destinationViewController;
+        vc.loginSucessBlock = _loginSucessBlock;
+        if ([_userStr isPhoneNo]) {
+            vc.mobile = _userStr;
+        }
+    }
 }
 
 @end

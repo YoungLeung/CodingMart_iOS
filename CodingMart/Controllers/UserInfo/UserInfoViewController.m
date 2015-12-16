@@ -212,7 +212,8 @@
             if (index == 0) {
                 [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"退出登录"];
                 [Login doLogout];
-                [self.navigationController popToRootViewControllerAnimated:YES];
+                self.curUser = [Login curLoginUser];
+//                [self.navigationController popToRootViewControllerAnimated:YES];
             }
         }] showInView:self.view];
     }

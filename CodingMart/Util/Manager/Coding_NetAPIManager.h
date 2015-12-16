@@ -9,21 +9,30 @@
 
 #import "CodingNetAPIClient.h"
 
+typedef NS_ENUM(NSInteger, PurposeType) {
+    PurposeToRegister = 0,
+    PurposeToPasswordActivate,
+    PurposeToPasswordReset
+};
+
 @class Reward, FeedBackInfo, SettingNotificationInfo, VerifiedInfo, FillUserInfo, FillSkills, RewardDetail, JoinInfo;
+
 
 @interface Coding_NetAPIManager : NSObject
 + (instancetype)sharedManager;
 #pragma mark Login
-- (void)get_SidBlock:(void (^)(id data, NSError *error))block;
 - (void)get_CurrentUserBlock:(void (^)(id data, NSError *error))block;
 
-- (void)post_LoginVerifyCodeWithMobile:(NSString *)mobile block:(void (^)(id data, NSError *error))block;
-- (void)post_RegisterWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code block:(void (^)(id data, NSError *error))block;
-- (void)post_LoginWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code autoShowError:(BOOL)autoShowError block:(void (^)(id data, NSError *error))block;
-- (void)post_LoginAndRegisterWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code block:(void (^)(id data, NSError *error))block;
+- (void)post_QuickGeneratePhoneCodeWithMobile:(NSString *)mobile block:(void (^)(id data, NSError *error))block;
+- (void)post_QuickLoginWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code block:(void (^)(id data, NSError *error))block;
 
 - (void)get_LoginCaptchaIsNeededBlock:(void (^)(id data, NSError *error))block;
-
+- (void)get_RegisterCaptchaIsNeededBlock:(void (^)(id data, NSError *error))block;
+- (void)post_LoginWithUserStr:(NSString *)userStr password:(NSString *)password captcha:(NSString *)captcha block:(void (^)(id data, NSError *error))block;
+- (void)post_GeneratePhoneCodeWithPhone:(NSString *)phone type:(PurposeType)type block:(void (^)(id data, NSError *error))block;
+- (void)post_CheckPhoneCodeWithPhone:(NSString *)phone code:(NSString *)code type:(PurposeType)type block:(void (^)(id data, NSError *error))block;
+- (void)post_SetPasswordWithPhone:(NSString *)phone code:(NSString *)code password:(NSString *)password captcha:(NSString *)captcha type:(PurposeType)type block:(void (^)(id data, NSError *error))block;
+- (void)post_SetPasswordWithEmail:(NSString *)email captcha:(NSString *)captcha type:(PurposeType)type block:(void (^)(id data, NSError *error))block;
 
 #pragma mark Reward
 - (void)get_RewardListWithType:(NSString *)type status:(NSString *)status block:(void (^)(id data, NSError *error))block;
@@ -47,8 +56,6 @@
 - (void)post_SettingNotificationParams:(NSDictionary *)params block:(void (^)(id data, NSError *error))block;
 #pragma mark FeedBack
 - (void)post_FeedBack:(FeedBackInfo *)feedBackInfo  block:(void (^)(id data, NSError *error))block;
-#pragma mark CaptchaImg
-- (void)loadCaptchaImgWithCompleteBlock:(void (^)(UIImage *image, NSError *error))block;
 
 #pragma mark 码市试题测试
 - (void)get_CodingExamTesting:(void (^)(id data, NSError *error))block;

@@ -9,5 +9,7 @@
 #import "BaseTableViewController.h"
 
 @interface RegisterPhoneViewController : BaseTableViewController
+@property (strong, nonatomic) NSString *mobile;
+@property (copy, nonatomic) void (^loginSucessBlock)();
 
 @end

@@ -13,6 +13,7 @@
 #import <BlocksKit/BlocksKit+UIKit.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "UIViewController+BackButtonHandler.h"
+#import "UIImageView+WebCache.h"
 
 @interface FeedBackViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *nameF;
@@ -106,16 +107,14 @@
         if (data) {
             [self.navigationController popViewControllerAnimated:YES];
             [NSObject showHudTipStr:@"反馈成功"];
+        }else{
+            [self refreshCaptchaImage];
         }
     }];
 }
 - (void)refreshCaptchaImage{
-    [self.j_captchaImgV setImage:nil];
-    [[Coding_NetAPIManager sharedManager] get_SidBlock:^(id dataNoUse, NSError *errorNoUse) {
-        [[Coding_NetAPIManager sharedManager] loadCaptchaImgWithCompleteBlock:^(UIImage *image, NSError *error) {
-            [self.j_captchaImgV setImage:image];
-        }];
-    }];
+    NSString *captcha_path = [NSString stringWithFormat:@"%@api/captcha", [NSObject baseURLStr]];
+    [_j_captchaImgV sd_setImageWithURL:[NSURL URLWithString:captcha_path] placeholderImage:nil options:(SDWebImageRetryFailed | SDWebImageRefreshCached | SDWebImageHandleCookies) completed:nil];
 }
 #pragma mark Table M
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{

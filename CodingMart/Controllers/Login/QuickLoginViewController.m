@@ -22,99 +22,23 @@
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *footerBtn;
 @property (weak, nonatomic) IBOutlet UITTTAttributedLabel *footerL;
 
-//@property (strong, nonatomic) UIButton *bottomButton;
-
-@property (strong, nonatomic) NSString *mobile, *verify_code;
-
 @end
 
 @implementation QuickLoginViewController
-//+ (instancetype)storyboardVCWithType:(QuickLoginViewControllerType )type mobile:(NSString *)mobile{
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
-//    NSString *identifier = [NSString stringWithFormat:@"QuickLoginViewController_%ld", (long)type];
-//    QuickLoginViewController *vc = [storyboard instantiateViewControllerWithIdentifier:identifier];
-//    vc.type = type;
-//    vc.mobile = mobile;
-//    return vc;
-//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self setupUI];
-}
-
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-//    if (self.type == QuickLoginViewControllerTypeLogin) {
-//        self.bottomButton.hidden = NO;
-//    }
-}
-
-- (void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-//    if (self.type == QuickLoginViewControllerTypeLogin) {
-//        self.bottomButton.hidden = YES;
-//    }
-}
-
-//- (UIButton *)bottomButton{
-//    if (!_bottomButton) {
-//        __weak typeof(self) weakSelf = self;
-//        _bottomButton = [UIButton new];
-//        _bottomButton.titleLabel.font = [UIFont systemFontOfSize:14];
-//        [_bottomButton setTitleColor:[UIColor colorWithHexString:@"0x2FAEEA"] forState:UIControlStateNormal];
-//        [_bottomButton setTitle:@"注册账号" forState:UIControlStateNormal];
-//
-//        [_bottomButton bk_addEventHandler:^(id sender) {
-//            [weakSelf goToRegisterVC];
-//        } forControlEvents:UIControlEventTouchUpInside];
-//        
-//        _bottomButton.frame = CGRectMake(0, kScreen_Height - 60, kScreen_Width, 40);
-//        [self.navigationController.view addSubview:_bottomButton];
-//    }
-//    return _bottomButton;
-//}
-- (void)setupUI{
-//    switch (_type) {
-//        case QuickLoginViewControllerTypeLogin:
-//            self.title = @"登录";
-//            self.bottomButton.hidden = NO;
-//            break;
-//        case QuickLoginViewControllerTypeRegister:
-//            self.title = @"注册";
-//            break;
-//        default:
-//            self.title = @"手机号快捷登录";
-//            break;
-//    }
-//    self.title = @"手机号快捷登录";
-    _mobileF.text = _mobile;
-    
     __weak typeof(self) weakSelf = self;
     [_footerL addLinkToStr:@"《码市用户协议》" whithValue:nil andBlock:^(id value) {
         [weakSelf goToServiceTerms];
     }];
-    _verify_codeBtn.enabled = YES;
+    _mobileF.text = _mobile;
     RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[_mobileF.rac_textSignal, _verify_codeF.rac_textSignal] reduce:^id(NSString *mobile, NSString *verify_code){
         return @(mobile.length > 0 && verify_code.length > 0);
     }];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 #pragma mark Btn
 - (IBAction)verify_codeBtnClicked:(id)sender {
     if (_mobileF.text.length <= 0) {
@@ -122,8 +46,7 @@
         return;
     }
     _verify_codeBtn.enabled = NO;
-    _mobile = _mobileF.text;
-    [[Coding_NetAPIManager sharedManager] post_LoginVerifyCodeWithMobile:_mobile block:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] post_QuickGeneratePhoneCodeWithMobile:_mobileF.text block:^(id data, NSError *error) {
         if (data) {
             [NSObject showHudTipStr:@"验证码发送成功"];
             [self.verify_codeBtn startUpTimer];
@@ -133,28 +56,12 @@
     }];
 }
 - (IBAction)footerBtnClicked:(id)sender {
-//    NSString *typeStr;
-//    if (self.type == QuickLoginViewControllerTypeLogin) {
-//        typeStr = @"登录";
-//    }else if (self.type == QuickLoginViewControllerTypeRegister){
-//        typeStr = @"注册";
-//    }else{
-//        typeStr = @"快速登录";
-//    }
-//    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:typeStr];
-    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"快速登录"];
-
-    _mobile = _mobileF.text;
-    _verify_code = _verify_codeF.text;
-//    [NSObject showHUDQueryStr:_type == QuickLoginViewControllerTypeRegister? @"正在注册": @"正在登录"];
-    [NSObject showHUDQueryStr:@"正在登录"];
-    [[Coding_NetAPIManager sharedManager] get_SidBlock:^(id dataNoUse, NSError *errorNoUse) {
-        [[Coding_NetAPIManager sharedManager] post_LoginAndRegisterWithMobile:_mobile verify_code:_verify_code block:^(id data, NSError *error) {
-            [NSObject hideHUDQuery];
-            if (data) {
-                [self dismissViewControllerAnimated:YES completion:self.loginSucessBlock];
-            }
-        }];
+    [NSObject showHUDQueryStr:@"正在登录..."];
+    [[Coding_NetAPIManager sharedManager] post_QuickLoginWithMobile:_mobileF.text verify_code:_verify_codeF.text block:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (data) {
+            [self dismissViewControllerAnimated:YES completion:self.loginSucessBlock];
+        }
     }];
 }
 
@@ -163,13 +70,5 @@
     NSString *pathForServiceterms = [[NSBundle mainBundle] pathForResource:@"service_terms" ofType:@"html"];
     [self goToWebVCWithUrlStr:pathForServiceterms title:@"用户协议"];
 }
-
-//- (void)goToRegisterVC{
-//    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"去注册"];
-//
-//    QuickLoginViewController *vc = [QuickLoginViewController storyboardVCWithType:QuickLoginViewControllerTypeRegister mobile:_mobile];
-//    vc.loginSucessBlock = self.loginSucessBlock;
-//    [self.navigationController pushViewController:vc animated:YES];
-//}
 
 @end

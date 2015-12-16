@@ -7,7 +7,10 @@
 //
 
 #import "CannotLoginViewController.h"
+#import "PasswordEmailViewController.h"
+#import "PasswordPhoneViewController.h"
 #import "TableViewFooterButton.h"
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 @interface CannotLoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *userStrF;
@@ -20,25 +23,35 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    self.title = (_reasonType == CannotLoginReasonForget)? @"忘记密码": @"设置密码";
+    _userStrF.text = _userStr;
+    RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[self.userStrF.rac_textSignal] reduce:^id(NSString *userStr){
+        return @([userStr isPhoneNo] || [userStr isEmail]);
+    }];
 }
 #pragma mark - Button
 
 - (IBAction)footerBtnClicked:(id)sender {
+    _userStr = _userStrF.text;
+    if ([_userStr isPhoneNo]) {
+        [self performSegueWithIdentifier:NSStringFromClass([PasswordPhoneViewController class]) sender:self];
+    }else{
+        [self performSegueWithIdentifier:NSStringFromClass([PasswordEmailViewController class]) sender:self];
+    }
 }
 
-/*
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([segue.destinationViewController isKindOfClass:[PasswordEmailViewController class]]) {
+        PasswordEmailViewController *vc = (PasswordEmailViewController *)segue.destinationViewController;
+        vc.email = _userStr;
+        vc.reasonType = _reasonType;
+    }else if ([segue.destinationViewController isKindOfClass:[PasswordPhoneViewController class]]){
+        PasswordPhoneViewController *vc = (PasswordPhoneViewController *)segue.destinationViewController;
+        vc.phone = _userStr;
+        vc.reasonType = _reasonType;
+    }
 }
-*/
 
 @end
