@@ -140,6 +140,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     {
         [self.download_identity_img_auth_Button setTitle:@"下载模板" forState:UIControlStateNormal];
     }
+    _checkBox.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [self setupDefValue];
     [self setupEvent];
     //计算textview高度
@@ -175,8 +176,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
         
     }];
     [RACObserve(self, model.isAgree) subscribeNext:^(id x) {
-//        [self.checkBox setImage:[UIImage imageNamed:(_model.isAgree? @"checkbox_checked": @"checkbox_check")] forState:UIControlStateNormal];
-        [self.checkBox setImage:[UIImage imageNamed:(self.model.isAgree? @"fill_checked": @"fill_unchecked")] forState:UIControlStateNormal];
+        [self.checkBox setImage:[UIImage imageNamed:(_model.isAgree? @"checkbox_checked": @"checkbox_check")] forState:UIControlStateNormal];
     }];
     
 }

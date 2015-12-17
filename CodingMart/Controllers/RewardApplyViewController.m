@@ -31,6 +31,7 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     _messageT.textContainerInset = UIEdgeInsetsMake(10, 8, 10, 8);
+    _checkBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     
     self.title = _rewardDetail.reward.title;
     if (_rewardDetail.joinStatus.integerValue != JoinStatusNotJoin) {
@@ -59,7 +60,7 @@
         weakSelf.curJoinInfo.message = newText;
     }];
     [RACObserve(self, curJoinInfo.secret) subscribeNext:^(NSNumber *secret) {
-        [self.checkBtn setImage:[UIImage imageNamed:(secret.boolValue? @"fill_checked": @"fill_unchecked")] forState:UIControlStateNormal];
+        [self.checkBtn setImage:[UIImage imageNamed:(secret.boolValue? @"checkbox_checked": @"checkbox_check")] forState:UIControlStateNormal];
     }];
     
 }

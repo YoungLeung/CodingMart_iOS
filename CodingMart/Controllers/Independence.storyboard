@@ -111,7 +111,7 @@
                                         <rect key="frame" x="0.0" y="128" width="600" height="250"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6nx-Ug-Gz1" id="8sA-6V-Sii">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="249.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="250"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="简述您能胜任项目的原因*" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cfx-fb-1ag">
@@ -123,7 +123,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="R6M-XB-ROM" customClass="UIPlaceHolderTextView">
-                                                    <rect key="frame" x="16" y="48" width="568" height="153"/>
+                                                    <rect key="frame" x="16" y="48" width="568" height="160"/>
                                                     <color key="backgroundColor" red="0.96470588239999999" green="0.96470588239999999" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -141,17 +141,17 @@
                                                         <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="更详细的说明更能增加您入选的概率"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </textView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我承诺，如有接触非公开的项目信息，我将对这些信息保密。" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ujY-6m-cUd">
-                                                    <rect key="frame" x="55" y="216" width="530" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我承诺，如有接触非公开的项目信息，我将对这些信息保密" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ujY-6m-cUd">
+                                                    <rect key="frame" x="40" y="223" width="545" height="14"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="21" id="Hmu-ff-M8R"/>
+                                                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="40" id="Hmu-ff-M8R"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GQX-SR-woG">
-                                                    <rect key="frame" x="15" y="214" width="25" height="25"/>
+                                                    <rect key="frame" x="15" y="218" width="25" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="25" id="AyV-YG-1JI"/>
                                                         <constraint firstAttribute="width" constant="25" id="FZA-57-BcZ"/>
@@ -173,7 +173,7 @@
                                                 <constraint firstItem="cfx-fb-1ag" firstAttribute="top" secondItem="8sA-6V-Sii" secondAttribute="topMargin" constant="5" id="Z2L-kY-BSo"/>
                                                 <constraint firstItem="cfx-fb-1ag" firstAttribute="leading" secondItem="8sA-6V-Sii" secondAttribute="leadingMargin" constant="7" id="ZD0-1O-hqi"/>
                                                 <constraint firstItem="R6M-XB-ROM" firstAttribute="leading" secondItem="8sA-6V-Sii" secondAttribute="leadingMargin" constant="8" id="dCs-ae-XlX"/>
-                                                <constraint firstItem="ujY-6m-cUd" firstAttribute="leading" secondItem="GQX-SR-woG" secondAttribute="trailing" constant="15" id="uYD-MU-27x"/>
+                                                <constraint firstItem="ujY-6m-cUd" firstAttribute="leading" secondItem="GQX-SR-woG" secondAttribute="trailing" id="uYD-MU-27x"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
