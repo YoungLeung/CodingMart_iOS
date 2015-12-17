@@ -37,7 +37,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 #define kDownloadPath @"https://mart.coding.net/api/download/auth_file"
 #define kUploadImgPath @"https://mart.coding.net/api/upload"
 
-@interface IdentityAuthenticationViewController ()<UITextFieldDelegate,LCActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,QLPreviewControllerDataSource,BEMCheckBoxDelegate>
+@interface IdentityAuthenticationViewController ()<UITextFieldDelegate,LCActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,QLPreviewControllerDataSource>
 
 
 @property(nonatomic,assign) NSInteger currentSelectImgTag;
@@ -46,7 +46,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 @property (weak, nonatomic) IBOutlet UITextField *userNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *identityIDTextFiled;
 @property (weak, nonatomic) IBOutlet UITextField *aliyPayTextField;
-@property (weak, nonatomic) IBOutlet BEMCheckBox *codingCheckBox;
+@property (weak, nonatomic) IBOutlet UIButton *checkBox;
 
 @property (weak, nonatomic) IBOutlet UIButton *identity_img_front_Button;
 @property (weak, nonatomic) IBOutlet UIButton *identity_img_back_Button;
@@ -140,12 +140,8 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     {
         [self.download_identity_img_auth_Button setTitle:@"下载模板" forState:UIControlStateNormal];
     }
-    self.codingCheckBox.boxType = BEMBoxTypeSquare;
-    self.codingCheckBox.delegate=self;
-    
     [self setupDefValue];
     [self setupEvent];
-    
     //计算textview高度
 //     self.userAgreementTextViewHeight =[IdentityAuthenticationViewController heightForString:[self userProtocol] fontSize:14 andWidth:kScreen_Width-30]+230;
     
@@ -159,64 +155,39 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 {
     WEAKSELF
     [self.userNameTextField.rac_textSignal subscribeNext:^(NSString *newText)
-    {
-//        if (newText.length<1)
-//            return ;
-        weakSelf.userNameTextField.textColor=[UIColor blackColor];
-        weakSelf.model.name = newText;
-        [weakSelf checkSubmitBtnEnabledStatus];
-        
-    }];
+     {
+         weakSelf.userNameTextField.textColor=[UIColor blackColor];
+         weakSelf.model.name = newText;
+         [weakSelf checkSubmitBtnEnabledStatus];
+         
+     }];
     
     [self.identityIDTextFiled.rac_textSignal subscribeNext:^(NSString *newText){
-//        if (newText.length<1)
-//            return ;
-        
         weakSelf.identityIDTextFiled.textColor=[UIColor blackColor];
         weakSelf.model.identity = newText;
         [weakSelf checkSubmitBtnEnabledStatus];
         
     }];
     [self.aliyPayTextField.rac_textSignal subscribeNext:^(NSString *newText){
-//        if (newText.length<1)
-//            return ;
-        
-//        [weakSelf checkIdentityCardValidity];
         weakSelf.aliyPayTextField.textColor=[UIColor blackColor];
         weakSelf.model.alipay = newText;
         [weakSelf checkSubmitBtnEnabledStatus];
         
     }];
+    [RACObserve(self, model.isAgree) subscribeNext:^(id x) {
+//        [self.checkBox setImage:[UIImage imageNamed:(_model.isAgree? @"checkbox_checked": @"checkbox_check")] forState:UIControlStateNormal];
+        [self.checkBox setImage:[UIImage imageNamed:(self.model.isAgree? @"fill_checked": @"fill_unchecked")] forState:UIControlStateNormal];
+    }];
     
-//    RAC(self, submitBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, model.name),
-//                                                              RACObserve(self, model.identity),
-//                                                              RACObserve(self, model.alipay),
-//                                                              RACObserve(self, model.identity_img_auth),
-//                                                              RACObserve(self, model.identity_img_back),
-//                                                              RACObserve(self, model.identity_img_front),
-//                                                              RACObserve(self, codingCheckBox.on),
-//                                                              
-//                                                              ] reduce:^(NSNumber *isCheckOn){
-//                                                                  return @([weakSelf.model canPost] && [isCheckOn boolValue]);
-//                                                              }];
-   
-  
 }
 
 -(void)checkSubmitBtnEnabledStatus
 {
     BOOL isEnable =NO;
-//    if (self.model.name!=nil && self.model.identity!=nil &&self.model.name!=nil &&self.model.alipay!=nil &&self.model.identity_img_auth!=nil &&self.model.identity_img_back!=nil &&self.model.identity_img_front!=nil && self.codingCheckBox.on==YES)
-//    {
-        if (self.model.name.length>0&& self.model.identity.length>0 &&self.model.identity_img_back.length>0 &&self.model.identity_img_front.length>0 &&self.model.identity_img_auth.length>0 && self.codingCheckBox.on==YES &&self.model.alipay.length>0 )
-        {
-            isEnable=YES;
-        }else
-//        {
-//            isEnable=NO;
-//        }
-//        
-//    }else
+    if (self.model.name.length>0&& self.model.identity.length>0 &&self.model.identity_img_back.length>0 &&self.model.identity_img_front.length>0 &&self.model.identity_img_auth.length>0 && self.model.isAgree &&self.model.alipay.length>0 )
+    {
+        isEnable=YES;
+    }else
     {
         isEnable=NO;
     }
@@ -955,10 +926,8 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     
 }
 
-- (void)didTapCheckBox:(BEMCheckBox*)checkBox
-{
-    self.model.isAgree=checkBox.on;
-    [self checkSubmitBtnEnabledStatus];
+- (IBAction)checkBoxClicked:(UIButton *)sender {
+    self.model.isAgree = !self.model.isAgree;
 }
 
 -(NSString*)userProtocol

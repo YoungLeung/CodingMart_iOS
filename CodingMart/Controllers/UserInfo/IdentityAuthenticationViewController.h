@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseTableViewController.h"
-#import "BEMCheckBox.h"
 
 
 @interface IdentityAuthenticationViewController : BaseTableViewController
