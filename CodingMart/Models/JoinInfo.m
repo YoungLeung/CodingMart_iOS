@@ -27,6 +27,7 @@
     params[@"reward_id"] = _reward_id;
     params[@"role_type"] = _role_type_id;
     params[@"message"] = _message;
+    params[@"secret"] = _secret.boolValue? @(1): @(0);
     return params;
 }
 @end

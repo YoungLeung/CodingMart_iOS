@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *role_typeF;
 @property (weak, nonatomic) IBOutlet UIPlaceHolderTextView *messageT;
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *submitBtn;
+@property (weak, nonatomic) IBOutlet UIButton *checkBtn;
 
 @property (strong, nonatomic) JoinInfo *curJoinInfo;
 @end
@@ -47,14 +48,18 @@
 - (void)p_setupEvents{
     __weak typeof(self) weakSelf = self;
     RAC(self.submitBtn, enabled) = [RACSignal combineLatest:@[RACObserve(self, curJoinInfo.role_type_id),
-                                                              RACObserve(self, curJoinInfo.message)] reduce:^id(NSNumber *role_type_id, NSString *message){
-                                                                  return @(role_type_id != nil && message.length > 0);
+                                                              RACObserve(self, curJoinInfo.message),
+                                                              RACObserve(self, curJoinInfo.secret)] reduce:^id(NSNumber *role_type_id, NSString *message, NSNumber *secret){
+                                                                  return @(role_type_id != nil && message.length > 0 && secret.boolValue);
                                                               }];
     [RACObserve(self, curJoinInfo.role_type_id) subscribeNext:^(NSNumber *obj) {
         weakSelf.role_typeF.text = [self p_NameOfRoleType:_curJoinInfo.role_type_id];
     }];
     [_messageT.rac_textSignal subscribeNext:^(NSString *newText) {
         weakSelf.curJoinInfo.message = newText;
+    }];
+    [RACObserve(self, curJoinInfo.secret) subscribeNext:^(NSNumber *secret) {
+        [self.checkBtn setImage:[UIImage imageNamed:(secret.boolValue? @"fill_checked": @"fill_unchecked")] forState:UIControlStateNormal];
     }];
     
 }
@@ -92,6 +97,10 @@
         }
     }];
     return index;
+}
+
+- (IBAction)checkBtnClicked:(UIButton *)sender {
+    self.curJoinInfo.secret = @(!_curJoinInfo.secret.boolValue);
 }
 
 - (IBAction)submitBtnClicked:(id)sender {

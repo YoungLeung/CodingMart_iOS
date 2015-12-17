@@ -18,7 +18,7 @@ typedef NS_ENUM(NSInteger, JoinStatus) {
 };
 
 @interface JoinInfo : NSObject
-@property (strong, nonatomic) NSNumber *id, *reward_id, *role_type_id, *status;
+@property (strong, nonatomic) NSNumber *id, *reward_id, *role_type_id, *status, *secret;
 @property (strong, nonatomic) NSString *message, *created_at, *updated_at;
 - (NSDictionary *)toParams;
 +(instancetype)joinInfoWithRewardId:(NSNumber *)reward_id;
