@@ -140,11 +140,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     {
         [self.download_identity_img_auth_Button setTitle:@"下载模板" forState:UIControlStateNormal];
     }
-    self.codingCheckBox.on=YES;
-    self.codingCheckBox.onCheckColor=[UIColor colorWithHexString:@"65C279"];
-    self.codingCheckBox.lineWidth=2;
-    self.codingCheckBox.onTintColor=[UIColor colorWithHexString:@"E8E8E8"];
-    self.codingCheckBox.onFillColor=[UIColor colorWithHexString:@"F4F4F4"];
+    self.codingCheckBox.boxType = BEMBoxTypeSquare;
     self.codingCheckBox.delegate=self;
     
     [self setupDefValue];
