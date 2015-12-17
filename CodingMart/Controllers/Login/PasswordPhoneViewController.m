@@ -59,7 +59,7 @@
     [NSObject showHUDQueryStr:@"正在校验验证码..."];
     [[Coding_NetAPIManager sharedManager] post_CheckPhoneCodeWithPhone:_mobileF.text code:_verify_codeF.text type:type block:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
-        if (data || kTrueValueForTest) {
+        if (data) {
             [self performSegueWithIdentifier:NSStringFromClass([PasswordPhoneSetViewController class]) sender:self];
         }
     }];

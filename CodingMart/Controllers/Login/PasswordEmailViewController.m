@@ -42,7 +42,7 @@
     [NSObject showHUDQueryStr:@"正在发送邮件..."];
     [[Coding_NetAPIManager sharedManager] post_SetPasswordWithEmail:_emailF.text captcha:_captchaCell.textF.text type:type block:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
-        if (data || kTrueValueForTest) {
+        if (data) {
             [NSObject showHudTipStr:@"邮件已发送"];
             [self.navigationController popToRootViewControllerAnimated:YES];
         }

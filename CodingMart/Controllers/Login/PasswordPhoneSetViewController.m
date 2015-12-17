@@ -46,7 +46,7 @@
     [NSObject showHUDQueryStr:@"正在设置密码..."];
     [[Coding_NetAPIManager sharedManager] post_SetPasswordWithPhone:_phone code:_code password:_passwordF.text captcha:_captchaCell.textF.text type:type block:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
-        if (data || kTrueValueForTest) {
+        if (data) {
             [NSObject showHudTipStr:@"密码设置成功"];
             [self.navigationController popToRootViewControllerAnimated:YES];
         }

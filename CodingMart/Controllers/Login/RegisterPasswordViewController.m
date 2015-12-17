@@ -75,7 +75,7 @@
     [NSObject showHUDQueryStr:@"正在注册..."];
     [[Coding_NetAPIManager sharedManager] post_SetPasswordWithPhone:_phone code:_code password:_passwordF.text captcha:(_captchaNeeded? _captchaCell.textF.text : nil) type:PurposeToRegister block:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
-        if (data || kTrueValueForTest) {
+        if (data) {
             [self dismissViewControllerAnimated:YES completion:self.loginSucessBlock];
         }else{
             [self refreshCaptchaNeeded];
