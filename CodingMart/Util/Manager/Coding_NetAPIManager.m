@@ -27,9 +27,6 @@
 #import "DCArrayMapping.h"
 #import "DCKeyValueObjectMapping.h"
 
-
-
-
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
     static Coding_NetAPIManager *shared_manager = nil;
@@ -178,12 +175,7 @@
         params[@"j_captcha"] = captcha;
     }
     [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-        data = data[@"data"];
-        User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:data];
-        if (curLoginUser) {
-            [Login doLogin:data];
-        }
-        block(curLoginUser, error);
+        block(data, error);
     }];
 }
 - (void)post_SetPasswordWithEmail:(NSString *)email captcha:(NSString *)captcha type:(PurposeType)type block:(void (^)(id data, NSError *error))block{
