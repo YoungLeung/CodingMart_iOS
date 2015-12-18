@@ -157,7 +157,7 @@
     NSString *path = @"api/account/register/phone";
     NSMutableDictionary *params = @{@"phone": phone,
                                     @"code": code,
-                                    @"password": password}.mutableCopy;
+                                    @"password": [password sha1Str]}.mutableCopy;
     switch (type) {
         case PurposeToRegister:{
             path = @"api/account/register/phone";

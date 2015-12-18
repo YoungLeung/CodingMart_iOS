@@ -48,6 +48,9 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    _password = nil;
+    _captcha = nil;
+    [self.myTableView reloadData];
     [self refreshCaptchaNeeded];
 }
 
@@ -79,7 +82,7 @@
         return cell;
     }else if (indexPath.row == 1){
         MartTextFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MartTextFieldCell_Password forIndexPath:indexPath];
-        cell.textF.text = _userStr;
+        cell.textF.text = _password;
         RAC(self, password) = [cell.textF.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
         return cell;
     }else{
