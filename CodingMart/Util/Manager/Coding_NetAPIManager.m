@@ -224,6 +224,13 @@
                         data1 = [NSObject arrayFromJSON:data1[@"data"] ofObjects:@"Reward"];
                         NSMutableArray *resultA = [(NSArray *)data0 mutableCopy];
                         [resultA addObjectsFromArray:data1];
+                        [resultA sortUsingComparator:^NSComparisonResult(Reward *obj1, Reward *obj2) {
+                            if (obj1.status.integerValue != obj2.status.integerValue) {
+                                return (obj1.status.integerValue > obj2.status.integerValue);
+                            }else{
+                                return (obj1.id.integerValue < obj2.id.integerValue);
+                            }
+                        }];
                         block(resultA, nil);
                     }else{
                         block(data0, error1);
