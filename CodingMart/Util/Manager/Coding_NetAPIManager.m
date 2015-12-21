@@ -139,7 +139,7 @@
                                     @"code": code}.mutableCopy;
     switch (type) {
         case PurposeToRegister:
-            params[@"type"] = @"regsiter";
+            params[@"type"] = @"register";
             break;
         case PurposeToPasswordActivate:
             params[@"type"] = @"activate";
