@@ -59,11 +59,10 @@
         if (data) {
             NSNumber *captchaNeededResult = (NSNumber *)data;
             self.captchaNeeded = captchaNeededResult.boolValue;
-            if (self.captchaNeeded) {
-                [self.myTableView reloadData];
-            }else{
+            if (!self.captchaNeeded) {
                 self.captcha = nil;
             }
+            [self.myTableView reloadData];
         }
     }];
 }
@@ -71,7 +70,7 @@
 #pragma mark - Table M
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _captchaNeeded? 3 : 2;;
+    return _captchaNeeded? 3 : 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

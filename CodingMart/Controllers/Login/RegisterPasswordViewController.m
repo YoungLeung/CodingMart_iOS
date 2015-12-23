@@ -51,18 +51,17 @@
         if (data) {
             NSNumber *captchaNeededResult = (NSNumber *)data;
             self.captchaNeeded = captchaNeededResult.boolValue;
-            if (self.captchaNeeded) {
-                [self.tableView reloadData];
-            }else{
-                self.captchaCell.textF.text = nil;
+            if (!self.captchaNeeded) {
+                self.captchaCell.textF = nil;
             }
+            [self.tableView reloadData];
         }
     }];
 }
 
 #pragma mark - Table M
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _captchaNeeded? 3 : 2;;
+    return _captchaNeeded? 3 : 2;
 }
 
 #pragma mark - Button
