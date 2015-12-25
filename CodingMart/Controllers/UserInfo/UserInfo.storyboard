@@ -1145,17 +1145,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="banner" translatesAutoresizingMaskIntoConstraints="NO" id="Vgu-SC-dBS">
-                                <rect key="frame" x="15" y="35" width="290" height="200"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="banner" translatesAutoresizingMaskIntoConstraints="NO" id="Vgu-SC-dBS">
+                                <rect key="frame" x="15" y="35" width="290" height="145"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="Udn-Td-nd2"/>
+                                    <constraint firstAttribute="width" secondItem="Vgu-SC-dBS" secondAttribute="height" multiplier="2:1" id="kAj-Xq-tbu"/>
                                 </constraints>
                             </imageView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="请您认真阅读《开发者服务指南》, 了解作为开发者如何规范地在 Coding 码市平台上参与悬赏。 阅读完成后，请参与如下的测试问卷，以便于 Coding 码市知悉您对码市平台开发流程的学习成果。 通过本次秘笈测试，您就可以报名码市的悬赏了！" translatesAutoresizingMaskIntoConstraints="NO" id="L9n-lC-8oy" customClass="HBVLinkedTextView">
-                                <rect key="frame" x="11" y="243" width="298" height="217"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请您认真阅读《开发者服务指南》, 了解作为开发者如何规范地在 Coding 码市平台上参与悬赏。 阅读完成后，请参与如下的测试问卷，以便于 Coding 码市知悉您对码市平台开发流程的学习成果。 通过本次秘笈测试，您就可以报名码市的悬赏了！" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ev9-3Z-0U2" customClass="UITTTAttributedLabel">
+                                <rect key="frame" x="15" y="200" width="290" height="143"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FQH-oY-nlu">
                                 <rect key="frame" x="13" y="480" width="294" height="44"/>
                                 <color key="backgroundColor" red="0.23137254901960785" green="0.74117647058823533" blue="0.47450980392156861" alpha="1" colorSpace="calibratedRGB"/>
@@ -1166,6 +1167,12 @@
                                 <state key="normal" title="开始测试">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="masksToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="tapAction:" destination="uZc-rS-Grv" eventType="touchUpInside" id="aVE-hS-Sgl"/>
                                 </connections>
@@ -1173,36 +1180,21 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="FQH-oY-nlu" firstAttribute="top" secondItem="L9n-lC-8oy" secondAttribute="bottom" constant="20" id="1H0-e6-67v"/>
                             <constraint firstAttribute="trailing" secondItem="Vgu-SC-dBS" secondAttribute="trailing" constant="15" id="3mV-pp-e7b"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="FQH-oY-nlu" secondAttribute="trailing" constant="15" id="Bat-lE-xtt"/>
-                            <constraint firstItem="L9n-lC-8oy" firstAttribute="leading" secondItem="S5W-I4-QKj" secondAttribute="leadingMargin" id="GP2-Xn-Sdk"/>
                             <constraint firstItem="Vgu-SC-dBS" firstAttribute="leading" secondItem="S5W-I4-QKj" secondAttribute="leading" constant="15" id="Hpm-f4-lvh"/>
-                            <constraint firstItem="L9n-lC-8oy" firstAttribute="leading" secondItem="S5W-I4-QKj" secondAttribute="leadingMargin" constant="-5" id="Psn-Ga-gzS"/>
-                            <constraint firstItem="L9n-lC-8oy" firstAttribute="top" secondItem="Vgu-SC-dBS" secondAttribute="bottom" constant="8" id="Rq5-Nb-e8G"/>
                             <constraint firstAttribute="trailingMargin" secondItem="FQH-oY-nlu" secondAttribute="trailing" constant="-3" id="TQd-rq-2XG"/>
-                            <constraint firstItem="aup-xG-ern" firstAttribute="top" secondItem="FQH-oY-nlu" secondAttribute="bottom" constant="43.5" id="VPf-90-uRb"/>
+                            <constraint firstItem="aup-xG-ern" firstAttribute="top" secondItem="FQH-oY-nlu" secondAttribute="bottom" constant="44" id="VPf-90-uRb"/>
+                            <constraint firstItem="ev9-3Z-0U2" firstAttribute="leading" secondItem="Vgu-SC-dBS" secondAttribute="leading" id="WhV-fl-qK2"/>
                             <constraint firstItem="FQH-oY-nlu" firstAttribute="leading" secondItem="S5W-I4-QKj" secondAttribute="leadingMargin" constant="-3" id="ZxD-Oo-6ch"/>
                             <constraint firstItem="Vgu-SC-dBS" firstAttribute="top" secondItem="rvs-gR-aau" secondAttribute="bottom" constant="15" id="aQC-8O-72B"/>
-                            <constraint firstItem="FQH-oY-nlu" firstAttribute="leading" secondItem="S5W-I4-QKj" secondAttribute="leadingMargin" constant="15" id="auc-qa-c0I"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="L9n-lC-8oy" secondAttribute="trailing" constant="-5" id="kLg-o5-IHh"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="L9n-lC-8oy" secondAttribute="trailing" id="tJq-jM-IDO"/>
+                            <constraint firstItem="ev9-3Z-0U2" firstAttribute="trailing" secondItem="Vgu-SC-dBS" secondAttribute="trailing" id="udm-cE-El2"/>
+                            <constraint firstItem="ev9-3Z-0U2" firstAttribute="top" secondItem="Vgu-SC-dBS" secondAttribute="bottom" constant="20" id="xZH-dm-6O2"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="GP2-Xn-Sdk"/>
-                                <exclude reference="tJq-jM-IDO"/>
-                                <exclude reference="Bat-lE-xtt"/>
-                                <exclude reference="auc-qa-c0I"/>
-                            </mask>
-                        </variation>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="confirmationBtn" destination="FQH-oY-nlu" id="5qw-uT-P9O"/>
-                        <outlet property="contentTextView" destination="L9n-lC-8oy" id="ONQ-rj-9L0"/>
-                        <outlet property="hearImg" destination="Vgu-SC-dBS" id="tzi-R8-mqt"/>
-                        <outlet property="imgHeight" destination="Udn-Td-nd2" id="3Tc-4T-p5X"/>
+                        <outlet property="contentL" destination="ev9-3Z-0U2" id="aPt-zN-DKa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KU6-93-4ch" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1895,7 +1887,7 @@
                                         <rect key="frame" x="0.0" y="764" width="320" height="700"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qR7-9f-zLU" id="Cnn-Qq-HAN">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="699.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="700"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z9q-NX-YqH">

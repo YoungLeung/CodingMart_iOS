@@ -48,6 +48,16 @@
     self.view.backgroundColor=[UIColor whiteColor];
     self.title=self.viewerModel?@"查看题目":@"码市测试";
     
+//    //默认全部选 A，For Test
+//    if (!self.viewerModel) {
+//        for (CodingExamModel *model in self.dataSource) {
+//            CodingExamOptionsModel *modelOption = model.options.firstObject;
+//            model.currentSelect = @[modelOption.id].mutableCopy;
+//            [self.userSelectAnswers setObject:model.currentSelect forKey:model.id.stringValue];
+//            
+//        }
+//    }
+    
     self.titleLabel=[UILabel new];
     self.titleLabel.textColor=[UIColor colorWithHexString:@"44C07F"];
     self.titleLabel.font=[UIFont boldSystemFontOfSize:18];
