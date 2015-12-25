@@ -132,9 +132,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    WEAKSELF
     if (indexPath.row==0)
     {
-        WEAKSELF
         return [tableView fd_heightForCellWithIdentifier:@"ExamCardTitleCell" cacheByIndexPath:indexPath configuration:^(id cell)
                 {
            [cell updateExamCardTitleCell:weakSelf.model];
@@ -142,10 +142,11 @@
         
     }else if(indexPath.row==5)
     {
-        return 50;
+        return [tableView fd_heightForCellWithIdentifier:@"ExamCardAnswCell" cacheByIndexPath:indexPath configuration:^(id cell) {
+            [cell updateContentData:weakSelf.model];
+        }] + 20;
     }else
     {
-        WEAKSELF
         return [tableView fd_heightForCellWithIdentifier:@"ExamCardQuestionCell" cacheByIndexPath:indexPath configuration:^(ExamCardQuestionCell* cell)
                 {
                     CodingExamOptionsModel *modelOption =[weakSelf.model.options objectAtIndex:indexPath.row-1];
@@ -166,7 +167,6 @@
 
                 }]+20;
     }
-   
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
