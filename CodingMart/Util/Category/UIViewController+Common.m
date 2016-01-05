@@ -63,6 +63,9 @@
 }
 
 + (UIViewController *)analyseVCFromLinkStr:(NSString *)linkStr{
+    if (linkStr.length <= 0) {
+        return nil;
+    }
     UIViewController *resultVC;
     NSArray *matchedCaptures;
     NSString *rewardRegexStr = @"/p/([0-9]+)$";
