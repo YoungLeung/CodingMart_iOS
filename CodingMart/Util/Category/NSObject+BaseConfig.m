@@ -77,7 +77,7 @@
     NSString *key = @"applyStatusDict";
     if (!baseDictInfo[key]) {
         baseDictInfo[key] = @{@"待审核": @"0",
-                              @"已审核": @"1",
+                              @"审核中": @"1",
                               @"已通过": @"2",
                               @"已拒绝": @"3",
                               @"已取消": @"4"};

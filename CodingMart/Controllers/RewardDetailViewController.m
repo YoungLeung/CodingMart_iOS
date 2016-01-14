@@ -202,7 +202,7 @@
             colorHexStr = @"0x727F8D";
             break;
         case JoinStatusChecked:
-            valueStr = @"已审核";
+            valueStr = @"审核中";
             colorHexStr = @"0xF5A623";
             break;
         case JoinStatusSucessed:

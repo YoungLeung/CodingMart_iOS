@@ -11,7 +11,7 @@
 typedef NS_ENUM(NSInteger, JoinStatus) {
     JoinStatusNotJoin = -1,//没有参与过
     JoinStatusFresh,//待审核
-    JoinStatusChecked,//已审核：Coding 人员 checked，才交给甲方处理
+    JoinStatusChecked,//审核中：Coding 人员 checked，才交给甲方处理
     JoinStatusSucessed,//已通过
     JoinStatusFailed,//已拒绝
     JoinStatusCanceled//已取消
