@@ -89,6 +89,13 @@ static User *curLoginUser;
         curLoginUser = [User userTourist];
     }
     [defaults synchronize];
+    
+#if DEBUG
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    [cookies enumerateObjectsUsingBlock:^(NSHTTPCookie *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        DebugLog(@"%@", obj);
+    }];
+#endif
 }
 
 + (NSMutableDictionary *)readLoginDataList{
@@ -158,9 +165,7 @@ static User *curLoginUser;
     //删掉 coding 的 cookie
     NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
     [cookies enumerateObjectsUsingBlock:^(NSHTTPCookie *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([obj.domain hasSuffix:@".coding.net"]) {
-            [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:obj];
-        }
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:obj];
     }];
     
     [Login setXGAccountWithCurUser];

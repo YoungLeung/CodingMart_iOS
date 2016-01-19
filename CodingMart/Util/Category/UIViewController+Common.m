@@ -102,7 +102,7 @@
     NSString *className = [NSString stringWithUTF8String:object_getClassName(self)];
     if (![className hasPrefix:@"Base"] && ![className isEqualToString:@"UIInputWindowController"]) {
         DebugLog(@"ea_swizzle : %@", className);
-        [MobClick endLogPageView:className];
+        [MobClick beginLogPageView:className];
     }
     
     [self customViewDidAppear:animated];
