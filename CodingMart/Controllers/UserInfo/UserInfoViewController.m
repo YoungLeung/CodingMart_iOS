@@ -198,7 +198,7 @@
             [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"码士说"];
 
             [self goToWebVCWithUrlStr:@"/codersay" title:@"码士说"];
-        }else if (indexPath.row == 3){//去评分
+        }else if (indexPath.row == 2){//去评分
             [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"去评分"];
 
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kAppReviewURL]];

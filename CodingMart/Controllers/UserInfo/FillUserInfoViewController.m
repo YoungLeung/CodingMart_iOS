@@ -12,6 +12,7 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "LocationViewController.h"
 #import "UIViewController+BackButtonHandler.h"
+#import "ActionSheetStringPicker.h"
 
 @interface FillUserInfoViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *nameF;
@@ -21,6 +22,8 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *phone_code_separatorLC;
 @property (weak, nonatomic) IBOutlet UITextField *qqNumF;
 @property (weak, nonatomic) IBOutlet UITextField *locationF;
+@property (weak, nonatomic) IBOutlet UITextField *freeTimeF;
+@property (weak, nonatomic) IBOutlet UISwitch *acceptNewRewardEmailNotificationSwitch;
 @property (weak, nonatomic) IBOutlet UIButton *codeBtn;
 @property (weak, nonatomic) IBOutlet UILabel *phoneVerifiedL;
 @property (weak, nonatomic) IBOutlet UIView *codeLineV;
@@ -79,6 +82,8 @@
                                                               RACObserve(self, userInfo.city),
                                                               RACObserve(self, userInfo.district),
                                                               RACObserve(self, userInfo.code),
+                                                              RACObserve(self, userInfo.free_time),
+                                                              RACObserve(self, userInfo.acceptNewRewardEmailNotification),
                                                               ] reduce:^id{
                                                                   BOOL canPost = NO;
                                                                   if ([weakSelf.userInfo canPost:weakSelf.originalUserInfo]) {
@@ -117,7 +122,8 @@
     }else{
         _locationF.text = @"";
     }
-    
+    _freeTimeF.text = [_userInfo free_time_display];
+    _acceptNewRewardEmailNotificationSwitch.on = _userInfo.acceptNewRewardEmailNotification.boolValue;
     _submitBtn.hidden = (_userInfo == nil);
     [self.tableView reloadData];
 }
@@ -175,6 +181,10 @@
         }
     }];
 }
+- (IBAction)acceptNewRewardEmailNotificationSwitchValueChanged:(UISwitch *)sender {
+    self.userInfo.acceptNewRewardEmailNotification = @(sender.on);
+}
+
 #pragma mark verify_codeBtn Timer
 - (void)startUpTimer{
     _durationToValidity = 60;
@@ -221,7 +231,16 @@
         cell.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15);
     }
 }
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == 5) {
+        __weak typeof(self) weakSelf = self;
+        NSInteger initialRow = weakSelf.userInfo.free_time? weakSelf.userInfo.free_time.integerValue: 0;
+        [ActionSheetStringPicker showPickerWithTitle:nil rows:@[[FillUserInfo free_time_display_list]] initialSelection:@[@(initialRow)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
+            weakSelf.userInfo.free_time = selectedIndex.firstObject;
+            weakSelf.freeTimeF.text = [weakSelf.userInfo free_time_display];
+        } cancelBlock:nil origin:self.view];
+    }
+}
 #pragma mark Sugue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     LocationViewController *vc = segue.destinationViewController;

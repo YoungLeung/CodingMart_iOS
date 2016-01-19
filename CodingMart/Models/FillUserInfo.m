@@ -9,6 +9,21 @@
 #import "FillUserInfo.h"
 
 @implementation FillUserInfo
++ (NSArray *)free_time_display_list{
+    return @[@"较少时间兼职",
+             @"较多时间兼职",
+             @"全职 SOHO"];
+}
+- (NSString *)free_time_display{
+    if (_free_time) {
+        NSArray *free_time_list = [FillUserInfo free_time_display_list];
+        NSInteger index = _free_time.integerValue;
+        if (index >= 0 && index < free_time_list.count) {
+            return free_time_list[index];
+        }
+    }
+    return nil;
+}
 - (NSDictionary *)toParams{
     NSMutableDictionary *params = @{}.mutableCopy;
     params[@"name"] = _name;
@@ -19,7 +34,8 @@
     params[@"province"] = _province;
     params[@"city"] = _city;
     params[@"district"] = _district;
-//    params[@"acceptNewRewardEmailNotification"] = @"true";
+    params[@"acceptNewRewardEmailNotification"] = _acceptNewRewardEmailNotification.boolValue? @"true": @"false";
+    params[@"free_time"] = _free_time;
     return params;
 }
 
@@ -57,7 +73,9 @@
      [NSObject isSameStr:_qq to:obj.qq] &&
      [NSObject isSameNum:_province to:obj.province] &&
      [NSObject isSameNum:_city to:obj.city] &&
-     [NSObject isSameNum:_district to:obj.district]
+     [NSObject isSameNum:_district to:obj.district] &&
+     [NSObject isSameNum:_free_time to:obj.free_time] &&
+     [NSObject isSameNum:_acceptNewRewardEmailNotification to:obj.free_time]
     );
 }
 @end
