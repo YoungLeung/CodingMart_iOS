@@ -12,9 +12,7 @@
 @implementation NSObject (BaseConfig)
 + (NSString *)baseURLStr{
 //    NSString *baseURLStr = @"https://mart-staging.coding.net/";
-//    NSString *baseURLStr = @"https://mart.coding.net/";
-    NSString *baseURLStr = @"http://172.16.0.50:9020/";
-    
+    NSString *baseURLStr = @"https://mart.coding.net/";
     return baseURLStr;
 }
 + (NSString *)codingURLStr{
