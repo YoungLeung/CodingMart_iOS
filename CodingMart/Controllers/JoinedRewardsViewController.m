@@ -11,6 +11,7 @@
 #import "JoinedRewardCell.h"
 #import "ODRefreshControl.h"
 #import "RewardDetailViewController.h"
+#import "RewardApplyViewController.h"
 
 @interface JoinedRewardsViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
@@ -77,11 +78,23 @@
     return _rewardList.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    JoinedRewardCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_JoinedRewardCell forIndexPath:indexPath];
-//    [(Reward *)_rewardList[indexPath.row] setReward_status:@(random()%3 + RewardStatusRecruiting)];
-//    [(Reward *)_rewardList[indexPath.row] setApply_status:@(random()%(JoinStatusCanceled +1))];
+    Reward *curReward = _rewardList[indexPath.row];
+//    curReward.reward_status = @(random()%3 + RewardStatusRecruiting);
+//    curReward.apply_status = @(random()%(JoinStatusCanceled +1));
     
+    NSString *cellIdentifier = [NSString stringWithFormat:@"%@_%@", kCellIdentifier_JoinedRewardCell_Prefix, curReward.apply_status.stringValue];
+    JoinedRewardCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     cell.reward = _rewardList[indexPath.row];
+    __weak typeof(self) weakSelf = self;
+    cell.cancelJoinBlock = ^(Reward *reward){
+        [weakSelf cancelJoinReward:reward];
+    };
+    cell.reJoinBlock = ^(Reward *reward){
+        [weakSelf reJoinReward:reward];
+    };
+    cell.goToJoinedRewardBlock =  ^(Reward *reward){
+        [weakSelf goToJoinedReward:reward];
+    };
     return cell;
 }
 
@@ -90,5 +103,29 @@
     
     RewardDetailViewController *vc = [RewardDetailViewController vcWithReward:_rewardList[indexPath.row]];
     [self.navigationController pushViewController:vc animated:YES];
+}
+#pragma mark - CellBlock
+- (void)cancelJoinReward:(Reward *)reward{
+    [[UIActionSheet bk_actionSheetCustomWithTitle:@"确定要取消申请吗？" buttonTitles:@[@"确定"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        if (index == 0) {
+            [NSObject showHUDQueryStr:@"正在取消悬赏..."];
+            [[Coding_NetAPIManager sharedManager] post_CancelJoinReward:reward.id block:^(id data, NSError *error) {
+                [NSObject hideHUDQuery];
+                if (data) {
+                    [NSObject showHudTipStr:@"取消申请成功"];
+                    [self refresh];
+                }
+            }];
+        }
+    }] showInView:self.view];
+}
+- (void)reJoinReward:(Reward *)reward{
+    RewardApplyViewController *vc = [RewardApplyViewController storyboardVC];
+    vc.rewardDetail = [RewardDetail rewardDetailWithReward:reward];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)goToJoinedReward:(Reward *)reward{
+    NSString *detailStr = [NSString stringWithFormat:@"/reward/%@", reward.id.stringValue];
+    [self goToWebVCWithUrlStr:detailStr title:@"悬赏详情"];
 }
 @end

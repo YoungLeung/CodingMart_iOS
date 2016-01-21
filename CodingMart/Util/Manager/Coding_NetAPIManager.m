@@ -399,7 +399,17 @@
         block(data, nil);
     }];
 }
-
+- (void)post_CancelJoinReward:(NSNumber *)reward_id block:(void (^)(id data, NSError *error))block{
+    if (!reward_id) {
+        block(nil, nil);
+        return;
+    }
+    NSString *path = @"api/joined/cancel";
+    NSDictionary *params = @{@"id": reward_id};
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, nil);
+    }];
+}
 #pragma mark Setting
 - (void)get_VerifyInfoBlock:(void (^)(id data, NSError *error))block{
     NSString *path  = @"api/current_user/verified_types";

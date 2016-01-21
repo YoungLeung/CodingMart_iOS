@@ -12,13 +12,6 @@
 @interface RewardDetail : NSObject
 @property (strong, nonatomic) Reward *reward;
 //CurrentUser
-@property (strong, nonatomic) NSNumber *isOwner, *joinStatus;
-
-@end
-
-@interface TempC : NSObject
-@property (strong, nonatomic) NSNumber *status, *progress, *price, *duration;
-@property (strong, nonatomic) NSString *title, *format_price;
-@property (strong, nonatomic) NSString *cover, *home;
-
+@property (strong, nonatomic) NSNumber *joinStatus;
++ (instancetype)rewardDetailWithReward:(Reward *)reward;
 @end

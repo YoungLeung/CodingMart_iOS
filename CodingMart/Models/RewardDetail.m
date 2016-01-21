@@ -17,5 +17,10 @@
     }
     return self;
 }
-
++ (instancetype)rewardDetailWithReward:(Reward *)reward{
+    RewardDetail *rd = [self new];
+    rd.reward = reward;
+    rd.joinStatus = reward.apply_status;
+    return rd;
+}
 @end
