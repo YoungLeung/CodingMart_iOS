@@ -11,9 +11,11 @@
 #import "PublishedRewardCell.h"
 #import "ODRefreshControl.h"
 #import "PublishRewardStep1ViewController.h"
+#import "RewardDetailViewController.h"
+#import "RewardPrivateViewController.h"
 
 
-@interface PublishedRewardsViewController ()
+@interface PublishedRewardsViewController ()<UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet UIView *emptyView;
 @property (strong, nonatomic) NSArray *rewardList;
@@ -34,7 +36,6 @@
     // Do any additional setup after loading the view.
     self.title = @"我发布的悬赏";
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"发布" target:self action:@selector(goToPublish:)];
-    _myTableView.rowHeight = [PublishedRewardCell cellHeight];
     //        refresh
     _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
     [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
@@ -96,7 +97,20 @@
         }
     }] showInView:self.view];
 }
-
+- (void)goToPrivateReward:(Reward *)reward{
+    RewardPrivateViewController *vc = [RewardPrivateViewController vcWithReward:reward];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)goToPublicReward:(Reward *)reward{
+    if (reward.status.integerValue < RewardStatusPassed) {//「未开始」之前的状态，不能查看公开详情
+        return;
+    }
+    RewardDetailViewController *vc = [RewardDetailViewController vcWithReward:reward];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)goToPayReward:(Reward *)reward{
+    [NSObject showHudTipStr:@"稍等"];
+}
 #pragma mark Table M
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     cell.separatorInset = UIEdgeInsetsMake(0, 15, 0, 0);//默认左边空 15
@@ -108,42 +122,30 @@
     Reward *curReward = _rewardList[indexPath.row];
 //    curReward.status = @(random()%(RewardStatusFinished+1));
 
-    NSString *cellIdentifier;
-    switch (curReward.status.integerValue) {
-        case RewardStatusFresh:
-            cellIdentifier = [NSString stringWithFormat:@"%@2", kCellIdentifier_PublishedRewardCellPrefix];
-            break;
-        case RewardStatusRejected:
-        case RewardStatusCanceled:
-            cellIdentifier = [NSString stringWithFormat:@"%@1", kCellIdentifier_PublishedRewardCellPrefix];
-            break;
-        default:
-            cellIdentifier = [NSString stringWithFormat:@"%@0", kCellIdentifier_PublishedRewardCellPrefix];
-            break;
+    NSMutableString *cellIdentifier = kCellIdentifier_PublishedRewardCellPrefix.mutableCopy;
+    if ([curReward needToPay]) {
+        [cellIdentifier appendString:[curReward hasPaidSome]? @"_1_1": @"_1_0"];
+    }else{
+        [cellIdentifier appendString:@"_0_0"];
     }
     PublishedRewardCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     cell.reward = _rewardList[indexPath.row];
     __weak typeof(self) weakSelf = self;
-    cell.rePublishBlock = ^(Reward *reward){
-        [weakSelf goToPublish:reward];
+    cell.goToPublicRewardBlock = ^(Reward *reward){
+        [weakSelf goToPublicReward:reward];
     };
-    cell.editPublishBlock = ^(Reward *reward){
-        [weakSelf goToPublish:reward];
+    cell.goToPrivateRewardBlock = ^(Reward *reward){
+        [weakSelf goToPrivateReward:reward];
     };
-    cell.cancelPublishBlock = ^(Reward *reward){
-        [weakSelf cancelReward:reward];
+    cell.payBtnBlock = ^(Reward *reward){
+        [weakSelf goToPayReward:reward];
     };
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     Reward *curReward = _rewardList[indexPath.row];
-    if (curReward.status.integerValue >= RewardStatusRecruiting) {
-        NSString *detailStr = [NSString stringWithFormat:@"/reward/%@", curReward.id.stringValue];
-//        detailStr = @"/reward/316";
-        [self goToWebVCWithUrlStr:detailStr title:@"悬赏详情"];
-    }
+    return [PublishedRewardCell cellHeightWithTip:[curReward needToPay] && [curReward hasPaidSome]];
 }
 
 @end

@@ -58,7 +58,7 @@
     BOOL canPost = ![self isSameTo:originalObj];
     if (canPost) {
         canPost = _name.length > 0 &&
-        _email.length > 0 &&
+//        _email.length > 0 &&//不是必填项了
         _mobile.length > 0 &&
         _province;//省、市、区 有一个就好
         //&& _city && _district;
@@ -75,7 +75,7 @@
      [NSObject isSameNum:_city to:obj.city] &&
      [NSObject isSameNum:_district to:obj.district] &&
      [NSObject isSameNum:_free_time to:obj.free_time] &&
-     [NSObject isSameNum:_acceptNewRewardEmailNotification to:obj.free_time]
+     [NSObject isSameNum:_acceptNewRewardEmailNotification to:obj.acceptNewRewardEmailNotification]
     );
 }
 @end

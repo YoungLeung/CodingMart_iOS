@@ -16,6 +16,7 @@
 @property (strong, nonatomic) void(^reJoinBlock)(Reward *reward);
 @property (strong, nonatomic) void(^cancelJoinBlock)(Reward *reward);
 @property (strong, nonatomic) void(^goToJoinedRewardBlock)(Reward *reward);
+@property (strong, nonatomic) void(^goToPublicRewardBlock)(Reward *reward);
 
 + (CGFloat)cellHeight;
 @end

@@ -12,6 +12,7 @@
 #import "ODRefreshControl.h"
 #import "RewardDetailViewController.h"
 #import "RewardApplyViewController.h"
+#import "RewardPrivateViewController.h"
 
 @interface JoinedRewardsViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
@@ -79,7 +80,7 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     Reward *curReward = _rewardList[indexPath.row];
-//    curReward.reward_status = @(random()%3 + RewardStatusRecruiting);
+//    curReward.status = @(random()%3 + RewardStatusRecruiting);
 //    curReward.apply_status = @(random()%(JoinStatusCanceled +1));
     
     NSString *cellIdentifier = [NSString stringWithFormat:@"%@_%@", kCellIdentifier_JoinedRewardCell_Prefix, curReward.apply_status.stringValue];
@@ -95,14 +96,10 @@
     cell.goToJoinedRewardBlock =  ^(Reward *reward){
         [weakSelf goToJoinedReward:reward];
     };
+    cell.goToPublicRewardBlock =  ^(Reward *reward){
+        [weakSelf goToPublicReward:reward];
+    };
     return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    RewardDetailViewController *vc = [RewardDetailViewController vcWithReward:_rewardList[indexPath.row]];
-    [self.navigationController pushViewController:vc animated:YES];
 }
 #pragma mark - CellBlock
 - (void)cancelJoinReward:(Reward *)reward{
@@ -125,7 +122,11 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)goToJoinedReward:(Reward *)reward{
-    NSString *detailStr = [NSString stringWithFormat:@"/reward/%@", reward.id.stringValue];
-    [self goToWebVCWithUrlStr:detailStr title:@"悬赏详情"];
+    RewardPrivateViewController *vc = [RewardPrivateViewController vcWithReward:reward];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)goToPublicReward:(Reward *)reward{
+    RewardDetailViewController *vc = [RewardDetailViewController vcWithReward:reward];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 @end

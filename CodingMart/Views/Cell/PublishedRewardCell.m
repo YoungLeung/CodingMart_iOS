@@ -8,7 +8,7 @@
 
 #import "PublishedRewardCell.h"
 #import "UIImageView+WebCache.h"
-
+#import <BlocksKit/BlocksKit+UIKit.h>
 @interface PublishedRewardCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *coverImgV;
 @property (weak, nonatomic) IBOutlet UILabel *titleL;
@@ -18,6 +18,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *priceL;
 @property (weak, nonatomic) IBOutlet UILabel *durationL;
 @property (weak, nonatomic) IBOutlet UILabel *statusL;
+@property (weak, nonatomic) IBOutlet UIView *tapView;
+@property (weak, nonatomic) IBOutlet UILabel *payTipL;
 
 @end
 
@@ -25,6 +27,13 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    _durationL.textColor = [UIColor colorWithHexString:@"0xFF497F"];
+    __weak typeof(self) weakSelf = self;
+    [_tapView bk_whenTapped:^{
+        if (weakSelf.goToPublicRewardBlock) {
+            weakSelf.goToPublicRewardBlock(weakSelf.reward);
+        }
+    }];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -35,14 +44,6 @@
 - (void)setReward:(Reward *)reward{
     _reward = reward;    
     [_reward prepareToDisplay];
-
-    if (_reward.status.integerValue >= RewardStatusRecruiting) {
-        self.selectionStyle = UITableViewCellSelectionStyleDefault;
-//        self.backgroundColor = [UIColor whiteColor];
-    }else{
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-//        self.backgroundColor = [UIColor colorWithHexString:@"0xF8F8F8"];
-    }
     
     [_coverImgV sd_setImageWithURL:[NSURL URLWithString:_reward.cover] placeholderImage:[UIImage imageNamed:@"placeholder_reward_cover_square"]];
     _titleL.text = _reward.name;
@@ -50,71 +51,45 @@
     _typeL.text = _reward.typeDisplay;
     _roleTypesL.text = _reward.roleTypesDisplay;
     _priceL.text = _reward.format_price;
-    _durationL.text = [NSString stringWithFormat:@"%@天", _reward.duration.stringValue];
+    _durationL.text = _reward.duration.stringValue;
     _statusL.text = _reward.statusDisplay;
-    
-    NSString *bgHexStr, *textHexStr;
-    switch (_reward.status.integerValue) {
-        case RewardStatusFresh:
-            bgHexStr = @"0xEEEEEE";
-            textHexStr = @"0x666666";
-            break;
-        case RewardStatusAccepted:
-            bgHexStr = @"0xF0C02D";
-            textHexStr = @"0xFFFFFF";
-            break;
-        case RewardStatusRejected:
-            bgHexStr = @"0xFF497F";
-            textHexStr = @"0xFFFFFF";
-            break;
-        case RewardStatusCanceled:
-            bgHexStr = @"0xDDDDDD";
-            textHexStr = @"0xFFFFFF";
-            break;
-        case RewardStatusPassed:
-            bgHexStr = @"0xEEEEEE";
-            textHexStr = @"0x666666";
-            break;
-        case RewardStatusRecruiting:
-            bgHexStr = @"0x3BBD79";
-            textHexStr = @"0xFFFFFF";
-            break;
-        case RewardStatusDeveloping:
-            bgHexStr = @"0x2FAEEA";
-            textHexStr = @"0xFFFFFF";
-            break;
-        case RewardStatusFinished:
-            bgHexStr = @"0xBBCED7";
-            textHexStr = @"0xFFFFFF";
-            break;
-        default://RewardStatusFresh
-            bgHexStr = @"0xEEEEEE";
-            textHexStr = @"0x666666";
-            break;
+    if (_payTipL) {
+        _payTipL.attributedText = [self p_payTipStr];
     }
-    _statusL.backgroundColor = [UIColor colorWithHexString:bgHexStr];
-    _statusL.textColor = [UIColor colorWithHexString:textHexStr];
+    //状态颜色
+    static NSArray *textHexStrList;
+    if (!textHexStrList) {
+        textHexStrList = @[@"0x666666",
+                           @"0xF7C45D",
+                           @"0xE94F61",
+                           @"0xDDDDDD",
+                           @"0xA9A9A9",
+                           @"0x64C378",
+                           @"0x2FAEEA",
+                           @"0xBACDD8",
+                           ];
+    }
+    _statusL.textColor = [UIColor colorWithHexString:textHexStrList[_reward.status.integerValue]];
 }
 
-- (IBAction)rePublishedBtnClicked:(id)sender {
-    if (_rePublishBlock) {
-        _rePublishBlock(_reward);
-    }
+- (NSAttributedString *)p_payTipStr{
+    NSString *tipStr = [NSString stringWithFormat:@"温馨提示：还剩 %@ 未支付，请尽快支付！", _reward.format_balance];
+    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:tipStr];;
+    [attrStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"0xFF497F"] range:[tipStr rangeOfString:_reward.format_balance]];
+    return attrStr;
 }
 
-- (IBAction)cancelBtnClicked:(id)sender {
-    if (_cancelPublishBlock) {
-        _cancelPublishBlock(_reward);
+- (IBAction)payBtnClicked:(UIButton *)sender {
+    if (_payBtnBlock) {
+        _payBtnBlock(_reward);
     }
 }
-
-- (IBAction)editBtnClicked:(id)sender {
-    if (_editPublishBlock) {
-        _editPublishBlock(_reward);
+- (IBAction)projectStatusBtnClicked:(UIButton *)sender {
+    if (_goToPrivateRewardBlock) {
+        _goToPrivateRewardBlock(_reward);
     }
 }
-
-+ (CGFloat)cellHeight{
-    return 120;
++ (CGFloat)cellHeightWithTip:(BOOL)hasTip{
+    return hasTip? 205: 170;
 }
 @end

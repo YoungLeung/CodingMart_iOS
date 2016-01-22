@@ -21,7 +21,19 @@
     }
     return self;
 }
-
+- (NSNumber *)status{
+    return _status ?: _reward_status;
+}
+- (BOOL)needToPay{
+        return (_balance.integerValue > 0 &&
+                (_status.integerValue == RewardStatusFresh ||
+                 _status.integerValue == RewardStatusAccepted ||
+                 _status.integerValue == RewardStatusRecruiting ||
+                 _status.integerValue == RewardStatusDeveloping));
+}
+- (BOOL)hasPaidSome{
+    return (_price.integerValue - _balance.integerValue > 0);
+}
 - (void)prepareToDisplay{
     if (_typeDisplay) {//已经有数据了，就不需要再 prepare 了
         return;
@@ -33,11 +45,8 @@
         }
         _typeImageName = [NSString stringWithFormat:@"reward_type_icon_%@", _type.stringValue];
     }
-    if (_status) {
-        _statusDisplay = [[NSObject rewardStatusDict] findKeyFromStrValue:_status.stringValue];
-    }else if (_reward_status){
-        _statusDisplay = [[NSObject rewardStatusDict] findKeyFromStrValue:_reward_status.stringValue];
-    }
+    _statusDisplay = [[NSObject rewardStatusDict] findKeyFromStrValue:self.status.stringValue];
+    
     __block NSMutableString *roleTypesDisplay = @"".mutableCopy;
     [_roleTypes enumerateObjectsUsingBlock:^(RewardRoleType *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [roleTypesDisplay appendFormat:idx == 0? @"%@": @"，%@", obj.name];

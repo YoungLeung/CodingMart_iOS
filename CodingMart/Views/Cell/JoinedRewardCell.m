@@ -8,6 +8,7 @@
 
 #import "JoinedRewardCell.h"
 #import "UIImageView+WebCache.h"
+#import <BlocksKit/BlocksKit+UIKit.h>
 
 @interface JoinedRewardCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *coverImgV;
@@ -20,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *statusL;
 @property (weak, nonatomic) IBOutlet UILabel *applyStatusL;
 @property (weak, nonatomic) IBOutlet UIButton *editBtn;
+@property (weak, nonatomic) IBOutlet UIView *tapView;
 
 @end
 
@@ -28,6 +30,12 @@
 - (void)awakeFromNib {
     // Initialization code
     [_editBtn setTitleColor:[UIColor colorWithHexString:@"0x999999"] forState:UIControlStateDisabled];
+    __weak typeof(self) weakSelf = self;
+    [_tapView bk_whenTapped:^{
+        if (weakSelf.goToPublicRewardBlock) {
+            weakSelf.goToPublicRewardBlock(weakSelf.reward);
+        }
+    }];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -50,7 +58,7 @@
     _statusL.text = _reward.statusDisplay;
     _applyStatusL.text = [[NSObject applyStatusDict] findKeyFromStrValue:_reward.apply_status.stringValue];
     
-    _editBtn.enabled = (_reward.reward_status.integerValue == RewardStatusRecruiting);
+    _editBtn.enabled = (_reward.status.integerValue == RewardStatusRecruiting);
 }
 
 + (CGFloat)cellHeight{
