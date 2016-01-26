@@ -35,7 +35,7 @@
 }
 
 - (void)viewDidLoad {
-    self.titleStr = @"项目状态";
+    self.titleStr = @"项目详情";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 }
@@ -48,14 +48,10 @@
 - (void)handleRefresh{
     [super handleRefresh];
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] get_PublishededRewardListBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] get_RewardPrivateDetailWithId:self.curReward.id.integerValue block:^(id data, NSError *error) {
         if (data) {
-            NSPredicate *curPredicate = [NSPredicate predicateWithFormat:@"id.intValue == %d", weakSelf.curReward.id.integerValue];
-            Reward *freshR = [data filteredArrayUsingPredicate:curPredicate].firstObject;
-            if (freshR) {
-                weakSelf.curReward = freshR;
-                [weakSelf refreshNav];
-            }
+            weakSelf.curReward = data;
+            [weakSelf refreshNav];
         }
     }];
 }

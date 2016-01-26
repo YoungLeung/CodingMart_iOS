@@ -13,6 +13,7 @@
 #import "PublishRewardStep1ViewController.h"
 #import "RewardDetailViewController.h"
 #import "RewardPrivateViewController.h"
+#import "PayMethodViewController.h"
 
 
 @interface PublishedRewardsViewController ()<UITableViewDelegate>
@@ -109,7 +110,9 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)goToPayReward:(Reward *)reward{
-    [NSObject showHudTipStr:@"稍等"];
+    PayMethodViewController *vc = [PayMethodViewController storyboardVC];
+    vc.curReward = reward;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 #pragma mark Table M
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{

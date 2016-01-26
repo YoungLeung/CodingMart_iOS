@@ -288,6 +288,15 @@
         block(data, error);
     }];
 }
+- (void)get_RewardPrivateDetailWithId:(NSInteger)rewardId block:(void (^)(id data, NSError *error))block{
+    [[Coding_NetAPIManager sharedManager] get_PublishededRewardListBlock:^(id data, NSError *error) {
+        if (data) {
+            NSPredicate *curPredicate = [NSPredicate predicateWithFormat:@"id.intValue == %d", rewardId];
+            Reward *freshR = [data filteredArrayUsingPredicate:curPredicate].firstObject;
+            block(freshR, error);
+        }
+    }];
+}
 
 - (void)get_CodingExamTesting:(void (^)(id data, NSError *error))block
 {
