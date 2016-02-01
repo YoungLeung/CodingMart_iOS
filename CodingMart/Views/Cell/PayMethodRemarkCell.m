@@ -20,6 +20,6 @@
     // Configure the view for the selected state
 }
 + (CGFloat)cellHeight{
-    return 160.0;
+    return kDevice_Is_iPhone6Plus? 275: 285;
 }
 @end
