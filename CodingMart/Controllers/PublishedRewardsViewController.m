@@ -61,16 +61,16 @@
         [self.view endLoading];
         if (data) {
             self.rewardList = data;
-            [self.rewardList enumerateObjectsUsingBlock:^(Reward *  _Nonnull curReward, NSUInteger idx, BOOL * _Nonnull stop) {
-                curReward.status = @(random()%(RewardStatusFinished+1));
-                curReward.price = @(random()%10000);
-                curReward.price_with_fee = @(curReward.price.integerValue * 1.1);
-                curReward.balance = @(1);
-//                @(random()%curReward.price_with_fee.integerValue);
-                curReward.format_price = curReward.price.stringValue;
-                curReward.format_price_with_fee = curReward.price_with_fee.stringValue;
-                curReward.format_balance = curReward.balance.stringValue;
-            }];
+//            [self.rewardList enumerateObjectsUsingBlock:^(Reward *  _Nonnull curReward, NSUInteger idx, BOOL * _Nonnull stop) {
+//                curReward.status = @(random()%(RewardStatusFinished+1));
+//                curReward.price = @(random()%10000);
+//                curReward.price_with_fee = @(curReward.price.integerValue * 1.1);
+//                curReward.balance = @(1);
+////                @(random()%curReward.price_with_fee.integerValue);
+//                curReward.format_price = curReward.price.stringValue;
+//                curReward.format_price_with_fee = curReward.price_with_fee.stringValue;
+//                curReward.format_balance = curReward.balance.stringValue;
+//            }];
         }
         [self refreshUI];
     }];
