@@ -35,7 +35,7 @@
         _topLineV = [UIView new];
         _bottomLineV = [UIView new];
         _splitLineV = [UIView new];
-        _topLineV.backgroundColor = [UIColor colorWithHexString:@"0x3BBD79"];
+        _topLineV.backgroundColor = [UIColor colorWithHexString:@"0x4289DB"];
         _bottomLineV.backgroundColor = [UIColor colorWithHexString:@"0xCCCCCC"];
         _splitLineV.backgroundColor = [UIColor colorWithHexString:@"0xCCCCCC"];
         [_contentView addSubview:_topLineV];
@@ -233,7 +233,7 @@
 - (void)setHasBeenSeleted:(BOOL)hasBeenSeleted{
     _hasBeenSeleted = hasBeenSeleted;
     _contentLabel.textColor = [UIColor colorWithHexString:hasBeenSeleted? @"0xFFFFFF": @"0x666666"];
-    self.contentView.backgroundColor = [UIColor colorWithHexString:hasBeenSeleted? @"0x3BBD79": @"0xF3F3F3"];
+    self.contentView.backgroundColor = [UIColor colorWithHexString:hasBeenSeleted? @"0x4289DB": @"0xF3F3F3"];
 }
 
 @end

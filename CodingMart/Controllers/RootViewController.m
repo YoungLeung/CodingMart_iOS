@@ -157,7 +157,7 @@
         NSMutableArray *menuItems = @[].mutableCopy;
         [_statusList enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             KxMenuItem *menuItem = [KxMenuItem menuItem:obj image:nil target:self action:@selector(menuItemClicked:)];
-            menuItem.foreColor = [UIColor colorWithHexString:idx == _selectedStatusIndex? @"0x3bbd79": @"0x222222"];
+            menuItem.foreColor = [UIColor colorWithHexString:idx == _selectedStatusIndex? @"0x4289DB": @"0x222222"];
             [menuItems addObject:menuItem];
         }];
         CGRect senderFrame = CGRectMake(kScreen_Width - (kDevice_Is_iPhone6Plus? 30: 26), 64, 0, 0);

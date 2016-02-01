@@ -146,7 +146,7 @@
 
 #pragma mark Btn
 - (void)p_setButton:(UIButton *)button toEnabled:(BOOL)enabled{
-    UIColor *foreColor = [UIColor colorWithHexString:enabled? @"0x2FAEEA": @"0xCCCCCC"];
+    UIColor *foreColor = [UIColor colorWithHexString:enabled? @"0x4289DB": @"0xCCCCCC"];
     button.backgroundColor = foreColor;
     button.enabled = enabled;
     if (enabled) {

@@ -29,7 +29,7 @@
 
 - (void)setEnabled:(BOOL)enabled{
     [super setEnabled:enabled];
-    UIColor *foreColor = [UIColor colorWithHexString:enabled? @"0x2FAEEA": @"0xCCCCCC"];
+    UIColor *foreColor = [UIColor colorWithHexString:enabled? @"0x4289DB": @"0xCCCCCC"];
     [self doBorderWidth:1.0 color:foreColor cornerRadius:2.0];
     [self setTitleColor:foreColor forState:UIControlStateNormal];
     if (enabled) {

@@ -23,7 +23,7 @@
 - (void)p_setupUI{
     self.layer.masksToBounds = YES;
     self.layer.cornerRadius = 3.0;
-    self.backgroundColor = [UIColor colorWithHexString:@"0x3BBD79"];
+    self.backgroundColor = [UIColor colorWithHexString:@"0x4289DB"];
     self.titleLabel.font = [UIFont systemFontOfSize:17];
     [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateDisabled];

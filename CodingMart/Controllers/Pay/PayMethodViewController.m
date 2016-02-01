@@ -21,9 +21,12 @@
 #import <UMengSocial/WXApi.h>
 #import <UMengSocial/WXApiObject.h>
 #import <AlipaySDK/AlipaySDK.h>
+#import "TableViewFooterButton.h"
 
 @interface PayMethodViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet TPKeyboardAvoidingTableView *myTableView;
+@property (weak, nonatomic) IBOutlet TableViewFooterButton *payBtn;
+
 @property (strong, nonatomic) NSDictionary *payDict;
 @end
 

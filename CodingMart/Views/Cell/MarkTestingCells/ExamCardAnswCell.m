@@ -45,7 +45,7 @@
         _lblTitle.backgroundColor=[UIColor clearColor];
         _lblTitle.font=[UIFont boldSystemFontOfSize:17];
         _lblTitle.textAlignment=NSTextAlignmentLeft;
-        _lblTitle.textColor=[UIColor colorWithHexString:@"3BBD79"];
+        _lblTitle.textColor=[UIColor colorWithHexString:@"0x4289DB"];
     }
     return _lblTitle;
 }

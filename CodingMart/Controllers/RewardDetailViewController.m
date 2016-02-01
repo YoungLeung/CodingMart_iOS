@@ -172,19 +172,19 @@
     UIButton *bottomBtn = nil;
     switch (joinStatus.integerValue) {
         case JoinStatusFresh:
-            bottomBtn = [self p_bottomBtnWithTitle:@"编辑" bgColorHexStr:@"0x3BBD79"];
+            bottomBtn = [self p_bottomBtnWithTitle:@"编辑" bgColorHexStr:@"0x4289DB"];
             break;
         case JoinStatusChecked:
         case JoinStatusSucessed:
             break;
         case JoinStatusFailed:
-            bottomBtn = [self p_bottomBtnWithTitle:@"重新报名" bgColorHexStr:@"0x3BBD79"];
+            bottomBtn = [self p_bottomBtnWithTitle:@"重新报名" bgColorHexStr:@"0x4289DB"];
             break;
         case JoinStatusCanceled:
-            bottomBtn = [self p_bottomBtnWithTitle:@"重新报名" bgColorHexStr:@"0x3BBD79"];
+            bottomBtn = [self p_bottomBtnWithTitle:@"重新报名" bgColorHexStr:@"0x4289DB"];
             break;
         default:
-            bottomBtn = [self p_bottomBtnWithTitle:@"参与悬赏" bgColorHexStr:@"0x3BBD79"];
+            bottomBtn = [self p_bottomBtnWithTitle:@"参与悬赏" bgColorHexStr:@"0x4289DB"];
             break;
     }
     return bottomBtn;

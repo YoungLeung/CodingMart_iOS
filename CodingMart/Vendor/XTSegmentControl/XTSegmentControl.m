@@ -45,7 +45,7 @@
 
 - (void)setSelected:(BOOL)selected{
     if (selected) {
-        _titleLabel.textColor = [UIColor colorWithHexString:@"0x3bbd79"];
+        _titleLabel.textColor = [UIColor colorWithHexString:@"0x4289DB"];
     }else{
         _titleLabel.textColor = [UIColor colorWithWhite:1.0 alpha:0.5];
     }
@@ -164,7 +164,7 @@
 //                                                             CGRectGetHeight(rect) - XTSegmentControlLineHeight,
 //                                                             CGRectGetWidth(rect) - 2 * XTSegmentControlHspace,
 //                                                             XTSegmentControlLineHeight)];
-//        _lineView.backgroundColor = [UIColor colorWithHexString:@"0x3bbd79"];
+//        _lineView.backgroundColor = [UIColor colorWithHexString:@"0x4289DB"];
 //        [_contentView addSubview:_lineView];
 //       
 //        UIView *bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(rect)-0.5, CGRectGetWidth(self.bounds), 0.5)];

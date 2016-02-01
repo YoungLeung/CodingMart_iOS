@@ -180,7 +180,7 @@
     if (!_configBtn)
     {
         _configBtn=[UIButton buttonWithType:UIButtonTypeCustom];
-        [_configBtn setBackgroundColor:[UIColor colorWithHexString:@"3BBD79"]];
+        [_configBtn setBackgroundColor:[UIColor colorWithHexString:@"0x4289DB"]];
         [_configBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _configBtn.layer.masksToBounds=YES;
         _configBtn.layer.cornerRadius=5;
