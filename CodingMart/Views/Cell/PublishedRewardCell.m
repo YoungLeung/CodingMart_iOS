@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UIView *tapView;
 @property (weak, nonatomic) IBOutlet UILabel *payTipL;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tipLineHeight;
+@property (weak, nonatomic) IBOutlet UILabel *allPaidL;
 
 @end
 
@@ -72,6 +73,7 @@
                            ];
     }
     _statusL.textColor = [UIColor colorWithHexString:textHexStrList[_reward.status.integerValue]];
+    _allPaidL.hidden = !(_reward.balance.integerValue == 0 ||_reward.price.integerValue > 0);
 }
 
 - (NSAttributedString *)p_payTipStr{
