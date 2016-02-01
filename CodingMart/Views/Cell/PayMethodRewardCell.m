@@ -30,11 +30,11 @@
     [curReward prepareToDisplay];
     
     _nameL.text = curReward.name;
-    _priceL.text = curReward.format_price;
+    _priceL.text = [NSString stringWithFormat:@"%@（包含 10%% 服务费）", curReward.format_price_with_fee];
     _statusL.text = curReward.statusDisplay;
 }
 
 + (CGFloat)cellHeight{
-    return 75.0;
+    return 100.0;
 }
 @end

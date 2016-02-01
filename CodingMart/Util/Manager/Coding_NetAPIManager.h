@@ -45,7 +45,8 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)get_JoinInfoWithRewardId:(NSInteger)rewardId block:(void (^)(id data, NSError *error))block;
 - (void)post_JoinInfo:(JoinInfo *)info block:(void (^)(id data, NSError *error))block;
 - (void)post_CancelJoinReward:(NSNumber *)reward_id block:(void (^)(id data, NSError *error))block;
-
+- (void)post_GenerateOrderWithReward:(Reward *)reward block:(void (^)(id data, NSError *error))block;
+- (void)get_Order:(NSString *)orderNo block:(void (^)(id data, NSError *error))block;
 #pragma mark Setting
 - (void)get_VerifyInfoBlock:(void (^)(id data, NSError *error))block;
 - (void)get_FillUserInfoBlock:(void (^)(id data, NSError *error))block;

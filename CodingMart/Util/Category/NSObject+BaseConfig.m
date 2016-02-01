@@ -13,12 +13,15 @@
 + (NSString *)baseURLStr{
 //    NSString *baseURLStr = @"https://mart-staging.coding.net/";
 //    NSString *baseURLStr = @"http://172.16.0.50:9020/";
+//    NSString *baseURLStr = @"http://192.168.0.183:9020/";
 
     NSString *baseURLStr = @"https://mart.coding.net/";
     
     return baseURLStr;
 }
 + (NSString *)codingURLStr{
+//    NSString *codingURLStr = @"http://192.168.0.15:9990/";
+
     NSString *codingURLStr = @"https://coding.net/";
     return codingURLStr;
 }

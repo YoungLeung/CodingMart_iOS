@@ -24,6 +24,9 @@
 - (NSNumber *)status{
     return _status ?: _reward_status;
 }
+- (NSString *)payMoney{
+    return _payMoney ?: _balance.stringValue;
+}
 - (BOOL)needToPay{
         return (_balance.integerValue > 0 &&
                 (_status.integerValue == RewardStatusFresh ||
@@ -32,7 +35,7 @@
                  _status.integerValue == RewardStatusDeveloping));
 }
 - (BOOL)hasPaidSome{
-    return (_price.integerValue - _balance.integerValue > 0);
+    return (_price_with_fee.integerValue - _balance.integerValue > 0);
 }
 - (void)prepareToDisplay{
     if (_typeDisplay) {//已经有数据了，就不需要再 prepare 了

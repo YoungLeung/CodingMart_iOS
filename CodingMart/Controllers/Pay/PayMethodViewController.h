@@ -11,6 +11,7 @@
 
 @interface PayMethodViewController : BaseViewController
 @property (strong, nonatomic) Reward *curReward;
+- (void)handlePayURL:(NSURL *)url;
 
 + (instancetype)storyboardVC;
 @end

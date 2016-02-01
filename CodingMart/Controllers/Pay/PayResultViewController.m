@@ -9,13 +9,15 @@
 #import "PayResultViewController.h"
 #import "RewardPrivateViewController.h"
 #import "MartWebViewController.h"
+#import "Reward.h"
 
 @interface PayResultViewController ()
+@property (strong, nonatomic) Reward *curReward;
+
 @property (weak, nonatomic) IBOutlet UILabel *currentPaidL;
 @property (weak, nonatomic) IBOutlet UILabel *nameL;
-@property (weak, nonatomic) IBOutlet UILabel *totalPriceL;
 @property (weak, nonatomic) IBOutlet UILabel *totalPaidL;
-
+@property (weak, nonatomic) IBOutlet UILabel *totalLeftL;
 @end
 
 @implementation PayResultViewController
@@ -28,6 +30,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _curReward = [NSObject objectOfClass:@"Reward" fromJSON:_orderDict[@"reward"]];
+    _currentPaidL.text = _orderDict[@"format_price"];
+    _totalPaidL.text = [NSString stringWithFormat:@"￥%ld", _curReward.price_with_fee.integerValue - _curReward.balance.integerValue];
+    _totalLeftL.text = [NSString stringWithFormat:@"￥%ld", _curReward.balance.integerValue];
+//    _totalLeftL.text = _curReward.format_balance;
+    _nameL.text = _curReward.name;
 }
 
 - (void)didReceiveMemoryWarning {

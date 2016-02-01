@@ -7,10 +7,8 @@
 //
 
 #import "BaseTableViewController.h"
-#import "Reward.h"
 
 @interface PayResultViewController : BaseTableViewController
-@property (strong, nonatomic) Reward *curReward;
-
+@property (strong, nonatomic) NSDictionary *orderDict;
 + (instancetype)storyboardVC;
 @end

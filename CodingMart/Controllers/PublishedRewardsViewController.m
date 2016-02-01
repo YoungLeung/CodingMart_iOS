@@ -61,6 +61,16 @@
         [self.view endLoading];
         if (data) {
             self.rewardList = data;
+//            [self.rewardList enumerateObjectsUsingBlock:^(Reward *  _Nonnull curReward, NSUInteger idx, BOOL * _Nonnull stop) {
+//                curReward.status = @(random()%(RewardStatusFinished+1));
+//                curReward.price = @(random()%10000);
+//                curReward.price_with_fee = @(curReward.price.integerValue * 1.1);
+//                curReward.balance = @(1);
+////                @(random()%curReward.price_with_fee.integerValue);
+//                curReward.format_price = curReward.price.stringValue;
+//                curReward.format_price_with_fee = curReward.price_with_fee.stringValue;
+//                curReward.format_balance = curReward.balance.stringValue;
+//            }];
         }
         [self refreshUI];
     }];
@@ -123,8 +133,6 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     Reward *curReward = _rewardList[indexPath.row];
-//    curReward.status = @(random()%(RewardStatusFinished+1));
-
     NSMutableString *cellIdentifier = kCellIdentifier_PublishedRewardCellPrefix.mutableCopy;
     if ([curReward needToPay]) {
         [cellIdentifier appendString:[curReward hasPaidSome]? @"_1_1": @"_1_0"];

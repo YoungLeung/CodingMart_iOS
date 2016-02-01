@@ -206,6 +206,10 @@
 		4EDFFF2B1BCA641A007DF702 /* UIActionSheet+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EDFFF2A1BCA641A007DF702 /* UIActionSheet+Common.m */; };
 		4EDFFFC91BCA73C4007DF702 /* service_terms.html in Resources */ = {isa = PBXBuildFile; fileRef = 4EDFFF941BCA73C4007DF702 /* service_terms.html */; };
 		4EDFFFF81BCA8573007DF702 /* FeedBackInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EDFFFF71BCA8573007DF702 /* FeedBackInfo.m */; };
+		4EEF56A11C58A0A60074F581 /* UIButton+Query.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EEF56A01C58A0A60074F581 /* UIButton+Query.m */; };
+		4EEF56A51C58D3950074F581 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4EEF56A31C58D3950074F581 /* AlipaySDK.bundle */; };
+		4EEF56A61C58D3950074F581 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EEF56A41C58D3950074F581 /* AlipaySDK.framework */; };
+		4EEF56A81C58D7C20074F581 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EEF56A71C58D7C20074F581 /* CoreMotion.framework */; };
 		4EF5DE2A1C522CB90007C48E /* RewardPrivateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF5DE291C522CB90007C48E /* RewardPrivateViewController.m */; };
 		4EFD8EB11BE7353800E9C284 /* SettingNotificationInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EFD8EB01BE7353800E9C284 /* SettingNotificationInfo.m */; };
 		4EFD8EB41BE756BB00E9C284 /* EAMultiSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EFD8EB31BE756BB00E9C284 /* EAMultiSelectView.m */; };
@@ -599,6 +603,11 @@
 		4EDFFF941BCA73C4007DF702 /* service_terms.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = service_terms.html; sourceTree = "<group>"; };
 		4EDFFFF61BCA8572007DF702 /* FeedBackInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedBackInfo.h; sourceTree = "<group>"; };
 		4EDFFFF71BCA8573007DF702 /* FeedBackInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedBackInfo.m; sourceTree = "<group>"; };
+		4EEF569F1C58A0A60074F581 /* UIButton+Query.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Query.h"; sourceTree = "<group>"; };
+		4EEF56A01C58A0A60074F581 /* UIButton+Query.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Query.m"; sourceTree = "<group>"; };
+		4EEF56A31C58D3950074F581 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
+		4EEF56A41C58D3950074F581 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
+		4EEF56A71C58D7C20074F581 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		4EF5DE281C522CB90007C48E /* RewardPrivateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RewardPrivateViewController.h; sourceTree = "<group>"; };
 		4EF5DE291C522CB90007C48E /* RewardPrivateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RewardPrivateViewController.m; sourceTree = "<group>"; };
 		4EFD8EAF1BE7353800E9C284 /* SettingNotificationInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingNotificationInfo.h; sourceTree = "<group>"; };
@@ -625,7 +634,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EEF56A81C58D7C20074F581 /* CoreMotion.framework in Frameworks */,
 				32F2F2B51BFC769700DC600D /* QuickLook.framework in Frameworks */,
+				4EEF56A61C58D3950074F581 /* AlipaySDK.framework in Frameworks */,
 				4E2693B91BC680E000F9E332 /* libsqlite3.0.tbd in Frameworks */,
 				4E2693B71BC6809900F9E332 /* libz.1.dylib in Frameworks */,
 				4E2693B51BC67F6F00F9E332 /* Security.framework in Frameworks */,
@@ -1139,6 +1150,7 @@
 		4EBDC2A41BC64D9A0037EB66 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				4EEF56A21C58D3950074F581 /* AlipaySDK */,
 				326A290B1BF1F7DE0002FE94 /* ZZBWebView */,
 				3272C2C71BF1DAE9005AD40B /* WPAttributedMarkup */,
 				4E8547E31BFC81C10038BA9B /* LTNavigationBar */,
@@ -1219,6 +1231,8 @@
 				4E224B081BEC4EF300F8475F /* UIDevice+Common.m */,
 				4E0E6FB81BFF2ED9009EB20D /* NSURL+Common.h */,
 				4E0E6FB91BFF2ED9009EB20D /* NSURL+Common.m */,
+				4EEF569F1C58A0A60074F581 /* UIButton+Query.h */,
+				4EEF56A01C58A0A60074F581 /* UIButton+Query.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -1444,9 +1458,19 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		4EEF56A21C58D3950074F581 /* AlipaySDK */ = {
+			isa = PBXGroup;
+			children = (
+				4EEF56A31C58D3950074F581 /* AlipaySDK.bundle */,
+				4EEF56A41C58D3950074F581 /* AlipaySDK.framework */,
+			);
+			path = AlipaySDK;
+			sourceTree = "<group>";
+		};
 		763530924587ECA73B4D4A52 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4EEF56A71C58D7C20074F581 /* CoreMotion.framework */,
 				32F2F2B41BFC769700DC600D /* QuickLook.framework */,
 				4E2693B81BC680E000F9E332 /* libsqlite3.0.tbd */,
 				4E2693B61BC6809900F9E332 /* libz.1.dylib */,
@@ -1550,6 +1574,7 @@
 				32F2F2B21BFC4BA100DC600D /* cellLine@2x.png in Resources */,
 				4EBDC2951BC645990037EB66 /* Assets.xcassets in Resources */,
 				4E224B061BEA117A00F8475F /* Independence.storyboard in Resources */,
+				4EEF56A51C58D3950074F581 /* AlipaySDK.bundle in Resources */,
 				4EDAE41E1BC8B4A200255FE8 /* PublishReward.storyboard in Resources */,
 				4EDAE3E81BC7BCB000255FE8 /* SVWebViewControllerActivityChrome@2x.png in Resources */,
 				32F2F2B11BFC4BA100DC600D /* bgImage_HL@2x.png in Resources */,
@@ -1672,6 +1697,7 @@
 				4E2A0DA11BC933A80091CA77 /* UITTTAttributedLabel.m in Sources */,
 				4E26938D1BC6781E00F9E332 /* YLImageView.m in Sources */,
 				4E26938C1BC6781E00F9E332 /* YLGIFImage.m in Sources */,
+				4EEF56A11C58A0A60074F581 /* UIButton+Query.m in Sources */,
 				4E36A5611BE09E2600BC3ADE /* FillTypesViewController.m in Sources */,
 				4EDAE4171BC7E6D000255FE8 /* RewardListHeaderView.m in Sources */,
 				4E53715B1C5745A800479DD3 /* PayMethodRemarkCell.m in Sources */,
@@ -1903,6 +1929,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/CodingMart/Vendor/AlipaySDK",
+				);
 				GCC_PREFIX_HEADER = "CodingMart/CodingMart-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/include/libxml2",
@@ -1939,6 +1969,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/CodingMart/Vendor/AlipaySDK",
+				);
 				GCC_PREFIX_HEADER = "CodingMart/CodingMart-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/include/libxml2",

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -23,7 +23,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="calibratedRGB"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="ShT-Sb-aAn">
-                                    <rect key="frame" x="0.0" y="517" width="600" height="90"/>
+                                    <rect key="frame" x="0.0" y="542" width="600" height="90"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ndN-Mt-j2n" customClass="TableViewFooterButton">
@@ -45,47 +45,39 @@
                                     </constraints>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PayMethodRewardCell" rowHeight="75" id="BnC-7K-bfP" customClass="PayMethodRewardCell">
-                                        <rect key="frame" x="0.0" y="28" width="600" height="75"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PayMethodRewardCell" rowHeight="100" id="BnC-7K-bfP" customClass="PayMethodRewardCell">
+                                        <rect key="frame" x="0.0" y="28" width="600" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BnC-7K-bfP" id="oWR-cf-MfU">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="75"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Coding 手机客户端" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vqY-6g-1Hb">
-                                                    <rect key="frame" x="15" y="15" width="145" height="21"/>
+                                                    <rect key="frame" x="15" y="15" width="570" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="开发中" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jGb-t4-jMR">
-                                                    <rect key="frame" x="223" y="46" width="36" height="14"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qqF-VD-25f">
-                                                    <rect key="frame" x="152" y="48" width="1" height="10"/>
-                                                    <color key="backgroundColor" red="0.85098039215686272" green="0.85098039215686272" blue="0.85098039215686272" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="1" id="0ud-4a-7B6"/>
-                                                        <constraint firstAttribute="height" constant="10" id="sXf-9T-vhA"/>
-                                                    </constraints>
-                                                </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="项目总金额：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pNL-1G-RKy">
-                                                    <rect key="frame" x="15" y="46" width="72" height="14"/>
+                                                    <rect key="frame" x="15" y="45.5" width="72" height="14.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥8，000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OmO-Bl-Fbm">
-                                                    <rect key="frame" x="87" y="46" width="55" height="14"/>
+                                                    <rect key="frame" x="87" y="45.5" width="54.5" height="14.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="开发中" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jGb-t4-jMR">
+                                                    <rect key="frame" x="87" y="70" width="36" height="14.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="项目状态：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s5i-L2-hQZ">
-                                                    <rect key="frame" x="163" y="46" width="60" height="14"/>
+                                                    <rect key="frame" x="15" y="70" width="60" height="14.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -93,18 +85,17 @@
                                             </subviews>
                                             <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
-                                                <constraint firstItem="qqF-VD-25f" firstAttribute="centerY" secondItem="pNL-1G-RKy" secondAttribute="centerY" id="2nI-oq-MDe"/>
                                                 <constraint firstItem="vqY-6g-1Hb" firstAttribute="top" secondItem="oWR-cf-MfU" secondAttribute="topMargin" constant="7" id="4HY-Uu-qt0"/>
+                                                <constraint firstItem="s5i-L2-hQZ" firstAttribute="top" secondItem="pNL-1G-RKy" secondAttribute="bottom" constant="10" id="5El-fA-HdG"/>
                                                 <constraint firstItem="OmO-Bl-Fbm" firstAttribute="centerY" secondItem="pNL-1G-RKy" secondAttribute="centerY" id="5oc-XH-bLa"/>
-                                                <constraint firstItem="jGb-t4-jMR" firstAttribute="centerY" secondItem="pNL-1G-RKy" secondAttribute="centerY" id="CdC-Dr-Tbk"/>
-                                                <constraint firstItem="s5i-L2-hQZ" firstAttribute="centerY" secondItem="pNL-1G-RKy" secondAttribute="centerY" id="FQb-zF-zB6"/>
                                                 <constraint firstItem="OmO-Bl-Fbm" firstAttribute="leading" secondItem="pNL-1G-RKy" secondAttribute="trailing" id="Iee-Wc-l0u"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="pNL-1G-RKy" secondAttribute="bottom" constant="7" id="Kvs-AP-vr8"/>
                                                 <constraint firstItem="pNL-1G-RKy" firstAttribute="leading" secondItem="vqY-6g-1Hb" secondAttribute="leading" id="LiK-3Y-85u"/>
-                                                <constraint firstItem="s5i-L2-hQZ" firstAttribute="leading" secondItem="qqF-VD-25f" secondAttribute="trailing" constant="10" id="fnV-18-5vm"/>
+                                                <constraint firstItem="pNL-1G-RKy" firstAttribute="top" secondItem="vqY-6g-1Hb" secondAttribute="bottom" constant="10" id="MrN-Om-5Nn"/>
+                                                <constraint firstItem="jGb-t4-jMR" firstAttribute="centerY" secondItem="s5i-L2-hQZ" secondAttribute="centerY" id="hHA-rF-9Oy"/>
+                                                <constraint firstItem="s5i-L2-hQZ" firstAttribute="leading" secondItem="pNL-1G-RKy" secondAttribute="leading" id="pkl-GY-C4a"/>
                                                 <constraint firstItem="vqY-6g-1Hb" firstAttribute="leading" secondItem="oWR-cf-MfU" secondAttribute="leadingMargin" constant="7" id="pwU-an-kX2"/>
-                                                <constraint firstItem="qqF-VD-25f" firstAttribute="leading" secondItem="OmO-Bl-Fbm" secondAttribute="trailing" constant="10" id="q3h-RS-cP4"/>
-                                                <constraint firstItem="jGb-t4-jMR" firstAttribute="leading" secondItem="s5i-L2-hQZ" secondAttribute="trailing" id="vho-da-UCY"/>
+                                                <constraint firstItem="jGb-t4-jMR" firstAttribute="leading" secondItem="OmO-Bl-Fbm" secondAttribute="leading" id="qRz-YK-2wI"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="vqY-6g-1Hb" secondAttribute="trailing" constant="7" id="zF9-5A-N7v"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -114,7 +105,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PayMethodTipCell" rowHeight="30" id="7Cb-WB-a9I" customClass="PayMethodTipCell">
-                                        <rect key="frame" x="0.0" y="103" width="600" height="30"/>
+                                        <rect key="frame" x="0.0" y="128" width="600" height="30"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7Cb-WB-a9I" id="pZl-D6-KXW">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="30"/>
@@ -154,7 +145,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PayMethodItemCell_0" rowHeight="60" id="Hji-JR-Mb8" customClass="PayMethodItemCell">
-                                        <rect key="frame" x="0.0" y="133" width="600" height="60"/>
+                                        <rect key="frame" x="0.0" y="158" width="600" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Hji-JR-Mb8" id="ay5-KR-Owr">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
@@ -195,7 +186,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PayMethodItemCell_1" rowHeight="60" id="cft-WS-qFf" customClass="PayMethodItemCell">
-                                        <rect key="frame" x="0.0" y="193" width="600" height="60"/>
+                                        <rect key="frame" x="0.0" y="218" width="600" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cft-WS-qFf" id="GcY-d5-x7n">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
@@ -236,7 +227,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PayMethodItemCell_2" rowHeight="60" id="Gf9-UE-Dpw" customClass="PayMethodItemCell">
-                                        <rect key="frame" x="0.0" y="253" width="600" height="60"/>
+                                        <rect key="frame" x="0.0" y="278" width="600" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Gf9-UE-Dpw" id="cqZ-Iy-C6L">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
@@ -277,7 +268,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PayMethodInputCell" rowHeight="44" id="Bia-yP-wXe" customClass="PayMethodInputCell">
-                                        <rect key="frame" x="0.0" y="313" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="338" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Bia-yP-wXe" id="zc2-Q0-tfm">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
@@ -311,7 +302,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PayMethodRemarkCell" rowHeight="160" id="hRq-aZ-661" customClass="PayMethodRemarkCell">
-                                        <rect key="frame" x="0.0" y="357" width="600" height="160"/>
+                                        <rect key="frame" x="0.0" y="382" width="600" height="160"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hRq-aZ-661" id="UjO-4H-tFT">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="160"/>
@@ -539,7 +530,7 @@
                                         <rect key="frame" x="0.0" y="75" width="600" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rUJ-yg-cB1" id="Xd0-mG-dKj">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="79.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="本次付款" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="POB-Zk-4FT">
@@ -567,7 +558,7 @@
                                         <rect key="frame" x="0.0" y="155" width="600" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dcR-kE-Jxh" id="ZR1-J5-JTD">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="79.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="所属项目：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WhF-ZD-j6N">
@@ -634,8 +625,8 @@
                     <connections>
                         <outlet property="currentPaidL" destination="6ZX-i9-NJb" id="VKY-7Q-LzX"/>
                         <outlet property="nameL" destination="qhc-89-o2c" id="bBI-kR-Yif"/>
-                        <outlet property="totalPaidL" destination="ciQ-Ug-ERE" id="iwN-AS-dP8"/>
-                        <outlet property="totalPriceL" destination="MEW-2s-hUq" id="9Kj-Vs-msY"/>
+                        <outlet property="totalLeftL" destination="ciQ-Ug-ERE" id="HSr-ys-8Tv"/>
+                        <outlet property="totalPaidL" destination="MEW-2s-hUq" id="FF7-Df-ni2"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6pq-IZ-LXt" userLabel="First Responder" sceneMemberID="firstResponder"/>

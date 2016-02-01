@@ -15,7 +15,9 @@
 #import <UMengSocial/UMSocialWechatHandler.h>
 #import <UMengSocial/UMSocialQQHandler.h>
 #import <UMengSocial/UMSocialSinaSSOHandler.h>
+#import <UMengSocial/WXApi.h>
 #import "RootViewController.h"
+#import "PayMethodViewController.h"
 
 @interface AppDelegate ()
 
@@ -38,6 +40,9 @@
     [MobClick startWithAppkey:kUmeng_AppKey reportPolicy:BATCH channelId:nil];
 //    友盟分享
     [self registerSocialData];
+//    支付
+    [WXApi registerApp:kSocial_WX_ID withDescription:@"Coding 码市"];
+
 //    makeKeyAndVisible
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:[RootViewController new]];
@@ -139,21 +144,29 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
     DebugLog(@"sourceApplication : %@", url);
-    if ([[url scheme] isEqualToString:kAppScheme]) {
-        NSDictionary *queryParams = [url queryParams];
-        if ([queryParams[@"type"] isEqualToString:@"handle_result"]) {
-            NSNumber *handle_result = queryParams[@"handle_result"];
-            if (handle_result.integerValue == 0) {
-                [NSObject showHudTipStr:@"已取消"];
-            }else{
-                [NSObject showHudTipStr:@"已发送"];
+    if ([url.scheme isEqualToString:kAppScheme]) {
+        if ([url.host isEqualToString:@"safepay"]) {//支付宝支付
+            [self p_handlePayURL:url];
+        }else{
+            NSDictionary *queryParams = [url queryParams];
+            if ([queryParams[@"type"] isEqualToString:@"handle_result"]) {//Coding 分享
+                NSNumber *handle_result = queryParams[@"handle_result"];
+                [NSObject showHudTipStr:handle_result.integerValue == 0? @"已取消": @"已发送"];
             }
-            return YES;
         }
+    }else if ([url.scheme isEqualToString:kSocial_WX_ID] && [url.host isEqualToString:@"pay"]){//微信支付
+        [self p_handlePayURL:url];
     }else{
         return  [UMSocialSnsService handleOpenURL:url];
     }
-    return NO;
+    return YES;
+}
+
+- (void)p_handlePayURL:(NSURL *)url{
+    UIViewController *vc = [UIViewController presentingVC];
+    if ([vc isKindOfClass:[PayMethodViewController class]]) {
+        [(PayMethodViewController *)vc handlePayURL:url];
+    }
 }
 
 #pragma mark XGPush

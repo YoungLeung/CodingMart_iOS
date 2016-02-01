@@ -16,12 +16,15 @@
 #import "PayMethodRemarkCell.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "PayResultViewController.h"
+#import "UIButton+Query.h"
+
+#import <UMengSocial/WXApi.h>
+#import <UMengSocial/WXApiObject.h>
+#import <AlipaySDK/AlipaySDK.h>
 
 @interface PayMethodViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet TPKeyboardAvoidingTableView *myTableView;
-
-@property (assign, nonatomic) NSUInteger choosedIndex;
-@property (strong, nonatomic) NSString *inputPrice;
+@property (strong, nonatomic) NSDictionary *payDict;
 @end
 
 @implementation PayMethodViewController
@@ -34,23 +37,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.choosedIndex = [self p_canOpenAliPay]? 0: [self p_canOpenWeiXin]? 1: 2;
 }
 
-- (void)setCurReward:(Reward *)curReward{
-    _curReward = curReward;
-    
-//    _curReward.price = @(8000);
-//    _curReward.balance = @(500);
-    
-    self.inputPrice = self.curReward.balance.stringValue;
-}
-
-//- (void)viewWillAppear:(BOOL)animated{
-//    [super viewWillAppear:animated];
-//    [self refresh];
-//}
-//
 //- (void)refresh{
 //    __weak typeof(self) weakSelf = self;
 //    [[Coding_NetAPIManager sharedManager] get_RewardPrivateDetailWithId:self.curReward.id.integerValue block:^(id data, NSError *error) {
@@ -66,7 +54,7 @@
     return [self p_canOpen:@"weixin://"];
 }
 
-- (BOOL)p_canOpenAliPay{
+- (BOOL)p_canOpenAlipay{
     return [self p_canOpen:@"alipay://"];
 }
 
@@ -93,9 +81,9 @@
 
 - (NSString *)p_lastHeaderTipStr{
     NSString *tipStr =
-    _choosedIndex == 2? @"抱歉，目前只支持线下转账方式，您在转账的时候请务必写上备注信息，谢谢配合！":
-    _curReward.balance.integerValue > 5000? @"支持多次付款，本次付款金额不能少于 ￥5,000":
-    @"待支付款项不大于 ￥5,000，需一次付清";
+    _curReward.payType == PayMethodBank? @"抱歉，目前只支持线下转账方式，您在转账的时候请务必写上备注信息，谢谢配合！":
+    _curReward.balance.integerValue >= 5000? @"支持多次付款，本次付款金额不能少于 ￥5,000":
+    @"项目未付款项低于 ¥5,000，需一次性完成支付";
     return tipStr;
 }
 
@@ -143,9 +131,9 @@
     if (indexPath.section == 0) {
         height = indexPath.row == 0? [PayMethodRewardCell cellHeight]: [PayMethodTipCell cellHeight];
     }else if (indexPath.section == 1){
-        height = [PayMethodItemCell cellHeight];
+        height = indexPath.row == 1? 0: [PayMethodItemCell cellHeight];
     }else{
-        height = _choosedIndex < 2? [PayMethodInputCell cellHeight]: [PayMethodRemarkCell cellHeight];
+        height = _curReward.payType < PayMethodBank? [PayMethodInputCell cellHeight]: [PayMethodRemarkCell cellHeight];
     }
     return height;
 }
@@ -158,21 +146,21 @@
             return cell;
         }else{
             PayMethodTipCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_PayMethodTipCell forIndexPath:indexPath];
-            cell.balanceStr = _curReward.format_price;
+            cell.balanceStr = _curReward.format_balance;
             return cell;
         }
     }else if (indexPath.section == 1){
         PayMethodItemCell *cell = [tableView dequeueReusableCellWithIdentifier:[NSString stringWithFormat:@"%@_%ld", kCellIdentifier_PayMethodItemCellPrefix, (long)indexPath.row] forIndexPath:indexPath];
-        cell.isChoosed = _choosedIndex == indexPath.row;
+        cell.isChoosed = (_curReward.payType == indexPath.row);
         return cell;
     }else{
-        if (_choosedIndex < 2) {
+        if (_curReward.payType < PayMethodBank) {
             PayMethodInputCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_PayMethodInputCell forIndexPath:indexPath];
-            cell.textF.text = _inputPrice;
+            cell.textF.text = _curReward.payMoney;
             cell.textF.userInteractionEnabled = !(_curReward.balance && _curReward.balance.integerValue < 5000);
             __weak typeof(self) weakSelf = self;
             [cell.textF.rac_textSignal subscribeNext:^(NSString *value) {
-                weakSelf.inputPrice = value;
+                weakSelf.curReward.payMoney = value;
             }];
             return cell;
         }else{
@@ -189,16 +177,114 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 1) {
-        self.choosedIndex = indexPath.row;
+        self.curReward.payType = indexPath.row;
         [self.myTableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 3)] withRowAnimation:UITableViewRowAnimationFade];
     }
 }
 #pragma mark - Btn
 
 - (IBAction)payBtnClicked:(UIButton *)sender {
-    PayResultViewController *vc = [PayResultViewController storyboardVC];
-    vc.curReward = _curReward;
-    [self.navigationController pushViewController:vc animated:YES];
+    if (_curReward.payType >= PayMethodBank) {
+        [NSObject showHudTipStr:@"暂时不支持线上转账"];
+        return;
+    }else if (_curReward.payType == PayMethodWeiXin && [self p_canOpenWeiXin]){
+        [NSObject showHudTipStr:@"您还没有安装「微信」"];
+        return;
+    }
+    if (_curReward.payMoney.integerValue < 5000) {
+        if (_curReward.payMoney.integerValue < _curReward.balance.integerValue) {
+            [NSObject showHudTipStr:[NSString stringWithFormat:@"本次付款金额不可低于 ￥%d", (int)MIN(_curReward.balance.integerValue, 5000)]];
+            return;
+        }
+    }
+    __weak typeof(self) weakSelf = self;
+    [sender startQueryAnimate];
+    [[Coding_NetAPIManager sharedManager] post_GenerateOrderWithReward:_curReward block:^(id data, NSError *error) {
+        [sender stopQueryAnimate];
+        if (data) {
+            weakSelf.payDict = data;
+            [weakSelf goToPay];
+        }
+    }];
 }
 
+- (void)goToPay{
+    if (_curReward.payType == PayMethodAlipay) {
+        [self aliPay];
+    }else if (_curReward.payType == PayMethodWeiXin){
+        [self weixinPay];
+    }
+}
+
+- (void)weixinPay{
+    NSDictionary *result = _payDict[@"result"];
+    
+    PayReq *req = [PayReq new];
+    req.partnerId = result[@"partnerid"];
+    req.prepayId = result[@"prepayid"];
+    req.nonceStr = result[@"noncestr"];
+    req.timeStamp = [result[@"timestamp"] intValue];
+    req.package = result[@"package"];
+    req.sign = result[@"sign"];
+    [WXApi sendReq:req];
+}
+
+- (void)aliPay{
+//    NSDictionary *result = _payDict[@"result"];
+
+    __weak typeof(self) weakSelf = self;
+    [[AlipaySDK defaultService] payOrder:_payDict[@"order"] fromScheme:kAppScheme callback:^(NSDictionary *resultDic) {
+        [weakSelf handleAliResult:resultDic];
+    }];
+}
+
+#pragma mark - handleSucessPay
+- (void)handlePayURL:(NSURL *)url{
+    if (_curReward.payType == PayMethodAlipay) {
+        __weak typeof(self) weakSelf = self;
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+            [weakSelf handleAliResult:resultDic];
+        }];
+    }else if (_curReward.payType == PayMethodWeiXin){
+        NSInteger resultCode = [[url queryParams][@"ret"] intValue];
+        if (resultCode == 0) {
+            [self paySucess];
+        }else if (resultCode == -1){
+            [NSObject showHudTipStr:@"支付失败"];
+        }
+    }
+}
+
+- (void)handleAliResult:(NSDictionary *)resultDic{
+    if ([resultDic[@"resultStatus"] integerValue] == 9000) {
+        [self paySucess];
+    }else{
+        NSString *tipStr = resultDic[@"memo"];
+        [NSObject showHudTipStr:tipStr.length > 0? tipStr: @"支付失败"];
+    }
+}
+
+- (void)paySucess{
+    NSString *orderNo = _payDict[@"charge_id"];
+    if (orderNo.length <= 0) {
+        return;
+    }
+    [NSObject showHUDQueryStr:@"正在查询订单状态..."];
+    [[Coding_NetAPIManager sharedManager] get_Order:orderNo block:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (data) {
+            [self goToSucessVC:data];
+        }
+    }];
+}
+
+- (void)goToSucessVC:(NSDictionary *)orderDict{
+    if ([orderDict[@"status"] isEqual:@(0)]) {//交易成功
+        if (self.navigationController.topViewController == self) {
+            PayResultViewController *vc = [PayResultViewController storyboardVC];
+            vc.orderDict = orderDict;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
+}
 @end

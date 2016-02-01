@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *statusL;
 @property (weak, nonatomic) IBOutlet UIView *tapView;
 @property (weak, nonatomic) IBOutlet UILabel *payTipL;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tipLineHeight;
 
 @end
 
@@ -28,6 +29,7 @@
 - (void)awakeFromNib {
     // Initialization code
     _durationL.textColor = [UIColor colorWithHexString:@"0xFF497F"];
+    _tipLineHeight.constant = 1.0/[[UIScreen mainScreen] scale];
     __weak typeof(self) weakSelf = self;
     [_tapView bk_whenTapped:^{
         if (weakSelf.goToPublicRewardBlock) {
