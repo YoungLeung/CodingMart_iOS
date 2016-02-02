@@ -28,13 +28,13 @@
     return _payMoney ?: _balance.stringValue;
 }
 - (BOOL)needToPay{
-        return (_balance.integerValue > 0 &&
+        return (_balance.floatValue > 0 &&
                 (_status.integerValue == RewardStatusAccepted ||
                  _status.integerValue == RewardStatusRecruiting ||
                  _status.integerValue == RewardStatusDeveloping));
 }
 - (BOOL)hasPaidSome{
-    return (_price_with_fee.integerValue - _balance.integerValue > 0);
+    return (_price_with_fee.floatValue - _balance.floatValue > 0);
 }
 - (void)prepareToDisplay{
     if (_typeDisplay) {//已经有数据了，就不需要再 prepare 了

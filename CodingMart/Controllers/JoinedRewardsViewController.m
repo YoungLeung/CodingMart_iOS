@@ -99,6 +99,7 @@
     cell.goToPublicRewardBlock =  ^(Reward *reward){
         [weakSelf goToPublicReward:reward];
     };
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
     return cell;
 }
 #pragma mark - CellBlock

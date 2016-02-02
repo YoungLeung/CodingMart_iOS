@@ -73,7 +73,7 @@
                            ];
     }
     _statusL.textColor = [UIColor colorWithHexString:textHexStrList[_reward.status.integerValue]];
-    _allPaidL.hidden = !(_reward.balance.integerValue == 0 ||_reward.price.integerValue > 0);
+    _allPaidL.hidden = !(_reward.balance.floatValue == 0 && _reward.price.floatValue > 0);
 }
 
 - (NSAttributedString *)p_payTipStr{

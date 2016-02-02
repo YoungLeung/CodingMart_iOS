@@ -64,9 +64,8 @@
 //            [self.rewardList enumerateObjectsUsingBlock:^(Reward *  _Nonnull curReward, NSUInteger idx, BOOL * _Nonnull stop) {
 //                curReward.status = @(random()%(RewardStatusFinished+1));
 //                curReward.price = @(random()%10000);
-//                curReward.price_with_fee = @(curReward.price.integerValue * 1.1);
-//                curReward.balance = @(1);
-////                @(random()%curReward.price_with_fee.integerValue);
+//                curReward.price_with_fee = @(curReward.price.floatValue * 1.1);
+//                curReward.balance = @(0.01);
 //                curReward.format_price = curReward.price.stringValue;
 //                curReward.format_price_with_fee = curReward.price_with_fee.stringValue;
 //                curReward.format_balance = curReward.balance.stringValue;
@@ -114,6 +113,11 @@
 }
 - (void)goToPublicReward:(Reward *)reward{
     if (reward.status.integerValue < RewardStatusPassed) {//「未开始」之前的状态，不能查看公开详情
+        NSArray *statusDisplayList = @[@"待审核",
+                                    @"审核中",
+                                    @"未通过",
+                                    @"已取消"];
+        [NSObject showHudTipStr:[NSString stringWithFormat:@"项目%@，不能查看悬赏详情", statusDisplayList[reward.status.integerValue]]];
         return;
     }
     RewardDetailViewController *vc = [RewardDetailViewController vcWithReward:reward];
@@ -151,6 +155,7 @@
     cell.payBtnBlock = ^(Reward *reward){
         [weakSelf goToPayReward:reward];
     };
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
     return cell;
 }
 

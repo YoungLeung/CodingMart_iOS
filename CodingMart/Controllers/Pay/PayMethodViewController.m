@@ -85,7 +85,7 @@
 - (NSString *)p_lastHeaderTipStr{
     NSString *tipStr =
     _curReward.payType == PayMethodBank? @"抱歉，目前只支持线下转账方式，您在转账的时候请务必写上备注信息，谢谢配合！":
-    _curReward.balance.integerValue >= 5000? @"支持多次付款，本次付款金额不能少于 ￥5,000":
+    _curReward.balance.floatValue >= 5000? @"支持多次付款，本次付款金额不能少于 ￥5,000":
     @"项目未付款项低于 ¥5,000，需一次性完成支付";
     return tipStr;
 }
@@ -160,7 +160,7 @@
         if (_curReward.payType < PayMethodBank) {
             PayMethodInputCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_PayMethodInputCell forIndexPath:indexPath];
             cell.textF.text = _curReward.payMoney;
-            cell.textF.userInteractionEnabled = !(_curReward.balance && _curReward.balance.integerValue < 5000);
+            cell.textF.userInteractionEnabled = !(_curReward.balance && _curReward.balance.floatValue < 5000);
             __weak typeof(self) weakSelf = self;
             [cell.textF.rac_textSignal subscribeNext:^(NSString *value) {
                 weakSelf.curReward.payMoney = value;
@@ -178,10 +178,13 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+
     if (indexPath.section == 1) {
         self.curReward.payType = indexPath.row;
-        [self.myTableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 3)] withRowAnimation:UITableViewRowAnimationFade];
+        [self.myTableView reloadData];
+//        [self.myTableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 3)] withRowAnimation:UITableViewRowAnimationFade];
     }
 }
 #pragma mark - Btn
@@ -194,9 +197,9 @@
         [NSObject showHudTipStr:@"您还没有安装「微信」"];
         return;
     }
-    if (_curReward.payMoney.integerValue < 5000) {
-        if (_curReward.payMoney.integerValue < _curReward.balance.integerValue) {
-            [NSObject showHudTipStr:[NSString stringWithFormat:@"本次付款金额不可低于 ￥%d", (int)MIN(_curReward.balance.integerValue, 5000)]];
+    if (_curReward.payMoney.floatValue < 5000) {
+        if (_curReward.payMoney.floatValue < _curReward.balance.floatValue) {
+            [NSObject showHudTipStr:[NSString stringWithFormat:@"本次付款金额不可低于 ￥%.2f", MIN(_curReward.balance.floatValue, 5000.0)]];
             return;
         }
     }

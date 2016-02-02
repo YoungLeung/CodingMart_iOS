@@ -32,8 +32,8 @@
     // Do any additional setup after loading the view.
     _curReward = [NSObject objectOfClass:@"Reward" fromJSON:_orderDict[@"reward"]];
     _currentPaidL.text = _orderDict[@"format_price"];
-    _totalPaidL.text = [NSString stringWithFormat:@"￥%ld", _curReward.price_with_fee.integerValue - _curReward.balance.integerValue];
-    _totalLeftL.text = [NSString stringWithFormat:@"￥%ld", _curReward.balance.integerValue];
+    _totalPaidL.text = [NSString stringWithFormat:@"￥%.2f", _curReward.price_with_fee.floatValue - _curReward.balance.floatValue];
+    _totalLeftL.text = [NSString stringWithFormat:@"￥%.2f", _curReward.balance.floatValue];
 //    _totalLeftL.text = _curReward.format_balance;
     _nameL.text = _curReward.name;
 }
