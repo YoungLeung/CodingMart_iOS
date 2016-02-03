@@ -100,7 +100,7 @@
     UIView *headerV;
     if (tipStr.length > 0) {
         headerV = [UIView new];
-        headerV.backgroundColor = [UIColor clearColor];
+        headerV.backgroundColor = self.myTableView.backgroundColor;
         UILabel *headerL = [UILabel new];
         headerL.font = [UIFont systemFontOfSize:12];
         headerL.textColor = [UIColor colorWithHexString:@"0x999999"];
@@ -202,6 +202,9 @@
             [NSObject showHudTipStr:[NSString stringWithFormat:@"本次付款金额不可低于 ￥%.2f", MIN(_curReward.balance.floatValue, 5000.0)]];
             return;
         }
+    }else if (_curReward.payMoney.floatValue > _curReward.balance.floatValue){
+        [NSObject showHudTipStr:@"本次付款金额不可高于待支付金额"];
+        return;
     }
     __weak typeof(self) weakSelf = self;
     [sender startQueryAnimate];
@@ -277,20 +280,20 @@
     }
     [NSObject showHUDQueryStr:@"正在查询订单状态..."];
     [[Coding_NetAPIManager sharedManager] get_Order:orderNo block:^(id data, NSError *error) {
-        [NSObject hideHUDQuery];
-        if (data) {
+        if ([data[@"status"] isEqual:@(1)]) {//交易成功
+            [NSObject hideHUDQuery];
             [self goToSucessVC:data];
+        }else{
+            [self paySucess];
         }
     }];
 }
 
 - (void)goToSucessVC:(NSDictionary *)orderDict{
-    if ([orderDict[@"status"] isEqual:@(0)]) {//交易成功
-        if (self.navigationController.topViewController == self) {
-            PayResultViewController *vc = [PayResultViewController storyboardVC];
-            vc.orderDict = orderDict;
-            [self.navigationController pushViewController:vc animated:YES];
-        }
+    if (self.navigationController.topViewController == self) {
+        PayResultViewController *vc = [PayResultViewController storyboardVC];
+        vc.orderDict = orderDict;
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 @end

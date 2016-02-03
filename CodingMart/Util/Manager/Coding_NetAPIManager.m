@@ -424,26 +424,14 @@
     NSDictionary *params = @{@"reward_id": reward.id,
                                     @"price": reward.payMoney,
                                     @"platform": reward.payType == PayMethodAlipay? @"alipay": reward.payType == PayMethodWeiXin? @"wechat": @"unknown"};
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
-        block(data, error);
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data[@"data"], error);
     }];
-    
-    
-//    if (reward.payType == PayMethodAlipay) {
-//        NSDictionary *data = @{@"charge_id": @"test",
-//                               @"order": @"partner=\"2088021065445546\"&seller_id=\"accounting1@coding.net\"&out_trade_no=\"6ZHUY66O3IEWCB7\"&subject=\"4\"&body=\"我是测试数据\"&total_fee=\"0.01\"&notify_url=\"http://www.xxx.com\"&service=\"mobile.securitypay.pay\"&payment_type=\"1\"&_input_charset=\"utf-8\"&it_b_pay=\"30m\"&show_url=\"m.alipay.com\"&sign=\"easeeeeeeeee\"&sign_type=\"RSA\""};
-//        block(data, nil);
-//    }else if (reward.payType == PayMethodWeiXin){
-//        NSString *path = @"http://wxpay.weixin.qq.com/pub_v2/app/app_pay.php?plat=ios";
-//        [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
-//            block(data, error);
-//        }];
-//    }
 }
 - (void)get_Order:(NSString *)orderNo block:(void (^)(id data, NSError *error))block{
     NSString *path = [NSString stringWithFormat:@"api/payment/charge_payed/%@", orderNo];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
-        block(data, error);
+        block(data[@"data"], error);
     }];
 }
 #pragma mark Setting

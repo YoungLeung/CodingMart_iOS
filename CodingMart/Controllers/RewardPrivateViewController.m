@@ -69,7 +69,8 @@
 - (void)navBtnClicked:(id)sender{
     RewardStatus status = _curReward.status.integerValue;
     __weak typeof(self) weakSelf = self;
-    if (status == RewardStatusFresh) {
+    if (status == RewardStatusFresh ||
+        status == RewardStatusAccepted) {
         [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"编辑悬赏", @"取消发布"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0) {
                 [weakSelf goToRePublish];
