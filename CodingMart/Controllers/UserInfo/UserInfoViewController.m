@@ -49,7 +49,8 @@
     [_headerBGV bk_whenTapped:^{
         [weakSelf headerViewTapped];
     }];
-    
+    _headerBGV.image = nil;
+    _headerBGV.backgroundColor = [UIColor colorWithHexString:@"0x4289DB"];
     [_tipL addLinkToStr:@"400-992-1001" whithValue:@"400-992-1001" andBlock:^(id value) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://400-992-1001"]];
     }];
