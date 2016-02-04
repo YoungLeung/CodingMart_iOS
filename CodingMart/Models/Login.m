@@ -89,7 +89,12 @@ static User *curLoginUser;
         curLoginUser = [User userTourist];
     }
     [defaults synchronize];
-    
+//    设置 staging cookie
+//    NSHTTPCookie *stagingCookie = [NSHTTPCookie cookieWithProperties:@{NSHTTPCookieName : @"coding_staging",
+//                                                                       NSHTTPCookieValue : @"1",
+//                                                                       NSHTTPCookieDomain : @"mart.coding.net",
+//                                                                       NSHTTPCookiePath : @"/"}];
+//    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:stagingCookie];
 #if DEBUG
     NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
     [cookies enumerateObjectsUsingBlock:^(NSHTTPCookie *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
