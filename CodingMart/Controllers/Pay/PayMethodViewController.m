@@ -291,9 +291,12 @@
 
 - (void)goToSucessVC:(NSDictionary *)orderDict{
     if (self.navigationController.topViewController == self) {
+        UINavigationController *nav = self.navigationController;
         PayResultViewController *vc = [PayResultViewController storyboardVC];
         vc.orderDict = orderDict;
-        [self.navigationController pushViewController:vc animated:YES];
+        
+        [nav popViewControllerAnimated:NO];
+        [nav pushViewController:vc animated:YES];
     }
 }
 @end

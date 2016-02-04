@@ -60,7 +60,8 @@
     RewardStatus status = _curReward.status.integerValue;
     if (status == RewardStatusFresh ||
         status == RewardStatusRejected ||
-        status == RewardStatusCanceled) {
+        status == RewardStatusCanceled ||
+        status == RewardStatusAccepted) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_more"] style:UIBarButtonItemStylePlain target:self action:@selector(navBtnClicked:)];
     }else{
         self.navigationItem.rightBarButtonItem = nil;
