@@ -40,7 +40,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"注册" target:self action:@selector(rightBarItemClicked)];
     RAC(self, loginBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, userStr), RACObserve(self, password), RACObserve(self, captcha), RACObserve(self, captchaNeeded)] reduce:^id(NSString *userStr, NSString *password, NSString *captcha, NSNumber *captchaNeeded){
         return @(userStr.length > 0 && password.length > 0 && (captcha.length > 0 || !captchaNeeded.boolValue));
     }];
@@ -112,12 +111,11 @@
     }];
 }
 
-
 - (IBAction)cannotLoginBtnClicked:(id)sender {
     [self performSegueWithIdentifier:NSStringFromClass([CannotLoginViewController class]) sender:nil];
 }
 
-- (void)rightBarItemClicked{
+- (IBAction)registerBtnClicked:(id)sender {
     [self performSegueWithIdentifier:NSStringFromClass([RegisterPhoneViewController class]) sender:self];
 }
 

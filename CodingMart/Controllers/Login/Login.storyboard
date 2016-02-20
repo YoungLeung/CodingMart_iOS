@@ -180,16 +180,32 @@
                                     <segue destination="Ror-lk-FF3" kind="show" identifier="QuickLoginViewController" id="kan-es-9Fi"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S7W-pP-0FQ">
+                                <rect key="frame" x="16" y="508" width="288" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="NhJ-ae-It2"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <state key="normal" title="注册">
+                                    <color key="titleColor" red="0.2901960784" green="0.56470588239999997" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="registerBtnClicked:" destination="8nU-Og-54Y" eventType="touchUpInside" id="oJB-UP-MSC"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="PgE-ip-9GD" firstAttribute="height" secondItem="nx4-jG-poK" secondAttribute="height" id="9U1-BU-HgD"/>
                             <constraint firstItem="OdW-rp-xj2" firstAttribute="leading" secondItem="nx4-jG-poK" secondAttribute="leadingMargin" id="BNk-Xd-shZ"/>
+                            <constraint firstItem="7RV-cE-gf6" firstAttribute="top" secondItem="S7W-pP-0FQ" secondAttribute="bottom" constant="30" id="TxF-QW-qQh"/>
                             <constraint firstItem="7RV-cE-gf6" firstAttribute="top" secondItem="OdW-rp-xj2" secondAttribute="bottom" constant="30" id="bQ1-CM-dc6"/>
                             <constraint firstItem="PgE-ip-9GD" firstAttribute="centerY" secondItem="nx4-jG-poK" secondAttribute="centerY" id="cAE-Nq-kfY"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="S7W-pP-0FQ" secondAttribute="trailing" id="lcR-sj-Swl"/>
                             <constraint firstItem="PgE-ip-9GD" firstAttribute="width" secondItem="nx4-jG-poK" secondAttribute="width" id="n43-oI-o0t"/>
                             <constraint firstItem="PgE-ip-9GD" firstAttribute="centerX" secondItem="nx4-jG-poK" secondAttribute="centerX" id="o6O-xu-o0K"/>
                             <constraint firstAttribute="trailingMargin" secondItem="OdW-rp-xj2" secondAttribute="trailing" id="rRT-9G-X0L"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="S7W-pP-0FQ" secondAttribute="leading" id="vwY-zN-4V9"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
