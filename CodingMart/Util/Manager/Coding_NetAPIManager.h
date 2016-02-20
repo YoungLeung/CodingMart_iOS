@@ -26,6 +26,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)post_QuickGeneratePhoneCodeWithMobile:(NSString *)mobile block:(void (^)(id data, NSError *error))block;
 - (void)post_QuickLoginWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code block:(void (^)(id data, NSError *error))block;
 
+- (void)get_CheckGK:(NSString *)golbal_key block:(void (^)(id data, NSError *error))block;
 - (void)get_LoginCaptchaIsNeededBlock:(void (^)(id data, NSError *error))block;
 - (void)get_RegisterCaptchaIsNeededBlock:(void (^)(id data, NSError *error))block;
 - (void)post_LoginWithUserStr:(NSString *)userStr password:(NSString *)password captcha:(NSString *)captcha block:(void (^)(id data, NSError *error))block;

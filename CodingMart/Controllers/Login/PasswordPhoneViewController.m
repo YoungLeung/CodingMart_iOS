@@ -29,8 +29,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = (_reasonType == CannotLoginReasonForget)? @"忘记密码": @"设置密码";
-    _headerL.text = (_reasonType == CannotLoginReasonForget)? @"为了重置密码，请先验证您的注册手机": @"为了设置密码，请先验证您的注册手机";
+    self.title = @"忘记密码";
+    _headerL.text = @"为了重置密码，请先验证您的注册手机";
     _mobileF.text = _phone;
     RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[self.mobileF.rac_textSignal, self.verify_codeF.rac_textSignal] reduce:^id(NSString *mobile, NSString *verify_code){
         return @(mobile.length > 0 && verify_code.length > 0);
@@ -44,8 +44,7 @@
         return;
     }
     _verify_codeBtn.enabled = NO;
-    PurposeType type = (_reasonType == CannotLoginReasonForget)? PurposeToPasswordReset: PurposeToPasswordActivate;
-    [[Coding_NetAPIManager sharedManager] post_GeneratePhoneCodeWithPhone:_mobileF.text type:type block:^(id data, NSError *error) {
+    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/account/password/forget" withParams:@{@"account": _mobileF.text} withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             [NSObject showHudTipStr:@"验证码发送成功"];
             [self.verify_codeBtn startUpTimer];
@@ -55,9 +54,8 @@
     }];
 }
 - (IBAction)footerBtnClicked:(id)sender {
-    PurposeType type = (_reasonType == CannotLoginReasonForget)? PurposeToPasswordReset: PurposeToPasswordActivate;
     [NSObject showHUDQueryStr:@"正在校验验证码..."];
-    [[Coding_NetAPIManager sharedManager] post_CheckPhoneCodeWithPhone:_mobileF.text code:_verify_codeF.text type:type block:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] post_CheckPhoneCodeWithPhone:_mobileF.text code:_verify_codeF.text type:PurposeToPasswordReset block:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data) {
             [self performSegueWithIdentifier:NSStringFromClass([PasswordPhoneSetViewController class]) sender:self];
@@ -72,7 +70,6 @@
         PasswordPhoneSetViewController *vc = (PasswordPhoneSetViewController *)segue.destinationViewController;
         vc.phone = _mobileF.text;
         vc.code = _verify_codeF.text;
-        vc.reasonType = _reasonType;
     }
 }
 

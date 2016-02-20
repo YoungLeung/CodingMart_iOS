@@ -17,6 +17,7 @@
 @interface RegisterPhoneViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *mobileF;
 @property (weak, nonatomic) IBOutlet UITextField *verify_codeF;
+@property (weak, nonatomic) IBOutlet UITextField *global_keyF;
 @property (weak, nonatomic) IBOutlet PhoneCodeButton *verify_codeBtn;
 
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *footerBtn;
@@ -34,8 +35,8 @@
         [weakSelf goToServiceTerms];
     }];
     _mobileF.text = _mobile;
-    RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[self.mobileF.rac_textSignal, self.verify_codeF.rac_textSignal] reduce:^id(NSString *mobile, NSString *verify_code){
-        return @(mobile.length > 0 && verify_code.length > 0);
+    RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[self.mobileF.rac_textSignal, self.verify_codeF.rac_textSignal, self.global_keyF.rac_textSignal] reduce:^id(NSString *mobile, NSString *verify_code, NSString *global_key){
+        return @(mobile.length > 0 && verify_code.length > 0 && global_key.length > 0);
     }];
 }
 
@@ -56,11 +57,22 @@
     }];
 }
 - (IBAction)footerBtnClicked:(id)sender {
-    [NSObject showHUDQueryStr:@"正在校验验证码..."];
-    [[Coding_NetAPIManager sharedManager] post_CheckPhoneCodeWithPhone:_mobileF.text code:_verify_codeF.text type:PurposeToRegister block:^(id data, NSError *error) {
-        [NSObject hideHUDQuery];
-        if (data) {
-            [self performSegueWithIdentifier:NSStringFromClass([RegisterPasswordViewController class]) sender:self];
+    [NSObject showHUDQueryStr:@"请稍等..."];
+    [[Coding_NetAPIManager sharedManager] get_CheckGK:_global_keyF.text block:^(id data0, NSError *error0) {
+        if (data0) {
+            if ([(NSNumber *)data0[@"data"] boolValue]) {
+                [[Coding_NetAPIManager sharedManager] post_CheckPhoneCodeWithPhone:_mobileF.text code:_verify_codeF.text type:PurposeToRegister block:^(id data, NSError *error) {
+                    [NSObject hideHUDQuery];
+                    if (data) {
+                        [self performSegueWithIdentifier:NSStringFromClass([RegisterPasswordViewController class]) sender:self];
+                    }
+                }];
+            }else{
+                [NSObject hideHUDQuery];
+                [NSObject showHudTipStr:@"用户名已存在"];
+            }
+        }else{
+            [NSObject hideHUDQuery];
         }
     }];
 }
@@ -78,6 +90,7 @@
         RegisterPasswordViewController *vc = (RegisterPasswordViewController *)segue.destinationViewController;
         vc.phone = _mobileF.text;
         vc.code = _verify_codeF.text;
+        vc.global_key = _global_keyF.text;
         vc.loginSucessBlock = _loginSucessBlock;
     }
 }

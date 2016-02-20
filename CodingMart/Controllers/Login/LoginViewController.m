@@ -114,11 +114,7 @@
 
 
 - (IBAction)cannotLoginBtnClicked:(id)sender {
-    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"忘记密码", @"已注册，未设置密码"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-        if (index < 2) {
-            [self performSegueWithIdentifier:NSStringFromClass([CannotLoginViewController class]) sender:@(index)];
-        }
-    }] showInView:self.view];
+    [self performSegueWithIdentifier:NSStringFromClass([CannotLoginViewController class]) sender:nil];
 }
 
 - (void)rightBarItemClicked{
@@ -136,7 +132,6 @@
         }
     }else if ([segue.destinationViewController isKindOfClass:[CannotLoginViewController class]]){
         CannotLoginViewController *vc = (CannotLoginViewController *)segue.destinationViewController;
-        vc.reasonType = [(NSNumber *)sender integerValue];
         if ([_userStr isPhoneNo] || [_userStr isEmail]) {
             vc.userStr = _userStr;
         }

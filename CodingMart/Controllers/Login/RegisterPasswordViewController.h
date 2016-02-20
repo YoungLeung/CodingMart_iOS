@@ -9,7 +9,7 @@
 #import "BaseTableViewController.h"
 
 @interface RegisterPasswordViewController : BaseTableViewController
-@property (strong, nonatomic) NSString *phone, *code;
+@property (strong, nonatomic) NSString *phone, *code, *global_key;
 
 @property (copy, nonatomic) void (^loginSucessBlock)();
 @end

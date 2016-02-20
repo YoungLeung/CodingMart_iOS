@@ -27,8 +27,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = (_reasonType == CannotLoginReasonForget)? @"忘记密码": @"设置密码";
-    [_footerBtn setTitle:(_reasonType == CannotLoginReasonForget)? @"重置密码": @"设置密码" forState:UIControlStateNormal];
+    self.title = @"重置密码";
+    [_footerBtn setTitle:@"重置密码" forState:UIControlStateNormal];
 
     RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[self.passwordF.rac_textSignal, self.confirm_passwordF.rac_textSignal, self.captchaCell.textF.rac_textSignal] reduce:^id(NSString *password, NSString *confirm_password, NSString *captcha){
         return @(password.length > 0 && confirm_password.length > 0 && captcha.length > 0);
@@ -42,9 +42,13 @@
         [NSObject showHudTipStr:@"两次输入密码不一致"];
         return;
     }
-    PurposeType type = (_reasonType == CannotLoginReasonForget)? PurposeToPasswordReset: PurposeToPasswordActivate;
+    NSMutableDictionary *params = @{@"account": _phone,
+                                    @"password": [_passwordF.text sha1Str],
+                                    @"confirm": [_confirm_passwordF.text sha1Str],
+                                    @"code": _code}.mutableCopy;
+    params[@"j_captcha"] = _captchaCell.textF.text;
     [NSObject showHUDQueryStr:@"正在设置密码..."];
-    [[Coding_NetAPIManager sharedManager] post_SetPasswordWithPhone:_phone code:_code password:_passwordF.text captcha:_captchaCell.textF.text type:type block:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/password/reset" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data) {
             [NSObject showHudTipStr:@"密码设置成功"];

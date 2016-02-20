@@ -72,7 +72,17 @@
         return;
     }
     [NSObject showHUDQueryStr:@"正在注册..."];
-    [[Coding_NetAPIManager sharedManager] post_SetPasswordWithPhone:_phone code:_code password:_passwordF.text captcha:(_captchaNeeded? _captchaCell.textF.text : nil) type:PurposeToRegister block:^(id data, NSError *error) {
+    NSString *path = @"api/v2/account/register";
+    NSMutableDictionary *params = @{@"channel": kRegisterChannel,
+                                    @"global_key": _global_key,
+                                    @"phone": _phone,
+                                    @"code": _code,
+                                    @"password": [_passwordF.text sha1Str],
+                                    @"confirm": [_confirm_passwordF.text sha1Str]}.mutableCopy;
+    if (_captchaNeeded) {
+        params[@"j_captcha"] = _captchaCell.textF.text;
+    }
+    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data) {
             [self dismissViewControllerAnimated:YES completion:self.loginSucessBlock];

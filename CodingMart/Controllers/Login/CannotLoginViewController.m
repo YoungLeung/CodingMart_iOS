@@ -23,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = (_reasonType == CannotLoginReasonForget)? @"忘记密码": @"设置密码";
+    self.title = @"忘记密码";
     _userStrF.text = _userStr;
     RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[self.userStrF.rac_textSignal] reduce:^id(NSString *userStr){
         return @([userStr isPhoneNo] || [userStr isEmail]);
@@ -46,11 +46,9 @@
     if ([segue.destinationViewController isKindOfClass:[PasswordEmailViewController class]]) {
         PasswordEmailViewController *vc = (PasswordEmailViewController *)segue.destinationViewController;
         vc.email = _userStr;
-        vc.reasonType = _reasonType;
     }else if ([segue.destinationViewController isKindOfClass:[PasswordPhoneViewController class]]){
         PasswordPhoneViewController *vc = (PasswordPhoneViewController *)segue.destinationViewController;
         vc.phone = _userStr;
-        vc.reasonType = _reasonType;
     }
 }
 

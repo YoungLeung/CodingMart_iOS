@@ -6,8 +6,6 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kRegisterChannel @"codemart-ios"
-
 #import "Coding_NetAPIManager.h"
 #import "Reward.h"
 #import "Login.h"
@@ -71,6 +69,11 @@
         block(data, error);
     }];
 }
+- (void)get_CheckGK:(NSString *)golbal_key block:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/user/check" withParams:@{@"key": golbal_key} withMethodType:Get andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
 - (void)get_LoginCaptchaIsNeededBlock:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/captcha/login";
     [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
@@ -90,17 +93,10 @@
     }];
 }
 - (void)post_LoginWithUserStr:(NSString *)userStr password:(NSString *)password captcha:(NSString *)captcha block:(void (^)(id data, NSError *error))block{
-    NSString *path;
-    NSMutableDictionary *params;
-    if ([userStr isPhoneNo]) {
-        path = @"api/account/login/phone";
-        params = @{@"phone": userStr}.mutableCopy;
-    }else{
-        path = @"api/login";
-        params = @{@"email": userStr}.mutableCopy;
-    }
-    params[@"password"] = [password sha1Str];
-    params[@"remember_me"] = @"true";
+    NSString *path = @"api/v2/account/login";
+    NSMutableDictionary *params = @{@"account": userStr,
+                                    @"password" : [password sha1Str],
+                                    @"remember_me" : @"true"}.mutableCopy;
     if (captcha.length > 0) {
         params[@"j_captcha"] = captcha;
     }
@@ -134,7 +130,7 @@
     }];
 }
 - (void)post_CheckPhoneCodeWithPhone:(NSString *)phone code:(NSString *)code type:(PurposeType)type block:(void (^)(id data, NSError *error))block{
-    NSString *path = @"api/account/register/check_phone_code";
+    NSString *path = @"api/account/phone/code/check";
     NSMutableDictionary *params = @{@"phone": phone,
                                     @"code": code}.mutableCopy;
     switch (type) {

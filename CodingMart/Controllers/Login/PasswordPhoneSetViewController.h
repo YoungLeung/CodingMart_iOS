@@ -10,7 +10,6 @@
 #import "CannotLoginViewController.h"
 
 @interface PasswordPhoneSetViewController : BaseTableViewController
-@property (assign, nonatomic) CannotLoginReasonType reasonType;
 @property (strong, nonatomic) NSString *phone, *code;
 
 @end
