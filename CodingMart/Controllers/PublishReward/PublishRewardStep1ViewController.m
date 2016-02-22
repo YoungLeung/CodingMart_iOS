@@ -45,8 +45,6 @@
     
     _typeList = @[@"网站",
                   @"APP",
-//                  @"iOS APP",
-//                  @"Android APP",
                   @"微信开发",
                   @"HTML5 应用",
                   @"其他"];

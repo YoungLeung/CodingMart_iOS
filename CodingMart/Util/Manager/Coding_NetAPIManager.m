@@ -221,46 +221,14 @@
     NSString *path = @"api/rewards";
     type = [NSObject rewardTypeDict][type];
     status = [NSObject rewardStatusDict][status];
-    
-    if (type.integerValue > 10) {
-        NSDictionary *params0 = @{@"type": @(type.integerValue / 10),
-                                 @"status": status};
-        NSDictionary *params1 = @{@"type": @(type.integerValue % 10),
-                                  @"status": status};
-        [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params0 withMethodType:Get andBlock:^(id data0, NSError *error) {
-            if (data0) {
-                data0 = [NSObject arrayFromJSON:data0[@"data"] ofObjects:@"Reward"];
-                [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params1 withMethodType:Get andBlock:^(id data1, NSError *error1) {
-                    if (data1) {
-                        data1 = [NSObject arrayFromJSON:data1[@"data"] ofObjects:@"Reward"];
-                        NSMutableArray *resultA = [(NSArray *)data0 mutableCopy];
-                        [resultA addObjectsFromArray:data1];
-                        [resultA sortUsingComparator:^NSComparisonResult(Reward *obj1, Reward *obj2) {
-                            if (obj1.status.integerValue != obj2.status.integerValue) {
-                                return (obj1.status.integerValue > obj2.status.integerValue);
-                            }else{
-                                return (obj1.id.integerValue < obj2.id.integerValue);
-                            }
-                        }];
-                        block(resultA, nil);
-                    }else{
-                        block(data0, error1);
-                    }
-                }];
-            }else{
-                block(nil, error);
-            }
-        }];
-    }else{
-        NSDictionary *params = @{@"type": type,
-                                 @"status": status};
-        [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
-            if (data) {
-                data = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"Reward"];
-            }
-            block(data, error);
-        }];
-    }
+    NSDictionary *params = @{@"type": type,
+                             @"status": status};
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"Reward"];
+        }
+        block(data, error);
+    }];
 }
 - (void)get_JoinedRewardListBlock:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/joined";

@@ -42,9 +42,6 @@
     }
     if (_type) {
         _typeDisplay = [[NSObject rewardTypeDict] findKeyFromStrValue:_type.stringValue];
-        if ([_typeDisplay hasSuffix:@"APP"]) {
-            _typeDisplay = @"APP";
-        }
         _typeImageName = [NSString stringWithFormat:@"reward_type_icon_%@", _type.stringValue];
     }
     _statusDisplay = [[NSObject rewardStatusDict] findKeyFromStrValue:self.status.stringValue];
