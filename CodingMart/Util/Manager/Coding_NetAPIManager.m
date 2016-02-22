@@ -100,13 +100,36 @@
     if (captcha.length > 0) {
         params[@"j_captcha"] = captcha;
     }
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
         data = data[@"data"];
         User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:data];
         if (curLoginUser) {
             [Login doLogin:data];
         }
         block(curLoginUser, error);
+    }];
+}
+
+- (void)post_LoginWith2FA:(NSString *)otpCode andBlock:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/check_two_factor_auth_code" withParams:@{@"code" : otpCode} withMethodType:Post andBlock:^(id data, NSError *error) {
+        data = data[@"data"];
+        User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:data];
+        if (curLoginUser) {
+            [Login doLogin:data];
+        }
+        block(curLoginUser, error);
+    }];
+}
+
+- (void)post_Close2FAGeneratePhoneCode:(NSString *)phone block:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/twofa/close/code" withParams:@{@"phone": phone, @"from": @"mart"} withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+
+- (void)post_Close2FAWithPhone:(NSString *)phone code:(NSString *)code block:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/twofa/close" withParams:@{@"phone": phone, @"code": code} withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
     }];
 }
 

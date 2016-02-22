@@ -30,6 +30,9 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)get_LoginCaptchaIsNeededBlock:(void (^)(id data, NSError *error))block;
 - (void)get_RegisterCaptchaIsNeededBlock:(void (^)(id data, NSError *error))block;
 - (void)post_LoginWithUserStr:(NSString *)userStr password:(NSString *)password captcha:(NSString *)captcha block:(void (^)(id data, NSError *error))block;
+- (void)post_LoginWith2FA:(NSString *)otpCode andBlock:(void (^)(id data, NSError *error))block;
+- (void)post_Close2FAGeneratePhoneCode:(NSString *)phone block:(void (^)(id data, NSError *error))block;
+- (void)post_Close2FAWithPhone:(NSString *)phone code:(NSString *)code block:(void (^)(id data, NSError *error))block;
 - (void)post_GeneratePhoneCodeWithPhone:(NSString *)phone type:(PurposeType)type block:(void (^)(id data, NSError *error))block;
 - (void)post_CheckPhoneCodeWithPhone:(NSString *)phone code:(NSString *)code type:(PurposeType)type block:(void (^)(id data, NSError *error))block;
 - (void)post_SetPasswordWithPhone:(NSString *)phone code:(NSString *)code password:(NSString *)password captcha:(NSString *)captcha type:(PurposeType)type block:(void (^)(id data, NSError *error))block;

@@ -33,7 +33,6 @@
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="26y-5r-gQL" customClass="TableViewFooterButton">
                                             <rect key="frame" x="15" y="20" width="290" height="44"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="tmq-TS-qGJ"/>
                                                 <constraint firstAttribute="height" constant="44" id="xRV-8D-Z0U"/>
                                             </constraints>
                                             <state key="normal" title="登录"/>
@@ -215,6 +214,7 @@
                         <outlet property="myTableView" destination="PgE-ip-9GD" id="yEG-W5-e87"/>
                         <segue destination="XHW-b7-D8e" kind="show" identifier="RegisterPhoneViewController" id="dYQ-a4-Wcv"/>
                         <segue destination="ePw-mY-Xfd" kind="show" identifier="CannotLoginViewController" id="7uf-G5-VT1"/>
+                        <segue destination="IYb-Lx-usp" kind="show" identifier="TwoFactorAuthCodeViewController" id="fTA-hX-jSV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pbe-lP-HoC" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -241,7 +241,6 @@
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P24-CE-vQH" customClass="TableViewFooterButton">
                                     <rect key="frame" x="15" y="20" width="290" height="44"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="qOA-fB-97p"/>
                                         <constraint firstAttribute="height" constant="44" id="wLA-rp-rtC"/>
                                     </constraints>
                                     <state key="normal" title="下一步"/>
@@ -408,7 +407,6 @@
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pFs-82-glx" customClass="TableViewFooterButton">
                                     <rect key="frame" x="15" y="20" width="290" height="44"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="SkO-Bo-VOl"/>
                                         <constraint firstAttribute="height" constant="44" id="fhJ-JT-qkD"/>
                                     </constraints>
                                     <state key="normal" title="下一步"/>
@@ -690,7 +688,6 @@
                                     <rect key="frame" x="15" y="20" width="290" height="44"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="81h-d6-FUT"/>
-                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="coA-M5-evG"/>
                                     </constraints>
                                     <state key="normal" title="发送重置密码 / 激活邮件"/>
                                     <connections>
@@ -814,7 +811,6 @@
                                     <rect key="frame" x="15" y="20" width="290" height="44"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="515-K2-BDT"/>
-                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="Rry-tc-7bv"/>
                                     </constraints>
                                     <state key="normal" title="下一步"/>
                                     <connections>
@@ -896,7 +892,6 @@
                                     <rect key="frame" x="15" y="20" width="290" height="44"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="KbR-AX-R2D"/>
-                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="eVR-5Q-z2v"/>
                                     </constraints>
                                     <state key="normal" title="完成注册"/>
                                     <connections>
@@ -1049,23 +1044,22 @@
                             <rect key="frame" x="0.0" y="133" width="320" height="128"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wyN-nq-FzX" customClass="TableViewFooterButton">
-                                    <rect key="frame" x="15" y="20" width="290" height="44"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="44" id="m58-lt-EXr"/>
-                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="xkF-RP-uHw"/>
-                                    </constraints>
-                                    <state key="normal" title="验证并登录"/>
-                                    <connections>
-                                        <action selector="footerBtnClicked:" destination="Ror-lk-FF3" eventType="touchUpInside" id="qTg-VR-iMC"/>
-                                    </connections>
-                                </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="温馨提示：未注册码市账号的手机号，登录时将自动注册码市账号，且代表您已同意《码市用户协议》" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mfF-v5-Q6t" customClass="UITTTAttributedLabel">
                                     <rect key="frame" x="10" y="79" width="300" height="32"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                     <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wyN-nq-FzX" customClass="TableViewFooterButton">
+                                    <rect key="frame" x="15" y="20" width="290" height="44"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="44" id="m58-lt-EXr"/>
+                                    </constraints>
+                                    <state key="normal" title="验证并登录"/>
+                                    <connections>
+                                        <action selector="footerBtnClicked:" destination="Ror-lk-FF3" eventType="touchUpInside" id="qTg-VR-iMC"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
@@ -1159,7 +1153,234 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nso-fp-ctt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-2603" y="1611"/>
+        </scene>
+        <!--两步验证-->
+        <scene sceneID="13L-gy-ROx">
+            <objects>
+                <tableViewController title="两步验证" id="IYb-Lx-usp" customClass="TwoFactorAuthCodeViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="XhR-5K-Ayb" customClass="TPKeyboardAvoidingTableView">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="mr2-BG-Ong">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
+                        </view>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="QDe-rq-ybh">
+                            <rect key="frame" x="0.0" y="89" width="320" height="128"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xYC-UE-g9H" customClass="TableViewFooterButton">
+                                    <rect key="frame" x="15" y="20" width="290" height="44"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="44" id="3F3-dU-Tx5"/>
+                                    </constraints>
+                                    <state key="normal" title="登录"/>
+                                    <connections>
+                                        <action selector="footerBtnClicked:" destination="IYb-Lx-usp" eventType="touchUpInside" id="bM8-6d-9hl"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vez-gd-e1i">
+                                    <rect key="frame" x="15" y="79" width="290" height="20"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="20" id="z4X-ku-vyP"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <state key="normal" title="关闭两步验证">
+                                        <color key="titleColor" red="0.2901960784" green="0.56470588239999997" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="cannotLoginBtnClicked:" destination="8nU-Og-54Y" eventType="touchUpInside" id="tVg-Ct-ERF"/>
+                                        <segue destination="HmU-oV-TBl" kind="show" id="TFh-XV-dTP"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="xYC-UE-g9H" firstAttribute="leading" secondItem="QDe-rq-ybh" secondAttribute="leading" constant="15" id="9oX-5t-mao"/>
+                                <constraint firstItem="xYC-UE-g9H" firstAttribute="top" secondItem="QDe-rq-ybh" secondAttribute="top" constant="20" id="Eag-Cg-Hhi"/>
+                                <constraint firstAttribute="trailing" secondItem="xYC-UE-g9H" secondAttribute="trailing" constant="15" id="ci6-FO-24C"/>
+                                <constraint firstItem="Vez-gd-e1i" firstAttribute="trailing" secondItem="xYC-UE-g9H" secondAttribute="trailing" id="iaR-iz-UBU"/>
+                                <constraint firstItem="Vez-gd-e1i" firstAttribute="top" secondItem="xYC-UE-g9H" secondAttribute="bottom" constant="15" id="mfn-GC-QQy"/>
+                                <constraint firstItem="Vez-gd-e1i" firstAttribute="leading" secondItem="xYC-UE-g9H" secondAttribute="leading" id="tmu-B2-HJn"/>
+                            </constraints>
+                        </view>
+                        <sections>
+                            <tableViewSection id="pE6-Wi-zgE">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="OhB-p3-xPq">
+                                        <rect key="frame" x="0.0" y="45" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OhB-p3-xPq" id="zOD-Pa-ibm">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="两步验证码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QMe-sk-1n9">
+                                                    <rect key="frame" x="15" y="11" width="290" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="jJq-3O-MO6"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="QMe-sk-1n9" firstAttribute="centerY" secondItem="zOD-Pa-ibm" secondAttribute="centerY" id="1PS-er-aaB"/>
+                                                <constraint firstItem="QMe-sk-1n9" firstAttribute="leading" secondItem="zOD-Pa-ibm" secondAttribute="leadingMargin" constant="7" id="P6O-My-1FB"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="QMe-sk-1n9" secondAttribute="trailing" constant="7" id="SzP-Pc-ARB"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="IYb-Lx-usp" id="lWG-uY-UxD"/>
+                            <outlet property="delegate" destination="IYb-Lx-usp" id="hQm-75-eXH"/>
+                        </connections>
+                    </tableView>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="footerBtn" destination="xYC-UE-g9H" id="Nhr-u8-6Mh"/>
+                        <outlet property="optCodeF" destination="QMe-sk-1n9" id="1s7-F8-5fO"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xJT-FT-p9D" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
             <point key="canvasLocation" x="-2127" y="887"/>
+        </scene>
+        <!--关闭两步验证-->
+        <scene sceneID="AAK-hQ-jKT">
+            <objects>
+                <tableViewController title="关闭两步验证" id="HmU-oV-TBl" customClass="TwoFactorCloseViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="aPt-Ry-dIx" customClass="TPKeyboardAvoidingTableView">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="MpL-20-iAc">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="关闭两步验证，请先验证您的注册手机" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ni9-Pp-auQ">
+                                    <rect key="frame" x="15" y="42" width="290" height="17"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstItem="ni9-Pp-auQ" firstAttribute="centerY" secondItem="MpL-20-iAc" secondAttribute="centerY" id="FHO-MF-mp5"/>
+                                <constraint firstItem="ni9-Pp-auQ" firstAttribute="centerX" secondItem="MpL-20-iAc" secondAttribute="centerX" id="iHh-bQ-ZMu"/>
+                                <constraint firstItem="ni9-Pp-auQ" firstAttribute="leading" secondItem="MpL-20-iAc" secondAttribute="leading" constant="15" id="rx4-2V-0Pj"/>
+                            </constraints>
+                        </view>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="xLE-Le-6xY">
+                            <rect key="frame" x="0.0" y="188" width="320" height="128"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bWJ-TI-oDX" customClass="TableViewFooterButton">
+                                    <rect key="frame" x="15" y="20" width="290" height="44"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="44" id="QUi-Is-br3"/>
+                                    </constraints>
+                                    <state key="normal" title="关闭两步验证"/>
+                                    <connections>
+                                        <action selector="footerBtnClicked:" destination="HmU-oV-TBl" eventType="touchUpInside" id="CKp-yo-Tn5"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="bWJ-TI-oDX" secondAttribute="trailing" constant="15" id="8yS-wb-saL"/>
+                                <constraint firstItem="bWJ-TI-oDX" firstAttribute="top" secondItem="xLE-Le-6xY" secondAttribute="top" constant="20" id="hiV-DW-2fS"/>
+                                <constraint firstItem="bWJ-TI-oDX" firstAttribute="leading" secondItem="xLE-Le-6xY" secondAttribute="leading" constant="15" id="zm3-Fx-u9I"/>
+                            </constraints>
+                        </view>
+                        <sections>
+                            <tableViewSection id="WqS-TW-ecU">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="bQW-8R-Px9">
+                                        <rect key="frame" x="0.0" y="100" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bQW-8R-Px9" id="lPQ-Uc-Ot3">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="手机号" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jIN-HN-nkd">
+                                                    <rect key="frame" x="15" y="11" width="290" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="U3W-yC-d7d"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="jIN-HN-nkd" secondAttribute="trailing" constant="7" id="CJT-SX-j1K"/>
+                                                <constraint firstItem="jIN-HN-nkd" firstAttribute="centerY" secondItem="lPQ-Uc-Ot3" secondAttribute="centerY" id="POg-3S-VwQ"/>
+                                                <constraint firstItem="jIN-HN-nkd" firstAttribute="leading" secondItem="lPQ-Uc-Ot3" secondAttribute="leadingMargin" constant="7" id="har-Eg-1AR"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="EvI-Xr-9M2">
+                                        <rect key="frame" x="0.0" y="144" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EvI-Xr-9M2" id="pf3-6f-rBS">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="手机验证码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sUx-zj-CR2">
+                                                    <rect key="frame" x="15" y="11" width="200" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="C1W-ed-MaE"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                </textField>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MR3-0A-vmL" customClass="PhoneCodeButton">
+                                                    <rect key="frame" x="215" y="6" width="90" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="SPb-U8-wkV"/>
+                                                        <constraint firstAttribute="width" constant="90" id="jZo-cG-Gat"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <state key="normal" title="发送验证码"/>
+                                                    <connections>
+                                                        <action selector="verify_codeBtnClicked:" destination="HmU-oV-TBl" eventType="touchUpInside" id="wr1-rA-bud"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="MR3-0A-vmL" secondAttribute="trailing" constant="7" id="4fb-Ih-U1A"/>
+                                                <constraint firstItem="MR3-0A-vmL" firstAttribute="leading" secondItem="sUx-zj-CR2" secondAttribute="trailing" id="7iZ-ao-Ut0"/>
+                                                <constraint firstItem="sUx-zj-CR2" firstAttribute="leading" secondItem="pf3-6f-rBS" secondAttribute="leadingMargin" constant="7" id="Pk8-Ho-vfC"/>
+                                                <constraint firstItem="sUx-zj-CR2" firstAttribute="centerY" secondItem="pf3-6f-rBS" secondAttribute="centerY" id="k6b-Ee-xn1"/>
+                                                <constraint firstItem="MR3-0A-vmL" firstAttribute="centerY" secondItem="sUx-zj-CR2" secondAttribute="centerY" id="sqi-om-phX"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="HmU-oV-TBl" id="rPu-zZ-5l8"/>
+                            <outlet property="delegate" destination="HmU-oV-TBl" id="Asw-Wv-w6a"/>
+                        </connections>
+                    </tableView>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="footerBtn" destination="bWJ-TI-oDX" id="qr6-sL-VJ8"/>
+                        <outlet property="mobileF" destination="jIN-HN-nkd" id="4fo-06-zEf"/>
+                        <outlet property="verify_codeBtn" destination="MR3-0A-vmL" id="UWZ-iL-HmV"/>
+                        <outlet property="verify_codeF" destination="sUx-zj-CR2" id="noE-1e-Ik5"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fp1-OV-2SZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1656" y="887"/>
         </scene>
     </scenes>
 </document>

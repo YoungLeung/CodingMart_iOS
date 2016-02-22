@@ -10,6 +10,7 @@
 #import "QuickLoginViewController.h"
 #import "RegisterPhoneViewController.h"
 #import "CannotLoginViewController.h"
+#import "TwoFactorAuthCodeViewController.h"
 #import "MartTextFieldCell.h"
 #import "MartCaptchaCell.h"
 #import "TableViewFooterButton.h"
@@ -106,7 +107,13 @@
         if (data) {
             [self dismissViewControllerAnimated:YES completion:self.loginSucessBlock];
         }else{
-            [self refreshCaptchaNeeded];
+            NSString *global_key = error.userInfo[@"msg"][@"two_factor_auth_code_not_empty"];
+            if (global_key.length > 0) {
+                [self performSegueWithIdentifier:NSStringFromClass([TwoFactorAuthCodeViewController class]) sender:self];
+            }else{
+                [NSObject showError:error];
+                [self refreshCaptchaNeeded];
+            }
         }
     }];
 }
@@ -139,6 +146,8 @@
         if ([_userStr isPhoneNo]) {
             vc.mobile = _userStr;
         }
+    }else if ([segue.destinationViewController isKindOfClass:[TwoFactorAuthCodeViewController class]]){
+        [(TwoFactorAuthCodeViewController *)segue.destinationViewController setLoginSucessBlock:_loginSucessBlock];
     }
 }
 
