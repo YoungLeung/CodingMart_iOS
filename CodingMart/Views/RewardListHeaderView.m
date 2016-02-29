@@ -53,7 +53,7 @@
 
 - (UIButton *)rightBtn{
     if (!_rightBtn) {
-        _rightBtn = [self p_buttonWithTitle:@"发布悬赏" imageName:@"publish_reward_icon"];
+        _rightBtn = [self p_buttonWithTitle:@"码市案例" imageName:@"mart_case_icon"];
     }
     return _rightBtn;
 }

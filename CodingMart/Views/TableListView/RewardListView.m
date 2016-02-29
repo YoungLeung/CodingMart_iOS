@@ -48,15 +48,13 @@
         RewardListHeaderView *headerV = [[RewardListHeaderView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, headerHeight)];
         __weak typeof(self) weakSelf = self;
         [headerV.leftBtn bk_addEventHandler:^(id sender) {
-            [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"发布悬赏"];
             if (weakSelf.martIntroduceBlock) {
                 weakSelf.martIntroduceBlock();
             }
         } forControlEvents:UIControlEventTouchUpInside];
         [headerV.rightBtn bk_addEventHandler:^(id sender) {
-            [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"码市介绍"];
-            if (weakSelf.publishRewardBlock) {
-                weakSelf.publishRewardBlock();
+            if (weakSelf.caseListBlock) {
+                weakSelf.caseListBlock();
             }
         } forControlEvents:UIControlEventTouchUpInside];
         _myTableView.tableHeaderView = headerV;
@@ -81,6 +79,13 @@
 - (void)setStatus:(NSString *)status{
     if (![_status isEqualToString:status]) {
         _status = status;
+        [self resetData];
+    }
+}
+
+- (void)setRole_type_id:(NSString *)role_type_id{
+    if (![_role_type_id isEqualToString:role_type_id]) {
+        _role_type_id = role_type_id;
         [self resetData];
     }
 }

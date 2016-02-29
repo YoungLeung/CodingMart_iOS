@@ -421,6 +421,11 @@
         block(data[@"data"], error);
     }];
 }
+#pragma mark Case
+- (void)get_CaseListWithType:(NSString *)type block:(void (^)(id data, NSError *error))block{
+    block(@[@1, @2, @3, @4], nil);
+}
+
 #pragma mark Setting
 - (void)get_VerifyInfoBlock:(void (^)(id data, NSError *error))block{
     NSString *path  = @"api/current_user/verified_types";

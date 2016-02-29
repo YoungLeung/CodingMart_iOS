@@ -20,6 +20,7 @@
 #import "FunctionTipsManager.h"
 #import "UINavigationBar+Awesome.h"
 #import "LoginViewController.h"
+#import "CaseListViewController.h"
 
 @interface RootViewController ()<iCarouselDataSource, iCarouselDelegate, RewardListViewScrollDelegate>
 @property (strong, nonatomic) NSMutableArray *typeList, *statusList;
@@ -28,7 +29,7 @@
 @property (strong, nonatomic) XTSegmentControl *mySegmentControl;
 @property (strong, nonatomic) iCarousel *myCarousel;
 
-@property (strong, nonatomic) UIButton *leftNavBtn, *rightNavBtn;
+@property (strong, nonatomic) UIButton *leftNavBtn, *rightNavBtn, *publishBtn;
 
 @property (assign, nonatomic) NSInteger selectedStatusIndex;
 
@@ -90,7 +91,19 @@
     _mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 64.0, kScreen_Width, segment_height) Items:_typeList selectedBlock:^(NSInteger index) {
         [weakCarousel scrollToItemAtIndex:index animated:NO];
     }];
+    _mySegmentControl.lineHiden = YES;
     [self.view addSubview:_mySegmentControl];
+    
+    //添加发布按钮
+    _publishBtn = [UIButton new];
+    [_publishBtn setImage:[UIImage imageNamed:@"publish_reward_icon"] forState:UIControlStateNormal];
+    [_publishBtn addTarget:self action:@selector(goToPublishReward) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_publishBtn];
+    [_publishBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(57, 57));
+        make.right.equalTo(self.view).offset(-30);
+        make.bottom.equalTo(self.view).offset(-30);
+    }];
     
 }
 - (void)viewWillDisappear:(BOOL)animated{
@@ -258,8 +271,8 @@ static CGFloat startContentOffsetY, startNavBarOffsetY;
         listView.martIntroduceBlock = ^(){
             [weakSelf goToMartIntroduce];
         };
-        listView.publishRewardBlock = ^(){
-            [weakSelf goToPublishReward];
+        listView.caseListBlock = ^(){
+            [weakSelf goToCaseListVC];
         };
         listView.delegate = self;
     }else if (listView.dataList){
@@ -311,9 +324,13 @@ static CGFloat startContentOffsetY, startNavBarOffsetY;
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)goToMartIntroduce{
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"码市介绍"];
+
     [self goToWebVCWithUrlStr:@"/about" title:@"码市介绍"];
 }
 - (void)goToPublishReward{
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"发布悬赏"];
+
     if ([Login isLogin]) {
         UIViewController *vc = [PublishRewardStep1ViewController storyboardVC];
         [self.navigationController pushViewController:vc animated:YES];
@@ -324,5 +341,12 @@ static CGFloat startContentOffsetY, startNavBarOffsetY;
         };
         [UIViewController presentVC:vc dismissBtnTitle:@"取消"];
     }
+}
+
+- (void)goToCaseListVC{
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"码市案例"];
+
+    CaseListViewController *vc = [CaseListViewController new];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 @end

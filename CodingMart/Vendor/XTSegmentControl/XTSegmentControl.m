@@ -20,8 +20,9 @@
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIImageView *titleIconView;
-
-- (void)setSelected:(BOOL)selected;
+@property (strong, nonatomic) UIColor *defaultTextColor;
+@property (assign, nonatomic) BOOL selected;
+//- (void)setSelected:(BOOL)selected;
 @end
 
 @implementation XTSegmentControlItem
@@ -44,15 +45,19 @@
 }
 
 - (void)setSelected:(BOOL)selected{
-    if (selected) {
-        _titleLabel.textColor = [UIColor colorWithHexString:@"0x4289DB"];
-    }else{
-        _titleLabel.textColor = [UIColor colorWithWhite:1.0 alpha:0.5];
-    }
+    _selected = selected;
+    _titleLabel.textColor = _selected? [UIColor colorWithHexString:@"0x4289DB"]: self.defaultTextColor;
 }
 
 - (void)resetTitle:(NSString *)title{
     _titleLabel.text = title;
+}
+
+- (UIColor *)defaultTextColor{
+    if (!_defaultTextColor) {
+        _defaultTextColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+    }
+    return _defaultTextColor;
 }
 
 @end
@@ -68,6 +73,18 @@
 @end
 
 @implementation XTSegmentControl
+
+- (void)setLineHiden:(BOOL)lineHiden{
+    _lineView.hidden = _lineHiden = lineHiden;
+}
+
+- (void)setDefaultTextColor:(UIColor *)defaultTextColor{
+    _defaultTextColor = defaultTextColor;
+    for (XTSegmentControlItem *curItem in _items) {
+        curItem.defaultTextColor = _defaultTextColor;
+        curItem.selected = curItem.selected;
+    }
+}
 
 - (id)initWithFrame:(CGRect)frame Items:(NSArray *)titleItems
 {
@@ -134,9 +151,13 @@
     float height = CGRectGetHeight(self.bounds);
     for (int i = 0; i < titleArray.count; i++) {
         float x = i > 0 ? CGRectGetMaxX([_itemFrames[i-1] CGRectValue]) : 0;
-        float width = [(NSString *)titleArray[i] getWidthWithFont:[UIFont systemFontOfSize:XTSegmentControlItemFont] constrainedToSize:CGSizeMake(CGFLOAT_MAX, 20)];
-        width += 2*15;
-        //            float width = kScreen_Width/titleArray.count;
+        float width;
+        if (titleArray.count <= 5) {
+            width = kScreen_Width/titleArray.count;
+        }else{
+            width = [(NSString *)titleArray[i] getWidthWithFont:[UIFont systemFontOfSize:XTSegmentControlItemFont] constrainedToSize:CGSizeMake(CGFLOAT_MAX, 20)];
+            width += 2*15;
+        }
         CGRect rect = CGRectMake(x, y, width, height);
         [_itemFrames addObject:[NSValue valueWithCGRect:rect]];
     }
@@ -144,6 +165,7 @@
         CGRect rect = [_itemFrames[i] CGRectValue];
         NSString *title = titleArray[i];
         XTSegmentControlItem *item = [[XTSegmentControlItem alloc] initWithFrame:rect title:title];
+        item.defaultTextColor = self.defaultTextColor;
         if (i == 0) {
             [item setSelected:YES];
         }
@@ -157,20 +179,20 @@
 
 - (void)addRedLine
 {
-//    if (!_lineView) {
-//        CGRect rect = [_itemFrames[0] CGRectValue];
-//        _lineView = [[UIView alloc] initWithFrame:CGRectMake(
-//                                                             CGRectGetMinX(rect),
-//                                                             CGRectGetHeight(rect) - XTSegmentControlLineHeight,
-//                                                             CGRectGetWidth(rect) - 2 * XTSegmentControlHspace,
-//                                                             XTSegmentControlLineHeight)];
-//        _lineView.backgroundColor = [UIColor colorWithHexString:@"0x4289DB"];
-//        [_contentView addSubview:_lineView];
-//       
-//        UIView *bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(rect)-0.5, CGRectGetWidth(self.bounds), 0.5)];
-//        bottomLineView.backgroundColor = [UIColor colorWithHexString:@"0xc8c7cc"];
-//        [self addSubview:bottomLineView];
-//    }
+    if (!_lineView) {
+        CGRect rect = [_itemFrames[0] CGRectValue];
+        _lineView = [[UIView alloc] initWithFrame:CGRectMake(
+                                                             CGRectGetMinX(rect),
+                                                             CGRectGetHeight(rect) - XTSegmentControlLineHeight,
+                                                             CGRectGetWidth(rect) - 2 * XTSegmentControlHspace,
+                                                             XTSegmentControlLineHeight)];
+        _lineView.backgroundColor = [UIColor colorWithHexString:@"0x4289DB"];
+        [_contentView addSubview:_lineView];
+       
+        UIView *bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(rect)-0.5, CGRectGetWidth(self.bounds), 0.5)];
+        bottomLineView.backgroundColor = [UIColor colorWithHexString:@"0xc8c7cc"];
+        [self addSubview:bottomLineView];
+    }
 }
 
 - (void)setTitle:(NSString *)title withIndex:(NSInteger)index

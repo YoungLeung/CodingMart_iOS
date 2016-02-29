@@ -17,8 +17,9 @@
 typedef void(^XTSegmentControlBlock)(NSInteger index);
 
 @interface XTSegmentControl : UIView
-
-@property (nonatomic) NSInteger currentIndex;
+@property (strong, nonatomic) UIColor *defaultTextColor;
+@property (assign, nonatomic) BOOL lineHiden;
+@property (assign, nonatomic) NSInteger currentIndex;
 
 - (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItems selectedBlock:(XTSegmentControlBlock)selectedHandle;
 
