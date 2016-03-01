@@ -61,12 +61,17 @@
 //        refresh
         _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView activityIndicatorView:nil ignoreContentInset:YES];
         [_myRefreshControl addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
+        
+        //单独配置一下 blankPageView，为了让 headerV 上的按钮在空白页面的时候也可以点击
+        self.blankPageView = [[EaseBlankPageView alloc] initWithFrame:CGRectMake(0, 44, CGRectGetWidth(frame), CGRectGetHeight(frame))];
+        self.blankPageView.hidden = YES;
+        [_myTableView addSubview:self.blankPageView];
     }
     return self;
 }
 
 - (NSString *)key{
-    return [NSString stringWithFormat:@"%@-%@", _type, _status];
+    return [NSString stringWithFormat:@"%@-%@-%@", _type, _status, _role_type_id];
 }
 
 - (void)setType:(NSString *)type{
@@ -123,7 +128,7 @@
         [self beginLoading];
     }
     self.isLoading = YES;
-    [[Coding_NetAPIManager sharedManager] get_RewardListWithType:_type status:_status block:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] get_RewardListWithType:_type status:_status role_type_id:_role_type_id block:^(id data, NSError *error) {
         [self endLoading];
         [self.myRefreshControl endRefreshing];
         self.isLoading = NO;

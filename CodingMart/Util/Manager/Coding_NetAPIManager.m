@@ -217,12 +217,15 @@
     }];
 }
 #pragma mark Reward
-- (void)get_RewardListWithType:(NSString *)type status:(NSString *)status block:(void (^)(id data, NSError *error))block{
+- (void)get_RewardListWithType:(NSString *)type status:(NSString *)status role_type_id:(NSString *)role_type_id block:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/rewards";
     type = [NSObject rewardTypeDict][type];
     status = [NSObject rewardStatusDict][status];
+    role_type_id = [NSObject rewardRoleTypeDict][role_type_id];
+    
     NSDictionary *params = @{@"type": type,
-                             @"status": status};
+                             @"status": status,
+                             @"role_type_id": role_type_id};
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             data = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"Reward"];

@@ -23,7 +23,7 @@
 #import "CaseListViewController.h"
 
 @interface RootViewController ()<iCarouselDataSource, iCarouselDelegate, RewardListViewScrollDelegate>
-@property (strong, nonatomic) NSMutableArray *typeList, *statusList;
+@property (strong, nonatomic) NSMutableArray *typeList, *statusList, *roleTypeList;
 @property (strong, nonatomic) NSMutableDictionary *rewardsDict;
 
 @property (strong, nonatomic) XTSegmentControl *mySegmentControl;
@@ -31,7 +31,7 @@
 
 @property (strong, nonatomic) UIButton *leftNavBtn, *rightNavBtn, *publishBtn;
 
-@property (assign, nonatomic) NSInteger selectedStatusIndex;
+@property (assign, nonatomic) NSInteger selectedStatusIndex, selectedRoleTypeIndex;
 
 @property (assign, nonatomic) CGFloat navBarOffsetY;
 @end
@@ -56,7 +56,19 @@
                     @"开发中",
                     @"已结束"].mutableCopy;
     
+    _roleTypeList = @[@"所有角色",
+                      @"全栈开发",
+                      @"前端开发",
+                      @"后端开发",
+                      @"应用开发",
+                      @"iOS开发",
+                      @"Android开发",
+                      @"产品经理",
+                      @"设计师",
+                      @"开发团队"].mutableCopy;
+    
     _selectedStatusIndex = 0;
+    _selectedRoleTypeIndex = 0;
     
     _rewardsDict = [NSMutableDictionary new];
     
@@ -280,6 +292,7 @@ static CGFloat startContentOffsetY, startNavBarOffsetY;
     }
     listView.type = _typeList[index];
     listView.status = _statusList[_selectedStatusIndex];
+    listView.role_type_id = _roleTypeList[_selectedRoleTypeIndex];
     listView.dataList = _rewardsDict[listView.key];//填充新值
     
     [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];

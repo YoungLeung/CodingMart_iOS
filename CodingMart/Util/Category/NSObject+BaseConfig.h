@@ -16,6 +16,7 @@
 + (NSString *)appBuildVersion;
 + (NSDictionary *)rewardTypeDict;
 + (NSDictionary *)rewardStatusDict;
++ (NSDictionary *)rewardRoleTypeDict;
 + (NSDictionary *)applyStatusDict;
 + (NSDictionary *)rewardStatusStrColorDict;
 + (NSDictionary *)rewardStatusBGColorDict;

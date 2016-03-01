@@ -39,7 +39,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)post_SetPasswordWithEmail:(NSString *)email captcha:(NSString *)captcha type:(PurposeType)type block:(void (^)(id data, NSError *error))block;
 
 #pragma mark Reward
-- (void)get_RewardListWithType:(NSString *)type status:(NSString *)status block:(void (^)(id data, NSError *error))block;
+- (void)get_RewardListWithType:(NSString *)type status:(NSString *)status role_type_id:(NSString *)role_type_id block:(void (^)(id data, NSError *error))block;
 - (void)get_JoinedRewardListBlock:(void (^)(id data, NSError *error))block;
 - (void)get_PublishededRewardListBlock:(void (^)(id data, NSError *error))block;
 - (void)post_Reward:(Reward *)reward block:(void (^)(id data, NSError *error))block;

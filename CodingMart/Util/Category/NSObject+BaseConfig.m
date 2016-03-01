@@ -76,6 +76,23 @@
     }
     return baseDictInfo[key];
 }
++ (NSDictionary *)rewardRoleTypeDict{
+    NSMutableDictionary *baseDictInfo = [self p_baseDictInfo];
+    NSString *key = @"rewardRoleTypeDict";
+    if (!baseDictInfo[key]) {
+        baseDictInfo[key] = @{@"所有角色": @"",
+                              @"全栈开发": @"3",
+                              @"前端开发": @"5",
+                              @"后端开发": @"9",
+                              @"应用开发": @"1",
+                              @"iOS开发": @"4",
+                              @"Android开发": @"6",
+                              @"产品经理": @"10",
+                              @"设计师": @"2",
+                              @"开发团队": @"11"};
+    }
+    return baseDictInfo[key];
+}
 + (NSDictionary *)applyStatusDict{
     NSMutableDictionary *baseDictInfo = [self p_baseDictInfo];
     NSString *key = @"applyStatusDict";
