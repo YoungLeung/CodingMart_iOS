@@ -214,13 +214,10 @@
     [self addRedLine];
     if (index < 0) {
         _currentIndex = -1;
-        _lineView.hidden = TRUE;
         for (XTSegmentControlItem *curItem in _items) {
             [curItem setSelected:NO];
         }
     } else {
-        _lineView.hidden = FALSE;
-    
         if (index != _currentIndex) {
             XTSegmentControlItem *curItem = [_items objectAtIndex:index];
             CGRect rect = [_itemFrames[index] CGRectValue];
@@ -233,6 +230,7 @@
                 [UIView animateWithDuration:XTSegmentControlAnimationTime animations:^{
                     _lineView.frame = lineRect;
                 } completion:^(BOOL finished) {
+                    _lineView.frame = lineRect;
                     [_items enumerateObjectsUsingBlock:^(XTSegmentControlItem *item, NSUInteger idx, BOOL *stop) {
                         [item setSelected:NO];
                     }];
@@ -262,7 +260,7 @@
         if (delta > 1) {
             self.currentIndex += floorf(delta);
             delta -= floorf(delta);
-            origionRect = [_itemFrames[_currentIndex] CGRectValue];;
+            origionRect = [_itemFrames[_currentIndex] CGRectValue];
             origionLineRect = CGRectMake(CGRectGetMinX(origionRect) + XTSegmentControlHspace, CGRectGetHeight(origionRect) - XTSegmentControlLineHeight, CGRectGetWidth(origionRect) - 2 * XTSegmentControlHspace, XTSegmentControlLineHeight);
         }
 

@@ -91,7 +91,7 @@
     [self.view endEditing:YES];
     if (_mySegmentControl) {
         float offset = carousel.scrollOffset;
-        if (offset > 0) {
+        if (offset > 0 && round(offset) != offset) {
             [_mySegmentControl moveIndexWithProgress:offset];
         }
     }
