@@ -7,6 +7,7 @@
 //
 
 #import "CaseListCell.h"
+#import "UIImageView+WebCache.h"
 
 @interface CaseListCell ()
 @property (strong, nonatomic) UIImageView *cardBGV, *logoV;
@@ -126,11 +127,11 @@
 - (void)setInfo:(CaseInfo *)info{
     _info = info;
     
-    _logoV.image = [UIImage imageNamed:@"placeholder_reward_cover"];
-    _nameL.text = @"信我科技 微信开发";
-    _amountL.attributedText = [self p_attrStrWithTitle:@"金额" value:@"￥8000"];
-    _termL.attributedText = [self p_attrStrWithTitle:@"项目时间" value:@"30 天"];
-    _characterL.attributedText = [self p_attrStrWithTitle:@"参与角色" value:@"设计师、攻城狮"];
+    [_logoV sd_setImageWithURL:[NSURL URLWithString:_info.logo]];
+    _nameL.text = [NSString stringWithFormat:@"%@ %@", _info.title, _info.type];
+    _amountL.attributedText = [self p_attrStrWithTitle:@"金额" value:[NSString stringWithFormat:@"￥ %@", _info.amount]];
+    _termL.attributedText = [self p_attrStrWithTitle:@"项目时间" value:[NSString stringWithFormat:@"%@ 天", _info.duration]];
+    _characterL.attributedText = [self p_attrStrWithTitle:@"参与角色" value:_info.character];
 }
 
 - (NSAttributedString *)p_attrStrWithTitle:(NSString *)title value:(NSString *)value{

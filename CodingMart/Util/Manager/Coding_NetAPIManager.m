@@ -426,7 +426,16 @@
 }
 #pragma mark Case
 - (void)get_CaseListWithType:(NSString *)type block:(void (^)(id data, NSError *error))block{
-    block(@[@1, @2, @3, @4], nil);
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/cases" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data[@"data"]) {
+            data = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"CaseInfo"];
+            if (type.length > 0) {
+                NSPredicate *typePredicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"type_id = %@", type]];
+                data = [(NSArray *)data filteredArrayUsingPredicate:typePredicate];
+            }
+        }
+        block(data, error);
+    }];
 }
 
 #pragma mark Setting

@@ -9,5 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface CaseInfo : NSObject
-
+@property (strong, nonatomic) NSString *logo, *title, *character, *type;
+@property (strong, nonatomic) NSNumber *type_id, *amount, *duration;
 @end

@@ -27,7 +27,7 @@
     // Do any additional setup after loading the view.
     self.title = @"码市案例";
     _typeTitleList = @[@"全部", @"网站", @"APP", @"微信开发", @"HTML5"];
-    _typeValueList = @[@"", @"web", @"app", @"wechat", @"html5"];
+    _typeValueList = @[@"", @"0", @"5", @"2", @"3"];
     _casesDict = [NSMutableDictionary new];
     
     CGFloat segment_height = 44.0;

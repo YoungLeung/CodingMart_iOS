@@ -113,8 +113,8 @@
     [self.view addSubview:_publishBtn];
     [_publishBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(57, 57));
-        make.right.equalTo(self.view).offset(-30);
-        make.bottom.equalTo(self.view).offset(-30);
+        make.right.equalTo(self.view).offset(-15);
+        make.bottom.equalTo(self.view).offset(-15);
     }];
     
 }

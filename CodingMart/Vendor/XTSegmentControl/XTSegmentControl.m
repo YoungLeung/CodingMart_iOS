@@ -152,14 +152,22 @@
     for (int i = 0; i < titleArray.count; i++) {
         float x = i > 0 ? CGRectGetMaxX([_itemFrames[i-1] CGRectValue]) : 0;
         float width;
-        if (titleArray.count <= 5) {
-            width = kScreen_Width/titleArray.count;
-        }else{
-            width = [(NSString *)titleArray[i] getWidthWithFont:[UIFont systemFontOfSize:XTSegmentControlItemFont] constrainedToSize:CGSizeMake(CGFLOAT_MAX, 20)];
-            width += 2*15;
-        }
+        width = [(NSString *)titleArray[i] getWidthWithFont:[UIFont systemFontOfSize:XTSegmentControlItemFont] constrainedToSize:CGSizeMake(CGFLOAT_MAX, 20)];
+        width += 2*15;
         CGRect rect = CGRectMake(x, y, width, height);
         [_itemFrames addObject:[NSValue valueWithCGRect:rect]];
+    }
+    if (_itemFrames.count <= 5) {
+        __block CGFloat totalWidth = 0;
+        [_itemFrames enumerateObjectsUsingBlock:^(NSValue *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            totalWidth += CGRectGetWidth(obj.CGRectValue);
+        }];
+        for (int index = 0; index < _itemFrames.count; index++) {
+            CGRect rect = [(NSValue *)_itemFrames[index] CGRectValue];
+            rect.size.width = round(rect.size.width * kScreen_Width /totalWidth);
+            rect.origin.x =  index > 0 ? CGRectGetMaxX([_itemFrames[index-1] CGRectValue]) : 0;
+            [_itemFrames replaceObjectAtIndex:index withObject:[NSValue valueWithCGRect:rect]];
+        }
     }
     for (int i = 0; i < titleArray.count; i++) {
         CGRect rect = [_itemFrames[i] CGRectValue];
