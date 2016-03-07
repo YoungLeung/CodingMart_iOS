@@ -55,6 +55,11 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 #pragma mark Case
 - (void)get_CaseListWithType:(NSString *)type block:(void (^)(id data, NSError *error))block;
 
+#pragma mark Notification
+- (void)get_NotificationUnReadCountBlock:(void (^)(id data, NSError *error))block;
+- (void)get_NotificationUnRead:(BOOL)onlyUnRead block:(void (^)(id data, NSError *error))block;
+- (void)post_markNotificationBlock:(void (^)(id data, NSError *error))block;
+- (void)post_markNotification:(NSNumber *)notificationID block:(void (^)(id data, NSError *error))block;
 #pragma mark Setting
 - (void)get_VerifyInfoBlock:(void (^)(id data, NSError *error))block;
 - (void)get_FillUserInfoBlock:(void (^)(id data, NSError *error))block;

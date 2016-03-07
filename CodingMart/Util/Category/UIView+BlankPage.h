@@ -27,6 +27,7 @@ typedef NS_ENUM(NSInteger, EaseBlankPageType)
     EaseBlankPageTypeOthersWatchedTopic,
     EaseBlankPageTypeOthersJoinedTopic,
     EaseBlankPageTypeFileTypeCannotSupport,
+    EaseBlankPageTypeViewTips,
 };
 
 @class EaseBlankPageView;

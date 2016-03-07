@@ -244,7 +244,12 @@ static const __unused short _base64DecodingTable[256] = {
                     [formatter setDateFormat:OMDateFormat];
                     [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:OMTimeZone]];
                     NSString *dateString = [[dict objectForKey:key] stringByReplacingOccurrencesOfString:@"T" withString:@" "];
-                    [newObject setValue:[formatter dateFromString:dateString] forKey:propertyName];
+                    NSDate *date = [formatter dateFromString:dateString];
+                    if (!date) {
+                        [formatter setDateFormat:EADateFormat];
+                        date = [formatter dateFromString:[dict objectForKey:key]];
+                    }
+                    [newObject setValue:date forKey:propertyName];
                 }
             }
             else {
@@ -387,7 +392,12 @@ static const char * getPropertyType(objc_property_t property) {
                             [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:OMTimeZone]];
                             
                             NSString *dateString = [[nestedArray[xx] objectForKey:newKey] stringByReplacingOccurrencesOfString:@"T" withString:@" "];
-                            [nestedObj setValue:[formatter dateFromString:dateString] forKey:tempNewKey];
+                            NSDate *date = [formatter dateFromString:dateString];
+                            if (!date) {
+                                [formatter setDateFormat:EADateFormat];
+                                date = [formatter dateFromString:[nestedArray[xx] objectForKey:newKey]];
+                            }
+                            [nestedObj setValue:date forKey:tempNewKey];
                         }
                     }
                     else {

@@ -24,6 +24,7 @@
 #import "DCParserConfiguration.h"
 #import "DCArrayMapping.h"
 #import "DCKeyValueObjectMapping.h"
+#import "MartNotification.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -434,6 +435,35 @@
                 data = [(NSArray *)data filteredArrayUsingPredicate:typePredicate];
             }
         }
+        block(data, error);
+    }];
+}
+
+#pragma mark Notification
+- (void)get_NotificationUnReadCountBlock:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/notification/unread/count" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        block(data[@"data"], error);
+    }];
+}
+
+- (void)get_NotificationUnRead:(BOOL)onlyUnRead block:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:onlyUnRead? @"api/notification/unread": @"api/notification/all" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        NSArray *dataList;
+        if (data) {
+            dataList = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"MartNotification"];
+        }
+        block(dataList, error);
+    }];
+}
+
+- (void)post_markNotificationBlock:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/notification/all/mark" withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+
+- (void)post_markNotification:(NSNumber *)notificationID block:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[NSString stringWithFormat:@"api/notification/%@/mark", notificationID] withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
         block(data, error);
     }];
 }

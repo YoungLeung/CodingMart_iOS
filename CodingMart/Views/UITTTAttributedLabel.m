@@ -109,20 +109,20 @@
 }
 
 #pragma mark Link
-- (void)setupUIStyle{
-    self.linkAttributes = @{(__bridge NSString *)kCTUnderlineStyleAttributeName : [NSNumber numberWithBool:YES],
+- (void)setupUIStyle:(BOOL)hasUnderline{
+    self.linkAttributes = @{(__bridge NSString *)kCTUnderlineStyleAttributeName : [NSNumber numberWithBool:hasUnderline],
                             (NSString *)kCTForegroundColorAttributeName : (__bridge id)[UIColor colorWithHexString:@"0x2FAEEA"].CGColor};
-    self.activeLinkAttributes = @{(NSString *)kCTUnderlineStyleAttributeName : [NSNumber numberWithBool:YES],
+    self.activeLinkAttributes = @{(NSString *)kCTUnderlineStyleAttributeName : [NSNumber numberWithBool:hasUnderline],
                                   (NSString *)kCTForegroundColorAttributeName : (__bridge id)[[UIColor colorWithHexString:@"0x1b9d59"] CGColor]};
 }
-- (void)addLinkToStr:(NSString *)str whithValue:(id)value andBlock:(void (^)(id value))block{
+- (void)addLinkToStr:(NSString *)str value:(id)value hasUnderline:(BOOL)hasUnderline clickedBlock:(void (^)(id value))block{
     if (str.length <= 0) {
         return;
     }
     if (!value) {
         value = str;
     }
-    [self setupUIStyle];
+    [self setupUIStyle:hasUnderline];
     self.delegate = self;
     self.linkBlock = block;
     NSRange range = [self.text rangeOfString:str];

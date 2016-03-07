@@ -38,7 +38,7 @@
     self.title = @"码市测试";
     
     WEAKSELF
-    [_contentL addLinkToStr:@"《开发者服务指南》" whithValue:nil andBlock:^(id value) {
+    [_contentL addLinkToStr:@"《开发者服务指南》" value:nil hasUnderline:YES clickedBlock:^(id value) {
         CodingMarkServerWebViewController *av =[CodingMarkServerWebViewController new];
         [weakSelf.navigationController pushViewController:av animated:YES];
     }];

@@ -18,6 +18,7 @@
 #import <UMengSocial/WXApi.h>
 #import "RootViewController.h"
 #import "PayMethodViewController.h"
+#import <Google/Analytics.h>
 
 @interface AppDelegate ()
 
@@ -40,6 +41,8 @@
     [MobClick startWithAppkey:kUmeng_AppKey reportPolicy:BATCH channelId:nil];
 //    友盟分享
     [self registerSocialData];
+//    Google Analytics
+    [self registerGA];
 //    支付
     [WXApi registerApp:kSocial_WX_ID withDescription:@"Coding 码市"];
 
@@ -116,6 +119,17 @@
     }];
 }
 
+- (void)registerGA{
+    // Configure tracker from GoogleService-Info.plist.
+    NSError *configureError;
+    [[GGLContext sharedInstance] configureWithError:&configureError];
+    NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
+    
+    // Optional: configure GAI options.
+    GAI *gai = [GAI sharedInstance];
+    gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
+    gai.logger.logLevel = kGAILogLevelError;  // remove before app release
+}
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.

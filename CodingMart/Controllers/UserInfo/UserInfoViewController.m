@@ -19,6 +19,7 @@
 #import "MartShareView.h"
 #import "UITTTAttributedLabel.h"
 #import "FunctionTipsManager.h"
+#import "NotificationViewController.h"
 
 
 @interface UserInfoViewController ()<UIScrollViewDelegate>
@@ -28,8 +29,9 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerBGVTop;
 @property (weak, nonatomic) IBOutlet UIButton *tipView;
 @property (weak, nonatomic) IBOutlet UITTTAttributedLabel *tipL;
-
+@property (weak, nonatomic) IBOutlet UIButton *fillUserInfoBtn;
 @property (weak, nonatomic) IBOutlet UIView *tableHeaderView;
+@property (strong, nonatomic) UIButton *rightNavBtn;
 
 @property (strong, nonatomic) User *curUser;
 @property (assign, nonatomic) BOOL isDisappearForLogin;
@@ -51,7 +53,7 @@
     }];
     _headerBGV.image = nil;
     _headerBGV.backgroundColor = [UIColor colorWithHexString:@"0x4289DB"];
-    [_tipL addLinkToStr:@"400-992-1001" whithValue:@"400-992-1001" andBlock:^(id value) {
+    [_tipL addLinkToStr:@"400-992-1001" value:@"400-992-1001" hasUnderline:YES clickedBlock:^(id value) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://400-992-1001"]];
     }];
     
@@ -64,6 +66,7 @@
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.barTintColor = [UIColor clearColor];
     _isDisappearForLogin = NO;
+    [self refreshUnReadNotification];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -79,7 +82,8 @@
     [self refreshUI];
 }
 
-- (void)refreshUI{    
+- (void)refreshUI{
+    _fillUserInfoBtn.hidden = ![Login isLogin];
     [_user_iconV sd_setImageWithURL:[_curUser.avatar urlWithCodingPath] placeholderImage:[UIImage imageNamed:@"placeholder_user"]];
     _user_nameL.text = _curUser.name;
     [self setupNavBarBtn];
@@ -87,7 +91,7 @@
     BOOL tipViewHiden = NO;
     self.tipView.hidden = tipViewHiden;
     
-    _tableHeaderView.height = 0.4 * kScreen_Width + (tipViewHiden? 0: CGRectGetHeight(_tipView.frame));
+    _tableHeaderView.height = 0.5 * kScreen_Width + (tipViewHiden? 0: CGRectGetHeight(_tipView.frame));
     self.tableView.tableHeaderView = _tableHeaderView;
     
     _user_iconV.layer.masksToBounds = YES;
@@ -99,6 +103,21 @@
 - (void)refreshData{
     [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id data, NSError *error) {
         self.curUser = data? data: [Login curLoginUser];
+        [self refreshUnReadNotification];
+    }];
+}
+
+- (void)refreshUnReadNotification{
+    if (![Login isLogin]) {
+        return;
+    }
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] get_NotificationUnReadCountBlock:^(id data, NSError *error) {
+        if ([(NSNumber *)data integerValue] > 0) {
+            [weakSelf.rightNavBtn addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(30, 15)];
+        }else{
+            [weakSelf.rightNavBtn removeBadgeTips];
+        }
     }];
 }
 
@@ -106,14 +125,10 @@
 - (void)setupNavBarBtn{
     if ([Login isLogin]) {
         if (!self.navigationItem.rightBarButtonItem) {
-            UIButton *rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 75, 25)];
-            rightBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-            [rightBtn setTitle:@"完善资料" forState:UIControlStateNormal];
-            [rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            [rightBtn doBorderWidth:0.5 color:[UIColor whiteColor] cornerRadius:13];
-            
-            [rightBtn addTarget:self action:@selector(rightNavBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-            [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:rightBtn] animated:YES];
+            _rightNavBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+            [_rightNavBtn setImage:[UIImage imageNamed:@"nav_icon_tip"] forState:UIControlStateNormal];
+            [_rightNavBtn addTarget:self action:@selector(rightNavBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+            [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:_rightNavBtn] animated:YES];
         }
     }else{
         [self.navigationItem setRightBarButtonItem:nil animated:YES];
@@ -121,6 +136,11 @@
 }
 
 - (void)rightNavBtnClicked{
+    NotificationViewController *vc = [NotificationViewController storyboardVC];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (IBAction)fillUserInfoBtnClicked:(id)sender {
     FillTypesViewController *vc = [FillTypesViewController storyboardVC];
     [self.navigationController pushViewController:vc animated:YES];
 }

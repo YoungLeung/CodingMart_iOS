@@ -31,9 +31,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     __weak typeof(self) weakSelf = self;
-    [_footerL addLinkToStr:@"《码市用户协议》" whithValue:nil andBlock:^(id value) {
+    [_footerL addLinkToStr:@"《码市用户协议》" value:nil hasUnderline:YES clickedBlock:^(id value) {
         [weakSelf goToServiceTerms];
     }];
+    
     _mobileF.text = _mobile;
     RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[self.mobileF.rac_textSignal, self.verify_codeF.rac_textSignal, self.global_keyF.rac_textSignal] reduce:^id(NSString *mobile, NSString *verify_code, NSString *global_key){
         return @(mobile.length > 0 && verify_code.length > 0 && global_key.length > 0);

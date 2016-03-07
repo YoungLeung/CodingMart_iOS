@@ -10,6 +10,8 @@
 #import <RegexKitLite-NoWarning/RegexKitLite.h>
 #import "MartWebViewController.h"
 #import "RewardDetailViewController.h"
+#import "RewardPrivateViewController.h"
+#import <Google/Analytics.h>
 
 @implementation UIViewController (Common)
 + (UIViewController *)presentingVC{
@@ -69,9 +71,13 @@
     UIViewController *resultVC;
     NSArray *matchedCaptures;
     NSString *rewardRegexStr = @"/p/([0-9]+)$";
+    NSString *rewardPrivateRegexStr = @"/reward/([0-9]+)$";
     if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:rewardRegexStr]).count > 0){
         NSString *reward_id = matchedCaptures[1];
         resultVC = [RewardDetailViewController vcWithRewardId:reward_id.integerValue];
+    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:rewardPrivateRegexStr]).count > 0){
+        NSString *reward_id = matchedCaptures[1];
+        resultVC = [RewardPrivateViewController vcWithRewardId:reward_id.integerValue];
     }else{
         resultVC = [[MartWebViewController alloc] initWithUrlStr:linkStr];
     }
@@ -98,6 +104,17 @@
 }
 
 #pragma mark swizzle M
+- (void)customViewDidLoad{
+    [self customViewDidLoad];
+    NSString *className = [NSString stringWithUTF8String:object_getClassName(self)];
+    if (![className hasPrefix:@"Base"] && ![className isEqualToString:@"UIInputWindowController"]) {
+        DebugLog(@"ea_swizzle : %@", className);
+        id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+        [tracker set:kGAIScreenName value:className];
+        [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+    }
+}
+
 - (void)customViewDidAppear:(BOOL)animated{
     NSString *className = [NSString stringWithUTF8String:object_getClassName(self)];
     if (![className hasPrefix:@"Base"] && ![className isEqualToString:@"UIInputWindowController"]) {
@@ -149,6 +166,8 @@ void ea_swizzle(Class c, SEL origSEL, SEL newSEL){
 }
 
 void ea_swizzleAllViewController(){
+    ea_swizzle([UIViewController class], @selector(viewDidLoad), @selector(customViewDidLoad));
+
     ea_swizzle([UIViewController class], @selector(viewWillDisappear:), @selector(customViewWillDisappear:));
 
     ea_swizzle([UIViewController class], @selector(viewDidAppear:), @selector(customViewDidAppear:));

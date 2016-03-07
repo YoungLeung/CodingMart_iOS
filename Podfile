@@ -19,3 +19,4 @@ pod 'UMengAnalytics-NO-IDFA', '3.6.5'
 
 
 pod 'Google/Analytics', '~> 1.0.0'
+pod 'hpple', '0.2.0'

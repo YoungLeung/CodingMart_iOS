@@ -24,6 +24,11 @@
     return vc;
 }
 
++ (instancetype)vcWithRewardId:(NSUInteger)rewardId{
+    Reward *reward = [Reward rewardWithId:rewardId];
+    return [self vcWithReward:reward];
+}
+
 - (void)setCurReward:(Reward *)curReward{
     _curReward = curReward;
     self.curUrlStr = [NSString stringWithFormat:@"/reward/%@", _curReward.id.stringValue];

@@ -30,7 +30,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     __weak typeof(self) weakSelf = self;
-    [_footerL addLinkToStr:@"《码市用户协议》" whithValue:nil andBlock:^(id value) {
+    [_footerL addLinkToStr:@"《码市用户协议》" value:nil hasUnderline:YES clickedBlock:^(id value) {
         [weakSelf goToServiceTerms];
     }];
     _mobileF.text = _mobile;

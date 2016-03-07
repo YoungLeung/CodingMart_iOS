@@ -32,10 +32,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     __weak typeof(self) weakSelf = self;
-    [_footerL addLinkToStr:@"《码市用户协议》" whithValue:nil andBlock:^(id value) {
+    [_footerL addLinkToStr:@"《码市用户协议》" value:nil hasUnderline:YES clickedBlock:^(id value) {
         [weakSelf goToServiceTerms];
     }];
-    
     RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[self.passwordF.rac_textSignal, self.confirm_passwordF.rac_textSignal, self.captchaCell.textF.rac_textSignal, RACObserve(self, captchaNeeded)] reduce:^id(NSString *password, NSString *confirm_password, NSString *captcha, NSNumber *captchaNeeded){
         return @(password.length > 0 && confirm_password.length > 0 && (captcha.length > 0 || !captchaNeeded.boolValue));
     }];

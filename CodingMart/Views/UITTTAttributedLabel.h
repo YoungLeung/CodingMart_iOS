@@ -15,6 +15,6 @@ typedef void(^UITTTLabelTapBlock)(id aObj);
 -(void)addLongPressForCopyWithBGColor:(UIColor *)color;
 -(void)addTapBlock:(UITTTLabelTapBlock)block;
 -(void)addDeleteBlock:(UITTTLabelTapBlock)block;
-- (void)addLinkToStr:(NSString *)str whithValue:(id)value andBlock:(void (^)(id value))block;
-- (void)setupUIStyle;
+- (void)addLinkToStr:(NSString *)str value:(id)value hasUnderline:(BOOL)hasUnderline clickedBlock:(void (^)(id value))block;
+- (void)setupUIStyle:(BOOL)hasUnderline;
 @end

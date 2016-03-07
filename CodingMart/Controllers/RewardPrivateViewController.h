@@ -11,5 +11,5 @@
 
 @interface RewardPrivateViewController : MartWebViewController
 + (instancetype)vcWithReward:(Reward *)reward;
-
++ (instancetype)vcWithRewardId:(NSUInteger)rewardId;
 @end
