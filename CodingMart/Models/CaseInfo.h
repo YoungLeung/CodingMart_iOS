@@ -10,5 +10,5 @@
 
 @interface CaseInfo : NSObject
 @property (strong, nonatomic) NSString *logo, *title, *character, *type;
-@property (strong, nonatomic) NSNumber *type_id, *amount, *duration;
+@property (strong, nonatomic) NSNumber *type_id, *amount, *duration, *reward_id;
 @end

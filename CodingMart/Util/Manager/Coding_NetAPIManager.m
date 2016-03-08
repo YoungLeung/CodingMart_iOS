@@ -447,7 +447,7 @@
 }
 
 - (void)get_NotificationUnRead:(BOOL)onlyUnRead block:(void (^)(id data, NSError *error))block{
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:onlyUnRead? @"api/notification/unread": @"api/notification/all" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:onlyUnRead? @"api/notification/unread": @"api/notification/all" withParams:@{@"pageSize": @(1000)} withMethodType:Get andBlock:^(id data, NSError *error) {
         NSArray *dataList;
         if (data) {
             dataList = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"MartNotification"];

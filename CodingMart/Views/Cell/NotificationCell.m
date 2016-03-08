@@ -30,7 +30,7 @@
 
 - (void)setNotification:(MartNotification *)notification{
     _notification = notification;
-    BOOL hasRead = _notification.status.boolValue;
+    BOOL hasRead = !_notification.status.boolValue;
     _contentMainL.textColor = [UIColor colorWithHexString:hasRead? @"0x999999": @"0x222222"];
     _contentResonL.textColor = [UIColor colorWithHexString:hasRead? @"0x999999": @"0x666666"];
     _contentMainL.text = _notification.contentMain;
@@ -52,7 +52,7 @@
     CGFloat cellHeight = 0;
     if ([obj isKindOfClass:[MartNotification class]]) {
         MartNotification *notification = (MartNotification *)obj;
-        cellHeight += notification.hasReason? 65: 55;
+        cellHeight += notification.hasReason? 55: 50;
         CGFloat contentWidth = kScreen_Width - 15*2 - 8 - 8;
         cellHeight += [notification.contentMain getHeightWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake(contentWidth, CGFLOAT_MAX)];
         if (notification.contentReason.length > 0) {

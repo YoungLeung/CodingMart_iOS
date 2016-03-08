@@ -112,6 +112,6 @@
 
 #pragma mark GoTo VC
 - (void)goToCaseInfo:(CaseInfo *)info{
-    
+    [self goToWebVCWithUrlStr:[NSString stringWithFormat:@"/cases/%@", info.reward_id] title:@"案例详情"];
 }
 @end
