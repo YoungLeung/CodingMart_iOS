@@ -22,6 +22,7 @@
 #import "LoginViewController.h"
 #import "CaseListViewController.h"
 #import "MartIntroduceViewController.h"
+#import "Coding_NetAPIManager.h"
 
 @interface RootViewController ()<iCarouselDataSource, iCarouselDelegate, RewardListViewScrollDelegate>
 @property (strong, nonatomic) NSMutableArray *typeList, *statusList, *roleTypeList;
@@ -113,7 +114,8 @@
     [_publishBtn addTarget:self action:@selector(goToPublishReward) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_publishBtn];
     [_publishBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(57, 57));
+        CGFloat width = kDevice_Is_iPhone6Plus? 80: kDevice_Is_iPhone6? 70:60;
+        make.size.mas_equalTo(CGSizeMake(width, width));
         make.right.equalTo(self.view).offset(-15);
         make.bottom.equalTo(self.view).offset(-15);
     }];
@@ -124,6 +126,25 @@
     self.navBarOffsetY = 0;
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self refreshUnReadNotification];
+}
+
+#pragma mark UnReadTip
+- (void)refreshUnReadNotification{
+    if (![Login isLogin]) {
+        return;
+    }
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] get_NotificationUnReadCountBlock:^(id data, NSError *error) {
+        if ([(NSNumber *)data integerValue] > 0) {
+            [weakSelf.leftNavBtn addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(33, 12)];
+        }else{
+            [weakSelf.leftNavBtn removeBadgeTips];
+        }
+    }];
+}
 #pragma mark nav_item
 - (void)setupNavItems{
     if (!_rightNavBtn) {

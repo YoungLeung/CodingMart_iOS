@@ -115,7 +115,7 @@
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] get_NotificationUnReadCountBlock:^(id data, NSError *error) {
         if ([(NSNumber *)data integerValue] > 0) {
-            [weakSelf.rightNavBtn addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(30, 15)];
+            [weakSelf.rightNavBtn addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(33, 12)];
         }else{
             [weakSelf.rightNavBtn removeBadgeTips];
         }

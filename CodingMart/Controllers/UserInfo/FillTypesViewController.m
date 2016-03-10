@@ -178,12 +178,13 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row == 1 &&indexPath.section==0)
     {
-        if (!self.curUser.fullInfo.boolValue) {
-            [NSObject showHudTipStr:@"请先完善个人信息"];
-            return;
-        }
-        FillSkillsViewController *vc = [FillSkillsViewController storyboardVC];
-        [self.navigationController pushViewController:vc animated:YES];
+        [NSObject showHudTipStr:@"抱歉，技能展示页面暂时不可以用"];
+//        if (!self.curUser.fullInfo.boolValue) {
+//            [NSObject showHudTipStr:@"请先完善个人信息"];
+//            return;
+//        }
+//        FillSkillsViewController *vc = [FillSkillsViewController storyboardVC];
+//        [self.navigationController pushViewController:vc animated:YES];
     }else if (indexPath.section==1 &&indexPath.row==0)
     {
         if (!self.curUser.fullSkills.boolValue) {
@@ -202,8 +203,6 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
         [self.navigationController pushViewController:vc animated:YES];
     }else if (indexPath.section==2 &&indexPath.row==0)
     {
-        
-        
         CodingMarkTestViewController *vc = [CodingMarkTestViewController storyboardVC];
         vc.hasPassTheTesting=_curUser.passingSurvey.boolValue;
         [self.navigationController pushViewController:vc animated:YES];
