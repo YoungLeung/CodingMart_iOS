@@ -16,6 +16,7 @@
 #import "AppDelegate.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "CodingNetAPIClient.h"
+#import "HtmlMedia.h"
 
 @implementation NSObject (Common)
 
@@ -28,6 +29,8 @@
             NSUInteger num = [msgArray count];
             for (int i = 0; i < num; i++) {
                 NSString *msgStr = [msgArray objectAtIndex:i];
+                HtmlMedia *media = [HtmlMedia htmlMediaWithString:msgStr showType:MediaShowTypeAll];
+                msgStr = media.contentDisplay;
                 if (i+1 < num) {
                     [tipStr appendString:[NSString stringWithFormat:@"%@\n", msgStr]];
                 }else{

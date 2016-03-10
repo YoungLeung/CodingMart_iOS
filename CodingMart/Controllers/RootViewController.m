@@ -21,6 +21,7 @@
 #import "UINavigationBar+Awesome.h"
 #import "LoginViewController.h"
 #import "CaseListViewController.h"
+#import "MartIntroduceViewController.h"
 
 @interface RootViewController ()<iCarouselDataSource, iCarouselDelegate, RewardListViewScrollDelegate>
 @property (strong, nonatomic) NSMutableArray *typeList, *statusList, *roleTypeList;
@@ -338,8 +339,9 @@ static CGFloat startContentOffsetY, startNavBarOffsetY;
 }
 - (void)goToMartIntroduce{
     [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"码市介绍"];
-
-    [self goToWebVCWithUrlStr:@"/about" title:@"码市介绍"];
+    
+    MartIntroduceViewController *vc = [MartIntroduceViewController new];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)goToPublishReward{
     [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"发布悬赏"];
