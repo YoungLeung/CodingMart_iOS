@@ -20,6 +20,7 @@
 #import "UITTTAttributedLabel.h"
 #import "FunctionTipsManager.h"
 #import "NotificationViewController.h"
+#import "MartIntroduceViewController.h"
 
 
 @interface UserInfoViewController ()<UIScrollViewDelegate>
@@ -223,6 +224,8 @@
             [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"去评分"];
 
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kAppReviewURL]];
+        }else if (indexPath.row == 3){//关于码市
+            [self.navigationController pushViewController:[MartIntroduceViewController new] animated:YES];
         }else if (indexPath.row == 4){//推荐码市
             [MartShareView showShareViewWithObj:nil];
             functionStr = kFunctionTipStr_ShareApp;

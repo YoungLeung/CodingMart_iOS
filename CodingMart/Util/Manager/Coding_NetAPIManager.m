@@ -450,7 +450,7 @@
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:onlyUnRead? @"api/notification/unread": @"api/notification/all" withParams:@{@"pageSize": @(1000)} withMethodType:Get andBlock:^(id data, NSError *error) {
         NSArray *dataList;
         if (data) {
-            dataList = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"MartNotification"];
+            dataList = [NSObject arrayFromJSON:data[@"data"][@"list"] ofObjects:@"MartNotification"];
         }
         block(dataList, error);
     }];
