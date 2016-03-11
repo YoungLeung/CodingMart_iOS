@@ -247,6 +247,7 @@ static const __unused short _base64DecodingTable[256] = {
                     NSDate *date = [formatter dateFromString:dateString];
                     if (!date) {
                         [formatter setDateFormat:EADateFormat];
+                        [formatter setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US"]];
                         date = [formatter dateFromString:[dict objectForKey:key]];
                     }
                     [newObject setValue:date forKey:propertyName];
@@ -395,6 +396,7 @@ static const char * getPropertyType(objc_property_t property) {
                             NSDate *date = [formatter dateFromString:dateString];
                             if (!date) {
                                 [formatter setDateFormat:EADateFormat];
+                                [formatter setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US"]];
                                 date = [formatter dateFromString:[nestedArray[xx] objectForKey:newKey]];
                             }
                             [nestedObj setValue:date forKey:tempNewKey];

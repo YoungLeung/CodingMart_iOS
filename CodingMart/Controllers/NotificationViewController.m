@@ -37,7 +37,7 @@
 
 - (void)rightBarButtonItemClicked{
     __weak typeof(self) weakSelf = self;
-    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[_onlyUnread? @"显示全部通知": @"仅显示未读通知", @"标记所有未已读"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[_onlyUnread? @"显示全部通知": @"仅显示未读通知", @"标记所有为已读"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
         if (index == 0) {
             weakSelf.onlyUnread = !weakSelf.onlyUnread;
             weakSelf.dataList = nil;

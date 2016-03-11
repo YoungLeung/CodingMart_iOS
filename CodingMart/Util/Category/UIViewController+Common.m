@@ -12,6 +12,7 @@
 #import "RewardDetailViewController.h"
 #import "RewardPrivateViewController.h"
 #import <Google/Analytics.h>
+#import "FillTypesViewController.h"
 
 @implementation UIViewController (Common)
 + (UIViewController *)presentingVC{
@@ -65,6 +66,7 @@
 }
 
 + (UIViewController *)analyseVCFromLinkStr:(NSString *)linkStr{
+    DebugLog(@"linkStr - %@", linkStr);
     if (linkStr.length <= 0) {
         return nil;
     }
@@ -72,12 +74,15 @@
     NSArray *matchedCaptures;
     NSString *rewardRegexStr = @"/p/([0-9]+)$";
     NSString *rewardPrivateRegexStr = @"/reward/([0-9]+)$";
+    NSString *userInfoRegexStr = @"/userinfo$";
     if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:rewardRegexStr]).count > 0){
         NSString *reward_id = matchedCaptures[1];
         resultVC = [RewardDetailViewController vcWithRewardId:reward_id.integerValue];
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:rewardPrivateRegexStr]).count > 0){
         NSString *reward_id = matchedCaptures[1];
         resultVC = [RewardPrivateViewController vcWithRewardId:reward_id.integerValue];
+    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:userInfoRegexStr]).count > 0){
+        resultVC = [FillTypesViewController storyboardVC];
     }else{
         resultVC = [[MartWebViewController alloc] initWithUrlStr:linkStr];
     }
