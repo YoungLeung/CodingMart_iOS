@@ -9,7 +9,6 @@
 #import "PublishedRewardsViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "PublishedRewardCell.h"
-#import "ODRefreshControl.h"
 #import "PublishRewardStep1ViewController.h"
 #import "RewardDetailViewController.h"
 #import "RewardPrivateViewController.h"
@@ -21,7 +20,6 @@
 @property (weak, nonatomic) IBOutlet UIView *emptyView;
 @property (strong, nonatomic) NSArray *rewardList;
 
-@property (nonatomic, strong) ODRefreshControl *myRefreshControl;
 @property (assign, nonatomic) BOOL isLoading;
 @end
 
@@ -37,9 +35,7 @@
     // Do any additional setup after loading the view.
     self.title = @"我发布的悬赏";
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"发布" target:self action:@selector(goToPublish:)];
-    //        refresh
-    _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
-    [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+    [self.myTableView addPullToRefreshAction:@selector(refresh) onTarget:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -57,7 +53,7 @@
     _isLoading = YES;
     [[Coding_NetAPIManager sharedManager] get_PublishededRewardListBlock:^(id data, NSError *error) {
         self.isLoading = NO;
-        [self.myRefreshControl endRefreshing];
+        [self.myTableView.pullRefreshCtrl endRefreshing];
         [self.view endLoading];
         if (data) {
             self.rewardList = data;

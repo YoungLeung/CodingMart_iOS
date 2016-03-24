@@ -89,7 +89,7 @@
 - (id)initWithFrame:(CGRect)frame Items:(NSArray *)titleItems
 {
     if (self = [super initWithFrame:frame]) {
-        self.backgroundColor = kNavBarTintColor;
+        self.backgroundColor = kColorBrandBlue;
         _contentView = ({
             UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
             scrollView.backgroundColor = [UIColor clearColor];

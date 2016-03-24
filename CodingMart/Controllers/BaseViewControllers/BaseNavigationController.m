@@ -19,11 +19,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     //为了导航栏的背景色显示的确实是 barTintColor，需要做一些处理
-    self.navigationBar.translucent = NO;
-    [self.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    [self.navigationBar setShadowImage:[UIImage new]];
-    self.navigationBar.barTintColor = kNavBarTintColor;
-    [self hideBorderInView:self.navigationBar];
+//    self.navigationBar.translucent = YES;
+//    self.navigationBar.barTintColor = kColorBarTint;
+//    
+//    [self hideBorderInView:self.navigationBar];
+    [self.navigationBar setupBrandStyle];
 }
 
 - (BOOL)hideBorderInView:(UIView *)view{

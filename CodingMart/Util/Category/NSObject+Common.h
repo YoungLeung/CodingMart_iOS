@@ -47,6 +47,9 @@
 -(id)handleResponse:(id)responseJSON;
 -(id)handleResponse:(id)responseJSON autoShowError:(BOOL)autoShowError;
 
+#pragma mark - tool
+- (NSString *)className;
+
 #pragma mark isSame
 + (BOOL)isSameStr:(NSString *)obj1 to:(NSString *)obj2;
 + (BOOL)isSameNum:(NSNumber *)obj1 to:(NSNumber *)obj2;

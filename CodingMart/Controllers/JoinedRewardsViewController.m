@@ -9,7 +9,6 @@
 #import "JoinedRewardsViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "JoinedRewardCell.h"
-#import "ODRefreshControl.h"
 #import "RewardDetailViewController.h"
 #import "RewardApplyViewController.h"
 #import "RewardPrivateViewController.h"
@@ -19,7 +18,6 @@
 @property (weak, nonatomic) IBOutlet UIView *emptyView;
 @property (strong, nonatomic) NSArray *rewardList;
 
-@property (nonatomic, strong) ODRefreshControl *myRefreshControl;
 @property (assign, nonatomic) BOOL isLoading;
 @end
 
@@ -35,9 +33,8 @@
     // Do any additional setup after loading the view.
     self.title = @"我参与的悬赏";
     _myTableView.rowHeight = [JoinedRewardCell cellHeight];
-    //        refresh
-    _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
-    [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+    [_myTableView addPullToRefreshAction:@selector(refresh) onTarget:self];
+    
     [self refresh];
 }
 
@@ -51,7 +48,7 @@
     _isLoading = YES;
     [[Coding_NetAPIManager sharedManager] get_JoinedRewardListBlock:^(id data, NSError *error) {
         self.isLoading = NO;
-        [self.myRefreshControl endRefreshing];
+        [self.myTableView.pullRefreshCtrl endRefreshing];
         [self.view endLoading];
         if (data) {
             self.rewardList = data;

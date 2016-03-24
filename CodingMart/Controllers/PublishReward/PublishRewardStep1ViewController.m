@@ -43,8 +43,8 @@
     tableHeaderView.height = 0.35 * kScreen_Width;
     self.tableView.tableHeaderView = tableHeaderView;
     
-    _typeList = @[@"网站",
-                  @"APP",
+    _typeList = @[@"Web 网站",
+                  @"移动应用 App",
                   @"微信开发",
                   @"HTML5 应用",
                   @"其他"];
@@ -69,7 +69,7 @@
         if (type) {
             weakSelf.fd_interactivePopDisabled = YES;
             weakSelf.typeL.textColor = [UIColor blackColor];
-            weakSelf.typeL.text = [[NSObject rewardTypeDict] findKeyFromStrValue:type.stringValue];
+            weakSelf.typeL.text = [[NSObject rewardTypeLongDict] findKeyFromStrValue:type.stringValue];
         }else{
             weakSelf.typeL.textColor = [UIColor colorWithHexString:@"0xCCCCCC"];
             weakSelf.typeL.text = @"请选择";
@@ -106,7 +106,7 @@
 }
 
 - (BOOL)navigationShouldPopOnBackButton{
-    if (!_rewardToBePublished.type && !_rewardToBePublished.budget) {
+    if (!_rewardToBePublished.budget) {
         return YES;
     }
     if ([_rewardToBePublished.id isKindOfClass:[NSNumber class]]) {
@@ -157,7 +157,7 @@
         if (indexPath.row == 0) {
             list = _typeList;
             if (_rewardToBePublished.type) {
-                NSString *key = [[NSObject rewardTypeDict] findKeyFromStrValue:_rewardToBePublished.type.stringValue];
+                NSString *key = [[NSObject rewardTypeLongDict] findKeyFromStrValue:_rewardToBePublished.type.stringValue];
                 curRow = [list indexOfObject:key];
                 if (curRow == NSNotFound) {
                     curRow = 1;
@@ -173,7 +173,7 @@
         [ActionSheetStringPicker showPickerWithTitle:nil rows:@[list] initialSelection:@[@(curRow)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
             NSNumber *selectedRow = selectedIndex.firstObject;
             if (indexPath.row == 0) {
-                NSString *value = [[NSObject rewardTypeDict] objectForKey:list[selectedRow.integerValue]];
+                NSString *value = [[NSObject rewardTypeLongDict] objectForKey:list[selectedRow.integerValue]];
                 weakSelf.rewardToBePublished.type = @(value.integerValue);
             }else{
                 weakSelf.rewardToBePublished.budget = selectedRow;

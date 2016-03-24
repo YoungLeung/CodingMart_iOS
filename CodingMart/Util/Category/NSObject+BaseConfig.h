@@ -15,6 +15,7 @@
 + (NSString *)appVersion;
 + (NSString *)appBuildVersion;
 + (NSDictionary *)rewardTypeDict;
++ (NSDictionary *)rewardTypeLongDict;
 + (NSDictionary *)rewardStatusDict;
 + (NSDictionary *)rewardRoleTypeDict;
 + (NSDictionary *)applyStatusDict;

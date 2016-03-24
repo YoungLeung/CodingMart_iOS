@@ -18,7 +18,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *_priceL;
 @property (weak, nonatomic) IBOutlet UILabel *statusL;
 @property (weak, nonatomic) IBOutlet UILabel *roleTypesL;
-@property (weak, nonatomic) IBOutlet UILabel *durationL;
 
 @end
 
@@ -56,19 +55,10 @@
     _statusL.textColor = [UIColor colorWithHexString:_curReward.statusStrColorHexStr];
     _statusL.backgroundColor = [UIColor colorWithHexString:_curReward.statusBGColorHexStr];
     _roleTypesL.text = _curReward.roleTypesDisplay;
-    
-    NSString *durationStr = [NSString stringWithFormat:@"交付周期：%@天", _curReward.duration.stringValue];
-    NSMutableAttributedString *attrStr =[[NSMutableAttributedString alloc] initWithString:durationStr];
-    [attrStr addAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0xFF497F"]}
-                        range:NSMakeRange(durationStr.length - _curReward.duration.stringValue.length - 1, _curReward.duration.stringValue.length)];
-
-    _durationL.attributedText = attrStr;
 }
+
 + (CGFloat)cellHeight{
-    CGFloat cellHeight = 0;
-    cellHeight += 10 + 10 + (kScreen_Width - 24)/2 + 10;
-    cellHeight += 110;
-    return cellHeight;
+    return 100;
 }
 
 @end

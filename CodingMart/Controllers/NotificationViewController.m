@@ -9,12 +9,10 @@
 #import "NotificationViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "NotificationCell.h"
-#import "ODRefreshControl.h"
 #import "MartNotification.h"
 
 @interface NotificationViewController ()
 @property (strong, nonatomic) NSArray<MartNotification *> *dataList;
-@property (nonatomic, strong) ODRefreshControl *myRefreshControl;
 @property (assign, nonatomic) BOOL onlyUnread;
 @end
 
@@ -29,9 +27,8 @@
     // Do any additional setup after loading the view.
     self.title = @"通知中心";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_more"] style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonItemClicked)];
-    //        refresh
-    _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
-    [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+    [self.tableView addPullToRefreshAction:@selector(refresh) onTarget:self];
+    
     [self refresh];
 }
 
@@ -53,7 +50,7 @@
 
 - (void)refresh{
     [[Coding_NetAPIManager sharedManager] get_NotificationUnRead:_onlyUnread block:^(id data, NSError *error) {
-        [self.myRefreshControl endRefreshing];
+        [self.tableView.pullRefreshCtrl endRefreshing];
         if (data) {
             self.dataList = data;
             [self.tableView reloadData];

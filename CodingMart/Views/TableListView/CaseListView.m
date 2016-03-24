@@ -7,7 +7,6 @@
 //
 
 #import "CaseListView.h"
-#import "ODRefreshControl.h"
 #import "CaseListCell.h"
 
 #import "Coding_NetAPIManager.h"
@@ -16,7 +15,6 @@
 
 @interface CaseListView ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong, readwrite) UITableView *myTableView;
-@property (nonatomic, strong) ODRefreshControl *myRefreshControl;
 
 @property (assign, nonatomic) BOOL isLoading;
 @end
@@ -42,10 +40,7 @@
             tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 10)];
             tableView;
         });
-        
-        //        refresh
-        _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView activityIndicatorView:nil ignoreContentInset:YES];
-        [_myRefreshControl addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
+        [_myTableView addPullToRefreshAction:@selector(refreshData) onTarget:self];
     }
     return self;
 }
@@ -87,7 +82,7 @@
     self.isLoading = YES;
     [[Coding_NetAPIManager sharedManager] get_CaseListWithType:_type block:^(id data, NSError *error) {
         [self endLoading];
-        [self.myRefreshControl endRefreshing];
+        [self.myTableView.pullRefreshCtrl endRefreshing];
         self.isLoading = NO;
         if (data) {
             self.dataList = data;

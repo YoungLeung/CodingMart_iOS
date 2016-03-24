@@ -35,7 +35,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    self.view.backgroundColor = [UIColor whiteColor];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     self.title = @"码市介绍";
     _segmentTitleList = @[@"关于码市", @"码市流程", @"联系我们"];
     CGFloat segment_height = 44.0;

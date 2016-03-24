@@ -11,7 +11,7 @@
 #import <Masonry/Masonry.h>
 #import "UIBadgeView.h"
 #import "UIView+Frame.h"
-#import "UIView+Loding.h"
+#import "UIView+Loading.h"
 #import "UIView+BlankPage.h"
 
 

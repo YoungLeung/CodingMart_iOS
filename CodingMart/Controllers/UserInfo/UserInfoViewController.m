@@ -17,8 +17,6 @@
 #import "JoinedRewardsViewController.h"
 #import "PublishedRewardsViewController.h"
 #import "MartShareView.h"
-#import "UITTTAttributedLabel.h"
-#import "FunctionTipsManager.h"
 #import "NotificationViewController.h"
 #import "MartIntroduceViewController.h"
 
@@ -28,8 +26,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *user_nameL;
 @property (weak, nonatomic) IBOutlet UIImageView *headerBGV;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerBGVTop;
-@property (weak, nonatomic) IBOutlet UIButton *tipView;
-@property (weak, nonatomic) IBOutlet UITTTAttributedLabel *tipL;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *nameLBottom;
+
+@property (weak, nonatomic) IBOutlet UIView *tipView;
+@property (weak, nonatomic) IBOutlet UIImageView *tipViewBG;
+
 @property (weak, nonatomic) IBOutlet UIButton *fillUserInfoBtn;
 @property (weak, nonatomic) IBOutlet UIView *tableHeaderView;
 @property (strong, nonatomic) UIButton *rightNavBtn;
@@ -46,26 +47,28 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.curUser = [Login curLoginUser];
+    UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, 49, 0);
+    self.tableView.contentInset = self.tableView.scrollIndicatorInsets = insets;
+    
+    _tableHeaderView.height = (0.45 * kScreen_Width - [self navBottomY])+ 90;
+    self.tableView.tableHeaderView = _tableHeaderView;
+    _user_iconV.layer.masksToBounds = YES;
+    _user_iconV.layer.cornerRadius = 0.08 * kScreen_Width;
+    self.tipViewBG.image = [[UIImage imageNamed:@"userinfo_tip_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 4, 10, 4)];
 
     __weak typeof(self) weakSelf = self;
     [_headerBGV bk_whenTapped:^{
         [weakSelf headerViewTapped];
-    }];
-    _headerBGV.image = nil;
-    _headerBGV.backgroundColor = [UIColor colorWithHexString:@"0x4289DB"];
-    [_tipL addLinkToStr:@"400-992-1001" value:@"400-992-1001" hasUnderline:YES clickedBlock:^(id value) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://400-992-1001"]];
-    }];
+    }];    
+    [self.tableView addPullToRefreshAction:@selector(refreshData) onTarget:self];
     
+    self.curUser = [Login curLoginUser];
     [self refreshData];
 }
 
-
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.navigationBar.barTintColor = [UIColor clearColor];
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self.navigationController.navigationBar setupClearBGStyle];
     _isDisappearForLogin = NO;
     [self refreshUnReadNotification];
 }
@@ -73,8 +76,7 @@
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     if (!_isDisappearForLogin) {
-        self.navigationController.navigationBar.translucent = NO;
-        self.navigationController.navigationBar.barTintColor = kNavBarTintColor;
+        [self.navigationController.navigationBar setupBrandStyle];
     }
 }
 
@@ -84,27 +86,27 @@
 }
 
 - (void)refreshUI{
+    [self setupNavBarBtn];
+
     _fillUserInfoBtn.hidden = ![Login isLogin];
+    _nameLBottom.constant = [Login isLogin]? 0: +10;
+    self.tipView.hidden = ![Login isLogin] || (_curUser.fullInfo.boolValue && _curUser.fullSkills.boolValue);
+
     [_user_iconV sd_setImageWithURL:[_curUser.avatar urlWithCodingPath] placeholderImage:[UIImage imageNamed:@"placeholder_user"]];
     _user_nameL.text = _curUser.name;
-    [self setupNavBarBtn];
-    
-    BOOL tipViewHiden = NO;
-    self.tipView.hidden = tipViewHiden;
-    
-    _tableHeaderView.height = 0.5 * kScreen_Width + (tipViewHiden? 0: CGRectGetHeight(_tipView.frame));
-    self.tableView.tableHeaderView = _tableHeaderView;
-    
-    _user_iconV.layer.masksToBounds = YES;
-    _user_iconV.layer.cornerRadius = 0.1 * kScreen_Width;
-    
     [self.tableView reloadData];
 }
 
+
+
+#pragma mark - refresh
+
 - (void)refreshData{
+    __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id data, NSError *error) {
-        self.curUser = data? data: [Login curLoginUser];
-        [self refreshUnReadNotification];
+        [weakSelf.tableView.pullRefreshCtrl endRefreshing];
+        weakSelf.curUser = data? data: [Login curLoginUser];
+        [weakSelf refreshUnReadNotification];
     }];
 }
 
@@ -141,6 +143,12 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+#pragma mark - ib button action
+
+- (IBAction)hideTipClicked:(id)sender {
+    self.tipView.hidden = YES;
+}
+
 - (IBAction)fillUserInfoBtnClicked:(id)sender {
     FillTypesViewController *vc = [FillTypesViewController storyboardVC];
     [self.navigationController pushViewController:vc animated:YES];
@@ -154,7 +162,6 @@
         [self goToLogin];
     }else{
         [self.navigationController pushViewController:[PublishedRewardsViewController storyboardVC] animated:YES];
-//        [self goToWebVCWithUrlStr:@"/published" title:sender.titleLabel.text];
     }
 }
 - (IBAction)myJoinedBtnClicked:(UIButton *)sender {
@@ -164,87 +171,46 @@
         [self goToLogin];
     }else{
         [self.navigationController pushViewController:[JoinedRewardsViewController storyboardVC] animated:YES];
-//        [self goToWebVCWithUrlStr:@"/joined" title:sender.titleLabel.text];
     }
 }
 
 #pragma mark Table M
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView *headerV;
-    if (section >= 0) {
-        headerV = [UIView new];
-    }
-    return headerV;
+    return [UIView new];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (section == 0) {
-        return 0;
-    }
     return 10;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return [Login isLogin]? 4: 3;
+    return [Login isLogin]? 3: 2;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
-    cell.separatorInset = UIEdgeInsetsMake(0, 20, 0, 0);
-    
-    NSString *functionStr;
-    if (indexPath.section == 0) {
-        functionStr = indexPath.row == 0? kFunctionTipStr_PublishedR: kFunctionTipStr_JoinedR;
-    }else if (indexPath.section == 2){
-        if (indexPath.row == 4) {
-            functionStr = kFunctionTipStr_ShareApp;
-        }
-    }
-    if ([FunctionTipsManager needToTip:functionStr]) {
-        [cell.contentView addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(kScreen_Width - 40, 22)];
-    }
+    cell.separatorInset = UIEdgeInsetsMake(0, 60, 0, 0);
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    NSString *functionStr;
-    if (indexPath.section == 0) {
-        functionStr = indexPath.row == 0? kFunctionTipStr_PublishedR: kFunctionTipStr_JoinedR;
-        if (indexPath.row == 0) {
-            [self myPublishedBtnClicked:nil];
-        }else{
-            [self myJoinedBtnClicked:nil];
-        }
-    }if (indexPath.section == 2) {
-        if (indexPath.row == 0) {//码士说
-            [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"码士说"];
-
-            [self goToWebVCWithUrlStr:@"/codersay" title:@"码士说"];
-        }else if (indexPath.row == 2){//去评分
-            [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"去评分"];
-
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kAppReviewURL]];
-        }else if (indexPath.row == 3){//关于码市
+    if (indexPath.section == 1) {
+        if (indexPath.row == 0) {//关于码市
             [self.navigationController pushViewController:[MartIntroduceViewController new] animated:YES];
-        }else if (indexPath.row == 4){//推荐码市
+        }else if (indexPath.row == 1){//推荐码市
             [MartShareView showShareViewWithObj:nil];
-            functionStr = kFunctionTipStr_ShareApp;
+        }else{//去评分
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kAppReviewURL]];
         }
-    }else if (indexPath.section == 3){
+    }else{
         [self.view endEditing:YES];
         [[UIActionSheet bk_actionSheetCustomWithTitle:@"确定要退出当前账号" buttonTitles:nil destructiveTitle:@"确定退出" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0) {
                 [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"退出登录"];
                 [Login doLogout];
                 self.curUser = [Login curLoginUser];
-//                [self.navigationController popToRootViewControllerAnimated:YES];
             }
         }] showInView:self.view];
-    }
-    if (functionStr && [FunctionTipsManager needToTip:functionStr]) {
-        [FunctionTipsManager markTiped:functionStr];
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        [cell.contentView removeBadgeTips];
     }
 }
 #pragma mark header

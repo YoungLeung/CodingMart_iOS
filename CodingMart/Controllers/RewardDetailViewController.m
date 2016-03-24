@@ -98,8 +98,9 @@
                     }];
                     [self.view addSubview:_topTipL];
                     [_topTipL mas_makeConstraints:^(MASConstraintMaker *make) {
-                        make.left.top.right.equalTo(self.view);
+                        make.left.right.equalTo(self.view);
                         make.height.mas_equalTo(27);
+                        make.top.equalTo(self.view).offset([self navBottomY]);
                     }];
                 }
                 _topTipL.text = (!loginUser.fullInfo.boolValue || !loginUser.fullSkills.boolValue)? @"未完善个人资料不能参与悬赏，去完善 >>": @"您的账号还未激活，请前往 Coding 网站激活";

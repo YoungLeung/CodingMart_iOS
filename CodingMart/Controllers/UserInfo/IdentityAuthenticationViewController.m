@@ -451,7 +451,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 //    navBar.translucent = NO;
 //    [navBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
 //    [navBar setShadowImage:[UIImage new]];
-//    navBar.barTintColor = kNavBarTintColor;
+//    navBar.barTintColor = kColorBrandBlue;
     
     
     
@@ -847,7 +847,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
             navBar.translucent = NO;
             [navBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
             [navBar setShadowImage:[UIImage new]];
-            navBar.barTintColor = kNavBarTintColor;
+            navBar.barTintColor = kColorBrandBlue;
             
             //            [self presentModalViewController:imagePicker animated:YES];
             [self presentViewController:imagePicker animated:YES completion:nil];
@@ -864,7 +864,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
             navBar.translucent = NO;
             [navBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
             [navBar setShadowImage:[UIImage new]];
-            navBar.barTintColor = kNavBarTintColor;
+            navBar.barTintColor = kColorBrandBlue;
             //            [self presentModalViewController:imagePicker animated:YES];
             [self presentViewController:imagePicker animated:YES completion:nil];
         }

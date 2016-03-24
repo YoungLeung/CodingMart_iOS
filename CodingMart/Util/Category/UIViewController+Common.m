@@ -13,6 +13,7 @@
 #import "RewardPrivateViewController.h"
 #import <Google/Analytics.h>
 #import "FillTypesViewController.h"
+#import "RDVTabBarController.h"
 
 @implementation UIViewController (Common)
 + (UIViewController *)presentingVC{
@@ -108,23 +109,54 @@
     }
 }
 
+#pragma mark - UI related
++ (id)vcInStoryboard:(NSString *)storyboardName{
+    return [self vcInStoryboard:storyboardName withIdentifier:NSStringFromClass([self class])];
+}
++ (id)vcInStoryboard:(NSString *)storyboardName withIdentifier:(NSString *)identifier{
+    if (!storyboardName || !identifier) {
+        return nil;
+    }
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:nil];
+    return [storyboard instantiateViewControllerWithIdentifier:identifier];
+}
+
+- (void)tabBarItemClicked{
+    DebugLog(@"\ntabBarItemClicked : %@", NSStringFromClass([self class]));
+}
+
+- (CGFloat)navBottomY{
+    return self.navigationController? CGRectGetMaxY(self.navigationController.navigationBar.frame): 0;
+}
+
 #pragma mark swizzle M
 - (void)customViewDidLoad{
     [self customViewDidLoad];
-    NSString *className = [NSString stringWithUTF8String:object_getClassName(self)];
-    if (![className hasPrefix:@"Base"] && ![className isEqualToString:@"UIInputWindowController"]) {
-        DebugLog(@"ea_swizzle : %@", className);
+    if ([self p_needSwizzleHandle]) {
         id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-        [tracker set:kGAIScreenName value:className];
+        [tracker set:kGAIScreenName value:[self className]];
         [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
     }
 }
 
+- (void)customViewWillAppear:(BOOL)animated{
+    if ([self p_needSwizzleHandle]) {
+        //rdv
+        if (self.navigationController.childViewControllers.count > 1) {
+            [self.rdv_tabBarController setTabBarHidden:YES animated:YES];
+        }
+    }
+    [self customViewWillAppear:animated];
+}
+
 - (void)customViewDidAppear:(BOOL)animated{
-    NSString *className = [NSString stringWithUTF8String:object_getClassName(self)];
-    if (![className hasPrefix:@"Base"] && ![className isEqualToString:@"UIInputWindowController"]) {
-        DebugLog(@"ea_swizzle : %@", className);
-        [MobClick beginLogPageView:className];
+    if ([self p_needSwizzleHandle]) {
+        //umemg
+        [MobClick beginLogPageView:[self className]];
+        //rdv
+        if (self.navigationController.childViewControllers.count == 1) {
+            [self.rdv_tabBarController setTabBarHidden:NO animated:YES];
+        }
     }
     
     [self customViewDidAppear:animated];
@@ -132,10 +164,9 @@
 
 
 - (void)customViewDidDisappear:(BOOL)animated{
-    NSString *className = [NSString stringWithUTF8String:object_getClassName(self)];
-    if (![className hasPrefix:@"Base"] && ![className isEqualToString:@"UIInputWindowController"]) {
-        DebugLog(@"ea_swizzle : %@", className);
-        [MobClick endLogPageView:className];
+    if ([self p_needSwizzleHandle]) {
+        //umeng
+        [MobClick endLogPageView:[self className]];
     }
     [self customViewDidDisappear:animated];
 }
@@ -148,6 +179,11 @@
         self.navigationItem.backBarButtonItem = [self backButton];
     }
     [self customViewWillDisappear:animated];
+}
+
+- (BOOL)p_needSwizzleHandle{
+    NSString *className = [NSString stringWithUTF8String:object_getClassName(self)];
+    return ![className hasPrefix:@"Base"] && ![className isEqualToString:@"UIInputWindowController"];
 }
 
 - (UIBarButtonItem *)backButton{
@@ -173,6 +209,7 @@ void ea_swizzle(Class c, SEL origSEL, SEL newSEL){
 void ea_swizzleAllViewController(){
     ea_swizzle([UIViewController class], @selector(viewDidLoad), @selector(customViewDidLoad));
 
+    ea_swizzle([UIViewController class], @selector(viewWillAppear:), @selector(customViewWillAppear:));
     ea_swizzle([UIViewController class], @selector(viewWillDisappear:), @selector(customViewWillDisappear:));
 
     ea_swizzle([UIViewController class], @selector(viewDidAppear:), @selector(customViewDidAppear:));

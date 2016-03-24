@@ -327,7 +327,6 @@
             if ([Login isLogin]) {//已登录的状态要抹掉
                 [Login doLogout];
                 kTipAlert(@"%@", [NSObject tipFromError:error]);
-                [((UINavigationController *)((AppDelegate *)[UIApplication sharedApplication].delegate).window.rootViewController) popToRootViewControllerAnimated:YES];
             }
         }else{
             if (autoShowError) {
@@ -336,6 +335,11 @@
         }
     }
     return error;
+}
+
+#pragma mark - tool
+- (NSString *)className{
+    return [NSString stringWithUTF8String:object_getClassName(self)];
 }
 
 #pragma mark isSame

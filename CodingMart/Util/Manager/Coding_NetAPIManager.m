@@ -25,6 +25,7 @@
 #import "DCArrayMapping.h"
 #import "DCKeyValueObjectMapping.h"
 #import "MartNotification.h"
+#import "MartBanner.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -218,11 +219,16 @@
     }];
 }
 #pragma mark Reward
-- (void)get_RewardListWithType:(NSString *)type status:(NSString *)status role_type_id:(NSString *)role_type_id block:(void (^)(id data, NSError *error))block{
+- (void)get_RewardListWithType_Status_RoleType:(NSString *)type_status_roleType block:(void (^)(NSString *type_status_roleType, id data, NSError *error))block{
+    NSArray *list = [type_status_roleType componentsSeparatedByString:@"_"];
+    if (list.count != 3) {
+        block(type_status_roleType, nil, nil);
+        return;
+    }
     NSString *path = @"api/rewards";
-    type = [NSObject rewardTypeDict][type];
-    status = [NSObject rewardStatusDict][status];
-    role_type_id = [NSObject rewardRoleTypeDict][role_type_id];
+    NSString *type = [NSObject rewardTypeLongDict][list[0]];
+    NSString *status = [NSObject rewardStatusDict][list[1]];
+    NSString *role_type_id = [NSObject rewardRoleTypeDict][list[2]];
     
     NSDictionary *params = @{@"type": type,
                              @"status": status,
@@ -231,7 +237,7 @@
         if (data) {
             data = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"Reward"];
         }
-        block(data, error);
+        block(type_status_roleType, data, error);
     }];
 }
 - (void)get_JoinedRewardListBlock:(void (^)(id data, NSError *error))block{
@@ -553,6 +559,16 @@
 - (void)get_StartModelBlock:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/banner/app";
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+
+- (void)get_BannerListBlock:(void (^)(id data, NSError *error))block{
+    
+    NSString *path = @"api/banner/type/app";
+//    NSString *path = @"api/banner/app";
+    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
+        data = [NSArray arrayFromJSON:data[@"data"] ofObjects:@"MartBanner"];
         block(data, error);
     }];
 }

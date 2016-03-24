@@ -18,6 +18,11 @@
 - (void)dismissModalViewControllerAnimatedYes;
 - (void)goToWebVCWithUrlStr:(NSString *)curUrlStr title:(NSString *)titleStr;
 
+#pragma mark - UI related
++ (id)vcInStoryboard:(NSString *)storyboardName;
++ (id)vcInStoryboard:(NSString *)storyboardName withIdentifier:(NSString *)identifier;
+- (void)tabBarItemClicked;
+- (CGFloat)navBottomY;
 @end
 
 void ea_swizzleAllViewController();

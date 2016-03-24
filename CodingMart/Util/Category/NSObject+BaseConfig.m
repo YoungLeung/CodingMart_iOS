@@ -60,6 +60,20 @@
     }
     return baseDictInfo[key];
 }
++ (NSDictionary *)rewardTypeLongDict{
+    NSMutableDictionary *baseDictInfo = [self p_baseDictInfo];
+    NSString *key = @"rewardTypeLongDict";
+    if (!baseDictInfo[key]) {
+        baseDictInfo[key] = @{@"所有类型": @"",
+                              @"Web 网站": @"0",
+                              @"移动应用 App":@"5",
+                              @"微信开发": @"2",
+                              @"HTML5 应用": @"3",
+                              @"其他": @"4"};
+    }
+    return baseDictInfo[key];
+}
+
 + (NSDictionary *)rewardStatusDict{
     NSMutableDictionary *baseDictInfo = [self p_baseDictInfo];
     NSString *key = @"rewardStatusDict";

@@ -16,9 +16,10 @@
 #import <UMengSocial/UMSocialQQHandler.h>
 #import <UMengSocial/UMSocialSinaSSOHandler.h>
 #import <UMengSocial/WXApi.h>
-#import "RootViewController.h"
+#import "RootTabViewController.h"
 #import "PayMethodViewController.h"
 #import <Google/Analytics.h>
+#import <FLEX/FLEXManager.h>
 
 @interface AppDelegate ()
 
@@ -48,12 +49,15 @@
 
 //    makeKeyAndVisible
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:[RootViewController new]];
-    self.window.rootViewController = nav;
+    self.window.rootViewController = [RootTabViewController new];
     [self.window makeKeyAndVisible];
 //    启动宣传页
     [[MartStartViewManager makeStartView] show];
     [MartStartViewManager refreshStartModel];
+    
+#if DEBUG
+    [[FLEXManager sharedManager] showExplorer];
+#endif
     
     return YES;
 }
@@ -71,7 +75,7 @@
     
     [[UITextField appearance] setTintColor:[UIColor colorWithHexString:@"0x3bbc79"]];//设置UITextField的光标颜色
     [[UITextView appearance] setTintColor:[UIColor colorWithHexString:@"0x3bbc79"]];//设置UITextView的光标颜色
-    [[UISearchBar appearance] setBackgroundImage:[UIImage imageWithColor:kColorTableSectionBg] forBarPosition:0 barMetrics:UIBarMetricsDefault];
+    [[UISearchBar appearance] setBackgroundImage:[UIImage imageWithColor:kColorBGDark] forBarPosition:0 barMetrics:UIBarMetricsDefault];
 }
 
 - (void)registerRemoteNotification{
@@ -108,7 +112,7 @@
         bar.translucent = NO;
         [bar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
         [bar setShadowImage:[UIImage new]];
-        bar.barTintColor = kNavBarTintColor;
+        bar.barTintColor = kColorBrandBlue;
         if (navigationItem) {
             if ([[navigationItem titleView] isKindOfClass:[UILabel class]]) {
                 UILabel *titleL = (UILabel *)[navigationItem titleView];
