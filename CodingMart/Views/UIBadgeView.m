@@ -85,7 +85,7 @@
 - (void)commonInitialization {
     // Setup defaults
     [self setBackgroundColor:[UIColor clearColor]];
-    _badgeBackgroundColor = [UIColor colorWithHexString:@"0xf75388"];
+    _badgeBackgroundColor = [UIColor colorWithHexString:@"0xF5A623"];
     _badgeTextColor = [UIColor whiteColor];
     if (kDevice_Is_iPhone6 || kDevice_Is_iPhone6Plus) {
         _badgeTextFont = [UIFont systemFontOfSize:12];
