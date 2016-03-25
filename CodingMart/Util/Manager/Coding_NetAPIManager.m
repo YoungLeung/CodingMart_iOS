@@ -259,7 +259,7 @@
     }];
 }
 - (void)post_Reward:(Reward *)reward block:(void (^)(id data, NSError *error))block{
-    NSString *path  = @"api/reward";
+    NSString *path  = @"api/reward2";
     NSDictionary *params = [reward toPostParams];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         block(data, error);

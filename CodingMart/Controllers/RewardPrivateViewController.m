@@ -10,6 +10,7 @@
 #import "Coding_NetAPIManager.h"
 #import "RewardDetail.h"
 #import "PublishRewardStep1ViewController.h"
+#import "PublishRewardViewController.h"
 
 @interface RewardPrivateViewController ()
 @property (strong, nonatomic) Reward *curReward;
@@ -107,9 +108,7 @@
 }
 
 - (void)goToRePublish{
-    PublishRewardStep1ViewController *vc = [PublishRewardStep1ViewController storyboardVC];
-    vc.rewardToBePublished = _curReward;
-    [self.navigationController pushViewController:vc animated:YES];
+    [self.navigationController pushViewController:[PublishRewardViewController storyboardVCWithReward:_curReward] animated:YES];
 }
 
 @end

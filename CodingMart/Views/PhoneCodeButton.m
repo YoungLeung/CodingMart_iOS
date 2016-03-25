@@ -30,8 +30,12 @@
 - (void)setEnabled:(BOOL)enabled{
     [super setEnabled:enabled];
     UIColor *foreColor = [UIColor colorWithHexString:enabled? @"0x4289DB": @"0xCCCCCC"];
-    [self doBorderWidth:1.0 color:foreColor cornerRadius:2.0];
-    [self setTitleColor:foreColor forState:UIControlStateNormal];
+    if (!_hasBG) {
+        [self doBorderWidth:1.0 color:foreColor cornerRadius:2.0];
+        [self setTitleColor:foreColor forState:UIControlStateNormal];
+    }else{
+        self.backgroundColor = foreColor;
+    }
     if (enabled) {
         [self setTitle:@"发送验证码" forState:UIControlStateNormal];
     }else if ([self.titleLabel.text isEqualToString:@"发送验证码"]){

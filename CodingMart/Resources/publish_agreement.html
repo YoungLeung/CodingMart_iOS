@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>码市平台需求方协议</title>
+
+
+<style type="text/css">
+body {
+  font-family: Helvetica, arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: white;
+  padding: 30px; }
+
+body > *:first-child {
+  margin-top: 0 !important; }
+body > *:last-child {
+  margin-bottom: 0 !important; }
+
+a {
+  color: #4183C4; }
+a.absent {
+  color: #cc0000; }
+a.anchor {
+  display: block;
+  padding-left: 30px;
+  margin-left: -30px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0; }
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+  cursor: text;
+  position: relative; }
+
+h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA09pVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoMTMuMCAyMDEyMDMwNS5tLjQxNSAyMDEyLzAzLzA1OjIxOjAwOjAwKSAgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OUM2NjlDQjI4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OUM2NjlDQjM4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo5QzY2OUNCMDg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5QzY2OUNCMTg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PsQhXeAAAABfSURBVHjaYvz//z8DJYCRUgMYQAbAMBQIAvEqkBQWXI6sHqwHiwG70TTBxGaiWwjCTGgOUgJiF1J8wMRAIUA34B4Q76HUBelAfJYSA0CuMIEaRP8wGIkGMA54bgQIMACAmkXJi0hKJQAAAABJRU5ErkJggg==) no-repeat 10px center;
+  text-decoration: none; }
+
+h1 tt, h1 code {
+  font-size: inherit; }
+
+h2 tt, h2 code {
+  font-size: inherit; }
+
+h3 tt, h3 code {
+  font-size: inherit; }
+
+h4 tt, h4 code {
+  font-size: inherit; }
+
+h5 tt, h5 code {
+  font-size: inherit; }
+
+h6 tt, h6 code {
+  font-size: inherit; }
+
+h1 {
+  font-size: 28px;
+  color: black; }
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #cccccc;
+  color: black; }
+
+h3 {
+  font-size: 18px; }
+
+h4 {
+  font-size: 16px; }
+
+h5 {
+  font-size: 14px; }
+
+h6 {
+  color: #777777;
+  font-size: 14px; }
+
+p, blockquote, ul, ol, dl, li, table, pre {
+  margin: 15px 0; }
+
+hr {
+  background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC) repeat-x 0 0;
+  border: 0 none;
+  color: #cccccc;
+  height: 4px;
+  padding: 0;
+}
+
+body > h2:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+body > h1:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+  body > h1:first-child + h2 {
+    margin-top: 0;
+    padding-top: 0; }
+body > h3:first-child, body > h4:first-child, body > h5:first-child, body > h6:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0; }
+
+h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
+  margin-top: 0; }
+
+li p.first {
+  display: inline-block; }
+li {
+  margin: 0; }
+ul, ol {
+  padding-left: 30px; }
+
+ul :first-child, ol :first-child {
+  margin-top: 0; }
+
+dl {
+  padding: 0; }
+  dl dt {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+    padding: 0;
+    margin: 15px 0 5px; }
+    dl dt:first-child {
+      padding: 0; }
+    dl dt > :first-child {
+      margin-top: 0; }
+    dl dt > :last-child {
+      margin-bottom: 0; }
+  dl dd {
+    margin: 0 0 15px;
+    padding: 0 15px; }
+    dl dd > :first-child {
+      margin-top: 0; }
+    dl dd > :last-child {
+      margin-bottom: 0; }
+
+blockquote {
+  border-left: 4px solid #dddddd;
+  padding: 0 15px;
+  color: #777777; }
+  blockquote > :first-child {
+    margin-top: 0; }
+  blockquote > :last-child {
+    margin-bottom: 0; }
+
+table {
+  padding: 0;border-collapse: collapse; }
+  table tr {
+    border-top: 1px solid #cccccc;
+    background-color: white;
+    margin: 0;
+    padding: 0; }
+    table tr:nth-child(2n) {
+      background-color: #f8f8f8; }
+    table tr th {
+      font-weight: bold;
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr td {
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr th :first-child, table tr td :first-child {
+      margin-top: 0; }
+    table tr th :last-child, table tr td :last-child {
+      margin-bottom: 0; }
+
+img {
+  max-width: 100%; }
+
+span.frame {
+  display: block;
+  overflow: hidden; }
+  span.frame > span {
+    border: 1px solid #dddddd;
+    display: block;
+    float: left;
+    overflow: hidden;
+    margin: 13px 0 0;
+    padding: 7px;
+    width: auto; }
+  span.frame span img {
+    display: block;
+    float: left; }
+  span.frame span span {
+    clear: both;
+    color: #333333;
+    display: block;
+    padding: 5px 0 0; }
+span.align-center {
+  display: block;
+  overflow: hidden;
+  clear: both; }
+  span.align-center > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: center; }
+  span.align-center span img {
+    margin: 0 auto;
+    text-align: center; }
+span.align-right {
+  display: block;
+  overflow: hidden;
+  clear: both; }
+  span.align-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px 0 0;
+    text-align: right; }
+  span.align-right span img {
+    margin: 0;
+    text-align: right; }
+span.float-left {
+  display: block;
+  margin-right: 13px;
+  overflow: hidden;
+  float: left; }
+  span.float-left span {
+    margin: 13px 0 0; }
+span.float-right {
+  display: block;
+  margin-left: 13px;
+  overflow: hidden;
+  float: right; }
+  span.float-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: right; }
+
+code, tt {
+  margin: 0 2px;
+  padding: 0 5px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px; }
+
+pre code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent; }
+
+.highlight pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px; }
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px; }
+  pre code, pre tt {
+    background-color: transparent;
+    border: none; }
+
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:0 auto;
+    }
+}
+@media print {
+	table, pre {
+		page-break-inside: avoid;
+	}
+	pre {
+		word-wrap: break-word;
+	}
+}
+</style>
+
+
+</head>
+
+<body>
+
+<h2 id="toc_0">码市平台需求方协议</h2>
+
+<h3 id="toc_1">首部及导言</h3>
+
+<p>欢迎你使用码市平台！</p>
+
+<p>为使用码市平台需求方服务（以下简称“本服务”），你应当阅读并遵守《码市平台需求方协议》（以下简称“本协议”）。请你务必审慎阅读、充分理解各条款内容，特别是免除或限制责任的相应条款，以及开通或使用某项服务的单独协议，并选择接受或不接受。限制、免责条款可能以加粗形式提示你注意。</p>
+
+<p>除非你已阅读并接受本协议所有条款，否则你无权使用码市平台需求方服务。你通过本服务发布信息等行为即视为你已阅读并同意本协议的约束。</p>
+
+<p>如果你未满18周岁，请在法定监护人的陪同下阅读本协议及其他上述协议，并特别注意未成年人使用条款。</p>
+
+<h3 id="toc_2">一、协议的范围</h3>
+
+<p><strong>协议适用主体范围：</strong>本协议是你与希云科技之间关于你使用码市平台需求方服务所订立的协议。“希云”是指深圳市希云科技有限公司及其相关服务可能存在的运营关联单位。“用户”是指申请码市平台需求方服务的码市帐号用户，在本协议中更多地称为“你”。</p>
+
+<h3 id="toc_3">二、术语定义</h3>
+
+<p><strong>码市平台需求方服务：</strong>是指有项目外包需求的用户可以在码市平台上申请发布悬赏。希云根据用户的悬赏申请及其提交的资料和信息，评估并发布悬赏，提供项目管控的服务。</p>
+
+<h3 id="toc_4">三、码市需求方服务模式</h3>
+
+<p>码市提供的需求方服务核心流程包括：</p>
+
+<ul>
+<li><strong>（需求方）提交悬赏：</strong>需求方在线上提交悬赏需求信息或线下直接联系码市提供需求信息 </li>
+<li><strong>（码市）确认需求：</strong>码市与需求方沟通后，确定合作意向后帮助确定并完善需求</li>
+<li><strong>（需求方）托管酬金：</strong>码市向需求方提供项目估价参考，确定酬金后需求方向码市托管项目酬金</li>
+<li><strong>（码市）发布需求：</strong>码市整理确定后的需求在平台发布以招募开发者和设计师</li>
+<li><strong>（开发者）报名悬赏：</strong>开发者和设计师报名参与悬赏</li>
+<li><strong>（需求方&amp;码市）确认项目开发成员：</strong>码市帮助需求方确定合适的项目开发成员</li>
+<li><strong>（码市）启动项目：</strong>码市和开发成员确定产品需求、项目排期和酬金分配以启动项目</li>
+<li><strong>（开发者）阶段性开发：</strong>开发者按照指定排期进行阶段性的任务开发</li>
+<li><strong>（开发者）阶段性交付：</strong>开发者按照指定交付要求提供阶段性成果</li>
+<li><strong>（需求方）阶段性验收：</strong>需求方根据预定交付要求验收阶段性成果</li>
+<li><strong>（码市）阶段性打款：</strong>验收通过后，码市向开发成员支付对应阶段酬金</li>
+<li><strong>（开发者）项目质保：</strong>项目阶段全部开发验收通过后，项目自动进入质保期</li>
+<li><strong>（码市）释放质保金：</strong>质保期通过，码市向开发者支付余下的质保金</li>
+<li><strong>（码市）结束项目：</strong>至此项目完整结束</li>
+</ul>
+
+<h3 id="toc_5">四、码市收费模式</h3>
+
+<ol>
+<li>需求方用户使用平台服务需要支付的费用包含两个部分：码市服务费和开发酬金（泛指根据项目类型涉及到的产品原型分析、开发和设计费用）。</li>
+<li>码市为用户提供项目估价服务，该项目估价符合技术合理性和市场规律。用户确定后的项目报价即开发酬金，开发酬金最终将全部支付给参与项目的开发人员或者设计师。用户需要在项目启动前将部分项目费用托管至码市。</li>
+<li>码市为用户提供包含且不限于需求梳理、开发匹配、项目管理和辅助的一体化工具等服务，并收取开发酬金的10%作为服务费用。项目开发过程中可能出现需求更改、需求新增的情况，以最终全部的项目开发酬金投入计算10%的码市服务费。请注意，服务费用的收取比例可能随着市场环境的变化而变化，请以码市工作人员在你的项目发布时告知的为准。</li>
+</ol>
+
+<h3 id="toc_6">五、用户的权利义务</h3>
+
+<ol>
+<li>用户应保证其提交给希云的悬赏需求真实有效，并愿意为之支付对应的资金成本投入。否则，希云有权拒绝或终止提供本服务，并依照本协议对违规帐号进行处罚。因此给希云或第三方造成损害的，你应当依法予以赔偿。</li>
+<li>用户同意授权希云将其提交的资料和信息提供给第三方开发者进行必要的需求沟通、项目开发等等，如在特定信息上有保密要求，应在确定需求前提前指明。</li>
+<li>用户不得通过非希云授权的其他任何渠道使用本服务，如非因希云原因导致的项目质量低下、项目中断等后果，希云不承担责任。</li>
+<li>用户理解并同意码市提供的需求方服务模式和码市收费模式。</li>
+<li>用户在全额款项支付完成后完全拥有项目产品的所有权等相关权利。</li>
+<li>项目开发期间，需求方用户应积极配合开发者，及时提供开发者所需的各类图片和文字资料，并应对上述资料的合法性、真实性负责。如因需求方用户提供的资料(有误、虚假等)而引起的各种法律纠纷，或时间上的迟滞造成项目开发进度延期，其相关的一切责任由需求方用户承担，码市和开发者不承担由此产生的任何直接责任或连带责任。</li>
+</ol>
+
+<h3 id="toc_7">六、希云的权利义务</h3>
+
+<ol>
+<li>保护用户信息是希云的一项基本原则，希云将会采取合理的措施保护用户所提交的一切资料及信息。除法律法规规定的情形外，未经用户许可希云不会向其他第三方公开、透露上述资料及信息。用户基于申请本服务的需要，授权希云将其提交的资料和信息提供给开发者，在本协议许可的范围内，希云及第三方开发者对相关资料及信息进行传输及使用，保障用户的信息安全。</li>
+<li>码市提供包含且不限于需求梳理、开发匹配、项目管理和辅助的一体化工具，招募的开发者完成项目的开发工作。</li>
+<li>若码市无任何过错，需求方用户未能按本协议和各分项合同规定的时间内支付有关款项，码市保留暂停制作工作的权利， 不承担由此产生的经济损失、责任。</li>
+<li>码市的有关报价资料若未经甲方认可，码市就进行单独制作，因此而产生的费用用户不作任何补偿。</li>
+<li>码市有责任积极配合用户进行项目测试、验收工作。项目测试期间，甲方提出的操作疑问等问题，码市有责任督促开发者在一个工作日内书面解答。</li>
+<li>码市严格保守用户的商业机密和资料，不得转借他人或转卖，未经得用户许可(文字依据)，不得在本项目范围之外使用用户现提供的所有资料及项目成果(包括程序代码)。</li>
+<li>用户授权码市和招募开发者在开发网站履行合同期间可以使用与网站相关的用户的名称、商标、域名、企业标志等，但使用不能损害用户的利益且只能用于本项目。</li>
+</ol>
+
+<h3 id="toc_8">七、其他</h3>
+
+<ol>
+<li>你使用本服务即视为你已阅读并同意受本协议的约束。希云有权在必要时修改本协议条款。你可以在相关服务页面查阅最新版本的条款。本协议条款变更后，如果你继续使用码市平台需求方服务，即视为你已接受修改后的协议。如果你不接受修改后的协议，应当停止使用码市平台需求方服务。</li>
+<li>本协议签订地为中华人民共和国广东省深圳市福田区。</li>
+<li>本协议的成立、生效、履行、解释及纠纷解决，适用中华人民共和国大陆地区法律（不包括冲突法）。</li>
+<li>若你和希云之间发生任何纠纷或争议，首先应友好协商解决；协商不成的，你同意将纠纷或争议提交本协议签订地有管辖权的人民法院管辖。</li>
+<li>本协议所有条款的标题仅为阅读方便，本身并无实际涵义，不能作为本协议涵义解释的依据。</li>
+<li>本协议条款无论因何种原因部分无效或不可执行，其余条款仍有效，对双方具有约束力。</li>
+</ol>
+
+
+
+
+</body>
+
+</html>

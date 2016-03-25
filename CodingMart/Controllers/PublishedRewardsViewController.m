@@ -13,7 +13,7 @@
 #import "RewardDetailViewController.h"
 #import "RewardPrivateViewController.h"
 #import "PayMethodViewController.h"
-
+#import "PublishRewardViewController.h"
 
 @interface PublishedRewardsViewController ()<UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
@@ -81,12 +81,8 @@
     [self goToPublish:nil];
 }
 
-- (void)goToPublish:(id)sender{
-    PublishRewardStep1ViewController *vc = [PublishRewardStep1ViewController storyboardVC];
-    if ([sender isKindOfClass:[Reward class]]) {
-        vc.rewardToBePublished = sender;
-    }
-    [self.navigationController pushViewController:vc animated:YES];
+- (void)goToPublish:(Reward *)sender{
+    [self.navigationController pushViewController:[PublishRewardViewController storyboardVCWithReward:sender] animated:YES];
 }
 
 - (void)cancelReward:(Reward *)reward{

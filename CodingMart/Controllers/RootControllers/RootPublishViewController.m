@@ -10,6 +10,7 @@
 #import "PublishTypeCell.h"
 #import "RDVTabBarController.h"
 #import "PublishRewardStep1ViewController.h"
+#import "PublishRewardViewController.h"
 #import "Login.h"
 #import "Coding_NetAPIManager.h"
 #import "NotificationViewController.h"
@@ -94,9 +95,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSString *typeValue = [NSObject rewardTypeLongDict][_typeList[indexPath.row]];
-    PublishRewardStep1ViewController *vc = [PublishRewardStep1ViewController storyboardVC];
-    vc.rewardToBePublished = [Reward rewardToBePublished];
-    vc.rewardToBePublished.type = @(typeValue.integerValue);
+    
+    Reward *reward = [Reward rewardToBePublished];
+    reward.type = @(typeValue.integerValue);
+    PublishRewardViewController *vc = [PublishRewardViewController storyboardVCWithReward:reward];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

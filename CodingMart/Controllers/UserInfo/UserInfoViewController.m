@@ -202,7 +202,7 @@
         }else{//去评分
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kAppReviewURL]];
         }
-    }else{
+    }else if (indexPath.section == 2){
         [self.view endEditing:YES];
         [[UIActionSheet bk_actionSheetCustomWithTitle:@"确定要退出当前账号" buttonTitles:nil destructiveTitle:@"确定退出" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0) {

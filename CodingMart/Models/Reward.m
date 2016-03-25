@@ -74,48 +74,27 @@
     ;
     if (!rewardToBePublished) {
         rewardToBePublished = [Reward new];
-        rewardToBePublished.require_clear = @0;
-        rewardToBePublished.need_pm = @0;
-        //    rewardToBePublished.type = @0;
-        //    rewardToBePublished.budget = @0;
     }
     if ([Login isLogin]) {
         User *curUser = [Login curLoginUser];
-        rewardToBePublished.contact_name = curUser.name;
-        rewardToBePublished.contact_mobile = curUser.phone;
-        rewardToBePublished.contact_email = curUser.email;
+        rewardToBePublished.contact_name = rewardToBePublished.contact_name ?: curUser.name;
+        rewardToBePublished.contact_mobile = rewardToBePublished.contact_mobile ?: curUser.phone;
     }
     return rewardToBePublished;
 }
 - (NSDictionary *)toPostParams{
     NSMutableDictionary *params = @{}.mutableCopy;
-    
-    //step1
     params[@"type"] = _type.integerValue > 10? @(_type.integerValue / 10): _type;
     params[@"budget"] = _budget;
-    params[@"require_clear"] = _require_clear;
-    params[@"need_pm"] = _need_pm;
-    //*require_doc
-    params[@"require_doc"] = _require_doc;
-    //step2
     params[@"name"] = _name;
     params[@"description"] = _description_mine;
-    params[@"duration"] = _duration;
-    //*first_sample, *second_sample, *first_file, *second_file
-    params[@"require_doc"] = _require_doc;
-    params[@"first_sample"] = _first_sample;
-    params[@"second_sample"] = _second_sample;
-    params[@"first_file"] = _first_file;
-    params[@"second_file"] = _second_file;
-    //step3
     params[@"contact_name"] = _contact_name;
     params[@"contact_mobile"] = _contact_mobile;
-    params[@"contact_email"] = _contact_email;
-    params[@"recommend"] = @"";
+    params[@"contact_mobile_code"] = _contact_mobile_code;
+    params[@"survey_extra"] = _survey_extra;
     if ([_id isKindOfClass:[NSNumber class]]) {
         params[@"id"] = _id;
     }
-    
     return params;
 }
 

@@ -11,7 +11,6 @@
 #import "Reward.h"
 #import "Login.h"
 #import "UserInfoViewController.h"
-#import "PublishRewardStep1ViewController.h"
 #import "FunctionTipsManager.h"
 #import "LoginViewController.h"
 #import "CaseListViewController.h"
@@ -266,20 +265,6 @@
     
     MartIntroduceViewController *vc = [MartIntroduceViewController new];
     [self.navigationController pushViewController:vc animated:YES];
-}
-- (void)goToPublishReward{
-    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"发布悬赏"];
-
-    if ([Login isLogin]) {
-        UIViewController *vc = [PublishRewardStep1ViewController storyboardVC];
-        [self.navigationController pushViewController:vc animated:YES];
-    }else{
-        LoginViewController *vc = [LoginViewController storyboardVCWithUser:nil];
-        vc.loginSucessBlock = ^(){
-            [self goToPublishReward];
-        };
-        [UIViewController presentVC:vc dismissBtnTitle:@"取消"];
-    }
 }
 
 - (void)goToCaseListVC{

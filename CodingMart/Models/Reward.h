@@ -38,7 +38,7 @@ typedef NS_ENUM(NSInteger, PayMethodType) {
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
 //Do Publish
 @property (strong, nonatomic) NSNumber *budget, *require_clear, *need_pm;
-@property (strong, nonatomic) NSString *name, *description_mine, *contact_name, *contact_email, *contact_mobile, *first_sample, *second_sample, *first_file, *second_file, *require_doc;
+@property (strong, nonatomic) NSString *name, *description_mine, *contact_name, *contact_email, *contact_mobile, *first_sample, *second_sample, *first_file, *second_file, *require_doc, *survey_extra, *contact_mobile_code;
 //Display
 @property (strong, nonatomic) NSString *typeDisplay, *typeImageName, *statusDisplay, *roleTypesDisplay, *statusStrColorHexStr, *statusBGColorHexStr;
 //Pay
