@@ -57,7 +57,7 @@
             pageControl.backgroundColor = [UIColor clearColor];
             pageControl.pageIndicatorImage = [UIImage imageNamed:@"banner_page_unselected"];
             pageControl.currentPageIndicatorImage = [UIImage imageNamed:@"banner_page_selected"];
-            pageControl.frame = CGRectMake(0, CGRectGetHeight(self.frame) - _padding_bottom - 10, kScreen_Width, 10);
+            pageControl.frame = CGRectMake(0, CGRectGetHeight(self.frame) - _padding_bottom - 10 - 5, kScreen_Width, 10);
             pageControl.numberOfPages = _curBannerList.count;
             pageControl.currentPage = 0;
             pageControl.alignment = SMPageControlAlignmentCenter;

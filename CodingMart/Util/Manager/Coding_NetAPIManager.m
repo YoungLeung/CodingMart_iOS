@@ -26,6 +26,7 @@
 #import "DCKeyValueObjectMapping.h"
 #import "MartNotification.h"
 #import "MartBanner.h"
+#import "Rewards.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -219,25 +220,15 @@
     }];
 }
 #pragma mark Reward
-- (void)get_RewardListWithType_Status_RoleType:(NSString *)type_status_roleType block:(void (^)(NSString *type_status_roleType, id data, NSError *error))block{
-    NSArray *list = [type_status_roleType componentsSeparatedByString:@"_"];
-    if (list.count != 3) {
-        block(type_status_roleType, nil, nil);
-        return;
-    }
-    NSString *path = @"api/rewards";
-    NSString *type = [NSObject rewardTypeLongDict][list[0]];
-    NSString *status = [NSObject rewardStatusDict][list[1]];
-    NSString *role_type_id = [NSObject rewardRoleTypeDict][list[2]];
-    
-    NSDictionary *params = @{@"type": type,
-                             @"status": status,
-                             @"role_type_id": role_type_id};
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
+- (void)get_rewards:(Rewards *)rewards block:(void (^)(id data, NSError *error))block{
+    rewards.isLoading = YES;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[rewards toPath] withParams:[rewards toParams] withMethodType:Get andBlock:^(id data, NSError *error) {
+        rewards.isLoading = NO;
         if (data) {
-            data = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"Reward"];
+            data = [NSObject objectOfClass:@"Rewards" fromJSON:data[@"data"]];
+            [rewards handleObj:data];
         }
-        block(type_status_roleType, data, error);
+        block(rewards, error);
     }];
 }
 - (void)get_JoinedRewardListBlock:(void (^)(id data, NSError *error))block{

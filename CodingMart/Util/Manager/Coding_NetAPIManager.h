@@ -15,7 +15,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
     PurposeToPasswordReset
 };
 
-@class Reward, FeedBackInfo, SettingNotificationInfo, VerifiedInfo, FillUserInfo, FillSkills, RewardDetail, JoinInfo;
+@class Reward, FeedBackInfo, SettingNotificationInfo, VerifiedInfo, FillUserInfo, FillSkills, RewardDetail, JoinInfo, Rewards;
 
 
 @interface Coding_NetAPIManager : NSObject
@@ -39,7 +39,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)post_SetPasswordWithEmail:(NSString *)email captcha:(NSString *)captcha type:(PurposeType)type block:(void (^)(id data, NSError *error))block;
 
 #pragma mark Reward
-- (void)get_RewardListWithType_Status_RoleType:(NSString *)type_status_roleType block:(void (^)(NSString *type_status_roleType, id data, NSError *error))block;
+- (void)get_rewards:(Rewards *)rewards block:(void (^)(id data, NSError *error))block;
 - (void)get_JoinedRewardListBlock:(void (^)(id data, NSError *error))block;
 - (void)get_PublishededRewardListBlock:(void (^)(id data, NSError *error))block;
 - (void)post_Reward:(Reward *)reward block:(void (^)(id data, NSError *error))block;

@@ -8,7 +8,6 @@
 
 #import "RootRewardsViewController.h"
 #import "RewardDetailViewController.h"
-#import "Reward.h"
 #import "Login.h"
 #import "UserInfoViewController.h"
 #import "FunctionTipsManager.h"
@@ -21,6 +20,8 @@
 #import "RDVTabBarController.h"
 #import "EaseDropListView.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
+#import "Rewards.h"
+#import "SVPullToRefresh.h"
 
 @interface RootRewardsViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) NSArray *typeList, *statusList, *roleTypeList;
@@ -29,6 +30,7 @@
 @property (strong, nonatomic) NSString *selectedType, *selectedStatus, *selectedRoleType;
 @property (strong, nonatomic, readonly) NSString *type_status_roleType;
 @property (strong, nonatomic, readonly) NSArray *dataList;
+@property (strong, nonatomic, readonly) Rewards *curRewards;
 
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet UIView *tabView;
@@ -98,6 +100,10 @@
     _myTableView.rowHeight = [RewardListCell cellHeight];
     //        refresh
     [_myTableView addPullToRefreshAction:@selector(refreshData) onTarget:self];
+    __weak typeof(self) weakSelf = self;
+    [_myTableView addInfiniteScrollingWithActionHandler:^{
+        [weakSelf refreshDataMore:YES];
+    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -111,8 +117,17 @@
     return [NSString stringWithFormat:@"%@_%@_%@", _selectedType, _selectedStatus, _selectedRoleType];
 }
 
+- (Rewards *)curRewards{
+    Rewards *curRewards = self.rewardsDict[self.type_status_roleType];
+    if (!curRewards) {
+        curRewards = [Rewards RewardsWithType:_selectedType status:_selectedStatus roleType:_selectedRoleType];
+        self.rewardsDict[self.type_status_roleType] = curRewards;
+    }
+    return curRewards;
+}
+
 - (NSArray *)dataList{
-    return self.rewardsDict[self.type_status_roleType];
+    return self.curRewards.list;
 }
 
 - (void)setSelectedTabIndex:(NSInteger)selectedTabIndex{
@@ -135,25 +150,33 @@
 }
 
 - (void)refreshData{
-    if (self.dataList.count <= 0) {
+    [self refreshDataMore:NO];
+}
+
+- (void)refreshDataMore:(BOOL)loadMore{
+    if (self.curRewards.isLoading) {
+        return;
+    }
+    if (!loadMore && self.dataList.count <= 0) {
         [self.myTableView beginLoading];
     }
+    self.curRewards.willLoadMore = loadMore;
     __weak typeof(self) weakSelf = self;
-    
-    [[Coding_NetAPIManager sharedManager] get_RewardListWithType_Status_RoleType:self.type_status_roleType block:^(NSString *type_status_roleType, id data, NSError *error) {
-        if ([weakSelf.type_status_roleType isEqualToString:type_status_roleType]) {
-            [weakSelf.myTableView endLoading];
-            [weakSelf.myTableView.pullRefreshCtrl endRefreshing];
-            if (data) {
-                weakSelf.rewardsDict[weakSelf.type_status_roleType] = data;
-                [weakSelf.myTableView reloadData];
-            }
-            [weakSelf.myTableView configBlankPage:EaseBlankPageTypeView hasData:self.dataList.count > 0 hasError:error != nil reloadButtonBlock:^(id sender) {
-                [weakSelf refreshData];
-            }];
-        }
+    [[Coding_NetAPIManager sharedManager] get_rewards:self.curRewards block:^(id data, NSError *error) {
+        [weakSelf.myTableView endLoading];
+        [weakSelf.myTableView.pullRefreshCtrl endRefreshing];
+        [weakSelf.myTableView.infiniteScrollingView stopAnimating];
+
+        [weakSelf.myTableView reloadData];
+        weakSelf.myTableView.showsInfiniteScrolling = weakSelf.curRewards.canLoadMore;
+        
+        [weakSelf.myTableView configBlankPage:EaseBlankPageTypeView hasData:self.dataList.count > 0 hasError:error != nil reloadButtonBlock:^(id sender) {
+            [weakSelf refreshData];
+        }];
     }];
+
 }
+
 
 - (void)tabBarItemClicked{
     CGFloat contentOffsetY_Top = -CGRectGetMaxY(_tabView.frame);

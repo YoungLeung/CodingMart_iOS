@@ -17,9 +17,13 @@
 #import "Login.h"
 #import "MartBannersView.h"
 #import <BlocksKit/BlocksKit+UIKit.h>
+#import "Rewards.h"
+#import "SVPullToRefresh.h"
 
 @interface RootFindViewController ()
-@property (strong, nonatomic) NSArray *dataList;
+@property (strong, nonatomic, readonly) NSArray *dataList;
+@property (strong, nonatomic) Rewards *curRewards;
+
 
 @property (weak, nonatomic) IBOutlet UIView *tableHeaderView;
 @property (weak, nonatomic) IBOutlet MartBannersView *myBannersView;
@@ -77,6 +81,11 @@
     [self.tableView registerNib:[UINib nibWithNibName:kCellIdentifier_RewardListCell bundle:nil] forCellReuseIdentifier:kCellIdentifier_RewardListCell];
     self.tableView.rowHeight = [RewardListCell cellHeight];
     [self.tableView addPullToRefreshAction:@selector(refreshData) onTarget:self];
+    [self.tableView addInfiniteScrollingWithActionHandler:^{
+        [weakSelf refreshDataListMore:YES];
+    }];
+    //
+    _curRewards = [Rewards RewardsWithType:@"所有类型" status:@"招募中" roleType:@"所有角色"];
     
     [self refreshData];
 }
@@ -94,6 +103,12 @@
     [self refreshRightNavBtn];
 }
 
+#pragma mark - Get
+
+- (NSArray *)dataList{
+    return self.curRewards.list;
+}
+
 #pragma mark - refresh
 - (void)refreshData{
     [self refreshBanner];
@@ -101,15 +116,23 @@
 }
 
 - (void)refreshDataList{
+    [self refreshDataListMore:NO];
+}
+
+- (void)refreshDataListMore:(BOOL)loadMore{
+    if (self.curRewards.isLoading) {
+        return;
+    }
+    self.curRewards.willLoadMore = loadMore;
     __weak typeof(self) weakSelf = self;
-    NSString *specailStr = @"所有类型_招募中_所有角色";
-    [[Coding_NetAPIManager sharedManager] get_RewardListWithType_Status_RoleType:specailStr block:^(NSString *type_status_roleType, id data, NSError *error) {
-            [weakSelf.tableView.pullRefreshCtrl endRefreshing];
-            if (data) {
-                weakSelf.dataList = data;
-                [weakSelf.tableView reloadData];
-            }
+    [[Coding_NetAPIManager sharedManager] get_rewards:_curRewards block:^(id data, NSError *error) {
+        [weakSelf.tableView.pullRefreshCtrl endRefreshing];
+        [weakSelf.tableView.infiniteScrollingView stopAnimating];
+        
+        weakSelf.tableView.showsInfiniteScrolling = weakSelf.curRewards.canLoadMore;
+        [weakSelf.tableView reloadData];
     }];
+
 }
 
 - (void)tabBarItemClicked{

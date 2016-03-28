@@ -25,6 +25,9 @@ static char LoadingViewKey;
     if (!self.loadingView) { //初始化LoadingView
         self.loadingView = [[EaseLoadingView alloc] initWithFrame:self.bounds];
     }
+    if (self.blankPageView) {
+        self.blankPageView.hidden = YES;
+    }
     self.loadingView.frame = self.bounds;
     [self addSubview:self.loadingView];
     [self.loadingView startAnimating];
