@@ -23,7 +23,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *qqNumF;
 @property (weak, nonatomic) IBOutlet UITextField *locationF;
 @property (weak, nonatomic) IBOutlet UITextField *freeTimeF;
-@property (weak, nonatomic) IBOutlet UISwitch *acceptNewRewardEmailNotificationSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *acceptNewRewardAllNotificationSwitch;
 @property (weak, nonatomic) IBOutlet UIButton *codeBtn;
 @property (weak, nonatomic) IBOutlet UILabel *phoneVerifiedL;
 @property (weak, nonatomic) IBOutlet UIView *codeLineV;
@@ -83,7 +83,7 @@
                                                               RACObserve(self, userInfo.district),
                                                               RACObserve(self, userInfo.code),
                                                               RACObserve(self, userInfo.free_time),
-                                                              RACObserve(self, userInfo.acceptNewRewardEmailNotification),
+                                                              RACObserve(self, userInfo.acceptNewRewardAllNotification),
                                                               ] reduce:^id{
                                                                   BOOL canPost = NO;
                                                                   if ([weakSelf.userInfo canPost:weakSelf.originalUserInfo]) {
@@ -123,7 +123,7 @@
         _locationF.text = @"";
     }
     _freeTimeF.text = [_userInfo free_time_display];
-    _acceptNewRewardEmailNotificationSwitch.on = _userInfo.acceptNewRewardEmailNotification.boolValue;
+    _acceptNewRewardAllNotificationSwitch.on = _userInfo.acceptNewRewardAllNotification.boolValue;
     _submitBtn.hidden = (_userInfo == nil);
     [self.tableView reloadData];
 }
@@ -181,8 +181,8 @@
         }
     }];
 }
-- (IBAction)acceptNewRewardEmailNotificationSwitchValueChanged:(UISwitch *)sender {
-    self.userInfo.acceptNewRewardEmailNotification = @(sender.on);
+- (IBAction)acceptNewRewardAllNotificationSwitchValueChanged:(UISwitch *)sender {
+    self.userInfo.acceptNewRewardAllNotification = @(sender.on);
 }
 
 #pragma mark verify_codeBtn Timer

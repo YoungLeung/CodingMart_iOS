@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment version="2048" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -3039,7 +3039,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="接受新悬赏邮件通知" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WAS-dD-NC3">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="接单状态" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WAS-dD-NC3">
                                                     <rect key="frame" x="15" y="12" width="241" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="RiK-Ki-BzU"/>
@@ -3051,8 +3051,7 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aGM-Bs-jXq">
                                                     <rect key="frame" x="256" y="6" width="51" height="31"/>
                                                     <connections>
-                                                        <action selector="acceptNewRewardEmailNotificationSwitchValueChanged:" destination="1CQ-gP-BfE" eventType="valueChanged" id="Tx0-dN-FeX"/>
-                                                        <action selector="switchValueChanged:" destination="GzO-jW-r1O" eventType="valueChanged" id="9Mt-Fy-pnR"/>
+                                                        <action selector="acceptNewRewardAllNotificationSwitchValueChanged:" destination="1CQ-gP-BfE" eventType="valueChanged" id="bQG-CW-Ygl"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
@@ -3076,7 +3075,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="750"/>
                     <connections>
-                        <outlet property="acceptNewRewardEmailNotificationSwitch" destination="aGM-Bs-jXq" id="TVF-ps-o1D"/>
+                        <outlet property="acceptNewRewardAllNotificationSwitch" destination="aGM-Bs-jXq" id="mLB-QD-G3Q"/>
                         <outlet property="codeBtn" destination="XAn-fX-yhj" id="yIl-Yl-YKz"/>
                         <outlet property="codeF" destination="lug-bu-Vpo" id="XHc-dz-Jni"/>
                         <outlet property="codeLineV" destination="KpN-ry-H9q" id="fpK-hR-bEb"/>

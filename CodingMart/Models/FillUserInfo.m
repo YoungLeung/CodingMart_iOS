@@ -24,6 +24,15 @@
     }
     return nil;
 }
+
+- (void)setAcceptNewRewardAllNotification:(NSNumber *)acceptNewRewardAllNotification{
+    if ([acceptNewRewardAllNotification isKindOfClass:[NSString class]]) {
+        _acceptNewRewardAllNotification = @([(NSString *)acceptNewRewardAllNotification isEqualToString:@"true"]);
+    }else{
+        _acceptNewRewardAllNotification = acceptNewRewardAllNotification;
+    }
+}
+
 - (NSDictionary *)toParams{
     NSMutableDictionary *params = @{}.mutableCopy;
     params[@"name"] = _name;
@@ -34,7 +43,7 @@
     params[@"province"] = _province;
     params[@"city"] = _city;
     params[@"district"] = _district;
-    params[@"acceptNewRewardEmailNotification"] = _acceptNewRewardEmailNotification.boolValue? @"true": @"false";
+    params[@"acceptNewRewardAllNotification"] = _acceptNewRewardAllNotification.boolValue? @"true": @"false";
     params[@"free_time"] = _free_time;
     return params;
 }
@@ -75,7 +84,7 @@
      [NSObject isSameNum:_city to:obj.city] &&
      [NSObject isSameNum:_district to:obj.district] &&
      [NSObject isSameNum:_free_time to:obj.free_time] &&
-     [NSObject isSameNum:_acceptNewRewardEmailNotification to:obj.acceptNewRewardEmailNotification]
+     [NSObject isSameNum:_acceptNewRewardAllNotification to:obj.acceptNewRewardAllNotification]
     );
 }
 @end
