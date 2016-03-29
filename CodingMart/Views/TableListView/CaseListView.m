@@ -54,7 +54,7 @@
 
 - (void)setDataList:(NSMutableArray *)dataList{
     if (_dataList.count == 0 && dataList.count > 0) {//隐藏之前有显示的 blankpage
-        [self configBlankPage:EaseBlankPageTypeView hasData:YES hasError:NO reloadButtonBlock:nil];
+        [self removeBlankPageView];
     }
     _dataList = dataList;
 }
@@ -85,12 +85,14 @@
         [self.myTableView.pullRefreshCtrl endRefreshing];
         self.isLoading = NO;
         if (data) {
+            [self removeBlankPageView];
             self.dataList = data;
             [self.myTableView reloadData];
+        }else{
+            [self configBlankPageErrorBlock:^(id sender) {
+                [self refreshData];
+            }];
         }
-        [self configBlankPage:EaseBlankPageTypeView hasData:self.dataList.count > 0 hasError:error != nil reloadButtonBlock:^(id sender) {
-            [self refreshData];
-        }];
     }];
 }
 

@@ -55,10 +55,21 @@
             self.dataList = data;
             [self.tableView reloadData];
         }
-        [self.tableView configBlankPage:EaseBlankPageTypeViewTips hasData:self.dataList.count > 0 hasError:error != nil reloadButtonBlock:^(id sender) {
-            [self refresh];
-        }];
+        [self configBlankPageHasError:error != nil hasData:self.dataList.count > 0];
     }];
+}
+- (void)configBlankPageHasError:(BOOL)hasError hasData:(BOOL)hasData{
+    __weak typeof(self) weakSelf = self;
+    if (hasData) {
+        [self.tableView removeBlankPageView];
+    }else if (hasError){
+        [self.tableView configBlankPageErrorBlock:^(id sender) {
+            [weakSelf refresh];
+        }];
+    }else{
+        [self.tableView configBlankPageImage:kBlankPageImageNotification tipStr:@"您还没有收到任何通知"];
+    }
+
 }
 
 - (void)p_markReadAll{

@@ -138,10 +138,7 @@
 #pragma mark refresh
 - (void)lazyRefreshData{
     if (self.dataList.count > 0) {
-        __weak typeof(self) weakSelf = self;
-        [self.myTableView configBlankPage:EaseBlankPageTypeView hasData:self.dataList.count > 0 hasError:NO reloadButtonBlock:^(id sender) {
-            [weakSelf refreshData];
-        }];
+        [self.myTableView removeBlankPageView];
         [_myTableView reloadData];
     }else{
         [_myTableView reloadData];
@@ -169,14 +166,22 @@
 
         [weakSelf.myTableView reloadData];
         weakSelf.myTableView.showsInfiniteScrolling = weakSelf.curRewards.canLoadMore;
-        
-        [weakSelf.myTableView configBlankPage:EaseBlankPageTypeView hasData:self.dataList.count > 0 hasError:error != nil reloadButtonBlock:^(id sender) {
-            [weakSelf refreshData];
-        }];
+        [weakSelf configBlankPageHasError:error != nil hasData:self.dataList.count > 0];
     }];
-
 }
 
+- (void)configBlankPageHasError:(BOOL)hasError hasData:(BOOL)hasData{
+    __weak typeof(self) weakSelf = self;
+    if (hasData) {
+        [self.myTableView removeBlankPageView];
+    }else if (hasError){
+        [self.myTableView configBlankPageErrorBlock:^(id sender) {
+            [weakSelf refreshData];
+        }];
+    }else{
+        [self.myTableView configBlankPageImage:kBlankPageImageRewardList tipStr:@"当前还没有符合条件的悬赏"];
+    }
+}
 
 - (void)tabBarItemClicked{
     CGFloat contentOffsetY_Top = -CGRectGetMaxY(_tabView.frame);

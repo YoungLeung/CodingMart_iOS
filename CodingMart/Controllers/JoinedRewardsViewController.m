@@ -12,10 +12,10 @@
 #import "RewardDetailViewController.h"
 #import "RewardApplyViewController.h"
 #import "RewardPrivateViewController.h"
+#import "RDVTabBarController.h"
 
 @interface JoinedRewardsViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
-@property (weak, nonatomic) IBOutlet UIView *emptyView;
 @property (strong, nonatomic) NSArray *rewardList;
 
 @property (assign, nonatomic) BOOL isLoading;
@@ -42,7 +42,7 @@
     if (_isLoading) {
         return;
     }
-    if (_rewardList.count <= 0 && _emptyView.hidden) {
+    if (_rewardList.count <= 0) {
         [self.view beginLoading];
     }
     _isLoading = YES;
@@ -52,20 +52,26 @@
         [self.view endLoading];
         if (data) {
             self.rewardList = data;
+            [self.myTableView reloadData];
         }
-        [self refreshUI];
+        [self configBlankPageHasError:error != nil hasData:self.rewardList.count > 0];
     }];
 }
 
-- (void)refreshUI{
-    [self.myTableView reloadData];
-    _emptyView.hidden = !(_rewardList && _rewardList.count == 0);
-}
-
-#pragma mark Btn
-
-- (IBAction)findBtnClicked:(id)sender {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+- (void)configBlankPageHasError:(BOOL)hasError hasData:(BOOL)hasData{
+    __weak typeof(self) weakSelf = self;
+    if (hasData) {
+        [self.myTableView removeBlankPageView];
+    }else if (hasError){
+        [self.myTableView configBlankPageErrorBlock:^(id sender) {
+            [weakSelf refresh];
+        }];
+    }else{
+        [self.myTableView configBlankPageImage:kBlankPageImagePublishJoin tipStr:@"您还没有参与的悬赏" buttonTitle:@"去看看" buttonBlock:^(id sender) {
+            [weakSelf.rdv_tabBarController setSelectedIndex:0];
+            [weakSelf.navigationController popToRootViewControllerAnimated:NO];
+        }];
+    }
 }
 
 #pragma mark Table M
