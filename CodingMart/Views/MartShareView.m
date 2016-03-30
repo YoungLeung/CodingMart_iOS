@@ -311,7 +311,7 @@
 - (NSString *)p_shareTitle{
     NSString *title;
     if ([_objToShare isKindOfClass:[Reward class]]) {
-        title = [(Reward *)_objToShare title];
+        title = [(Reward *)_objToShare name];
     }else if ([_objToShare isKindOfClass:[UIWebView class]]){
         title = @"Coding 码市";
     }else{

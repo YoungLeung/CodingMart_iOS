@@ -33,7 +33,7 @@
     _messageT.textContainerInset = UIEdgeInsetsMake(10, 8, 10, 8);
     _checkBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     
-    self.title = _rewardDetail.reward.title;
+    self.title = _rewardDetail.reward.name;
     if (_rewardDetail.joinStatus.integerValue != JoinStatusNotJoin) {
         self.curJoinInfo = nil;
         [self.view beginLoading];

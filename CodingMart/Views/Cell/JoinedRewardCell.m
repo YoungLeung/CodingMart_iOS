@@ -49,7 +49,7 @@
     [_reward prepareToDisplay];
     
     [_coverImgV sd_setImageWithURL:[NSURL URLWithString:_reward.cover] placeholderImage:[UIImage imageNamed:@"placeholder_reward_cover_square"]];
-    _titleL.text = _reward.title;
+    _titleL.text = _reward.name;
     _typeImgV.image = [UIImage imageNamed:_reward.typeImageName];
     _typeL.text = _reward.typeDisplay;
     _roleTypesL.text = _reward.roleTypesDisplay;

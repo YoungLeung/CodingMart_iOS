@@ -32,7 +32,7 @@ typedef NS_ENUM(NSInteger, PayMethodType) {
 @interface Reward : NSObject
 //List
 @property (strong, nonatomic) NSNumber *id, *type, *status, *progress, *price, *duration, *reward_status, *apply_status, *balance, *price_with_fee;
-@property (strong, nonatomic) NSString *title, *format_price, *format_balance, *format_content, *plain_content, *format_price_with_fee;
+@property (strong, nonatomic) NSString *format_price, *format_balance, *format_content, *plain_content, *format_price_with_fee;
 @property (strong, nonatomic) NSString *cover, *home;
 @property (strong, nonatomic) NSMutableArray *roleTypes, *winners;
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
