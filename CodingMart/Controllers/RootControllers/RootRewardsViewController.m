@@ -181,6 +181,9 @@
     }else{
         [self.myTableView configBlankPageImage:kBlankPageImageRewardList tipStr:@"当前还没有符合条件的悬赏"];
     }
+    if (self.myTableView.blankPageView) {
+        self.myTableView.blankPageView.frame = CGRectMake(0, 10, kScreen_Width, kScreen_Height - CGRectGetMaxY(self.tabView.frame));
+    }
 }
 
 - (void)tabBarItemClicked{

@@ -67,7 +67,7 @@ static char BlankPageViewKey;
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }
@@ -79,7 +79,7 @@ static char BlankPageViewKey;
         [self addSubview:_imageView];
         [_imageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self);
-            make.bottom.equalTo(self.mas_centerY).offset(-20);
+            make.bottom.equalTo(self.mas_centerY).offset(-25);
         }];
     }
     //    文字
@@ -91,7 +91,7 @@ static char BlankPageViewKey;
         [self addSubview:_tipLabel];
         [_tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.centerX.equalTo(self);
-            make.top.equalTo(_imageView.mas_bottom).offset(20);
+            make.top.equalTo(_imageView.mas_bottom).offset(30);
             make.height.mas_equalTo(20);
         }];
     }
