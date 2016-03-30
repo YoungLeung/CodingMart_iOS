@@ -80,8 +80,7 @@
                 if (weakSelf.curBannerList.count > pageIndex) {
                     UIImageView *imageView = [weakSelf p_reuseViewForIndex:pageIndex];
                     MartBanner *curBanner = weakSelf.curBannerList[pageIndex];
-                    [imageView sd_setImageWithURL:[NSURL URLWithString:curBanner.image] placeholderImage:nil];
-                    imageView.backgroundColor = [UIColor randomColor];
+                    [imageView sd_setImageWithURL:[NSURL URLWithString:curBanner.image] placeholderImage:[UIImage imageNamed:@"placeholder_banner"]];
                     return imageView;
                 }else{
                     return [UIView new];
