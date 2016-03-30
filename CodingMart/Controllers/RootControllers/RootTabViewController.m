@@ -60,6 +60,15 @@
                                                         [tabBarItemImages objectAtIndex:index]]];
         [item setFinishedSelectedImage:selectedimage withFinishedUnselectedImage:unselectedimage];
         [item setTitle:[tabBarItemTitles objectAtIndex:index]];
+        
+        item.unselectedTitleAttributes = @{
+                                       NSFontAttributeName: [UIFont systemFontOfSize:10],
+                                       NSForegroundColorAttributeName: [UIColor colorWithHexString:@"0xADBBCB"],
+                                       };
+        item.selectedTitleAttributes = @{
+                                     NSFontAttributeName: [UIFont systemFontOfSize:10],
+                                     NSForegroundColorAttributeName: kColorBrandBlue,
+                                     };
         index++;
     }
     self.tabBar.translucent = YES;
