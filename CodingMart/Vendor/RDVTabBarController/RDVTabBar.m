@@ -161,7 +161,7 @@
 - (void)setTranslucent:(BOOL)translucent {
     _translucent = translucent;
     
-    CGFloat alpha = (translucent ? 0.9 : 1.0);
+    CGFloat alpha = (translucent ? 0.95 : 1.0);
     
     [_backgroundView setBackgroundColor:[UIColor colorWithRed:245/255.0
                                                         green:245/255.0
