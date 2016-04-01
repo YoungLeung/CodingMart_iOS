@@ -427,7 +427,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     }else
     {
         //下载
-        NSString *savedPath = [NSHomeDirectory() stringByAppendingString:@"/Documents/condingDev.docx"];
+        NSString *savedPath = [NSHomeDirectory() stringByAppendingString:@"/Documents/condingDev.pdf"];
         [self downloadFileWithPath:savedPath];
     }
     
@@ -460,12 +460,12 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 //    CGRect cgr =ql.view.frame;
 //    ql.view.frame=CGRectMake(0, 64, cgr.size.width, cgr.size.height);
     
-    UIViewController *vc =[[UIViewController alloc]init];
-    vc.view.backgroundColor=[UIColor whiteColor];
-    vc.title=@"授权说明文件";
-    [vc.view setFrame:self.view.bounds];
-    [vc.view addSubview:ql.view];
-    [self.navigationController pushViewController:vc animated:YES];
+//    UIViewController *vc =[[UIViewController alloc]init];
+//    vc.view.backgroundColor=[UIColor whiteColor];
+//    vc.title=@"授权说明文件";
+//    [vc.view setFrame:self.view.bounds];
+//    [vc.view addSubview:ql.view];
+    [self.navigationController pushViewController:ql animated:YES];
    
 }
 
@@ -482,7 +482,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 
 -(NSString*)documentLocalPath
 {
-    NSString *savedPath = [NSHomeDirectory() stringByAppendingString:@"/Documents/condingDev.docx"];
+    NSString *savedPath = [NSHomeDirectory() stringByAppendingString:@"/Documents/condingDev.pdf"];
     return savedPath;
 }
 
