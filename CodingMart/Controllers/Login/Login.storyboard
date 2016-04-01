@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment version="2048" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -521,7 +521,7 @@
                             <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="calibratedRGB"/>
                         </view>
                         <view key="tableFooterView" contentMode="scaleToFill" id="SPd-8q-xdm">
-                            <rect key="frame" x="0.0" y="177" width="320" height="128"/>
+                            <rect key="frame" x="0.0" y="133" width="320" height="128"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HIA-Gn-dHz" customClass="TableViewFooterButton">
@@ -592,48 +592,6 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="MartCaptchaCell" id="fod-RD-s9D" customClass="MartCaptchaCell">
-                                        <rect key="frame" x="0.0" y="133" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fod-RD-s9D" id="XYc-oC-cJT">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="验证码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="W3h-nl-yaQ">
-                                                    <rect key="frame" x="15" y="11" width="220" height="20"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="20" id="1LT-u6-iwd"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textField>
-                                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4fb-xw-u52">
-                                                    <rect key="frame" x="245" y="9" width="60" height="25"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="25" id="9EY-wK-9AX"/>
-                                                        <constraint firstAttribute="width" constant="60" id="gcw-RA-7Tc"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="GBZ-sM-O4Y">
-                                                    <rect key="frame" x="265" y="11" width="20" height="20"/>
-                                                </activityIndicatorView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="4fb-xw-u52" firstAttribute="centerY" secondItem="W3h-nl-yaQ" secondAttribute="centerY" id="2mQ-uQ-Ong"/>
-                                                <constraint firstItem="W3h-nl-yaQ" firstAttribute="leading" secondItem="XYc-oC-cJT" secondAttribute="leadingMargin" constant="7" id="AGd-5l-Tjn"/>
-                                                <constraint firstItem="GBZ-sM-O4Y" firstAttribute="centerX" secondItem="4fb-xw-u52" secondAttribute="centerX" id="AyO-ut-R3F"/>
-                                                <constraint firstItem="4fb-xw-u52" firstAttribute="leading" relation="lessThanOrEqual" secondItem="W3h-nl-yaQ" secondAttribute="trailing" constant="10" id="Gtk-DL-VFc"/>
-                                                <constraint firstItem="GBZ-sM-O4Y" firstAttribute="centerY" secondItem="4fb-xw-u52" secondAttribute="centerY" id="KA3-yV-B4O"/>
-                                                <constraint firstItem="W3h-nl-yaQ" firstAttribute="centerY" secondItem="XYc-oC-cJT" secondAttribute="centerY" id="ulE-Q1-ERp"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="4fb-xw-u52" secondAttribute="trailing" constant="7" id="yJb-TS-vP9"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="activityIndicator" destination="GBZ-sM-O4Y" id="t8M-YY-79m"/>
-                                            <outlet property="imgV" destination="4fb-xw-u52" id="L1C-h5-fXP"/>
-                                            <outlet property="textF" destination="W3h-nl-yaQ" id="RIS-Ov-Vig"/>
-                                        </connections>
-                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -644,7 +602,6 @@
                     </tableView>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
-                        <outlet property="captchaCell" destination="fod-RD-s9D" id="e4A-jN-dls"/>
                         <outlet property="confirm_passwordF" destination="3Vd-Ue-29J" id="DvP-ov-QuZ"/>
                         <outlet property="footerBtn" destination="HIA-Gn-dHz" id="6Lb-eS-dos"/>
                         <outlet property="passwordF" destination="ZRC-B1-5SN" id="P1S-ta-1GJ"/>
@@ -1306,7 +1263,7 @@
                                         <rect key="frame" x="0.0" y="100" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bQW-8R-Px9" id="lPQ-Uc-Ot3">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="手机号" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jIN-HN-nkd">
@@ -1329,7 +1286,7 @@
                                         <rect key="frame" x="0.0" y="144" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EvI-Xr-9M2" id="pf3-6f-rBS">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="手机验证码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sUx-zj-CR2">
