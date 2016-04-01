@@ -41,7 +41,7 @@ static char LoadingViewKey;
 
 
 @interface EaseLoadingView ()
-@property (nonatomic, assign) CGFloat loopAngle, monkeyAlpha, angleStep, alphaStep;
+@property (nonatomic, assign) CGFloat angleStep, alphaStep;
 @end
 
 
@@ -63,11 +63,8 @@ static char LoadingViewKey;
         [_monkeyView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.equalTo(self);
         }];
-        
-        _loopAngle = 0.0;
-        _monkeyAlpha = 1.0;
-        _angleStep = 360/3;
-        _alphaStep = 1.0/3.0;
+        _angleStep = -M_PI_2;
+        _alphaStep = .25;
     }
     return self;
 }
@@ -87,28 +84,22 @@ static char LoadingViewKey;
 }
 
 - (void)loadingAnimation{
-    static CGFloat duration = 0.25f;
-    _loopAngle += _angleStep;
-    if (_monkeyAlpha >= 1.0 || _monkeyAlpha <= 0.0) {
+    static CGFloat duration = 0.3f;
+    if (_monkeyView.alpha >= 1.0 || _monkeyView.alpha <= 0.0) {
         _alphaStep = -_alphaStep;
     }
-    _monkeyAlpha += _alphaStep;
     [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
-        CGAffineTransform loopAngleTransform = CGAffineTransformMakeRotation(_loopAngle * (M_PI / 180.0f));
+        CGAffineTransform loopAngleTransform = CGAffineTransformRotate(_loopView.transform, _angleStep);
         _loopView.transform = loopAngleTransform;
-        _monkeyView.alpha = _monkeyAlpha;
+        _monkeyView.alpha += _alphaStep;
     } completion:^(BOOL finished) {
         if (_isLoading && [self superview] != nil) {
             [self loadingAnimation];
         }else{
             [self removeFromSuperview];
-            
-            _loopAngle = 0.0;
-            _monkeyAlpha = 1,0;
             _alphaStep = ABS(_alphaStep);
-            CGAffineTransform loopAngleTransform = CGAffineTransformMakeRotation(_loopAngle * (M_PI / 180.0f));
-            _loopView.transform = loopAngleTransform;
-            _monkeyView.alpha = _monkeyAlpha;
+            _loopView.transform = CGAffineTransformIdentity;
+            _monkeyView.alpha = 1.0;
         }
     }];
 }
