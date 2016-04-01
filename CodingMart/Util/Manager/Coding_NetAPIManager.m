@@ -555,10 +555,8 @@
 }
 
 - (void)get_BannerListBlock:(void (^)(id data, NSError *error))block{
-    
-    NSString *path = @"api/banner/type/app";
-//    NSString *path = @"api/banner/app";
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
+    NSString *path = @"api/banner/type/top";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
         data = [NSArray arrayFromJSON:data[@"data"] ofObjects:@"MartBanner"];
         block(data, error);
     }];

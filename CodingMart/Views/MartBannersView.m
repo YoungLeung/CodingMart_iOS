@@ -99,6 +99,9 @@
         });
         [self insertSubview:_mySlideView belowSubview:_myPageControl];
     }
+    UIColor *blackColor = [UIColor blackColor];
+    [self addGradientLayerWithColors:@[(id)[blackColor colorWithAlphaComponent:0.0].CGColor, (id)[blackColor colorWithAlphaComponent:0.2].CGColor] locations:nil startPoint:CGPointMake(0.5, 0.7) endPoint:CGPointMake(0.5, 1.0)];
+
     [self reloadData];
 }
 
@@ -107,7 +110,6 @@
         _imageViewList = [[NSMutableArray alloc] initWithCapacity:3];
         for (int i = 0; i < 3; i++) {
             UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, _padding_top, _image_width, _image_width * _ratio)];
-            view.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
             view.clipsToBounds = YES;
             view.contentMode = UIViewContentModeScaleAspectFill;
             [_imageViewList addObject:view];
