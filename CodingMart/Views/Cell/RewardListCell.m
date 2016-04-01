@@ -52,8 +52,13 @@
     _typeL.text = _curReward.typeDisplay;
     __priceL.text = _curReward.format_price;
     _statusL.text = _curReward.statusDisplay;
-    _statusL.textColor = [UIColor colorWithHexString:_curReward.statusStrColorHexStr];
-    _statusL.backgroundColor = [UIColor colorWithHexString:_curReward.statusBGColorHexStr];
+    
+//    _statusL.textColor = [UIColor colorWithHexString:_curReward.statusStrColorHexStr];
+//    _statusL.backgroundColor = [UIColor colorWithHexString:_curReward.statusBGColorHexStr];
+    
+    _statusL.textColor = [UIColor colorWithHexString:_curReward.statusBGColorHexStr];
+    [_statusL doBorderWidth:0.5 color:[UIColor colorWithHexString:_curReward.statusBGColorHexStr] cornerRadius:2.0];
+    
     _roleTypesL.text = _curReward.roleTypesDisplay;
 }
 
