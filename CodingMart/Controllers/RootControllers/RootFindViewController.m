@@ -67,7 +67,7 @@
         [weakSelf goToWebVCWithUrlStr:@"/codersay" title:@"码士说"];
     }];
     [self.headerIconCall bk_whenTapped:^{
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://400-992-1001"]];
+        [weakSelf contactUs];
     }];
     
     [self.headerDataContainerV addLineUp:YES andDown:YES];
@@ -103,6 +103,14 @@
     [self refreshRightNavBtn];
 }
 
+
+- (void)contactUs{
+    [[UIActionSheet bk_actionSheetCustomWithTitle:@"是否需要拨打电话" buttonTitles:@[@"拨打电话"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        if (index == 0) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://400-992-1001"]];
+        }
+    }] showInView:self.view];
+}
 #pragma mark - Get
 
 - (NSArray *)dataList{
