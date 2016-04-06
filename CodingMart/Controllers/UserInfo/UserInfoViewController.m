@@ -23,13 +23,9 @@
 
 @interface UserInfoViewController ()<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *user_iconV;
-@property (weak, nonatomic) IBOutlet UILabel *user_nameL;
 @property (weak, nonatomic) IBOutlet UIImageView *headerBGV;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerBGVTop;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *nameLBottom;
 
-@property (weak, nonatomic) IBOutlet UIView *tipView;
-@property (weak, nonatomic) IBOutlet UIImageView *tipViewBG;
 
 @property (weak, nonatomic) IBOutlet UIButton *fillUserInfoBtn;
 @property (weak, nonatomic) IBOutlet UIView *tableHeaderView;
@@ -50,11 +46,10 @@
     UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, 49, 0);
     self.tableView.contentInset = self.tableView.scrollIndicatorInsets = insets;
     
-    _tableHeaderView.height = (0.45 * kScreen_Width - [self navBottomY])+ 90;
+    _tableHeaderView.height = (400.0/750 * kScreen_Width - [self navBottomY])+ 90;//90 是背景图下面 button 的高度
     self.tableView.tableHeaderView = _tableHeaderView;
     _user_iconV.layer.masksToBounds = YES;
-    _user_iconV.layer.cornerRadius = 0.08 * kScreen_Width;
-    self.tipViewBG.image = [[UIImage imageNamed:@"userinfo_tip_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 4, 10, 4)];
+    _user_iconV.layer.cornerRadius = 0.09 * kScreen_Width;
 
     __weak typeof(self) weakSelf = self;
     [_headerBGV bk_whenTapped:^{
@@ -88,12 +83,15 @@
 - (void)refreshUI{
     [self setupNavBarBtn];
 
-    _fillUserInfoBtn.hidden = ![Login isLogin];
-    _nameLBottom.constant = [Login isLogin]? 0: +10;
-    self.tipView.hidden = ![Login isLogin] || (_curUser.fullInfo.boolValue && _curUser.fullSkills.boolValue);
-
+    [_fillUserInfoBtn setTitle:_curUser.name forState:UIControlStateNormal];
+    [_fillUserInfoBtn setImage:[Login isLogin]? [UIImage imageNamed:@"button_pen"]: nil forState:UIControlStateNormal];
+    CGFloat titleOffset = [Login isLogin]? [_curUser.name getWidthWithFont:_fillUserInfoBtn.titleLabel.font constrainedToSize:CGSizeMake(CGFLOAT_MAX, 20)] + 3: 0;
+    CGFloat imageOffset = [Login isLogin]? _fillUserInfoBtn.imageView.width +3: 0;
+    
+    _fillUserInfoBtn.titleEdgeInsets = UIEdgeInsetsMake(0, -imageOffset, 0, imageOffset);
+    _fillUserInfoBtn.imageEdgeInsets = UIEdgeInsetsMake(0, titleOffset, 0, -titleOffset);
+    
     [_user_iconV sd_setImageWithURL:[_curUser.avatar urlWithCodingPath] placeholderImage:[UIImage imageNamed:@"placeholder_user"]];
-    _user_nameL.text = _curUser.name;
     [self.tableView reloadData];
 }
 
@@ -145,13 +143,13 @@
 
 #pragma mark - ib button action
 
-- (IBAction)hideTipClicked:(id)sender {
-    self.tipView.hidden = YES;
-}
-
 - (IBAction)fillUserInfoBtnClicked:(id)sender {
-    FillTypesViewController *vc = [FillTypesViewController storyboardVC];
-    [self.navigationController pushViewController:vc animated:YES];
+    if (![Login isLogin]) {
+        [self goToLogin];
+    }else{
+        FillTypesViewController *vc = [FillTypesViewController storyboardVC];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 #pragma mark Btn
