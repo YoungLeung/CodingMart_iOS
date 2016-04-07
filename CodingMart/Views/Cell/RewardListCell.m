@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *_priceL;
 @property (weak, nonatomic) IBOutlet UILabel *statusL;
 @property (weak, nonatomic) IBOutlet UILabel *roleTypesL;
+@property (weak, nonatomic) IBOutlet UILabel *numL;
 
 @end
 
@@ -60,6 +61,7 @@
     [_statusL doBorderWidth:0.5 color:[UIColor colorWithHexString:_curReward.statusBGColorHexStr] cornerRadius:2.0];
     
     _roleTypesL.text = _curReward.roleTypesDisplay;
+    _numL.text = [NSString stringWithFormat:@"%@人报名",_curReward.apply_count.stringValue];
 }
 
 + (CGFloat)cellHeight{

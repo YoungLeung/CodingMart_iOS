@@ -20,6 +20,7 @@
 #import "PayMethodViewController.h"
 #import <Google/Analytics.h>
 #import <FLEX/FLEXManager.h>
+#import "WelcomeViewController.h"
 
 @interface AppDelegate ()
 
@@ -49,7 +50,11 @@
 
 //    makeKeyAndVisible
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = [RootTabViewController new];
+    if ([Login isLogin]) {
+        [self setupTabViewController];
+    }else{
+        [self setupWelcomeViewController];
+    }
     [self.window makeKeyAndVisible];
 //    启动宣传页
     [[MartStartViewManager makeStartView] show];
@@ -60,6 +65,14 @@
 #endif
     
     return YES;
+}
+
+- (void)setupTabViewController{
+    [self.window setRootViewController:[RootTabViewController new]];
+}
+
+- (void)setupWelcomeViewController{
+    [self.window setRootViewController:[WelcomeViewController new]];
 }
 
 - (void)customizeInterface {

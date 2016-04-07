@@ -13,6 +13,7 @@
 @property (strong, nonatomic) UIWindow *window;
 
 - (void)registerPush;
-
+- (void)setupTabViewController;
+- (void)setupWelcomeViewController;
 @end
 
