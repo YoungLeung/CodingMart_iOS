@@ -60,10 +60,6 @@
     [[MartStartViewManager makeStartView] show];
     [MartStartViewManager refreshStartModel];
     
-#if DEBUG
-    [[FLEXManager sharedManager] showExplorer];
-#endif
-    
     return YES;
 }
 
