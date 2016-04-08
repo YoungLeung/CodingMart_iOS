@@ -12,12 +12,16 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageV;
 @property (weak, nonatomic) IBOutlet UILabel *titleL;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageWidthConstraint;
 @end
 
 @implementation PublishTypeCell
 
 - (void)awakeFromNib {
     // Initialization code
+    if (kScreen_Width == 320) {
+        _imageWidthConstraint.constant = 5;
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -33,8 +33,8 @@
 - (void)setupButtons{
     CGFloat padding = 20;
     CGFloat width = (kScreen_Width - 3* padding)/ 2;
-    CGFloat height = 50;
-    CGFloat buttonY = kScreen_Height - height - 40;
+    CGFloat height = kScaleFrom_iPhone6_Desgin(50);
+    CGFloat buttonY = kScreen_Height - height - kScaleFrom_iPhone6_Desgin(40);
     if (!_loginBtn) {
         _loginBtn = ({
             UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(padding, buttonY, width, height)];
@@ -86,7 +86,10 @@
 - (void)setupContent{
     if (!_myCarousel) {
         CGFloat carouselY = kScaleFrom_iPhone6_Desgin(80);
-        CGFloat carouselH = kScreen_Height - carouselY - 160;
+        if (kScreen_Height == 480) {//矮屏尺寸的特殊搞一搞
+            carouselY = 40;
+        }
+        CGFloat carouselH = kScreen_Height - carouselY - kScaleFrom_iPhone6_Desgin(160);
         _myCarousel = ({
             iCarousel *icarousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, carouselY, kScreen_Width, carouselH)];
             icarousel.dataSource = self;
@@ -139,7 +142,7 @@
             [itemView setImage:@"welcome_3" title:@"安全" text:@"专属项目经理监管，双向协议保障"];
             break;
         default:
-            [itemView setImage:@"welcome_0" title:nil text:@"“ 欢迎来到码市，码市是 CODING 旗下的软件众包平台，以云计算技术搭建的云端软件开发平台作为沟通和监管工具，快速连接开发者与需求方，提供专业项目经理进行项目全过程监控 ”"];
+            [itemView setImage:@"welcome_0" title:nil text:@"『 码市是 CODING 旗下的软件众包平台，以云计算技术搭建的云端软件开发平台作为沟通和监管工具，快速连接开发者与需求方，提供专业项目经理进行项目全过程监控 』"];
             break;
     }
     return itemView;
@@ -196,7 +199,7 @@
         
         _titleL = ({
             UILabel *label = [UILabel new];
-            label.font = [UIFont systemFontOfSize:32];
+            label.font = [UIFont systemFontOfSize:kScaleFrom_iPhone6_Desgin(32)];
             label.textColor = [UIColor colorWithHexString:@"0x434A54"];
             label.textAlignment = NSTextAlignmentCenter;
             [self addSubview:label];
@@ -204,7 +207,7 @@
         });
         _textL = ({
             UILabel *label = [UILabel new];
-            label.font = [UIFont systemFontOfSize:14];
+            label.font = [UIFont systemFontOfSize:kScaleFrom_iPhone6_Desgin(14)];
             label.textColor = [UIColor colorWithHexString:@"0x434A54"];
             label.textAlignment = NSTextAlignmentCenter;
             [self addSubview:label];
@@ -212,7 +215,7 @@
         });
         _detailTextL = ({
             UILabel *label = [UILabel new];
-            label.font = [UIFont systemFontOfSize:12];
+            label.font = [UIFont systemFontOfSize:kScaleFrom_iPhone6_Desgin(12)];
             label.textColor = [UIColor colorWithHexString:@"0x434A54"];
             label.numberOfLines = 0;
             [self addSubview:label];
@@ -221,20 +224,20 @@
         [_imageV mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self);
             make.top.equalTo(self).offset(kScaleFrom_iPhone6_Desgin(30));
-            make.width.height.equalTo(self.mas_width).multipliedBy(0.85);
+            make.width.height.equalTo(self.mas_height).multipliedBy(0.6);
         }];
         [_titleL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.imageV.mas_bottom).offset(20);
+            make.top.equalTo(self.imageV.mas_bottom).offset(5);
             make.left.right.equalTo(self);
-            make.height.mas_equalTo(40);
+            make.height.mas_equalTo(kScaleFrom_iPhone6_Desgin(40));
         }];
         [_textL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.titleL.mas_bottom).offset(15);
             make.left.right.equalTo(self);
-            make.height.mas_equalTo(20);
+            make.height.mas_equalTo(kScaleFrom_iPhone6_Desgin(20));
         }];
         [_detailTextL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.imageV.mas_bottom).offset(20);
+            make.top.equalTo(self.imageV.mas_bottom).offset(kScreen_Height == 480? -20: kScreen_Width == 320? 0: 10);
             make.left.equalTo(self).offset(30);
             make.right.equalTo(self).offset(-30);
         }];
@@ -255,7 +258,8 @@
     }else{
         NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
         style.lineSpacing = 5;
-        NSAttributedString *attrText = [[NSAttributedString alloc] initWithString:text attributes:@{NSParagraphStyleAttributeName: style}];
+        style.alignment = NSTextAlignmentJustified;
+        NSAttributedString *attrText = [[NSAttributedString alloc] initWithString:text attributes:@{NSParagraphStyleAttributeName: style, NSUnderlineStyleAttributeName: @(NSUnderlineStyleNone)}];
         _detailTextL.attributedText = attrText;
     }
 }

@@ -41,7 +41,7 @@
 }
 
 - (CGFloat)p_tableHeaderFooterH{
-    return 0.05 * kScreen_Height;
+    return kScreen_Width == 320? 0.02*kScreen_Height: 0.05 * kScreen_Height;
 }
 
 - (void)viewDidAppear:(BOOL)animated{
