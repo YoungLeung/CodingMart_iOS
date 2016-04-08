@@ -6,7 +6,3 @@
 
 
 项目用到了 CocoaPods，所以需要本机安装 pod；在 clone 代码之后，先 `pod install` 才能正常编译运行。
-
-###License
-
-Coding is available under the MIT license. See the LICENSE file for more info.
