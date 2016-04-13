@@ -14,6 +14,7 @@
 #import <Google/Analytics.h>
 #import "FillTypesViewController.h"
 #import "RDVTabBarController.h"
+#import "RootTabViewController.h"
 
 @implementation UIViewController (Common)
 + (UIViewController *)presentingVC{
@@ -33,6 +34,9 @@
     UIViewController *result = window.rootViewController;
     while (result.presentedViewController) {
         result = result.presentedViewController;
+    }
+    if ([result isKindOfClass:[RootTabViewController class]]) {
+        result = [(RootTabViewController *)result selectedViewController];
     }
     if ([result isKindOfClass:[UINavigationController class]]) {
         result = [(UINavigationController *)result topViewController];
@@ -73,8 +77,8 @@
     }
     UIViewController *resultVC;
     NSArray *matchedCaptures;
-    NSString *rewardRegexStr = @"/p/([0-9]+)$";
-    NSString *rewardPrivateRegexStr = @"/reward/([0-9]+)$";
+    NSString *rewardRegexStr = @"/project/([0-9]+)$";
+    NSString *rewardPrivateRegexStr = @"/user/p/([0-9]+)$";
     NSString *userInfoRegexStr = @"/userinfo$";
     if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:rewardRegexStr]).count > 0){
         NSString *reward_id = matchedCaptures[1];

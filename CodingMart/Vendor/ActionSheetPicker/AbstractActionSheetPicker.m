@@ -302,6 +302,12 @@ CG_INLINE BOOL isIPhone4()
     [self actionPickerCancel:nil];
 }
 
+- (void)setCancelButtonTitle:(NSString *)title{
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:nil action:nil];
+    [barButton setTitleTextAttributes:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:17],
+                                        NSForegroundColorAttributeName: [UIColor colorWithHexString:@"0x666666"]} forState:UIControlStateNormal];
+    [self setCancelButton:barButton];
+}
 
 - (UIToolbar *)createPickerToolbarWithTitle:(NSString *)title
 {
@@ -379,7 +385,7 @@ CG_INLINE BOOL isIPhone4()
     }
     else
     {
-        [toolBarItemLabel setTextColor:(NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) ? [UIColor blackColor] : [UIColor whiteColor]];
+        [toolBarItemLabel setTextColor:(NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) ? [UIColor colorWithHexString:@"0x666666"] : [UIColor whiteColor]];
         [toolBarItemLabel setFont:[UIFont boldSystemFontOfSize:16]];
         toolBarItemLabel.text = aTitle;
 

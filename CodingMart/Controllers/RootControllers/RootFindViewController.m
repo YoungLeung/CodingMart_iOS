@@ -64,7 +64,7 @@
         [weakSelf goToCaseListVC];
     }];
     [self.headerIconTalk bk_whenTapped:^{
-        [weakSelf goToWebVCWithUrlStr:@"/codersay" title:@"码士说"];
+        [weakSelf goToWebVCWithUrlStr:@"/reviews/developers" title:@"码士说"];
     }];
     [self.headerIconCall bk_whenTapped:^{
         [weakSelf contactUs];
@@ -120,6 +120,7 @@
 #pragma mark - refresh
 - (void)refreshData{
     [self refreshBanner];
+    [self refreshStatisticsData];
     [self refreshDataList];
 }
 
@@ -151,6 +152,17 @@
         [self.tableView triggerPullToRefresh];
         [self refreshData];
     }
+}
+
+- (void)refreshStatisticsData{
+    WEAKSELF;
+    [[Coding_NetAPIManager sharedManager] get_SimpleStatisticsBlock:^(id data, NSError *error) {
+        if (data) {
+            weakSelf.headerDataMoney.text = [NSString stringWithFormat:@"%@", data[@"validMoneyCount"]];
+            weakSelf.headerDataProjects.text = [NSString stringWithFormat:@"%@", data[@"rewardCount"]];
+            weakSelf.headerDataDevelopers.text = [NSString stringWithFormat:@"%@", data[@"rewardUserCount"]];
+        }
+    }];
 }
 
 #pragma mark Banner

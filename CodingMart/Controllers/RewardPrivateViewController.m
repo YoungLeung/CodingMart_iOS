@@ -32,7 +32,7 @@
 
 - (void)setCurReward:(Reward *)curReward{
     _curReward = curReward;
-    self.curUrlStr = [NSString stringWithFormat:@"/reward/%@", _curReward.id.stringValue];
+    self.curUrlStr = [NSString stringWithFormat:@"/user/p/%@", _curReward.id.stringValue];
 }
 
 - (void)viewWillAppear:(BOOL)animated{

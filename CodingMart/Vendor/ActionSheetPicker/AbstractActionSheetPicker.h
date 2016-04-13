@@ -75,4 +75,5 @@ static NSString *const kButtonTitle = @"buttonTitle";
     // Hide picker programmatically
 - (void) hidePickerWithCancelAction;
 
+- (void)setCancelButtonTitle:(NSString *)title;
 @end

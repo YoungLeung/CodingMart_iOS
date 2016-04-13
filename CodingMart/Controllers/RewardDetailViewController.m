@@ -41,7 +41,7 @@
 
 - (void)setCurReward:(Reward *)curReward{
     _curReward = curReward;
-    self.curUrlStr = [NSString stringWithFormat:@"/p/%@", _curReward.id.stringValue];
+    self.curUrlStr = [NSString stringWithFormat:@"/project/%@", _curReward.id.stringValue];
 }
 
 - (void)viewDidLoad{

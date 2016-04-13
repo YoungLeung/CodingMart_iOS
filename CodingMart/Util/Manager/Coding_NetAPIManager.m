@@ -27,6 +27,9 @@
 #import "MartNotification.h"
 #import "MartBanner.h"
 #import "Rewards.h"
+#import "SkillPro.h"
+#import "SkillRole.h"
+#import "MartSkill.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -422,6 +425,12 @@
         block(data[@"data"], error);
     }];
 }
+- (void)get_SimpleStatisticsBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/rewards-preview";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        block(data[@"data"], error);
+    }];
+}
 #pragma mark Case
 - (void)get_CaseListWithType:(NSString *)type block:(void (^)(id data, NSError *error))block{
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/cases" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
@@ -534,6 +543,100 @@
         block(data, error);
     }];
 }
+
+- (void)get_SkillProsBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/userinfo/project-exp";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"SkillPro"];
+        }
+        block(data, error);
+    }];
+}
+- (void)get_SkillRolesBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/userinfo/user_roles";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"SkillRole"];
+        }
+        block(data, error);
+    }];
+}
+
+- (void)get_SkillBlock:(void (^)(id data, NSError *error))block{
+    MartSkill *skill = [MartSkill new];
+    [self get_SkillProsBlock:^(id dataP, NSError *errorP) {
+        if (errorP) {
+            block(nil, errorP);
+            return ;
+        }
+        skill.proList = dataP;
+        [self get_SkillRolesBlock:^(id dataR, NSError *errorR) {
+            if (errorR) {
+                block(nil, errorR);
+                return ;
+            }
+            skill.roleList = dataR;
+            
+            NSString *path = @"api/userinfo/roles";
+            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id dataAR, NSError *errorAR) {
+                if (errorAR) {
+                    block(nil, errorAR);
+                    return ;
+                }
+                dataAR = [NSObject arrayFromJSON:dataAR[@"data"] ofObjects:@"SkillRole"];
+                skill.allRoleList = dataAR;
+                block([skill prepareToUse]? skill: nil, nil);
+            }];
+        }];
+    }];
+}
+
+- (void)post_SkillPro:(SkillPro *)pro block:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/userinfo/project-exp";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:[pro toParams] withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+
+- (void)post_DeleteSkillPro:(NSNumber *)proId block:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/userinfo/project-exp/del/%@", proId.stringValue];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+
+- (void)post_SkillRole:(SkillRole *)role block:(void (^)(id data, NSError *error))block{
+    
+    void (^editBlock)() = ^{
+        NSString *path = @"api/userinfo/role";
+        [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:[role toParams] withMethodType:Post andBlock:^(id data, NSError *error) {
+            block(data, error);
+        }];
+    };
+    
+    if (![role.role_ids containsObject:role.role.id]) {
+        NSMutableArray *role_ids = role.role_ids.mutableCopy;
+        [role_ids addObject:role.role.id];
+        
+        [self post_SkillRoles:role_ids block:^(id dataA, NSError *errorA) {
+            if (errorA) {
+                block(nil, errorA);
+                return ;
+            }
+            editBlock();
+        }];
+    }else{
+        editBlock();
+    }
+}
+- (void)post_SkillRoles:(NSArray *)role_ids block:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/userinfo/roles";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"role_ids": role_ids ?: @[]} withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+
 #pragma mark FeedBack
 - (void)post_FeedBack:(FeedBackInfo *)feedBackInfo  block:(void (^)(id data, NSError *error))block{
     NSString *path  = @"api/feedback";

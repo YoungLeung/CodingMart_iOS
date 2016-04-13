@@ -9,5 +9,5 @@
 #import "BaseTableViewController.h"
 
 @interface SkillsViewController : BaseTableViewController
-
++ (instancetype)storyboardVC;
 @end

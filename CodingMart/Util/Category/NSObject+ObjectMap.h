@@ -10,7 +10,7 @@
 #import <objc/runtime.h>
 
 #define OMDateFormat @"yyyy-MM-dd'T'HH:mm:ss.SSS"
-#define EADateFormat @"MMM d, yyyy K:m:s aa"
+#define EADateFormat @"MMM dd, yyyy hh:mm:ss aa"
 #define OMTimeZone @"UTC"
 
 @interface NSObject (ObjectMap)

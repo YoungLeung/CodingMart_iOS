@@ -154,14 +154,13 @@
     [view addSubview:self];
     
     [UIView animateWithDuration:0.3 animations:^{
-//        _contentView.centerY = self.height/2;
         _bgView.alpha = 0.4;
     }];
     [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0.7 options:UIViewAnimationOptionCurveLinear animations:^{
         _contentView.centerY = self.height/2;
     } completion:nil];
 }
-+ (instancetype)showInView:(UIView *)view withTitle:(NSString *)title dataList:(NSArray *)dataList selectedList:(NSArray *)selectedList andConfirmBlock:(void(^)(NSArray *selectedList))block{
++ (instancetype)showInView:(UIView *)view withTitle:(NSString *)title dataList:(NSArray<NSString *> *)dataList selectedList:(NSArray<NSString *> *)selectedList andConfirmBlock:(void(^)(NSArray<NSString *> *selectedList))block{
     EAMultiSelectView *eaView = [EAMultiSelectView new];
     eaView.title = title;
     eaView.dataList = dataList;

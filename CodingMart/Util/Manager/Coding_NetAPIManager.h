@@ -15,7 +15,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
     PurposeToPasswordReset
 };
 
-@class Reward, FeedBackInfo, SettingNotificationInfo, VerifiedInfo, FillUserInfo, FillSkills, RewardDetail, JoinInfo, Rewards;
+@class Reward, FeedBackInfo, SettingNotificationInfo, VerifiedInfo, FillUserInfo, FillSkills, RewardDetail, JoinInfo, Rewards, SkillPro, SkillRole, MartSkill;
 
 
 @interface Coding_NetAPIManager : NSObject
@@ -51,6 +51,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)post_CancelJoinReward:(NSNumber *)reward_id block:(void (^)(id data, NSError *error))block;
 - (void)post_GenerateOrderWithReward:(Reward *)reward block:(void (^)(id data, NSError *error))block;
 - (void)get_Order:(NSString *)orderNo block:(void (^)(id data, NSError *error))block;
+- (void)get_SimpleStatisticsBlock:(void (^)(id data, NSError *error))block;
 
 #pragma mark Case
 - (void)get_CaseListWithType:(NSString *)type block:(void (^)(id data, NSError *error))block;
@@ -70,6 +71,16 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)post_UserInfoVerifyCodeWithMobile:(NSString *)mobile block:(void (^)(id data, NSError *error))block;
 - (void)get_SettingNotificationInfoBlock:(void (^)(id data, NSError *error))block;
 - (void)post_SettingNotificationParams:(NSDictionary *)params block:(void (^)(id data, NSError *error))block;
+
+- (void)get_SkillProsBlock:(void (^)(id data, NSError *error))block;
+- (void)get_SkillRolesBlock:(void (^)(id data, NSError *error))block;
+- (void)get_SkillBlock:(void (^)(id data, NSError *error))block;
+- (void)post_SkillPro:(SkillPro *)pro block:(void (^)(id data, NSError *error))block;
+- (void)post_DeleteSkillPro:(NSNumber *)proId block:(void (^)(id data, NSError *error))block;
+- (void)post_SkillRole:(SkillRole *)role block:(void (^)(id data, NSError *error))block;
+- (void)post_SkillRoles:(NSArray *)role_ids block:(void (^)(id data, NSError *error))block;
+
+
 #pragma mark FeedBack
 - (void)post_FeedBack:(FeedBackInfo *)feedBackInfo  block:(void (^)(id data, NSError *error))block;
 
@@ -78,7 +89,6 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)post_CodingExamTesting:(NSDictionary *)params block:(void (^)(id data, NSError *error))block;
 - (void)post_Authentication:(NSDictionary *)params block:(void (^)(id data, NSError *error))block;
 - (void)get_AppInfo:(void (^)(id data, NSError *error))block;
-
 
 #pragma mark Other
 - (void)get_StartModelBlock:(void (^)(id data, NSError *error))block;

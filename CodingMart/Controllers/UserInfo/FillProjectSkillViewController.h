@@ -7,7 +7,9 @@
 //
 
 #import "BaseTableViewController.h"
+#import "SkillPro.h"
 
 @interface FillProjectSkillViewController : BaseTableViewController
-
+@property (strong, nonatomic) SkillPro *pro;
++ (instancetype)storyboardVC;
 @end

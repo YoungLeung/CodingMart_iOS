@@ -7,7 +7,9 @@
 //
 
 #import "BaseTableViewController.h"
+#import "SkillRole.h"
 
 @interface FillRoleSkillViewController : BaseTableViewController
-
+@property (strong, nonatomic) SkillRole *role;
++ (instancetype)storyboardVC;
 @end

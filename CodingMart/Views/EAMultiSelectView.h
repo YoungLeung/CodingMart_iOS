@@ -12,13 +12,13 @@
 
 @interface EAMultiSelectView : UIView
 @property (strong, nonatomic) NSString *title;
-@property (strong, nonatomic) NSArray *dataList;
-@property (strong, nonatomic) NSMutableArray *selectedList;
+@property (strong, nonatomic) NSArray<NSString *> *dataList;
+@property (strong, nonatomic) NSMutableArray<NSString *> *selectedList;
 @property (assign, nonatomic) NSUInteger maxSelectNum;
 
-@property (copy, nonatomic) void(^confirmBlock)(NSArray *selectedList);
+@property (copy, nonatomic) void(^confirmBlock)(NSArray<NSString *> *selectedList);
 - (void)showInView:(UIView *)view;
-+ (instancetype)showInView:(UIView *)view withTitle:(NSString *)title dataList:(NSArray *)dataList selectedList:(NSArray *)selectedList andConfirmBlock:(void(^)(NSArray *selectedList))block;
++ (instancetype)showInView:(UIView *)view withTitle:(NSString *)title dataList:(NSArray<NSString *> *)dataList selectedList:(NSArray<NSString *> *)selectedList andConfirmBlock:(void(^)(NSArray<NSString *> *selectedList))block;
 @end
 
 @interface EAMultiSelectViewCCell : UICollectionViewCell

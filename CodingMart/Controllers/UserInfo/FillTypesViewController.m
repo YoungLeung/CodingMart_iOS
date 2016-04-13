@@ -14,6 +14,7 @@
 #import "IdentityAuthenticationModel.h"
 #import "CodingMarkTestViewController.h"
 #import "IdentityAuthenticationViewController.h"
+#import "SkillsViewController.h"
 
 //             未认证 0
 //             认证通过 1
@@ -178,11 +179,12 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row == 1 &&indexPath.section==0)
     {
-        [NSObject showHudTipStr:@"抱歉，技能展示页面暂时不可以用"];
-//        if (!self.curUser.fullInfo.boolValue) {
-//            [NSObject showHudTipStr:@"请先完善个人信息"];
-//            return;
-//        }
+//        [NSObject showHudTipStr:@"抱歉，技能展示页面暂时不可以用"];
+        if (!self.curUser.fullInfo.boolValue) {
+            [NSObject showHudTipStr:@"请先完善个人信息"];
+            return;
+        }
+        [self.navigationController pushViewController:[SkillsViewController storyboardVC] animated:YES];
 //        FillSkillsViewController *vc = [FillSkillsViewController storyboardVC];
 //        [self.navigationController pushViewController:vc animated:YES];
     }else if (indexPath.section==1 &&indexPath.row==0)
