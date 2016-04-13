@@ -39,18 +39,27 @@
         self.pro = [SkillPro new];
     }
     BOOL isNewPro = ![_pro.id isKindOfClass:[NSNumber class]];
-    self.title = isNewPro? @"添加项目": @"编辑项目";
+    self.title = isNewPro? @"添加项目经验": @"编辑项目经验";
     self.navigationItem.rightBarButtonItem = isNewPro? nil: [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_delete"] style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonItemClicked)];
 
     [self setupRACUI];
 }
 
 - (void)rightBarButtonItemClicked{
-    [NSObject showHUDQueryStr:@"正在移除项目..."];
+    WEAKSELF;
+    [[UIActionSheet bk_actionSheetCustomWithTitle:@"确认删除项目经验？删除后无法恢复。" buttonTitles:nil destructiveTitle:@"删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        if (index == 0) {
+            [weakSelf deletePro];
+        }
+    }] showInView:self.view];
+}
+
+- (void)deletePro{
+    [NSObject showHUDQueryStr:@"正在移除项目经验..."];
     [[Coding_NetAPIManager sharedManager] post_DeleteSkillPro:_pro.id block:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data) {
-            [NSObject showHudTipStr:@"项目已移除"];
+            [NSObject showHudTipStr:@"项目经验已移除"];
             [self.navigationController popViewControllerAnimated:YES];
         }
     }];

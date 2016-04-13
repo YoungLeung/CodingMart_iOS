@@ -36,9 +36,18 @@
 }
 
 - (void)rightBarButtonItemClicked{
+    WEAKSELF;
+    [[UIActionSheet bk_actionSheetCustomWithTitle:@"确认删除该角色？" buttonTitles:nil destructiveTitle:@"删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        if (index == 0) {
+            [weakSelf deleteRole];
+        }
+    }] showInView:self.view];
+}
+
+- (void)deleteRole{
     NSMutableArray *role_ids = _role.role_ids.mutableCopy;
     [role_ids removeObject:_role.role.id];
-
+    
     if (role_ids.count <= 0) {
         [NSObject showHudTipStr:@"至少需要保留一个角色"];
         return;

@@ -86,13 +86,10 @@
     }
 }
 
-#pragma mark Btn
-- (IBAction)tryBtnClicked:(id)sender {
-    [self goToPublish:nil];
-}
+#pragma mark VC
 
-- (void)goToPublish:(Reward *)sender{
-    [self.navigationController pushViewController:[PublishRewardViewController storyboardVCWithReward:sender] animated:YES];
+- (void)goToPublish:(id)sender{
+    [self.navigationController pushViewController:[PublishRewardViewController storyboardVCWithReward:[sender isKindOfClass:[Reward class]]? sender: nil] animated:YES];
 }
 
 - (void)cancelReward:(Reward *)reward{
