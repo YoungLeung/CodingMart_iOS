@@ -16,10 +16,25 @@
 }
 - (NSString *)free_time_display{
     if (_free_time) {
-        NSArray *free_time_list = [FillUserInfo free_time_display_list];
+        NSArray *list = [FillUserInfo free_time_display_list];
         NSInteger index = _free_time.integerValue;
-        if (index >= 0 && index < free_time_list.count) {
-            return free_time_list[index];
+        if (index >= 0 && index < list.count) {
+            return list[index];
+        }
+    }
+    return nil;
+}
+
++ (NSArray *)reward_role_display_list{
+    return @[@"独立开发者",
+             @"开发者团队"];
+}
+- (NSString *)reward_role_display{
+    if (_reward_role) {
+        NSArray *list = [FillUserInfo reward_role_display_list];
+        NSInteger index = _reward_role.integerValue;
+        if (index >= 0 && index < list.count) {
+            return list[index];
         }
     }
     return nil;
@@ -67,8 +82,11 @@
     BOOL canPost = ![self isSameTo:originalObj];
     if (canPost) {
         canPost = _name.length > 0 &&
-//        _email.length > 0 &&//不是必填项了
+        _email.length > 0 &&//是必填项了
         _mobile.length > 0 &&
+        _reward_role &&
+//        _acceptNewRewardAllNotification &&
+        _free_time &&
         _province;//省、市、区 有一个就好
         //&& _city && _district;
     }
@@ -84,6 +102,7 @@
      [NSObject isSameNum:_city to:obj.city] &&
      [NSObject isSameNum:_district to:obj.district] &&
      [NSObject isSameNum:_free_time to:obj.free_time] &&
+     [NSObject isSameNum:_reward_role to:obj.reward_role] &&
      [NSObject isSameNum:_acceptNewRewardAllNotification to:obj.acceptNewRewardAllNotification]
     );
 }

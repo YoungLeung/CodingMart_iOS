@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *qqNumF;
 @property (weak, nonatomic) IBOutlet UITextField *locationF;
 @property (weak, nonatomic) IBOutlet UITextField *freeTimeF;
+@property (weak, nonatomic) IBOutlet UITextField *rewardRoleF;
 @property (weak, nonatomic) IBOutlet UISwitch *acceptNewRewardAllNotificationSwitch;
 @property (weak, nonatomic) IBOutlet UIButton *codeBtn;
 @property (weak, nonatomic) IBOutlet UILabel *phoneVerifiedL;
@@ -83,6 +84,7 @@
                                                               RACObserve(self, userInfo.district),
                                                               RACObserve(self, userInfo.code),
                                                               RACObserve(self, userInfo.free_time),
+                                                              RACObserve(self, userInfo.reward_role),
                                                               RACObserve(self, userInfo.acceptNewRewardAllNotification),
                                                               ] reduce:^id{
                                                                   BOOL canPost = NO;
@@ -123,6 +125,7 @@
         _locationF.text = @"";
     }
     _freeTimeF.text = [_userInfo free_time_display];
+    _rewardRoleF.text = [_userInfo reward_role_display];
     _acceptNewRewardAllNotificationSwitch.on = _userInfo.acceptNewRewardAllNotification.boolValue;
     _submitBtn.hidden = (_userInfo == nil);
     [self.tableView reloadData];
@@ -215,14 +218,33 @@
 
 #pragma mark Table M
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    return [UIView new];
+    UIView *headerV = [UIView new];
+    UILabel *titleL = [UILabel new];
+    titleL.font = [UIFont systemFontOfSize:15];
+    titleL.textColor = [UIColor colorWithHexString:@"0x999999"];
+    titleL.text = section == 0? @"码市信息": @"接单状态";
+    [headerV addSubview:titleL];
+    [titleL mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(headerV).insets(UIEdgeInsetsMake(0, 15, 0, 15));
+    }];
+    return headerV;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 20;
+    return 44;
 }
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    return [UIView new];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 1.0/[UIScreen mainScreen].scale;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return _userInfo? 1: 0;
+    return _userInfo? 2: 0;
 }
+
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
     if (indexPath.row == 2) {
@@ -232,8 +254,15 @@
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 5) {
-        __weak typeof(self) weakSelf = self;
+    if (indexPath.section == 0 && indexPath.row == 5) {
+        WEAKSELF;
+        NSInteger initialRow = weakSelf.userInfo.reward_role? weakSelf.userInfo.reward_role.integerValue: 0;
+        [ActionSheetStringPicker showPickerWithTitle:nil rows:@[[FillUserInfo reward_role_display_list]] initialSelection:@[@(initialRow)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
+            weakSelf.userInfo.reward_role = selectedIndex.firstObject;
+            weakSelf.rewardRoleF.text = [weakSelf.userInfo reward_role_display];
+        } cancelBlock:nil origin:self.view];
+    }else if (indexPath.section == 1 && indexPath.row == 1) {
+        WEAKSELF;
         NSInteger initialRow = weakSelf.userInfo.free_time? weakSelf.userInfo.free_time.integerValue: 0;
         [ActionSheetStringPicker showPickerWithTitle:nil rows:@[[FillUserInfo free_time_display_list]] initialSelection:@[@(initialRow)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
             weakSelf.userInfo.free_time = selectedIndex.firstObject;

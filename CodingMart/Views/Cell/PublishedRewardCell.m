@@ -70,6 +70,7 @@
                            @"0x64C378",
                            @"0x2FAEEA",
                            @"0xBACDD8",
+                           @"0x666666",
                            ];
     }
     _statusL.textColor = [UIColor colorWithHexString:textHexStrList[_reward.status.integerValue]];
