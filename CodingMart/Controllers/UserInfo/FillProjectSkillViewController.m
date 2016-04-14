@@ -106,6 +106,7 @@
 
 #pragma mark Btn
 - (IBAction)startBtnClicked:(id)sender {
+    [self.view endEditing:YES];
     WEAKSELF;
     ActionSheetDatePicker *picker = [[ActionSheetDatePicker alloc] initWithTitle:@"起始时间" datePickerMode:UIDatePickerModeDate selectedDate:_pro.start_time ?:[NSDate date] doneBlock:^(ActionSheetDatePicker *picker, NSDate *selectedDate, id origin) {
         weakSelf.pro.start_time = selectedDate;
@@ -115,6 +116,7 @@
 }
 
 - (IBAction)finishBtnClicked:(id)sender {
+    [self.view endEditing:YES];
     WEAKSELF;
     ActionSheetDatePicker *picker = [[ActionSheetDatePicker alloc] initWithTitle:@"结束时间" datePickerMode:UIDatePickerModeDate selectedDate:_pro.finish_time ?:[NSDate date] doneBlock:^(ActionSheetDatePicker *picker, NSDate *selectedDate, id origin) {
         weakSelf.pro.finish_time = selectedDate;
@@ -178,7 +180,9 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
     NSInteger row = indexPath.row;
-    if (row != 0 && row != 4) {
+    if (row == 0 ) {
+        cell.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15);
+    }else{
         cell.separatorInset = UIEdgeInsetsMake(0, kScreen_Width, 0, 0);//隐藏
     }
 }

@@ -117,6 +117,7 @@
 
 #pragma mark p_m
 - (void)editSkills{
+    [self.view endEditing:YES];
     WEAKSELF;
     [EAMultiSelectView showInView:self.view withTitle:@"技能类型" dataList:[_role.skills valueForKey:@"name"] selectedList:[_role.selectedSkills valueForKey:@"name"] andConfirmBlock:^(NSArray *selectedList) {
         [weakSelf dealWithskillList:selectedList];
@@ -131,6 +132,7 @@
 }
 
 - (void)editGoodAt{
+    [self.view endEditing:YES];
     WEAKSELF;
     EAMultiSelectView *selectView = [EAMultiSelectView showInView:self.view withTitle:@"擅长技术" dataList:_role.role.goodAtList selectedList:_role.user_role.good_at.length > 0? [_role.user_role.good_at componentsSeparatedByString:@","]: nil andConfirmBlock:^(NSArray *selectedList) {
         weakSelf.role.user_role.good_at = [selectedList componentsJoinedByString:@","];
