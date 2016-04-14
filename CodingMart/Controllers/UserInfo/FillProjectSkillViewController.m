@@ -144,11 +144,20 @@
 }
 
 - (IBAction)saveBtnClicked:(id)sender {
+    NSString *tipStr = nil;
     NSString *someThingEmpty = _pro.project_name.length <= 0? @"项目名称": !_pro.start_time? @"起始时间": (!_pro.finish_time && !_pro.until_now.boolValue)? @"结束时间": _pro.description_mine.length <= 0? @"项目描述": _pro.duty.length <= 0? @"我的职责": nil;
     if (someThingEmpty) {
-        [NSObject showHudTipStr:[NSString stringWithFormat:@"请填写%@", someThingEmpty]];
+        tipStr = [NSString stringWithFormat:@"请填写%@", someThingEmpty];
+    }else if (_pro.description_mine.length < 100 || _pro.description_mine.length > 2000){
+        tipStr = @"项目描述应为 100 - 2000 字";
+    }else if (_pro.duty.length < 50 || _pro.duty.length > 1000){
+        tipStr = @"我的职责应为 50 - 1000 字";
+    }
+    if (tipStr.length > 0) {
+        [NSObject showHudTipStr:tipStr];
         return;
     }
+    
     [NSObject showHUDQueryStr:@"正在保存项目..."];
     [[Coding_NetAPIManager sharedManager] post_SkillPro:_pro block:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
