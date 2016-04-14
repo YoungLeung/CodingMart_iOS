@@ -189,7 +189,7 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 //        [self.navigationController pushViewController:vc animated:YES];
     }else if (indexPath.section==1 &&indexPath.row==0)
     {
-        if (!self.curUser.fullSkills.boolValue) {
+        if (!self.curUser.fullInfo.boolValue) {
             [NSObject showHudTipStr:@"请先完善个人信息"];
             return;
         }

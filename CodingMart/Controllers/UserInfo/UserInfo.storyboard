@@ -1210,7 +1210,14 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7tH-wy-zXg" customClass="UIButton">
                                                     <rect key="frame" x="15" y="47" width="270" height="40"/>
                                                     <subviews>
-                                                        <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="起始时间" textAlignment="natural" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="Vu4-eU-ahz">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="skill_date" translatesAutoresizingMaskIntoConstraints="NO" id="MFu-mu-k4J">
+                                                            <rect key="frame" x="238" y="12" width="17" height="17"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="17" id="Ydi-Iu-x9D"/>
+                                                                <constraint firstAttribute="width" constant="17" id="ts4-1q-iqv"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                        <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="起始时间" textAlignment="natural" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="Vu4-eU-ahz">
                                                             <rect key="frame" x="15" y="10" width="208" height="20"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="AKq-uK-ZMh"/>
@@ -1219,13 +1226,6 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits"/>
                                                         </textField>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="skill_date" translatesAutoresizingMaskIntoConstraints="NO" id="MFu-mu-k4J">
-                                                            <rect key="frame" x="238" y="12" width="17" height="17"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="17" id="Ydi-Iu-x9D"/>
-                                                                <constraint firstAttribute="width" constant="17" id="ts4-1q-iqv"/>
-                                                            </constraints>
-                                                        </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.96470588239999999" green="0.96470588239999999" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
@@ -1261,7 +1261,7 @@
                                                                 <constraint firstAttribute="width" constant="17" id="gvk-GF-CcH"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="结束时间" textAlignment="natural" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="z5M-oF-1VY">
+                                                        <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="结束时间" textAlignment="natural" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="z5M-oF-1VY">
                                                             <rect key="frame" x="15" y="10" width="208" height="20"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="8iC-YG-nWi"/>
