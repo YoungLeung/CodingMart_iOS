@@ -11,17 +11,14 @@
 
 @implementation NSObject (BaseConfig)
 + (NSString *)baseURLStr{
-//    NSString *baseURLStr = @"https://mart-staging.coding.net/";
-//    NSString *baseURLStr = @"http://172.16.0.50:9020/";
-//    NSString *baseURLStr = @"http://192.168.0.148:9020/";
-
+//    NSString *baseURLStr = @"http://192.168.0.5:9020";//staging
     NSString *baseURLStr = @"https://mart.coding.net/";
     
     return baseURLStr;
 }
 + (NSString *)codingURLStr{
-//    NSString *codingURLStr = @"http://192.168.0.15:9990/";
-
+//    NSString *codingURLStr = @"http://192.168.0.5";////staging
+    
     NSString *codingURLStr = @"https://coding.net/";
     return codingURLStr;
 }
