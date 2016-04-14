@@ -85,6 +85,7 @@
     [[UITextField appearance] setTintColor:[UIColor colorWithHexString:@"0x3bbc79"]];//设置UITextField的光标颜色
     [[UITextView appearance] setTintColor:[UIColor colorWithHexString:@"0x3bbc79"]];//设置UITextView的光标颜色
     [[UISearchBar appearance] setBackgroundImage:[UIImage imageWithColor:kColorBGDark] forBarPosition:0 barMetrics:UIBarMetricsDefault];
+    [[UISwitch appearance] setOnTintColor:kColorBrandBlue];
 }
 
 - (void)registerRemoteNotification{
