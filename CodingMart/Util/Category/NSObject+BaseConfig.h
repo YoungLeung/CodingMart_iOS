@@ -11,6 +11,9 @@
 @interface NSObject (BaseConfig)
 + (NSString *)baseURLStr;
 + (NSString *)codingURLStr;
++ (void)changeBaseURLStr:(NSString *)baseURLStr codingURLStr:(NSString *)codingURLStr;
++ (BOOL)baseURLStrIsProduction;
+
 + (NSString *)userAgent;
 + (NSString *)appVersion;
 + (NSString *)appBuildVersion;

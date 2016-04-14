@@ -121,40 +121,6 @@
     return count;
 }
 
-#pragma mark BaseURL
-//+ (NSString *)baseURLStr{
-//    NSString *baseURLStr;
-//    if ([self baseURLStrIsTest]) {
-//        //staging
-//        baseURLStr = kBaseUrlStr_Test;
-//    }else{
-//        //生产
-//        baseURLStr = @"https://coding.net/";
-//    }
-////    //staging
-////    baseURLStr = kBaseUrlStr_Test;
-////    //村民
-////    baseURLStr = @"http://192.168.0.188:8080/";
-////    //彭博
-////    baseURLStr = @"http://192.168.0.156:9990/";
-////    //小胖
-////    baseURLStr = @"http://192.168.0.222:8080/";
-//
-//    return baseURLStr;
-//}
-
-+ (BOOL)baseURLStrIsTest{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    return [[defaults valueForKey:kTestKey] boolValue];
-}
-+ (void)changeBaseURLStrToTest:(BOOL)isTest{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:@(isTest) forKey:kTestKey];
-    [defaults synchronize];
-    
-    [CodingNetAPIClient changeJsonClient];    
-}
-
 #pragma mark File M
 //获取fileName的完整地址
 + (NSString* )pathInCacheDirectory:(NSString *)fileName
@@ -326,7 +292,7 @@
         if (user_not_login) {
             if ([Login isLogin]) {//已登录的状态要抹掉
                 [Login doLogout];
-                kTipAlert(@"%@", [NSObject tipFromError:error]);
+                [NSObject showError:error];
             }
         }else{
             if (autoShowError) {

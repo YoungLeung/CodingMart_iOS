@@ -6,22 +6,44 @@
 //  Copyright © 2015年 net.coding. All rights reserved.
 //
 
+#define kBaseURLStr @"https://mart.coding.net/"
+#define kCodingURLStr @"https://coding.net/"
+
+
 #import "NSObject+BaseConfig.h"
 #import <sys/utsname.h>
+#import "CodingNetAPIClient.h"
 
 @implementation NSObject (BaseConfig)
 + (NSString *)baseURLStr{
 //    NSString *baseURLStr = @"http://192.168.0.5:9020";//staging
-    NSString *baseURLStr = @"https://mart.coding.net/";
-    
-    return baseURLStr;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return [defaults valueForKey:kBaseURLStr] ?: kBaseURLStr;
 }
 + (NSString *)codingURLStr{
-//    NSString *codingURLStr = @"http://192.168.0.5";////staging
-    
-    NSString *codingURLStr = @"https://coding.net/";
-    return codingURLStr;
+//    NSString *codingURLStr = @"http://192.168.0.5";//staging
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return [defaults valueForKey:kCodingURLStr] ?: kCodingURLStr;
 }
+
++ (void)changeBaseURLStr:(NSString *)baseURLStr codingURLStr:(NSString *)codingURLStr{
+    if (baseURLStr.length <= 0) {
+        baseURLStr = kBaseURLStr;
+    }
+    if (codingURLStr.length <= 0) {
+        codingURLStr = kCodingURLStr;
+    }
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:baseURLStr forKey:kBaseURLStr];
+    [defaults setObject:codingURLStr forKey:kCodingURLStr];
+    [defaults synchronize];
+    [CodingNetAPIClient changeJsonClient];
+}
+
++ (BOOL)baseURLStrIsProduction{
+    return ([[self baseURLStr] isEqualToString:kBaseURLStr] && [[self codingURLStr] isEqualToString:kCodingURLStr]);
+}
+
 + (NSString *)userAgent{
     struct utsname systemInfo;
     uname(&systemInfo);

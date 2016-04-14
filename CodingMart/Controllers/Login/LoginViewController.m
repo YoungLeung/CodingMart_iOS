@@ -16,6 +16,7 @@
 #import "TableViewFooterButton.h"
 #import "Coding_NetAPIManager.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
+#import <BlocksKit/BlocksKit+UIKit.h>
 
 @interface LoginViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
@@ -44,6 +45,7 @@
     RAC(self, loginBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, userStr), RACObserve(self, password), RACObserve(self, captcha), RACObserve(self, captchaNeeded)] reduce:^id(NSString *userStr, NSString *password, NSString *captcha, NSNumber *captchaNeeded){
         return @(userStr.length > 0 && password.length > 0 && (captcha.length > 0 || !captchaNeeded.boolValue));
     }];
+    [self addChangeBaseURLGesture];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -150,5 +152,37 @@
         [(TwoFactorAuthCodeViewController *)segue.destinationViewController setLoginSucessBlock:_loginSucessBlock];
     }
 }
+
+#pragma mark - BaseURLGesture
+- (void)addChangeBaseURLGesture{
+    UITapGestureRecognizer *tapGR = [UITapGestureRecognizer bk_recognizerWithHandler:^(UIGestureRecognizer *sender, UIGestureRecognizerState state, CGPoint location) {
+        if (state == UIGestureRecognizerStateRecognized) {
+            [self changeBaseURLTip];
+        }
+    }];
+    tapGR.numberOfTapsRequired = 5;
+    [self.view addGestureRecognizer:tapGR];
+}
+
+- (void)changeBaseURLTip{
+    UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:@"更改服务器 URL" message:@"空白值可切换回生产环境" preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *cancelA = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *confirmA = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        [NSObject changeBaseURLStr:alertCtrl.textFields[0].text codingURLStr:alertCtrl.textFields[1].text];
+    }];
+    [alertCtrl addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"码市服务器地址";
+        textField.text = [NSObject baseURLStr];
+    }];
+    [alertCtrl addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"Coding 服务器地址";
+        textField.text = [NSObject codingURLStr];
+    }];
+    [alertCtrl addAction:cancelA];
+    [alertCtrl addAction:confirmA];
+    [self presentViewController:alertCtrl animated:YES completion:nil];
+}
+
 
 @end

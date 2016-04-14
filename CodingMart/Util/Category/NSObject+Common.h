@@ -21,10 +21,6 @@
 
 + (instancetype)showHUDQueryStr:(NSString *)titleStr;
 + (NSUInteger)hideHUDQuery;
-#pragma mark BaseURL
-//+ (NSString *)baseURLStr;
-+ (BOOL)baseURLStrIsTest;
-+ (void)changeBaseURLStrToTest:(BOOL)isTest;
 
 #pragma mark File M
 //获取fileName的完整地址

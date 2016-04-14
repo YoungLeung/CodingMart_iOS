@@ -14,6 +14,7 @@
 #import "Login.h"
 #import "Coding_NetAPIManager.h"
 #import "PublishedRewardsViewController.h"
+#import "LoginViewController.h"
 
 @interface RootPublishViewController ()
 @property (strong, nonatomic) NSArray *typeList;
@@ -80,14 +81,27 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSString *typeValue = [NSObject rewardTypeLongDict][_typeList[indexPath.row]];
+    [self goToPublishWithType:@(typeValue.integerValue)];
     
-    Reward *reward = [Reward rewardToBePublished];
-    reward.type = @(typeValue.integerValue);
-    PublishRewardViewController *vc = [PublishRewardViewController storyboardVCWithReward:reward];
-    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark GoTo VC
+
+- (void)goToPublishWithType:(NSNumber *)type{
+    if ([Login isLogin]) {
+        Reward *reward = [Reward rewardToBePublished];
+        reward.type = type;
+        PublishRewardViewController *vc = [PublishRewardViewController storyboardVCWithReward:reward];
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        LoginViewController *vc = [LoginViewController storyboardVCWithUser:nil];
+        vc.loginSucessBlock = ^(){
+            [self goToPublishWithType:type];
+        };
+        [UIViewController presentVC:vc dismissBtnTitle:@"取消"];
+    }
+}
+
 - (void)goToPublishedVC{
     [self.navigationController pushViewController:[PublishedRewardsViewController storyboardVC] animated:YES];
 }
