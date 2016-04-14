@@ -149,29 +149,24 @@
         if (self.navigationController.childViewControllers.count > 1) {
             [self.rdv_tabBarController setTabBarHidden:YES animated:YES];
         }
+        //umemg
+        [MobClick beginLogPageView:[self className]];
     }
     [self customViewWillAppear:animated];
 }
 
 - (void)customViewDidAppear:(BOOL)animated{
     if ([self p_needSwizzleHandle]) {
-        //umemg
-        [MobClick beginLogPageView:[self className]];
         //rdv
         if (self.navigationController.childViewControllers.count == 1) {
             [self.rdv_tabBarController setTabBarHidden:NO animated:YES];
         }
     }
-    
     [self customViewDidAppear:animated];
 }
 
 
 - (void)customViewDidDisappear:(BOOL)animated{
-    if ([self p_needSwizzleHandle]) {
-        //umeng
-        [MobClick endLogPageView:[self className]];
-    }
     [self customViewDidDisappear:animated];
 }
 
@@ -181,6 +176,10 @@
     if (!self.navigationItem.backBarButtonItem
         && self.navigationController.viewControllers.count > 1) {//设置返回按钮(backBarButtonItem的图片不能设置；如果用leftBarButtonItem属性，则iOS7自带的滑动返回功能会失效)
         self.navigationItem.backBarButtonItem = [self backButton];
+    }
+    if ([self p_needSwizzleHandle]) {
+        //umeng
+        [MobClick endLogPageView:[self className]];
     }
     [self customViewWillDisappear:animated];
 }
