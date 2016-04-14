@@ -85,8 +85,7 @@
         _email.length > 0 &&//是必填项了
         _mobile.length > 0 &&
         _reward_role &&
-//        _acceptNewRewardAllNotification &&
-        _free_time &&
+        (!_acceptNewRewardAllNotification.boolValue || _free_time) &&
         _province;//省、市、区 有一个就好
         //&& _city && _district;
     }

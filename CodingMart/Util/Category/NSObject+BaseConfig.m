@@ -135,7 +135,7 @@
     NSMutableDictionary *baseDictInfo = [self p_baseDictInfo];
     NSString *key = @"rewardStatusBGColorDict";
     if (!baseDictInfo[key]) {
-        baseDictInfo[key] = @{@"4": @"0xEEEEEE",//未开始
+        baseDictInfo[key] = @{@"4": @"0xBBCED7",//未开始
                               @"5": @"0x3BBD79",//招募中
                               @"6": @"0x2FAEEA",//开发中
                               @"7": @"0xCCCCCC",//已结束

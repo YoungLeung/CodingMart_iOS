@@ -186,6 +186,7 @@
 }
 - (IBAction)acceptNewRewardAllNotificationSwitchValueChanged:(UISwitch *)sender {
     self.userInfo.acceptNewRewardAllNotification = @(sender.on);
+    [self.tableView reloadData];
 }
 
 #pragma mark verify_codeBtn Timer
@@ -243,6 +244,10 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return _userInfo? 2: 0;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return section == 0? 6: _userInfo.acceptNewRewardAllNotification.boolValue? 2: 1;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
