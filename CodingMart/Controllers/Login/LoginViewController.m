@@ -165,6 +165,10 @@
 }
 
 - (void)changeBaseURLTip{
+    if ([UIDevice currentDevice].systemVersion.integerValue < 8) {
+        [NSObject showHudTipStr:@"需要 8.0 以上系统才能切换服务器地址"];
+        return;
+    }
     UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:@"更改服务器 URL" message:@"空白值可切换回生产环境" preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction *cancelA = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
