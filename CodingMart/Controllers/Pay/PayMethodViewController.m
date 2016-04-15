@@ -134,6 +134,7 @@
     if (indexPath.section == 0) {
         height = indexPath.row == 0? [PayMethodRewardCell cellHeight]: [PayMethodTipCell cellHeight];
     }else if (indexPath.section == 1){
+//        height = [PayMethodItemCell cellHeight];
         height = indexPath.row == 1? 0: [PayMethodItemCell cellHeight];
     }else{
         height = _curReward.payType < PayMethodBank? [PayMethodInputCell cellHeight]: [PayMethodRemarkCell cellHeight];
