@@ -79,7 +79,7 @@
     NSArray *matchedCaptures;
     NSString *rewardRegexStr = @"/project/([0-9]+)$";
     NSString *rewardPrivateRegexStr = @"/user/p/([0-9]+)$";
-    NSString *userInfoRegexStr = @"/userinfo$";
+    NSString *userInfoRegexStr = @"/user/info$";
     if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:rewardRegexStr]).count > 0){
         NSString *reward_id = matchedCaptures[1];
         resultVC = [RewardDetailViewController vcWithRewardId:reward_id.integerValue];
