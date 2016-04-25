@@ -35,6 +35,8 @@
     [self customizeInterface];
 //    注册 WebView 的UA
     [self registerWebViewUserAgent];
+//    设置 cookie 的 code
+    [NSObject setupCookieCode];
     //App 角标清零
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 //    推送
@@ -60,6 +62,7 @@
     [[MartStartViewManager makeStartView] show];
     [MartStartViewManager refreshStartModel];
     
+//    [[FLEXManager sharedManager] showExplorer];
     return YES;
 }
 

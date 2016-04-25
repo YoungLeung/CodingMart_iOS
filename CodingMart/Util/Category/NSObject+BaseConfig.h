@@ -27,4 +27,6 @@
 + (NSArray *)currentJobList;
 + (NSArray *)careerYearsList;
 
++ (void)setupCookieCode;
+
 @end

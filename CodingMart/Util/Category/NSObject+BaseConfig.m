@@ -6,13 +6,14 @@
 //  Copyright © 2015年 net.coding. All rights reserved.
 //
 
-#define kBaseURLStr @"https://mart.coding.net/"
-#define kCodingURLStr @"https://coding.net/"
+#define kBaseURLStr @"https://mart.coding.net"
+#define kCodingURLStr @"https://coding.net"
 
 
 #import "NSObject+BaseConfig.h"
 #import <sys/utsname.h>
 #import "CodingNetAPIClient.h"
+#import "NSString+Verify.h"
 
 @implementation NSObject (BaseConfig)
 + (NSString *)baseURLStr{
@@ -38,6 +39,7 @@
     [defaults setObject:codingURLStr forKey:kCodingURLStr];
     [defaults synchronize];
     [CodingNetAPIClient changeJsonClient];
+    [self setupCookieCode];
 }
 
 + (BOOL)baseURLStrIsProduction{
@@ -185,4 +187,27 @@
     }
     return baseDictInfo[key];
 }
+
++ (void)setupCookieCode{
+//    设置 staging cookie
+    [NSHTTPCookieStorage sharedHTTPCookieStorage].cookieAcceptPolicy = NSHTTPCookieAcceptPolicyAlways;
+
+    NSURL *baseURL = [NSURL URLWithString:[self baseURLStr]];
+    NSString *domainStr = baseURL.host;
+    if (![domainStr validateIP]) {
+        domainStr = [@"." stringByAppendingString:domainStr];
+    }
+    
+    NSHTTPCookie *cookie_code = [NSHTTPCookie cookieWithProperties:@{NSHTTPCookieName : @"code",
+                                                                     NSHTTPCookieValue : @"ios-audit%3Dtrue%2C5a585154",
+                                                                     NSHTTPCookieDomain : domainStr,
+                                                                     NSHTTPCookiePath : @"/"}];
+    NSHTTPCookie *cookie_exp = [NSHTTPCookie cookieWithProperties:@{NSHTTPCookieName : @"exp",
+                                                                     NSHTTPCookieValue : @"89cd78c2",
+                                                                     NSHTTPCookieDomain : domainStr,
+                                                                     NSHTTPCookiePath : @"/"}];
+    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie_code];
+    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie_exp];
+}
+
 @end

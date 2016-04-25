@@ -10,8 +10,9 @@
 
 @interface NSString (Verify)
 //邮箱
-- (BOOL) validateEmail;
+- (BOOL)validateEmail;
 //手机号码验证
--(BOOL) validateMobile;
-
+-(BOOL)validateMobile;
+//ip 地址
+- (BOOL)validateIP;
 @end
