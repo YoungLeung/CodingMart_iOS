@@ -243,6 +243,7 @@
             }
             self.selectedTabIndex = NSNotFound;
             [weakSelf lazyRefreshData];
+            weakSelf.myTableView.showsInfiniteScrolling = weakSelf.curRewards.canLoadMore;
         }];
     }
 }
