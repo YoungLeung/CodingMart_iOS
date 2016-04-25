@@ -11,17 +11,30 @@
 #import "RewardDetail.h"
 #import "PublishRewardStep1ViewController.h"
 #import "PublishRewardViewController.h"
+#import "RewardPrivate.h"
 
-@interface RewardPrivateViewController ()
-@property (strong, nonatomic) Reward *curReward;
+@interface RewardPrivateViewController ()<UITableViewDataSource, UITableViewDelegate>
+
+@property (strong, nonatomic) RewardPrivate *curRewardP;
+
+@property (weak, nonatomic) IBOutlet UITableView *myTableView;
 
 @end
 
 @implementation RewardPrivateViewController
 
++ (instancetype)storyboardVC{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Independence" bundle:nil];
+    return [storyboard instantiateViewControllerWithIdentifier:@"RewardPrivateViewController"];
+}
+
 + (instancetype)vcWithReward:(Reward *)reward{
-    RewardPrivateViewController *vc = [self new];
-    vc.curReward = reward;
+    RewardPrivateViewController *vc = [self storyboardVC];
+    vc.curRewardP = ({
+        RewardPrivate *r = [RewardPrivate new];
+        r.basicInfo = reward;
+        r;
+    });
     return vc;
 }
 
@@ -30,40 +43,52 @@
     return [self vcWithReward:reward];
 }
 
-- (void)setCurReward:(Reward *)curReward{
-    _curReward = curReward;
-    self.curUrlStr = [NSString stringWithFormat:@"/user/p/%@", _curReward.id.stringValue];
-}
-
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self handleRefresh];
 }
 
 - (void)viewDidLoad {
-    self.titleStr = @"项目详情";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    self.title = @"项目详情";
+    //        refresh
+    [_myTableView addPullToRefreshAction:@selector(handleRefresh) onTarget:self];
 }
 
 - (void)handleRefresh{
-    [super handleRefresh];
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] get_RewardPrivateDetailWithId:self.curReward.id.integerValue block:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] get_RewardPrivateDetailWithId:self.curRewardP.basicInfo.id.integerValue block:^(id data, NSError *error) {
+        [weakSelf.myTableView.pullRefreshCtrl endRefreshing];
         if (data) {
-            weakSelf.curReward = data;
+            weakSelf.curRewardP = data;
+            [weakSelf.myTableView reloadData];
             [weakSelf refreshNav];
         }
     }];
 }
+
+#pragma mark Table
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 0;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 0;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return nil;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+}
+
 #pragma mark - Nav
 - (void)refreshNav{
-    RewardStatus status = _curReward.status.integerValue;
+    RewardStatus status = _curRewardP.basicInfo.status.integerValue;
     if (status == RewardStatusFresh ||
         status == RewardStatusRejected ||
         status == RewardStatusCanceled ||
@@ -74,7 +99,7 @@
     }
 }
 - (void)navBtnClicked:(id)sender{
-    RewardStatus status = _curReward.status.integerValue;
+    RewardStatus status = _curRewardP.basicInfo.status.integerValue;
     __weak typeof(self) weakSelf = self;
     if (status == RewardStatusFresh ||
         status == RewardStatusAccepted) {
@@ -98,7 +123,7 @@
 - (void)cancelPublish{
     __weak typeof(self) weakSelf = self;
     [NSObject showHUDQueryStr:@"正在取消悬赏..."];
-    [[Coding_NetAPIManager sharedManager] post_CancelRewardId:_curReward.id block:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] post_CancelRewardId:_curRewardP.basicInfo.id block:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data) {
             [NSObject showHudTipStr:@"悬赏已取消"];
@@ -108,7 +133,7 @@
 }
 
 - (void)goToRePublish{
-    [self.navigationController pushViewController:[PublishRewardViewController storyboardVCWithReward:_curReward] animated:YES];
+    [self.navigationController pushViewController:[PublishRewardViewController storyboardVCWithReward:_curRewardP.basicInfo] animated:YES];
 }
 
 @end

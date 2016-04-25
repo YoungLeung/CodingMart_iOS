@@ -42,16 +42,6 @@
     // Do any additional setup after loading the view.
 }
 
-//- (void)refresh{
-//    __weak typeof(self) weakSelf = self;
-//    [[Coding_NetAPIManager sharedManager] get_RewardPrivateDetailWithId:self.curReward.id.integerValue block:^(id data, NSError *error) {
-//        if (data) {
-//            weakSelf.curReward = data;
-//            [weakSelf.myTableView reloadData];
-//        }
-//    }];
-//}
-
 #pragma mark - app url
 - (BOOL)p_canOpenWeiXin{
     return [self p_canOpen:@"weixin://"];

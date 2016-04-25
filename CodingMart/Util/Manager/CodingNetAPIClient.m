@@ -100,7 +100,7 @@ static dispatch_once_t onceToken_Coding;
                     block(responseObject, nil);
                 }
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
+                DebugLog(@"\n===========response===========\n%@:\n%@\n%@", aPath, error, operation.responseString);
                 !autoShowError || [NSObject showError:error];
                 if ([Login isLogin]) {
                     id responseObject = [NSObject loadResponseWithPath:localPath];
@@ -118,7 +118,7 @@ static dispatch_once_t onceToken_Coding;
                     block(responseObject, nil);
                 }
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
+                DebugLog(@"\n===========response===========\n%@:\n%@\n%@", aPath, error, operation.responseString);
                 !autoShowError || [NSObject showError:error];
                 block(nil, error);
             }];
@@ -133,7 +133,7 @@ static dispatch_once_t onceToken_Coding;
                     block(responseObject, nil);
                 
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
+                DebugLog(@"\n===========response===========\n%@:\n%@\n%@", aPath, error, operation.responseString);
                 !autoShowError || [NSObject showError:error];
                 block(nil, error);
             }];
@@ -167,7 +167,7 @@ static dispatch_once_t onceToken_Coding;
 ////                }
 //                block(responseObject, nil);
 //            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
+//                DebugLog(@"\n===========response===========\n%@:\n%@\n%@", aPath, error, operation.responseString);
 //                !autoShowError || [NSObject showError:error];
 //                block(nil, error);
 //            }];
@@ -184,7 +184,7 @@ static dispatch_once_t onceToken_Coding;
                     block(responseObject, nil);
                 }
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
+                DebugLog(@"\n===========response===========\n%@:\n%@\n%@", aPath, error, operation.responseString);
                 !autoShowError || [NSObject showError:error];
                 block(nil, error);
             }];
@@ -199,7 +199,7 @@ static dispatch_once_t onceToken_Coding;
                     block(responseObject, nil);
                 }
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
+                DebugLog(@"\n===========response===========\n%@:\n%@\n%@", aPath, error, operation.responseString);
                 !autoShowError || [NSObject showError:error];
                 block(nil, error);
             }];}
@@ -251,7 +251,7 @@ static dispatch_once_t onceToken_Coding;
                 }
 
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
+                DebugLog(@"\n===========response===========\n%@:\n%@\n%@", aPath, error, operation.responseString);
                 [NSObject showError:error];
                 block(nil, error);
             }];
@@ -279,7 +279,7 @@ static dispatch_once_t onceToken_Coding;
     [self POST:aPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         DebugLog(@"\n===========response===========\n%@:\n%@", aPath, responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
+        DebugLog(@"\n===========response===========\n%@:\n%@\n%@", aPath, error, operation.responseString);
     }];
 }
 

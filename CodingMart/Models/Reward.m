@@ -45,14 +45,9 @@
         _typeImageName = [NSString stringWithFormat:@"reward_type_icon_%@", _type.stringValue];
     }
     _statusDisplay = [[NSObject rewardStatusDict] findKeyFromStrValue:self.status.stringValue];
-    
-    __block NSMutableString *roleTypesDisplay = @"".mutableCopy;
-    [_roleTypes enumerateObjectsUsingBlock:^(RewardRoleType *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [roleTypesDisplay appendFormat:idx == 0? @"%@": @"，%@", obj.name];
-    }];
     _statusStrColorHexStr = [[NSObject rewardStatusStrColorDict] objectForKey:_status.stringValue];
     _statusBGColorHexStr = [[NSObject rewardStatusBGColorDict] objectForKey:_status.stringValue];
-    _roleTypesDisplay = roleTypesDisplay;
+    _roleTypesDisplay = [[_roleTypes valueForKey:@"name"] componentsJoinedByString:@"，"];
 }
 + (BOOL)saveDraft:(Reward *)curReward{
     if (!curReward) {

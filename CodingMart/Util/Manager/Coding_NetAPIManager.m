@@ -30,6 +30,7 @@
 #import "SkillPro.h"
 #import "SkillRole.h"
 #import "MartSkill.h"
+#import "RewardPrivate.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -280,12 +281,11 @@
     }];
 }
 - (void)get_RewardPrivateDetailWithId:(NSInteger)rewardId block:(void (^)(id data, NSError *error))block{
-    [[Coding_NetAPIManager sharedManager] get_PublishededRewardListBlock:^(id data, NSError *error) {
-        if (data) {
-            NSPredicate *curPredicate = [NSPredicate predicateWithFormat:@"id.intValue == %d", rewardId];
-            Reward *freshR = [data filteredArrayUsingPredicate:curPredicate].firstObject;
-            block(freshR, error);
-        }
+    NSString *path = [NSString stringWithFormat:@"api/reward/%ld/detail", (long)rewardId];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        data = [NSObject objectOfClass:@"RewardPrivate" fromJSON:data[@"data"]];
+        [(RewardPrivate *)data prepareHandle];
+        block(data, error);
     }];
 }
 

@@ -191,7 +191,12 @@ static const __unused short _base64DecodingTable[256] = {
     if (!dict || ![dict isKindOfClass:[NSDictionary class]]) {
         return nil;
     }
-    id newObject = [[NSClassFromString(object) alloc] init];
+    id newObject;
+    if ([object isEqualToString:@"NSDictionary"] || [object isEqualToString:@"NSMutableDictionary"]) {
+        return dict.mutableCopy;
+    }else{
+       newObject = [[NSClassFromString(object) alloc] init];
+    }
     
     NSDictionary *mapDictionary = [newObject propertyDictionary];
     

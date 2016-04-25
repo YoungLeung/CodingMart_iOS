@@ -6,10 +6,10 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "MartWebViewController.h"
+#import "BaseViewController.h"
 #import "Reward.h"
 
-@interface RewardPrivateViewController : MartWebViewController
+@interface RewardPrivateViewController : BaseViewController
 + (instancetype)vcWithReward:(Reward *)reward;
 + (instancetype)vcWithRewardId:(NSUInteger)rewardId;
 @end
