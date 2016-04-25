@@ -13,6 +13,7 @@
 #import "NSObject+BaseConfig.h"
 #import <sys/utsname.h>
 #import "CodingNetAPIClient.h"
+#import "NSString+Verify.h"
 
 @implementation NSObject (BaseConfig)
 + (NSString *)baseURLStr{
@@ -189,13 +190,24 @@
 
 + (void)setupCookieCode{
 //    设置 staging cookie
-    NSURL *baseURL = [NSURL URLWithString:[self codingURLStr]];
+    [NSHTTPCookieStorage sharedHTTPCookieStorage].cookieAcceptPolicy = NSHTTPCookieAcceptPolicyAlways;
+
+    NSURL *baseURL = [NSURL URLWithString:[self baseURLStr]];
+    NSString *domainStr = baseURL.host;
+    if (![domainStr validateIP]) {
+        domainStr = [@"." stringByAppendingString:domainStr];
+    }
     
-    NSHTTPCookie *stagingCookie = [NSHTTPCookie cookieWithProperties:@{NSHTTPCookieName : @"code",
-                                                                       NSHTTPCookieValue : @"ios-audit%3Dtrue%2C5a585154",
-                                                                       NSHTTPCookieDomain : [NSString stringWithFormat:@".%@", baseURL.host],
-                                                                       NSHTTPCookiePath : @"/"}];
-    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:stagingCookie];
+    NSHTTPCookie *cookie_code = [NSHTTPCookie cookieWithProperties:@{NSHTTPCookieName : @"code",
+                                                                     NSHTTPCookieValue : @"ios-audit%3Dtrue%2C5a585154",
+                                                                     NSHTTPCookieDomain : domainStr,
+                                                                     NSHTTPCookiePath : @"/"}];
+    NSHTTPCookie *cookie_exp = [NSHTTPCookie cookieWithProperties:@{NSHTTPCookieName : @"exp",
+                                                                     NSHTTPCookieValue : @"89cd78c2",
+                                                                     NSHTTPCookieDomain : domainStr,
+                                                                     NSHTTPCookiePath : @"/"}];
+    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie_code];
+    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie_exp];
 }
 
 @end
