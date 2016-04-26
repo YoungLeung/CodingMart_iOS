@@ -37,7 +37,7 @@
         return;
     }
     [_activityIndicator startAnimating];
-    [_imgV sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@api/getCaptcha", [NSObject codingURLStr]]] placeholderImage:nil options:(SDWebImageRetryFailed | SDWebImageRefreshCached | SDWebImageHandleCookies) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    [_imgV sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/api/getCaptcha", [NSObject codingURLStr]]] placeholderImage:nil options:(SDWebImageRetryFailed | SDWebImageRefreshCached | SDWebImageHandleCookies) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         [_activityIndicator stopAnimating];
     }];
 }

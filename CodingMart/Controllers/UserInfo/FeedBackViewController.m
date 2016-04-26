@@ -113,7 +113,7 @@
     }];
 }
 - (void)refreshCaptchaImage{
-    NSString *captcha_path = [NSString stringWithFormat:@"%@api/captcha", [NSObject baseURLStr]];
+    NSString *captcha_path = [NSString stringWithFormat:@"%@/api/captcha", [NSObject baseURLStr]];
     [_j_captchaImgV sd_setImageWithURL:[NSURL URLWithString:captcha_path] placeholderImage:nil options:(SDWebImageRetryFailed | SDWebImageRefreshCached | SDWebImageHandleCookies) completed:nil];
 }
 #pragma mark Table M
