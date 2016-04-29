@@ -334,7 +334,11 @@
     }else if (indexPath.section == 4 &&
               _curRewardP.filesToShow.count > indexPath.row){
         MartFile *curFile = _curRewardP.filesToShow[indexPath.row];
-        [self goToWebVCWithUrlStr:curFile.url title:curFile.filename];
+        if (![curFile isKindOfClass:[MartFile class]]) {
+            [NSObject showHudTipStr:@"无法查看"];
+        }else{
+            [self goToWebVCWithUrlStr:curFile.url title:curFile.filename];
+        }
     }
 }
 
