@@ -13,4 +13,5 @@
 @property (strong, nonatomic) NSString *stage_no, *stage_task, *deadline, *price, *format_price, *status_desc, *stage_file, *stage_file_desc, *modify_file;
 @property (strong, nonatomic) NSString *deadline_timestamp, *deadline_check_timestamp;
 @property (strong, nonatomic) NSDate *finish_time;
+@property (assign, nonatomic) BOOL isExpand, isRewardOwner, isStageOwner;
 @end

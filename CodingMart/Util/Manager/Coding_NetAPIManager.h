@@ -53,6 +53,11 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)get_Order:(NSString *)orderNo block:(void (^)(id data, NSError *error))block;
 - (void)get_SimpleStatisticsBlock:(void (^)(id data, NSError *error))block;
 
+- (void)post_SubmitStageDocument:(NSNumber *)stageId linkStr:(NSString *)linkStr block:(void (^)(id data, NSError *error))block;
+- (void)post_CancelStageDocument:(NSNumber *)stageId block:(void (^)(id data, NSError *error))block;
+- (void)post_AcceptStageDocument:(NSNumber *)stageId block:(void (^)(id data, NSError *error))block;
+- (void)post_RejectStageDocument:(NSNumber *)stageId linkStr:(NSString *)linkStr block:(void (^)(id data, NSError *error))block;
+
 #pragma mark Case
 - (void)get_CaseListWithType:(NSString *)type block:(void (^)(id data, NSError *error))block;
 

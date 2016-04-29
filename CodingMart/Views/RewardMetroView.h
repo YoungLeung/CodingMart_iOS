@@ -11,4 +11,5 @@
 
 @interface RewardMetroView : UIScrollView
 @property (strong, nonatomic) RewardPrivate *curRewardP;
++ (CGFloat)heightWithObj:(id)obj;
 @end

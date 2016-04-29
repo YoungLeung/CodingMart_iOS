@@ -281,11 +281,21 @@
     }];
 }
 - (void)get_RewardPrivateDetailWithId:(NSInteger)rewardId block:(void (^)(id data, NSError *error))block{
-    NSString *path = [NSString stringWithFormat:@"api/reward/%ld/detail", (long)rewardId];
+    NSString *path = [NSString stringWithFormat:@"api/reward/%ld", (long)rewardId];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
-        data = [NSObject objectOfClass:@"RewardPrivate" fromJSON:data[@"data"]];
-        [(RewardPrivate *)data prepareHandle];
-        block(data, error);
+        data = [NSObject objectOfClass:@"Reward" fromJSON:data[@"data"]];
+        if (data) {
+            NSString *pathP = [NSString stringWithFormat:@"api/reward/%ld/detail", (long)rewardId];
+            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:pathP withParams:nil withMethodType:Get andBlock:^(id dataP, NSError *errorP) {
+                dataP = [NSObject objectOfClass:@"RewardPrivate" fromJSON:dataP[@"data"]];
+                [(Reward *)data prepareToDisplay];
+                [(RewardPrivate *)dataP setBasicInfo:data];
+                [(RewardPrivate *)dataP prepareHandle];
+                block(dataP, error);
+            }];
+        }else{
+            block(nil, error);
+        }
     }];
 }
 
@@ -431,6 +441,51 @@
         block(data[@"data"], error);
     }];
 }
+
+- (void)post_SubmitStageDocument:(NSNumber *)stageId linkStr:(NSString *)linkStr block:(void (^)(id data, NSError *error))block{
+    if (!stageId || !linkStr) {
+        block(nil, nil);
+        return;
+    }
+    NSString *path = @"api/stage/handover";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"stageId": stageId, @"file": linkStr} withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+
+- (void)post_CancelStageDocument:(NSNumber *)stageId block:(void (^)(id data, NSError *error))block{
+    if (!stageId) {
+        block(nil, nil);
+        return;
+    }
+    NSString *path = @"api/stage/cancelhandover";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"stageId": stageId} withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+
+- (void)post_AcceptStageDocument:(NSNumber *)stageId block:(void (^)(id data, NSError *error))block{
+    if (!stageId) {
+        block(nil, nil);
+        return;
+    }
+    NSString *path = @"api/stage/check";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"stageId": stageId} withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+
+}
+- (void)post_RejectStageDocument:(NSNumber *)stageId linkStr:(NSString *)linkStr block:(void (^)(id data, NSError *error))block{
+    if (!stageId || !linkStr) {
+        block(nil, nil);
+        return;
+    }
+    NSString *path = @"api/stage/modify";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"stageId": stageId, @"file": linkStr} withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+
 #pragma mark Case
 - (void)get_CaseListWithType:(NSString *)type block:(void (^)(id data, NSError *error))block{
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/cases" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {

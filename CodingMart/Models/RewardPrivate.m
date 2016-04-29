@@ -7,6 +7,7 @@
 //
 
 #import "RewardPrivate.h"
+#import "Login.h"
 
 @implementation RewardPrivate
 - (void)prepareHandle{
@@ -14,7 +15,6 @@
         NSDictionary *maluationDict = _apply.maluation[coder.global_key];
         coder.maluation = [NSObject objectOfClass:@"RewardCoderMaluation" fromJSON:maluationDict];;
     }
-    
     
     NSMutableArray *metroStatus = @[].mutableCopy;
     [[_metro.allStatus allKeys] enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -26,6 +26,39 @@
         return [obj1 compare:obj2];
     }];
     _metro.metroStatus = metroStatus;
+    _filesToShow = [NSObject arrayFromJSON:_prd[@"filesToShow"] ofObjects:@"MartFile"];
     
+    BOOL isRewardOwner = [_basicInfo.owner.global_key isEqualToString:[Login curLoginUser].global_key];
+    for (RewardMetroRole *role in _metro.roles) {
+        BOOL roleHasExpand = NO;
+        BOOL isStageOwner = [role.global_key isEqualToString:[Login curLoginUser].global_key];
+        isStageOwner = YES;
+        for (RewardMetroRoleStage *stage in role.stages) {
+            stage.isRewardOwner = isRewardOwner;
+            stage.isStageOwner = isStageOwner;
+            stage.isExpand = stage.status.integerValue < 3 && !roleHasExpand;
+            if (stage.isExpand) {
+                roleHasExpand = YES;
+            }
+        }
+    }
+}
+
+- (void)dealWithPreRewardP:(RewardPrivate *)rewardP{
+    if (_metro.roles.count == rewardP.metro.roles.count) {
+        for (int indexR = 0; indexR < _metro.roles.count; indexR++) {
+            RewardMetroRole *role = _metro.roles[indexR];
+            RewardMetroRole *rolePre = rewardP.metro.roles[indexR];
+            if (role.stages.count == rolePre.stages.count) {
+                for (int indexS = 0; indexS < role.stages.count; indexS++) {
+                    RewardMetroRoleStage *stage = role.stages[indexS];
+                    RewardMetroRoleStage *stagePre = rolePre.stages[indexS];
+                    if ([stage.id isEqual:stagePre.id]) {
+                        stage.isExpand = stagePre.isExpand;
+                    }
+                }
+            }
+        }
+    }
 }
 @end

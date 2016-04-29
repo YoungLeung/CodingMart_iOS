@@ -11,7 +11,7 @@
 
 @interface RewardMetroRole : NSObject
 @property (strong, nonatomic) NSNumber *id, *total_price;
-@property (strong, nonatomic) NSString *role_name, *description_mine, *assistant_name, *assistant_global_key;
+@property (strong, nonatomic) NSString *role_name, *description_mine, *assistant_name, *assistant_global_key, *role_type, *format_price, *global_key;
 @property (strong, nonatomic) NSArray *stages;
 @property (strong, nonatomic) NSDictionary *propertyArrayMap;
 @end

@@ -7,7 +7,24 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RewardMetroRoleStage.h"
+
+typedef NS_ENUM(NSUInteger, RewardCoderStageViewAction) {
+    RewardCoderStageViewActionDocument,
+    RewardCoderStageViewActionReason,
+    RewardCoderStageViewActionSubmit,
+    RewardCoderStageViewActionCancel,
+    RewardCoderStageViewActionPass,
+    RewardCoderStageViewActionReject,
+};
+
 
 @interface RewardCoderStageView : UIView
+@property (strong, nonatomic) RewardMetroRoleStage *curStage;
+@property (copy, nonatomic) void(^buttonBlock)(RewardMetroRoleStage *stage, RewardCoderStageViewAction actionIndex);
+@property (copy, nonatomic) void(^headerTappedBlock)(RewardMetroRoleStage *stage);
+
++ (instancetype)viewWithStage:(RewardMetroRoleStage *)stage;
++ (CGFloat)heightWithObj:(id)obj;
 
 @end

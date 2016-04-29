@@ -10,6 +10,8 @@
 #import "RewardRoleType.h"
 #import "RewardWinnerInfo.h"
 #import "JoinInfo.h"
+#import "MartFile.h"
+#import "User.h"
 
 typedef NS_ENUM(NSInteger, RewardStatus) {
     RewardStatusFresh = 0,//待审核
@@ -33,12 +35,14 @@ typedef NS_ENUM(NSInteger, PayMethodType) {
 //List
 @property (strong, nonatomic) NSNumber *id, *type, *status, *progress, *price, *duration, *reward_status, *apply_status, *balance, *price_with_fee, *apply_count;
 @property (strong, nonatomic) NSString *format_price, *format_balance, *format_content, *plain_content, *format_price_with_fee;
+@property (strong, nonatomic) MartFile *first_attach_file, *second_attach_file, *require_doc_file;
 @property (strong, nonatomic) NSString *cover, *home;
+@property (strong, nonatomic) User *owner;
 @property (strong, nonatomic) NSMutableArray *roleTypes, *winners;
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
 //Do Publish
 @property (strong, nonatomic) NSNumber *budget, *require_clear, *need_pm;
-@property (strong, nonatomic) NSString *name, *description_mine, *contact_name, *contact_email, *contact_mobile, *first_sample, *second_sample, *first_file, *second_file, *require_doc, *survey_extra, *contact_mobile_code;
+@property (strong, nonatomic) NSString *name, *description_mine, *contact_name, *contact_email, *contact_mobile, *first_sample, *second_sample, *first_file, *second_file, *require_doc, *survey_extra, *contact_mobile_code, *recommend;
 //Display
 @property (strong, nonatomic) NSString *typeDisplay, *typeImageName, *statusDisplay, *roleTypesDisplay, *statusStrColorHexStr, *statusBGColorHexStr;
 //Pay

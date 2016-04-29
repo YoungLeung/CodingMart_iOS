@@ -149,11 +149,10 @@
                                                                   NSURLErrorNotConnectedToInternet == error.code)) {
         kTipAlert(@"网络连接异常：\n%@", urlString);
     }else if ([error.domain isEqualToString:@"WebKitErrorDomain"] && 102 == error.code){
+        kTipAlert(@"无法打开链接：\n%@", urlString);
         NSURL *url = [NSURL URLWithString:urlString];
         if ([[UIApplication sharedApplication] canOpenURL:url]) {
             [[UIApplication sharedApplication] openURL:url];
-        }else{
-            kTipAlert(@"无法打开链接：\n%@", urlString);
         }
     }else if (error.code == -999){
         //加载中断

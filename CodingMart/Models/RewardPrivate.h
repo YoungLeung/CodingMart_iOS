@@ -10,11 +10,14 @@
 #import "Reward.h"
 #import "RewardMetro.h"
 #import "RewardApply.h"
+#import "MartFile.h"
 
 @interface RewardPrivate : NSObject
 @property (strong, nonatomic) Reward *basicInfo;
 @property (strong, nonatomic) RewardMetro *metro;
 @property (strong, nonatomic) RewardApply *apply;
-
+@property (strong, nonatomic, readonly) NSArray *filesToShow;
+@property (strong, nonatomic) NSDictionary *prd;
 - (void)prepareHandle;
+- (void)dealWithPreRewardP:(RewardPrivate *)rewardP;
 @end
