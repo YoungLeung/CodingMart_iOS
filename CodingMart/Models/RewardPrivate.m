@@ -30,9 +30,13 @@
     
     BOOL isRewardOwner = [_basicInfo.owner.global_key isEqualToString:[Login curLoginUser].global_key];
     for (RewardMetroRole *role in _metro.roles) {
+        for (RewardApplyCoder *coder in _apply.coders) {
+            if ([coder.user_id isEqual:role.owner_id]) {
+                role.role_type = coder.role_type;
+            }
+        }
         BOOL roleHasExpand = NO;
-        BOOL isStageOwner = [role.global_key isEqualToString:[Login curLoginUser].global_key];
-        isStageOwner = YES;
+        BOOL isStageOwner = [role.owner_id isEqual:[Login curLoginUser].id];
         for (RewardMetroRoleStage *stage in role.stages) {
             stage.isRewardOwner = isRewardOwner;
             stage.isStageOwner = isStageOwner;
