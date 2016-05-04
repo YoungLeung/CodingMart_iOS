@@ -26,7 +26,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *aboutPrice2;
 @property (weak, nonatomic) IBOutlet UILabel *aboutVersionL;
 @property (weak, nonatomic) IBOutlet UILabel *contactInfoL;
-
+@property (weak, nonatomic) IBOutlet UILabel *processL0;
+@property (weak, nonatomic) IBOutlet UILabel *processL1;
+@property (weak, nonatomic) IBOutlet UILabel *processL2;
 
 @end
 
@@ -84,9 +86,11 @@
     }];
     //内容
     _aboutVersionL.text = [NSString stringWithFormat:@"版本号：V%@", [NSObject appVersion]];
-    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:_contactInfoL.text];
-    [attrStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:[_contactInfoL.text rangeOfString:@"码市科技有限公司"]];
-    _contactInfoL.attributedText = attrStr;
+    [_contactInfoL addAttrDict:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:14]} toStr:@"码市科技有限公司"];
+
+    [_processL0 addAttrDict:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:14]} toStr:@"无忧交付"];
+    [_processL1 addAttrDict:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:14]} toStr:@"便捷跟踪"];
+    [_processL2 addAttrDict:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:14]} toStr:@"无忧质保"];
 }
 
 #pragma mark iCarousel M

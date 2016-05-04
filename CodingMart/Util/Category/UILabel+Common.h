@@ -10,4 +10,7 @@
 
 @interface UILabel (Common)
 - (void)setAttrStrWithStr:(NSString *)text diffColorStr:(NSString *)diffColorStr diffColor:(UIColor *)diffColor;
+- (void)addAttrDict:(NSDictionary *)attrDict toStr:(NSString *)str;
+- (void)addAttrDict:(NSDictionary *)attrDict toRange:(NSRange)range;
+
 @end
