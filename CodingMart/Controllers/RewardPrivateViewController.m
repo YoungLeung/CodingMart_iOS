@@ -25,6 +25,7 @@
 #import "RewardPrivateCoderStagesBlankCell.h"
 #import "PayMethodViewController.h"
 #import "EATextEditView.h"
+#import "Login.h"
 
 
 @interface RewardPrivateViewController ()<UITableViewDataSource, UITableViewDelegate>
@@ -68,7 +69,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"项目详情";
+    self.title = @"";//空
     [_bottomView addLineUp:YES andDown:NO];
     //        refresh
     [_myTableView addPullToRefreshAction:@selector(handleRefresh) onTarget:self];
@@ -332,6 +333,7 @@
         status >= RewardStatusRecruiting &&
         _curRewardP.apply.coders.count > indexPath.row) {//码市分配
         RewardApplyCoder *curCoder = _curRewardP.apply.coders[indexPath.row];
+        DebugLog(@"%@", curCoder.user_name);
     }else if (indexPath.section == 4 &&
               _curRewardP.filesToShow.count > indexPath.row){
         MartFile *curFile = _curRewardP.filesToShow[indexPath.row];
@@ -438,33 +440,26 @@
 
 #pragma mark - Nav
 - (void)refreshNav{
+    BOOL isOwner = [_curRewardP.basicInfo.owner.global_key isEqualToString:[Login curLoginUser].global_key];
     RewardStatus status = _curRewardP.basicInfo.status.integerValue;
-    if (status == RewardStatusFresh ||
-        status == RewardStatusRejected ||
-        status == RewardStatusCanceled ||
-        status == RewardStatusAccepted) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_more"] style:UIBarButtonItemStylePlain target:self action:@selector(navBtnClicked:)];
-    }else{
-        self.navigationItem.rightBarButtonItem = nil;
+    BOOL canEdit = (status == RewardStatusFresh || status == RewardStatusAccepted) && isOwner;
+    NSMutableArray *items = @[].mutableCopy;
+    if (canEdit) {
+        [items addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_more"] style:UIBarButtonItemStylePlain target:self action:@selector(moreBtnClicked:)]];
+        [items addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_edit"] style:UIBarButtonItemStylePlain target:self action:@selector(goToRePublish)]];
     }
+    [items addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_activity"] style:UIBarButtonItemStylePlain target:self action:@selector(goToActivity)]];
+    self.navigationItem.rightBarButtonItems = items;
 }
-- (void)navBtnClicked:(id)sender{
+
+- (void)moreBtnClicked:(id)sender{
     RewardStatus status = _curRewardP.basicInfo.status.integerValue;
     __weak typeof(self) weakSelf = self;
     if (status == RewardStatusFresh ||
         status == RewardStatusAccepted) {
-        [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"编辑悬赏", @"取消发布"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-            if (index == 0) {
-                [weakSelf goToRePublish];
-            }else if (index == 1){
+        [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"取消发布"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            if (index == 0){
                 [weakSelf cancelPublish];
-            }
-        }] showInView:self.view];
-    }else if (status == RewardStatusRejected ||
-              status == RewardStatusCanceled){
-        [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"重新发布"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-            if (index == 0) {
-                [weakSelf goToRePublish];
             }
         }] showInView:self.view];
     }
@@ -484,6 +479,10 @@
 
 - (void)goToRePublish{
     [self.navigationController pushViewController:[PublishRewardViewController storyboardVCWithReward:_curRewardP.basicInfo] animated:YES];
+}
+
+- (void)goToActivity{
+    [self goToWebVCWithUrlStr:[NSString stringWithFormat:@"/user/p/%@#activity", _curRewardP.basicInfo.id.stringValue] title:@"项目动态"];
 }
 
 - (void)goToPayReward:(Reward *)reward{
