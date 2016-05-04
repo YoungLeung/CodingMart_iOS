@@ -16,16 +16,12 @@
 #import "IdentityAuthenticationViewController.h"
 #import "SkillsViewController.h"
 
-//             未认证 0
-//             认证通过 1
-//             认证失败 2
-//             认证中 3
 typedef NS_ENUM(NSInteger, IdentityStatusCode)
 {
-    identity_Unautherized=0,
-    identity_Certificate=1,
-    identity_Authfaild=2,
-    identity_Authing=3
+    identity_Unautherized=0,//未认证
+    identity_Certificate=1,//认证通过
+    identity_Authfaild=2,//认证失败
+    identity_Authing=3//认证中
 };
 
 @interface FillTypesViewController ()
@@ -77,74 +73,28 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
     WEAKSELF
     [[Coding_NetAPIManager sharedManager]get_AppInfo:^(id data, NSError *error)
      {
-         if (data)
-         {
-             NSLog(@"认证状态===[%@]",data);
-//             未认证 0
-//             认证通过 1
-//             认证失败 2
-//             认证中 3
+         if (data){
              NSDictionary *dataDic =data[@"data"];
              NSInteger status=[dataDic[@"status"] integerValue];
              weakSelf.identityCode=status;
-             
-             
-//             if ( weakSelf.identityCode==identity_Certificate)
-//             {
-//                 [weakSelf updateUserLocalStoreWithDic:dataDic];
-//             }
              weakSelf.identity_server_CacheDataDic=data[@"data"];
-             
-             
-             if (weakSelf.identityCode==identity_Authfaild)
-             {
+             if (weakSelf.identityCode==identity_Authfaild){
                  weakSelf.statusCheckV.hidden=YES;
                  weakSelf.identityStatusLabel.hidden=NO;
                  weakSelf.identityStatusLabel.textColor=[UIColor colorWithHexString:@"FF4B80"];
                  weakSelf.identityStatusLabel.text=@"认证失败";
-                 
-//                 IdentityAuthenticationModel *model =[[IdentityAuthenticationModel alloc]initForlocalCache];
-//                 
-//                 if ([[model toParams]allKeys].count<2)
-//                 {
-//                     //没有缓存，用服务器的来更新
-//                     [weakSelf updateUserLocalStoreWithDic:dataDic];
-//                     
-//                 }
-                 
-             }else if(weakSelf.identityCode==identity_Authing)
-             {
+             }else if(weakSelf.identityCode==identity_Authing){
                  weakSelf.statusCheckV.hidden=YES;
                  weakSelf.identityStatusLabel.hidden=NO;
                  weakSelf.identityStatusLabel.textColor=[UIColor colorWithHexString:@"F5A623"];
                  weakSelf.identityStatusLabel.text=@"认证中";
-                 
-                 
-
-             }else
-             {
+             }else{
                  weakSelf.statusCheckV.hidden=NO;
                  weakSelf.identityStatusLabel.hidden=YES;
-    
              }
-             
          }
-         
      }];
 }
-
-//-(void)updateUserLocalStoreWithDic:(NSDictionary *)dataDic
-//{
-// 
-//    IdentityAuthenticationModel *model =[[IdentityAuthenticationModel alloc]initForlocalCache];
-//    model.alipay=dataDic[@"alipay"];
-//    model.identity=dataDic[@"identity"];
-//    model.identity_img_auth=dataDic[@"identity_img_auth"];
-//    model.identity_img_back=dataDic[@"identity_img_back"];
-//    model.identity_img_front=dataDic[@"identity_img_front"];
-//    model.name=dataDic[@"name"];
-//    model.identityIsPass=dataDic[@"status"];
-//}
 
 - (void)setCurUser:(User *)curUser
 {
@@ -162,14 +112,11 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 {
     [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id data, NSError *error)
     {
-      
         FillUserInfo *userInfo = data[@"data"][@"info"]? [NSObject objectOfClass:@"FillUserInfo" fromJSON:data[@"data"][@"info"]]: [FillUserInfo new];
         if (userInfo.name)
         {
             [IdentityAuthenticationModel cacheUserName:userInfo.name];
-//            NSLog(@"成功缓存了用户名====[%@]",userInfo.name);
         }
-       
     }];
 }
 
@@ -177,36 +124,30 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row == 1 &&indexPath.section==0)
-    {
-//        [NSObject showHudTipStr:@"抱歉，技能展示页面暂时不可以用"];
+    if (indexPath.section == 0) {
+        if (indexPath.row == 1) {
+            if (!self.curUser.fullInfo.boolValue) {
+                [NSObject showHudTipStr:@"请先完善个人信息"];
+                return;
+            }
+            [self.navigationController pushViewController:[SkillsViewController storyboardVC] animated:YES];
+        }else if (indexPath.row == 2){
+            CodingMarkTestViewController *vc = [CodingMarkTestViewController storyboardVC];
+            vc.hasPassTheTesting=_curUser.passingSurvey.boolValue;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }else if (indexPath.section == 1){
         if (!self.curUser.fullInfo.boolValue) {
             [NSObject showHudTipStr:@"请先完善个人信息"];
             return;
         }
-        [self.navigationController pushViewController:[SkillsViewController storyboardVC] animated:YES];
-//        FillSkillsViewController *vc = [FillSkillsViewController storyboardVC];
-//        [self.navigationController pushViewController:vc animated:YES];
-    }else if (indexPath.section==1 &&indexPath.row==0)
-    {
-        if (!self.curUser.fullInfo.boolValue) {
-            [NSObject showHudTipStr:@"请先完善个人信息"];
-            return;
-        }
-        
         if (self.identityCode==identity_Authing)
         {
             [NSObject showHudTipStr:@"已提交认证，将在工作日48小时内进行审核"];
             return;
         }
-        
         IdentityAuthenticationViewController *vc = [IdentityAuthenticationViewController storyboardVC];
         vc.identity_server_CacheDataDic=self.identity_server_CacheDataDic;
-        [self.navigationController pushViewController:vc animated:YES];
-    }else if (indexPath.section==2 &&indexPath.row==0)
-    {
-        CodingMarkTestViewController *vc = [CodingMarkTestViewController storyboardVC];
-        vc.hasPassTheTesting=_curUser.passingSurvey.boolValue;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

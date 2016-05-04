@@ -82,9 +82,7 @@
         //顶部提示
         if ([Login isLogin]) {
             User *loginUser = [Login curLoginUser];
-            if (!loginUser.fullInfo.boolValue ||
-                !loginUser.fullSkills.boolValue ||
-                !loginUser.status.boolValue) {
+            if (![loginUser canJoinReward]) {
                 if (!_topTipL) {
                     _topTipL = [UILabel new];
                     _topTipL.textAlignment = NSTextAlignmentCenter;
@@ -103,7 +101,7 @@
                         make.top.equalTo(self.view).offset([self navBottomY]);
                     }];
                 }
-                _topTipL.text = (!loginUser.fullInfo.boolValue || !loginUser.fullSkills.boolValue)? @"未完善个人资料不能参与悬赏，去完善 >>": @"您的账号还未激活，请前往 Coding 网站激活";
+                _topTipL.text = ![loginUser canJoinReward]? @"未完善个人资料不能参与悬赏，去完善 >>": @"您的账号还未激活，请前往 Coding 网站激活";
             }else{
                 [_topTipL removeFromSuperview];
             }
@@ -227,12 +225,9 @@
 
 - (void)bottomBtnClicked:(UIButton *)sender{
     if ([Login isLogin]) {
-        User *loginUser = [Login curLoginUser];
-        if (!loginUser.fullInfo.boolValue || !loginUser.fullSkills.boolValue) {//未完善个人资料
+        if (![[Login curLoginUser] canJoinReward]) {//未完善个人资料
             FillTypesViewController *vc = [FillTypesViewController storyboardVC];
             [self.navigationController pushViewController:vc animated:YES];
-        }else if (!loginUser.status.boolValue){//未激活
-//            [self goToWebVCWithUrlStr:@"https://coding.net/login?phone=phone" title:@"激活账号"];
         }else{//去提交
             if (_rewardDetal) {
                 RewardApplyViewController *vc = [RewardApplyViewController storyboardVC];

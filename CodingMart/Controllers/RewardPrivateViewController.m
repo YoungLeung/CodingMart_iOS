@@ -86,6 +86,7 @@
             [(RewardPrivate *)data dealWithPreRewardP:weakSelf.curRewardP];
             weakSelf.curRewardP = data;
             weakSelf.bottomView.hidden = ![weakSelf.curRewardP.basicInfo needToPay];
+            weakSelf.bottomLabel.text = [NSString stringWithFormat:@"还剩 %@ 未付清", weakSelf.curRewardP.basicInfo.format_balance];
             [weakSelf.myTableView reloadData];
             [weakSelf refreshNav];
         }
