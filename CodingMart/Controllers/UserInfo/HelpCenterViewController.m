@@ -45,10 +45,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
-        NSArray *linkList = @[@"/feedback#common",
-                              @"/feedback#guide",
-                              @"/feedback#requirement",
-                              @"/feedback#developer"];
+        NSArray *linkList = @[@"/help?type=common",
+                              @"/help?type=guide",
+                              @"/help?type=customer",
+                              @"/help?type=developer"];
         if (indexPath.row < linkList.count) {
             NSString *titleStr = nil;
             UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
