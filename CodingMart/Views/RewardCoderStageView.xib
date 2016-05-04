@@ -47,13 +47,13 @@
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="金额：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V8r-Xx-qiQ">
-                    <rect key="frame" x="15" y="146" width="42" height="20"/>
+                    <rect key="frame" x="15" y="146" width="70" height="20"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="风格设计图、图标以及说明" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y6f-in-QiT">
-                    <rect key="frame" x="417" y="84" width="168" height="17"/>
+                    <rect key="frame" x="95" y="84" width="490" height="17"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" red="0.26274509800000001" green="0.2901960784" blue="0.3294117647" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -73,6 +73,7 @@
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="任务描述：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7rB-G0-rsF">
                     <rect key="frame" x="15" y="50" width="70" height="20"/>
                     <constraints>
+                        <constraint firstAttribute="width" constant="70" id="Gbi-pD-uO4"/>
                         <constraint firstAttribute="height" constant="20" id="fui-B4-JFf"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -86,7 +87,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="前期需求整理，确定设计风格" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OKu-Uy-EQC">
-                    <rect key="frame" x="403" y="52" width="182" height="17"/>
+                    <rect key="frame" x="95" y="52" width="490" height="17"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" red="0.26274509800000001" green="0.2901960784" blue="0.3294117647" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -320,6 +321,7 @@
                 <constraint firstItem="V8r-Xx-qiQ" firstAttribute="height" secondItem="7rB-G0-rsF" secondAttribute="height" id="Qeu-2P-QXQ"/>
                 <constraint firstItem="eQT-5t-jw1" firstAttribute="centerY" secondItem="8Jf-wf-sSY" secondAttribute="centerY" id="Qwn-Bj-zuo"/>
                 <constraint firstItem="9CT-D8-OmO" firstAttribute="top" secondItem="V8r-Xx-qiQ" secondAttribute="bottom" constant="12" id="TiA-Ud-lnO"/>
+                <constraint firstItem="OKu-Uy-EQC" firstAttribute="leading" secondItem="7rB-G0-rsF" secondAttribute="trailing" constant="10" id="U9a-2S-8bc"/>
                 <constraint firstAttribute="trailing" secondItem="9CT-D8-OmO" secondAttribute="trailing" constant="15" id="Ujc-yh-WD4"/>
                 <constraint firstItem="HaV-fB-bRs" firstAttribute="centerY" secondItem="Mhc-1e-8xF" secondAttribute="centerY" id="Ypc-16-Mbd"/>
                 <constraint firstItem="xTm-S9-2fm" firstAttribute="height" secondItem="7rB-G0-rsF" secondAttribute="height" id="Z32-sg-uZf"/>
@@ -335,6 +337,7 @@
                 <constraint firstItem="NdC-lb-OaW" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="dnT-ms-zM0"/>
                 <constraint firstAttribute="trailing" secondItem="NdC-lb-OaW" secondAttribute="trailing" constant="15" id="eHB-Ar-dqi"/>
                 <constraint firstAttribute="trailing" secondItem="eQT-5t-jw1" secondAttribute="trailing" constant="15" id="ede-Ge-3Un"/>
+                <constraint firstItem="A92-Y0-j5V" firstAttribute="width" secondItem="7rB-G0-rsF" secondAttribute="width" id="eoI-ex-gw1"/>
                 <constraint firstItem="A92-Y0-j5V" firstAttribute="height" secondItem="7rB-G0-rsF" secondAttribute="height" id="f3n-Ri-fEh"/>
                 <constraint firstAttribute="trailing" secondItem="wU0-xz-VG3" secondAttribute="trailing" constant="15" id="fv8-Oj-94H"/>
                 <constraint firstItem="A92-Y0-j5V" firstAttribute="leading" secondItem="7rB-G0-rsF" secondAttribute="leading" id="iV2-1P-08U"/>
@@ -347,6 +350,9 @@
                 <constraint firstItem="sA6-Xd-JRR" firstAttribute="centerY" secondItem="Mhc-1e-8xF" secondAttribute="centerY" id="rxq-xd-thP"/>
                 <constraint firstItem="A92-Y0-j5V" firstAttribute="top" secondItem="7rB-G0-rsF" secondAttribute="bottom" constant="12" id="wQr-I8-EDN"/>
                 <constraint firstItem="NdC-lb-OaW" firstAttribute="top" secondItem="9CT-D8-OmO" secondAttribute="bottom" constant="50" id="xRN-yD-9b3"/>
+                <constraint firstItem="xTm-S9-2fm" firstAttribute="width" secondItem="7rB-G0-rsF" secondAttribute="width" id="y1q-9g-1y2"/>
+                <constraint firstItem="V8r-Xx-qiQ" firstAttribute="width" secondItem="7rB-G0-rsF" secondAttribute="width" id="z1u-K4-mX7"/>
+                <constraint firstItem="Y6f-in-QiT" firstAttribute="leading" secondItem="A92-Y0-j5V" secondAttribute="trailing" constant="10" id="z5k-z6-MOJ"/>
                 <constraint firstItem="Y6f-in-QiT" firstAttribute="centerY" secondItem="A92-Y0-j5V" secondAttribute="centerY" id="zx3-cs-TcG"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
