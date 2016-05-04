@@ -45,7 +45,7 @@
 #pragma mark - Btn 
 
 - (IBAction)recordBtnClicked:(id)sender {
-    NSString *path = [NSString stringWithFormat:@"/user/p/%@/activity", _curReward.id.stringValue];
+    NSString *path = [NSString stringWithFormat:@"/user/p/%@#activity", _curReward.id.stringValue];
     [self goToWebVCWithUrlStr:path title:@"项目动态"];
 }
 
