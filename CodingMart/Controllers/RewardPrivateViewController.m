@@ -26,7 +26,7 @@
 #import "PayMethodViewController.h"
 #import "EATextEditView.h"
 #import "Login.h"
-
+#import "ApplyCoderViewController.h"
 
 @interface RewardPrivateViewController ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -333,7 +333,8 @@
         status >= RewardStatusRecruiting &&
         _curRewardP.apply.coders.count > indexPath.row) {//码市分配
         RewardApplyCoder *curCoder = _curRewardP.apply.coders[indexPath.row];
-        DebugLog(@"%@", curCoder.user_name);
+        ApplyCoderViewController *vc = [ApplyCoderViewController vcWithCoder:curCoder];
+        [self.navigationController pushViewController:vc animated:YES];
     }else if (indexPath.section == 4 &&
               _curRewardP.filesToShow.count > indexPath.row){
         MartFile *curFile = _curRewardP.filesToShow[indexPath.row];
