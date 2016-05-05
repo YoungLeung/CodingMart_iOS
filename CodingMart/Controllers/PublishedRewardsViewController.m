@@ -116,11 +116,11 @@
 }
 - (void)goToPublicReward:(Reward *)reward{
     if (reward.status.integerValue < RewardStatusPassed) {//「未开始」之前的状态，不能查看公开详情
-        NSArray *statusDisplayList = @[@"待审核",
-                                    @"审核中",
-                                    @"未通过",
-                                    @"已取消"];
-        [NSObject showHudTipStr:[NSString stringWithFormat:@"项目%@，不能查看悬赏详情", statusDisplayList[reward.status.integerValue]]];
+//        NSArray *statusDisplayList = @[@"待审核",
+//                                    @"审核中",
+//                                    @"未通过",
+//                                    @"已取消"];
+//        [NSObject showHudTipStr:[NSString stringWithFormat:@"项目%@，不能查看悬赏详情", statusDisplayList[reward.status.integerValue]]];
         return;
     }
     RewardDetailViewController *vc = [RewardDetailViewController vcWithReward:reward];
