@@ -289,6 +289,7 @@
             [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:pathP withParams:nil withMethodType:Get andBlock:^(id dataP, NSError *errorP) {
                 dataP = [NSObject objectOfClass:@"RewardPrivate" fromJSON:dataP[@"data"]];
                 [(Reward *)data prepareToDisplay];
+                [(Reward *)data setManagerName:[(RewardPrivate *)dataP basicInfo].managerName];
                 [(RewardPrivate *)dataP setBasicInfo:data];
                 [(RewardPrivate *)dataP prepareHandle];
                 block(dataP, error);

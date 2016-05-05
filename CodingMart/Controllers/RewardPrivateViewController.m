@@ -169,7 +169,7 @@
             headerV = [self p_headerViewWithStr:@"码市分配"];
         }
     }else if (section == 3){
-        headerV = [self p_headerViewWithStr:[NSString stringWithFormat:@"阶段列表 | 项目监理：%@", @"手写 null"]];
+        headerV = [self p_headerViewWithStr:[NSString stringWithFormat:@"阶段列表 | 项目监理：%@", _curRewardP.basicInfo.managerName]];
     }else{
         headerV = [self p_headerViewWithStr:@"需求文档"];
     }

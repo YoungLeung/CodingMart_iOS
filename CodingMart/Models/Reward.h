@@ -37,7 +37,7 @@ typedef NS_ENUM(NSInteger, PayMethodType) {
 @property (strong, nonatomic) NSNumber *id, *type, *status, *progress, *price, *duration, *reward_status, *apply_status, *balance, *price_with_fee, *apply_count;
 @property (strong, nonatomic) NSString *format_price, *format_balance, *format_content, *plain_content, *format_price_with_fee;
 @property (strong, nonatomic) MartFile *first_attach_file, *second_attach_file, *require_doc_file;
-@property (strong, nonatomic) NSString *cover, *home;
+@property (strong, nonatomic) NSString *cover, *home, *managerName;
 @property (strong, nonatomic) User *owner;
 @property (strong, nonatomic) NSMutableArray *roleTypes, *winners;
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
