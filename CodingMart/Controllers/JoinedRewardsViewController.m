@@ -130,6 +130,9 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)goToPublicReward:(Reward *)reward{
+    if (reward.status.integerValue < RewardStatusPassed) {//「未开始」之前的状态，不能查看公开详情
+        return;
+    }
     RewardDetailViewController *vc = [RewardDetailViewController vcWithReward:reward];
     [self.navigationController pushViewController:vc animated:YES];
 }
