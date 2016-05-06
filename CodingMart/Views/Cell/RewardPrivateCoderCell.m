@@ -33,6 +33,7 @@
     _nameL.text = _curCoder.name;
     _roleType.text = [NSString stringWithFormat:@"（%@）", _curCoder.role_type];
     _scoreL.text = _curCoder.maluation? [NSString stringWithFormat:@"%.1f 分", _curCoder.maluation.average_point.floatValue]: @"尚未评分";
+    _scoreL.hidden = YES;
 }
 
 + (CGFloat)cellHeight{

@@ -154,7 +154,7 @@
         tipStr = @"项目描述应为 100 - 2000 字";
     }else if (_pro.duty.length < 50 || _pro.duty.length > 1000){
         tipStr = @"我的职责应为 50 - 1000 字";
-    }else if ([_pro.start_time compare:_pro.finish_time] == NSOrderedDescending){
+    }else if (!_pro.until_now.boolValue && [_pro.start_time compare:_pro.finish_time] == NSOrderedDescending){
         tipStr = @"项目结束时间不得早于起始时间";
     }
     if (tipStr.length > 0) {

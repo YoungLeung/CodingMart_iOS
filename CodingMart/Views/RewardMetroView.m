@@ -68,7 +68,7 @@
     }
     NSArray *metroStatus = _curRewardP.metro.metroStatus;
     
-    _statusWidth = (kScreen_Width - _dotStartX* 2)/(metroStatus.count - 1);
+    _statusWidth = (kScreen_Width - _dotStartX* 2 - _dotWidth)/(metroStatus.count - 1);
     _viewHeight = [RewardMetroView heightWithObj:_curRewardP];
     _dotY = _viewHeight/ 2 - 10;
     _statusLY = _dotY + 20;
@@ -131,7 +131,7 @@
             dotPosition = CGPointMake(_dotStartX, _dotY);
             statusLPosition = CGPointMake(_contentPadding, _statusLY);
         }else{
-            CGFloat lineWidth = _statusWidth - 2* (_dotWidth + _dotPadding);
+            CGFloat lineWidth = _statusWidth - _dotWidth - 2* _dotPadding;
             CGPoint linePosition = CGPointMake([(UIView *)_dotList.lastObject right] + _dotPadding, _lineY);
             UIView *lineV = [self p_addLineViewToPosition:linePosition width:lineWidth];
 

@@ -70,6 +70,15 @@
     
     NSString *tipStr = nil;
     NSString *leftTimeStr;
+    
+    NSTimeInterval deadline_check_timestamp = _curStage.deadline_check_timestamp.doubleValue;
+    if (deadline_check_timestamp < 259200000.0* 10) {//30 天
+        deadline_check_timestamp += _curStage.deadline_timestamp.doubleValue;
+    }
+    NSTimeInterval left_timestamp = deadline_check_timestamp - [NSDate date].timeIntervalSince1970;
+    NSInteger day = floor(left_timestamp / 24);
+    NSInteger hour = (NSInteger)left_timestamp % 24;
+    leftTimeStr = day > 0? [NSString stringWithFormat:@"%ld 天 %ld 小时", (long)day, (long)hour]: [NSString stringWithFormat:@"%ld 小时", (long)hour];
     if (_curStage.isRewardOwner) {
         if (status == 1) {
             tipStr = [NSString stringWithFormat:@"还剩 %@", leftTimeStr];

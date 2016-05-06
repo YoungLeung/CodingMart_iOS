@@ -100,6 +100,9 @@
     NotificationCell *cell = [tableView dequeueReusableCellWithIdentifier:curN.hasReason? kCellIdentifier_NotificationCell_0: kCellIdentifier_NotificationCell_1 forIndexPath:indexPath];
     cell.notification = curN;
     cell.linkStrBlock = ^(NSString *linkStr){
+        if (!curN.status.boolValue) {
+            [self p_markN:curN];
+        }
         [self goToLinkStr:linkStr];
     };
     return cell;

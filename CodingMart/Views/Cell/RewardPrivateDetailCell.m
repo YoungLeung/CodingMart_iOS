@@ -32,7 +32,7 @@
 
 - (void)setRewardP:(RewardPrivate *)rewardP{
     _rewardP = rewardP;
-    _descriptionL.text = _rewardP.basicInfo.description_mine;
+    _descriptionL.text = _rewardP.basicInfo.plain_content;
     _durationL.text = [NSString stringWithFormat:@"%@ 天", _rewardP.basicInfo.duration.stringValue];
     
     NSString *sampleStr = _rewardP.basicInfo.first_sample;
