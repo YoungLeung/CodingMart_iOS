@@ -30,6 +30,8 @@
     
     BOOL isRewardOwner = [_basicInfo.owner.global_key isEqualToString:[Login curLoginUser].global_key];
     for (RewardMetroRole *role in _metro.roles) {
+        role.roleColor = [UIColor randomColor];
+        
         for (RewardApplyCoder *coder in _apply.coders) {
             if ([coder.user_id isEqual:role.owner_id]) {
                 role.role_type = coder.role_type;
@@ -40,7 +42,7 @@
         for (RewardMetroRoleStage *stage in role.stages) {
             stage.isRewardOwner = isRewardOwner;
             stage.isStageOwner = isStageOwner;
-            stage.isExpand = stage.status.integerValue < 3 && !roleHasExpand;
+            stage.isExpand = (stage.status.integerValue < 3 && !roleHasExpand) && (isRewardOwner || isStageOwner);
             if (stage.isExpand) {
                 roleHasExpand = YES;
             }
@@ -53,6 +55,7 @@
         for (int indexR = 0; indexR < _metro.roles.count; indexR++) {
             RewardMetroRole *role = _metro.roles[indexR];
             RewardMetroRole *rolePre = rewardP.metro.roles[indexR];
+            role.roleColor = rolePre.roleColor;
             if (role.stages.count == rolePre.stages.count) {
                 for (int indexS = 0; indexS < role.stages.count; indexS++) {
                     RewardMetroRoleStage *stage = role.stages[indexS];

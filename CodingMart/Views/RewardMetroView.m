@@ -114,10 +114,11 @@
         
         for (int indexY = 0; indexY < _curRewardP.metro.roles.count; indexY++) {
             RewardMetroRole *role = _curRewardP.metro.roles[indexY];
-            UIColor *roleColor = [UIColor randomColor];
+            [_stageVList addObject:@[].mutableCopy];
             for (int indexX = 0; indexX < role.stages.count; indexX++) {
                 RewardMetroRoleStage *stage = role.stages[indexX];
-                [self p_addStageVToIndexX:indexX indexY:indexY stage:stage roleColor:roleColor];
+                UIView *stageV =[self p_addStageVToIndexX:indexX indexY:indexY stage:stage roleColor:role.roleColor];
+                [_stageVList[indexY] addObject:stageV];
             }
         }
         [self addSubview:_stageBGView];
@@ -207,10 +208,6 @@
     [stageV addSubview:dotV];
     
     [_stageBGView addSubview:stageV];
-    if (_stageVList.count < indexY + 1) {
-        [_stageVList addObject:@[].mutableCopy];
-    }
-    [_stageVList[indexY] addObject:stageV];
     return stageV;
 }
 

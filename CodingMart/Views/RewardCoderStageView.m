@@ -44,6 +44,9 @@
 
     WEAKSELF;
 
+    BOOL isRewardOwner = _curStage.isRewardOwner;
+    BOOL isStageOwner = _curStage.isStageOwner;
+
     _headerV.backgroundColor = [UIColor colorWithHexString:_curStage.status.integerValue < 3? @"0x4289DB": @"0xC9D6E5"];
     _stage_noL.text = _curStage.stage_no;
     _arrowImageV.transform = CGAffineTransformMakeRotation(_curStage.isExpand? 0: M_PI);
@@ -71,23 +74,23 @@
     NSString *tipStr = nil;
     NSString *leftTimeStr;
     
-    NSTimeInterval deadline_check_timestamp = _curStage.deadline_check_timestamp.doubleValue;
-    if (deadline_check_timestamp < 259200000.0* 10) {//30 天
-        deadline_check_timestamp += _curStage.deadline_timestamp.doubleValue;
+    NSTimeInterval deadline_check_timestamp = _curStage.deadline_timestamp.doubleValue;
+    if (isRewardOwner) {//对于悬赏发布者，加上预留的验收时间
+        deadline_check_timestamp += _curStage.deadline_check_timestamp.doubleValue;
     }
-    NSTimeInterval left_timestamp = deadline_check_timestamp - [NSDate date].timeIntervalSince1970;
-    NSInteger day = floor(left_timestamp / 24);
-    NSInteger hour = (NSInteger)left_timestamp % 24;
-    leftTimeStr = day > 0? [NSString stringWithFormat:@"%ld 天 %ld 小时", (long)day, (long)hour]: [NSString stringWithFormat:@"%ld 小时", (long)hour];
-    if (_curStage.isRewardOwner) {
+    NSTimeInterval left_timestamp = deadline_check_timestamp - [NSDate date].timeIntervalSince1970 * 1000;
+    left_timestamp /= 1000* 60;//分钟
+    NSInteger day = floor(left_timestamp/ 60 / 24);
+    NSInteger hour = (NSInteger)(left_timestamp/ 60) % 24;
+    NSInteger minute = (NSInteger)left_timestamp %60;
+    leftTimeStr = day > 0? [NSString stringWithFormat:@"%ld 天 %ld 小时", (long)day, (long)hour]: [NSString stringWithFormat:@"%ld 小时 %ld 分钟", (long)hour, (long)minute];
+    if (isRewardOwner) {
         if (status == 1) {
             tipStr = [NSString stringWithFormat:@"还剩 %@", leftTimeStr];
         }
-    }else{
-        if (status == 0) {
-            tipStr = [NSString stringWithFormat:@"还剩 %@", leftTimeStr];
-        }else if (status == 2){
-            tipStr = [NSString stringWithFormat:@"再次提交还剩 %@", leftTimeStr];
+    }else if (isStageOwner){
+        if (status == 0 || status == 2) {
+            tipStr = left_timestamp < 0? @"已延期": [NSString stringWithFormat:@"还剩 %@", leftTimeStr];
         }else if (status == 3){
             tipStr = @"该阶段款项将会在3天内到账";
         }
@@ -96,12 +99,11 @@
     _statusTipL.text = tipStr;
     _statusTipV.hidden = !tipStr;
     
-    
     _documentBtn.hidden = !(status != 2 && _curStage.stage_file.length > 0);
     _reasonBtn.hidden = !(status == 2 && _curStage.modify_file.length > 0);;
-    _submitBtn.hidden = !(!_curStage.isRewardOwner && (status == 0 || status == 2));;
-    _cancelBtn.hidden = !(!_curStage.isRewardOwner && status == 1);
-    _passBtn.hidden = _rejectBtn.hidden = !(_curStage.isRewardOwner && status == 1);
+    _submitBtn.hidden = !(!isRewardOwner && isStageOwner && (status == 0 || status == 2));;
+    _cancelBtn.hidden = !(!isRewardOwner && isStageOwner && status == 1);
+    _passBtn.hidden = _rejectBtn.hidden = !(isRewardOwner && status == 1);
     _bottomLineV.hidden = _submitBtn.hidden && _cancelBtn.hidden && _passBtn.hidden && _rejectBtn.hidden;
 }
 
@@ -118,8 +120,9 @@
         if (stage.isExpand) {
             NSInteger status = stage.status.integerValue;
             BOOL isRewardOwner = stage.isRewardOwner;
+            BOOL isStageOwner = stage.isStageOwner;
             if ((isRewardOwner && status == 1) ||//通过、拒绝
-                (!isRewardOwner && (status == 0 || status == 1 || status == 2))) {//提交、撤销提交
+                (!isRewardOwner && isStageOwner && (status == 0 || status == 1 || status == 2))) {//提交、撤销提交
                 height = 290;
             }else{
                 height = 230;
