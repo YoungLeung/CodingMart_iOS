@@ -124,8 +124,8 @@
     if (indexPath.section == 0) {
         height = indexPath.row == 0? [PayMethodRewardCell cellHeight]: [PayMethodTipCell cellHeight];
     }else if (indexPath.section == 1){
-//        height = [PayMethodItemCell cellHeight];
-        height = indexPath.row == 1? 0: [PayMethodItemCell cellHeight];
+        height = [PayMethodItemCell cellHeight];
+//        height = indexPath.row == 1? 0: [PayMethodItemCell cellHeight];
     }else{
         height = _curReward.payType < PayMethodBank? [PayMethodInputCell cellHeight]: [PayMethodRemarkCell cellHeight];
     }
@@ -184,7 +184,7 @@
     if (_curReward.payType >= PayMethodBank) {
         [NSObject showHudTipStr:@"暂时不支持线上转账"];
         return;
-    }else if (_curReward.payType == PayMethodWeiXin && [self p_canOpenWeiXin]){
+    }else if (_curReward.payType == PayMethodWeiXin && ![self p_canOpenWeiXin]){
         [NSObject showHudTipStr:@"您还没有安装「微信」"];
         return;
     }
@@ -217,21 +217,17 @@
 }
 
 - (void)weixinPay{
-    NSDictionary *result = _payDict[@"result"];
-    
     PayReq *req = [PayReq new];
-    req.partnerId = result[@"partnerid"];
-    req.prepayId = result[@"prepayid"];
-    req.nonceStr = result[@"noncestr"];
-    req.timeStamp = [result[@"timestamp"] intValue];
-    req.package = result[@"package"];
-    req.sign = result[@"sign"];
+    req.partnerId = _payDict[@"partnerid"];
+    req.prepayId = _payDict[@"prepayid"];
+    req.nonceStr = _payDict[@"noncestr"];
+    req.timeStamp = [_payDict[@"timestamp"] intValue];
+    req.package = _payDict[@"package"];
+    req.sign = _payDict[@"sign"];
     [WXApi sendReq:req];
 }
 
 - (void)aliPay{
-//    NSDictionary *result = _payDict[@"result"];
-
     __weak typeof(self) weakSelf = self;
     [[AlipaySDK defaultService] payOrder:_payDict[@"order"] fromScheme:kAppScheme callback:^(NSDictionary *resultDic) {
         [weakSelf handleAliResult:resultDic];
