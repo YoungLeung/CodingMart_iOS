@@ -102,11 +102,17 @@
 
 + (instancetype)showHUDQueryStr:(NSString *)titleStr{
     titleStr = titleStr.length > 0? titleStr: @"正在获取数据...";
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:kKeyWindow animated:YES];
-    hud.tag = kHUDQueryViewTag;
+    MBProgressHUD *hud;
+    hud = [kKeyWindow viewWithTag:kHUDQueryViewTag];
+    if (hud) {
+        [hud show:YES];
+    }else{
+        hud = [MBProgressHUD showHUDAddedTo:kKeyWindow animated:YES];
+        hud.tag = kHUDQueryViewTag;
+        hud.labelFont = [UIFont boldSystemFontOfSize:15.0];
+        hud.margin = 10.f;
+    }
     hud.labelText = titleStr;
-    hud.labelFont = [UIFont boldSystemFontOfSize:15.0];
-    hud.margin = 10.f;
     return hud;
 }
 + (NSUInteger)hideHUDQuery{
