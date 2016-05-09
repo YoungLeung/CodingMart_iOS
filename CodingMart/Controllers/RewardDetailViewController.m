@@ -65,16 +65,24 @@
 
 - (void)handleRefresh{
     [super handleRefresh];
-    
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id data0, NSError *error0) {//更新 Login_User 的数据
+    void (^queryDetailBlock)() = ^(){
         [[Coding_NetAPIManager sharedManager] get_RewardDetailWithId:_curReward.id.integerValue block:^(id data, NSError *error) {//获取详细数据
             if (data) {
                 weakSelf.rewardDetal = data;
                 [weakSelf refreshNativeView];
             }
         }];
-    }];
+    };
+    if ([Login isLogin]) {
+        [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id data0, NSError *error0) {//更新 Login_User 的数据
+            if (!error0) {
+                queryDetailBlock();
+            }
+        }];
+    }else{
+        queryDetailBlock();
+    }
 }
 - (void)refreshNativeView{
     UIEdgeInsets contentInset = self.webView.scrollView.contentInset;
