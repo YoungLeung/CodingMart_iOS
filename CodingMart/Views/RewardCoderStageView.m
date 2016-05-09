@@ -75,8 +75,12 @@
     NSString *leftTimeStr;
     
     NSTimeInterval deadline_check_timestamp = _curStage.deadline_timestamp.doubleValue;
-    if (isRewardOwner) {//对于悬赏发布者，加上预留的验收时间
-        deadline_check_timestamp += _curStage.deadline_check_timestamp.doubleValue;
+    if (status == 1) {
+        if (_curStage.deadline_check_timestamp.doubleValue > 259200000.0 * 10) {//259200000（3天） 是个默认值
+            deadline_check_timestamp = _curStage.deadline_check_timestamp.doubleValue;
+        }else{
+            deadline_check_timestamp += _curStage.deadline_check_timestamp.doubleValue;
+        }
     }
     NSTimeInterval left_timestamp = deadline_check_timestamp - [NSDate date].timeIntervalSince1970 * 1000;
     left_timestamp /= 1000* 60;//分钟
@@ -84,9 +88,10 @@
     NSInteger hour = (NSInteger)(left_timestamp/ 60) % 24;
     NSInteger minute = (NSInteger)left_timestamp %60;
     leftTimeStr = day > 0? [NSString stringWithFormat:@"%ld 天 %ld 小时", (long)day, (long)hour]: [NSString stringWithFormat:@"%ld 小时 %ld 分钟", (long)hour, (long)minute];
-    if (isRewardOwner) {
-        if (status == 1) {
-            tipStr = [NSString stringWithFormat:@"还剩 %@", leftTimeStr];
+    
+    if (status == 1) {
+        if (left_timestamp > 0) {
+            tipStr = [NSString stringWithFormat:@"%@后自动确认验收", leftTimeStr];
         }
     }else if (isStageOwner){
         if (status == 0 || status == 2) {
