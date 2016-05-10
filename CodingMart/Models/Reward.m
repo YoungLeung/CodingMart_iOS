@@ -21,6 +21,12 @@
     }
     return self;
 }
+
+- (void)setFormat_content:(NSString *)format_content{
+    _format_content = format_content;
+    _format_contentMedia = [HtmlMedia htmlMediaWithString:format_content showType:MediaShowTypeAll];
+}
+
 - (NSNumber *)status{
     return _status ?: _reward_status;
 }

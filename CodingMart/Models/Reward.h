@@ -12,6 +12,7 @@
 #import "JoinInfo.h"
 #import "MartFile.h"
 #import "User.h"
+#import "HtmlMedia.h"
 
 typedef NS_ENUM(NSInteger, RewardStatus) {
     RewardStatusFresh = 0,//待审核
@@ -39,6 +40,7 @@ typedef NS_ENUM(NSInteger, PayMethodType) {
 @property (strong, nonatomic) MartFile *first_attach_file, *second_attach_file, *require_doc_file;
 @property (strong, nonatomic) NSString *cover, *home, *managerName;
 @property (strong, nonatomic) User *owner;
+@property (strong, nonatomic) HtmlMedia *format_contentMedia;
 @property (strong, nonatomic) NSMutableArray *roleTypes, *winners;
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
 //Do Publish

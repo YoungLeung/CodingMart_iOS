@@ -32,7 +32,7 @@
 
 - (void)setRewardP:(RewardPrivate *)rewardP{
     _rewardP = rewardP;
-    _descriptionL.text = _rewardP.basicInfo.plain_content;
+    _descriptionL.text = _rewardP.basicInfo.format_contentMedia.contentDisplay;
     _durationL.text = [NSString stringWithFormat:@"%@ 天", _rewardP.basicInfo.duration.stringValue];
     
     NSString *sampleStr = _rewardP.basicInfo.first_sample;
@@ -72,7 +72,7 @@
     if ([obj isKindOfClass:[RewardPrivate class]]) {
         RewardPrivate *rewardP = obj;
         CGFloat contentWidth = kScreen_Width - 15* 2 - 15* 2 - 70;
-        CGFloat descriptionHeight = [rewardP.basicInfo.description_mine getHeightWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(contentWidth, CGFLOAT_MAX)];
+        CGFloat descriptionHeight = [rewardP.basicInfo.format_contentMedia.contentDisplay getHeightWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(contentWidth, CGFLOAT_MAX)];
         descriptionHeight = MAX(descriptionHeight, 20);
         cellHeight = descriptionHeight + 180;
     }
