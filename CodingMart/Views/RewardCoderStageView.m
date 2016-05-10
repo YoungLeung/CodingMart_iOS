@@ -100,8 +100,10 @@
 //            tipStr = @"该阶段款项将会在3天内到账";
         }
     }
-    _statusTipBGV.image = [[UIImage imageNamed:@"reward_privete_tip_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(15, 10, 5, 5)];
     _statusTipL.text = tipStr;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        _statusTipBGV.image = [[UIImage imageNamed:_statusTipL.height > 20? @"reward_privete_tip_bg2": @"reward_privete_tip_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(15, 10, 5, 5)];
+    });
     _statusTipV.hidden = !tipStr;
     
     _documentBtn.hidden = !(status != 2 && _curStage.stage_file.length > 0);
