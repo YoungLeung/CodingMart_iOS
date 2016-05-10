@@ -106,7 +106,7 @@
     
     _documentBtn.hidden = !(status != 2 && _curStage.stage_file.length > 0);
     _reasonBtn.hidden = !(status == 2 && _curStage.modify_file.length > 0);;
-    _submitBtn.hidden = !(!isRewardOwner && isStageOwner && (status == 0 || status == 2));;
+    _submitBtn.hidden = !(isStageOwner && (status == 0 || status == 2));;
     _cancelBtn.hidden = !(!isRewardOwner && isStageOwner && status == 1);
     _passBtn.hidden = _rejectBtn.hidden = !(isRewardOwner && status == 1);
     _bottomLineV.hidden = _submitBtn.hidden && _cancelBtn.hidden && _passBtn.hidden && _rejectBtn.hidden;
@@ -127,7 +127,7 @@
             BOOL isRewardOwner = stage.isRewardOwner;
             BOOL isStageOwner = stage.isStageOwner;
             if ((isRewardOwner && status == 1) ||//通过、拒绝
-                (!isRewardOwner && isStageOwner && (status == 0 || status == 1 || status == 2))) {//提交、撤销提交
+                (isStageOwner && (status == 0 || status == 1 || status == 2))) {//提交、撤销提交
                 height = 290;
             }else{
                 height = 230;
