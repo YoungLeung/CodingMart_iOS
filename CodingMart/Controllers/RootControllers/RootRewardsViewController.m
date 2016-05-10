@@ -155,12 +155,12 @@
         return;
     }
     if (!loadMore && self.dataList.count <= 0) {
-        [self.myTableView beginLoading];
+        [self.view beginLoading];
     }
     self.curRewards.willLoadMore = loadMore;
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] get_rewards:self.curRewards block:^(id data, NSError *error) {
-        [weakSelf.myTableView endLoading];
+        [weakSelf.view endLoading];
         [weakSelf.myTableView.pullRefreshCtrl endRefreshing];
         [weakSelf.myTableView.infiniteScrollingView stopAnimating];
 
