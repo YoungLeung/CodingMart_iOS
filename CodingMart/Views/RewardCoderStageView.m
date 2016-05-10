@@ -100,7 +100,7 @@
             tipStr = @"该阶段款项将会在3天内到账";
         }
     }
-    _statusTipBGV.image = [[UIImage imageNamed:@"reward_privete_tip_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 10, 5, 5)];
+    _statusTipBGV.image = [[UIImage imageNamed:@"reward_privete_tip_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(15, 10, 5, 5)];
     _statusTipL.text = tipStr;
     _statusTipV.hidden = !tipStr;
     
