@@ -28,7 +28,7 @@
     _metro.metroStatus = metroStatus;
     _filesToShow = [NSObject arrayFromJSON:_prd[@"filesToShow"] ofObjects:@"MartFile"];
     
-    BOOL isRewardOwner = [_basicInfo.owner.global_key isEqualToString:[Login curLoginUser].global_key];
+    BOOL isRewardOwner = [self isRewardOwner];
     for (RewardMetroRole *role in _metro.roles) {
         role.roleColor = [UIColor randomColor];
         
@@ -67,5 +67,8 @@
             }
         }
     }
+}
+- (BOOL)isRewardOwner{
+    return [_basicInfo.owner.global_key isEqualToString:[Login curLoginUser].global_key];
 }
 @end

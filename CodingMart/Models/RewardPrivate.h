@@ -20,4 +20,5 @@
 @property (strong, nonatomic) NSDictionary *prd;
 - (void)prepareHandle;
 - (void)dealWithPreRewardP:(RewardPrivate *)rewardP;
+- (BOOL)isRewardOwner;
 @end
