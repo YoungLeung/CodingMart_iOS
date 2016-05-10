@@ -66,7 +66,8 @@
     PublishTypeCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_PublishTypeCell forIndexPath:indexPath];
     cell.title = _typeList[indexPath.row];
     cell.imageName = [NSString stringWithFormat:@"icon_publish_type_%@", [NSObject rewardTypeLongDict][_typeList[indexPath.row]]];
-    cell.bottomLineView.hidden = indexPath.row == _typeList.count- 1;
+//    cell.bottomLineView.hidden = indexPath.row == _typeList.count- 1;
+    cell.bottomLineView.hidden = YES;
     return cell;
 }
 
