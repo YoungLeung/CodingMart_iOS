@@ -97,7 +97,7 @@
         if (status == 0 || status == 2) {
             tipStr = left_timestamp < 0? @"已延期": [NSString stringWithFormat:@"还剩 %@", leftTimeStr];
         }else if (status == 3){
-            tipStr = @"该阶段款项将会在3天内到账";
+//            tipStr = @"该阶段款项将会在3天内到账";
         }
     }
     _statusTipBGV.image = [[UIImage imageNamed:@"reward_privete_tip_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(15, 10, 5, 5)];
