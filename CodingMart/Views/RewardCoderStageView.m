@@ -82,7 +82,7 @@
             deadline_check_timestamp += _curStage.deadline_check_timestamp.doubleValue;
         }
     }
-    NSTimeInterval left_timestamp = deadline_check_timestamp - [NSDate date].timeIntervalSince1970 * 1000;
+    NSTimeInterval left_timestamp = deadline_check_timestamp - [NSDate date].timeIntervalSince1970 * 1000 + 86400000;//加一天
     left_timestamp /= 1000* 60;//分钟
     NSInteger day = floor(left_timestamp/ 60 / 24);
     NSInteger hour = (NSInteger)(left_timestamp/ 60) % 24;
