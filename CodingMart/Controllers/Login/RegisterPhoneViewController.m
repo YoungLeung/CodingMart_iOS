@@ -36,8 +36,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.countryCodeDict = @{@"country": @"China",
-                         @"country_code": @"86",
-                         @"iso_code": @"cn"};
+                             @"country_code": @"86",
+                             @"iso_code": @"cn"};
     
     __weak typeof(self) weakSelf = self;
     [_footerL addLinkToStr:@"《码市用户协议》" value:nil hasUnderline:YES clickedBlock:^(id value) {
