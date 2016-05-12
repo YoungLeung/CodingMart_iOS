@@ -26,6 +26,8 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     self.title = @"选择国家或地区";
+    [_mySearchBar setPlaceholder:@"国家/地区名称"];
+
     self.tableView.sectionIndexBackgroundColor = [UIColor clearColor];
     self.tableView.sectionIndexTrackingBackgroundColor = [UIColor clearColor];
     self.tableView.sectionIndexColor = kColorBrandBlue;
@@ -43,9 +45,9 @@
 - (void)p_updateKeyList{
     _keyList = [_searchResults allKeys].mutableCopy;
     [_keyList sortUsingComparator:^NSComparisonResult(NSString * _Nonnull obj1, NSString * _Nonnull obj2) {
-        if ([obj1 isEqualToString:@"常用地区"]) {
+        if ([obj1 isEqualToString:@"#"]) {
             return NSOrderedAscending;
-        }else if ([obj2 isEqualToString:@"常用地区"]){
+        }else if ([obj2 isEqualToString:@"#"]){
             return NSOrderedDescending;
         }else{
             return [obj1 compare:obj2];
@@ -71,11 +73,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
-    if (index == 0) {
-        [tableView setContentOffset:CGPointZero animated:NO];
-        return NSNotFound;
-    }
-    return index;
+    return index > 0? index - 1: index;
 }
 
 -(NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView{
@@ -92,7 +90,7 @@
     UILabel *titleL = [UILabel new];
     titleL.font = [UIFont systemFontOfSize:12];
     titleL.textColor = [UIColor colorWithHexString:@"0x999999"];
-    titleL.text = _keyList[section+ 1];
+    titleL.text = [_keyList[section+ 1] isEqualToString:@"#"]? @"常用地区": _keyList[section+ 1];
     [headerV addSubview:titleL];
     [titleL mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(headerV).insets(UIEdgeInsetsMake(4, 15, 4, 15));
@@ -104,6 +102,10 @@
     CountryCodeCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_CountryCodeCell forIndexPath:indexPath];
     cell.countryCodeDict = _searchResults[_keyList[indexPath.section+ 1]][indexPath.row];
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    cell.separatorInset = UIEdgeInsetsMake(0, 15, 0, (kScreen_Width - cell.contentView.width) + 15);
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -168,8 +170,8 @@
                 [searchResults removeObjectForKey:key];
             }
         }
-        _searchResults = searchResults;
     }
+    _searchResults = searchResults;
     [self p_updateKeyList];
     [self.tableView reloadData];
 }
