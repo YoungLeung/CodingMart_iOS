@@ -60,6 +60,8 @@
     params[@"district"] = _district;
     params[@"acceptNewRewardAllNotification"] = _acceptNewRewardAllNotification.boolValue? @"true": @"false";
     params[@"free_time"] = _free_time;
+    params[@"phoneCountryCode"] = _phoneCountryCode;
+    params[@"country"] = _country;
     return params;
 }
 
@@ -102,7 +104,8 @@
      [NSObject isSameNum:_district to:obj.district] &&
      [NSObject isSameNum:_free_time to:obj.free_time] &&
      [NSObject isSameNum:_reward_role to:obj.reward_role] &&
-     [NSObject isSameNum:_acceptNewRewardAllNotification to:obj.acceptNewRewardAllNotification]
+     [NSObject isSameNum:_acceptNewRewardAllNotification to:obj.acceptNewRewardAllNotification] &&
+     [NSObject isSameStr:_country to:obj.country]
     );
 }
 @end

@@ -140,25 +140,6 @@
     }];
 }
 
-- (void)post_GeneratePhoneCodeWithPhone:(NSString *)phone type:(PurposeType)type block:(void (^)(id data, NSError *error))block{
-    NSString *path;
-    NSDictionary *params = @{@"phone": phone};
-    switch (type) {
-        case PurposeToRegister:
-            path = @"api/account/register/generate_phone_code";
-            break;
-            case PurposeToPasswordActivate:
-            path = @"api/account/activate/generate_phone_code";
-            break;
-            case PurposeToPasswordReset:
-            path = @"api/account/reset_password/generate_phone_code";
-            break;
-    }
-    
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-        block(data, error);
-    }];
-}
 - (void)post_CheckPhoneCodeWithPhone:(NSString *)phone code:(NSString *)code type:(PurposeType)type block:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/account/phone/code/check";
     NSMutableDictionary *params = @{@"phone": phone,
@@ -579,9 +560,10 @@
         block(data, error);
     }];
 }
-- (void)post_UserInfoVerifyCodeWithMobile:(NSString *)mobile block:(void (^)(id data, NSError *error))block{
-    NSString *path = @"api/userinfo/send_verify_code";
-    NSDictionary *params = @{@"mobile": mobile};
+- (void)post_UserInfoVerifyCodeWithMobile:(NSString *)mobile phoneCountryCode:(NSString *)phoneCountryCode block:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/userinfo/send_verify_code_with_country";
+    NSDictionary *params = @{@"mobile": mobile,
+                             @"phoneCountryCode": phoneCountryCode};
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         block(data, error);
     }];

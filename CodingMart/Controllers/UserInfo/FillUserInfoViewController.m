@@ -13,6 +13,7 @@
 #import "LocationViewController.h"
 #import "UIViewController+BackButtonHandler.h"
 #import "ActionSheetStringPicker.h"
+#import "CountryCodeListViewController.h"
 
 @interface FillUserInfoViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *nameF;
@@ -29,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *phoneVerifiedL;
 @property (weak, nonatomic) IBOutlet UIView *codeLineV;
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *submitBtn;
+@property (weak, nonatomic) IBOutlet UILabel *countryCodeL;
 
 @property (nonatomic, strong, readwrite) NSTimer *timer;
 @property (assign, nonatomic) NSTimeInterval durationToValidity;
@@ -86,6 +88,7 @@
                                                               RACObserve(self, userInfo.free_time),
                                                               RACObserve(self, userInfo.reward_role),
                                                               RACObserve(self, userInfo.acceptNewRewardAllNotification),
+                                                              RACObserve(self, userInfo.country),
                                                               ] reduce:^id{
                                                                   BOOL canPost = NO;
                                                                   if ([weakSelf.userInfo canPost:weakSelf.originalUserInfo]) {
@@ -112,6 +115,7 @@
 - (void)setUserInfo:(FillUserInfo *)userInfo{
     _userInfo = userInfo;
     
+    _countryCodeL.text = _userInfo.phoneCountryCode;
     _nameF.text = _userInfo.name;
     _emailF.text = _userInfo.email;
     _phoneF.text = _userInfo.mobile;
@@ -148,6 +152,18 @@
 }
 
 #pragma mark Btn
+
+- (IBAction)countryCodeBtnClicked:(id)sender {
+    CountryCodeListViewController *vc = [CountryCodeListViewController storyboardVC];
+    WEAKSELF;
+    vc.selectedBlock = ^(NSDictionary *countryCodeDict){
+        weakSelf.userInfo.country = countryCodeDict[@"iso_code"];
+        weakSelf.userInfo.phoneCountryCode = [NSString stringWithFormat:@"+%@", countryCodeDict[@"country_code"]];
+        weakSelf.countryCodeL.text = weakSelf.userInfo.phoneCountryCode;
+    };
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 - (void)p_setButton:(UIButton *)button toEnabled:(BOOL)enabled{
     UIColor *foreColor = [UIColor colorWithHexString:enabled? @"0x4289DB": @"0xCCCCCC"];
     button.backgroundColor = foreColor;
@@ -161,7 +177,7 @@
 
 - (IBAction)codeBtnClicked:(id)sender {
     [self p_setButton:_codeBtn toEnabled:NO];
-    [[Coding_NetAPIManager sharedManager] post_UserInfoVerifyCodeWithMobile:_userInfo.mobile block:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] post_UserInfoVerifyCodeWithMobile:_userInfo.mobile phoneCountryCode:_userInfo.phoneCountryCode block:^(id data, NSError *error) {
         if (data) {
             [NSObject showHudTipStr:@"验证码发送成功"];
             [self startUpTimer];

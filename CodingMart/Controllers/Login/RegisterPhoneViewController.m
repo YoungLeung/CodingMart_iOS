@@ -13,6 +13,7 @@
 #import "UITTTAttributedLabel.h"
 #import "Coding_NetAPIManager.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
+#import "CountryCodeListViewController.h"
 
 @interface RegisterPhoneViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *mobileF;
@@ -23,6 +24,10 @@
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *footerBtn;
 @property (weak, nonatomic) IBOutlet UITTTAttributedLabel *footerL;
 
+@property (weak, nonatomic) IBOutlet UILabel *countryCodeL;
+@property (strong, nonatomic) NSDictionary *countryCodeDict;
+
+
 @end
 
 @implementation RegisterPhoneViewController
@@ -30,6 +35,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.countryCodeDict = @{@"country": @"China",
+                         @"country_code": @"86",
+                         @"iso_code": @"cn"};
+    
     __weak typeof(self) weakSelf = self;
     [_footerL addLinkToStr:@"《码市用户协议》" value:nil hasUnderline:YES clickedBlock:^(id value) {
         [weakSelf goToServiceTerms];
@@ -41,14 +50,33 @@
     }];
 }
 
+- (void)setCountryCodeDict:(NSDictionary *)countryCodeDict{
+    _countryCodeDict = countryCodeDict;
+    _countryCodeL.text = [NSString stringWithFormat:@"+%@", _countryCodeDict[@"country_code"]];
+}
+
 #pragma mark - Button
+- (IBAction)countryCodeBtnClicked:(id)sender {
+    CountryCodeListViewController *vc = [CountryCodeListViewController storyboardVC];
+    WEAKSELF;
+    vc.selectedBlock = ^(NSDictionary *countryCodeDict){
+        weakSelf.countryCodeDict = countryCodeDict;
+    };
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+
 - (IBAction)verify_codeBtnClicked:(id)sender {
     if (_mobileF.text.length <= 0) {
         [NSObject showHudTipStr:@"请填写手机号码先"];
         return;
     }
     _verify_codeBtn.enabled = NO;
-    [[Coding_NetAPIManager sharedManager] post_GeneratePhoneCodeWithPhone:_mobileF.text type:PurposeToRegister block:^(id data, NSError *error) {
+    NSDictionary *params = @{@"phone": _mobileF.text,
+                             @"phoneCountryCode": [NSString stringWithFormat:@"+%@", _countryCodeDict[@"country_code"]],
+                             @"from": @"mart"};
+    
+    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/account/register/generate_phone_code" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             [NSObject showHudTipStr:@"验证码发送成功"];
             [self.verify_codeBtn startUpTimer];
@@ -89,6 +117,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.destinationViewController isKindOfClass:[RegisterPasswordViewController class]]) {
         RegisterPasswordViewController *vc = (RegisterPasswordViewController *)segue.destinationViewController;
+        vc.countryCodeDict = _countryCodeDict;
         vc.phone = _mobileF.text;
         vc.code = _verify_codeF.text;
         vc.global_key = _global_keyF.text;

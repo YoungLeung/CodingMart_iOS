@@ -77,7 +77,9 @@
                                     @"phone": _phone,
                                     @"code": _code,
                                     @"password": [_passwordF.text sha1Str],
-                                    @"confirm": [_confirm_passwordF.text sha1Str]}.mutableCopy;
+                                    @"confirm": [_confirm_passwordF.text sha1Str],
+                                    @"phoneCountryCode": [NSString stringWithFormat:@"+%@", _countryCodeDict[@"country_code"]],
+                                    @"country": _countryCodeDict[@"iso_code"]}.mutableCopy;
     if (_captchaNeeded) {
         params[@"j_captcha"] = _captchaCell.textF.text;
     }

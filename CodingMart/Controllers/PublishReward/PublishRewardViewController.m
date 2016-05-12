@@ -19,6 +19,7 @@
 #import "Login.h"
 #import "LoginViewController.h"
 #import "PublishedRewardsViewController.h"
+#import "CountryCodeListViewController.h"
 
 @interface PublishRewardViewController ()
 @property (strong, nonatomic) Reward *rewardToBePublished;
@@ -40,6 +41,8 @@
 @property (weak, nonatomic) IBOutlet UITTTAttributedLabel *agreementL;
 
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *nextStepBtn;
+@property (weak, nonatomic) IBOutlet UILabel *countryCodeL;
+
 @end
 
 @implementation PublishRewardViewController
@@ -167,12 +170,23 @@
 
 #pragma mark - Button
 
+- (IBAction)countryCodeBtnClicked:(id)sender {
+    CountryCodeListViewController *vc = [CountryCodeListViewController storyboardVC];
+    WEAKSELF;
+    vc.selectedBlock = ^(NSDictionary *countryCodeDict){
+        weakSelf.rewardToBePublished.country = countryCodeDict[@"iso_code"];
+        weakSelf.rewardToBePublished.phoneCountryCode = [NSString stringWithFormat:@"+%@", countryCodeDict[@"country_code"]];
+        weakSelf.countryCodeL.text = weakSelf.rewardToBePublished.phoneCountryCode;
+    };
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 - (IBAction)codeBtnClicked:(PhoneCodeButton *)sender {
     if (![_rewardToBePublished.contact_mobile isPhoneNo]) {
         [NSObject showHudTipStr:@"手机号码格式错误"];
     }else{
         sender.enabled = NO;
-        [[Coding_NetAPIManager sharedManager] post_UserInfoVerifyCodeWithMobile:_rewardToBePublished.contact_mobile block:^(id data, NSError *error) {
+        [[Coding_NetAPIManager sharedManager] post_UserInfoVerifyCodeWithMobile:_rewardToBePublished.contact_mobile phoneCountryCode:_rewardToBePublished.phoneCountryCode block:^(id data, NSError *error) {
             if (data) {
                 [NSObject showHudTipStr:@"验证码发送成功"];
                 [sender startUpTimer];

@@ -179,6 +179,9 @@
 		4EB9E6741CCA277200ABBAFC /* RewardCoderStageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB9E6731CCA277200ABBAFC /* RewardCoderStageView.m */; };
 		4EB9E6761CCA278300ABBAFC /* RewardCoderStageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB9E6751CCA278300ABBAFC /* RewardCoderStageView.xib */; };
 		4EB9E6791CCA34FF00ABBAFC /* RewardMetroView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB9E6781CCA34FF00ABBAFC /* RewardMetroView.m */; };
+		4EBD7FA61CE327A300B3AF49 /* country_code.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4EBD7FA51CE327A300B3AF49 /* country_code.plist */; };
+		4EBD7FA91CE3292B00B3AF49 /* CountryCodeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBD7FA81CE3292B00B3AF49 /* CountryCodeListViewController.m */; };
+		4EBD7FAC1CE3509B00B3AF49 /* CountryCodeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBD7FAB1CE3509B00B3AF49 /* CountryCodeCell.m */; };
 		4EBDC28A1BC645990037EB66 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBDC2891BC645990037EB66 /* main.m */; };
 		4EBDC28D1BC645990037EB66 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBDC28C1BC645990037EB66 /* AppDelegate.m */; };
 		4EBDC2A71BC64E140037EB66 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBDC2A61BC64E140037EB66 /* BaseViewController.m */; };
@@ -630,6 +633,11 @@
 		4EB9E6751CCA278300ABBAFC /* RewardCoderStageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RewardCoderStageView.xib; sourceTree = "<group>"; };
 		4EB9E6771CCA34FF00ABBAFC /* RewardMetroView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RewardMetroView.h; sourceTree = "<group>"; };
 		4EB9E6781CCA34FF00ABBAFC /* RewardMetroView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RewardMetroView.m; sourceTree = "<group>"; };
+		4EBD7FA51CE327A300B3AF49 /* country_code.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = country_code.plist; sourceTree = "<group>"; };
+		4EBD7FA71CE3292B00B3AF49 /* CountryCodeListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountryCodeListViewController.h; sourceTree = "<group>"; };
+		4EBD7FA81CE3292B00B3AF49 /* CountryCodeListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountryCodeListViewController.m; sourceTree = "<group>"; };
+		4EBD7FAA1CE3509B00B3AF49 /* CountryCodeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountryCodeCell.h; sourceTree = "<group>"; };
+		4EBD7FAB1CE3509B00B3AF49 /* CountryCodeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountryCodeCell.m; sourceTree = "<group>"; };
 		4EBDC2851BC645990037EB66 /* CodingMart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodingMart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EBDC2891BC645990037EB66 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4EBDC28B1BC645990037EB66 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -1225,6 +1233,8 @@
 				4EDC72791CD0913E00C8C824 /* RewardPrivateCoderStagesBlankCell.m */,
 				4EDC726F1CCF43DE00C8C824 /* RewardPrivateFileCell.h */,
 				4EDC72701CCF43DE00C8C824 /* RewardPrivateFileCell.m */,
+				4EBD7FAA1CE3509B00B3AF49 /* CountryCodeCell.h */,
+				4EBD7FAB1CE3509B00B3AF49 /* CountryCodeCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1504,6 +1514,8 @@
 				4E120A161C9015D90087BDB3 /* MartIntroduceViewController.xib */,
 				4E7D9E0B1CB4F9D000FA5CB5 /* WelcomeViewController.h */,
 				4E7D9E0C1CB4F9D000FA5CB5 /* WelcomeViewController.m */,
+				4EBD7FA71CE3292B00B3AF49 /* CountryCodeListViewController.h */,
+				4EBD7FA81CE3292B00B3AF49 /* CountryCodeListViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1846,6 +1858,7 @@
 		4EDFFF911BCA73C4007DF702 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4EBD7FA51CE327A300B3AF49 /* country_code.plist */,
 				4E1209F91C880B250087BDB3 /* GoogleService-Info.plist */,
 				4EDFFF941BCA73C4007DF702 /* service_terms.html */,
 				4E5B1D721CA530460050B7DB /* publish_agreement.html */,
@@ -1978,6 +1991,7 @@
 				4EDAE3E91BC7BCB000255FE8 /* SVWebViewControllerActivityReport-iPad@2x.png in Resources */,
 				4E2693AA1BC67AD000F9E332 /* ReleaseNotes.txt in Resources */,
 				4EDAE3ED1BC7BCB000255FE8 /* SVWebViewControllerActivitySafari-iPad@2x.png in Resources */,
+				4EBD7FA61CE327A300B3AF49 /* country_code.plist in Resources */,
 				4EDAE3E61BC7BCB000255FE8 /* SVWebViewControllerActivityChrome-iPad@2x.png in Resources */,
 				4EDFFFC91BCA73C4007DF702 /* service_terms.html in Resources */,
 				4E53714C1C55FE8F00479DD3 /* Pay.storyboard in Resources */,
@@ -2152,6 +2166,7 @@
 				4E53715B1C5745A800479DD3 /* PayMethodRemarkCell.m in Sources */,
 				326A29191BF331360002FE94 /* CodingExamModel.m in Sources */,
 				4EDAE4331BC8B8D600255FE8 /* PublishRewardStep3ViewController.m in Sources */,
+				4EBD7FAC1CE3509B00B3AF49 /* CountryCodeCell.m in Sources */,
 				4E36A56D1BE1C4B700BC3ADE /* RewardDetailViewController.m in Sources */,
 				4EDAE4141BC7D69000255FE8 /* KxMenu.m in Sources */,
 				32AB93971BFF1D6C007DF39C /* FlexibleAlignButton.m in Sources */,
@@ -2257,6 +2272,7 @@
 				32C503EC1BF9CC7B0017F02B /* ShowAllanswsViewController.m in Sources */,
 				32AB93981BFF1D6C007DF39C /* KLCPopup.m in Sources */,
 				32AB93A41BFF1E68007DF39C /* ExamCardQuestionCell.m in Sources */,
+				4EBD7FA91CE3292B00B3AF49 /* CountryCodeListViewController.m in Sources */,
 				4E7F6F101C9C1CFA0059C7B0 /* RDVTabBarItem.m in Sources */,
 				4EBDC2D31BC66A630037EB66 /* UIBadgeView.m in Sources */,
 				4E2A0D9E1BC9324F0091CA77 /* UIViewController+Common.m in Sources */,

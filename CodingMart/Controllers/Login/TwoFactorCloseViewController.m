@@ -11,12 +11,16 @@
 #import "PhoneCodeButton.h"
 #import "Coding_NetAPIManager.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
+#import "CountryCodeListViewController.h"
 
 @interface TwoFactorCloseViewController ()
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *footerBtn;
 @property (weak, nonatomic) IBOutlet UITextField *mobileF;
 @property (weak, nonatomic) IBOutlet UITextField *verify_codeF;
 @property (weak, nonatomic) IBOutlet PhoneCodeButton *verify_codeBtn;
+
+@property (weak, nonatomic) IBOutlet UILabel *countryCodeL;
+@property (strong, nonatomic) NSDictionary *countryCodeDict;
 
 @end
 
@@ -25,12 +29,30 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.countryCodeDict = @{@"country": @"China",
+                             @"country_code": @"86",
+                             @"iso_code": @"cn"};
+
     RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[self.mobileF.rac_textSignal, self.verify_codeF.rac_textSignal] reduce:^id(NSString *mobile, NSString *verify_code){
         return @(mobile.length > 0 && verify_code.length > 0);
     }];
 }
 
+- (void)setCountryCodeDict:(NSDictionary *)countryCodeDict{
+    _countryCodeDict = countryCodeDict;
+    _countryCodeL.text = [NSString stringWithFormat:@"+%@", _countryCodeDict[@"country_code"]];
+}
+
 #pragma mark - Button
+- (IBAction)countryCodeBtnClicked:(id)sender {
+    CountryCodeListViewController *vc = [CountryCodeListViewController storyboardVC];
+    WEAKSELF;
+    vc.selectedBlock = ^(NSDictionary *countryCodeDict){
+        weakSelf.countryCodeDict = countryCodeDict;
+    };
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 - (IBAction)verify_codeBtnClicked:(id)sender {
     if (_mobileF.text.length <= 0) {
         [NSObject showHudTipStr:@"请填写手机号码先"];

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment version="2048" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -4666,7 +4666,7 @@
                                         <rect key="frame" x="0.0" y="254.5" width="320" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="C0V-0C-AFG" id="DdV-4S-bkt">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="99.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="工作电话*" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kkA-12-rWI">
@@ -4682,7 +4682,7 @@
                                                     <rect key="frame" x="15" y="47" width="290" height="40"/>
                                                     <subviews>
                                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="电话号码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lxy-xq-pYc">
-                                                            <rect key="frame" x="15" y="10" width="175" height="20"/>
+                                                            <rect key="frame" x="59" y="10" width="130" height="20"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="gMs-HR-WjG"/>
                                                             </constraints>
@@ -4707,18 +4707,48 @@
                                                                 <constraint firstAttribute="width" constant="1" id="5Oe-eK-ADv"/>
                                                             </constraints>
                                                         </view>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6nC-2D-VOW">
+                                                            <rect key="frame" x="50" y="10" width="1" height="20"/>
+                                                            <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="1" id="DxJ-Wm-orc" customClass="NSLayoutConstraintLine"/>
+                                                            </constraints>
+                                                        </view>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+86" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VEW-q0-Qht">
+                                                            <rect key="frame" x="15" y="10" width="27" height="20"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <color key="textColor" red="0.25882352941176467" green="0.53725490196078429" blue="0.85882352941176465" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hww-aA-X5v">
+                                                            <rect key="frame" x="0.0" y="0.0" width="50" height="40"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            <connections>
+                                                                <action selector="countryCodeBtnClicked:" destination="1CQ-gP-BfE" eventType="touchUpInside" id="V5R-EL-Vm6"/>
+                                                            </connections>
+                                                        </button>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.96470588239999999" green="0.96470588239999999" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
-                                                        <constraint firstItem="lxy-xq-pYc" firstAttribute="leading" secondItem="aZF-yw-xGi" secondAttribute="leading" constant="15" id="7aq-TH-Wum"/>
+                                                        <constraint firstItem="lxy-xq-pYc" firstAttribute="centerY" secondItem="VEW-q0-Qht" secondAttribute="centerY" id="1vt-vf-ldk"/>
                                                         <constraint firstItem="lug-bu-Vpo" firstAttribute="centerY" secondItem="lxy-xq-pYc" secondAttribute="centerY" id="87x-jB-ETd"/>
                                                         <constraint firstItem="lxy-xq-pYc" firstAttribute="centerY" secondItem="aZF-yw-xGi" secondAttribute="centerY" id="AVm-Qm-u2L"/>
                                                         <constraint firstItem="KpN-ry-H9q" firstAttribute="top" secondItem="aZF-yw-xGi" secondAttribute="top" id="AYO-Ax-vZl"/>
                                                         <constraint firstAttribute="bottom" secondItem="KpN-ry-H9q" secondAttribute="bottom" id="ERA-vD-AhU"/>
-                                                        <constraint firstItem="lug-bu-Vpo" firstAttribute="leading" secondItem="lxy-xq-pYc" secondAttribute="trailing" constant="15" id="Etd-vN-ovp"/>
+                                                        <constraint firstItem="6nC-2D-VOW" firstAttribute="height" secondItem="VEW-q0-Qht" secondAttribute="height" id="Ggl-0m-gwT"/>
+                                                        <constraint firstItem="6nC-2D-VOW" firstAttribute="centerY" secondItem="VEW-q0-Qht" secondAttribute="centerY" id="I0X-Ds-sPO"/>
+                                                        <constraint firstItem="KpN-ry-H9q" firstAttribute="leading" secondItem="lxy-xq-pYc" secondAttribute="trailing" constant="8" id="IHg-05-Rzt"/>
+                                                        <constraint firstItem="lxy-xq-pYc" firstAttribute="leading" secondItem="6nC-2D-VOW" secondAttribute="trailing" constant="8" id="KlJ-Qn-VzR"/>
+                                                        <constraint firstItem="6nC-2D-VOW" firstAttribute="leading" secondItem="VEW-q0-Qht" secondAttribute="trailing" constant="8" id="LV8-gF-tQV"/>
                                                         <constraint firstAttribute="trailing" secondItem="lug-bu-Vpo" secondAttribute="trailing" constant="15" id="RgF-Yv-1l4"/>
+                                                        <constraint firstItem="VEW-q0-Qht" firstAttribute="leading" secondItem="aZF-yw-xGi" secondAttribute="leading" constant="15" id="T27-i3-46g"/>
+                                                        <constraint firstAttribute="bottom" secondItem="Hww-aA-X5v" secondAttribute="bottom" id="Ujh-zz-xa0"/>
+                                                        <constraint firstItem="6nC-2D-VOW" firstAttribute="leading" secondItem="Hww-aA-X5v" secondAttribute="trailing" id="Xao-5L-FLM"/>
+                                                        <constraint firstItem="Hww-aA-X5v" firstAttribute="leading" secondItem="aZF-yw-xGi" secondAttribute="leading" id="XpG-be-OLX"/>
                                                         <constraint firstItem="lug-bu-Vpo" firstAttribute="leading" secondItem="KpN-ry-H9q" secondAttribute="trailing" constant="7" id="a2i-ue-ckV"/>
                                                         <constraint firstAttribute="height" constant="40" id="cQU-IC-In9"/>
+                                                        <constraint firstItem="lxy-xq-pYc" firstAttribute="height" secondItem="VEW-q0-Qht" secondAttribute="height" id="d4m-57-mo0"/>
+                                                        <constraint firstItem="Hww-aA-X5v" firstAttribute="top" secondItem="aZF-yw-xGi" secondAttribute="top" id="eEj-JT-b0m"/>
                                                     </constraints>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
@@ -5078,6 +5108,7 @@
                         <outlet property="codeBtn" destination="XAn-fX-yhj" id="yIl-Yl-YKz"/>
                         <outlet property="codeF" destination="lug-bu-Vpo" id="XHc-dz-Jni"/>
                         <outlet property="codeLineV" destination="KpN-ry-H9q" id="fpK-hR-bEb"/>
+                        <outlet property="countryCodeL" destination="VEW-q0-Qht" id="Jhd-DS-6dl"/>
                         <outlet property="emailF" destination="Xs0-nP-bPW" id="cUw-0v-lzC"/>
                         <outlet property="freeTimeF" destination="aFQ-f6-QZU" id="pDm-sb-3dx"/>
                         <outlet property="locationF" destination="EMj-pL-5cQ" id="x06-cc-wpx"/>

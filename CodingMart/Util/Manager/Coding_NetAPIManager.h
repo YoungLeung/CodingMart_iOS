@@ -33,7 +33,6 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)post_LoginWith2FA:(NSString *)otpCode andBlock:(void (^)(id data, NSError *error))block;
 - (void)post_Close2FAGeneratePhoneCode:(NSString *)phone block:(void (^)(id data, NSError *error))block;
 - (void)post_Close2FAWithPhone:(NSString *)phone code:(NSString *)code block:(void (^)(id data, NSError *error))block;
-- (void)post_GeneratePhoneCodeWithPhone:(NSString *)phone type:(PurposeType)type block:(void (^)(id data, NSError *error))block;
 - (void)post_CheckPhoneCodeWithPhone:(NSString *)phone code:(NSString *)code type:(PurposeType)type block:(void (^)(id data, NSError *error))block;
 - (void)post_SetPasswordWithPhone:(NSString *)phone code:(NSString *)code password:(NSString *)password captcha:(NSString *)captcha type:(PurposeType)type block:(void (^)(id data, NSError *error))block;
 - (void)post_SetPasswordWithEmail:(NSString *)email captcha:(NSString *)captcha type:(PurposeType)type block:(void (^)(id data, NSError *error))block;
@@ -73,7 +72,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)post_FillUserInfo:(FillUserInfo *)info block:(void (^)(id data, NSError *error))block;
 - (void)post_FillSkills:(FillSkills *)skills block:(void (^)(id data, NSError *error))block;
 - (void)get_LocationListWithParams:(NSDictionary *)params block:(void (^)(id data, NSError *error))block;
-- (void)post_UserInfoVerifyCodeWithMobile:(NSString *)mobile block:(void (^)(id data, NSError *error))block;
+- (void)post_UserInfoVerifyCodeWithMobile:(NSString *)mobile phoneCountryCode:(NSString *)phoneCountryCode block:(void (^)(id data, NSError *error))block;
 - (void)get_SettingNotificationInfoBlock:(void (^)(id data, NSError *error))block;
 - (void)post_SettingNotificationParams:(NSDictionary *)params block:(void (^)(id data, NSError *error))block;
 

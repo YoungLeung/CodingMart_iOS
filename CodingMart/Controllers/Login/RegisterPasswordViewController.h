@@ -10,6 +10,7 @@
 
 @interface RegisterPasswordViewController : BaseTableViewController
 @property (strong, nonatomic) NSString *phone, *code, *global_key;
+@property (strong, nonatomic) NSDictionary *countryCodeDict;
 
 @property (copy, nonatomic) void (^loginSucessBlock)();
 @end
