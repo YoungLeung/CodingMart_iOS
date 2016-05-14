@@ -9,7 +9,7 @@
 #define kPullTotalViewHeight 100.0
 #define kPullBeginLoad_OffsetY kPullTotalViewHeight
 #define kPullLoading_OffsetY 60.0
-
+#define kPull_LoopDuration 1.2
 
 
 
@@ -106,18 +106,27 @@
         }];
         _loopV.alpha = _logoV.alpha = _refreshL.alpha = _sloganL.alpha = 0.0;
         [self updateSlogan];
-        
-        
-        CABasicAnimation *loopTransform = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-        loopTransform.fromValue = @(0.0);
-        loopTransform.toValue = @(-2* M_PI);
-        loopTransform.duration = 1.2;
-        loopTransform.repeatCount = INFINITY;
-        [_loopV.layer addAnimation:loopTransform forKey:@"loopTransform"];
-        _loopV.layer.speed = 0.0;
     }
     return self;
 }
+
+- (void)updateLoopTransform{
+    static NSString *loopTransformKey = @"loopTransformLoading";
+    if (_refreshing) {
+        if (![_loopV.layer animationForKey:loopTransformKey]) {
+            CABasicAnimation *loopTransform = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+            loopTransform.fromValue = @(0.0);
+            loopTransform.toValue = @(-2* M_PI);
+            loopTransform.duration = kPull_LoopDuration;
+            loopTransform.repeatCount = INFINITY;
+            [_loopV.layer addAnimation:loopTransform forKey:loopTransformKey];
+            _loopV.layer.speed = 1.0;
+        }
+    }else{
+        [_loopV.layer removeAnimationForKey:loopTransformKey];
+    }
+}
+
 
 - (void)updateSlogan{
     NSArray *sloganList = @[@"海量认证开发者，精简 IT 建设成本",
@@ -126,15 +135,13 @@
     _sloganL.text = sloganList[rand()%sloganList.count];
 }
 
-- (void)dealloc
-{
+- (void)dealloc{
     [self.scrollView removeObserver:self forKeyPath:@"contentOffset"];
     [self.scrollView removeObserver:self forKeyPath:@"contentInset"];
     self.scrollView = nil;
 }
 
-- (void)willMoveToSuperview:(UIView *)newSuperview
-{
+- (void)willMoveToSuperview:(UIView *)newSuperview{
     [super willMoveToSuperview:newSuperview];
     if (!newSuperview) {
         [self.scrollView removeObserver:self forKeyPath:@"contentOffset"];
@@ -154,24 +161,19 @@
         if (offsetY > 0) {
             return;
         }
-        if (_refreshing) {
-            if (fabs(offsetY + kPullLoading_OffsetY) <= 0.5) {
-                UIEdgeInsets contentInset = self.originalContentInset;
-                contentInset.top += kPullLoading_OffsetY;
-                [self changeScrollViewContentInset:contentInset];
-            }
-        }
         _sloganL.alpha = MIN(1.0, MAX(0, (fabs(offsetY)- kPullLoading_OffsetY)/ (kPullBeginLoad_OffsetY - kPullLoading_OffsetY)));
         _loopV.alpha = _logoV.alpha = _refreshL.alpha = MIN(1.0, fabs(offsetY)/ kPullLoading_OffsetY);
         if (!_refreshing) {
-            _loopV.layer.timeOffset = fabs(offsetY)/ kPullLoading_OffsetY;
+            CGFloat percent = MIN(1.0, fabs(offsetY)/ kPullBeginLoad_OffsetY);
+            _loopV.layer.transform = CATransform3DMakeRotation(percent * 2* M_PI, 0, 0, 1);
         }
         static BOOL isTrackingPre = NO;
         if (_scrollView.isTracking && !_refreshing) {
             isTrackingPre = YES;
             _refreshL.text = fabs(offsetY) > kPullBeginLoad_OffsetY? @"松开刷新": @"下拉刷新";
         }else{
-            if (fabs(offsetY) > kPullBeginLoad_OffsetY && !_refreshing && isTrackingPre) {
+            NSLog(@"%.2f", fabs(offsetY) - kPullBeginLoad_OffsetY);
+            if (fabs(offsetY) > kPullBeginLoad_OffsetY - 15 && !_refreshing && isTrackingPre) {
                 isTrackingPre = NO;
                 [self beginRefreshing];
                 [self sendActionsForControlEvents:UIControlEventValueChanged];
@@ -191,22 +193,28 @@
 - (void)beginRefreshing{
     if (!_refreshing) {
         _refreshing = YES;
-        _loopV.layer.speed = 1.0;
+        [self updateLoopTransform];
         _refreshL.text = @"正在刷新";
+        CGPoint contentOffset = _scrollView.contentOffset;
+        UIEdgeInsets contentInset = self.originalContentInset;
+        contentInset.top += kPullLoading_OffsetY;
+        [self changeScrollViewContentInset:contentInset];
+        [_scrollView setContentOffset:contentOffset animated:NO];
+        contentOffset.y = -self.originalContentInset.top - kPullLoading_OffsetY;
+        [_scrollView setContentOffset:contentOffset animated:YES];
     }
 }
 
 - (void)endRefreshing{
     if (_refreshing) {
         _refreshing = NO;
-        _loopV.layer.speed = 0.0;
+        [self updateLoopTransform];
         CGPoint contentOffset = _scrollView.contentOffset;
         [self changeScrollViewContentInset:self.originalContentInset];
         [_scrollView setContentOffset:contentOffset animated:NO];
         contentOffset.y = -self.originalContentInset.top;
         [_scrollView setContentOffset:contentOffset animated:YES];
     }
-    [self updateSlogan];
 }
 
 @end
