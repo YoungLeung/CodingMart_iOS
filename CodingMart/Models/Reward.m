@@ -95,6 +95,8 @@
     params[@"contact_mobile"] = _contact_mobile;
     params[@"contact_mobile_code"] = _contact_mobile_code;
     params[@"survey_extra"] = _survey_extra;
+    params[@"country"] = _country;
+    params[@"phoneCountryCode"] = _phoneCountryCode;
     if ([_id isKindOfClass:[NSNumber class]]) {
         params[@"id"] = _id;
     }
