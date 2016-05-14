@@ -27,7 +27,7 @@
     // Do any additional setup after loading the view.
     self.title = @"通知中心";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_more"] style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonItemClicked)];
-    [self.tableView addPullToRefreshAction:@selector(refresh) onTarget:self];
+    [self.tableView eaAddPullToRefreshAction:@selector(refresh) onTarget:self];
     
     [self refresh];
 }

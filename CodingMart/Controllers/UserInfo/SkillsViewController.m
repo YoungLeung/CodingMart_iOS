@@ -32,7 +32,7 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    [self.tableView addPullToRefreshAction:@selector(refresh) onTarget:self];
+    [self.tableView eaAddPullToRefreshAction:@selector(refresh) onTarget:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated{

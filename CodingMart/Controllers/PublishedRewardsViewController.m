@@ -34,7 +34,7 @@
     // Do any additional setup after loading the view.
     self.title = @"我发布的悬赏";
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"发布" target:self action:@selector(goToPublish:)];
-    [self.myTableView addPullToRefreshAction:@selector(refresh) onTarget:self];
+    [self.myTableView eaAddPullToRefreshAction:@selector(refresh) onTarget:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated{

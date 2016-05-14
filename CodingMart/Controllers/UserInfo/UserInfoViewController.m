@@ -55,7 +55,7 @@
     [_headerBGV bk_whenTapped:^{
         [weakSelf headerViewTapped];
     }];    
-    [self.tableView addPullToRefreshAction:@selector(refreshData) onTarget:self];
+    [self.tableView eaAddPullToRefreshAction:@selector(refreshData) onTarget:self];
     
     self.curUser = [Login curLoginUser];
     [self refreshData];

@@ -72,7 +72,7 @@
     self.title = @"";//空
     [_bottomView addLineUp:YES andDown:NO];
     //        refresh
-    [_myTableView addPullToRefreshAction:@selector(handleRefresh) onTarget:self];
+    [_myTableView eaAddPullToRefreshAction:@selector(handleRefresh) onTarget:self];
 }
 
 - (void)handleRefresh{

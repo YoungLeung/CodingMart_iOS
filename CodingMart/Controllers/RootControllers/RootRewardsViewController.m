@@ -99,7 +99,7 @@
     [_myTableView registerNib:[UINib nibWithNibName:kCellIdentifier_RewardListCell bundle:nil] forCellReuseIdentifier:kCellIdentifier_RewardListCell];
     _myTableView.rowHeight = [RewardListCell cellHeight];
     //        refresh
-    [_myTableView addPullToRefreshAction:@selector(refreshData) onTarget:self];
+    [_myTableView eaAddPullToRefreshAction:@selector(refreshData) onTarget:self];
     __weak typeof(self) weakSelf = self;
     [_myTableView addInfiniteScrollingWithActionHandler:^{
         [weakSelf refreshDataMore:YES];
@@ -191,7 +191,7 @@
     if (_myTableView.contentOffset.y > contentOffsetY_Top) {
         [_myTableView setContentOffset:CGPointMake(0, contentOffsetY_Top) animated:YES];
     }else if (!_myTableView.pullRefreshCtrl.isRefreshing){
-        [_myTableView triggerPullToRefresh];
+        [_myTableView eaTriggerPullToRefresh];
         [self refreshData];
     }
 }

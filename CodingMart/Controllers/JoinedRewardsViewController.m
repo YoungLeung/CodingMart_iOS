@@ -33,7 +33,7 @@
     // Do any additional setup after loading the view.
     self.title = @"我参与的悬赏";
     _myTableView.rowHeight = [JoinedRewardCell cellHeight];
-    [_myTableView addPullToRefreshAction:@selector(refresh) onTarget:self];
+    [_myTableView eaAddPullToRefreshAction:@selector(refresh) onTarget:self];
     
     [self refresh];
 }

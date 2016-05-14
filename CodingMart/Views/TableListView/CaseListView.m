@@ -40,7 +40,7 @@
             tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 10)];
             tableView;
         });
-        [_myTableView addPullToRefreshAction:@selector(refreshData) onTarget:self];
+        [_myTableView eaAddPullToRefreshAction:@selector(refreshData) onTarget:self];
     }
     return self;
 }

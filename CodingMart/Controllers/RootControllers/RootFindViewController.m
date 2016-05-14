@@ -80,7 +80,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView registerNib:[UINib nibWithNibName:kCellIdentifier_RewardListCell bundle:nil] forCellReuseIdentifier:kCellIdentifier_RewardListCell];
     self.tableView.rowHeight = [RewardListCell cellHeight];
-    [self.tableView addPullToRefreshAction:@selector(refreshData) onTarget:self];
+    [self.tableView eaAddPullToRefreshAction:@selector(refreshData) onTarget:self];
     [self.tableView addInfiniteScrollingWithActionHandler:^{
         [weakSelf refreshDataListMore:YES];
     }];
@@ -149,7 +149,7 @@
     if (self.tableView.contentOffset.y > contentOffsetY_Top) {
         [self.tableView setContentOffset:CGPointMake(0, contentOffsetY_Top) animated:YES];
     }else if (!self.tableView.pullRefreshCtrl.isRefreshing){
-        [self.tableView triggerPullToRefresh];
+        [self.tableView eaTriggerPullToRefresh];
         [self refreshData];
     }
 }
