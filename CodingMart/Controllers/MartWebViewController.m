@@ -15,7 +15,6 @@
 @property (strong, nonatomic, readwrite) UIWebView *webView;
 @property (strong, nonatomic) NJKWebViewProgress *progressProxy;
 @property (strong, nonatomic) NJKWebViewProgressView *progressView;
-@property (strong, nonatomic) UIRefreshControl *myRefreshControl;
 @end
 
 @implementation MartWebViewController
@@ -85,10 +84,7 @@
     };
     
     //UIRefreshControl
-    _myRefreshControl = [UIRefreshControl new];
-    [_myRefreshControl addTarget:self action:@selector(handleRefresh) forControlEvents:UIControlEventValueChanged];
-    [_webView.scrollView addSubview:_myRefreshControl];
-    
+    [_webView.scrollView eaAddPullToRefreshAction:@selector(handleRefresh) onTarget:self];
     //Load
     [_webView loadRequest:_request];
 }
@@ -116,12 +112,12 @@
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-    [_myRefreshControl endRefreshing];
+    [webView.scrollView.pullRefreshCtrl endRefreshing];
     self.title = _titleStr.length > 0? _titleStr: [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-    [_myRefreshControl endRefreshing];
+    [webView.scrollView.pullRefreshCtrl endRefreshing];
     [self handleError:error];
 }
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {

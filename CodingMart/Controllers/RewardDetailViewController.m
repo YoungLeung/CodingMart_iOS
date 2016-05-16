@@ -151,7 +151,7 @@
         [_bottomV removeFromSuperview];
         contentInset.bottom = 0;
     }
-    self.webView.scrollView.contentInset = contentInset;
+    [self.webView.scrollView changeContentInset:contentInset];
 }
 
 - (UIButton *)p_bottomBtnWithTitle:(NSString *)title bgColorHexStr:(NSString *)colorHexStr{

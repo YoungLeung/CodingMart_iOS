@@ -43,6 +43,15 @@
     [self setContentOffset:contentOffset animated:YES];
     [self.pullRefreshCtrl beginRefreshing];
 }
+
+- (void)changeContentInset:(UIEdgeInsets)contentInset{
+    if (self.pullRefreshCtrl) {
+        [self.pullRefreshCtrl changeScrollViewContentInset:contentInset];
+    }else{
+        self.contentInset = contentInset;
+    }
+}
+
 @end
 
 @interface EAPullRefreshControl (){
@@ -172,7 +181,6 @@
             isTrackingPre = YES;
             _refreshL.text = fabs(offsetY) > kPullBeginLoad_OffsetY? @"松开刷新": @"下拉刷新";
         }else{
-            NSLog(@"%.2f", fabs(offsetY) - kPullBeginLoad_OffsetY);
             if (fabs(offsetY) > kPullBeginLoad_OffsetY - 15 && !_refreshing && isTrackingPre) {
                 isTrackingPre = NO;
                 [self beginRefreshing];
@@ -184,7 +192,9 @@
 
 - (void)changeScrollViewContentInset:(UIEdgeInsets)contentInset{
     _ignoreInset = YES;
+    CGPoint contentOffset = _scrollView.contentOffset;//contentInset 的设置会引起 contentOffset 的改变
     _scrollView.contentInset = contentInset;
+    _scrollView.contentOffset = contentOffset;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         _ignoreInset = NO;
     });
@@ -198,22 +208,23 @@
         CGPoint contentOffset = _scrollView.contentOffset;
         UIEdgeInsets contentInset = self.originalContentInset;
         contentInset.top += kPullLoading_OffsetY;
-        [self changeScrollViewContentInset:contentInset];
-        [_scrollView setContentOffset:contentOffset animated:NO];
         contentOffset.y = -self.originalContentInset.top - kPullLoading_OffsetY;
+        [self changeScrollViewContentInset:contentInset];
         [_scrollView setContentOffset:contentOffset animated:YES];
     }
 }
 
 - (void)endRefreshing{
     if (_refreshing) {
-        _refreshing = NO;
-        [self updateLoopTransform];
-        CGPoint contentOffset = _scrollView.contentOffset;
-        [self changeScrollViewContentInset:self.originalContentInset];
-        [_scrollView setContentOffset:contentOffset animated:NO];
-        contentOffset.y = -self.originalContentInset.top;
-        [_scrollView setContentOffset:contentOffset animated:YES];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{//保证非 loading 动画一个最短时间（美观）
+            _refreshing = NO;
+            [self updateLoopTransform];
+            CGPoint contentOffset = _scrollView.contentOffset;
+            [self changeScrollViewContentInset:self.originalContentInset];
+            [_scrollView setContentOffset:contentOffset animated:NO];
+            contentOffset.y = -self.originalContentInset.top;
+            [_scrollView setContentOffset:contentOffset animated:YES];
+        });
     }
 }
 

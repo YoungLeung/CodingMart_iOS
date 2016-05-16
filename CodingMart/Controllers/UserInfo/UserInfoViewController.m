@@ -54,18 +54,16 @@
     __weak typeof(self) weakSelf = self;
     [_headerBGV bk_whenTapped:^{
         [weakSelf headerViewTapped];
-    }];    
-    [self.tableView eaAddPullToRefreshAction:@selector(refreshData) onTarget:self];
+    }];
     
     self.curUser = [Login curLoginUser];
-    [self refreshData];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [self.navigationController.navigationBar setupClearBGStyle];
     _isDisappearForLogin = NO;
-    [self refreshUnReadNotification];
+    [self refreshData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -102,7 +100,6 @@
 - (void)refreshData{
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id data, NSError *error) {
-        [weakSelf.tableView.pullRefreshCtrl endRefreshing];
         weakSelf.curUser = data? data: [Login curLoginUser];
         [weakSelf refreshUnReadNotification];
     }];

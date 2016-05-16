@@ -13,12 +13,14 @@
 @property (strong, nonatomic, readonly) EAPullRefreshControl *pullRefreshCtrl;
 - (void)eaAddPullToRefreshAction:(SEL)action onTarget:(id)target;
 - (void)eaTriggerPullToRefresh;
+- (void)changeContentInset:(UIEdgeInsets)contentInset;
 @end
 
 @interface EAPullRefreshControl : UIControl
 @property (nonatomic, readonly, getter=isRefreshing) BOOL refreshing;
 
 - (instancetype)initInScrollView:(UIScrollView *)scrollView;
+- (void)changeScrollViewContentInset:(UIEdgeInsets)contentInset;
 - (void)beginRefreshing;
 - (void)endRefreshing;
 
