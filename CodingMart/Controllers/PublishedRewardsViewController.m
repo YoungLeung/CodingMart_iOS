@@ -60,7 +60,7 @@
 //                curReward.status = @(random()%(RewardStatusFinished+1));
 //                curReward.price = @(random()%10000);
 //                curReward.price_with_fee = @(curReward.price.floatValue * 1.1);
-//                curReward.balance = @(0.01);
+//                curReward.balance = random()%2? @0.0: @0.01;
 //                curReward.format_price = curReward.price.stringValue;
 //                curReward.format_price_with_fee = curReward.price_with_fee.stringValue;
 //                curReward.format_balance = curReward.balance.stringValue;
@@ -108,7 +108,7 @@
 }
 - (void)goToPrivateReward:(Reward *)reward{
     if (reward.status.integerValue > RewardStatusFinished) {
-        [self goToWebVCWithUrlStr:[NSString stringWithFormat:@"/user/p/%@", reward.id.stringValue] title:@"项目详情"];
+        [self goToWebVCWithUrlStr:[NSString stringWithFormat:@"/user/p/%@", reward.id.stringValue] title:@"项目状态"];
         return;
     }
     RewardPrivateViewController *vc = [RewardPrivateViewController vcWithReward:reward];

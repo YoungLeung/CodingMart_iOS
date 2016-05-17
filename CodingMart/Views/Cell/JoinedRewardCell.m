@@ -17,11 +17,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *typeL;
 @property (weak, nonatomic) IBOutlet UILabel *roleTypesL;
 @property (weak, nonatomic) IBOutlet UILabel *priceL;
-@property (weak, nonatomic) IBOutlet UILabel *durationL;
 @property (weak, nonatomic) IBOutlet UILabel *statusL;
 @property (weak, nonatomic) IBOutlet UILabel *applyStatusL;
 @property (weak, nonatomic) IBOutlet UIButton *editBtn;
 @property (weak, nonatomic) IBOutlet UIView *tapView;
+@property (weak, nonatomic) IBOutlet UILabel *numL;
+@property (weak, nonatomic) IBOutlet UILabel *rewardNumL;
 
 @end
 
@@ -54,11 +55,28 @@
     _typeL.text = _reward.typeDisplay;
     _roleTypesL.text = _reward.roleTypesDisplay;
     _priceL.text = _reward.format_price? _reward.format_price: [NSString stringWithFormat:@"￥%@", _reward.price.stringValue];
-    _durationL.text = _reward.duration.stringValue;
+    //状态颜色
+    static NSArray *textHexStrList;
+    if (!textHexStrList) {
+        textHexStrList = @[@"0x666666",
+                           @"0xF7C45D",
+                           @"0xE94F61",
+                           @"0xDDDDDD",
+                           @"0xA9A9A9",
+                           @"0x64C378",
+                           @"0x2FAEEA",
+                           @"0xBACDD8",
+                           @"0x666666",
+                           ];
+    }
+    _statusL.borderColor =
+    _statusL.textColor = [UIColor colorWithHexString:textHexStrList[_reward.status.integerValue]];
     _statusL.text = _reward.statusDisplay;
     _applyStatusL.text = [[NSObject applyStatusDict] findKeyFromStrValue:_reward.apply_status.stringValue];
-    
+    _numL.text = _reward.status.integerValue == RewardStatusRecruiting? [NSString stringWithFormat:@"%@人报名",_reward.apply_count.stringValue]: nil;
     _editBtn.enabled = (_reward.status.integerValue == RewardStatusRecruiting);
+    _rewardNumL.text = [NSString stringWithFormat:@" No.%@  ", _reward.id.stringValue];
+
 }
 
 + (CGFloat)cellHeight{

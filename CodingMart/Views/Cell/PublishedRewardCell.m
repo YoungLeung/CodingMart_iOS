@@ -16,12 +16,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *typeL;
 @property (weak, nonatomic) IBOutlet UILabel *roleTypesL;
 @property (weak, nonatomic) IBOutlet UILabel *priceL;
-@property (weak, nonatomic) IBOutlet UILabel *durationL;
 @property (weak, nonatomic) IBOutlet UILabel *statusL;
 @property (weak, nonatomic) IBOutlet UIView *tapView;
 @property (weak, nonatomic) IBOutlet UILabel *payTipL;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tipLineHeight;
-@property (weak, nonatomic) IBOutlet UILabel *allPaidL;
+@property (weak, nonatomic) IBOutlet UILabel *rewardNumL;
+@property (weak, nonatomic) IBOutlet UILabel *numL;
+@property (weak, nonatomic) IBOutlet UIImageView *allPaidV;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *priceBottomConstraint;
 
 @end
 
@@ -29,8 +30,6 @@
 
 - (void)awakeFromNib {
     // Initialization code
-    _durationL.textColor = [UIColor colorWithHexString:@"0xFF497F"];
-    _tipLineHeight.constant = 1.0/[[UIScreen mainScreen] scale];
     __weak typeof(self) weakSelf = self;
     [_tapView bk_whenTapped:^{
         if (weakSelf.goToPublicRewardBlock) {
@@ -54,7 +53,6 @@
     _typeL.text = _reward.typeDisplay;
     _roleTypesL.text = _reward.roleTypesDisplay;
     _priceL.text = _reward.format_price;
-    _durationL.text = _reward.duration.stringValue;
     _statusL.text = _reward.statusDisplay;
     if (_payTipL) {
         _payTipL.attributedText = [self p_payTipStr];
@@ -74,13 +72,16 @@
                            ];
     }
     _statusL.textColor = [UIColor colorWithHexString:textHexStrList[_reward.status.integerValue]];
-    _allPaidL.hidden = !(_reward.balance.floatValue == 0 && _reward.price.floatValue > 0);
+    _allPaidV.hidden = !(_reward.balance.floatValue == 0 && _reward.price.floatValue > 0);
+    _rewardNumL.text = [NSString stringWithFormat:@" No.%@  ", _reward.id.stringValue];
+    _numL.text = _reward.status.integerValue == RewardStatusRecruiting? [NSString stringWithFormat:@"%@人报名",_reward.apply_count.stringValue]: nil;
+    _priceBottomConstraint.constant = _reward.roleTypesDisplay.length > 0? 0: -20;
 }
 
 - (NSAttributedString *)p_payTipStr{
     NSString *tipStr = [NSString stringWithFormat:@"温馨提示：还剩 %@ 未支付，请尽快支付！", _reward.format_balance];
     NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:tipStr];;
-    [attrStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"0xFF497F"] range:[tipStr rangeOfString:_reward.format_balance]];
+    [attrStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"0xF5A623"] range:[tipStr rangeOfString:_reward.format_balance]];
     return attrStr;
 }
 
