@@ -163,7 +163,6 @@
     if ([keyPath isEqualToString:@"contentInset"]) {
         if (!_ignoreInset) {
             self.originalContentInset = [[change objectForKey:@"new"] UIEdgeInsetsValue];
-            [self observeValueForKeyPath:@"contentOffset" ofObject:object change:@{@"kind": @1, @"new": [NSValue valueWithCGPoint:_scrollView.contentOffset]} context:context];
         }
     }else if ([keyPath isEqualToString:@"contentOffset"]){
         CGFloat offsetY = [[change objectForKey:@"new"] CGPointValue].y + self.originalContentInset.top;
