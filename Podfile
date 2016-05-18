@@ -1,6 +1,8 @@
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '7.0'
 
+target 'CodingMart' do
+    
 pod 'RegexKitLite-NoWarning', '1.1.0'
 pod 'TPKeyboardAvoiding', '1.2.9'
 pod 'BlocksKit', '2.2.5'
@@ -21,3 +23,5 @@ pod 'UMengAnalytics-NO-IDFA', '3.6.5'
 pod 'Google/Analytics', '~> 1.0.0'
 pod 'hpple', '0.2.0'
 pod 'FLEX', '~> 2.0', :configurations => ['Debug']
+
+end
