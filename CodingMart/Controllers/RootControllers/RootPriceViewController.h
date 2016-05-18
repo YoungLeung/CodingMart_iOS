@@ -10,4 +10,6 @@
 
 @interface RootPriceViewController : BaseViewController
 
++ (instancetype)storyboardVC;
+
 @end

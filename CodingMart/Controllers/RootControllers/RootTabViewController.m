@@ -35,7 +35,7 @@
     
     RootPublishViewController *publishVC = [RootPublishViewController vcInStoryboard:rootStoryboardName];
     
-    RootPriceViewController *priceVC = [[RootPriceViewController alloc] init];
+    RootPriceViewController *priceVC = [RootPriceViewController storyboardVC];
     
     UserInfoViewController *userVC = [UserInfoViewController storyboardVC];
     

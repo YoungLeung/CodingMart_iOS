@@ -14,6 +14,11 @@
 
 @implementation RootPriceViewController
 
++ (instancetype)storyboardVC {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PriceSystem" bundle:nil];
+    return [storyboard instantiateViewControllerWithIdentifier:@"RootPriceViewController"];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
