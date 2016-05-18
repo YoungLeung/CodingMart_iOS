@@ -10,6 +10,7 @@
 #import "RootFindViewController.h"
 #import "RootPublishViewController.h"
 #import "RootRewardsViewController.h"
+#import "RootPriceViewController.h"
 #import "UserInfoViewController.h"
 #import "RDVTabBarItem.h"
 
@@ -34,11 +35,14 @@
     
     RootPublishViewController *publishVC = [RootPublishViewController vcInStoryboard:rootStoryboardName];
     
+    RootPriceViewController *priceVC = [[RootPriceViewController alloc] init];
+    
     UserInfoViewController *userVC = [UserInfoViewController storyboardVC];
     
     self.viewControllers = @[[self p_navWithRootVC:rewardsVC],
                              [self p_navWithRootVC:findVC],
                              [self p_navWithRootVC:publishVC],
+                             [self p_navWithRootVC:priceVC],
                              [self p_navWithRootVC:userVC]];
     [self customizeTabBarForController];
     self.delegate = self;
@@ -49,8 +53,8 @@
 }
 
 - (void)customizeTabBarForController {
-    NSArray *tabBarItemImages = @[@"tab_rewards", @"tab_find", @"tab_publish", @"tab_user"];
-    NSArray *tabBarItemTitles = @[@"首页", @"发现", @"发布", @"个人中心"];
+    NSArray *tabBarItemImages = @[@"tab_rewards", @"tab_find", @"tab_publish", @"tab_price", @"tab_user"];
+    NSArray *tabBarItemTitles = @[@"首页", @"发现", @"发布", @"报价", @"个人中心"];
     NSInteger index = 0;
     for (RDVTabBarItem *item in self.tabBar.items) {
         item.titlePositionAdjustment = UIOffsetMake(0, 3);
