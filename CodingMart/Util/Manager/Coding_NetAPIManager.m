@@ -57,25 +57,6 @@
         }
     }];
 }
-- (void)post_QuickGeneratePhoneCodeWithMobile:(NSString *)mobile block:(void (^)(id data, NSError *error))block{
-    NSString *path = @"api/app/verify_code";
-    NSDictionary *params = @{@"mobile": mobile};
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-        block(data, error);
-    }];
-}
-- (void)post_QuickLoginWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code block:(void (^)(id data, NSError *error))block{
-    NSString *path = @"api/app/fastlogin";
-    NSDictionary *params = @{@"mobile": mobile,
-                             @"verify_code": verify_code,
-                             @"channel": kRegisterChannel};
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-        if (data) {
-            [Login doLogin:nil];
-        }
-        block(data, error);
-    }];
-}
 - (void)get_CheckGK:(NSString *)golbal_key block:(void (^)(id data, NSError *error))block{
     [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/user/check" withParams:@{@"key": golbal_key} withMethodType:Get andBlock:^(id data, NSError *error) {
         block(data, error);
@@ -158,25 +139,6 @@
     
     [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         block(data, error);
-    }];
-}
-- (void)post_SetPasswordWithEmail:(NSString *)email captcha:(NSString *)captcha type:(PurposeType)type block:(void (^)(id data, NSError *error))block{
-    NSString *path;
-    NSDictionary *params = @{@"email": email,
-                             @"j_captcha": captcha};
-    switch (type) {
-        case PurposeToPasswordActivate:
-            path = @"api/activate";
-            break;
-        case PurposeToPasswordReset:
-            path = @"api/resetPassword";
-            break;
-        default:
-            path = nil;
-            break;
-    }
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
-        block(data, nil);
     }];
 }
 #pragma mark Reward

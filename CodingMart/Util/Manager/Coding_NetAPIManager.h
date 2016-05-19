@@ -23,9 +23,6 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 #pragma mark Login
 - (void)get_CurrentUserBlock:(void (^)(id data, NSError *error))block;
 
-- (void)post_QuickGeneratePhoneCodeWithMobile:(NSString *)mobile block:(void (^)(id data, NSError *error))block;
-- (void)post_QuickLoginWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code block:(void (^)(id data, NSError *error))block;
-
 - (void)get_CheckGK:(NSString *)golbal_key block:(void (^)(id data, NSError *error))block;
 - (void)get_LoginCaptchaIsNeededBlock:(void (^)(id data, NSError *error))block;
 - (void)get_RegisterCaptchaIsNeededBlock:(void (^)(id data, NSError *error))block;
@@ -34,7 +31,6 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)post_Close2FAGeneratePhoneCode:(NSString *)phone block:(void (^)(id data, NSError *error))block;
 - (void)post_Close2FAWithPhone:(NSString *)phone code:(NSString *)code block:(void (^)(id data, NSError *error))block;
 - (void)post_CheckPhoneCodeWithPhone:(NSString *)phone code:(NSString *)code type:(PurposeType)type block:(void (^)(id data, NSError *error))block;
-- (void)post_SetPasswordWithEmail:(NSString *)email captcha:(NSString *)captcha type:(PurposeType)type block:(void (^)(id data, NSError *error))block;
 
 #pragma mark Reward
 - (void)get_rewards:(Rewards *)rewards block:(void (^)(id data, NSError *error))block;
