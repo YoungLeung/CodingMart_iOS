@@ -223,6 +223,7 @@
             [_scrollView setContentOffset:contentOffset animated:NO];
             contentOffset.y = -self.originalContentInset.top;
             [_scrollView setContentOffset:contentOffset animated:YES];
+            [self updateSlogan];
         });
     }
 }
