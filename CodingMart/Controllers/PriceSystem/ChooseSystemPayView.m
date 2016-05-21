@@ -68,6 +68,7 @@
         [self.tabVC.view setFrame:CGRectMake(0, kScreen_Height - 270, kScreen_Width, 270)];
         [self.tabVC.tableView setDelegate:self];
         [self.tabVC.tableView setDataSource:self];
+        [self.tabVC.tableView setScrollEnabled:NO];
         [self.tabVC.tableView registerClass:[PayMethodTableViewCell class] forCellReuseIdentifier:[PayMethodTableViewCell cellID]];
         [self.tabVC setTitle:@"付款详情"];
         
@@ -127,6 +128,15 @@
     NSInteger index = indexPath.row;
     [cell updateCellWithTitleName:_menuArray[index] andSubTitle:_subMenuArray[index] andCellType:index == 0 ? PayMethodCellTypePayWay : PayMethodCellTypeAmount];
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 130.0f;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    PayMethodCellFooterView *footerView = [[PayMethodCellFooterView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 130)];
+    return footerView;
 }
 
 #pragma mark - 去除多余分割线

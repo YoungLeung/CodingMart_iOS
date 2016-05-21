@@ -58,3 +58,34 @@
 }
 
 @end
+
+#pragma mark - 确认付款
+@interface PayMethodCellFooterView ()
+
+@property (strong, nonatomic) UIButton *button;
+@property (strong, nonatomic) UILabel *textLabel;
+
+@end
+
+@implementation PayMethodCellFooterView
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.button setFrame:CGRectMake(15, self.frame.size.height - 60, self.frame.size.width - 30, 44)];
+        [self.button setTitle:@"确认付款" forState:UIControlStateNormal];
+        [self.button setBackgroundColor:[UIColor colorWithHexString:@"4289DB"]];
+        [self.button.layer setCornerRadius:3.0f];
+        [self addSubview:self.button];
+        
+        self.textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.frame.size.height - 85, self.frame.size.width, 17)];
+        [self.textLabel setFont:[UIFont systemFontOfSize:12.0f]];
+        [self.textLabel setText:@"点击『确认付款』，代表您同意遵守《码市需求方协议》"];
+        [self.textLabel setTextAlignment:NSTextAlignmentCenter];
+        [self addSubview:self.textLabel];
+    }
+    return self;
+}
+
+@end

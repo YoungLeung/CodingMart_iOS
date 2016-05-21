@@ -19,3 +19,8 @@ typedef enum : NSUInteger {
 + (NSString *)cellID;
 
 @end
+
+#pragma mark - 确认付款
+@interface PayMethodCellFooterView : UIView
+
+@end
