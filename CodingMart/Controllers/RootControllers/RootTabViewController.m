@@ -11,6 +11,7 @@
 #import "RootPublishViewController.h"
 #import "RootRewardsViewController.h"
 #import "RootPriceViewController.h"
+#import "ChooseProjectViewController.h"
 #import "UserInfoViewController.h"
 #import "RDVTabBarItem.h"
 

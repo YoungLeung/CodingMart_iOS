@@ -15,8 +15,10 @@
 @implementation RootPriceViewController
 
 + (instancetype)storyboardVC {
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PriceSystem" bundle:nil];
+//    return [storyboard instantiateViewControllerWithIdentifier:@"RootPriceViewController"];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PriceSystem" bundle:nil];
-    return [storyboard instantiateViewControllerWithIdentifier:@"RootPriceViewController"];
+    return [storyboard instantiateViewControllerWithIdentifier:@"ChooseProjectViewController"];
 }
 
 - (void)viewDidLoad {

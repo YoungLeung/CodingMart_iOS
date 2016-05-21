@@ -91,22 +91,40 @@
             <point key="canvasLocation" x="363" y="390"/>
         </scene>
         <!--选择项目类型-->
-        <scene sceneID="duA-V1-bHF">
+        <scene sceneID="rzf-cr-Asm">
             <objects>
-                <viewController title="选择项目类型" id="wCD-TI-6et" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="mzd-ei-dcd"/>
-                        <viewControllerLayoutGuide type="bottom" id="JWn-2w-Yqa"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="OOU-Il-xdI">
+                <collectionViewController storyboardIdentifier="ChooseProjectViewController" title="选择项目类型" id="gcf-JS-7Si" customClass="ChooseProjectViewController" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="DTM-0Z-OJG">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="EgZ-rj-hZb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="0.0" id="OiW-6N-pfN">
+                            <size key="itemSize" width="180" height="150"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="p2d-Wo-HSn" customClass="ChoosePriceCollectionViewCell">
+                                <rect key="frame" x="0.0" y="64" width="200" height="170"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="180" height="150"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="gcf-JS-7Si" id="bMx-TD-7FV"/>
+                            <outlet property="delegate" destination="gcf-JS-7Si" id="fY6-75-Mss"/>
+                        </connections>
+                    </collectionView>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ffc-Dn-rMn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="364" y="1054"/>
+            <point key="canvasLocation" x="367.5" y="1034.25"/>
         </scene>
     </scenes>
     <resources>
