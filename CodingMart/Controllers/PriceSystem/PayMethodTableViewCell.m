@@ -20,7 +20,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.titleNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 120, 50)];
+        self.titleNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 120, 50)];
         [self.titleNameLabel setFont:[UIFont systemFontOfSize:15.0f]];
         [self.titleNameLabel setTextColor:[UIColor colorWithHexString:@"222222"]];
         [self addSubview:self.titleNameLabel];
@@ -40,7 +40,15 @@
     // Configure the view for the selected state
 }
 
-- (void)updateCellWithTitleName:(NSString *)titleName andSubTitle:(NSString *)subTitle {
+- (void)updateCellWithTitleName:(NSString *)titleName andSubTitle:(NSString *)subTitle andCellType:(PayMethodCellType)payMethod {
+    if (payMethod == PayMethodCellTypePayWay) {
+        [self setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+        [self setSeparatorInset:UIEdgeInsetsMake(0, 15, 0, 15)];
+    } else {
+        [self.subTitleLabel setFrame:CGRectMake(kScreen_Width - 135, 0, 120, 50)];
+        [self.subTitleLabel setTextColor:[UIColor colorWithHexString:@"F5A623"]];
+        [self setSeparatorInset:UIEdgeInsetsMake(0, kScreen_Width, 0, 0)];
+    }
     [self.titleNameLabel setText:titleName];
     [self.subTitleLabel setText:subTitle];
 }

@@ -18,6 +18,7 @@
 @property (strong, nonatomic) UINavigationController *nav;
 @property (strong, nonatomic) UITableViewController *tabVC;
 @property (strong, nonatomic) NSArray *menuArray;
+@property (strong, nonatomic) NSArray *subMenuArray;
 
 @end
 
@@ -62,15 +63,23 @@
         }
         
         _menuArray = @[@"付款方式", @"付款金额"];
+        _subMenuArray = @[@"支付宝", @"¥1"];
         self.tabVC = [[UITableViewController alloc] init];
         [self.tabVC.view setFrame:CGRectMake(0, kScreen_Height - 270, kScreen_Width, 270)];
         [self.tabVC.tableView setDelegate:self];
         [self.tabVC.tableView setDataSource:self];
         [self.tabVC.tableView registerClass:[PayMethodTableViewCell class] forCellReuseIdentifier:[PayMethodTableViewCell cellID]];
         [self.tabVC setTitle:@"付款详情"];
+        
+        [self setExtraCellLineHidden:self.tabVC.tableView];
 
         self.nav = [[UINavigationController alloc] initWithRootViewController:self.tabVC];
         [self.nav.view setFrame:CGRectMake(0, kScreen_Height - 270, kScreen_Width, 270)];
+        NSDictionary *colorDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   [UIColor colorWithHexString:@"222222"], NSForegroundColorAttributeName,
+                                   [UIFont systemFontOfSize:15.0f], NSFontAttributeName,
+                                   nil];
+        [self.nav.navigationBar setTitleTextAttributes:colorDict];
         [self addSubview:self.nav.view];
         
         [self show];
@@ -116,8 +125,16 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     PayMethodTableViewCell *cell = (PayMethodTableViewCell *)[tableView dequeueReusableCellWithIdentifier:[PayMethodTableViewCell cellID]];
     NSInteger index = indexPath.row;
-    [cell updateCellWithTitleName:_menuArray[index] andSubTitle:@"支付宝"];
+    [cell updateCellWithTitleName:_menuArray[index] andSubTitle:_subMenuArray[index] andCellType:index == 0 ? PayMethodCellTypePayWay : PayMethodCellTypeAmount];
     return cell;
+}
+
+#pragma mark - 去除多余分割线
+- (void)setExtraCellLineHidden:(UITableView *)tableView{
+    UIView *view =[ [UIView alloc]init];
+    view.backgroundColor = [UIColor clearColor];
+    [tableView setTableFooterView:view];
+    [tableView setTableHeaderView:view];
 }
 
 @end

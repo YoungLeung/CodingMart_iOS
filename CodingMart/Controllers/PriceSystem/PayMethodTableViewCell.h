@@ -8,9 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum : NSUInteger {
+    PayMethodCellTypePayWay, // 支付方式
+    PayMethodCellTypeAmount,  // 支付金额
+} PayMethodCellType;
+
 @interface PayMethodTableViewCell : UITableViewCell
 
-- (void)updateCellWithTitleName:(NSString *)titleName andSubTitle:(NSString *)subTitle;
+- (void)updateCellWithTitleName:(NSString *)titleName andSubTitle:(NSString *)subTitle andCellType:(PayMethodCellType)payMethod;
 + (NSString *)cellID;
 
 @end
