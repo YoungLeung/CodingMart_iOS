@@ -7,18 +7,21 @@
 //
 
 #import "RootPriceViewController.h"
+#import "ChooseSystemPayView.h"
 
 @interface RootPriceViewController ()
 
+@property (weak, nonatomic) IBOutlet UIButton *startSystemButton;
+@property (strong, nonatomic) ChooseSystemPayView *chooseSystemPayView;
 @end
 
 @implementation RootPriceViewController
 
 + (instancetype)storyboardVC {
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PriceSystem" bundle:nil];
-//    return [storyboard instantiateViewControllerWithIdentifier:@"RootPriceViewController"];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PriceSystem" bundle:nil];
-    return [storyboard instantiateViewControllerWithIdentifier:@"ChooseProjectViewController"];
+    return [storyboard instantiateViewControllerWithIdentifier:@"RootPriceViewController"];
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PriceSystem" bundle:nil];
+//    return [storyboard instantiateViewControllerWithIdentifier:@"ChooseProjectViewController"];
 }
 
 - (void)viewDidLoad {
@@ -33,6 +36,9 @@
 }
 
 #pragma mark - First Time
+- (IBAction)startButtonPress:(id)sender {
+    self.chooseSystemPayView = [[ChooseSystemPayView alloc] init];
+}
 
 #pragma mark - Second Time
 
