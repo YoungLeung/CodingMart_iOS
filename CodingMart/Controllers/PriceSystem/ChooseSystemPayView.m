@@ -128,6 +128,7 @@
     PayMethodTableViewCell *cell = (PayMethodTableViewCell *)[tableView dequeueReusableCellWithIdentifier:[PayMethodTableViewCell cellID]];
     NSInteger index = indexPath.row;
     [cell updateCellWithTitleName:_menuArray[index] andSubTitle:_subMenuArray[index] andCellType:index == 0 ? PayMethodCellTypePayWay : PayMethodCellTypeAmount];
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;
 }
 
