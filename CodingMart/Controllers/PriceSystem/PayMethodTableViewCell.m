@@ -79,9 +79,18 @@
         [self.button.layer setCornerRadius:3.0f];
         [self addSubview:self.button];
         
+        NSDictionary *normalStringDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          [UIColor colorWithHexString:@"999999"], NSForegroundColorAttributeName,
+                                          [UIFont systemFontOfSize:12.0f], NSFontAttributeName, nil];
+        NSDictionary *hightLightStringDict = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithHexString:@"4289DB"], NSForegroundColorAttributeName,nil];
+        NSString *string = @"点击『确认付款』，代表您同意遵守《码市需求方协议》";
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:string];
+        [attributedString addAttributes:normalStringDict range:NSMakeRange(0, attributedString.length)];
+        [attributedString addAttributes:hightLightStringDict range:[string rangeOfString:@"《码市需求方协议》"]];
+        
         self.textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.frame.size.height - 85, self.frame.size.width, 17)];
         [self.textLabel setFont:[UIFont systemFontOfSize:12.0f]];
-        [self.textLabel setText:@"点击『确认付款』，代表您同意遵守《码市需求方协议》"];
+        [self.textLabel setAttributedText:attributedString];
         [self.textLabel setTextAlignment:NSTextAlignmentCenter];
         [self addSubview:self.textLabel];
     }
