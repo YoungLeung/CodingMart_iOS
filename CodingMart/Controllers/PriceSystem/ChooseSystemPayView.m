@@ -9,6 +9,7 @@
 #import "ChooseSystemPayView.h"
 #import "UIView+BlocksKit.h"
 #import "PayMethodTableViewCell.h"
+#import "UIViewController+Common.h"
 
 @interface ChooseSystemPayView () <UITableViewDelegate, UITableViewDataSource>
 
@@ -135,7 +136,11 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    __weak typeof(self)weakSelf = self;
     PayMethodCellFooterView *footerView = [[PayMethodCellFooterView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 130)];
+    footerView.publishAgreementBlock = ^(){
+        [weakSelf goToPublishAgreement];
+    };
     return footerView;
 }
 
@@ -145,6 +150,11 @@
     view.backgroundColor = [UIColor clearColor];
     [tableView setTableFooterView:view];
     [tableView setTableHeaderView:view];
+}
+
+- (void)goToPublishAgreement{
+    NSString *pathForServiceterms = [[NSBundle mainBundle] pathForResource:@"publish_agreement" ofType:@"html"];
+    [self.tabVC goToWebVCWithUrlStr:pathForServiceterms title:@"码市平台需求方协议"];
 }
 
 @end
