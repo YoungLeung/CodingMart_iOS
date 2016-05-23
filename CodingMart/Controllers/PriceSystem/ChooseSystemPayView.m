@@ -10,6 +10,7 @@
 #import "UIView+BlocksKit.h"
 #import "PayMethodTableViewCell.h"
 #import "UIViewController+Common.h"
+#import "PayMethodListViewController.h"
 
 @interface ChooseSystemPayView () <UITableViewDelegate, UITableViewDataSource>
 
@@ -20,6 +21,8 @@
 @property (strong, nonatomic) UITableViewController *tabVC;
 @property (strong, nonatomic) NSArray *menuArray;
 @property (strong, nonatomic) NSArray *subMenuArray;
+@property (strong, nonatomic) NSArray *payMethodArray;
+@property (assign, nonatomic) NSInteger selectedPayMethod;
 
 @end
 
@@ -63,8 +66,10 @@
 //        }
         }
         
+        _selectedPayMethod = 0;
+        _payMethodArray = @[@"支付宝", @"微信"];
         _menuArray = @[@"付款方式", @"付款金额"];
-        _subMenuArray = @[@"支付宝", @"¥1"];
+        _subMenuArray = @[_payMethodArray[_selectedPayMethod], @"¥1"];
         self.tabVC = [[UITableViewController alloc] init];
         [self.tabVC.view setFrame:CGRectMake(0, kScreen_Height - 270, kScreen_Width, 270)];
         [self.tabVC.tableView setDelegate:self];
@@ -130,6 +135,20 @@
     [cell updateCellWithTitleName:_menuArray[index] andSubTitle:_subMenuArray[index] andCellType:index == 0 ? PayMethodCellTypePayWay : PayMethodCellTypeAmount];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 0) {
+        __weak typeof(self)weakSelf = self;
+        PayMethodListViewController *vc = [[PayMethodListViewController alloc] init];
+        vc.selectedPayment = _selectedPayMethod;
+        vc.selectPayMethodBlock = ^(NSInteger selectPayMethod){
+            _selectedPayMethod = selectPayMethod;
+            weakSelf.subMenuArray = @[weakSelf.payMethodArray[_selectedPayMethod], @"¥1"];
+            [weakSelf.tabVC.tableView reloadData];
+        };
+        [self.nav pushViewController:vc animated:YES];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
