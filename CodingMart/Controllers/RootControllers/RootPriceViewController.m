@@ -8,6 +8,8 @@
 
 #import "RootPriceViewController.h"
 #import "ChooseSystemPayView.h"
+#import "User.h"
+#import "Coding_NetAPIManager.h"
 
 @interface RootPriceViewController ()
 
@@ -18,21 +20,51 @@
 @implementation RootPriceViewController
 
 + (instancetype)storyboardVC {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PriceSystem" bundle:nil];
-    return [storyboard instantiateViewControllerWithIdentifier:@"RootPriceViewController"];
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PriceSystem" bundle:nil];
-//    return [storyboard instantiateViewControllerWithIdentifier:@"ChooseProjectViewController"];
+    BOOL firstUse = [User payedForPriceSystem];
+    if (firstUse) {
+        // 第一次使用
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PriceSystem" bundle:nil];
+        return [storyboard instantiateViewControllerWithIdentifier:@"RootPriceViewController"];
+    } else {
+        // 第二次使用
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PriceSystem" bundle:nil];
+        return [storyboard instantiateViewControllerWithIdentifier:@"ChooseProjectViewController"];
+    }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    BOOL firstUse = YES;
+
+    BOOL firstUse = [User payedForPriceSystem];
     if (firstUse) {
         // 第一次使用
+        __weak typeof(self)weakSelf = self;
+        
+        dispatch_queue_t queen = dispatch_queue_create("checkPay", DISPATCH_QUEUE_SERIAL);
+        
+        dispatch_async(queen, ^{
+//            [weakSelf checkPayed];
+        });
+        
+        dispatch_async(queen, ^{
+            
+        });
+
     } else {
         // 第二次使用
+        
     }
+}
+
+// 检查有没有支付过1元
+- (void)checkPayed {
+    [[Coding_NetAPIManager sharedManager] get_payedBlock:^(id data, NSError *error) {
+        if (data) {
+            NSDictionary *dictionary = [data objectForKey:@"data"];
+            [User payedForPriceSystemData:dictionary];
+            NSLog(@"1");
+        }
+    }];
 }
 
 #pragma mark - First Time

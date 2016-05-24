@@ -78,6 +78,18 @@
         [self.tabVC.tableView registerClass:[PayMethodTableViewCell class] forCellReuseIdentifier:[PayMethodTableViewCell cellID]];
         [self.tabVC setTitle:@"付款详情"];
         
+        // 关闭按钮
+        UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [closeButton setImage:[UIImage imageNamed:@"price_icon_close"] forState:UIControlStateNormal];
+        [closeButton setFrame:CGRectMake(0, 0, 40, 40)];
+        [closeButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:closeButton];
+        UIBarButtonItem *navigationSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                                         target:nil
+                                                                                         action:nil];
+        navigationSpace.width = -15;
+        [self.tabVC.navigationItem setLeftBarButtonItems:@[navigationSpace, leftItem]];
+        
         [self setExtraCellLineHidden:self.tabVC.tableView];
 
         self.nav = [[UINavigationController alloc] initWithRootViewController:self.tabVC];
@@ -87,6 +99,7 @@
                                    [UIFont systemFontOfSize:15.0f], NSFontAttributeName,
                                    nil];
         [self.nav.navigationBar setTitleTextAttributes:colorDict];
+
         [self addSubview:self.nav.view];
         
         [self show];
