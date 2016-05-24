@@ -121,26 +121,6 @@
     }];
 }
 
-- (void)post_CheckPhoneCodeWithPhone:(NSString *)phone code:(NSString *)code type:(PurposeType)type block:(void (^)(id data, NSError *error))block{
-    NSString *path = @"api/account/phone/code/check";
-    NSMutableDictionary *params = @{@"phone": phone,
-                                    @"code": code}.mutableCopy;
-    switch (type) {
-        case PurposeToRegister:
-            params[@"type"] = @"register";
-            break;
-        case PurposeToPasswordActivate:
-            params[@"type"] = @"activate";
-            break;
-        case PurposeToPasswordReset:
-            params[@"type"] = @"reset";
-            break;
-    }
-    
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-        block(data, error);
-    }];
-}
 #pragma mark Reward
 - (void)get_rewards:(Rewards *)rewards block:(void (^)(id data, NSError *error))block{
     rewards.isLoading = YES;

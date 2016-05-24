@@ -87,10 +87,16 @@
 }
 - (IBAction)footerBtnClicked:(id)sender {
     [NSObject showHUDQueryStr:@"请稍等..."];
+    WEAKSELF;
     [[Coding_NetAPIManager sharedManager] get_CheckGK:_global_keyF.text block:^(id data0, NSError *error0) {
         if (data0) {
             if ([(NSNumber *)data0[@"data"] boolValue]) {
-                [[Coding_NetAPIManager sharedManager] post_CheckPhoneCodeWithPhone:_mobileF.text code:_verify_codeF.text type:PurposeToRegister block:^(id data, NSError *error) {
+                NSString *path = @"api/account/phone/code/check";
+                NSDictionary *params = @{@"phone": weakSelf.mobileF.text,
+                                         @"code": weakSelf.verify_codeF.text,
+                                         @"phoneCountryCode": [NSString stringWithFormat:@"+%@", weakSelf.countryCodeDict[@"country_code"]],
+                                         @"type": @"register"};
+                [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
                     [NSObject hideHUDQuery];
                     if (data) {
                         [self performSegueWithIdentifier:NSStringFromClass([RegisterPasswordViewController class]) sender:self];
