@@ -102,6 +102,7 @@
         [self setExtraCellLineHidden:self.tabVC.tableView];
 
         self.nav = [[UINavigationController alloc] initWithRootViewController:self.tabVC];
+        [self.nav.navigationBar setBarTintColor:[UIColor whiteColor]];
         [self.nav.view setFrame:CGRectMake(0, kScreen_Height - 270, kScreen_Width, 270)];
         NSDictionary *colorDict = [NSDictionary dictionaryWithObjectsAndKeys:
                                    [UIColor colorWithHexString:@"222222"], NSForegroundColorAttributeName,
