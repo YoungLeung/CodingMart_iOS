@@ -23,9 +23,11 @@ typedef enum : NSUInteger {
 #pragma mark - 确认付款
 
 typedef void(^PublishAgreementBlock)();
+typedef void(^PayButtonPressBlock)(UIButton *button);
 
 @interface PayMethodCellFooterView : UIView
 
 @property (copy, nonatomic) PublishAgreementBlock publishAgreementBlock;
+@property (copy, nonatomic) PayButtonPressBlock payButtonPressBlock;
 
 @end

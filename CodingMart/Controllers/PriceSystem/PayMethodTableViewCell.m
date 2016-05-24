@@ -77,6 +77,7 @@
         [self.button setTitle:@"确认付款" forState:UIControlStateNormal];
         [self.button setBackgroundColor:[UIColor colorWithHexString:@"4289DB"]];
         [self.button.layer setCornerRadius:3.0f];
+        [self.button addTarget:self action:@selector(buttonPress:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.button];
         
         NSDictionary *normalStringDict = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -99,6 +100,12 @@
         [self addSubview:self.textView];
     }
     return self;
+}
+
+- (void)buttonPress:(UIButton *)button {
+    if (self.payButtonPressBlock) {
+        self.payButtonPressBlock(button);
+    }
 }
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {

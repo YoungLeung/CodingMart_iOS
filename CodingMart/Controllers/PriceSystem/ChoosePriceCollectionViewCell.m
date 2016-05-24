@@ -48,6 +48,7 @@
 }
 
 - (void)setSelected:(BOOL)selected {
+    [super setSelected:selected];
     if (selected) {
         [self setBackgroundColor:[UIColor colorWithHexString:@"F0F2F5"]];
         [self.selectImageView setHidden:NO];

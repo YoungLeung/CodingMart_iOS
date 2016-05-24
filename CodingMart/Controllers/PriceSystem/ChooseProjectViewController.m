@@ -48,6 +48,7 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
                         ];
     
     [self.collectionView registerClass:[NextStepCollectionViewCell class] forCellWithReuseIdentifier:nextStepReuseIdentifier];
+    [self.collectionView setAllowsMultipleSelection:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -107,13 +108,7 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     ChoosePriceCollectionViewCell *cell = (ChoosePriceCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    [cell setSelected:YES];
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-    ChoosePriceCollectionViewCell *cell = (ChoosePriceCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    [cell setSelected:NO];
-    
+    [cell setSelected:cell.selected];
 }
 
 #pragma mark <UICollectionViewDelegate>

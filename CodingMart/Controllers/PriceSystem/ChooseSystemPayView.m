@@ -11,6 +11,13 @@
 #import "PayMethodTableViewCell.h"
 #import "UIViewController+Common.h"
 #import "PayMethodListViewController.h"
+#import "UIButton+Query.h"
+#import "Coding_NetAPIManager.h"
+#import "Reward.h"
+#import <UMengSocial/WXApi.h>
+#import <UMengSocial/WXApiObject.h>
+#import <AlipaySDK/AlipaySDK.h>
+#import "PayResultViewController.h"
 
 @interface ChooseSystemPayView () <UITableViewDelegate, UITableViewDataSource>
 
@@ -23,6 +30,8 @@
 @property (strong, nonatomic) NSArray *subMenuArray;
 @property (strong, nonatomic) NSArray *payMethodArray;
 @property (assign, nonatomic) NSInteger selectedPayMethod;
+@property (strong, nonatomic) Reward *curReward;
+@property (strong, nonatomic) NSDictionary *payDict;
 
 @end
 
@@ -174,6 +183,9 @@
     footerView.publishAgreementBlock = ^(){
         [weakSelf goToPublishAgreement];
     };
+    footerView.payButtonPressBlock = ^(UIButton *button) {
+        [weakSelf requestPayment:button];
+    };
     return footerView;
 }
 
@@ -188,6 +200,83 @@
 - (void)goToPublishAgreement{
     NSString *pathForServiceterms = [[NSBundle mainBundle] pathForResource:@"publish_agreement" ofType:@"html"];
     [self.tabVC goToWebVCWithUrlStr:pathForServiceterms title:@"码市平台需求方协议"];
+}
+
+#pragma mark - 请求支付
+- (void)requestPayment:(UIButton *)button {
+    __weak typeof(self) weakSelf = self;
+    
+    _curReward = [[Reward alloc] init];
+    _curReward.payType = _selectedPayMethod == 0 ? PayMethodAlipay : PayMethodWeiXin;
+    _curReward.payMoney = @"1";
+    [button startQueryAnimate];
+    [[Coding_NetAPIManager sharedManager] post_GenerateOrderWithReward:_curReward block:^(id data, NSError *error) {
+        [button stopQueryAnimate];
+        if (data) {
+            weakSelf.payDict = data;
+            [weakSelf goToPay];
+        }
+    }];
+}
+
+- (void)goToPay{
+    if (_curReward.payType == PayMethodAlipay) {
+        [self aliPay];
+    }else if (_curReward.payType == PayMethodWeiXin){
+        [self weixinPay];
+    }
+}
+
+- (void)weixinPay{
+    PayReq *req = [PayReq new];
+    req.partnerId = _payDict[@"partnerid"];
+    req.prepayId = _payDict[@"prepayid"];
+    req.nonceStr = _payDict[@"noncestr"];
+    req.timeStamp = [_payDict[@"timestamp"] intValue];
+    req.package = _payDict[@"package"];
+    req.sign = _payDict[@"sign"];
+    [WXApi sendReq:req];
+}
+
+- (void)aliPay{
+    __weak typeof(self) weakSelf = self;
+    [[AlipaySDK defaultService] payOrder:_payDict[@"order"] fromScheme:kAppScheme callback:^(NSDictionary *resultDic) {
+        [weakSelf handleAliResult:resultDic];
+    }];
+}
+
+- (void)handleAliResult:(NSDictionary *)resultDic{
+    if ([resultDic[@"resultStatus"] integerValue] == 9000) {
+        [self paySucess];
+    }else{
+        NSString *tipStr = resultDic[@"memo"];
+        [NSObject showHudTipStr:tipStr.length > 0? tipStr: @"支付失败"];
+    }
+}
+
+- (void)paySucess{
+    NSString *orderNo = _payDict[@"charge_id"];
+    if (orderNo.length <= 0) {
+        return;
+    }
+    [NSObject showHUDQueryStr:@"正在查询订单状态..."];
+    [[Coding_NetAPIManager sharedManager] get_Order:orderNo block:^(id data, NSError *error) {
+        if ([data[@"status"] isEqual:@(1)]) {//交易成功
+            [NSObject hideHUDQuery];
+            [self goToSucessVC:data];
+        }else{
+            [self paySucess];
+        }
+    }];
+}
+
+- (void)goToSucessVC:(NSDictionary *)orderDict{
+    UINavigationController *nav = self.nav;
+    PayResultViewController *vc = [PayResultViewController storyboardVC];
+    vc.orderDict = orderDict;
+    
+    [nav popViewControllerAnimated:NO];
+    [nav pushViewController:vc animated:YES];
 }
 
 @end
