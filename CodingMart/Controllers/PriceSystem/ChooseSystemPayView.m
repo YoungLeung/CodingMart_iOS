@@ -22,8 +22,6 @@
 @interface ChooseSystemPayView () <UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) UIView *bgView;
-@property (strong, nonatomic) UIView *contentView;
-
 @property (strong, nonatomic) UINavigationController *nav;
 @property (strong, nonatomic) UITableViewController *tabVC;
 @property (strong, nonatomic) NSArray *menuArray;
@@ -55,25 +53,6 @@
             });
             [self addSubview:_bgView];
         }
-        if (!_contentView) {
-            _contentView = [UIView new];
-            _contentView.backgroundColor = [UIColor colorWithHexString:@"0xF0F0F0"];
-//        if (!_titleL) {
-//            _titleL = ({
-//                UILabel *label = [UILabel new];
-//                label.textAlignment = NSTextAlignmentCenter;
-//                label.font = [UIFont systemFontOfSize:14];
-//                label.textColor = [UIColor colorWithHexString:@"0x666666"];
-//                label;
-//            });
-//            [_contentView addSubview:_titleL];
-//            [_titleL mas_makeConstraints:^(MASConstraintMaker *make) {
-//                make.left.right.equalTo(_contentView);
-//                make.top.equalTo(_contentView).offset(10);
-//                make.height.mas_equalTo(20);
-//            }];
-//        }
-        }
         
         _selectedPayMethod = 0;
         _payMethodArray = @[@"支付宝", @"微信"];
@@ -86,7 +65,7 @@
         [self.tabVC.tableView setScrollEnabled:NO];
         [self.tabVC.tableView registerClass:[PayMethodTableViewCell class] forCellReuseIdentifier:[PayMethodTableViewCell cellID]];
         [self.tabVC setTitle:@"付款详情"];
-        
+
         // 关闭按钮
         UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [closeButton setImage:[UIImage imageNamed:@"price_icon_close"] forState:UIControlStateNormal];
@@ -103,15 +82,13 @@
 
         self.nav = [[UINavigationController alloc] initWithRootViewController:self.tabVC];
         [self.nav.navigationBar setBarTintColor:[UIColor whiteColor]];
-        [self.nav.view setFrame:CGRectMake(0, kScreen_Height - 270, kScreen_Width, 270)];
+        [self.nav.view setFrame:CGRectMake(0, kScreen_Height, kScreen_Width, 270)];
         NSDictionary *colorDict = [NSDictionary dictionaryWithObjectsAndKeys:
                                    [UIColor colorWithHexString:@"222222"], NSForegroundColorAttributeName,
                                    [UIFont systemFontOfSize:15.0f], NSFontAttributeName,
                                    nil];
         [self.nav.navigationBar setTitleTextAttributes:colorDict];
-
         [self addSubview:self.nav.view];
-        
         [self show];
     }
     return self;
@@ -121,23 +98,23 @@
     [kKeyWindow addSubview:self];
     
     //animate to show
-    CGPoint endCenter = self.contentView.center;
-    endCenter.y -= CGRectGetHeight(self.contentView.frame);
+    CGPoint endCenter = self.nav.view.center;
+    endCenter.y -= CGRectGetHeight(self.nav.view.frame);
     
     [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.bgView.alpha = 0.3;
-        self.contentView.center = endCenter;
+        self.nav.view.center = endCenter;
     } completion:nil];
 }
 
 - (void)dismiss{
     //animate to dismiss
-    CGPoint endCenter = self.contentView.center;
-    endCenter.y += CGRectGetHeight(self.contentView.frame);
+    CGPoint endCenter = self.nav.view.center;
+    endCenter.y += CGRectGetHeight(self.nav.view.frame);
     
     [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.bgView.alpha = 0.0;
-        self.contentView.center = endCenter;
+        self.nav.view.center = endCenter;
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
     }];
