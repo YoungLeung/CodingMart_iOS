@@ -98,4 +98,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)get_StartModelBlock:(void (^)(id data, NSError *error))block;
 - (void)get_BannerListBlock:(void (^)(id data, NSError *error))block;
 
+#pragma mark 自主评估系统
+- (void)get_payedBlock:(void (^)(id data, NSError *error))block;
+
 @end

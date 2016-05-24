@@ -702,4 +702,12 @@
         block(data, error);
     }];
 }
+
+#pragma mark 自主评估系统
+- (void)get_payedBlock:(void (^)(id data, NSError *error))block {
+    NSString *path = @"api/quote/payed";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
 @end
