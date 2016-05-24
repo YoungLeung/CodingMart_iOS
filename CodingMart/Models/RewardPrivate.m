@@ -29,9 +29,14 @@
     _filesToShow = [NSObject arrayFromJSON:_prd[@"filesToShow"] ofObjects:@"MartFile"];
     
     BOOL isRewardOwner = [self isRewardOwner];
-    for (RewardMetroRole *role in _metro.roles) {
-        role.roleColor = [UIColor randomColor];
-        
+    NSArray *colorStrList = @[@"0xF28C08",//橙
+                              @"0x68C20D",//绿
+                              @"0x256DC3",//蓝
+                              @"0xCC46C3",//紫
+                              @"0xDFDF17"];//黄
+    for (int index = 0; index < _metro.roles.count; index++) {
+        RewardMetroRole *role = _metro.roles[index];
+        role.roleColor = [UIColor colorWithHexString:_metro.roles.count == 1? colorStrList[1]: colorStrList[index % colorStrList.count]];
         for (RewardApplyCoder *coder in _apply.coders) {
             if ([coder.user_id isEqual:role.owner_id]) {
                 role.role_type = coder.role_type;
