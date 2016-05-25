@@ -187,6 +187,12 @@
     _curReward = [[Reward alloc] init];
     _curReward.payType = _selectedPayMethod == 0 ? PayMethodAlipay : PayMethodWeiXin;
     _curReward.payMoney = @"1";
+    
+    if (_curReward.payType == PayMethodWeiXin && ![self p_canOpenWeiXin]){
+        [NSObject showHudTipStr:@"您还没有安装「微信」"];
+        return;
+    }
+    
     [button startQueryAnimate];
     [[Coding_NetAPIManager sharedManager] post_GenerateOrderWithReward:_curReward block:^(id data, NSError *error) {
         [button stopQueryAnimate];
@@ -223,6 +229,23 @@
     }];
 }
 
+#pragma mark - handleSucessPay
+- (void)handlePayURL:(NSURL *)url{
+    if (_curReward.payType == PayMethodAlipay) {
+        __weak typeof(self) weakSelf = self;
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+            [weakSelf handleAliResult:resultDic];
+        }];
+    }else if (_curReward.payType == PayMethodWeiXin){
+        NSInteger resultCode = [[url queryParams][@"ret"] intValue];
+        if (resultCode == 0) {
+            [self paySucess];
+        }else if (resultCode == -1){
+            [NSObject showHudTipStr:@"支付失败"];
+        }
+    }
+}
+
 - (void)handleAliResult:(NSDictionary *)resultDic{
     if ([resultDic[@"resultStatus"] integerValue] == 9000) {
         [self paySucess];
@@ -255,6 +278,19 @@
     
     [nav popViewControllerAnimated:NO];
     [nav pushViewController:vc animated:YES];
+}
+
+#pragma mark - app url
+- (BOOL)p_canOpenWeiXin{
+    return [self p_canOpen:@"weixin://"];
+}
+
+- (BOOL)p_canOpenAlipay{
+    return [self p_canOpen:@"alipay://"];
+}
+
+- (BOOL)p_canOpen:(NSString*)url{
+    return [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:url]];
 }
 
 @end

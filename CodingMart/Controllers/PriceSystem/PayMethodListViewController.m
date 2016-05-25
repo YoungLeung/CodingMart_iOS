@@ -28,6 +28,15 @@
     [self setTitle:@"选择付款方式"];
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton setFrame:CGRectMake(0, 0, 40, 40)];
+    [backButton setImage:[UIImage imageNamed:@"price_icon_back"] forState:UIControlStateNormal];
+    [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    space.width = -15;
+    [self.navigationItem setLeftBarButtonItems:@[space, backItem]];
+    
     _imageArray = @[@"pay_method_ali", @"price_pay_method_wechat"];
     _titleArray = @[@"支付宝支付", @"微信支付"];
     
@@ -35,6 +44,10 @@
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
     [self setExtraCellLineHidden:self.tableView];
+}
+
+- (void)back {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
