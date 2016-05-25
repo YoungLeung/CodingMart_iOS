@@ -11,5 +11,6 @@
 @interface RootPriceViewController : BaseViewController
 
 + (instancetype)storyboardVC;
+- (void)handlePayURL:(NSURL *)url;
 
 @end

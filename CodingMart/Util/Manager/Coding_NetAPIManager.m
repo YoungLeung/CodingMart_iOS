@@ -710,4 +710,13 @@
         block(data, error);
     }];
 }
+
+- (void)post_payFirstForPriceSystem:(NSDictionary *)params block:(void (^)(id, NSError *))block {
+    NSString *path = @"api/payment/app/charge";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
+        data = [data objectForKey:@"data"];
+        block(data, error);
+    }];
+}
+
 @end

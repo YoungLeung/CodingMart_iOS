@@ -13,11 +13,18 @@
 #import "PayMethodListViewController.h"
 #import "UIButton+Query.h"
 #import "Coding_NetAPIManager.h"
-#import "Reward.h"
 #import <UMengSocial/WXApi.h>
 #import <UMengSocial/WXApiObject.h>
 #import <AlipaySDK/AlipaySDK.h>
 #import "PayResultViewController.h"
+
+typedef NS_ENUM(NSUInteger, PriceSystemPayMethod) {
+    /// 支付宝支付
+    PriceSystemPayMethodAlipay = 0,
+    
+    /// 微信支付
+    PriceSystemPayMethodWechat,
+};
 
 @interface ChooseSystemPayView () <UITableViewDelegate, UITableViewDataSource>
 
@@ -28,7 +35,6 @@
 @property (strong, nonatomic) NSArray *subMenuArray;
 @property (strong, nonatomic) NSArray *payMethodArray;
 @property (assign, nonatomic) NSInteger selectedPayMethod;
-@property (strong, nonatomic) Reward *curReward;
 @property (strong, nonatomic) NSDictionary *payDict;
 
 @end
@@ -54,7 +60,7 @@
             [self addSubview:_bgView];
         }
         
-        _selectedPayMethod = 0;
+        _selectedPayMethod = PriceSystemPayMethodAlipay;
         _payMethodArray = @[@"支付宝", @"微信"];
         _menuArray = @[@"付款方式", @"付款金额"];
         _subMenuArray = @[_payMethodArray[_selectedPayMethod], @"¥1"];
@@ -184,17 +190,18 @@
 - (void)requestPayment:(UIButton *)button {
     __weak typeof(self) weakSelf = self;
     
-    _curReward = [[Reward alloc] init];
-    _curReward.payType = _selectedPayMethod == 0 ? PayMethodAlipay : PayMethodWeiXin;
-    _curReward.payMoney = @"1";
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:@"0.01" forKey:@"price"]; // 价格，固定参数
+    [params setObject:_selectedPayMethod == PriceSystemPayMethodAlipay ? @"alipay" : @"wechat" forKey:@"platform"]; // 平台
+    [params setObject:@"1" forKey:@"type"]; // 固定参数
     
-    if (_curReward.payType == PayMethodWeiXin && ![self p_canOpenWeiXin]){
+    if (_selectedPayMethod == PriceSystemPayMethodWechat && ![self p_canOpenWeiXin]){
         [NSObject showHudTipStr:@"您还没有安装「微信」"];
         return;
     }
     
     [button startQueryAnimate];
-    [[Coding_NetAPIManager sharedManager] post_GenerateOrderWithReward:_curReward block:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] post_payFirstForPriceSystem:params block:^(id data, NSError *error) {
         [button stopQueryAnimate];
         if (data) {
             weakSelf.payDict = data;
@@ -204,9 +211,9 @@
 }
 
 - (void)goToPay{
-    if (_curReward.payType == PayMethodAlipay) {
+    if (_selectedPayMethod == PriceSystemPayMethodAlipay) {
         [self aliPay];
-    }else if (_curReward.payType == PayMethodWeiXin){
+    }else if (_selectedPayMethod == PriceSystemPayMethodWechat){
         [self weixinPay];
     }
 }
@@ -231,12 +238,12 @@
 
 #pragma mark - handleSucessPay
 - (void)handlePayURL:(NSURL *)url{
-    if (_curReward.payType == PayMethodAlipay) {
+    if (_selectedPayMethod == PriceSystemPayMethodAlipay) {
         __weak typeof(self) weakSelf = self;
         [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
             [weakSelf handleAliResult:resultDic];
         }];
-    }else if (_curReward.payType == PayMethodWeiXin){
+    }else if (_selectedPayMethod == PriceSystemPayMethodWechat){
         NSInteger resultCode = [[url queryParams][@"ret"] intValue];
         if (resultCode == 0) {
             [self paySucess];

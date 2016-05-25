@@ -21,7 +21,7 @@
 
 + (instancetype)storyboardVC {
     BOOL firstUse = [User payedForPriceSystem];
-    if (firstUse) {
+    if (!firstUse) {
         // 第一次使用
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PriceSystem" bundle:nil];
         return [storyboard instantiateViewControllerWithIdentifier:@"RootPriceViewController"];

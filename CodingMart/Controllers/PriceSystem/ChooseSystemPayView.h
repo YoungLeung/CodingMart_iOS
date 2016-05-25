@@ -10,4 +10,6 @@
 
 @interface ChooseSystemPayView : UIView
 
+- (void)handlePayURL:(NSURL *)url;
+
 @end

@@ -100,5 +100,6 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 
 #pragma mark 自主评估系统
 - (void)get_payedBlock:(void (^)(id data, NSError *error))block;
+- (void)post_payFirstForPriceSystem:(NSDictionary *)params block:(void (^)(id data, NSError *error))block;
 
 @end
