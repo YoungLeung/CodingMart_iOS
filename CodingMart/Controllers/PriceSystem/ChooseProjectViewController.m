@@ -9,6 +9,7 @@
 #import "ChooseProjectViewController.h"
 #import "ChoosePriceCollectionViewCell.h"
 #import "NextStepCollectionViewCell.h"
+#import "FunctionalEvaluationViewController.h"
 
 @interface ChooseProjectViewController ()
 
@@ -89,7 +90,11 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
         
         return cell;
     } else {
+        __weak typeof(self)weakSelf = self;
         NextStepCollectionViewCell *cell = (NextStepCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:nextStepReuseIdentifier forIndexPath:indexPath];
+        cell.nextStepBlock = ^(){
+            [weakSelf nextStep];
+        };
         return cell;
     }
 }
@@ -121,26 +126,9 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
     return YES;
 }
 
-/*
-// Uncomment this method to specify if the specified item should be highlighted during tracking
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
+- (void)nextStep {
+    FunctionalEvaluationViewController *vc = [[FunctionalEvaluationViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
-*/
-
-/*
-// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	return NO;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	
-}
-*/
 
 @end

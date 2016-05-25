@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^NextStepBlock)();
+
 @interface NextStepCollectionViewCell : UICollectionViewCell
+
+@property (copy, nonatomic) NextStepBlock nextStepBlock;
 
 @end

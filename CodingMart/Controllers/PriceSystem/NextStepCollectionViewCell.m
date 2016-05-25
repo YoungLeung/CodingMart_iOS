@@ -39,7 +39,9 @@
 }
 
 - (void)nextStep {
-    NSLog(@"next");
+    if (self.nextStepBlock) {
+        self.nextStepBlock();
+    }
 }
 
 @end

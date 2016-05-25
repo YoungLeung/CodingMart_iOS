@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		011BF9191CF5DE2B0068B465 /* FunctionalEvaluationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 011BF9181CF5DE2B0068B465 /* FunctionalEvaluationViewController.m */; };
 		013C6EFF1CF35DE6006B072C /* PayMethodListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 013C6EFE1CF35DE6006B072C /* PayMethodListViewController.m */; };
 		01D0DCB21CEF76730047CDE3 /* ChoosePriceCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D0DCB11CEF76730047CDE3 /* ChoosePriceCollectionViewCell.m */; };
 		01D0DCB51CEF7ACF0047CDE3 /* ChooseProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D0DCB41CEF7ACF0047CDE3 /* ChooseProjectViewController.m */; };
@@ -309,6 +310,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		011BF9171CF5DE2B0068B465 /* FunctionalEvaluationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionalEvaluationViewController.h; sourceTree = "<group>"; };
+		011BF9181CF5DE2B0068B465 /* FunctionalEvaluationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FunctionalEvaluationViewController.m; sourceTree = "<group>"; };
 		013C6EFD1CF35DE6006B072C /* PayMethodListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayMethodListViewController.h; sourceTree = "<group>"; };
 		013C6EFE1CF35DE6006B072C /* PayMethodListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayMethodListViewController.m; sourceTree = "<group>"; };
 		01D0DCB01CEF76730047CDE3 /* ChoosePriceCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoosePriceCollectionViewCell.h; sourceTree = "<group>"; };
@@ -919,6 +922,8 @@
 				01D0DCBD1CF0B5A10047CDE3 /* PayMethodTableViewCell.m */,
 				013C6EFD1CF35DE6006B072C /* PayMethodListViewController.h */,
 				013C6EFE1CF35DE6006B072C /* PayMethodListViewController.m */,
+				011BF9171CF5DE2B0068B465 /* FunctionalEvaluationViewController.h */,
+				011BF9181CF5DE2B0068B465 /* FunctionalEvaluationViewController.m */,
 			);
 			path = PriceSystem;
 			sourceTree = "<group>";
@@ -2000,7 +2005,7 @@
 				TargetAttributes = {
 					4EBDC2841BC645990037EB66 = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = QN5Z87S3LH;
+						DevelopmentTeam = 5JMGX6P5S4;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -2315,6 +2320,7 @@
 				4E120A0F1C892F780087BDB3 /* NSDate+Helper.m in Sources */,
 				4E26937D1BC676EC00F9E332 /* AFURLRequestSerialization.m in Sources */,
 				4E2693931BC679B300F9E332 /* NSObject+Common.m in Sources */,
+				011BF9191CF5DE2B0068B465 /* FunctionalEvaluationViewController.m in Sources */,
 				4EDAE44C1BC8F21200255FE8 /* DistancePickerView.m in Sources */,
 				4EB52F321C7AB2AA00B5EBEA /* TwoFactorAuthCodeViewController.m in Sources */,
 				4E7D9E251CBBA35A00FA5CB5 /* SkillRoleCell.m in Sources */,
@@ -2515,7 +2521,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/CodingMart/Vendor/XGPush",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.coding.CodingMart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fanwenbin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -2527,8 +2533,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/CodingMart/Vendor/AlipaySDK",
@@ -2555,7 +2561,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/CodingMart/Vendor/XGPush",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.coding.CodingMart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fanwenbin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
