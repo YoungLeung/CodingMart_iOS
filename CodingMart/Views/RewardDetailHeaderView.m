@@ -16,12 +16,14 @@
 @property (weak, nonatomic) IBOutlet UILabel *priceL;
 @property (weak, nonatomic) IBOutlet UILabel *typeL;
 @property (weak, nonatomic) IBOutlet UILabel *durationL;
+@property (weak, nonatomic) IBOutlet UIImageView *statusImgV;
 
 @end
 
 @implementation RewardDetailHeaderView
 + (instancetype)viewWithReward:(Reward *)reward{
     RewardDetailHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"RewardDetailHeaderView" owner:self options:nil] firstObject];
+    [view setWidth:kScreen_Width];
     view.curReward = reward;
     return view;
 }
@@ -38,7 +40,7 @@
     [_priceL setAttrStrWithStr:[NSString stringWithFormat:@"金额：%@", _curReward.format_price] diffColorStr:_curReward.format_price diffColor:diffColor];
     [_typeL setAttrStrWithStr:[NSString stringWithFormat:@"类型：%@", _curReward.typeDisplay] diffColorStr:_curReward.typeDisplay diffColor:diffColor];
     [_durationL setAttrStrWithStr:[NSString stringWithFormat:@"周期：%@ 天", _curReward.duration.stringValue] diffColorStr:_curReward.duration.stringValue diffColor:diffColor];
-
+    _statusImgV.image = [UIImage imageNamed:[NSString stringWithFormat:@"status_%@", _curReward.status.stringValue]];
 }
 
 @end

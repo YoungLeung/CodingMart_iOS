@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -12,7 +12,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="医疗采样流程管理及终端用户互动平台" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6TL-cy-kLr">
-                    <rect key="frame" x="15" y="15" width="570" height="20"/>
+                    <rect key="frame" x="15" y="15" width="527" height="20"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="69O-k1-nvL"/>
                     </constraints>
@@ -83,25 +83,34 @@
                         <constraint firstAttribute="height" constant="1" id="3Dq-KX-pEr" customClass="NSLayoutConstraintLine"/>
                     </constraints>
                 </view>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IQx-YY-Qfv">
+                    <rect key="frame" x="557" y="17" width="43" height="17"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="17" id="EMo-j9-y6g"/>
+                        <constraint firstAttribute="width" constant="43" id="rbX-A4-Lyo"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="OLb-UE-brW" firstAttribute="top" secondItem="6TL-cy-kLr" secondAttribute="bottom" constant="15" id="32m-cn-eRC"/>
                 <constraint firstItem="9ch-7a-Etk" firstAttribute="centerY" secondItem="tpe-5Y-2Tu" secondAttribute="centerY" id="3s7-ty-odv"/>
                 <constraint firstItem="iSq-7u-avV" firstAttribute="leading" secondItem="bWd-2F-VNQ" secondAttribute="trailing" constant="10" id="AJB-uN-qUX"/>
+                <constraint firstAttribute="trailing" secondItem="IQx-YY-Qfv" secondAttribute="trailing" id="DAe-Oa-SRc"/>
                 <constraint firstItem="E84-RR-OJb" firstAttribute="leading" secondItem="OLb-UE-brW" secondAttribute="trailing" constant="10" id="HPk-Yk-Y2W"/>
                 <constraint firstItem="9ch-7a-Etk" firstAttribute="leading" secondItem="kbm-Vw-zMS" secondAttribute="trailing" constant="10" id="IOf-qi-kmW"/>
                 <constraint firstAttribute="trailing" secondItem="jrT-68-w0G" secondAttribute="trailing" id="KDS-bZ-fuy"/>
                 <constraint firstItem="OLb-UE-brW" firstAttribute="leading" secondItem="6TL-cy-kLr" secondAttribute="leading" id="NFr-Xl-jqT"/>
                 <constraint firstItem="tpe-5Y-2Tu" firstAttribute="top" secondItem="OLb-UE-brW" secondAttribute="bottom" constant="15" id="Nph-85-oFn"/>
                 <constraint firstItem="E84-RR-OJb" firstAttribute="centerY" secondItem="OLb-UE-brW" secondAttribute="centerY" id="QTh-8N-sZq"/>
+                <constraint firstItem="IQx-YY-Qfv" firstAttribute="centerY" secondItem="6TL-cy-kLr" secondAttribute="centerY" id="U1u-5H-NPr"/>
                 <constraint firstItem="bWd-2F-VNQ" firstAttribute="leading" secondItem="tpe-5Y-2Tu" secondAttribute="trailing" constant="10" id="W3d-Ia-z9f"/>
                 <constraint firstItem="6TL-cy-kLr" firstAttribute="leading" secondItem="hpn-IP-J0m" secondAttribute="leading" constant="15" id="X7E-UP-YZW"/>
-                <constraint firstAttribute="trailing" secondItem="6TL-cy-kLr" secondAttribute="trailing" constant="15" id="Y2T-lr-F5l"/>
                 <constraint firstItem="jrT-68-w0G" firstAttribute="leading" secondItem="hpn-IP-J0m" secondAttribute="leading" id="aJ4-lI-PBb"/>
                 <constraint firstItem="kbm-Vw-zMS" firstAttribute="leading" secondItem="iSq-7u-avV" secondAttribute="trailing" constant="10" id="fV2-q7-PhZ"/>
                 <constraint firstItem="kbm-Vw-zMS" firstAttribute="centerY" secondItem="tpe-5Y-2Tu" secondAttribute="centerY" id="fpd-Di-gGQ"/>
                 <constraint firstItem="bWd-2F-VNQ" firstAttribute="centerY" secondItem="tpe-5Y-2Tu" secondAttribute="centerY" id="gXl-5F-2KQ"/>
+                <constraint firstItem="IQx-YY-Qfv" firstAttribute="leading" secondItem="6TL-cy-kLr" secondAttribute="trailing" constant="15" id="hHz-4K-Ntg"/>
                 <constraint firstAttribute="bottom" secondItem="jrT-68-w0G" secondAttribute="bottom" id="lWa-I1-aa0"/>
                 <constraint firstItem="iSq-7u-avV" firstAttribute="centerY" secondItem="tpe-5Y-2Tu" secondAttribute="centerY" id="lZS-od-OTh"/>
                 <constraint firstItem="6TL-cy-kLr" firstAttribute="top" secondItem="hpn-IP-J0m" secondAttribute="top" constant="15" id="oGr-YZ-i8y"/>
@@ -114,9 +123,10 @@
                 <outlet property="nameL" destination="6TL-cy-kLr" id="HvD-BX-qfx"/>
                 <outlet property="priceL" destination="tpe-5Y-2Tu" id="WS9-fp-YJ3"/>
                 <outlet property="roleTypesL" destination="E84-RR-OJb" id="unI-pe-0Ao"/>
+                <outlet property="statusImgV" destination="IQx-YY-Qfv" id="HY3-N2-QWZ"/>
                 <outlet property="typeL" destination="iSq-7u-avV" id="gbW-BY-LC1"/>
             </connections>
-            <point key="canvasLocation" x="757" y="539"/>
+            <point key="canvasLocation" x="757" y="567"/>
         </view>
     </objects>
 </document>
