@@ -82,7 +82,10 @@
             deadline_check_timestamp += _curStage.deadline_check_timestamp.doubleValue;
         }
     }
-    NSTimeInterval left_timestamp = deadline_check_timestamp - [NSDate date].timeIntervalSince1970 * 1000 + 86400000;//加一天
+    NSTimeInterval left_timestamp = deadline_check_timestamp - [NSDate date].timeIntervalSince1970 * 1000;
+    if (status != 1) {//截止时间默认加一天，但是验收时间不加
+        left_timestamp += 86400000;
+    }
     left_timestamp /= 1000* 60;//分钟
     NSInteger day = floor(left_timestamp/ 60 / 24);
     NSInteger hour = (NSInteger)(left_timestamp/ 60) % 24;
