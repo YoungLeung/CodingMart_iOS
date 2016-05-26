@@ -199,7 +199,7 @@
     if ([vc isKindOfClass:[PayMethodViewController class]]) {
         [(PayMethodViewController *)vc handlePayURL:url];
     } else if ([vc isKindOfClass:[RootPriceViewController class]]){
-        
+        [(RootPriceViewController *)vc handlePayURL:url];
     }
 }
 

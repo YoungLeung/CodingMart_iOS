@@ -10,18 +10,24 @@
 #import "ChooseSystemPayView.h"
 #import "User.h"
 #import "Coding_NetAPIManager.h"
+#import "PriceSystemPaySuccessViewController.h"
+#import <UMengSocial/WXApi.h>
+#import <UMengSocial/WXApiObject.h>
+#import <AlipaySDK/AlipaySDK.h>
 
 @interface RootPriceViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *startSystemButton;
 @property (strong, nonatomic) ChooseSystemPayView *chooseSystemPayView;
+@property (assign, nonatomic) NSInteger selectedPayMethod;
+
 @end
 
 @implementation RootPriceViewController
 
 + (instancetype)storyboardVC {
     BOOL firstUse = [User payedForPriceSystem];
-    if (!firstUse) {
+    if (firstUse) {
         // 第一次使用
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PriceSystem" bundle:nil];
         return [storyboard instantiateViewControllerWithIdentifier:@"RootPriceViewController"];
@@ -39,20 +45,9 @@
     if (firstUse) {
         // 第一次使用
         __weak typeof(self)weakSelf = self;
-        
-        dispatch_queue_t queen = dispatch_queue_create("checkPay", DISPATCH_QUEUE_SERIAL);
-        
-        dispatch_async(queen, ^{
-//            [weakSelf checkPayed];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf checkPayed];
         });
-        
-        dispatch_async(queen, ^{
-            
-        });
-
-    } else {
-        // 第二次使用
-        
     }
 }
 
@@ -62,14 +57,55 @@
         if (data) {
             NSDictionary *dictionary = [data objectForKey:@"data"];
             [User payedForPriceSystemData:dictionary];
-            NSLog(@"1");
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"changePriceSystemViewController" object:nil];
         }
     }];
 }
 
 #pragma mark - First Time
 - (IBAction)startButtonPress:(id)sender {
+    __weak typeof(self)weakSelf = self;
     self.chooseSystemPayView = [[ChooseSystemPayView alloc] init];
+    self.chooseSystemPayView.payBlock = ^(NSInteger type){
+        weakSelf.selectedPayMethod = type;
+    };
+}
+
+#pragma mark - handleSucessPay
+- (void)handlePayURL:(NSURL *)url{
+    if (_selectedPayMethod == 0) {
+        __weak typeof(self) weakSelf = self;
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+            [weakSelf handleAliResult:resultDic];
+        }];
+    }else if (_selectedPayMethod == 1){
+        NSInteger resultCode = [[url queryParams][@"ret"] intValue];
+        if (resultCode == 0) {
+            [self paySuccess];
+        }else if (resultCode == -1){
+            [NSObject showHudTipStr:@"支付失败"];
+        }
+    }
+}
+
+- (void)handleAliResult:(NSDictionary *)resultDic{
+    if ([resultDic[@"resultStatus"] integerValue] == 9000) {
+        [self paySuccess];
+    }else{
+        NSString *tipStr = resultDic[@"memo"];
+        [NSObject showHudTipStr:tipStr.length > 0? tipStr: @"支付失败"];
+    }
+}
+
+- (void)paySuccess {
+    [self.chooseSystemPayView dismiss];
+    [[NSUserDefaults standardUserDefaults] setObject:@{@"payed":@"YES"} forKey:@"payedForPriceSystem"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    PriceSystemPaySuccessViewController *vc = [[PriceSystemPaySuccessViewController alloc] init];
+    vc.type = _selectedPayMethod;
+    UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nav animated:YES completion:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"changePriceSystemViewController" object:nil];
 }
 
 #pragma mark - Second Time

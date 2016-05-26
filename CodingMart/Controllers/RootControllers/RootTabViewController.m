@@ -47,6 +47,8 @@
                              [self p_navWithRootVC:userVC]];
     [self customizeTabBarForController];
     self.delegate = self;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changePriceSystemViewController) name:@"changePriceSystemViewController" object:nil];
 }
 
 - (UINavigationController *)p_navWithRootVC:(UIViewController *)vc{
@@ -96,5 +98,14 @@
     return YES;
 }
 
+- (void)changePriceSystemViewController {
+    RootPriceViewController *priceVC = [RootPriceViewController storyboardVC];
+    UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:priceVC];
+    NSMutableArray *array = [NSMutableArray arrayWithArray:self.viewControllers];
+    [array replaceObjectAtIndex:3 withObject:nav];
+    [self setViewControllers:array];
+    [self customizeTabBarForController];
+    [self setSelectedIndex:3];
+}
 
 @end

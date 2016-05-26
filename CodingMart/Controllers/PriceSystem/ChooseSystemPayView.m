@@ -16,7 +16,6 @@
 #import <UMengSocial/WXApi.h>
 #import <UMengSocial/WXApiObject.h>
 #import <AlipaySDK/AlipaySDK.h>
-#import "PayResultViewController.h"
 
 typedef NS_ENUM(NSUInteger, PriceSystemPayMethod) {
     /// 支付宝支付
@@ -190,6 +189,10 @@ typedef NS_ENUM(NSUInteger, PriceSystemPayMethod) {
 - (void)requestPayment:(UIButton *)button {
     __weak typeof(self) weakSelf = self;
     
+    if (self.payBlock) {
+        self.payBlock(_selectedPayMethod);
+    }
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:@"0.01" forKey:@"price"]; // 价格，固定参数
     [params setObject:_selectedPayMethod == PriceSystemPayMethodAlipay ? @"alipay" : @"wechat" forKey:@"platform"]; // 平台
@@ -237,54 +240,13 @@ typedef NS_ENUM(NSUInteger, PriceSystemPayMethod) {
 }
 
 #pragma mark - handleSucessPay
-- (void)handlePayURL:(NSURL *)url{
-    if (_selectedPayMethod == PriceSystemPayMethodAlipay) {
-        __weak typeof(self) weakSelf = self;
-        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
-            [weakSelf handleAliResult:resultDic];
-        }];
-    }else if (_selectedPayMethod == PriceSystemPayMethodWechat){
-        NSInteger resultCode = [[url queryParams][@"ret"] intValue];
-        if (resultCode == 0) {
-            [self paySucess];
-        }else if (resultCode == -1){
-            [NSObject showHudTipStr:@"支付失败"];
-        }
-    }
-}
-
 - (void)handleAliResult:(NSDictionary *)resultDic{
     if ([resultDic[@"resultStatus"] integerValue] == 9000) {
-        [self paySucess];
+        [NSObject showHudTipStr:@"支付成功"];
     }else{
         NSString *tipStr = resultDic[@"memo"];
         [NSObject showHudTipStr:tipStr.length > 0? tipStr: @"支付失败"];
     }
-}
-
-- (void)paySucess{
-    NSString *orderNo = _payDict[@"charge_id"];
-    if (orderNo.length <= 0) {
-        return;
-    }
-    [NSObject showHUDQueryStr:@"正在查询订单状态..."];
-    [[Coding_NetAPIManager sharedManager] get_Order:orderNo block:^(id data, NSError *error) {
-        if ([data[@"status"] isEqual:@(1)]) {//交易成功
-            [NSObject hideHUDQuery];
-            [self goToSucessVC:data];
-        }else{
-            [self paySucess];
-        }
-    }];
-}
-
-- (void)goToSucessVC:(NSDictionary *)orderDict{
-    UINavigationController *nav = self.nav;
-    PayResultViewController *vc = [PayResultViewController storyboardVC];
-    vc.orderDict = orderDict;
-    
-    [nav popViewControllerAnimated:NO];
-    [nav pushViewController:vc animated:YES];
 }
 
 #pragma mark - app url

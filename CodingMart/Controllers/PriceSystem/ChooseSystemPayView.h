@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^PayBlock)(NSInteger type);
+
 @interface ChooseSystemPayView : UIView
 
-- (void)handlePayURL:(NSURL *)url;
+@property (copy, nonatomic) PayBlock payBlock;
+
+- (void)dismiss;
 
 @end
