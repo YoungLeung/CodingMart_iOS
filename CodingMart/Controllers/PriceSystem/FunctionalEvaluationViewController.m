@@ -12,6 +12,8 @@
 @interface FunctionalEvaluationViewController ()
 
 @property (strong, nonatomic) UIView *backgroundView;
+@property (strong, nonatomic) UIScrollView *topMenuView;
+@property (strong, nonatomic) UIView *selectView;
 
 @end
 
@@ -20,6 +22,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.automaticallyAdjustsScrollViewInsets = NO;
     [self setTitle:@"功能评估"];
     
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -32,6 +35,70 @@
     UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     space.width = -25;
     [self.navigationItem setRightBarButtonItems:@[space, backItem]];
+    
+    // 加载顶部菜单
+    [self addTopMenu];
+}
+
+- (void)addTopMenu {
+    if (_topMenuView) {
+        [_topMenuView removeFromSuperview];
+        _topMenuView = nil;
+    }
+    _topMenuView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, 44)];
+    [_topMenuView setBackgroundColor:[UIColor whiteColor]];
+    [_topMenuView setShowsHorizontalScrollIndicator:NO];
+    [_topMenuView setShowsVerticalScrollIndicator:NO];
+    [self.view addSubview:_topMenuView];
+    
+    // 增加菜单
+    float lastX = 0;
+    UIButton *firstButton;
+    for (int i = 0; i < _selectedMenuArray.count; i++) {
+        NSString *title = _selectedMenuArray[i];
+        CGSize size = [title getSizeWithFont:[UIFont systemFontOfSize:14.0f] constrainedToSize:CGSizeMake(CGFLOAT_MAX, 44)];
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setTitle:title forState:UIControlStateNormal];
+        [button setBackgroundColor:[UIColor whiteColor]];
+        [button setFrame:CGRectMake(lastX, 0, size.width + 20, 44)];
+        [button setTitleColor:[UIColor colorWithHexString:@"222222"] forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor colorWithHexString:@"4289DB"] forState:UIControlStateSelected | UIControlStateHighlighted];
+        [button.titleLabel setFont:[UIFont systemFontOfSize:14.0f]];
+        [button setTag:i];
+        [button addTarget:self action:@selector(selectButtonAtIndex:) forControlEvents:UIControlEventTouchUpInside];
+        float scrollWith = _topMenuView.contentSize.width;
+        scrollWith += button.frame.size.width;
+        [_topMenuView setContentSize:CGSizeMake(scrollWith, _topMenuView.frame.size.height)];
+        [_topMenuView addSubview:button];
+        lastX = CGRectGetMaxX(button.frame);
+        if (i == 0) {
+            firstButton = button;
+        }
+    }
+    
+    // 选中指示条
+    _selectView = [[UIView alloc] initWithFrame:CGRectMake(0, 42, 100, 2)];
+    [_selectView setBackgroundColor:[UIColor colorWithHexString:@"4289DB"]];
+    [_topMenuView addSubview:_selectView];
+    
+    [self selectButtonAtIndex:firstButton];
+}
+
+- (void)selectButtonAtIndex:(UIButton *)button {
+    NSArray *array = _topMenuView.subviews;
+    for (int i = 0; i < array.count; i++) {
+        id v = [array objectAtIndex:i];
+        if ([v isKindOfClass:[UIButton class]]) {
+            UIButton *btn = (UIButton *)v;
+            [btn setSelected:NO];
+        }
+    }
+    
+    [_selectView setWidth:button.frame.size.width - 20];
+    [UIView animateWithDuration:0.2 animations:^{
+        [_selectView setCenterX:button.centerX];
+    }];
+    [button setSelected:YES];
 }
 
 - (void)changePlatform {
@@ -66,17 +133,16 @@
     [platformView addSubview:lineView];
     
     // 平台按钮
-    NSArray *menuArray = @[@"Web 网站", @"微信应用", @"iOS APP", @"Android APP", @"HTML5 应用", @"其他"];
     float buttonWidth = (platformView.frame.size.width-15*3)/2;
     float buttonY = CGRectGetMaxY(lineView.frame);
     
-    for (int i = 0; i < menuArray.count; i++) {
+    for (int i = 0; i < _menuArray.count; i++) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         UIImage *normalImage = [UIImage imageWithColor:[UIColor colorWithHexString:@"F3F3F3"]];
         UIImage *selectedImage = [UIImage imageWithColor:[UIColor colorWithHexString:@"4289DB"]];
         [button setBackgroundImage:normalImage forState:UIControlStateNormal];
         [button setBackgroundImage:selectedImage forState:UIControlStateSelected | UIControlStateHighlighted];
-        [button setTitle:menuArray[i] forState:UIControlStateNormal];
+        [button setTitle:_menuArray[i] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor colorWithHexString:@"666666"] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected | UIControlStateHighlighted];
         [button.titleLabel setFont:[UIFont systemFontOfSize:15.0f]];

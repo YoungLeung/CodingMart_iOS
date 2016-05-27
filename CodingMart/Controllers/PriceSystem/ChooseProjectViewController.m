@@ -13,7 +13,7 @@
 
 @interface ChooseProjectViewController ()
 
-@property (nonatomic, strong) NSArray *cellImageArray, *cellNameArray;
+@property (strong, nonatomic) NSArray *cellImageArray, *cellNameArray;
 
 @end
 
@@ -50,6 +50,7 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
     
     [self.collectionView registerClass:[NextStepCollectionViewCell class] forCellWithReuseIdentifier:nextStepReuseIdentifier];
     [self.collectionView setAllowsMultipleSelection:YES];
+    [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionNone];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -114,6 +115,7 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     ChoosePriceCollectionViewCell *cell = (ChoosePriceCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     [cell setSelected:cell.selected];
+    
 }
 
 #pragma mark <UICollectionViewDelegate>
@@ -127,8 +129,22 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
 }
 
 - (void)nextStep {
-    FunctionalEvaluationViewController *vc = [[FunctionalEvaluationViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
+    NSArray *array = [NSMutableArray arrayWithArray:self.collectionView.indexPathsForSelectedItems];
+    NSMutableArray *selectedArray = [NSMutableArray array];
+    if (array.count) {
+        for (int i = 0; i < array.count; i++) {
+            NSIndexPath *indexPath = [array objectAtIndex:i];
+            [selectedArray addObject:[_cellNameArray objectAtIndex:indexPath.row]];
+        }
+        if ([selectedArray containsObject:@"其他"]) {
+            
+        } else {
+            FunctionalEvaluationViewController *vc = [[FunctionalEvaluationViewController alloc] init];
+            vc.menuArray = _cellNameArray;
+            vc.selectedMenuArray = selectedArray;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
 }
 
 @end
