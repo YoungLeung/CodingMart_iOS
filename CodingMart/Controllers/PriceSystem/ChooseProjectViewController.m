@@ -10,6 +10,7 @@
 #import "ChoosePriceCollectionViewCell.h"
 #import "NextStepCollectionViewCell.h"
 #import "FunctionalEvaluationViewController.h"
+#import "Coding_NetAPIManager.h"
 
 @interface ChooseProjectViewController ()
 
@@ -51,6 +52,13 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
     [self.collectionView registerClass:[NextStepCollectionViewCell class] forCellWithReuseIdentifier:nextStepReuseIdentifier];
     [self.collectionView setAllowsMultipleSelection:YES];
     [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionNone];
+    
+    // 加载菜单数据
+    [[Coding_NetAPIManager sharedManager] get_quoteFunctions:^(id data, NSError *error) {
+        if (!error) {
+            [NSObject saveResponseData:data toPath:@"priceListData"];
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

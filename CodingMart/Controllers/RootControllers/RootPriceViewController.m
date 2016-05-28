@@ -15,6 +15,8 @@
 #import <UMengSocial/WXApiObject.h>
 #import <AlipaySDK/AlipaySDK.h>
 
+#define kPriceListData @"priceListData"
+
 @interface RootPriceViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *startSystemButton;
@@ -49,6 +51,13 @@
             [weakSelf checkPayed];
         });
     }
+    
+    // 加载菜单数据
+    [[Coding_NetAPIManager sharedManager] get_quoteFunctions:^(id data, NSError *error) {
+        if (!error) {
+            [NSObject saveResponseData:data toPath:kPriceListData];
+        }
+    }];
 }
 
 // 检查有没有支付过1元

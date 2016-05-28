@@ -8,12 +8,17 @@
 
 #import "FunctionalEvaluationViewController.h"
 #import "UIView+BlocksKit.h"
+#import "FunctionMenu.h"
 
-@interface FunctionalEvaluationViewController ()
+@interface FunctionalEvaluationViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) UIView *backgroundView;
 @property (strong, nonatomic) UIScrollView *topMenuView;
 @property (strong, nonatomic) UIView *selectView;
+@property (strong, nonatomic) NSDictionary *data;
+@property (assign, nonatomic) NSInteger selectedIndex;
+@property (strong, nonatomic) UIScrollView *firstMenuScrollView;
+@property (strong, nonatomic) UIView *firstMenuSelectView; // 第一级菜单选中的背景
 
 @end
 
@@ -36,6 +41,8 @@
     space.width = -25;
     [self.navigationItem setRightBarButtonItems:@[space, backItem]];
     
+    _data = [NSObject loadResponseWithPath:@"priceListData"];
+
     // 加载顶部菜单
     [self addTopMenu];
 }
@@ -62,7 +69,7 @@
         [button setBackgroundColor:[UIColor whiteColor]];
         [button setFrame:CGRectMake(lastX, 0, size.width + 20, 44)];
         [button setTitleColor:[UIColor colorWithHexString:@"222222"] forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor colorWithHexString:@"4289DB"] forState:UIControlStateSelected | UIControlStateHighlighted];
+        [button setTitleColor:[UIColor colorWithHexString:@"4289DB"] forState:UIControlStateSelected];
         [button.titleLabel setFont:[UIFont systemFontOfSize:14.0f]];
         [button setTag:i];
         [button addTarget:self action:@selector(selectButtonAtIndex:) forControlEvents:UIControlEventTouchUpInside];
@@ -85,12 +92,17 @@
 }
 
 - (void)selectButtonAtIndex:(UIButton *)button {
+    _selectedIndex = button.tag;
     NSArray *array = _topMenuView.subviews;
     for (int i = 0; i < array.count; i++) {
         id v = [array objectAtIndex:i];
         if ([v isKindOfClass:[UIButton class]]) {
             UIButton *btn = (UIButton *)v;
-            [btn setSelected:NO];
+            if (btn.tag == button.tag) {
+                [btn setSelected:YES];
+            } else {
+                [btn setSelected:NO];
+            }
         }
     }
     
@@ -98,7 +110,8 @@
     [UIView animateWithDuration:0.2 animations:^{
         [_selectView setCenterX:button.centerX];
     }];
-    [button setSelected:YES];
+    
+    [self addFirstMenu];
 }
 
 - (void)changePlatform {
@@ -210,6 +223,90 @@
 - (void)dismiss {
     [_backgroundView removeFromSuperview];
     _backgroundView = nil;
+}
+
+#pragma mark - 一级菜单
+// 加载一级菜单
+- (void)addFirstMenu {
+    if (_firstMenuScrollView) {
+        [_firstMenuSelectView removeFromSuperview];
+        _firstMenuSelectView = nil;
+    }
+    _firstMenuScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_topMenuView.frame), kScreen_Width * 0.33, kScreen_Height - 44 - 64)];
+    [_firstMenuScrollView setBackgroundColor:[UIColor colorWithHexString:@"8796A8"]];
+    [self.view addSubview:_firstMenuScrollView];
+    
+    NSArray *platforms = [_data objectForKey:@"platforms"];
+    NSString *platformString = [platforms objectAtIndex:_selectedIndex];
+    NSMutableDictionary *allMenuDict = [_data objectForKey:@"quotations"];
+    NSDictionary *menuDict = [allMenuDict objectForKey:platformString];
+    FunctionMenu *menu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:menuDict];
+    
+    // 找出子模块
+    NSString *children = menu.children;
+    NSArray *childrenArray = [children componentsSeparatedByString:@","];
+    NSMutableArray *childrenMenuArray = [NSMutableArray array];
+    for (int i = 0; i < childrenArray.count; i++) {
+        FunctionMenu *menu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:childrenArray[i]]];
+        [childrenMenuArray addObject:menu];
+    }
+    
+    _firstMenuSelectView = [[UIView alloc] initWithFrame:CGRectMake(5, 8, _firstMenuScrollView.frame.size.width - 10, 45)];
+    [_firstMenuSelectView setBackgroundColor:[UIColor whiteColor]];
+    [_firstMenuSelectView setCornerRadius:2.0f];
+    [_firstMenuScrollView addSubview:_firstMenuSelectView];
+    
+    for (int i = 0; i < childrenMenuArray.count; i++) {
+        FunctionMenu *menu = [childrenMenuArray objectAtIndex:i];
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setTitle:menu.title forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor colorWithHexString:@"8796A8"] forState:UIControlStateSelected];
+        [button setTitleColor:[UIColor colorWithHexString:@"8796A8"] forState:UIControlStateHighlighted];
+        [button setBackgroundColor:[UIColor clearColor]];
+        [button setFrame:CGRectMake(10, i*60, _firstMenuScrollView.frame.size.width - 20, 60)];
+        [button setTag:i+10];
+        [button.titleLabel setFont:[UIFont systemFontOfSize:14.0f]];
+        [button.titleLabel setTextAlignment:NSTextAlignmentLeft];
+        [button.titleLabel setNumberOfLines:0];
+        [button addTarget:self action:@selector(firstMenuButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+        [_firstMenuScrollView addSubview:button];
+        if (i == 0) {
+            [button setSelected:YES];
+        }
+    }
+}
+
+- (void)firstMenuButtonPress:(UIButton *)button {
+    NSArray *array = _firstMenuScrollView.subviews;
+    for (int i = 0; i < array.count; i++) {
+        id v = [array objectAtIndex:i];
+        if ([v isKindOfClass:[UIButton class]]) {
+            UIButton *btn = (UIButton *)v;
+            if (btn.tag == button.tag) {
+                [btn setSelected:YES];
+            } else {
+                [btn setSelected:NO];
+            }
+        }
+    }
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        [_firstMenuSelectView setCenterY:button.centerY];
+    }];
+}
+
+#pragma mark - UITableViewDelagate
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 2;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 60.0f;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return nil;
 }
 
 - (void)didReceiveMemoryWarning {
