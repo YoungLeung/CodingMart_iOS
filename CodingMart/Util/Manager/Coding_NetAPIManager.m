@@ -719,4 +719,12 @@
     }];
 }
 
+- (void)get_quoteFunctions:(void (^)(id, NSError *))block {
+    NSString *path = @"api/quote/functions";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        data = [data objectForKey:@"data"];
+        block(data, error);
+    }];
+}
+
 @end
