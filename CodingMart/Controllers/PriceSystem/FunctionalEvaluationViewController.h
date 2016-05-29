@@ -10,7 +10,6 @@
 
 @interface FunctionalEvaluationViewController : BaseViewController
 
-@property (strong, nonatomic) NSArray *menuArray;
-@property (strong, nonatomic) NSArray *selectedMenuArray;
+@property (strong, nonatomic) NSArray *menuArray, *selectedMenuArray, *menuIDArray;
 
 @end

@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FunctionMenu.h"
 
-@interface FunctionalFirstMenuCell : UITableViewCell
+@interface FunctionalSecondMenuCell : UITableViewCell
+
+- (void)updateCell:(FunctionMenu *)menu;
++ (NSString *)cellID;
 
 @end

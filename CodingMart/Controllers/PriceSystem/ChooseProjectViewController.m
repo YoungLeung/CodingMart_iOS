@@ -14,7 +14,7 @@
 
 @interface ChooseProjectViewController ()
 
-@property (strong, nonatomic) NSArray *cellImageArray, *cellNameArray;
+@property (strong, nonatomic) NSArray *cellImageArray, *cellNameArray, *menuIDArray;
 
 @end
 
@@ -48,6 +48,14 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
                         @"HTML5 应用",
                         @"其他",
                         ];
+    
+    _menuIDArray = @[@"P001",
+                     @"P004",
+                     @"P002",
+                     @"P003",
+                     @"P005",
+                     @"P006",
+                     ];
     
     [self.collectionView registerClass:[NextStepCollectionViewCell class] forCellWithReuseIdentifier:nextStepReuseIdentifier];
     [self.collectionView setAllowsMultipleSelection:YES];
@@ -139,16 +147,19 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
 - (void)nextStep {
     NSArray *array = [NSMutableArray arrayWithArray:self.collectionView.indexPathsForSelectedItems];
     NSMutableArray *selectedArray = [NSMutableArray array];
+    NSMutableArray *selectedIDArray = [NSMutableArray array];
     if (array.count) {
         for (int i = 0; i < array.count; i++) {
             NSIndexPath *indexPath = [array objectAtIndex:i];
             [selectedArray addObject:[_cellNameArray objectAtIndex:indexPath.row]];
+            [selectedIDArray addObject:[_menuIDArray objectAtIndex:indexPath.row]];
         }
         if ([selectedArray containsObject:@"其他"]) {
             
         } else {
             FunctionalEvaluationViewController *vc = [[FunctionalEvaluationViewController alloc] init];
             vc.menuArray = _cellNameArray;
+            vc.menuIDArray = selectedIDArray;
             vc.selectedMenuArray = selectedArray;
             [self.navigationController pushViewController:vc animated:YES];
         }
