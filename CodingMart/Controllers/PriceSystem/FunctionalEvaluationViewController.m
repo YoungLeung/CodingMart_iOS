@@ -10,6 +10,7 @@
 #import "UIView+BlocksKit.h"
 #import "FunctionMenu.h"
 #import "FunctionalSecondMenuCell.h"
+#import "FunctionalThirdCell.h"
 
 @interface FunctionalEvaluationViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -17,11 +18,11 @@
 @property (strong, nonatomic) UIScrollView *topMenuView;
 @property (strong, nonatomic) UIView *selectView;
 @property (strong, nonatomic) NSDictionary *data;
-@property (assign, nonatomic) NSInteger selectedIndex, selectedFirstIndex;
+@property (assign, nonatomic) NSInteger selectedIndex, selectedFirstIndex, selectedSecondIndex;
 @property (strong, nonatomic) UIScrollView *firstMenuScrollView;
 @property (strong, nonatomic) UIView *firstMenuSelectView; // 第一级菜单选中的背景
-@property (strong, nonatomic) NSMutableArray *firstMenuArray, *secondMenuArray;
-@property (strong, nonatomic) UITableView *secondMenuTableView;
+@property (strong, nonatomic) NSMutableArray *firstMenuArray, *secondMenuArray, *thirdMenuArray;
+@property (strong, nonatomic) UITableView *secondMenuTableView, *thirdMenuTableView;
 
 @end
 
@@ -47,6 +48,7 @@
     _data = [NSObject loadResponseWithPath:@"priceListData"];
     _firstMenuArray = [NSMutableArray array];
     _secondMenuArray = [NSMutableArray array];
+    _thirdMenuArray = [NSMutableArray array];
 
     // 加载顶部菜单
     [self addTopMenu];
@@ -357,10 +359,36 @@
     [self setExtraCellLineHidden:_secondMenuTableView];
 }
 
+#pragma mark - 三级菜单
+- (void)addThirdMenu {
+    [self generateThirdMenu];
+    _thirdMenuTableView = [[UITableView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_secondMenuTableView.frame), CGRectGetMaxY(_topMenuView.frame), kScreen_Width - CGRectGetMaxX(_secondMenuTableView.frame), _secondMenuTableView.frame.size.height) style:UITableViewStylePlain];
+    [_thirdMenuTableView setDelegate:self];
+    [_thirdMenuTableView setDataSource:self];
+    [_thirdMenuTableView setSeparatorColor:[UIColor colorWithHexString:@"DDDDDD"]];
+    [_thirdMenuTableView registerClass:[FunctionalThirdCell class] forCellReuseIdentifier:[FunctionalThirdCell cellID]];
+    [_thirdMenuTableView setMultipleTouchEnabled:YES];
+    [self.view addSubview:_thirdMenuTableView];
+}
+
+- (void)generateThirdMenu {
+    [_thirdMenuArray removeAllObjects];
+    FunctionMenu *menu = [_secondMenuArray objectAtIndex:_selectedSecondIndex];
+    NSString *children = menu.children;
+    NSMutableDictionary *allMenuDict = [_data objectForKey:@"quotations"];
+    NSArray *childrenArray = [children componentsSeparatedByString:@","];
+    for (int i = 0; i < childrenArray.count; i++) {
+        FunctionMenu *menu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:childrenArray[i]]];
+        [_thirdMenuArray addObject:menu];
+    }
+}
+
 #pragma mark - UITableViewDelagate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == _secondMenuTableView) {
         return _secondMenuArray.count;
+    } else if (tableView == _thirdMenuTableView) {
+        return _thirdMenuArray.count;
     }
     return 0;
 }
@@ -368,33 +396,57 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == _secondMenuTableView) {
         return 47.0f;
+    } else if (tableView == _thirdMenuTableView) {
+        return 72.0f;
     }
-    return 47.0f;
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    FunctionalSecondMenuCell *cell = [tableView dequeueReusableCellWithIdentifier:[FunctionalSecondMenuCell cellID]];
-    if (!cell) {
-        cell = [[FunctionalSecondMenuCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[FunctionalSecondMenuCell cellID]];
+    if (tableView == _secondMenuTableView) {
+        FunctionalSecondMenuCell *cell = [tableView dequeueReusableCellWithIdentifier:[FunctionalSecondMenuCell cellID]];
+        if (!cell) {
+            cell = [[FunctionalSecondMenuCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[FunctionalSecondMenuCell cellID]];
+        }
+        FunctionMenu *menu = [_secondMenuArray objectAtIndex:indexPath.row];
+        [cell updateCell:menu];
+        return cell;
+    } else {
+        FunctionalThirdCell *cell = [tableView dequeueReusableCellWithIdentifier:[FunctionalThirdCell cellID]];
+        if (!cell) {
+            cell = [[FunctionalThirdCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[FunctionalThirdCell cellID]];
+        }
+        FunctionMenu *menu = [_thirdMenuArray objectAtIndex:indexPath.row];
+        [cell updateCell:menu];
+        return cell;
     }
-    FunctionMenu *menu = [_secondMenuArray objectAtIndex:indexPath.row];
-    [cell updateCell:menu];
-    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == _secondMenuTableView) {
         // 缩小一级菜单
-        [self reduceFirstMenu];
+        if (_firstMenuScrollView.width != 34.0f) {
+            [self reduceFirstMenu];
+        }
+        _selectedSecondIndex = indexPath.row;
+        if (!_thirdMenuTableView) {
+            [self addThirdMenu];
+        } else {
+            // 更新三级菜单
+            [self generateThirdMenu];
+            [_thirdMenuTableView setX:CGRectGetMaxX(_secondMenuTableView.frame)];
+            [_thirdMenuTableView reloadData];
+        }
     }
 }
 
 - (void)reduceFirstMenu {
+    // 复原
     if (_firstMenuScrollView.width == 34.0f) {
         [UIView animateWithDuration:0.2 animations:^{
             [_firstMenuScrollView setWidth:kScreen_Width * 0.33];
             [_firstMenuSelectView setWidth:_firstMenuScrollView.frame.size.width - 10];
-            
+            [_thirdMenuTableView setX:kScreen_Width];
             // 修改显示文字
             for (int i = 0; i < _firstMenuArray.count; i++) {
                 UIButton *btn = [_firstMenuScrollView viewWithTag:i+10];
@@ -411,10 +463,12 @@
         [_secondMenuTableView setX:CGRectGetMaxX(_firstMenuScrollView.frame)];
         [_secondMenuTableView setWidth:kScreen_Width - _firstMenuScrollView.frame.size.width];
     } else {
+        // 缩小
         [UIView animateWithDuration:0.2 animations:^{
             [_firstMenuScrollView setWidth:34.0f];
             [_firstMenuSelectView setWidth:24.0f];
-            
+            [_thirdMenuTableView setX:CGRectGetMaxX(_secondMenuTableView.frame)];
+
             // 修改显示文字
             for (int i = 0; i < _firstMenuArray.count; i++) {
                 UIButton *btn = [_firstMenuScrollView viewWithTag:i+10];
