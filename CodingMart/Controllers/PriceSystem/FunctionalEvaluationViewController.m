@@ -234,13 +234,16 @@
 // 加载一级菜单
 - (void)addFirstMenu {
     if (_firstMenuScrollView) {
-        [_firstMenuSelectView removeFromSuperview];
-        _firstMenuSelectView = nil;
+        for (id v in _firstMenuScrollView.subviews) {
+            [v removeFromSuperview];
+        }
+        [_firstMenuScrollView setWidth:kScreen_Width * 0.33];
+    } else {
+        _firstMenuScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_topMenuView.frame), kScreen_Width * 0.33, kScreen_Height - 44 - 64)];
+        [_firstMenuScrollView setBackgroundColor:[UIColor colorWithHexString:@"8796A8"]];
+        [self.view addSubview:_firstMenuScrollView];
     }
     [_firstMenuArray removeAllObjects];
-    _firstMenuScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_topMenuView.frame), kScreen_Width * 0.33, kScreen_Height - 44 - 64)];
-    [_firstMenuScrollView setBackgroundColor:[UIColor colorWithHexString:@"8796A8"]];
-    [self.view addSubview:_firstMenuScrollView];
     
     NSString *platforms = [_menuIDArray objectAtIndex:_selectedIndex];
     NSMutableDictionary *allMenuDict = [_data objectForKey:@"quotations"];
@@ -280,6 +283,12 @@
             [button setSelected:YES];
             firstButton = button;
         }
+        
+        // 分割线
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(button.frame), _firstMenuScrollView.frame.size.width - 20, 1)];
+        [lineView setBackgroundColor:[UIColor whiteColor]];
+        [lineView setTag:i+20];
+        [_firstMenuScrollView addSubview:lineView];
     }
     
     [self firstMenuButtonPress:firstButton];
@@ -310,10 +319,18 @@
     } else {
         // 更新二级菜单
         [self generateSecondMenu];
+        [_secondMenuTableView setX:CGRectGetMaxX(_firstMenuScrollView.frame)];
+        [_secondMenuTableView setWidth:kScreen_Width - _firstMenuScrollView.frame.size.width];
         [_secondMenuTableView reloadData];
+    }
+    
+    if (_firstMenuScrollView.width == 34.0f) {
+        [self reduceFirstMenu];
     }
 }
 
+
+#pragma mark - 二级菜单
 - (void)generateSecondMenu {
     [_secondMenuArray removeAllObjects];
     FunctionMenu *firstMenu = [_firstMenuArray objectAtIndex:_selectedFirstIndex];
@@ -334,8 +351,10 @@
     [_secondMenuTableView setBackgroundColor:[UIColor colorWithHexString:@"eaecee"]];
     [_secondMenuTableView setDelegate:self];
     [_secondMenuTableView setDataSource:self];
+    [_secondMenuTableView setSeparatorColor:[UIColor colorWithHexString:@"DDDDDD"]];
     [_secondMenuTableView registerClass:[FunctionalSecondMenuCell class] forCellReuseIdentifier:[FunctionalSecondMenuCell cellID]];
     [self.view addSubview:_secondMenuTableView];
+    [self setExtraCellLineHidden:_secondMenuTableView];
 }
 
 #pragma mark - UITableViewDelagate
@@ -361,6 +380,65 @@
     FunctionMenu *menu = [_secondMenuArray objectAtIndex:indexPath.row];
     [cell updateCell:menu];
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (tableView == _secondMenuTableView) {
+        // 缩小一级菜单
+        [self reduceFirstMenu];
+    }
+}
+
+- (void)reduceFirstMenu {
+    if (_firstMenuScrollView.width == 34.0f) {
+        [UIView animateWithDuration:0.2 animations:^{
+            [_firstMenuScrollView setWidth:kScreen_Width * 0.33];
+            [_firstMenuSelectView setWidth:_firstMenuScrollView.frame.size.width - 10];
+            
+            // 修改显示文字
+            for (int i = 0; i < _firstMenuArray.count; i++) {
+                UIButton *btn = [_firstMenuScrollView viewWithTag:i+10];
+                if (i < _firstMenuArray.count) {
+                    FunctionMenu *menu = [_firstMenuArray objectAtIndex:i];
+                    [btn setTitle:menu.title forState:UIControlStateNormal];
+                }
+                [btn setWidth:_firstMenuScrollView.frame.size.width - 20];
+                UIView *view = [_firstMenuScrollView viewWithTag:i+20];
+                [view setWidth:_firstMenuScrollView.frame.size.width - 20];
+            }
+        }];
+        
+        [_secondMenuTableView setX:CGRectGetMaxX(_firstMenuScrollView.frame)];
+        [_secondMenuTableView setWidth:kScreen_Width - _firstMenuScrollView.frame.size.width];
+    } else {
+        [UIView animateWithDuration:0.2 animations:^{
+            [_firstMenuScrollView setWidth:34.0f];
+            [_firstMenuSelectView setWidth:24.0f];
+            
+            // 修改显示文字
+            for (int i = 0; i < _firstMenuArray.count; i++) {
+                UIButton *btn = [_firstMenuScrollView viewWithTag:i+10];
+                if (i < _firstMenuArray.count) {
+                    FunctionMenu *menu = [_firstMenuArray objectAtIndex:i];
+                    [btn setTitle:[menu.title substringToIndex:1] forState:UIControlStateNormal];
+                }
+                [btn setWidth:18.0f];
+                UIView *view = [_firstMenuScrollView viewWithTag:i+20];
+                [view setWidth:14.0f];
+            }
+        }];
+        
+        [_secondMenuTableView setX:CGRectGetMaxX(_firstMenuScrollView.frame)];
+        [_secondMenuTableView setWidth:kScreen_Width*0.3];
+    }
+}
+
+#pragma mark - 去除多余分割线
+- (void)setExtraCellLineHidden:(UITableView *)tableView{
+    UIView *view =[ [UIView alloc]init];
+    view.backgroundColor = [UIColor clearColor];
+    [tableView setTableFooterView:view];
+    [tableView setTableHeaderView:view];
 }
 
 - (void)didReceiveMemoryWarning {

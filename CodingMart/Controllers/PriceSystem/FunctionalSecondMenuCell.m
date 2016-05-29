@@ -26,14 +26,19 @@
         [_titleLabel setFont:[UIFont systemFontOfSize:14.0f]];
         [_titleLabel setTextColor:[UIColor colorWithHexString:@"666666"]];
         [self addSubview:_titleLabel];
+        [self setSeparatorInset:UIEdgeInsetsMake(0, -20, 0, 10)];
+        [self setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
     return self;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+    if (selected) {
+        [self setBackgroundColor:[UIColor whiteColor]];
+    } else {
+        [self setBackgroundColor:[UIColor colorWithHexString:@"eaecee"]];
+    }
 }
 
 - (void)updateCell:(FunctionMenu *)menu {
