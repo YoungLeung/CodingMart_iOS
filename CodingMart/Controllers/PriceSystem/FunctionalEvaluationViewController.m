@@ -25,6 +25,7 @@
 @property (strong, nonatomic) NSMutableArray *firstMenuArray, *secondMenuArray;
 @property (strong, nonatomic) NSMutableDictionary *thirdMenuDict;
 @property (strong, nonatomic) UITableView *secondMenuTableView, *thirdMenuTableView;
+@property (strong, nonatomic) UIView *bottomMenuView;
 
 @end
 
@@ -54,6 +55,8 @@
 
     // 加载顶部菜单
     [self addTopMenu];
+    // 加载底部菜单
+    [self addBottomMenu];
 }
 
 - (void)addTopMenu {
@@ -368,14 +371,15 @@
 #pragma mark - 三级菜单
 - (void)addThirdMenu {
     [self generateThirdMenu];
-    _thirdMenuTableView = [[UITableView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_secondMenuTableView.frame), CGRectGetMaxY(_topMenuView.frame), kScreen_Width - CGRectGetMaxX(_secondMenuTableView.frame), _secondMenuTableView.frame.size.height) style:UITableViewStylePlain];
+    _thirdMenuTableView = [[UITableView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_secondMenuTableView.frame), CGRectGetMaxY(_topMenuView.frame), kScreen_Width - CGRectGetMaxX(_secondMenuTableView.frame), _secondMenuTableView.frame.size.height - 44) style:UITableViewStylePlain];
     [_thirdMenuTableView setDelegate:self];
     [_thirdMenuTableView setDataSource:self];
     [_thirdMenuTableView setSeparatorColor:[UIColor colorWithHexString:@"DDDDDD"]];
     [_thirdMenuTableView registerClass:[FunctionalThirdCell class] forCellReuseIdentifier:[FunctionalThirdCell cellID]];
     [_thirdMenuTableView registerClass:[FunctionalHeaderView class] forHeaderFooterViewReuseIdentifier:[FunctionalHeaderView viewID]];
-    [_thirdMenuTableView setMultipleTouchEnabled:YES];
+    [_thirdMenuTableView setAllowsMultipleSelection:YES];
     [self.view addSubview:_thirdMenuTableView];
+    [self.view bringSubviewToFront:_bottomMenuView];
 }
 
 - (void)generateThirdMenu {
@@ -392,6 +396,29 @@
         }
         [_thirdMenuDict setObject:[mArray copy] forKey:menu.code];
     }
+}
+
+#pragma mark - 底部菜单栏
+- (void)addBottomMenu {
+    _bottomMenuView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreen_Height - 44, kScreen_Width, 44)];
+    [_bottomMenuView setBackgroundColor:[UIColor colorWithHexString:@"414952" andAlpha:0.9]];
+    
+    // 购物车数量
+    UIImage *image = [UIImage imageNamed:@"price_selected_menu_list"];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(30, 12, image.size.width, image.size.height)];
+    [imageView setImage:image];
+    [_bottomMenuView addSubview:imageView];
+    
+    // 计算结果
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setTitle:@"计算结果" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button.titleLabel setFont:[UIFont systemFontOfSize:16.0f]];
+    [button setBackgroundColor:[UIColor colorWithHexString:@"4289DB"]];
+    [button setFrame:CGRectMake(_bottomMenuView.frame.size.width *(1 - 0.38), 0, _bottomMenuView.frame.size.width * 0.38, _bottomMenuView.frame.size.height)];
+    [_bottomMenuView addSubview:button];
+    
+    [self.view addSubview:_bottomMenuView];
 }
 
 #pragma mark - UITableViewDelagate
