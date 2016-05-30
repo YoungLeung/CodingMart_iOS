@@ -11,6 +11,7 @@
 #import "FunctionMenu.h"
 #import "FunctionalSecondMenuCell.h"
 #import "FunctionalThirdCell.h"
+#import "FunctionalHeaderView.h"
 
 @interface FunctionalEvaluationViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -21,7 +22,8 @@
 @property (assign, nonatomic) NSInteger selectedIndex, selectedFirstIndex, selectedSecondIndex;
 @property (strong, nonatomic) UIScrollView *firstMenuScrollView;
 @property (strong, nonatomic) UIView *firstMenuSelectView; // 第一级菜单选中的背景
-@property (strong, nonatomic) NSMutableArray *firstMenuArray, *secondMenuArray, *thirdMenuArray;
+@property (strong, nonatomic) NSMutableArray *firstMenuArray, *secondMenuArray;
+@property (strong, nonatomic) NSMutableDictionary *thirdMenuDict;
 @property (strong, nonatomic) UITableView *secondMenuTableView, *thirdMenuTableView;
 
 @end
@@ -48,7 +50,7 @@
     _data = [NSObject loadResponseWithPath:@"priceListData"];
     _firstMenuArray = [NSMutableArray array];
     _secondMenuArray = [NSMutableArray array];
-    _thirdMenuArray = [NSMutableArray array];
+    _thirdMenuDict = [NSMutableDictionary dictionary];
 
     // 加载顶部菜单
     [self addTopMenu];
@@ -118,6 +120,10 @@
         [_selectView setCenterX:button.centerX];
     }];
     
+    [UIView animateWithDuration:0.2 animations:^{
+        [_thirdMenuTableView setX:kScreen_Width];
+    }];
+
     [self addFirstMenu];
 }
 
@@ -367,28 +373,42 @@
     [_thirdMenuTableView setDataSource:self];
     [_thirdMenuTableView setSeparatorColor:[UIColor colorWithHexString:@"DDDDDD"]];
     [_thirdMenuTableView registerClass:[FunctionalThirdCell class] forCellReuseIdentifier:[FunctionalThirdCell cellID]];
+    [_thirdMenuTableView registerClass:[FunctionalHeaderView class] forHeaderFooterViewReuseIdentifier:[FunctionalHeaderView viewID]];
     [_thirdMenuTableView setMultipleTouchEnabled:YES];
     [self.view addSubview:_thirdMenuTableView];
 }
 
 - (void)generateThirdMenu {
-    [_thirdMenuArray removeAllObjects];
-    FunctionMenu *menu = [_secondMenuArray objectAtIndex:_selectedSecondIndex];
-    NSString *children = menu.children;
+    [_thirdMenuDict removeAllObjects];
     NSMutableDictionary *allMenuDict = [_data objectForKey:@"quotations"];
-    NSArray *childrenArray = [children componentsSeparatedByString:@","];
-    for (int i = 0; i < childrenArray.count; i++) {
-        FunctionMenu *menu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:childrenArray[i]]];
-        [_thirdMenuArray addObject:menu];
+
+    for (int i = 0; i < _secondMenuArray.count; i++) {
+        FunctionMenu *menu = [_secondMenuArray objectAtIndex:i];
+        NSArray *array = [menu.children componentsSeparatedByString:@","];
+        NSMutableArray *mArray = [NSMutableArray array];
+        for (int j = 0; j < array.count; j++) {
+            FunctionMenu *thirdMenu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:array[j]]];
+            [mArray addObject:thirdMenu];
+        }
+        [_thirdMenuDict setObject:[mArray copy] forKey:menu.code];
     }
 }
 
 #pragma mark - UITableViewDelagate
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if (tableView == _thirdMenuTableView) {
+        return _secondMenuArray.count;
+    }
+    return 1;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == _secondMenuTableView) {
         return _secondMenuArray.count;
     } else if (tableView == _thirdMenuTableView) {
-        return _thirdMenuArray.count;
+        FunctionMenu *menu = [_secondMenuArray objectAtIndex:section];
+        NSArray *array = [menu.children componentsSeparatedByString:@","];
+        return array.count;
     }
     return 0;
 }
@@ -398,6 +418,13 @@
         return 47.0f;
     } else if (tableView == _thirdMenuTableView) {
         return 72.0f;
+    }
+    return 0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (tableView == _thirdMenuTableView) {
+        return 30.0f;
     }
     return 0;
 }
@@ -416,8 +443,10 @@
         if (!cell) {
             cell = [[FunctionalThirdCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[FunctionalThirdCell cellID]];
         }
-        FunctionMenu *menu = [_thirdMenuArray objectAtIndex:indexPath.row];
-        [cell updateCell:menu];
+        FunctionMenu *menu = [_secondMenuArray objectAtIndex:indexPath.section];
+        NSArray *thirdMenuArray = [_thirdMenuDict objectForKey:menu.code];
+        FunctionMenu *thirdMenu = [thirdMenuArray objectAtIndex:indexPath.row];
+        [cell updateCell:thirdMenu];
         return cell;
     }
 }
@@ -438,6 +467,16 @@
             [_thirdMenuTableView reloadData];
         }
     }
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    FunctionMenu *menu = [_secondMenuArray objectAtIndex:section];
+    FunctionalHeaderView *view = (FunctionalHeaderView *)[tableView dequeueReusableHeaderFooterViewWithIdentifier:[FunctionalHeaderView viewID]];
+    if (!view) {
+        view = [[FunctionalHeaderView alloc] initWithReuseIdentifier:[FunctionalHeaderView viewID]];
+    }
+    [view updateView:menu];
+    return view;
 }
 
 - (void)reduceFirstMenu {
@@ -462,6 +501,7 @@
         
         [_secondMenuTableView setX:CGRectGetMaxX(_firstMenuScrollView.frame)];
         [_secondMenuTableView setWidth:kScreen_Width - _firstMenuScrollView.frame.size.width];
+        [_thirdMenuTableView setX:kScreen_Width];
     } else {
         // 缩小
         [UIView animateWithDuration:0.2 animations:^{
@@ -484,6 +524,7 @@
         
         [_secondMenuTableView setX:CGRectGetMaxX(_firstMenuScrollView.frame)];
         [_secondMenuTableView setWidth:kScreen_Width*0.3];
+        [_thirdMenuTableView setX:kScreen_Width];
     }
 }
 

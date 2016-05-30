@@ -50,7 +50,7 @@
 
 - (void)updateCell:(FunctionMenu *)menu {
     [_titleLabel setText:menu.title];
-    [_contentLabel setText:menu.description];
+    [_contentLabel setText:menu.description_mine];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

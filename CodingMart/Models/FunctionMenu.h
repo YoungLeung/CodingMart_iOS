@@ -10,7 +10,7 @@
 
 @interface FunctionMenu : NSObject
 
-@property (strong, nonatomic) NSString *code, *title, *children, *description, *created_at, *deleted_at, *updated_at;
+@property (strong, nonatomic) NSString *code, *title, *children, *description_mine, *created_at, *deleted_at, *updated_at;
 @property (strong, nonatomic) NSNumber *price, *type, *dom_type, *value_type, *is_default, *id;
 
 @end

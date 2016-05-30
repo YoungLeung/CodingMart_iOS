@@ -25,9 +25,11 @@
         [_titleLabel setTextAlignment:NSTextAlignmentLeft];
         [_titleLabel setFont:[UIFont systemFontOfSize:14.0f]];
         [_titleLabel setTextColor:[UIColor colorWithHexString:@"666666"]];
+        [_titleLabel setNumberOfLines:0];
         [self addSubview:_titleLabel];
         [self setSeparatorInset:UIEdgeInsetsMake(0, -20, 0, 10)];
         [self setSelectionStyle:UITableViewCellSelectionStyleNone];
+        [self.selectedBackgroundView setBackgroundColor:[UIColor whiteColor]];
     }
     return self;
 }

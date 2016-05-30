@@ -10,6 +10,4 @@
 
 @implementation FunctionMenu
 
-@synthesize description = _description;
-
 @end
