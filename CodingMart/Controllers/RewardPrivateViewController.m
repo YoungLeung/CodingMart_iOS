@@ -166,7 +166,7 @@
         if (status < RewardStatusRecruiting) {
             headerV = [self p_headerViewWithStr:@"项目描述"];
         }else{
-            headerV = [self p_headerViewWithStr:@"码市分配"];
+            headerV = [self p_headerViewWithStr:@"码士分配"];
         }
     }else if (section == 3){
         headerV = [self p_headerViewWithStr:_curRewardP.basicInfo.managerName.length > 0? [NSString stringWithFormat:@"阶段列表 | 项目监理：%@", _curRewardP.basicInfo.managerName]: @"阶段列表"];
@@ -242,7 +242,7 @@
                 cell.rewardP = _curRewardP;
                 return cell;
             }
-        }else{//码市分配
+        }else{//码士分配
             if (_curRewardP.apply.coders.count > indexPath.row) {
                 RewardPrivateCoderCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateCoderCell forIndexPath:indexPath];
                 cell.curCoder = _curRewardP.apply.coders[indexPath.row];
@@ -314,7 +314,7 @@
             }else{
                 cellHeight = [RewardPrivateContactCell cellHeight];
             }
-        }else{//码市分配
+        }else{//码士分配
             cellHeight = _curRewardP.apply.coders.count > indexPath.row? [RewardPrivateCoderCell cellHeight]: [RewardPrivateCoderBlankCell cellHeight];
         }
     }else if (indexPath.section == 3){//阶段列表
@@ -331,7 +331,7 @@
     NSInteger status = _curRewardP.basicInfo.status.integerValue;
     if (indexPath.section == 2 &&
         status >= RewardStatusRecruiting &&
-        _curRewardP.apply.coders.count > indexPath.row) {//码市分配
+        _curRewardP.apply.coders.count > indexPath.row) {//码士分配
         RewardApplyCoder *curCoder = _curRewardP.apply.coders[indexPath.row];
         ApplyCoderViewController *vc = [ApplyCoderViewController vcWithCoder:curCoder];
         [self.navigationController pushViewController:vc animated:YES];
