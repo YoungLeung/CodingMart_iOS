@@ -14,6 +14,7 @@
 #import <UMengSocial/WXApi.h>
 #import <UMengSocial/WXApiObject.h>
 #import <AlipaySDK/AlipaySDK.h>
+#import "Login.h"
 
 #define kPriceListData @"priceListData"
 
@@ -40,11 +41,9 @@
     }
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
+- (void)viewDidAppear:(BOOL)animated {
     BOOL firstUse = [User payedForPriceSystem];
-    if (firstUse) {
+    if (firstUse && [Login isLogin]) {
         // 第一次使用
         __weak typeof(self)weakSelf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -58,6 +57,10 @@
             [NSObject saveResponseData:data toPath:kPriceListData];
         }
     }];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
 }
 
 // 检查有没有支付过1元
