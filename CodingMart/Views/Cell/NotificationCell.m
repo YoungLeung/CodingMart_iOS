@@ -38,13 +38,14 @@
     _timeL.text = [_notification.created_at stringWithFormat:@"yyyy-MM-dd HH:mm"];
     _tipV.hidden = hasRead;
     if (_notification.htmlMedia.mediaItems.count > 0) {
-        HtmlMediaItem *item = _notification.htmlMedia.mediaItems.firstObject;
         __weak typeof(self) weakSelf = self;
-        [_contentMainL addLinkToStr:item.displayStr value:item.href hasUnderline:NO clickedBlock:^(id value) {
-            if (weakSelf.linkStrBlock) {
-                weakSelf.linkStrBlock(value);
-            }
-        }];
+        for (HtmlMediaItem *item in _notification.htmlMedia.mediaItems) {
+            [_contentMainL addLinkToStr:item.displayStr value:item.href hasUnderline:NO clickedBlock:^(id value) {
+                if (weakSelf.linkStrBlock) {
+                    weakSelf.linkStrBlock(value);
+                }
+            }];
+        }
     }
 }
 

@@ -121,10 +121,6 @@
     if (!curN.status.boolValue) {
         [self p_markN:curN];
     }
-    if (curN.htmlMedia.mediaItems.count > 0) {
-        HtmlMediaItem *item = curN.htmlMedia.mediaItems.firstObject;
-        [self goToLinkStr:item.href];
-    }
 }
 
 - (void)goToLinkStr:(NSString *)linkStr{
