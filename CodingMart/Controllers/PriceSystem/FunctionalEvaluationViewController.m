@@ -24,8 +24,11 @@
 @property (strong, nonatomic) UIView *firstMenuSelectView; // 第一级菜单选中的背景
 @property (strong, nonatomic) NSMutableArray *firstMenuArray, *secondMenuArray;
 @property (strong, nonatomic) NSMutableDictionary *thirdMenuDict;
-@property (strong, nonatomic) UITableView *secondMenuTableView, *thirdMenuTableView;
-@property (strong, nonatomic) UIView *bottomMenuView;
+@property (strong, nonatomic) UITableView *secondMenuTableView, *thirdMenuTableView, *shoppingCarTableView;
+@property (strong, nonatomic) UIView *bottomMenuView, *bubbleView;
+@property (strong, nonatomic) UILabel *bottomMenuLabel, *numberLabel;
+@property (strong, nonatomic) UIButton *calcButton;
+@property (strong, nonatomic) UITapGestureRecognizer *tgr;
 
 @end
 
@@ -409,17 +412,36 @@
     [imageView setImage:image];
     [_bottomMenuView addSubview:imageView];
     
-    // 计算结果
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setTitle:@"计算结果" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [button.titleLabel setFont:[UIFont systemFontOfSize:16.0f]];
-    [button setBackgroundColor:[UIColor colorWithHexString:@"4289DB"]];
-    [button setFrame:CGRectMake(_bottomMenuView.frame.size.width *(1 - 0.38), 0, _bottomMenuView.frame.size.width * 0.38, _bottomMenuView.frame.size.height)];
-    [_bottomMenuView addSubview:button];
+    // 描述
+    _bottomMenuLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 0, kScreen_Width - 50, 44)];
+    [_bottomMenuLabel setText:@"请选择功能模块"];
+    [_bottomMenuLabel setTextColor:[UIColor whiteColor]];
+    [_bottomMenuLabel setFont:[UIFont systemFontOfSize:14.0f]];
+    [_bottomMenuView addSubview:_bottomMenuLabel];
+    
+    // 点击手势
+    _tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showShoppingCar)];
+    [_bottomMenuLabel addGestureRecognizer:_tgr];
     
     [self.view addSubview:_bottomMenuView];
 }
+
+#pragma mark - 购物车
+- (void)addShoppingCarTableView {
+    if (!_shoppingCarTableView) {
+        
+    }
+    [self showShoppingCar];
+}
+
+- (void)showShoppingCar {
+    
+}
+
+- (void)hideShoppingCar {
+    
+}
+
 
 #pragma mark - UITableViewDelagate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -444,7 +466,11 @@
     if (tableView == _secondMenuTableView) {
         return 47.0f;
     } else if (tableView == _thirdMenuTableView) {
-        return 72.0f;
+        FunctionMenu *menu = [_secondMenuArray objectAtIndex:indexPath.section];
+        NSArray *thirdMenuArray = [_thirdMenuDict objectForKey:menu.code];
+        FunctionMenu *thirdMenu = [thirdMenuArray objectAtIndex:indexPath.row];
+        float height = [FunctionalThirdCell cellHeight:thirdMenu];
+        return height;
     }
     return 0;
 }
@@ -493,6 +519,14 @@
             [_thirdMenuTableView setX:CGRectGetMaxX(_secondMenuTableView.frame)];
             [_thirdMenuTableView reloadData];
         }
+    } else if (tableView == _thirdMenuTableView) {
+        [self updateShoppingCar];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (tableView == _thirdMenuTableView) {
+        [self updateShoppingCar];
     }
 }
 
@@ -552,6 +586,48 @@
         [_secondMenuTableView setX:CGRectGetMaxX(_firstMenuScrollView.frame)];
         [_secondMenuTableView setWidth:kScreen_Width*0.3];
         [_thirdMenuTableView setX:kScreen_Width];
+    }
+}
+
+#pragma mark - 显示购物车商品数量
+- (void)updateShoppingCar {
+    NSInteger count = _thirdMenuTableView.indexPathsForSelectedRows.count;
+    if (count > 0) {
+        [_bottomMenuLabel setHidden:YES];
+        if (!_bubbleView) {
+            _bubbleView = [[UIView alloc] initWithFrame:CGRectMake(40, 5, 20, 20)];
+            [_bubbleView setBackgroundColor:[UIColor colorWithHexString:@"F5A623"]];
+            [_bubbleView setCornerRadius:10.0f];
+            
+            _numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 18, 18)];
+            [_numberLabel setFont:[UIFont systemFontOfSize:12.0f]];
+            [_numberLabel setTextColor:[UIColor whiteColor]];
+            [_numberLabel setText:[NSString stringWithFormat:@"%ld", (long)count]];
+            [_numberLabel setCenter:_bubbleView.center];
+            [_numberLabel setTextAlignment:NSTextAlignmentCenter];
+            
+            // 计算结果
+            _calcButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            [_calcButton setTitle:@"计算结果" forState:UIControlStateNormal];
+            [_calcButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [_calcButton.titleLabel setFont:[UIFont systemFontOfSize:16.0f]];
+            [_calcButton setBackgroundColor:[UIColor colorWithHexString:@"4289DB"]];
+            [_calcButton setFrame:CGRectMake(_bottomMenuView.frame.size.width *(1 - 0.38), 0, _bottomMenuView.frame.size.width * 0.38, _bottomMenuView.frame.size.height)];
+            
+            [_bottomMenuView addSubview:_bubbleView];
+            [_bottomMenuView addSubview:_numberLabel];
+            [_bottomMenuView addSubview:_calcButton];
+        } else {
+            [_bubbleView setHidden:NO];
+            [_numberLabel setHidden:NO];
+            [_calcButton setHidden:NO];
+            [_numberLabel setText:[NSString stringWithFormat:@"%ld", (long)count]];
+        }
+    } else {
+        [_bottomMenuLabel setHidden:NO];
+        [_bubbleView setHidden:YES];
+        [_numberLabel setHidden:YES];
+        [_calcButton setHidden:YES];
     }
 }
 

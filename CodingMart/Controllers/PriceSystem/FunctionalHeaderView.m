@@ -19,7 +19,7 @@
 - (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithReuseIdentifier:reuseIdentifier];
     if (self) {
-        [self setBackgroundColor:[UIColor colorWithHexString:@"F3F5F7"]];
+        [self.contentView setBackgroundColor:[UIColor colorWithHexString:@"F3F5F7"]];
 
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, kScreen_Width*0.6, 30)];
         [_titleLabel setFont:[UIFont systemFontOfSize:14.0f]];

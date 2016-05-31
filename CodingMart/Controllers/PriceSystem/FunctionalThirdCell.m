@@ -11,7 +11,7 @@
 @interface FunctionalThirdCell ()
 
 @property (strong, nonatomic) UILabel *titleLabel, *contentLabel;
-@property (strong, nonatomic) UIButton *addButton;
+@property (strong, nonatomic) UIImageView *addButton;
 
 @end
 
@@ -23,23 +23,20 @@
         [self setSeparatorInset:UIEdgeInsetsMake(0, -20, 0, 10)];
         [self setSelectionStyle:UITableViewCellSelectionStyleNone];
         
-        float width = kScreen_Width*0.48;
+        float width = kScreen_Width*0.47;
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 15, width, 20)];
         [_titleLabel setFont:[UIFont systemFontOfSize:14.0f]];
         [_titleLabel setTextColor:[UIColor colorWithHexString:@"222222"]];
         [_titleLabel setTextAlignment:NSTextAlignmentLeft];
         
-        _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_titleLabel.frame) + 5, _titleLabel.frame.size.width, 17)];
+        _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_titleLabel.frame) + 10, _titleLabel.frame.size.width, 0)];
         [_contentLabel setNumberOfLines:0];
         [_contentLabel setFont:[UIFont systemFontOfSize:12.0f]];
         [_contentLabel setTextColor:[UIColor colorWithHexString:@"999999"]];
-        [_contentLabel setTextAlignment:NSTextAlignmentLeft];
+        [_contentLabel setTextAlignment:NSTextAlignmentNatural];
         
-        _addButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_addButton setImage:[UIImage imageNamed:@"price_menu_add"] forState:UIControlStateNormal];
-        [_addButton setImage:[UIImage imageNamed:@"price_menu_cancel"] forState:UIControlStateSelected];
-        [_addButton setFrame:CGRectMake(width + 10, CGRectGetMinY(_contentLabel.frame), 20, 20)];
-        [_addButton addTarget:self action:@selector(setSelected:) forControlEvents:UIControlEventTouchUpInside];
+        _addButton = [[UIImageView alloc] initWithFrame:CGRectMake(width + 10, CGRectGetMaxY(_titleLabel.frame) + 5, 20, 20)];
+        [_addButton setImage:[UIImage imageNamed:@"price_menu_add"]];
         
         [self addSubview:_titleLabel];
         [self addSubview:_contentLabel];
@@ -51,19 +48,33 @@
 - (void)updateCell:(FunctionMenu *)menu {
     [_titleLabel setText:menu.title];
     [_contentLabel setText:menu.description_mine];
+    [_contentLabel setHeight:[FunctionalThirdCell cellHeight:menu] - 58];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
     if (selected) {
-        [_addButton setSelected:YES];
+        [_addButton setImage:[UIImage imageNamed:@"price_menu_cancel"]];
     } else {
-        [_addButton setSelected:NO];
+        [_addButton setImage:[UIImage imageNamed:@"price_menu_add"]];
     }
 }
 
 + (NSString *)cellID {
     return @"thirdCell";
+}
+
++ (float)cellHeight:(FunctionMenu *)menu {
+    float width = kScreen_Width*0.47;
+    float height = 58.0f;
+    NSString *text = menu.description_mine;
+    NSLog(@"%@", text);
+    CGSize size = [text boundingRectWithSize:CGSizeMake(width, MAXFLOAT)
+                                     options:NSStringDrawingUsesLineFragmentOrigin
+                                  attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12.0f]}
+                                     context:nil].size;
+    height += size.height;
+    return height;
 }
 
 @end
