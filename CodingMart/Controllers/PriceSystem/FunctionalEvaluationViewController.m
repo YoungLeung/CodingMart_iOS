@@ -12,6 +12,8 @@
 #import "FunctionalSecondMenuCell.h"
 #import "FunctionalThirdCell.h"
 #import "FunctionalHeaderView.h"
+#import "ShoppingCarHeaderView.h"
+#import "ShoppingCarCell.h"
 
 @interface FunctionalEvaluationViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -23,7 +25,7 @@
 @property (strong, nonatomic) UIScrollView *firstMenuScrollView;
 @property (strong, nonatomic) UIView *firstMenuSelectView; // 第一级菜单选中的背景
 @property (strong, nonatomic) NSMutableArray *firstMenuArray, *secondMenuArray;
-@property (strong, nonatomic) NSMutableDictionary *thirdMenuDict;
+@property (strong, nonatomic) NSMutableDictionary *thirdMenuDict, *shoppingDict;
 @property (strong, nonatomic) UITableView *secondMenuTableView, *thirdMenuTableView, *shoppingCarTableView;
 @property (strong, nonatomic) UIView *bottomMenuView, *bubbleView;
 @property (strong, nonatomic) UILabel *bottomMenuLabel, *numberLabel;
@@ -55,7 +57,8 @@
     _firstMenuArray = [NSMutableArray array];
     _secondMenuArray = [NSMutableArray array];
     _thirdMenuDict = [NSMutableDictionary dictionary];
-
+    _shoppingDict = [NSMutableDictionary dictionary];
+    
     // 加载顶部菜单
     [self addTopMenu];
     // 加载底部菜单
@@ -405,6 +408,7 @@
 - (void)addBottomMenu {
     _bottomMenuView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreen_Height - 44, kScreen_Width, 44)];
     [_bottomMenuView setBackgroundColor:[UIColor colorWithHexString:@"414952" andAlpha:0.9]];
+    [_bottomMenuView setUserInteractionEnabled:YES];
     
     // 购物车数量
     UIImage *image = [UIImage imageNamed:@"price_selected_menu_list"];
@@ -420,22 +424,61 @@
     [_bottomMenuView addSubview:_bottomMenuLabel];
     
     // 点击手势
-    _tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showShoppingCar)];
-    [_bottomMenuLabel addGestureRecognizer:_tgr];
+    _tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleShoppingCarTableView)];
+    [_bottomMenuView addGestureRecognizer:_tgr];
     
     [self.view addSubview:_bottomMenuView];
 }
 
 #pragma mark - 购物车
-- (void)addShoppingCarTableView {
-    if (!_shoppingCarTableView) {
-        
+- (void)generateShoppingCarData:(NSIndexPath *)indexPath {
+    // 获取主菜单
+    NSString *topMenu = [_selectedMenuArray objectAtIndex:_selectedIndex];
+    NSMutableArray *array = [NSMutableArray array];
+    if ([_shoppingDict objectForKey:topMenu]) {
+        array = [_shoppingDict objectForKey:topMenu];
     }
-    [self showShoppingCar];
+    
+    // 添加用户点击的数据
+    FunctionMenu *menu = [_secondMenuArray objectAtIndex:indexPath.section];
+    NSArray *thirdMenuArray = [_thirdMenuDict objectForKey:menu.code];
+    FunctionMenu *thirdMenu = [thirdMenuArray objectAtIndex:indexPath.row];
+    if (![array containsObject:thirdMenu]) {
+        [array addObject:thirdMenu];
+        [_shoppingDict setObject:array forKey:topMenu];
+    }
 }
 
-- (void)showShoppingCar {
+- (void)addShoppingCarTableView {
+    if (!_shoppingCarTableView) {
+        _shoppingCarTableView = [[ UITableView alloc] initWithFrame:CGRectMake(0, kScreen_Height, kScreen_Width, 500) style:UITableViewStylePlain];
+        [_shoppingCarTableView registerClass:[ShoppingCarSectionHeaderView class] forHeaderFooterViewReuseIdentifier:[ShoppingCarSectionHeaderView viewID]];
+        [_shoppingCarTableView registerClass:[ShoppingCarCell class] forCellReuseIdentifier:[ShoppingCarCell cellID]];
+        [_shoppingCarTableView setDelegate:self];
+        [_shoppingCarTableView setDataSource:self];
+        [self.view addSubview:_shoppingCarTableView];
+        [self.view bringSubviewToFront:_bottomMenuView];
+    }
+}
+
+- (void)toggleShoppingCarTableView {
+    if (_thirdMenuTableView.indexPathsForSelectedRows.count == 0) {
+        return;
+    }
     
+    [self addShoppingCarTableView];
+    
+    if (_shoppingCarTableView.y < kScreen_Height) {
+        // 隐藏
+        [UIView animateWithDuration:0.2 animations:^{
+            [_shoppingCarTableView setY:kScreen_Height];
+        }];
+    } else {
+        // 显示
+        [UIView animateWithDuration:0.2 animations:^{
+            [_shoppingCarTableView setY:kScreen_Height - _shoppingCarTableView.height - 44];
+        }];
+    }
 }
 
 - (void)hideShoppingCar {
@@ -447,6 +490,8 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if (tableView == _thirdMenuTableView) {
         return _secondMenuArray.count;
+    } else if (tableView == _shoppingCarTableView) {
+        return _shoppingDict.count;
     }
     return 1;
 }
@@ -457,6 +502,9 @@
     } else if (tableView == _thirdMenuTableView) {
         FunctionMenu *menu = [_secondMenuArray objectAtIndex:section];
         NSArray *array = [menu.children componentsSeparatedByString:@","];
+        return array.count;
+    } else if (tableView == _shoppingCarTableView) {
+        NSArray *array = [_shoppingDict objectForKey:[_selectedMenuArray objectAtIndex:section]];
         return array.count;
     }
     return 0;
@@ -471,12 +519,16 @@
         FunctionMenu *thirdMenu = [thirdMenuArray objectAtIndex:indexPath.row];
         float height = [FunctionalThirdCell cellHeight:thirdMenu];
         return height;
+    } else if (tableView == _shoppingCarTableView) {
+        return 57.0f;
     }
     return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (tableView == _thirdMenuTableView) {
+        return 30.0f;
+    } else if (tableView == _shoppingCarTableView) {
         return 30.0f;
     }
     return 0;
@@ -491,7 +543,7 @@
         FunctionMenu *menu = [_secondMenuArray objectAtIndex:indexPath.row];
         [cell updateCell:menu];
         return cell;
-    } else {
+    } else if (tableView == _thirdMenuTableView){
         FunctionalThirdCell *cell = [tableView dequeueReusableCellWithIdentifier:[FunctionalThirdCell cellID]];
         if (!cell) {
             cell = [[FunctionalThirdCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[FunctionalThirdCell cellID]];
@@ -500,6 +552,15 @@
         NSArray *thirdMenuArray = [_thirdMenuDict objectForKey:menu.code];
         FunctionMenu *thirdMenu = [thirdMenuArray objectAtIndex:indexPath.row];
         [cell updateCell:thirdMenu];
+        return cell;
+    } else {
+        ShoppingCarCell *cell = [tableView dequeueReusableCellWithIdentifier:[ShoppingCarCell cellID]];
+        if (!cell) {
+            cell = [[ShoppingCarCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[ShoppingCarCell cellID]];
+        }
+        NSArray *menuArray = [_shoppingDict objectForKey:[_selectedMenuArray objectAtIndex:indexPath.section]];
+        FunctionMenu *menu = [menuArray objectAtIndex:indexPath.row];
+        [cell updateCell:menu];
         return cell;
     }
 }
@@ -521,6 +582,7 @@
         }
     } else if (tableView == _thirdMenuTableView) {
         [self updateShoppingCar];
+        [self generateShoppingCarData:indexPath];
     }
 }
 
@@ -531,13 +593,22 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    FunctionMenu *menu = [_secondMenuArray objectAtIndex:section];
-    FunctionalHeaderView *view = (FunctionalHeaderView *)[tableView dequeueReusableHeaderFooterViewWithIdentifier:[FunctionalHeaderView viewID]];
-    if (!view) {
-        view = [[FunctionalHeaderView alloc] initWithReuseIdentifier:[FunctionalHeaderView viewID]];
+    if (tableView == _thirdMenuTableView) {
+        FunctionMenu *menu = [_secondMenuArray objectAtIndex:section];
+        FunctionalHeaderView *view = (FunctionalHeaderView *)[tableView dequeueReusableHeaderFooterViewWithIdentifier:[FunctionalHeaderView viewID]];
+        if (!view) {
+            view = [[FunctionalHeaderView alloc] initWithReuseIdentifier:[FunctionalHeaderView viewID]];
+        }
+        [view updateView:menu];
+        return view;
+    } else {
+        ShoppingCarSectionHeaderView *view = (ShoppingCarSectionHeaderView *)[tableView dequeueReusableHeaderFooterViewWithIdentifier:[ShoppingCarSectionHeaderView viewID]];
+        if (!view) {
+            view = [[ShoppingCarSectionHeaderView alloc] initWithReuseIdentifier:[ShoppingCarSectionHeaderView viewID]];
+        }
+        [view updateCell:[_selectedMenuArray objectAtIndex:section]];
+        return view;
     }
-    [view updateView:menu];
-    return view;
 }
 
 - (void)reduceFirstMenu {

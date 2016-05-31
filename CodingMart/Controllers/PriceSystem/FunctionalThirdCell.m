@@ -68,7 +68,6 @@
     float width = kScreen_Width*0.47;
     float height = 58.0f;
     NSString *text = menu.description_mine;
-    NSLog(@"%@", text);
     CGSize size = [text boundingRectWithSize:CGSizeMake(width, MAXFLOAT)
                                      options:NSStringDrawingUsesLineFragmentOrigin
                                   attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12.0f]}
