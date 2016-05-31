@@ -20,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *statusL;
 @property (weak, nonatomic) IBOutlet UILabel *applyStatusL;
 @property (weak, nonatomic) IBOutlet UIButton *editBtn;
+@property (weak, nonatomic) IBOutlet UIButton *rewardBtn;
+
 @property (weak, nonatomic) IBOutlet UIView *tapView;
 @property (weak, nonatomic) IBOutlet UILabel *numL;
 @property (weak, nonatomic) IBOutlet UILabel *rewardNumL;
@@ -31,6 +33,7 @@
 - (void)awakeFromNib {
     // Initialization code
     [_editBtn setTitleColor:[UIColor colorWithHexString:@"0x999999"] forState:UIControlStateDisabled];
+    [_rewardBtn setTitleColor:[UIColor colorWithHexString:@"0x999999"] forState:UIControlStateDisabled];
     __weak typeof(self) weakSelf = self;
     [_tapView bk_whenTapped:^{
         if (weakSelf.goToPublicRewardBlock) {
@@ -75,6 +78,7 @@
     _applyStatusL.text = [[NSObject applyStatusDict] findKeyFromStrValue:_reward.apply_status.stringValue];
     _numL.text = _reward.status.integerValue == RewardStatusRecruiting? [NSString stringWithFormat:@"%@人报名",_reward.apply_count.stringValue]: nil;
     _editBtn.enabled = (_reward.status.integerValue == RewardStatusRecruiting);
+    _rewardBtn.enabled = (_reward.status.integerValue > RewardStatusRecruiting);
     _rewardNumL.text = [NSString stringWithFormat:@" No.%@  ", _reward.id.stringValue];
 
 }
