@@ -126,18 +126,18 @@
     if (!_curRewardP.metro) {
         return 0;
     }
+    NSInteger status = _curRewardP.basicInfo.status.integerValue;
     NSInteger rowNum = 0;
     if (section == 0 || section == 1) {
         rowNum = 1;
     }else if (section == 2){
-        NSInteger status = _curRewardP.basicInfo.status.integerValue;
         if (status < RewardStatusRecruiting) {
             rowNum = 3;
         }else{
             rowNum = MAX(1, _curRewardP.apply.coders.count);
         }
     }else if (section == 3){
-        rowNum = MAX(1, _curRewardP.metro.roles.count);
+        rowNum = status <= RewardStatusRecruiting? 0: MAX(1, _curRewardP.metro.roles.count);
     }else if (section == 4){
         rowNum = _curRewardP.filesToShow.count;
     }
@@ -147,7 +147,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     CGFloat headerHeight = 0;
-    if (section == 0) {
+    if (section == 0 ||
+        (section == 3 && _curRewardP.basicInfo.status.integerValue <= RewardStatusRecruiting)) {
         headerHeight = 1.0/[UIScreen mainScreen].scale;
     }else if (section == 1){
         headerHeight = 10;
@@ -159,19 +160,19 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *headerV;
-    if (section <= 1) {
-        headerV = [UIView new];
-    }else if (section == 2){
+    if (section == 2){
         NSInteger status = _curRewardP.basicInfo.status.integerValue;
         if (status < RewardStatusRecruiting) {
             headerV = [self p_headerViewWithStr:@"项目描述"];
         }else{
             headerV = [self p_headerViewWithStr:@"码士分配"];
         }
-    }else if (section == 3){
+    }else if (section == 3 && _curRewardP.basicInfo.status.integerValue > RewardStatusRecruiting){
         headerV = [self p_headerViewWithStr:_curRewardP.basicInfo.managerName.length > 0? [NSString stringWithFormat:@"阶段列表 | 项目监理：%@", _curRewardP.basicInfo.managerName]: @"阶段列表"];
-    }else{
+    }else if (section == 4){
         headerV = [self p_headerViewWithStr:@"需求文档"];
+    }else{
+        headerV = [UIView new];
     }
     return headerV;
 }

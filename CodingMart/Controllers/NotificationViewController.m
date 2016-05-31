@@ -69,7 +69,6 @@
     }else{
         [self.tableView configBlankPageImage:kBlankPageImageNotification tipStr:@"您还没有收到任何通知"];
     }
-
 }
 
 - (void)p_markReadAll{

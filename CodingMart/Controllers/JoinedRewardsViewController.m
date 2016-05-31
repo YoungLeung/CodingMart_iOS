@@ -126,6 +126,10 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)goToJoinedReward:(Reward *)reward{
+    if (reward.status.integerValue < RewardStatusDeveloping) {
+        [NSObject showHudTipStr:@"项目开始「开发中」状态后才可查看"];
+        return;
+    }
     RewardPrivateViewController *vc = [RewardPrivateViewController vcWithReward:reward];
     [self.navigationController pushViewController:vc animated:YES];
 }
