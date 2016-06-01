@@ -30,11 +30,20 @@
 @property (strong, nonatomic) UIView *bottomMenuView, *bubbleView;
 @property (strong, nonatomic) UILabel *bottomMenuLabel, *numberLabel;
 @property (strong, nonatomic) UIButton *calcButton;
-@property (strong, nonatomic) UITapGestureRecognizer *tgr;
+@property (strong, nonatomic) UIView *bgView;
 
 @end
 
 @implementation FunctionalEvaluationViewController
+
+- (void)dealloc {
+    [_secondMenuTableView setDelegate:nil];
+    [_thirdMenuTableView setDelegate:nil];
+    [_shoppingCarTableView setDelegate:nil];
+    [_bgView removeFromSuperview];
+    [_shoppingCarTableView removeFromSuperview];
+    [_bottomMenuView removeFromSuperview];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -385,7 +394,6 @@
     [_thirdMenuTableView registerClass:[FunctionalHeaderView class] forHeaderFooterViewReuseIdentifier:[FunctionalHeaderView viewID]];
     [_thirdMenuTableView setAllowsMultipleSelection:YES];
     [self.view addSubview:_thirdMenuTableView];
-    [self.view bringSubviewToFront:_bottomMenuView];
 }
 
 - (void)generateThirdMenu {
@@ -424,8 +432,8 @@
     [_bottomMenuView addSubview:_bottomMenuLabel];
     
     // 点击手势
-    _tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleShoppingCarTableView)];
-    [_bottomMenuView addGestureRecognizer:_tgr];
+    UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleShoppingCarTableView)];
+    [_bottomMenuView addGestureRecognizer:tgr];
     
     [self.view addSubview:_bottomMenuView];
 }
@@ -449,20 +457,58 @@
     }
 }
 
-- (void)addShoppingCarTableView {
-    if (!_shoppingCarTableView) {
-        _shoppingCarTableView = [[ UITableView alloc] initWithFrame:CGRectMake(0, kScreen_Height, kScreen_Width, 500) style:UITableViewStylePlain];
-        [_shoppingCarTableView registerClass:[ShoppingCarSectionHeaderView class] forHeaderFooterViewReuseIdentifier:[ShoppingCarSectionHeaderView viewID]];
-        [_shoppingCarTableView registerClass:[ShoppingCarCell class] forCellReuseIdentifier:[ShoppingCarCell cellID]];
-        [_shoppingCarTableView setDelegate:self];
-        [_shoppingCarTableView setDataSource:self];
-        [self.view addSubview:_shoppingCarTableView];
-        [self.view bringSubviewToFront:_bottomMenuView];
+- (void)removeShoppingCarData:(NSIndexPath *)indexPath {
+    // 获取主菜单
+    NSString *topMenu = [_selectedMenuArray objectAtIndex:_selectedIndex];
+    NSMutableArray *array = [NSMutableArray array];
+    if ([_shoppingDict objectForKey:topMenu]) {
+        array = [_shoppingDict objectForKey:topMenu];
+    }
+    
+    // 添加用户点击的数据
+    FunctionMenu *menu = [_secondMenuArray objectAtIndex:indexPath.section];
+    NSArray *thirdMenuArray = [_thirdMenuDict objectForKey:menu.code];
+    FunctionMenu *thirdMenu = [thirdMenuArray objectAtIndex:indexPath.row];
+    if ([array containsObject:thirdMenu]) {
+        [array removeObject:thirdMenu];
+        if (array.count) {
+            [_shoppingDict setObject:array forKey:topMenu];
+        } else {
+            [_shoppingDict removeObjectForKey:topMenu];
+        }
     }
 }
 
+- (void)addShoppingCarTableView {
+    if (!_shoppingCarTableView) {
+        // 背景
+        _bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kScreen_Height - 44)];
+        [_bgView setBackgroundColor:[UIColor colorWithHexString:@"000000" andAlpha:0.4]];
+        UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleShoppingCarTableView)];
+        [_bgView addGestureRecognizer:tgr];
+        [kKeyWindow addSubview:_bgView];
+        
+        _shoppingCarTableView = [[ UITableView alloc] initWithFrame:CGRectMake(0, kScreen_Height, kScreen_Width, 500) style:UITableViewStylePlain];
+        [_shoppingCarTableView registerClass:[ShoppingCarSectionHeaderView class] forHeaderFooterViewReuseIdentifier:[ShoppingCarSectionHeaderView viewID]];
+        [_shoppingCarTableView registerClass:[ShoppingCarCell class] forCellReuseIdentifier:[ShoppingCarCell cellID]];
+        [_shoppingCarTableView setSeparatorColor:[UIColor colorWithHexString:@"EFEFEF"]];
+        [_shoppingCarTableView setDelegate:self];
+        [_shoppingCarTableView setDataSource:self];
+        ShoppingCarHeaderView *header = [[ShoppingCarHeaderView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 44)];
+        [_shoppingCarTableView setTableHeaderView:header];
+        [kKeyWindow addSubview:_shoppingCarTableView];
+    }
+    [_shoppingCarTableView reloadData];
+    [kKeyWindow bringSubviewToFront:_bottomMenuView];
+}
+
 - (void)toggleShoppingCarTableView {
-    if (_thirdMenuTableView.indexPathsForSelectedRows.count == 0) {
+    NSArray *array = [_shoppingDict allValues];
+    NSInteger count = 0;
+    for (NSArray *subArray in array) {
+        count += subArray.count;
+    }
+    if (count == 0) {
         return;
     }
     
@@ -473,18 +519,15 @@
         [UIView animateWithDuration:0.2 animations:^{
             [_shoppingCarTableView setY:kScreen_Height];
         }];
+        [_bgView setHidden:YES];
     } else {
         // 显示
+        [_bgView setHidden:NO];
         [UIView animateWithDuration:0.2 animations:^{
             [_shoppingCarTableView setY:kScreen_Height - _shoppingCarTableView.height - 44];
         }];
     }
 }
-
-- (void)hideShoppingCar {
-    
-}
-
 
 #pragma mark - UITableViewDelagate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -520,7 +563,7 @@
         float height = [FunctionalThirdCell cellHeight:thirdMenu];
         return height;
     } else if (tableView == _shoppingCarTableView) {
-        return 57.0f;
+        return 44.0f;
     }
     return 0;
 }
@@ -581,13 +624,14 @@
             [_thirdMenuTableView reloadData];
         }
     } else if (tableView == _thirdMenuTableView) {
-        [self updateShoppingCar];
         [self generateShoppingCarData:indexPath];
+        [self updateShoppingCar];
     }
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == _thirdMenuTableView) {
+        [self removeShoppingCarData:indexPath];
         [self updateShoppingCar];
     }
 }
@@ -662,7 +706,11 @@
 
 #pragma mark - 显示购物车商品数量
 - (void)updateShoppingCar {
-    NSInteger count = _thirdMenuTableView.indexPathsForSelectedRows.count;
+    NSArray *array = [_shoppingDict allValues];
+    NSInteger count = 0;
+    for (NSArray *subArray in array) {
+        count += subArray.count;
+    }
     if (count > 0) {
         [_bottomMenuLabel setHidden:YES];
         if (!_bubbleView) {

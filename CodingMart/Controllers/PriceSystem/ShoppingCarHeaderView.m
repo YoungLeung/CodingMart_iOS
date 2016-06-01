@@ -18,15 +18,15 @@
 
 @implementation ShoppingCarHeaderView
 
-- (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier {
-    self = [super initWithReuseIdentifier:reuseIdentifier];
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
     if (self) {
-        [self.contentView setBackgroundColor:[UIColor colorWithHexString:@"979FA8"]];
+        [self setBackgroundColor:[UIColor colorWithHexString:@"979FA8"]];
         
-        _leftView = [[UIView alloc] initWithFrame:CGRectMake(15, 15, 4, 13)];
+        _leftView = [[UIView alloc] initWithFrame:CGRectMake(15, 15, 2, 13)];
         [_leftView setBackgroundColor:[UIColor colorWithHexString:@"4289DB"]];
         
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_leftView.frame), 0, 70, 44)];
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_leftView.frame) + 15, 0, 70, 44)];
         [_titleLabel setText:@"功能清单"];
         [_titleLabel setFont:[UIFont systemFontOfSize:17.0f]];
         [_titleLabel setTextColor:[UIColor whiteColor]];

@@ -19,7 +19,9 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, kScreen_Width - 30 - 40, 57)];
+        [self setSelectionStyle:UITableViewCellSelectionStyleNone];
+        [self setSeparatorInset:UIEdgeInsetsMake(0, 15, 0, 15)];
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, kScreen_Width - 30 - 40, 47)];
         [_titleLabel setFont:[UIFont systemFontOfSize:14.0f]];
         [_titleLabel setTextColor:[UIColor colorWithHexString:@"222222"]];
         [self addSubview:_titleLabel];

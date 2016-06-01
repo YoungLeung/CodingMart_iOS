@@ -8,9 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ShoppingCarHeaderView : UITableViewHeaderFooterView
-
-+ (NSString *)viewID;
+@interface ShoppingCarHeaderView : UIView
 
 @end
 
