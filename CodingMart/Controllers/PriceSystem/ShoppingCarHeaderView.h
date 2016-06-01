@@ -15,6 +15,8 @@
 
 @interface ShoppingCarSectionHeaderView : UITableViewHeaderFooterView
 
+@property (strong, nonatomic) UILabel *titleLabel;
+
 - (void)updateCell:(NSString *)title;
 + (NSString *)viewID;
 

@@ -60,8 +60,6 @@
 
 @interface ShoppingCarSectionHeaderView ()
 
-@property (strong, nonatomic) UILabel *titleLabel;
-
 @end
 
 @implementation ShoppingCarSectionHeaderView

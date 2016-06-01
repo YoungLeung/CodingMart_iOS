@@ -467,21 +467,37 @@
         array = [_shoppingDict objectForKey:topMenu];
     }
     
-    // 添加用户点击的数据
+    // 移除用户点击的数据
     FunctionMenu *menu = [_secondMenuArray objectAtIndex:indexPath.section];
     NSArray *thirdMenuArray = [_thirdMenuDict objectForKey:menu.code];
     FunctionMenu *thirdMenu = [thirdMenuArray objectAtIndex:indexPath.row];
     if ([array containsObject:thirdMenu]) {
         [array removeObject:thirdMenu];
         if (array.count) {
-            [_shoppingDict setObject:array forKey:topMenu];
+            [_shoppingDict setObject:[array copy] forKey:topMenu];
         } else {
             [_shoppingDict removeObjectForKey:topMenu];
         }
     }
 }
 
-- (void)addShoppingCarTableView {
+- (void)removeShoppingCarTableViewData:(NSIndexPath *)indexPath {
+    // 获取主菜单
+    ShoppingCarSectionHeaderView *header = (ShoppingCarSectionHeaderView *)[_shoppingCarTableView headerViewForSection:indexPath.section];
+    NSString *topMenu = header.titleLabel.text;
+    NSMutableArray *array = [NSMutableArray arrayWithArray:[_shoppingDict objectForKey:topMenu]];
+
+    // 用户点击的cell
+    FunctionMenu *menu = [array objectAtIndex:indexPath.row];
+    [array removeObject:menu];
+    if (array.count) {
+        [_shoppingDict setObject:[array copy] forKey:topMenu];
+    } else {
+        [_shoppingDict removeObjectForKey:topMenu];
+    }
+}
+
+- (float)shoppingCarTableViewHeight {
     // 计算购物车高度
     NSArray *array = [_shoppingDict allValues];
     NSInteger count = 0;
@@ -489,13 +505,17 @@
         count += subArray.count;
     }
     if (count == 0) {
-        return;
+        return 0 ;
     }
     float maxHeight = kScreen_Height * 0.7;
     float allCellHeight = count * 44;
     float allSectionHeight = array.count * 30;
     float shoppingCarHeight = allCellHeight + allSectionHeight;
-    shoppingCarHeight = (shoppingCarHeight > maxHeight) ? maxHeight : shoppingCarHeight;
+    return shoppingCarHeight = (shoppingCarHeight > maxHeight) ? maxHeight : shoppingCarHeight;
+}
+
+- (void)addShoppingCarTableView {
+    float shoppingCarHeight = [self shoppingCarTableViewHeight];
     if (!_shoppingCarTableView) {
         // 背景
         _bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kScreen_Height - 44)];
@@ -525,6 +545,13 @@
     [_shoppingCarTableView setFrame:CGRectMake(0, 44, kScreen_Width, shoppingCarHeight)];
     [_shoppingCarTableView reloadData];
     [kKeyWindow bringSubviewToFront:_bottomMenuView];
+}
+
+- (void)deleteItemFromShoppingCar {
+    float shoppingCarHeight = [self shoppingCarTableViewHeight];
+    [_shoppingCarBgView setFrame:CGRectMake(0, kScreen_Height - shoppingCarHeight - 88, kScreen_Width, shoppingCarHeight + 44)];
+    [_shoppingCarTableView setFrame:CGRectMake(0, 44, kScreen_Width, shoppingCarHeight)];
+    [_shoppingCarTableView reloadData];
 }
 
 - (void)toggleShoppingCarTableView {
@@ -659,6 +686,20 @@
     } else if (tableView == _thirdMenuTableView) {
         [self generateShoppingCarData:indexPath];
         [self updateShoppingCar];
+    } else if (tableView == _shoppingCarTableView) {
+        [_thirdMenuTableView reloadData];
+        [self removeShoppingCarTableViewData:indexPath];
+        [self deleteItemFromShoppingCar];
+        [self updateShoppingCar];
+        
+        NSArray *calcArray = [_shoppingDict allValues];
+        NSInteger count = 0;
+        for (NSArray *subArray in calcArray) {
+            count += subArray.count;
+        }
+        if (count == 0) {
+            [self hideShoppingCar];
+        }
     }
 }
 
