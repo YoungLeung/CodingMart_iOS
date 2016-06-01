@@ -491,7 +491,7 @@
     if (count == 0) {
         return;
     }
-    float maxHeight = kScreen_Height * 0.64 - 88;
+    float maxHeight = kScreen_Height * 0.7;
     float allCellHeight = count * 44;
     float allSectionHeight = array.count * 30;
     float shoppingCarHeight = allCellHeight + allSectionHeight;
