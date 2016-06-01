@@ -31,6 +31,8 @@
 @property (strong, nonatomic) UILabel *bottomMenuLabel, *numberLabel;
 @property (strong, nonatomic) UIButton *calcButton;
 @property (strong, nonatomic) UIView *bgView;
+@property (strong, nonatomic) ShoppingCarHeaderView *header;
+@property (strong, nonatomic) UIView *shoppingCarBgView;
 
 @end
 
@@ -41,7 +43,7 @@
     [_thirdMenuTableView setDelegate:nil];
     [_shoppingCarTableView setDelegate:nil];
     [_bgView removeFromSuperview];
-    [_shoppingCarTableView removeFromSuperview];
+    [_shoppingCarBgView removeFromSuperview];
     [_bottomMenuView removeFromSuperview];
 }
 
@@ -480,24 +482,47 @@
 }
 
 - (void)addShoppingCarTableView {
+    // 计算购物车高度
+    NSArray *array = [_shoppingDict allValues];
+    NSInteger count = 0;
+    for (NSArray *subArray in array) {
+        count += subArray.count;
+    }
+    if (count == 0) {
+        return;
+    }
+    float maxHeight = kScreen_Height * 0.64 - 88;
+    float allCellHeight = count * 44;
+    float allSectionHeight = array.count * 30;
+    float shoppingCarHeight = allCellHeight + allSectionHeight;
+    shoppingCarHeight = (shoppingCarHeight > maxHeight) ? maxHeight : shoppingCarHeight;
     if (!_shoppingCarTableView) {
         // 背景
         _bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kScreen_Height - 44)];
         [_bgView setBackgroundColor:[UIColor colorWithHexString:@"000000" andAlpha:0.4]];
-        UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleShoppingCarTableView)];
+        UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideShoppingCar)];
         [_bgView addGestureRecognizer:tgr];
         [kKeyWindow addSubview:_bgView];
         
-        _shoppingCarTableView = [[ UITableView alloc] initWithFrame:CGRectMake(0, kScreen_Height, kScreen_Width, 500) style:UITableViewStylePlain];
+        // 列表区域背景
+        _shoppingCarBgView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreen_Height, kScreen_Width, 100)];
+        [kKeyWindow addSubview:_shoppingCarBgView];
+        
+        // 头部菜单
+        _header = [[ShoppingCarHeaderView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 44)];
+        [_shoppingCarBgView addSubview:_header];
+
+        // 列表
+        _shoppingCarTableView = [[ UITableView alloc] initWithFrame:CGRectMake(0, 44, kScreen_Width, 100) style:UITableViewStylePlain];
         [_shoppingCarTableView registerClass:[ShoppingCarSectionHeaderView class] forHeaderFooterViewReuseIdentifier:[ShoppingCarSectionHeaderView viewID]];
         [_shoppingCarTableView registerClass:[ShoppingCarCell class] forCellReuseIdentifier:[ShoppingCarCell cellID]];
         [_shoppingCarTableView setSeparatorColor:[UIColor colorWithHexString:@"EFEFEF"]];
         [_shoppingCarTableView setDelegate:self];
         [_shoppingCarTableView setDataSource:self];
-        ShoppingCarHeaderView *header = [[ShoppingCarHeaderView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 44)];
-        [_shoppingCarTableView setTableHeaderView:header];
-        [kKeyWindow addSubview:_shoppingCarTableView];
+        [_shoppingCarBgView addSubview:_shoppingCarTableView];
     }
+    [_shoppingCarBgView setFrame:CGRectMake(0, _shoppingCarBgView.y, kScreen_Width, shoppingCarHeight + 44)];
+    [_shoppingCarTableView setFrame:CGRectMake(0, 44, kScreen_Width, shoppingCarHeight)];
     [_shoppingCarTableView reloadData];
     [kKeyWindow bringSubviewToFront:_bottomMenuView];
 }
@@ -514,19 +539,27 @@
     
     [self addShoppingCarTableView];
     
-    if (_shoppingCarTableView.y < kScreen_Height) {
+    if (_shoppingCarBgView.y < kScreen_Height) {
         // 隐藏
         [UIView animateWithDuration:0.2 animations:^{
-            [_shoppingCarTableView setY:kScreen_Height];
+            [_shoppingCarBgView setY:kScreen_Height];
         }];
         [_bgView setHidden:YES];
     } else {
         // 显示
         [_bgView setHidden:NO];
         [UIView animateWithDuration:0.2 animations:^{
-            [_shoppingCarTableView setY:kScreen_Height - _shoppingCarTableView.height - 44];
+            [_shoppingCarBgView setY:kScreen_Height - _shoppingCarBgView.height - 44];
         }];
     }
+}
+
+- (void)hideShoppingCar {
+    // 隐藏
+    [UIView animateWithDuration:0.2 animations:^{
+        [_shoppingCarBgView setY:kScreen_Height];
+    }];
+    [_bgView setHidden:YES];
 }
 
 #pragma mark - UITableViewDelagate
