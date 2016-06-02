@@ -531,6 +531,18 @@
         // 头部菜单
         _header = [[ShoppingCarHeaderView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 44)];
         [_shoppingCarBgView addSubview:_header];
+        
+        __weak typeof(self)weakSelf = self;
+        _header.clearBlock = ^(){
+            [weakSelf.shoppingDict removeAllObjects];
+            [weakSelf updateShoppingCar];
+            [weakSelf.shoppingCarTableView reloadData];
+        };
+        _header.resetBlock = ^(){
+            [weakSelf.shoppingDict removeAllObjects];
+            [weakSelf updateShoppingCar];
+            [weakSelf.shoppingCarTableView reloadData];
+        };
 
         // 列表
         _shoppingCarTableView = [[ UITableView alloc] initWithFrame:CGRectMake(0, 44, kScreen_Width, 100) style:UITableViewStylePlain];
@@ -718,6 +730,9 @@
             view = [[FunctionalHeaderView alloc] initWithReuseIdentifier:[FunctionalHeaderView viewID]];
         }
         [view updateView:menu];
+        // 滚动二级列表
+        NSInteger secondIndex = [_secondMenuArray indexOfObject:menu];
+        [_secondMenuTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:secondIndex inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
         return view;
     } else {
         ShoppingCarSectionHeaderView *view = (ShoppingCarSectionHeaderView *)[tableView dequeueReusableHeaderFooterViewWithIdentifier:[ShoppingCarSectionHeaderView viewID]];

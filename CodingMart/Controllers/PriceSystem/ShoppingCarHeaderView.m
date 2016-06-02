@@ -36,19 +36,35 @@
         [_clearButton setTitle:@"一键清空" forState:UIControlStateNormal];
         [_clearButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_clearButton.titleLabel setFont:[UIFont systemFontOfSize:12.0f]];
-        [_clearButton setFrame:CGRectMake(kScreen_Width - 15 - 55, 0, 55, 44)];
+        [_clearButton setFrame:CGRectMake(kScreen_Width - 10 - 70, 0, 70, 44)];
+        [_clearButton addTarget:self action:@selector(clearData) forControlEvents:UIControlEventTouchUpInside];
         
         _resetButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_resetButton setImage:[UIImage imageNamed:@"price_reset_button"] forState:UIControlStateNormal];
         [_resetButton setTitle:@"还原默认" forState:UIControlStateNormal];
         [_resetButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_resetButton.titleLabel setFont:[UIFont systemFontOfSize:12.0f]];
-
+        [_resetButton setFrame:CGRectMake(kScreen_Width - 10 - 70 - 70 - 10, 0, 70, 44)];
+        [_resetButton addTarget:self action:@selector(resetData) forControlEvents:UIControlEventTouchUpInside];
+        
         [self addSubview:_leftView];
         [self addSubview:_titleLabel];
+        [self addSubview:_clearButton];
         [self addSubview:_resetButton];
     }
     return self;
+}
+
+- (void)clearData {
+    if (self.clearBlock) {
+        self.clearBlock();
+    }
+}
+
+- (void)resetData {
+    if (self.resetBlock) {
+        self.resetBlock();
+    }
 }
 
 + (NSString *)viewID {

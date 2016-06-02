@@ -8,7 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^ClearDataBlock)();
+typedef void(^ResetDataBlock)();
+
 @interface ShoppingCarHeaderView : UIView
+
+@property (copy, nonatomic) ClearDataBlock clearBlock;
+@property (copy, nonatomic) ResetDataBlock resetBlock;
 
 @end
 
