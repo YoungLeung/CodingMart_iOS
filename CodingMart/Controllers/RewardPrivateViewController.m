@@ -165,7 +165,7 @@
         if (status < RewardStatusRecruiting) {
             headerV = [self p_headerViewWithStr:@"项目描述"];
         }else{
-            headerV = [self p_headerViewWithStr:@"码士分配"];
+            headerV = [self p_headerViewWithStr:status > RewardStatusRecruiting? @"码士分配": @"报名列表"];
         }
     }else if (section == 3 && _curRewardP.basicInfo.status.integerValue > RewardStatusRecruiting){
         headerV = [self p_headerViewWithStr:_curRewardP.basicInfo.managerName.length > 0? [NSString stringWithFormat:@"阶段列表 | 项目监理：%@", _curRewardP.basicInfo.managerName]: @"阶段列表"];
@@ -334,7 +334,7 @@
         status >= RewardStatusRecruiting &&
         _curRewardP.apply.coders.count > indexPath.row) {//码士分配
         RewardApplyCoder *curCoder = _curRewardP.apply.coders[indexPath.row];
-        ApplyCoderViewController *vc = [ApplyCoderViewController vcWithCoder:curCoder];
+        ApplyCoderViewController *vc = [ApplyCoderViewController vcWithCoder:curCoder reward:_curRewardP.basicInfo];
         [self.navigationController pushViewController:vc animated:YES];
     }else if (indexPath.section == 4 &&
               _curRewardP.filesToShow.count > indexPath.row){
