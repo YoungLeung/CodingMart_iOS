@@ -627,7 +627,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == _secondMenuTableView) {
-        return 47.0f;
+        FunctionMenu *menu = [_secondMenuArray objectAtIndex:indexPath.section];
+        return [FunctionalSecondMenuCell calcHeight:menu width:tableView.width];
     } else if (tableView == _thirdMenuTableView) {
         FunctionMenu *menu = [_secondMenuArray objectAtIndex:indexPath.section];
         NSArray *thirdMenuArray = [_thirdMenuDict objectForKey:menu.code];
@@ -695,6 +696,7 @@
             [_thirdMenuTableView setX:CGRectGetMaxX(_secondMenuTableView.frame)];
             [_thirdMenuTableView reloadData];
         }
+        [_thirdMenuTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.row] atScrollPosition:UITableViewScrollPositionTop animated:NO];
     } else if (tableView == _thirdMenuTableView) {
         [self generateShoppingCarData:indexPath];
         [self updateShoppingCar];
@@ -731,8 +733,8 @@
         }
         [view updateView:menu];
         // 滚动二级列表
-        NSInteger secondIndex = [_secondMenuArray indexOfObject:menu];
-        [_secondMenuTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:secondIndex inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+//        NSInteger secondIndex = [_secondMenuArray indexOfObject:menu];
+//        [_secondMenuTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:secondIndex inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
         return view;
     } else {
         ShoppingCarSectionHeaderView *view = (ShoppingCarSectionHeaderView *)[tableView dequeueReusableHeaderFooterViewWithIdentifier:[ShoppingCarSectionHeaderView viewID]];
@@ -741,6 +743,28 @@
         }
         [view updateCell:[_selectedMenuArray objectAtIndex:section]];
         return view;
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    if (scrollView == _thirdMenuTableView) {
+        NSArray *cellArray = _thirdMenuTableView.visibleCells;
+        if (cellArray.count) {
+            FunctionalSecondMenuCell *cell = (FunctionalSecondMenuCell *)cellArray.firstObject;
+            NSIndexPath *indexPath = [_thirdMenuTableView indexPathForCell:cell];
+            [_secondMenuTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.section inSection:0] animated:YES scrollPosition:UITableViewScrollPositionTop];
+        }
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (scrollView == _thirdMenuTableView) {
+        NSArray *cellArray = _thirdMenuTableView.visibleCells;
+        if (cellArray.count) {
+            FunctionalSecondMenuCell *cell = (FunctionalSecondMenuCell *)cellArray.firstObject;
+            NSIndexPath *indexPath = [_thirdMenuTableView indexPathForCell:cell];
+            [_secondMenuTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.section inSection:0] animated:YES scrollPosition:UITableViewScrollPositionTop];
+        }
     }
 }
 
@@ -790,6 +814,13 @@
         [_secondMenuTableView setX:CGRectGetMaxX(_firstMenuScrollView.frame)];
         [_secondMenuTableView setWidth:kScreen_Width*0.3];
         [_thirdMenuTableView setX:kScreen_Width];
+    }
+    
+    NSArray *secondCellArray = _secondMenuTableView.visibleCells;
+    for (int i = 0; i < secondCellArray.count; i++) {
+        FunctionalSecondMenuCell *cell = [secondCellArray objectAtIndex:i];
+        FunctionMenu *menu = [_secondMenuArray objectAtIndex:i];
+        [cell updateCell:menu];
     }
 }
 
