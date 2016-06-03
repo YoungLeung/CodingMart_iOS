@@ -140,7 +140,7 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
         if (!self.curUser.fullInfo.boolValue) {
             [NSObject showHudTipStr:@"请先完善个人信息"];
             return;
-        }else if (self.curUser.fullSkills.boolValue){
+        }else if (!self.curUser.fullSkills.boolValue){
             [NSObject showHudTipStr:@"请先完善技能展示"];
             return;
         }else if (self.identityCode==identity_Authing){

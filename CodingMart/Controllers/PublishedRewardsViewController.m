@@ -144,7 +144,7 @@
     if ([curReward needToPay]) {
         [cellIdentifier appendString:[curReward hasPaidSome]? @"_1_1": @"_1_0"];
     }else{
-        [cellIdentifier appendString:@"_0_0"];
+        [cellIdentifier appendString:curReward.status.integerValue != RewardStatusCanceled? @"_0_0": @"_0_1"];
     }
     PublishedRewardCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     cell.reward = _rewardList[indexPath.row];
