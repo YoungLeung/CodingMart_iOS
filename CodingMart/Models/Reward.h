@@ -23,7 +23,7 @@ typedef NS_ENUM(NSInteger, RewardStatus) {
     RewardStatusRecruiting,//招募中
     RewardStatusDeveloping,//开发中
     RewardStatusFinished,//已结束
-    RewardStatusPrepare//待提交
+    RewardStatusPrepare//待支付
 };
 
 typedef NS_ENUM(NSInteger, PayMethodType) {
