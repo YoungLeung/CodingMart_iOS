@@ -38,7 +38,8 @@
                 (_status.integerValue == RewardStatusFresh ||
                  _status.integerValue == RewardStatusAccepted ||
                  _status.integerValue == RewardStatusRecruiting ||
-                 _status.integerValue == RewardStatusDeveloping));
+                 _status.integerValue == RewardStatusDeveloping ||
+                 _status.integerValue == RewardStatusPrepare));
 }
 - (BOOL)hasPaidSome{
     return (_price_with_fee.floatValue - _balance.floatValue > 0);
