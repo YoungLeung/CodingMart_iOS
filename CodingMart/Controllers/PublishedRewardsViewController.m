@@ -107,7 +107,7 @@
     }] showInView:self.view];
 }
 - (void)goToPrivateReward:(Reward *)reward{
-    if (reward.status.integerValue > RewardStatusFinished) {
+    if (reward.version.integerValue > 0) {
         [self goToWebVCWithUrlStr:[NSString stringWithFormat:@"/user/p/%@", reward.id.stringValue] title:@"项目状态"];
         return;
     }
@@ -144,7 +144,7 @@
     if ([curReward needToPay]) {
         [cellIdentifier appendString:[curReward hasPaidSome]? @"_1_1": @"_1_0"];
     }else{
-        [cellIdentifier appendString:curReward.status.integerValue != RewardStatusCanceled? @"_0_0": @"_0_1"];
+        [cellIdentifier appendString:(curReward.status.integerValue == RewardStatusCanceled && curReward.version.integerValue == 0)? @"_0_1": @"_0_0"];
     }
     PublishedRewardCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     cell.reward = _rewardList[indexPath.row];
