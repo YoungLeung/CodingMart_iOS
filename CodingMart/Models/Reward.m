@@ -35,7 +35,8 @@
 }
 - (BOOL)needToPay{
         return (_balance.floatValue > 0 &&
-                (_status.integerValue == RewardStatusAccepted ||
+                (_status.integerValue == RewardStatusFresh ||
+                 _status.integerValue == RewardStatusAccepted ||
                  _status.integerValue == RewardStatusRecruiting ||
                  _status.integerValue == RewardStatusDeveloping));
 }

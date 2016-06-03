@@ -179,9 +179,9 @@
     UIButton *bottomBtn = nil;
     switch (joinStatus.integerValue) {
         case JoinStatusFresh:
+        case JoinStatusChecked:
             bottomBtn = [self p_bottomBtnWithTitle:@"编辑" bgColorHexStr:@"0x4289DB"];
             break;
-        case JoinStatusChecked:
         case JoinStatusSucessed:
             break;
         case JoinStatusFailed:

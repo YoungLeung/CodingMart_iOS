@@ -102,6 +102,10 @@
                                                               }];
 }
 
+- (BOOL)p_acceptNewRewardAllNotification{
+    return _userInfo.acceptNewRewardAllNotification? _userInfo.acceptNewRewardAllNotification.boolValue: YES;
+}
+
 - (void)refresh{
     self.userInfo = nil;
     [self.view beginLoading];
@@ -130,7 +134,7 @@
     }
     _freeTimeF.text = [_userInfo free_time_display];
     _rewardRoleF.text = [_userInfo reward_role_display];
-    _acceptNewRewardAllNotificationSwitch.on = _userInfo.acceptNewRewardAllNotification.boolValue;
+    _acceptNewRewardAllNotificationSwitch.on = [self p_acceptNewRewardAllNotification];
     _submitBtn.hidden = (_userInfo == nil);
     [self.tableView reloadData];
 }
@@ -263,7 +267,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return section == 0? 6: _userInfo.acceptNewRewardAllNotification.boolValue? 2: 1;
+    return section == 0? 6: [self p_acceptNewRewardAllNotification]? 2: 1;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{

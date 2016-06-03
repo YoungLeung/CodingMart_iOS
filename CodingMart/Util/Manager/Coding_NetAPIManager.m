@@ -135,7 +135,7 @@
 }
 - (void)get_JoinedRewardListBlock:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/joined";
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"pageSize": @500} withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             data = [NSObject arrayFromJSON:data[@"data"][@"rewards"][@"list"] ofObjects:@"Reward"];
         }
@@ -144,7 +144,7 @@
 }
 - (void)get_PublishededRewardListBlock:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/published";
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"pageSize": @500} withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             data = [NSObject arrayFromJSON:data[@"data"][@"rewards"][@"list"] ofObjects:@"Reward"];
         }

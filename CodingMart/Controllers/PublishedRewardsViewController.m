@@ -158,6 +158,9 @@
     cell.payBtnBlock = ^(Reward *reward){
         [weakSelf goToPayReward:reward];
     };
+    cell.rePublishBtnBlock = ^(Reward *reward){
+        [weakSelf goToPublish:reward];
+    };
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
     return cell;
 }
