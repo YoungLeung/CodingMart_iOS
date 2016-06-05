@@ -151,7 +151,10 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
     if (array.count) {
         for (int i = 0; i < array.count; i++) {
             NSIndexPath *indexPath = [array objectAtIndex:i];
-            [selectedArray addObject:[_cellNameArray objectAtIndex:indexPath.row]];
+            NSString *name = [_cellNameArray objectAtIndex:indexPath.row];
+            if (![selectedArray containsObject:name]) {
+                [selectedArray addObject:name];
+            }
             [selectedIDArray addObject:[_menuIDArray objectAtIndex:indexPath.row]];
         }
         if ([selectedArray containsObject:@"其他"]) {
@@ -161,6 +164,7 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
             vc.menuArray = _cellNameArray;
             vc.menuIDArray = selectedIDArray;
             vc.selectedMenuArray = selectedArray;
+            vc.allIDArray = _menuIDArray;
             [self.navigationController pushViewController:vc animated:YES];
         }
     }

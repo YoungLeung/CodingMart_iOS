@@ -164,6 +164,7 @@
     [platformView setCenterY:270.0f];
     [platformView setBackgroundColor:[UIColor whiteColor]];
     [platformView.layer setCornerRadius:2.0f];
+    [platformView setTag:99];
     [_backgroundView addSubview:platformView];
     
     // 修改平台
@@ -187,15 +188,27 @@
         UIImage *normalImage = [UIImage imageWithColor:[UIColor colorWithHexString:@"F3F3F3"]];
         UIImage *selectedImage = [UIImage imageWithColor:[UIColor colorWithHexString:@"4289DB"]];
         [button setBackgroundImage:normalImage forState:UIControlStateNormal];
-        [button setBackgroundImage:selectedImage forState:UIControlStateSelected | UIControlStateHighlighted];
+        [button setBackgroundImage:selectedImage forState:UIControlStateSelected];
+        [button setBackgroundImage:selectedImage forState:UIControlStateHighlighted];
         [button setTitle:_menuArray[i] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor colorWithHexString:@"666666"] forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected | UIControlStateHighlighted];
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
         [button.titleLabel setFont:[UIFont systemFontOfSize:15.0f]];
         [button setFrame:CGRectMake(i%2*buttonWidth + i%2*15 + 15, buttonY + i/2*36 + i/2*10 + 15, buttonWidth, 36)];
         [button.layer setCornerRadius:2.0f];
         [button setClipsToBounds:YES];
+        [button setTag:i+100];
+        [button addTarget:self action:@selector(platformButtonPress:) forControlEvents:UIControlEventTouchUpInside];
         [platformView addSubview:button];
+        
+        for (int j = 0; j < _selectedMenuArray.count; j++) {
+            NSString *selectedMenu = [_selectedMenuArray objectAtIndex:j];
+            NSString *currentMenu = [_menuArray objectAtIndex:i];
+            if ([selectedMenu isEqualToString:currentMenu]) {
+                [button setSelected:YES];
+            }
+        }
     }
     
     float viewWidth = CGRectGetWidth(platformView.frame);
@@ -230,12 +243,31 @@
     [platformView addSubview:buttonLine];
 }
 
+- (void)platformButtonPress:(UIButton *)button {
+    [button setSelected:!button.selected];
+}
+
 - (void)cancelButtonPress {
     [self dismiss];
 }
 
 - (void)confirmButtonPress {
+    UIView *platformView = (UIView *)[_backgroundView viewWithTag:99];
+    NSMutableArray *tempArray = [NSMutableArray array];
+    NSMutableArray *tempIDArray = [NSMutableArray array];
+    for (int i = 0; i < _menuArray.count; i++) {
+        UIButton *button = (UIButton *)[platformView viewWithTag:i+100];
+        if (button.selected) {
+            [tempArray addObject:button.titleLabel.text];
+            [tempIDArray addObject:[_allIDArray objectAtIndex:i]];
+        }
+    }
     
+    _selectedMenuArray = tempArray;
+    _menuIDArray = tempIDArray;
+    [self dismiss];
+    _selectedIndex = 0;
+    [self addTopMenu];
 }
 
 + (UIImage *)imageWithColor:(UIColor *)color
