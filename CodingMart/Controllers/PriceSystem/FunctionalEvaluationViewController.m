@@ -33,6 +33,7 @@
 @property (strong, nonatomic) UIView *bgView;
 @property (strong, nonatomic) ShoppingCarHeaderView *header;
 @property (strong, nonatomic) UIView *shoppingCarBgView;
+@property (strong, nonatomic) UISwipeGestureRecognizer *swipeAction;
 
 @end
 
@@ -69,11 +70,35 @@
     _secondMenuArray = [NSMutableArray array];
     _thirdMenuDict = [NSMutableDictionary dictionary];
     _shoppingDict = [NSMutableDictionary dictionary];
+    _selectedIndex = 0;
     
     // 加载顶部菜单
     [self addTopMenu];
     // 加载底部菜单
     [self addBottomMenu];
+    
+    UISwipeGestureRecognizer *leftSwip = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeMenu:)];
+    [leftSwip setDirection:UISwipeGestureRecognizerDirectionLeft];
+    UISwipeGestureRecognizer *rightSwip = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeMenu:)];
+    [rightSwip setDirection:UISwipeGestureRecognizerDirectionLeft];
+    [self.view addGestureRecognizer:leftSwip];
+    [self.view addGestureRecognizer:rightSwip];
+}
+
+- (void)swipeMenu:(UISwipeGestureRecognizer *)swipe {
+    if (swipe.direction == UISwipeGestureRecognizerDirectionRight) {
+        _selectedIndex--;
+        if (_selectedIndex >= 0) {
+            UIButton *button = (UIButton *)[_topMenuView viewWithTag:_selectedIndex];
+            [self selectButtonAtIndex:button];
+        }
+    } else if (swipe.direction == UISwipeGestureRecognizerDirectionLeft) {
+        _selectedIndex++;
+        if (_selectedIndex < _selectedMenuArray.count) {
+            UIButton *button = (UIButton *)[_topMenuView viewWithTag:_selectedIndex];
+            [self selectButtonAtIndex:button];
+        }
+    }
 }
 
 - (void)addTopMenu {
@@ -107,7 +132,7 @@
         [_topMenuView setContentSize:CGSizeMake(scrollWith, _topMenuView.frame.size.height)];
         [_topMenuView addSubview:button];
         lastX = CGRectGetMaxX(button.frame);
-        if (i == 0) {
+        if (i == _selectedIndex) {
             firstButton = button;
         }
     }
