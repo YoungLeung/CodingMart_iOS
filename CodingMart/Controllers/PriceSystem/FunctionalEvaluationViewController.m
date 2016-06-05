@@ -33,7 +33,7 @@
 @property (strong, nonatomic) UIView *bgView;
 @property (strong, nonatomic) ShoppingCarHeaderView *header;
 @property (strong, nonatomic) UIView *shoppingCarBgView;
-@property (strong, nonatomic) UISwipeGestureRecognizer *swipeAction;
+@property (strong, nonatomic) NSMutableDictionary *shoppingCarDefaultDict;
 
 @end
 
@@ -70,6 +70,7 @@
     _secondMenuArray = [NSMutableArray array];
     _thirdMenuDict = [NSMutableDictionary dictionary];
     _shoppingDict = [NSMutableDictionary dictionary];
+    _shoppingCarDefaultDict = [NSMutableDictionary dictionary];
     _selectedIndex = 0;
     
     // 加载顶部菜单
@@ -514,6 +515,19 @@
         [array addObject:thirdMenu];
         [_shoppingDict setObject:array forKey:topMenu];
     }
+    
+    // 生成默认数据
+    [_shoppingCarDefaultDict removeAllObjects];
+    NSMutableArray *tempArray = [NSMutableArray array];
+    for (NSString *key in _thirdMenuDict) {
+        NSArray *arr = [_thirdMenuDict objectForKey:key];
+        for (FunctionMenu *item in arr) {
+            if ([item.is_default isEqual:@1]) {
+                [tempArray addObject:item];
+            }
+        }
+    }
+    [_shoppingCarDefaultDict setObject:tempArray forKey:topMenu];
 }
 
 - (void)removeShoppingCarData:(NSIndexPath *)indexPath {
@@ -597,6 +611,7 @@
         };
         _header.resetBlock = ^(){
             [weakSelf.shoppingDict removeAllObjects];
+            [weakSelf resetShoppingCar];
             [weakSelf updateShoppingCar];
             [weakSelf.shoppingCarTableView reloadData];
         };
@@ -925,6 +940,11 @@
         [_numberLabel setHidden:YES];
         [_calcButton setHidden:YES];
     }
+}
+
+// 重置购物车
+- (void)resetShoppingCar {
+    _shoppingDict = _shoppingCarDefaultDict;
 }
 
 #pragma mark - 去除多余分割线
