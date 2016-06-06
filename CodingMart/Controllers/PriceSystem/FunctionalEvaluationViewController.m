@@ -855,6 +855,7 @@
                     [btn setTitle:menu.title forState:UIControlStateNormal];
                 }
                 [btn setWidth:_firstMenuScrollView.frame.size.width - 20];
+                [btn setTitleEdgeInsets:UIEdgeInsetsZero];
                 UIView *view = [_firstMenuScrollView viewWithTag:i+20];
                 [view setWidth:_firstMenuScrollView.frame.size.width - 20];
             }
@@ -878,6 +879,7 @@
                     [btn setTitle:[menu.title substringToIndex:1] forState:UIControlStateNormal];
                 }
                 [btn setWidth:18.0f];
+                [btn setTitleEdgeInsets:UIEdgeInsetsMake(0, -5, 0, 0)];
                 UIView *view = [_firstMenuScrollView viewWithTag:i+20];
                 [view setWidth:14.0f];
             }
