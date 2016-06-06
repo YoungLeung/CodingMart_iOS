@@ -40,7 +40,7 @@
     
     _nameL.text = _curCoder.name;
     _roleTypeL.text = _curCoder.role_type;
-    _skillsL.text = _curCoder.skills.length > 0? _curCoder.skills: @"未填写";
+    _skillsL.text = _curCoder.good_at.length > 0? _curCoder.good_at: @"未填写";
     _messageL.text = _curCoder.message;
     _idL.text = _curCoder.global_key;
     _phoneL.text = _curCoder.mobile;
