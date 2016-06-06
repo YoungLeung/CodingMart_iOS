@@ -56,7 +56,7 @@
         rowHeight = row > 4? 0.0: 44.0;
     }else{
         rowHeight = (row == 0 || row == 4)? 0.0: 44.0;
-        NSString *contentStr = row == 5? _curCoder.skills: row == 7? _curCoder.message: nil;
+        NSString *contentStr = row == 5? _curCoder.good_at: row == 7? _curCoder.message: nil;
         if (contentStr.length > 0) {
             rowHeight = MAX(rowHeight,
                             [contentStr getHeightWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake(kScreen_Width - 15* 2 - 90, CGFLOAT_MAX)] + 24.0);
