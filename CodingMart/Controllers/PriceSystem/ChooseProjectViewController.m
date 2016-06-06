@@ -15,6 +15,7 @@
 @interface ChooseProjectViewController ()
 
 @property (strong, nonatomic) NSArray *cellImageArray, *cellNameArray, *menuIDArray;
+@property (strong, nonatomic) NextStepCollectionViewCell *cell;
 
 @end
 
@@ -59,7 +60,6 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
     
     [self.collectionView registerClass:[NextStepCollectionViewCell class] forCellWithReuseIdentifier:nextStepReuseIdentifier];
     [self.collectionView setAllowsMultipleSelection:YES];
-    [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionNone];
     
     // 加载菜单数据
     [[Coding_NetAPIManager sharedManager] get_quoteFunctions:^(id data, NSError *error) {
@@ -108,11 +108,11 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
         return cell;
     } else {
         __weak typeof(self)weakSelf = self;
-        NextStepCollectionViewCell *cell = (NextStepCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:nextStepReuseIdentifier forIndexPath:indexPath];
-        cell.nextStepBlock = ^(){
+        _cell = (NextStepCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:nextStepReuseIdentifier forIndexPath:indexPath];
+        _cell.nextStepBlock = ^(){
             [weakSelf nextStep];
         };
-        return cell;
+        return _cell;
     }
 }
 
@@ -131,7 +131,17 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     ChoosePriceCollectionViewCell *cell = (ChoosePriceCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     [cell setSelected:cell.selected];
-    
+    if (collectionView.indexPathsForSelectedItems.count > 0) {
+            [_cell setButtonEnable:YES];
+    } else {
+        [_cell setButtonEnable:NO];
+    }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (collectionView.indexPathsForSelectedItems.count == 0) {
+        [_cell setButtonEnable:NO];
+    }
 }
 
 #pragma mark <UICollectionViewDelegate>

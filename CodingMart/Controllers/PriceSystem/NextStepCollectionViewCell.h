@@ -14,4 +14,6 @@ typedef void(^NextStepBlock)();
 
 @property (copy, nonatomic) NextStepBlock nextStepBlock;
 
+- (void)setButtonEnable:(BOOL)enable;
+
 @end
