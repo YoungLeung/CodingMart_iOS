@@ -23,7 +23,7 @@
         [self setSeparatorInset:UIEdgeInsetsMake(0, -20, 0, 10)];
         [self setSelectionStyle:UITableViewCellSelectionStyleNone];
         
-        float width = kScreen_Width*0.47;
+        float width = kScreen_Width*0.46;
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 15, width, 20)];
         [_titleLabel setFont:[UIFont systemFontOfSize:14.0f]];
         [_titleLabel setTextColor:[UIColor colorWithHexString:@"222222"]];
@@ -35,7 +35,7 @@
         [_contentLabel setTextColor:[UIColor colorWithHexString:@"999999"]];
         [_contentLabel setTextAlignment:NSTextAlignmentNatural];
         
-        _addButton = [[UIImageView alloc] initWithFrame:CGRectMake(width + 10, CGRectGetMaxY(_titleLabel.frame) + 5, 20, 20)];
+        _addButton = [[UIImageView alloc] initWithFrame:CGRectMake(width + 20, CGRectGetMaxY(_titleLabel.frame) + 5, 20, 20)];
         [_addButton setImage:[UIImage imageNamed:@"price_menu_add"]];
         
         [self addSubview:_titleLabel];
@@ -49,6 +49,7 @@
     [_titleLabel setText:menu.title];
     [_contentLabel setText:menu.description_mine];
     [_contentLabel setHeight:[FunctionalThirdCell cellHeight:menu] - 58];
+    [_addButton setY:CGRectGetMaxY(_contentLabel.frame) - _addButton.height];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -65,7 +66,7 @@
 }
 
 + (float)cellHeight:(FunctionMenu *)menu {
-    float width = kScreen_Width*0.47;
+    float width = kScreen_Width*0.46;
     float height = 58.0f;
     NSString *text = menu.description_mine;
     CGSize size = [text boundingRectWithSize:CGSizeMake(width, MAXFLOAT)
