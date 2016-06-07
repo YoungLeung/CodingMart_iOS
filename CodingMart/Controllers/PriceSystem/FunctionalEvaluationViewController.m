@@ -34,6 +34,7 @@
 @property (strong, nonatomic) ShoppingCarHeaderView *header;
 @property (strong, nonatomic) UIView *shoppingCarBgView;
 @property (strong, nonatomic) NSMutableDictionary *shoppingCarDefaultDict;
+@property (strong, nonatomic) UIView *platformView;
 
 @end
 
@@ -185,28 +186,28 @@
     }
     
     // 选择平台窗口
-    UIView *platformView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width - 30, 250)];
-    [platformView setCenterX:kScreen_CenterX];
-    [platformView setCenterY:270.0f];
-    [platformView setBackgroundColor:[UIColor whiteColor]];
-    [platformView.layer setCornerRadius:2.0f];
-    [platformView setTag:99];
-    [_backgroundView addSubview:platformView];
+    _platformView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width - 30, 250)];
+    [_platformView setCenterX:kScreen_CenterX];
+    [_platformView setY:kScreen_Height];
+    [_platformView setBackgroundColor:[UIColor whiteColor]];
+    [_platformView.layer setCornerRadius:2.0f];
+    [_platformView setTag:99];
+    [_backgroundView addSubview:_platformView];
     
     // 修改平台
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 100, 21)];
     [label setText:@"修改平台"];
     [label setTextColor:[UIColor blackColor]];
     [label setFont:[UIFont systemFontOfSize:15.0f]];
-    [platformView addSubview:label];
+    [_platformView addSubview:label];
     
     // 分割线
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(15, 45, platformView.frame.size.width - 30, 1)];
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(15, 45, _platformView.frame.size.width - 30, 1)];
     [lineView setBackgroundColor:[UIColor colorWithHexString:@"4289DB"]];
-    [platformView addSubview:lineView];
+    [_platformView addSubview:lineView];
     
     // 平台按钮
-    float buttonWidth = (platformView.frame.size.width-15*3)/2;
+    float buttonWidth = (_platformView.frame.size.width-15*3)/2;
     float buttonY = CGRectGetMaxY(lineView.frame);
     
     for (int i = 0; i < _menuArray.count; i++) {
@@ -226,7 +227,7 @@
         [button setClipsToBounds:YES];
         [button setTag:i+100];
         [button addTarget:self action:@selector(platformButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-        [platformView addSubview:button];
+        [_platformView addSubview:button];
         
         for (int j = 0; j < _selectedMenuArray.count; j++) {
             NSString *selectedMenu = [_selectedMenuArray objectAtIndex:j];
@@ -237,13 +238,13 @@
         }
     }
     
-    float viewWidth = CGRectGetWidth(platformView.frame);
-    float viewHeight = CGRectGetHeight(platformView.frame);
+    float viewWidth = CGRectGetWidth(_platformView.frame);
+    float viewHeight = CGRectGetHeight(_platformView.frame);
     
     // 底部分割线
-    UIView *bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, viewHeight - 45, platformView.frame.size.width, 1)];
+    UIView *bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, viewHeight - 45, _platformView.frame.size.width, 1)];
     [bottomLineView setBackgroundColor:[UIColor colorWithHexString:@"CCCCCC"]];
-    [platformView addSubview:bottomLineView];
+    [_platformView addSubview:bottomLineView];
     
     // 取消按钮
     UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -252,7 +253,7 @@
     [cancelButton setTitleColor:[UIColor colorWithHexString:@"222222"] forState:UIControlStateNormal];
     [cancelButton.titleLabel setFont:[UIFont systemFontOfSize:15.0f]];
     [cancelButton addTarget:self action:@selector(cancelButtonPress) forControlEvents:UIControlEventTouchUpInside];
-    [platformView addSubview:cancelButton];
+    [_platformView addSubview:cancelButton];
     
     // 确定按钮
     UIButton *confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -261,12 +262,17 @@
     [confirmButton setTitleColor:[UIColor colorWithHexString:@"222222"] forState:UIControlStateNormal];
     [confirmButton.titleLabel setFont:[UIFont systemFontOfSize:15.0f]];
     [confirmButton addTarget:self action:@selector(confirmButtonPress) forControlEvents:UIControlEventTouchUpInside];
-    [platformView addSubview:confirmButton];
+    [_platformView addSubview:confirmButton];
     
     // 按钮分割线
     UIView *buttonLine = [[UIView alloc] initWithFrame:CGRectMake(viewWidth/2, viewHeight-44, 1, 44)];
     [buttonLine setBackgroundColor:[UIColor colorWithHexString:@"CCCCCC"]];
-    [platformView addSubview:buttonLine];
+    [_platformView addSubview:buttonLine];
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        [_platformView setFrame:CGRectMake(0, 270.0f - 250/2, kScreen_Width - 30, 250)];
+        [_platformView setCenterX:kScreen_CenterX];
+    }];
 }
 
 - (void)platformButtonPress:(UIButton *)button {
@@ -312,8 +318,12 @@
 }
 
 - (void)dismiss {
-    [_backgroundView removeFromSuperview];
-    _backgroundView = nil;
+    [UIView animateWithDuration:0.2 animations:^{
+        [_platformView setY:kScreen_Height];
+    } completion:^(BOOL finished) {
+        [_backgroundView removeFromSuperview];
+        _backgroundView = nil;
+    }];
 }
 
 #pragma mark - 一级菜单
