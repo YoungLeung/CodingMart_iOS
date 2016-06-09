@@ -14,6 +14,7 @@
 #import "FunctionalHeaderView.h"
 #import "ShoppingCarHeaderView.h"
 #import "ShoppingCarCell.h"
+#import "CalcPriceViewController.h"
 
 @interface FunctionalEvaluationViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -936,6 +937,7 @@
             [_calcButton.titleLabel setFont:[UIFont systemFontOfSize:16.0f]];
             [_calcButton setBackgroundColor:[UIColor colorWithHexString:@"4289DB"]];
             [_calcButton setFrame:CGRectMake(_bottomMenuView.frame.size.width *(1 - 0.38), 0, _bottomMenuView.frame.size.width * 0.38, _bottomMenuView.frame.size.height)];
+            [_calcButton addTarget:self action:@selector(calcPrice) forControlEvents:UIControlEventTouchUpInside];
             
             [_bottomMenuView addSubview:_bubbleView];
             [_bottomMenuView addSubview:_numberLabel];
@@ -957,6 +959,12 @@
 // 重置购物车
 - (void)resetShoppingCar {
     _shoppingDict = _shoppingCarDefaultDict;
+}
+
+#pragma mark - 计算结果
+- (void)calcPrice {
+    CalcPriceViewController *vc = [[CalcPriceViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - 去除多余分割线
