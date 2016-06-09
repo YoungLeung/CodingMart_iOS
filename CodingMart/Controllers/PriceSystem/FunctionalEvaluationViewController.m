@@ -519,12 +519,14 @@
     }
     
     // 添加用户点击的数据
+    NSMutableDictionary *tempDict = [NSMutableDictionary dictionary];
     FunctionMenu *menu = [_secondMenuArray objectAtIndex:indexPath.section];
     NSArray *thirdMenuArray = [_thirdMenuDict objectForKey:menu.code];
     FunctionMenu *thirdMenu = [thirdMenuArray objectAtIndex:indexPath.row];
+    NSLog(@"%@", thirdMenu.title);
     if (![array containsObject:thirdMenu]) {
         [array addObject:thirdMenu];
-        [_shoppingDict setObject:array forKey:topMenu];
+        [tempDict setObject:array forKey:topMenu];
     }
     
     // 生成默认数据
@@ -539,6 +541,7 @@
         }
     }
     [_shoppingCarDefaultDict setObject:tempArray forKey:topMenu];
+    [_shoppingDict addEntriesFromDictionary:tempDict];
 }
 
 - (void)removeShoppingCarData:(NSIndexPath *)indexPath {
@@ -619,12 +622,14 @@
             [weakSelf.shoppingDict removeAllObjects];
             [weakSelf updateShoppingCar];
             [weakSelf.shoppingCarTableView reloadData];
+            [weakSelf.thirdMenuTableView reloadData];
         };
         _header.resetBlock = ^(){
             [weakSelf.shoppingDict removeAllObjects];
             [weakSelf resetShoppingCar];
             [weakSelf updateShoppingCar];
             [weakSelf.shoppingCarTableView reloadData];
+            [weakSelf.thirdMenuTableView reloadData];
         };
 
         // 列表
@@ -702,7 +707,9 @@
         NSArray *array = [menu.children componentsSeparatedByString:@","];
         return array.count;
     } else if (tableView == _shoppingCarTableView) {
-        NSArray *array = [_shoppingDict objectForKey:[_selectedMenuArray objectAtIndex:section]];
+        NSArray *keyArray = [_shoppingDict allKeys];
+        NSString *key = [keyArray objectAtIndex:section];
+        NSArray *array = [_shoppingDict objectForKey:key];
         return array.count;
     }
     return 0;
@@ -757,7 +764,9 @@
         if (!cell) {
             cell = [[ShoppingCarCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[ShoppingCarCell cellID]];
         }
-        NSArray *menuArray = [_shoppingDict objectForKey:[_selectedMenuArray objectAtIndex:indexPath.section]];
+        NSArray *keyArray = [_shoppingDict allKeys];
+        NSString *key = [keyArray objectAtIndex:indexPath.section];
+        NSArray *menuArray = [_shoppingDict objectForKey:key];
         FunctionMenu *menu = [menuArray objectAtIndex:indexPath.row];
         [cell updateCell:menu];
         return cell;
@@ -824,7 +833,9 @@
         if (!view) {
             view = [[ShoppingCarSectionHeaderView alloc] initWithReuseIdentifier:[ShoppingCarSectionHeaderView viewID]];
         }
-        [view updateCell:[_selectedMenuArray objectAtIndex:section]];
+        
+        NSArray *keyArray = [_shoppingDict allKeys];
+        [view updateCell:[keyArray objectAtIndex:section]];
         return view;
     }
 }
