@@ -11,7 +11,7 @@
 @interface PriceList : NSObject
 
 @property (strong, nonatomic) NSNumber *id, *rewardId, *fromTerm, *toTerm, *platformCount,*webPageCount, *moduleCount, *status;
-@property (strong, nonatomic) NSString *fromPrice, *toPrice, *name, *description_mine;
+@property (strong, nonatomic) NSString *fromPrice, *toPrice, *name, *description_mine, *shareLink;
 @property (strong, nonatomic) NSArray *platforms;
 
 @end

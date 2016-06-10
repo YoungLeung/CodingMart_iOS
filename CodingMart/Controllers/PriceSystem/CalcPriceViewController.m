@@ -10,6 +10,7 @@
 #import "Coding_NetAPIManager.h"
 #import "CalcResult.h"
 #import "PriceListViewController.h"
+#import "FunctionListViewController.h"
 
 @interface CalcPriceViewController ()<UITextViewDelegate>
 
@@ -19,6 +20,7 @@
 @property (strong, nonatomic) UITextField *nameTextField;
 @property (strong, nonatomic) UITextView *descContent;
 @property (strong, nonatomic) NSNumber *listID;
+@property (strong, nonatomic) id list;
 
 @end
 
@@ -103,6 +105,7 @@
 }
 
 - (void)updateView:(CalcResult *)result {
+    self.list = result;
     [_priceLabel setText:[NSString stringWithFormat:@"¥ %@ - %@  元", result.fromPrice, result.toPrice]];
     NSMutableDictionary *fontDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      NSFontAttributeName, [UIFont systemFontOfSize:14.0f],
@@ -307,7 +310,9 @@
 }
 
 - (void)toFunctionList {
-    
+    FunctionListViewController *vc = [[FunctionListViewController alloc] init];
+    vc.list = (id)self.list;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - textViewDelegate

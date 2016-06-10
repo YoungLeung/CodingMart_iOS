@@ -9,6 +9,7 @@
 #import "PriceListViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "PriceListCell.h"
+#import "FunctionListViewController.h"
 
 @interface PriceListViewController ()
 
@@ -29,6 +30,7 @@
     [self.tableView registerClass:[PriceListCell class] forCellReuseIdentifier:[PriceListCell cellID]];
     [self.tableView eaAddPullToRefreshAction:@selector(refresh) onTarget:self];
     [self refresh];
+    [self.tableView setHidden:YES];
 }
 
 - (void)refresh {
@@ -39,6 +41,7 @@
     __weak typeof(self)weakSelf = self;
     [[Coding_NetAPIManager sharedManager] get_priceList:^(id data, NSError *error) {
         _isLoading = NO;
+        [weakSelf.tableView setHidden:NO];
         if (!error) {
             weakSelf.dataList = data;
             [weakSelf.tableView.pullRefreshCtrl endRefreshing];
@@ -75,6 +78,13 @@
     }
     [cell updateCell:[_dataList objectAtIndex:indexPath.section]];
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    PriceList *list = [_dataList objectAtIndex:indexPath.section];
+    FunctionListViewController *vc = [[FunctionListViewController alloc] init];
+    vc.list = list;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 

@@ -23,6 +23,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        [self setSelectionStyle:UITableViewCellSelectionStyleNone];
         [self addContent];
     }
     return self;
@@ -67,15 +68,15 @@
     [_centerView addSubview:_timeLabel];
     
     // 按钮
-    UIButton *viewListButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [viewListButton setFrame:CGRectMake(_centerView.width - 93 - 15, _centerView.bottom + 10, 93, 25)];
-    [viewListButton setTitle:@"查看功能清单" forState:UIControlStateNormal];
-    [viewListButton setTitleColor:[UIColor colorWithHexString:@"434a54"] forState:UIControlStateNormal];
-    [viewListButton.titleLabel setFont:[UIFont systemFontOfSize:12.0f]];
-    [viewListButton.layer setCornerRadius:3.0f];
-    [viewListButton.layer setBorderWidth:0.5];
-    [viewListButton.layer setBorderColor:[UIColor colorWithHexString:@"b5b5b5"].CGColor];
-    [self addSubview:viewListButton];
+    UILabel *viewListLabel = [[UILabel alloc] initWithFrame:CGRectMake(_centerView.width - 93 - 15, _centerView.bottom + 10, 93, 25)];
+    [viewListLabel setText:@"查看功能清单"];
+    [viewListLabel setTextColor:[UIColor colorWithHexString:@"434a54"]];
+    [viewListLabel setFont:[UIFont systemFontOfSize:12.0f]];
+    [viewListLabel setTextAlignment:NSTextAlignmentCenter];
+    [viewListLabel.layer setCornerRadius:3.0f];
+    [viewListLabel.layer setBorderWidth:0.5];
+    [viewListLabel.layer setBorderColor:[UIColor colorWithHexString:@"b5b5b5"].CGColor];
+    [self addSubview:viewListLabel];
 }
 
 - (void)updateCell:(PriceList *)list {
