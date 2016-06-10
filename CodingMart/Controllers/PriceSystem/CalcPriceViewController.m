@@ -228,6 +228,48 @@
     }];
 }
 
+// 保存成功
+- (void)saveSuccess {
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, _savePriceView.width, 31)];
+    [titleLabel setText:@"预估报价保存成功！"];
+    [titleLabel setTextColor:[UIColor colorWithHexString:@"4289DB"]];
+    [titleLabel setFont:[UIFont systemFontOfSize:22.0f]];
+    [titleLabel setTextAlignment:NSTextAlignmentCenter];
+    [_savePriceView addSubview:titleLabel];
+    
+    UIButton *priceListButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [priceListButton setFrame:CGRectMake(0, titleLabel.bottom + 15, titleLabel.width * 0.47, 44)];
+    [priceListButton setCenterX:titleLabel.centerX];
+    [priceListButton setTitle:@"查看我的报价列表" forState:UIControlStateNormal];
+    [priceListButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [priceListButton setBackgroundColor:[UIColor colorWithHexString:@"4289DB"]];
+    [priceListButton addTarget:self action:@selector(toMyPriceList) forControlEvents:UIControlEventTouchUpInside];
+    [priceListButton.layer setCornerRadius:3.0f];
+    [_savePriceView addSubview:priceListButton];
+    
+    UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, priceListButton.bottom + 30, titleLabel.width*0.75, 0)];
+    [tipLabel setCenterX:kScreen_CenterX];
+    [tipLabel setNumberOfLines:0];
+    [tipLabel setText:@"您可以在发布悬赏的过程中，将预估功能的报价作为参考链接提供给开发者。"];
+    [tipLabel setFont:[UIFont systemFontOfSize:14.0f]];
+    [tipLabel setTextColor:[UIColor colorWithHexString:@"999999"]];
+    [tipLabel sizeThatFits:CGSizeMake(titleLabel.width*0.75, MAXFLOAT)];
+    [tipLabel sizeToFit];
+    [_savePriceView addSubview:tipLabel];
+}
+
+- (void)dismissSaveView {
+    for (UIView *v in _savePriceView.subviews) {
+        [v removeFromSuperview];
+    }
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        [_savePriceView setHeight:217.5];
+        [_savePriceView setCenterY:kScreen_CenterY];
+        [self saveSuccess];
+    }];
+}
+
 - (void)dismiss {
     [UIView animateWithDuration:0.2 animations:^{
         [_savePriceView setTop:kScreen_Height];
@@ -252,8 +294,13 @@
     [[Coding_NetAPIManager sharedManager] post_savePrice:parameter block:^(id data, NSError *error) {
         if (!error) {
             weakSelf.listID = data;
+            [weakSelf dismissSaveView];
         }
     }];
+}
+
+- (void)toMyPriceList {
+    [self dismiss];
 }
 
 - (void)toFunctionList {
