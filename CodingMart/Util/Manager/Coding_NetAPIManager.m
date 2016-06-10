@@ -31,6 +31,7 @@
 #import "SkillRole.h"
 #import "MartSkill.h"
 #import "RewardPrivate.h"
+#import "CalcResult.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -724,6 +725,15 @@
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         data = [data objectForKey:@"data"];
         block(data, error);
+    }];
+}
+
+- (void)post_calcPrice:(NSDictionary *)params block:(void (^)(id, NSError *))block {
+    NSString *path = @"api/quote/calculate";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
+        data = data[@"data"];
+        CalcResult *result = [NSObject objectOfClass:@"CalcResult" fromJSON:data];
+        block(result, error);
     }];
 }
 

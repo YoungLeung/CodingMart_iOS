@@ -74,6 +74,7 @@
     _shoppingDict = [NSMutableDictionary dictionary];
     _shoppingCarDefaultDict = [NSMutableDictionary dictionary];
     _selectedIndex = 0;
+    _selectedFirstIndex = 0;
     
     // 加载顶部菜单
     [self addTopMenu];
@@ -523,7 +524,6 @@
     FunctionMenu *menu = [_secondMenuArray objectAtIndex:indexPath.section];
     NSArray *thirdMenuArray = [_thirdMenuDict objectForKey:menu.code];
     FunctionMenu *thirdMenu = [thirdMenuArray objectAtIndex:indexPath.row];
-    NSLog(@"%@", thirdMenu.title);
     if (![array containsObject:thirdMenu]) {
         [array addObject:thirdMenu];
         [tempDict setObject:array forKey:topMenu];
@@ -974,7 +974,38 @@
 
 #pragma mark - 计算结果
 - (void)calcPrice {
+    NSMutableString *string = [NSMutableString string];
+    NSArray *keyArray = [_shoppingDict allKeys];
+    for (int i = 0; i < keyArray.count; i++) {
+        NSString *key = [keyArray objectAtIndex:i];
+        NSArray *thirdMenuArray = [_shoppingDict objectForKey:key];
+        
+        // 平台
+        NSString *platform = [_menuIDArray objectAtIndex:i];
+        
+        for (int j = 0; j < thirdMenuArray.count; j++) {
+            [string appendFormat:@"%@>", platform];
+            // 分类
+            FunctionMenu *firstMenu = [_firstMenuArray objectAtIndex:_selectedFirstIndex];
+            [string appendFormat:@"%@>", firstMenu.code];
+            
+            // 模块
+            FunctionMenu *secondMenu = [_secondMenuArray objectAtIndex:_selectedSecondIndex];
+            [string appendFormat:@"%@>", secondMenu.code];
+            
+            // 功能
+            FunctionMenu *thirdMenu = [thirdMenuArray objectAtIndex:j];
+            if (i == keyArray.count - 1 && j == thirdMenuArray.count - 1) {
+                [string appendFormat:@"%@", thirdMenu.code];
+            } else {
+                [string appendFormat:@"%@,", thirdMenu.code];
+            }
+            NSLog(@"%@\n", string);
+        }
+    }
     CalcPriceViewController *vc = [[CalcPriceViewController alloc] init];
+    vc.parameter = string;
+    vc.webPageNumber = @0;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
