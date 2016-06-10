@@ -737,4 +737,12 @@
     }];
 }
 
+- (void)post_savePrice:(NSDictionary *)params block:(void (^)(id, NSError *))block {
+    NSString *path = @"api/quote/save";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
+        data = data[@"data"];
+        block(data, error);
+    }];
+}
+
 @end

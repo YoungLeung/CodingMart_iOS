@@ -10,11 +10,14 @@
 #import "Coding_NetAPIManager.h"
 #import "CalcResult.h"
 
-@interface CalcPriceViewController ()
+@interface CalcPriceViewController ()<UITextViewDelegate>
 
-@property (strong, nonatomic) UIView *backgroundView;
+@property (strong, nonatomic) UIView *backgroundView, *bgView, *savePriceView;
 @property (strong, nonatomic) UIButton *recalcButton, *saveButton;
-@property (strong, nonatomic) UILabel *priceLabel, *platformLabel, *timeLabel;
+@property (strong, nonatomic) UILabel *priceLabel, *platformLabel, *timeLabel, *placeHoderLabel;
+@property (strong, nonatomic) UITextField *nameTextField;
+@property (strong, nonatomic) UITextView *descContent;
+@property (strong, nonatomic) NSNumber *listID;
 
 @end
 
@@ -126,11 +129,148 @@
 }
 
 - (void)savePrice {
+    // 背景
+    _bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kScreen_Height)];
+    [_bgView setBackgroundColor:[UIColor colorWithHexString:@"000000" andAlpha:0.4]];
+    UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismiss)];
+    [_bgView addGestureRecognizer:tgr];
+    [kKeyWindow addSubview:_bgView];
     
+    _savePriceView = [[UIView alloc] initWithFrame:CGRectMake(15, kScreen_Height, _bgView.width - 30, 499)];
+    [_savePriceView setBackgroundColor:[UIColor whiteColor]];
+    [_savePriceView setCornerRadius:2.0f];
+    [kKeyWindow addSubview:_savePriceView];
+    
+    // 关闭按钮
+    UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [closeButton setFrame:CGRectMake(_savePriceView.width - 30, 15, 15, 15)];
+    [closeButton setImage:[UIImage imageNamed:@"price_icon_close"] forState:UIControlStateNormal];
+    [closeButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
+    [_savePriceView addSubview:closeButton];
+    
+    // 标题
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 25, _savePriceView.width, 25)];
+    [titleLabel setText:@"保存报价"];
+    [titleLabel setFont:[UIFont systemFontOfSize:18.0f]];
+    [titleLabel setTextColor:[UIColor colorWithHexString:@"4289DB"]];
+    [titleLabel setTextAlignment:NSTextAlignmentCenter];
+    [_savePriceView addSubview:titleLabel];
+    
+    // 提示
+    UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, titleLabel.bottom + 15, _savePriceView.width - 30, 27)];
+    [tipLabel setText:@"您保存／提交的项目，可在我发布的悬赏列表查看或编辑"];
+    [tipLabel setBackgroundColor:[UIColor colorWithHexString:@"FFF6DD"]];
+    [tipLabel setTextColor:[UIColor colorWithHexString:@"EEA551"]];
+    [tipLabel setFont:[UIFont systemFontOfSize:12.0f]];
+    [tipLabel setTextAlignment:NSTextAlignmentCenter];
+    
+    [tipLabel setCornerRadius:1.5f];
+    [_savePriceView addSubview:tipLabel];
+    
+    // 项目名称
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, tipLabel.bottom + 15, tipLabel.width, 21)];
+    [nameLabel setText:@"项目名称* "];
+    [nameLabel setFont:[UIFont systemFontOfSize:15.0f]];
+    [_savePriceView addSubview:nameLabel];
+    
+    // 项目名称Label
+    _nameTextField = [[UITextField alloc] initWithFrame:CGRectMake(15, nameLabel.bottom + 15, tipLabel.width, 40)];
+    [_nameTextField setPlaceholder:@"填写项目名称（必填）"];
+    [_nameTextField setBackgroundColor:[UIColor colorWithHexString:@"F6F6F6"]];
+    [_nameTextField setTextColor:[UIColor blackColor]];
+    [_nameTextField setFont:[UIFont systemFontOfSize:14.0f]];
+    [_nameTextField.layer setBorderWidth:0.5f];
+    [_nameTextField.layer setCornerRadius:1.0f];
+    [_nameTextField.layer setBorderColor:[UIColor colorWithHexString:@"DDDDDD"].CGColor];
+    UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, 40)];
+    [_nameTextField setLeftView:leftView];
+    [_nameTextField setLeftViewMode:UITextFieldViewModeAlways];
+    [_savePriceView addSubview:_nameTextField];
+    
+    // 项目描述
+    UILabel *descLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, _nameTextField.bottom + 15, tipLabel.width, 21)];
+    [descLabel setText:@"项目描述"];
+    [descLabel setFont:[UIFont systemFontOfSize:15.0f]];
+    [_savePriceView addSubview:descLabel];
+    
+    // 项目描述内容
+    _descContent = [[UITextView alloc] initWithFrame:CGRectMake(15, descLabel.bottom + 15, tipLabel.width, 197)];
+    [_descContent setFont:[UIFont systemFontOfSize:14.0f]];
+    [_descContent setTextContainerInset:UIEdgeInsetsMake(10, 10, 10, 10)];
+    [_descContent setBackgroundColor:[UIColor colorWithHexString:@"F6F6F6"]];
+    [_descContent setTextColor:[UIColor blackColor]];
+    [_descContent setFont:[UIFont systemFontOfSize:14.0f]];
+    [_descContent.layer setBorderWidth:0.5f];
+    [_descContent.layer setCornerRadius:1.0f];
+    [_descContent.layer setBorderColor:[UIColor colorWithHexString:@"DDDDDD"].CGColor];
+    [_descContent setShowsHorizontalScrollIndicator:NO];
+    [_descContent setDelegate:self];
+    [_savePriceView addSubview:_descContent];
+    
+    _placeHoderLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, _descContent.width - 30, 20)];
+    [_placeHoderLabel setText:@"填写项目描述"];
+    [_placeHoderLabel setFont:[UIFont systemFontOfSize:14.0f]];
+    [_placeHoderLabel setTextColor:[UIColor colorWithHexString:@"CCCCCC"]];
+    [_descContent addSubview:_placeHoderLabel];
+    
+    // 保存按钮
+    UIButton *saveButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [saveButton setFrame:CGRectMake(15, _descContent.bottom + 15, tipLabel.width, 44)];
+    [saveButton setBackgroundColor:[UIColor colorWithHexString:@"4289DB"]];
+    [saveButton setTitle:@"确认保存" forState:UIControlStateNormal];
+    [saveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [saveButton.layer setCornerRadius:3.0f];
+    [saveButton addTarget:self action:@selector(confirmSave) forControlEvents:UIControlEventTouchUpInside];
+    [_savePriceView addSubview:saveButton];
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        [_savePriceView setCenterY:kScreen_CenterY];
+    }];
+}
+
+- (void)dismiss {
+    [UIView animateWithDuration:0.2 animations:^{
+        [_savePriceView setTop:kScreen_Height];
+    } completion:^(BOOL finished) {
+        [_savePriceView removeFromSuperview];
+        _savePriceView = nil;
+        
+        [_bgView removeFromSuperview];
+        _bgView = nil;
+    }];
+}
+
+- (void)confirmSave {
+    NSDictionary *parameter = [NSDictionary dictionaryWithObjectsAndKeys:
+                               _parameter, @"codes",
+                               _webPageNumber, @"webPageCount",
+                               _nameTextField.text, @"name",
+                               _descContent.text, @"description",
+                               nil];
+    
+    __weak typeof(self)weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] post_savePrice:parameter block:^(id data, NSError *error) {
+        if (!error) {
+            weakSelf.listID = data;
+        }
+    }];
 }
 
 - (void)toFunctionList {
     
+}
+
+#pragma mark - textViewDelegate
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    [_placeHoderLabel setHidden:YES];
+}
+
+- (void)textViewDidChange:(UITextView *)textView {
+    if (textView.text.length > 0) {
+        [_placeHoderLabel setHidden:YES];
+    } else {
+        [_placeHoderLabel setHidden:NO];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
