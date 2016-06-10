@@ -9,6 +9,7 @@
 #import "CalcPriceViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "CalcResult.h"
+#import "PriceListViewController.h"
 
 @interface CalcPriceViewController ()<UITextViewDelegate>
 
@@ -301,6 +302,8 @@
 
 - (void)toMyPriceList {
     [self dismiss];
+    PriceListViewController *vc = [[PriceListViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)toFunctionList {

@@ -745,4 +745,12 @@
     }];
 }
 
+- (void)get_priceList:(void (^)(id, NSError *))block {
+    NSString *path = @"api/quote/list";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        data = [NSArray arrayFromJSON:data[@"data"] ofObjects:@"PriceList"];
+        block(data, error);
+    }];
+}
+
 @end
