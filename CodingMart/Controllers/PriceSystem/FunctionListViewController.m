@@ -7,6 +7,8 @@
 //
 
 #import "FunctionListViewController.h"
+#import <BlocksKit/BlocksKit+UIKit.h>
+#import "MartShareView.h"
 
 @interface FunctionListViewController ()
 
@@ -18,7 +20,8 @@
     [super viewDidLoad];
     
     self.title = @"功能清单";
-    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_more"] style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonItemClicked)];
+
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:scrollView];
     
@@ -58,6 +61,10 @@
     [functionLabel setFont:[UIFont systemFontOfSize:12.0f]];
     [functionLabel setTextColor:[UIColor colorWithHexString:@"999999"]];
     [scrollView addSubview:functionLabel];
+}
+
+- (void)rightBarButtonItemClicked {
+    [MartShareView showShareViewWithObj:nil];
 }
 
 - (void)didReceiveMemoryWarning {
