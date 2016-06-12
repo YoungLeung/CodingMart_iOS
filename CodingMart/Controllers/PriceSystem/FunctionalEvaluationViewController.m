@@ -126,7 +126,6 @@
     _lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 64 + 44 - 0.5, _topMenuView.width, 0.5)];
     [_lineView setBackgroundColor:[UIColor colorWithHexString:@"DDDDDD"]];
     [self.view addSubview:_lineView];
-
     
     // 增加菜单
     float lastX = 0;
