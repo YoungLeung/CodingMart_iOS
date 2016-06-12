@@ -18,7 +18,7 @@
 
 @interface FunctionalEvaluationViewController () <UITableViewDelegate, UITableViewDataSource>
 
-@property (strong, nonatomic) UIView *backgroundView;
+@property (strong, nonatomic) UIView *backgroundView, *lineView;
 @property (strong, nonatomic) UIScrollView *topMenuView;
 @property (strong, nonatomic) UIView *selectView;
 @property (strong, nonatomic) NSDictionary *data;
@@ -110,11 +110,23 @@
         [_topMenuView removeFromSuperview];
         _topMenuView = nil;
     }
+    
     _topMenuView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, 44)];
     [_topMenuView setBackgroundColor:[UIColor whiteColor]];
     [_topMenuView setShowsHorizontalScrollIndicator:NO];
     [_topMenuView setShowsVerticalScrollIndicator:NO];
+    [_topMenuView setClipsToBounds:YES];
     [self.view addSubview:_topMenuView];
+    
+    // 分割线
+    if (_lineView) {
+        [_lineView removeFromSuperview];
+        _lineView = nil;
+    }
+    _lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 64 + 44 - 0.5, _topMenuView.width, 0.5)];
+    [_lineView setBackgroundColor:[UIColor colorWithHexString:@"DDDDDD"]];
+    [self.view addSubview:_lineView];
+
     
     // 增加菜单
     float lastX = 0;
