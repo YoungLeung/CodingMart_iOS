@@ -60,7 +60,7 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
     
     [self.collectionView registerClass:[NextStepCollectionViewCell class] forCellWithReuseIdentifier:nextStepReuseIdentifier];
     [self.collectionView setAllowsMultipleSelection:YES];
-    
+
     // 加载菜单数据
     [[Coding_NetAPIManager sharedManager] get_quoteFunctions:^(id data, NSError *error) {
         if (!error) {
@@ -123,7 +123,7 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
         return CGSizeMake(cellWidth, cellHeight);
     } else {
         float cellWidth = kScreen_Width;
-        float cellHeight = cellWidth/4;
+        float cellHeight = cellWidth/4 + 40;
         return CGSizeMake(cellWidth, cellHeight);
     }
 }
