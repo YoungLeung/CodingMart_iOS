@@ -192,7 +192,7 @@
     [_savePriceView addSubview:tipLabel];
     
     // 项目名称
-    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, tipLabel.bottom + 15, tipLabel.width, 21)];
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, tipLabel.bottom + 15, 100, 21)];
     [nameLabel setText:@"项目名称* "];
     [nameLabel setFont:[UIFont systemFontOfSize:15.0f]];
     [_savePriceView addSubview:nameLabel];
@@ -212,7 +212,7 @@
     [_savePriceView addSubview:_nameTextField];
     
     // 项目描述
-    UILabel *descLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, _nameTextField.bottom + 15, tipLabel.width, 21)];
+    UILabel *descLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, _nameTextField.bottom + 15, 100, 21)];
     [descLabel setText:@"项目描述"];
     [descLabel setFont:[UIFont systemFontOfSize:15.0f]];
     [_savePriceView addSubview:descLabel];
