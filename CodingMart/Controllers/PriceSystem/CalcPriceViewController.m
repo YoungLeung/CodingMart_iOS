@@ -26,6 +26,24 @@
 
 @implementation CalcPriceViewController
 
+-(id)init
+{
+    self = [super init];
+    if(self){
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(keyboardWillShow:)
+                                                     name:UIKeyboardWillShowNotification
+                                                   object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(keyboardWillHide:)
+                                                     name:UIKeyboardWillHideNotification
+                                                   object:nil];
+    }
+    
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -144,6 +162,8 @@
     [_savePriceView setBackgroundColor:[UIColor whiteColor]];
     [_savePriceView setCornerRadius:2.0f];
     [kKeyWindow addSubview:_savePriceView];
+    UITapGestureRecognizer *returnTgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(returnKeyBoard)];
+    [_savePriceView addGestureRecognizer:returnTgr];
     
     // 关闭按钮
     UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -232,6 +252,12 @@
     }];
 }
 
+// 隐藏键盘
+- (void)returnKeyBoard {
+    [_nameTextField resignFirstResponder];
+    [_descContent resignFirstResponder];
+}
+
 // 保存成功
 - (void)saveSuccess {
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, _savePriceView.width, 31)];
@@ -242,7 +268,7 @@
     [_savePriceView addSubview:titleLabel];
     
     UIButton *priceListButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [priceListButton setFrame:CGRectMake(0, titleLabel.bottom + 15, titleLabel.width * 0.47, 44)];
+    [priceListButton setFrame:CGRectMake(0, titleLabel.bottom + 15, titleLabel.width * 0.5, 44)];
     [priceListButton setCenterX:titleLabel.centerX];
     [priceListButton setTitle:@"查看我的报价列表" forState:UIControlStateNormal];
     [priceListButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -287,6 +313,9 @@
 }
 
 - (void)confirmSave {
+    if (_nameTextField.text.length == 0) {
+        return;
+    }
     NSDictionary *parameter = [NSDictionary dictionaryWithObjectsAndKeys:
                                _parameter, @"codes",
                                _webPageNumber, @"webPageCount",
@@ -325,6 +354,39 @@
         [_placeHoderLabel setHidden:YES];
     } else {
         [_placeHoderLabel setHidden:NO];
+    }
+}
+
+-(void)keyboardWillShow:(NSNotification *)note{
+    if ([_descContent isFirstResponder]) {
+        CGRect keyboardBounds;
+        [[note.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue: &keyboardBounds];
+        NSNumber *duration = [note.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+        NSNumber *curve = [note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
+        keyboardBounds = [self.view convertRect:keyboardBounds toView:nil];
+        CGRect containerFrame = _savePriceView.frame;
+        containerFrame.origin.y = self.view.bounds.size.height - (keyboardBounds.size.height + containerFrame.size.height) - 20;
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationBeginsFromCurrentState:YES];
+        [UIView setAnimationDuration:[duration doubleValue]];
+        [UIView setAnimationCurve:[curve intValue]];
+        _savePriceView.frame = containerFrame;
+        [UIView commitAnimations];
+    }
+}
+
+-(void)keyboardWillHide:(NSNotification *)note{
+    if ([_descContent isFirstResponder]) {
+        NSNumber *duration = [note.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+        NSNumber *curve = [note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
+        CGRect containerFrame = _savePriceView.frame;
+        containerFrame.origin.y = self.view.bounds.size.height - containerFrame.size.height - 20;
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationBeginsFromCurrentState:YES];
+        [UIView setAnimationDuration:[duration doubleValue]];
+        [UIView setAnimationCurve:[curve intValue]];
+        _savePriceView.frame = containerFrame;
+        [UIView commitAnimations];
     }
 }
 
