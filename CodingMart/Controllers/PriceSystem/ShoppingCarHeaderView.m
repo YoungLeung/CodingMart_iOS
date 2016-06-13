@@ -37,6 +37,7 @@
         [_clearButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_clearButton.titleLabel setFont:[UIFont systemFontOfSize:12.0f]];
         [_clearButton setFrame:CGRectMake(kScreen_Width - 10 - 70, 0, 70, 44)];
+        [_clearButton setImageEdgeInsets:UIEdgeInsetsMake(0, -6, 0, 0)];
         [_clearButton addTarget:self action:@selector(clearData) forControlEvents:UIControlEventTouchUpInside];
         
         _resetButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -45,6 +46,7 @@
         [_resetButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_resetButton.titleLabel setFont:[UIFont systemFontOfSize:12.0f]];
         [_resetButton setFrame:CGRectMake(kScreen_Width - 10 - 70 - 70 - 10, 0, 70, 44)];
+        [_resetButton setImageEdgeInsets:UIEdgeInsetsMake(0, -6, 0, 0)];
         [_resetButton addTarget:self action:@selector(resetData) forControlEvents:UIControlEventTouchUpInside];
         
         [self addSubview:_leftView];
