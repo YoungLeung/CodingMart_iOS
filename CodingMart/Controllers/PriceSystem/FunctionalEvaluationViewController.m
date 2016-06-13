@@ -15,8 +15,10 @@
 #import "ShoppingCarHeaderView.h"
 #import "ShoppingCarCell.h"
 #import "CalcPriceViewController.h"
+#import "Reward.h"
+#import "PublishRewardViewController.h"
 
-@interface FunctionalEvaluationViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface FunctionalEvaluationViewController () <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 
 @property (strong, nonatomic) UIView *backgroundView, *lineView;
 @property (strong, nonatomic) UIScrollView *topMenuView;
@@ -302,7 +304,11 @@
     NSMutableArray *tempIDArray = [NSMutableArray array];
     for (int i = 0; i < _menuArray.count; i++) {
         UIButton *button = (UIButton *)[platformView viewWithTag:i+100];
-        if (button.selected) {
+        if (button.tag == 105 && button.selected) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"选择[其他项目]，将忽略其它选项" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            [alert show];
+            return;
+        } else if (button.selected) {
             [tempArray addObject:button.titleLabel.text];
             [tempIDArray addObject:[_allIDArray objectAtIndex:i]];
         }
@@ -1023,6 +1029,18 @@
     vc.parameter = string;
     vc.webPageNumber = @0;
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        // 选择了其他
+        [self dismiss];
+        // 跳转到发布悬赏页面
+        Reward *reward = [Reward rewardToBePublished];
+        reward.type = @4;
+        PublishRewardViewController *vc = [PublishRewardViewController storyboardVCWithReward:reward];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 #pragma mark - 去除多余分割线
