@@ -23,8 +23,9 @@
         [self setSeparatorInset:UIEdgeInsetsMake(0, -20, 0, 10)];
         [self setSelectionStyle:UITableViewCellSelectionStyleNone];
         
-        float width = kScreen_Width*0.46;
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 15, width, 20)];
+        float width = kScreen_Width*0.616;
+        float titleWidth = kScreen_Width*0.46;
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 15, titleWidth, 20)];
         [_titleLabel setFont:[UIFont systemFontOfSize:14.0f]];
         [_titleLabel setTextColor:[UIColor colorWithHexString:@"222222"]];
         [_titleLabel setTextAlignment:NSTextAlignmentLeft];
@@ -35,7 +36,7 @@
         [_contentLabel setTextColor:[UIColor colorWithHexString:@"999999"]];
         [_contentLabel setTextAlignment:NSTextAlignmentNatural];
         
-        _addButton = [[UIImageView alloc] initWithFrame:CGRectMake(width + 20, CGRectGetMaxY(_titleLabel.frame) + 5, 20, 20)];
+        _addButton = [[UIImageView alloc] initWithFrame:CGRectMake(width - 35, CGRectGetMaxY(_titleLabel.frame) + 5, 20, 20)];
         [_addButton setImage:[UIImage imageNamed:@"price_menu_add"]];
         
         [self addSubview:_titleLabel];
