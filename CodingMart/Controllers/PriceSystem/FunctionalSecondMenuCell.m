@@ -22,7 +22,6 @@
     if (self) {
         [self setBackgroundColor:[UIColor colorWithHexString:@"eaecee"]];
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 13, self.frame.size.width - 20, 0)];
-        [_titleLabel setTextAlignment:NSTextAlignmentNatural];
         [_titleLabel setFont:[UIFont systemFontOfSize:14.0f]];
         [_titleLabel setTextColor:[UIColor colorWithHexString:@"666666"]];
         [_titleLabel setNumberOfLines:0];
@@ -43,13 +42,13 @@
     }
 }
 
-- (void)updateCell:(FunctionMenu *)menu {
+- (void)updateCell:(FunctionMenu *)menu width:(float)width {
     [_titleLabel setText:menu.title];
-    CGSize size = [menu.title boundingRectWithSize:CGSizeMake(self.frame.size.width - 20, MAXFLOAT)
+    CGSize size = [menu.title boundingRectWithSize:CGSizeMake(width - 20, MAXFLOAT)
                                            options:NSStringDrawingUsesLineFragmentOrigin
                                         attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14.0f]}
                                            context:nil].size;
-    [_titleLabel setFrame:CGRectMake(10, 13, self.frame.size.width - 20, size.height)];
+    [_titleLabel setFrame:CGRectMake(10, 13, width - 20, size.height)];
 }
 
 + (float)calcHeight:(FunctionMenu *)menu width:(float)width {

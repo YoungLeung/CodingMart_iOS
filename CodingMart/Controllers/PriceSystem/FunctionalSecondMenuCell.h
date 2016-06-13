@@ -11,7 +11,7 @@
 
 @interface FunctionalSecondMenuCell : UITableViewCell
 
-- (void)updateCell:(FunctionMenu *)menu;
+- (void)updateCell:(FunctionMenu *)menu width:(float)width;
 + (NSString *)cellID;
 + (float)calcHeight:(FunctionMenu *)menu width:(float)width;
 

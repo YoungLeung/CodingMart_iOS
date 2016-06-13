@@ -729,8 +729,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == _secondMenuTableView) {
-        FunctionMenu *menu = [_secondMenuArray objectAtIndex:indexPath.section];
-        return [FunctionalSecondMenuCell calcHeight:menu width:tableView.width];
+        float width = _secondMenuTableView.width;
+        FunctionMenu *menu = [_secondMenuArray objectAtIndex:indexPath.row];
+        return [FunctionalSecondMenuCell calcHeight:menu width:width];
     } else if (tableView == _thirdMenuTableView) {
         FunctionMenu *menu = [_secondMenuArray objectAtIndex:indexPath.section];
         NSArray *thirdMenuArray = [_thirdMenuDict objectForKey:menu.code];
@@ -759,7 +760,7 @@
             cell = [[FunctionalSecondMenuCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[FunctionalSecondMenuCell cellID]];
         }
         FunctionMenu *menu = [_secondMenuArray objectAtIndex:indexPath.row];
-        [cell updateCell:menu];
+        [cell updateCell:menu width:_secondMenuTableView.width];
         return cell;
     } else if (tableView == _thirdMenuTableView){
         FunctionalThirdCell *cell = [tableView dequeueReusableCellWithIdentifier:[FunctionalThirdCell cellID]];
@@ -874,6 +875,7 @@
     }
 }
 
+// 一二级菜单缩放
 - (void)reduceFirstMenu {
     // 复原
     if (_firstMenuScrollView.width == 34.0f) {
@@ -897,6 +899,7 @@
         
         [_secondMenuTableView setX:CGRectGetMaxX(_firstMenuScrollView.frame)];
         [_secondMenuTableView setWidth:kScreen_Width - _firstMenuScrollView.frame.size.width];
+        [_secondMenuTableView reloadData];
         [_thirdMenuTableView setX:kScreen_Width];
     } else {
         // 缩小
@@ -921,6 +924,7 @@
         
         [_secondMenuTableView setX:CGRectGetMaxX(_firstMenuScrollView.frame)];
         [_secondMenuTableView setWidth:kScreen_Width*0.3];
+        [_secondMenuTableView reloadData];
         [_thirdMenuTableView setX:kScreen_Width];
     }
     
@@ -928,7 +932,7 @@
     for (int i = 0; i < secondCellArray.count; i++) {
         FunctionalSecondMenuCell *cell = [secondCellArray objectAtIndex:i];
         FunctionMenu *menu = [_secondMenuArray objectAtIndex:i];
-        [cell updateCell:menu];
+        [cell updateCell:menu width:_secondMenuTableView.width];
     }
 }
 
