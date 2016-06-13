@@ -11,6 +11,8 @@
 #import "NextStepCollectionViewCell.h"
 #import "FunctionalEvaluationViewController.h"
 #import "Coding_NetAPIManager.h"
+#import "Reward.h"
+#import "PublishRewardViewController.h"
 
 @interface ChooseProjectViewController ()
 
@@ -168,7 +170,11 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
             [selectedIDArray addObject:[_menuIDArray objectAtIndex:indexPath.row]];
         }
         if ([selectedArray containsObject:@"其他"]) {
-            
+            // 跳转到发布
+            Reward *reward = [Reward rewardToBePublished];
+            reward.type = @4;
+            PublishRewardViewController *vc = [PublishRewardViewController storyboardVCWithReward:reward];
+            [self.navigationController pushViewController:vc animated:YES];
         } else {
             FunctionalEvaluationViewController *vc = [[FunctionalEvaluationViewController alloc] init];
             vc.menuArray = _cellNameArray;
