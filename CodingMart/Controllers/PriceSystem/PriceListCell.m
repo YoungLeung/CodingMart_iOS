@@ -35,7 +35,7 @@
     [self addSubview:imageView];
     
     // 平台、模块数量
-    _topLabel = [[UILabel alloc] initWithFrame:CGRectMake(imageView.right + 7, 0, kScreen_Width - 40, 36)];
+    _topLabel = [[UILabel alloc] initWithFrame:CGRectMake(imageView.right + 7, 13, kScreen_Width - 40, 15)];
     [_topLabel setFont:[UIFont systemFontOfSize:12.0f]];
     [_topLabel setTextColor:[UIColor colorWithHexString:@"696969"]];
     [self addSubview:_topLabel];
