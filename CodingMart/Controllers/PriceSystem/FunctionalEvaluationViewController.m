@@ -633,6 +633,7 @@
             [weakSelf.shoppingDict removeAllObjects];
             [weakSelf updateShoppingCar];
             [weakSelf.shoppingCarTableView reloadData];
+            [weakSelf hideShoppingCar];
             [weakSelf.thirdMenuTableView reloadData];
         };
         _header.resetBlock = ^(){
