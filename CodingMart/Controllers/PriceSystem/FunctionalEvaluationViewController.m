@@ -130,14 +130,14 @@
 
 - (void)swipeMenu:(UISwipeGestureRecognizer *)swipe {
     if (swipe.direction == UISwipeGestureRecognizerDirectionRight) {
-        _selectedIndex--;
-        if (_selectedIndex >= 0) {
+        if (_selectedIndex - 1 >= 0) {
+            _selectedIndex--;
             UIButton *button = (UIButton *)[_topMenuView viewWithTag:_selectedIndex + 1];
             [self selectButtonAtIndex:button];
         }
     } else if (swipe.direction == UISwipeGestureRecognizerDirectionLeft) {
-        _selectedIndex++;
-        if (_selectedIndex < _selectedMenuArray.count) {
+        if (_selectedIndex + 1 < _selectedMenuArray.count) {
+            _selectedIndex++;
             UIButton *button = (UIButton *)[_topMenuView viewWithTag:_selectedIndex + 1];
             [self selectButtonAtIndex:button];
         }
@@ -200,7 +200,7 @@
 }
 
 - (void)selectButtonAtIndex:(UIButton *)button {
-    _selectedIndex = button.tag;
+    _selectedIndex = button.tag - 1;
     NSArray *array = _topMenuView.subviews;
     for (int i = 0; i < array.count; i++) {
         id v = [array objectAtIndex:i];
