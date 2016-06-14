@@ -82,6 +82,8 @@
     [self addTopMenu];
     // 加载底部菜单
     [self addBottomMenu];
+    // 生成默认数据
+    [self generateDefaultShoppingCarData];
     
     UISwipeGestureRecognizer *leftSwip = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeMenu:)];
     [leftSwip setDirection:UISwipeGestureRecognizerDirectionLeft];
@@ -89,6 +91,37 @@
     [rightSwip setDirection:UISwipeGestureRecognizerDirectionLeft];
     [self.view addGestureRecognizer:leftSwip];
     [self.view addGestureRecognizer:rightSwip];
+}
+
+// 生成购物车默认数据
+- (void)generateDefaultShoppingCarData {
+    [_shoppingCarDefaultDict removeAllObjects];
+    for (int i = 0; i < _selectedMenuArray.count; i++) {
+        NSMutableArray *secondMenuArray = [NSMutableArray array];
+        // 二级菜单
+        FunctionMenu *firstMenu = [_firstMenuArray objectAtIndex:i];
+        NSMutableDictionary *allMenuDict = [_data objectForKey:@"quotations"];
+        NSString *children = firstMenu.children;
+        NSArray *childrenArray = [children componentsSeparatedByString:@","];
+        for (int j = 0; j < childrenArray.count; j++) {
+            FunctionMenu *menu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:childrenArray[j]]];
+            [secondMenuArray addObject:menu];
+        }
+        
+        // 三级菜单
+        for (int j = 0; j < secondMenuArray.count; j++) {
+            FunctionMenu *menu = [secondMenuArray objectAtIndex:j];
+            NSArray *array = [menu.children componentsSeparatedByString:@","];
+            NSMutableArray *mArray = [NSMutableArray array];
+            for (int k = 0; k < array.count; k++) {
+                FunctionMenu *thirdMenu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:array[k]]];
+                [mArray addObject:thirdMenu];
+            }
+            [_shoppingCarDefaultDict setObject:mArray forKey:_selectedMenuArray[i]];
+        }
+    }
+    _shoppingDict = _shoppingCarDefaultDict;
+    [self updateShoppingCar];
 }
 
 - (void)swipeMenu:(UISwipeGestureRecognizer *)swipe {
@@ -319,6 +352,7 @@
     [self dismiss];
     _selectedIndex = 0;
     [self addTopMenu];
+    [self generateDefaultShoppingCarData];
 }
 
 + (UIImage *)imageWithColor:(UIColor *)color
@@ -546,18 +580,6 @@
         [tempDict setObject:array forKey:topMenu];
     }
     
-    // 生成默认数据
-    [_shoppingCarDefaultDict removeAllObjects];
-    NSMutableArray *tempArray = [NSMutableArray array];
-    for (NSString *key in _thirdMenuDict) {
-        NSArray *arr = [_thirdMenuDict objectForKey:key];
-        for (FunctionMenu *item in arr) {
-            if ([item.is_default isEqual:@1]) {
-                [tempArray addObject:item];
-            }
-        }
-    }
-    [_shoppingCarDefaultDict setObject:tempArray forKey:topMenu];
     [_shoppingDict addEntriesFromDictionary:tempDict];
 }
 
@@ -645,7 +667,6 @@
         _header.resetBlock = ^(){
             [weakSelf.shoppingDict removeAllObjects];
             [weakSelf resetShoppingCar];
-            [weakSelf updateShoppingCar];
             [weakSelf.shoppingCarTableView reloadData];
             [weakSelf.thirdMenuTableView reloadData];
         };
@@ -991,7 +1012,8 @@
 
 // 重置购物车
 - (void)resetShoppingCar {
-    _shoppingDict = _shoppingCarDefaultDict;
+    [self generateDefaultShoppingCarData];
+    [self updateShoppingCar];
 }
 
 #pragma mark - 计算结果
