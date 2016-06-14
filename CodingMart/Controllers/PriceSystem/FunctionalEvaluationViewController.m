@@ -479,7 +479,7 @@
         // 更新二级菜单
         [self generateSecondMenu];
         [_secondMenuTableView setX:CGRectGetMaxX(_firstMenuScrollView.frame)];
-        [_secondMenuTableView setWidth:kScreen_Width - _firstMenuScrollView.frame.size.width];
+        [_secondMenuTableView setWidth:kScreen_Width - _firstMenuScrollView.width];
         [_secondMenuTableView reloadData];
     }
     
@@ -506,7 +506,7 @@
 
 - (void)addSecondMenu {
     [self generateSecondMenu];
-    _secondMenuTableView = [[UITableView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_firstMenuScrollView.frame), CGRectGetMaxY(_topMenuView.frame), kScreen_Width - _firstMenuScrollView.frame.size.width, kScreen_Height - 44 - 64)];
+    _secondMenuTableView = [[UITableView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_firstMenuScrollView.frame), CGRectGetMaxY(_topMenuView.frame), kScreen_Width - _firstMenuScrollView.frame.size.width, kScreen_Height - 44 - 64 - 44)];
     [_secondMenuTableView setBackgroundColor:[UIColor colorWithHexString:@"eaecee"]];
     [_secondMenuTableView setDelegate:self];
     [_secondMenuTableView setDataSource:self];
@@ -519,7 +519,7 @@
 #pragma mark - 三级菜单
 - (void)addThirdMenu {
     [self generateThirdMenu];
-    _thirdMenuTableView = [[UITableView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_secondMenuTableView.frame), CGRectGetMaxY(_topMenuView.frame), kScreen_Width - CGRectGetMaxX(_secondMenuTableView.frame), _secondMenuTableView.frame.size.height - 44) style:UITableViewStylePlain];
+    _thirdMenuTableView = [[UITableView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_secondMenuTableView.frame), CGRectGetMaxY(_topMenuView.frame), kScreen_Width - CGRectGetMaxX(_secondMenuTableView.frame), _secondMenuTableView.frame.size.height) style:UITableViewStylePlain];
     [_thirdMenuTableView setDelegate:self];
     [_thirdMenuTableView setDataSource:self];
     [_thirdMenuTableView setSeparatorColor:[UIColor colorWithHexString:@"DDDDDD"]];
