@@ -212,6 +212,12 @@
         }
     }
     
+    if (button.right > _topMenuView.width) {
+        [_topMenuView setContentOffset:CGPointMake(button.right - _topMenuView.width, 0) animated:YES];
+    } else if (button.left < _topMenuView.contentOffset.x) {
+        [_topMenuView setContentOffset:CGPointMake(button.left - _topMenuView.contentOffset.x > 0 ? : 0, 0) animated:YES];
+    }
+    
     [_selectView setWidth:button.frame.size.width - 20];
     [UIView animateWithDuration:0.2 animations:^{
         [_selectView setCenterX:button.centerX];
@@ -550,12 +556,13 @@
     [_bottomMenuView addSubview:imageView];
     
     // 描述
-    _bottomMenuLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 0, kScreen_Width - _bottomMenuView.width * 0.38 - 60, 44)];
+    _bottomMenuLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 0, kScreen_Width - _bottomMenuView.width * 0.38 - 80, 44)];
     [_bottomMenuLabel setText:@"请选择功能模块"];
     [_bottomMenuLabel setTextColor:[UIColor whiteColor]];
     [_bottomMenuLabel setFont:[UIFont systemFontOfSize:14.0f]];
     [_bottomMenuLabel setAdjustsFontSizeToFitWidth:YES];
     [_bottomMenuLabel setMinimumScaleFactor:12.0f];
+    [_bottomMenuLabel setNumberOfLines:1];
     [_bottomMenuView addSubview:_bottomMenuLabel];
     
     // 点击手势
