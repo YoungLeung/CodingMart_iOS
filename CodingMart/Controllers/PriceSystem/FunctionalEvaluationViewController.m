@@ -553,17 +553,16 @@
     
     // 购物车数量
     UIImage *image = [UIImage imageNamed:@"price_selected_menu_list"];
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(30, 12, image.size.width, image.size.height)];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreen_Width*0.04, 12, image.size.width, image.size.height)];
     [imageView setImage:image];
     [_bottomMenuView addSubview:imageView];
     
     // 描述
-    _bottomMenuLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 0, kScreen_Width - _bottomMenuView.width * 0.38 - 80, 44)];
+    _bottomMenuLabel = [[UILabel alloc] initWithFrame:CGRectMake(imageView.right + 10, 0, kScreen_Width - _bottomMenuView.width * 0.36 - imageView.width - 10, 44)];
     [_bottomMenuLabel setText:@"请选择功能模块"];
     [_bottomMenuLabel setTextColor:[UIColor whiteColor]];
-    [_bottomMenuLabel setFont:[UIFont systemFontOfSize:14.0f]];
+    [_bottomMenuLabel setFont:[UIFont systemFontOfSize:13.0f]];
     [_bottomMenuLabel setAdjustsFontSizeToFitWidth:YES];
-    [_bottomMenuLabel setMinimumScaleFactor:12.0f];
     [_bottomMenuLabel setNumberOfLines:1];
     [_bottomMenuView addSubview:_bottomMenuLabel];
     
@@ -991,7 +990,7 @@
     }
     if (count > 0) {
         if (!_bubbleView) {
-            _bubbleView = [[UIView alloc] initWithFrame:CGRectMake(40, 5, 20, 20)];
+            _bubbleView = [[UIView alloc] initWithFrame:CGRectMake(kScreen_Width*0.063, 5, 20, 20)];
             [_bubbleView setBackgroundColor:[UIColor colorWithHexString:@"F5A623"]];
             [_bubbleView setCornerRadius:10.0f];
             
@@ -1008,7 +1007,7 @@
             [_calcButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [_calcButton.titleLabel setFont:[UIFont systemFontOfSize:16.0f]];
             [_calcButton setBackgroundColor:[UIColor colorWithHexString:@"4289DB"]];
-            [_calcButton setFrame:CGRectMake(_bottomMenuView.frame.size.width *(1 - 0.38), 0, _bottomMenuView.frame.size.width * 0.38, _bottomMenuView.frame.size.height)];
+            [_calcButton setFrame:CGRectMake(_bottomMenuView.frame.size.width *(1 - 0.36), 0, _bottomMenuView.frame.size.width * 0.36, _bottomMenuView.frame.size.height)];
             [_calcButton addTarget:self action:@selector(calcPrice) forControlEvents:UIControlEventTouchUpInside];
             
             [_bottomMenuView addSubview:_bubbleView];
