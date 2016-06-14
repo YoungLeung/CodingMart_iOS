@@ -17,6 +17,7 @@
 #import "CalcPriceViewController.h"
 #import "Reward.h"
 #import "PublishRewardViewController.h"
+#import <FDFullscreenPopGesture/UINavigationController+FDFullscreenPopGesture.h>
 
 @interface FunctionalEvaluationViewController () <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 
@@ -57,8 +58,9 @@
     [super viewDidLoad];
     
     self.automaticallyAdjustsScrollViewInsets = NO;
-    [self setTitle:@"功能评估"];
+    self.fd_interactivePopDisabled = YES;
     
+    [self setTitle:@"功能评估"];
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [backButton setFrame:CGRectMake(0, 0, 100, 40)];
     [backButton setTitle:@"修改平台" forState:UIControlStateNormal];
@@ -88,7 +90,7 @@
     [self generateDefaultShoppingCarData];
     
     UISwipeGestureRecognizer *leftSwip = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeMenu:)];
-    [leftSwip setDirection:UISwipeGestureRecognizerDirectionLeft];
+    [leftSwip setDirection:UISwipeGestureRecognizerDirectionRight];
     UISwipeGestureRecognizer *rightSwip = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeMenu:)];
     [rightSwip setDirection:UISwipeGestureRecognizerDirectionLeft];
     [self.view addGestureRecognizer:leftSwip];
@@ -130,13 +132,13 @@
     if (swipe.direction == UISwipeGestureRecognizerDirectionRight) {
         _selectedIndex--;
         if (_selectedIndex >= 0) {
-            UIButton *button = (UIButton *)[_topMenuView viewWithTag:_selectedIndex];
+            UIButton *button = (UIButton *)[_topMenuView viewWithTag:_selectedIndex + 1];
             [self selectButtonAtIndex:button];
         }
     } else if (swipe.direction == UISwipeGestureRecognizerDirectionLeft) {
         _selectedIndex++;
         if (_selectedIndex < _selectedMenuArray.count) {
-            UIButton *button = (UIButton *)[_topMenuView viewWithTag:_selectedIndex];
+            UIButton *button = (UIButton *)[_topMenuView viewWithTag:_selectedIndex + 1];
             [self selectButtonAtIndex:button];
         }
     }
@@ -177,7 +179,7 @@
         [button setTitleColor:[UIColor colorWithHexString:@"222222"] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor colorWithHexString:@"4289DB"] forState:UIControlStateSelected];
         [button.titleLabel setFont:[UIFont systemFontOfSize:14.0f]];
-        [button setTag:i];
+        [button setTag:i+1];
         [button addTarget:self action:@selector(selectButtonAtIndex:) forControlEvents:UIControlEventTouchUpInside];
         float scrollWith = _topMenuView.contentSize.width;
         scrollWith += button.frame.size.width;
