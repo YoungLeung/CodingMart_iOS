@@ -38,6 +38,7 @@
 @property (strong, nonatomic) UIView *shoppingCarBgView;
 @property (strong, nonatomic) NSMutableDictionary *shoppingCarDefaultDict;
 @property (strong, nonatomic) UIView *platformView;
+@property (assign, nonatomic) NSInteger notDefaultItemCount; // 不是默认的选项统计
 
 @end
 
@@ -77,6 +78,7 @@
     _shoppingCarDefaultDict = [NSMutableDictionary dictionary];
     _selectedIndex = 0;
     _selectedFirstIndex = 0;
+    _notDefaultItemCount = 0;
     
     // 加载顶部菜单
     [self addTopMenu];
@@ -548,10 +550,12 @@
     [_bottomMenuView addSubview:imageView];
     
     // 描述
-    _bottomMenuLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 0, kScreen_Width - 50, 44)];
+    _bottomMenuLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 0, kScreen_Width - _bottomMenuView.width * 0.38 - 60, 44)];
     [_bottomMenuLabel setText:@"请选择功能模块"];
     [_bottomMenuLabel setTextColor:[UIColor whiteColor]];
     [_bottomMenuLabel setFont:[UIFont systemFontOfSize:14.0f]];
+    [_bottomMenuLabel setAdjustsFontSizeToFitWidth:YES];
+    [_bottomMenuLabel setMinimumScaleFactor:12.0f];
     [_bottomMenuView addSubview:_bottomMenuLabel];
     
     // 点击手势
@@ -578,6 +582,9 @@
     if (![array containsObject:thirdMenu]) {
         [array addObject:thirdMenu];
         [tempDict setObject:array forKey:topMenu];
+    }
+    if ([thirdMenu.is_default isEqual:@0]) {
+        _notDefaultItemCount++;
     }
     
     [_shoppingDict addEntriesFromDictionary:tempDict];
@@ -613,6 +620,9 @@
 
     // 用户点击的cell
     FunctionMenu *menu = [array objectAtIndex:indexPath.row];
+    if ([menu.is_default isEqual:@0]) {
+        _notDefaultItemCount--;
+    }
     [array removeObject:menu];
     if (array.count) {
         [_shoppingDict setObject:[array copy] forKey:topMenu];
@@ -971,7 +981,6 @@
         count += subArray.count;
     }
     if (count > 0) {
-        [_bottomMenuLabel setHidden:YES];
         if (!_bubbleView) {
             _bubbleView = [[UIView alloc] initWithFrame:CGRectMake(40, 5, 20, 20)];
             [_bubbleView setBackgroundColor:[UIColor colorWithHexString:@"F5A623"]];
@@ -1000,13 +1009,23 @@
             [_bubbleView setHidden:NO];
             [_numberLabel setHidden:NO];
             [_calcButton setHidden:NO];
+            if (_notDefaultItemCount >= 5) {
+                [_calcButton setEnabled:YES];
+                [_bottomMenuLabel setText:@"请选择功能模块"];
+                [_calcButton setBackgroundColor:[UIColor colorWithHexString:@"4289DB"]];
+            } else {
+                [_calcButton setHidden:NO];
+                [_bottomMenuLabel setText:@"请至少选择5个非默认选项"];
+                [_calcButton setBackgroundColor:[UIColor colorWithHexString:@"999999"]];
+            }
             [_numberLabel setText:[NSString stringWithFormat:@"%ld", (long)count]];
         }
     } else {
-        [_bottomMenuLabel setHidden:NO];
         [_bubbleView setHidden:YES];
         [_numberLabel setHidden:YES];
-        [_calcButton setHidden:YES];
+        [_calcButton setHidden:NO];
+        [_calcButton setEnabled:NO];
+        [_calcButton setBackgroundColor:[UIColor colorWithHexString:@"999999"]];
     }
 }
 
