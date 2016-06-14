@@ -10,6 +10,7 @@
 #import "Coding_NetAPIManager.h"
 #import "PriceListCell.h"
 #import "FunctionListViewController.h"
+#import "RootTabViewController.h"
 
 @interface PriceListViewController ()
 
@@ -51,7 +52,9 @@
 }
 
 - (void)post {
-    
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    RootTabViewController *rootVC = (RootTabViewController *)[[[UIApplication sharedApplication] delegate] window].rootViewController;
+    [rootVC setSelectedIndex:2];
 }
 
 #pragma mark - tableViewDelegate&DataSource
