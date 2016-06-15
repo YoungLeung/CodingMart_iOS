@@ -910,12 +910,35 @@
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (scrollView == _thirdMenuTableView) {
+    if (scrollView == _secondMenuTableView) {
+        CGPoint contentOffsetPoint = _secondMenuTableView.contentOffset;
+        CGRect frame = _secondMenuTableView.frame;
+        if (contentOffsetPoint.y == _secondMenuTableView.contentSize.height - frame.size.height || _secondMenuTableView.contentSize.height < frame.size.height)
+        {
+            [self firstMenuScrollToNext];
+        }
+    } else if (scrollView == _thirdMenuTableView) {
         NSArray *cellArray = _thirdMenuTableView.visibleCells;
         if (cellArray.count) {
             FunctionalSecondMenuCell *cell = (FunctionalSecondMenuCell *)cellArray.firstObject;
             NSIndexPath *indexPath = [_thirdMenuTableView indexPathForCell:cell];
             [_secondMenuTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.section inSection:0] animated:YES scrollPosition:UITableViewScrollPositionTop];
+        }
+    }
+}
+
+- (void)firstMenuScrollToNext {
+    if (_selectedFirstIndex + 1 < _firstMenuArray.count) {
+        _selectedFirstIndex++;
+        NSArray *array = _firstMenuScrollView.subviews;
+        for (int i = 0; i < array.count; i++) {
+            id v = [array objectAtIndex:i];
+            if ([v isKindOfClass:[UIButton class]]) {
+                UIButton *btn = (UIButton *)v;
+                if (btn.tag == _selectedFirstIndex + 10) {
+                    [self firstMenuButtonPress:btn];
+                }
+            }
         }
     }
 }
