@@ -63,4 +63,8 @@
     return @"secondCellID";
 }
 
++ (NSString *)cellNumberID {
+    return @"secondCellNumberID";
+}
+
 @end

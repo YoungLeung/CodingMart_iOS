@@ -22,7 +22,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self setBackgroundColor:[UIColor colorWithHexString:@"979FA8"]];
-        
+
         _leftView = [[UIView alloc] initWithFrame:CGRectMake(15, 15, 2, 13)];
         [_leftView setBackgroundColor:[UIColor colorWithHexString:@"4289DB"]];
         

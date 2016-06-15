@@ -66,6 +66,10 @@
     return @"thirdCell";
 }
 
++ (NSString *)cellNumberID {
+    return @"thirdNumberCell";
+}
+
 + (float)cellHeight:(FunctionMenu *)menu {
     float width = kScreen_Width*0.46;
     float height = 58.0f;

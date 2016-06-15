@@ -7,10 +7,10 @@
 //
 
 #import "BaseViewController.h"
-#import "PriceList.h"
+#import "CalcResult.h"
 
 @interface FunctionListViewController : BaseViewController
 
-@property (strong, nonatomic) PriceList *list;
+@property (strong, nonatomic) CalcResult *list;
 
 @end

@@ -20,7 +20,7 @@
     [super viewDidLoad];
     
     self.title = @"功能清单";
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_more"] style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonItemClicked)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"price_share"] style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonItemClicked)];
 
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:scrollView];
@@ -64,7 +64,10 @@
 }
 
 - (void)rightBarButtonItemClicked {
-    [MartShareView showShareViewWithObj:nil];
+    UIWebView *webView = [[UIWebView alloc] init];
+    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://coding.net"]]];
+    [webView stopLoading];
+    [MartShareView showShareViewWithObj:webView];
 }
 
 - (void)didReceiveMemoryWarning {

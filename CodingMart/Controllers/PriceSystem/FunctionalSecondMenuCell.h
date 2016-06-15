@@ -13,6 +13,7 @@
 
 - (void)updateCell:(FunctionMenu *)menu width:(float)width;
 + (NSString *)cellID;
++ (NSString *)cellNumberID;
 + (float)calcHeight:(FunctionMenu *)menu width:(float)width;
 
 @end
