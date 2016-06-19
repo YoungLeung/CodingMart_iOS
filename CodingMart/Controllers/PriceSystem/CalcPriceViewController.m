@@ -114,7 +114,10 @@
     [self.view addSubview:_saveButton];
     
     __weak typeof(self)weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] post_calcPrice:@{@"codes":_parameter, @"webPageCount":_webPageNumber} block:^(id data, NSError *error) {
+    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:
+                          _parameter, @"codes",
+                          _webPageNumber, @"webPageCount", nil];
+    [[Coding_NetAPIManager sharedManager] post_calcPrice:para block:^(id data, NSError *error) {
         if (!error) {
             CalcResult *result = data;
             [weakSelf updateView:result];

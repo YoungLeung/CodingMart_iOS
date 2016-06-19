@@ -11,6 +11,7 @@
 #import "FunctionMenu.h"
 #import "FunctionalSecondMenuCell.h"
 #import "FunctionalThirdCell.h"
+#import "FunctionalThirdMutableCell.h"
 #import "FunctionalHeaderView.h"
 #import "ShoppingCarHeaderView.h"
 #import "ShoppingCarCell.h"
@@ -40,6 +41,7 @@
 @property (strong, nonatomic) NSMutableDictionary *shoppingCarDefaultDict;
 @property (strong, nonatomic) UIView *platformView;
 @property (assign, nonatomic) NSInteger notDefaultItemCount; // 不是默认的选项统计
+@property (strong, nonatomic) NSNumber *webPageNumber;
 
 @end
 
@@ -81,6 +83,7 @@
     _selectedIndex = 0;
     _selectedFirstIndex = 0;
     _notDefaultItemCount = 0;
+    _webPageNumber = @0;
     
     // 加载顶部菜单
     [self addTopMenu];
@@ -135,7 +138,6 @@
                 if (str.length) {
                     FunctionMenu *thirdMenu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:str]];
                     [thirdMenuArray addObject:thirdMenu];
-                        NSLog(@"%@, %@", thirdMenu.title, thirdMenu.is_default);
                 }
             }
         }
@@ -529,6 +531,12 @@
         FunctionMenu *menu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:childrenArray[i]]];
         [_secondMenuArray addObject:menu];
     }
+    
+    if ([[_selectedMenuArray objectAtIndex:_selectedIndex] isEqualToString:@"HTML5 应用"]) {
+        FunctionMenu *h5Menu = [[FunctionMenu alloc] init];
+        h5Menu.title = @"页面数量";
+        [_secondMenuArray addObject:h5Menu];
+    }
 }
 
 - (void)addSecondMenu {
@@ -551,6 +559,7 @@
     [_thirdMenuTableView setDataSource:self];
     [_thirdMenuTableView setSeparatorColor:[UIColor colorWithHexString:@"DDDDDD"]];
     [_thirdMenuTableView registerClass:[FunctionalThirdCell class] forCellReuseIdentifier:[FunctionalThirdCell cellID]];
+    [_thirdMenuTableView registerClass:[FunctionalThirdMutableCell class] forCellReuseIdentifier:[FunctionalThirdMutableCell cellID]];
     [_thirdMenuTableView registerClass:[FunctionalHeaderView class] forHeaderFooterViewReuseIdentifier:[FunctionalHeaderView viewID]];
     [_thirdMenuTableView setAllowsMultipleSelection:YES];
     [self.view addSubview:_thirdMenuTableView];
@@ -559,8 +568,11 @@
 - (void)generateThirdMenu {
     [_thirdMenuDict removeAllObjects];
     NSMutableDictionary *allMenuDict = [_data objectForKey:@"quotations"];
-
-    for (int i = 0; i < _secondMenuArray.count; i++) {
+    NSInteger count = _secondMenuArray.count;
+    if ([[_selectedMenuArray objectAtIndex:_selectedIndex] isEqualToString:@"HTML5 应用"]) {
+        count--;
+    }
+    for (int i = 0; i < count; i++) {
         FunctionMenu *menu = [_secondMenuArray objectAtIndex:i];
         NSArray *array = [menu.children componentsSeparatedByString:@","];
         NSMutableArray *mArray = [NSMutableArray array];
@@ -569,6 +581,12 @@
             [mArray addObject:thirdMenu];
         }
         [_thirdMenuDict setObject:[mArray copy] forKey:menu.code];
+    }
+    
+    if ([[_selectedMenuArray objectAtIndex:_selectedIndex] isEqualToString:@"HTML5 应用"]) {
+        FunctionMenu *menu = [[FunctionMenu alloc] init];
+        menu.title = @"页面数量";
+        [_thirdMenuDict setObject:menu forKey:@"页面数量"];
     }
 }
 
@@ -606,7 +624,7 @@
     NSString *topMenu = [_selectedMenuArray objectAtIndex:_selectedIndex];
     NSMutableArray *array = [NSMutableArray array];
     if ([_shoppingDict objectForKey:topMenu]) {
-        array = [_shoppingDict objectForKey:topMenu];
+        array = [NSMutableArray arrayWithArray:[_shoppingDict objectForKey:topMenu]];
     }
     
     // 添加用户点击的数据
@@ -630,7 +648,7 @@
     NSString *topMenu = [_selectedMenuArray objectAtIndex:_selectedIndex];
     NSMutableArray *array = [NSMutableArray array];
     if ([_shoppingDict objectForKey:topMenu]) {
-        array = [_shoppingDict objectForKey:topMenu];
+        array = [NSMutableArray arrayWithArray:[_shoppingDict objectForKey:topMenu]];
     }
     
     // 移除用户点击的数据
@@ -787,6 +805,9 @@
     if (tableView == _secondMenuTableView) {
         return _secondMenuArray.count;
     } else if (tableView == _thirdMenuTableView) {
+        if ([[_selectedMenuArray objectAtIndex:_selectedIndex] isEqualToString:@"HTML5 应用"] && section+1 == _secondMenuArray.count) {
+            return 1;
+        }
         FunctionMenu *menu = [_secondMenuArray objectAtIndex:section];
         NSArray *array = [menu.children componentsSeparatedByString:@","];
         return array.count;
@@ -835,6 +856,20 @@
         [cell updateCell:menu width:_secondMenuTableView.width];
         return cell;
     } else if (tableView == _thirdMenuTableView){
+        if ([[_selectedMenuArray objectAtIndex:_selectedIndex] isEqualToString:@"HTML5 应用"] && indexPath.section+1 == _secondMenuArray.count) {
+            FunctionalThirdMutableCell *cell = [tableView dequeueReusableCellWithIdentifier:[FunctionalThirdMutableCell cellID]];
+            if (!cell) {
+                cell = [[FunctionalThirdMutableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[FunctionalThirdMutableCell cellID]];
+            }
+            FunctionMenu *menu = [[FunctionMenu alloc] init];
+            menu.title = @"页面数量";
+            __weak typeof(self) weakSelf = self;
+            cell.block = ^(NSNumber *number){
+                weakSelf.webPageNumber = number;
+            };
+            [cell updateCell:menu];
+            return cell;
+        }
         FunctionalThirdCell *cell = [tableView dequeueReusableCellWithIdentifier:[FunctionalThirdCell cellID]];
         if (!cell) {
             cell = [[FunctionalThirdCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[FunctionalThirdCell cellID]];
@@ -864,7 +899,9 @@
         if (_firstMenuScrollView.width != 34.0f) {
             [self reduceFirstMenu];
         }
-        _selectedSecondIndex = indexPath.row;
+        if (![[_selectedMenuArray objectAtIndex:_selectedIndex] isEqualToString:@"HTML5 应用"] && indexPath.section+1 != _secondMenuArray.count) {
+            _selectedSecondIndex = indexPath.row;
+        }
         if (!_thirdMenuTableView) {
             [self addThirdMenu];
         } else {
@@ -875,6 +912,9 @@
         }
         [_thirdMenuTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.row] atScrollPosition:UITableViewScrollPositionTop animated:NO];
     } else if (tableView == _thirdMenuTableView) {
+        if ([[_selectedMenuArray objectAtIndex:_selectedIndex] isEqualToString:@"HTML5 应用"] && indexPath.section+1 == _secondMenuArray.count) {
+            return;
+        }
         [self generateShoppingCarData:indexPath];
         [self updateShoppingCar];
     } else if (tableView == _shoppingCarTableView) {
@@ -1104,6 +1144,9 @@
         // 平台
         NSString *platform = [_menuIDArray objectAtIndex:i];
         
+        NSMutableArray *secondArray = [NSMutableArray arrayWithArray:_secondMenuArray];
+        [secondArray removeObject:@"页面数量"];
+        
         for (int j = 0; j < thirdMenuArray.count; j++) {
             [string appendFormat:@"%@>", platform];
             // 分类
@@ -1111,7 +1154,7 @@
             [string appendFormat:@"%@>", firstMenu.code];
             
             // 模块
-            FunctionMenu *secondMenu = [_secondMenuArray objectAtIndex:_selectedSecondIndex];
+            FunctionMenu *secondMenu = [secondArray objectAtIndex:_selectedSecondIndex];
             [string appendFormat:@"%@>", secondMenu.code];
             
             // 功能
@@ -1121,12 +1164,11 @@
             } else {
                 [string appendFormat:@"%@,", thirdMenu.code];
             }
-            NSLog(@"%@\n", string);
         }
     }
     CalcPriceViewController *vc = [[CalcPriceViewController alloc] init];
     vc.parameter = string;
-    vc.webPageNumber = @0;
+    vc.webPageNumber = _webPageNumber;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
