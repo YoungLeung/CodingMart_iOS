@@ -86,7 +86,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     PriceList *list = [_dataList objectAtIndex:indexPath.section];
     FunctionListViewController *vc = [[FunctionListViewController alloc] init];
-    vc.list = list;
+    vc.list = (id)list;
+    vc.listID = list.id;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

@@ -176,6 +176,8 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
             PublishRewardViewController *vc = [PublishRewardViewController storyboardVCWithReward:reward];
             [self.navigationController pushViewController:vc animated:YES];
         } else {
+            [selectedIDArray addObject:@"P006"];
+            [selectedArray addObject:@"管理后台"];
             FunctionalEvaluationViewController *vc = [[FunctionalEvaluationViewController alloc] init];
             vc.menuArray = _cellNameArray;
             vc.menuIDArray = selectedIDArray;

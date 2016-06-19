@@ -341,6 +341,7 @@
 - (void)toFunctionList {
     FunctionListViewController *vc = [[FunctionListViewController alloc] init];
     vc.list = (id)self.list;
+    vc.listID = self.listID;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

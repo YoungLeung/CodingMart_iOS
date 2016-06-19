@@ -753,4 +753,13 @@
     }];
 }
 
+- (void)post_shareLink:(NSDictionary *)params block:(void (^)(id, NSError *))block {
+    NSNumber *listID = [params objectForKey:@"listID"];
+    NSString *path = [NSString stringWithFormat:@"api/quote/%@/share", listID];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
+        data = data[@"data"];
+        block(data, error);
+    }];
+}
+
 @end

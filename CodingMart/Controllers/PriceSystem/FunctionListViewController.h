@@ -12,5 +12,6 @@
 @interface FunctionListViewController : BaseViewController
 
 @property (strong, nonatomic) CalcResult *list;
+@property (strong, nonatomic) NSNumber *listID;
 
 @end

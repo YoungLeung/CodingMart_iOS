@@ -9,8 +9,11 @@
 #import "FunctionListViewController.h"
 #import <BlocksKit/BlocksKit+UIKit.h>
 #import "MartShareView.h"
+#import "Coding_NetAPIManager.h"
 
 @interface FunctionListViewController ()
+
+@property (strong, nonatomic) NSString *shareLink;
 
 @end
 
@@ -20,7 +23,10 @@
     [super viewDidLoad];
     
     self.title = @"功能清单";
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"price_share"] style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonItemClicked)];
+    if (_listID) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"price_share"] style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonItemClicked)];
+    }
+
 
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:scrollView];
@@ -61,11 +67,20 @@
     [functionLabel setFont:[UIFont systemFontOfSize:12.0f]];
     [functionLabel setTextColor:[UIColor colorWithHexString:@"999999"]];
     [scrollView addSubview:functionLabel];
+    
+    if (_listID) {
+        __weak typeof(self) weakSelf = self;
+        [[Coding_NetAPIManager sharedManager] post_shareLink:@{@"listID":_listID} block:^(id data, NSError *error) {
+            if (!error) {
+                weakSelf.shareLink = [data objectForKey:@"shareLink"];
+            }
+        }];
+    }
 }
 
 - (void)rightBarButtonItemClicked {
     UIWebView *webView = [[UIWebView alloc] init];
-    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://coding.net"]]];
+    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_shareLink]]];
     [webView stopLoading];
     [MartShareView showShareViewWithObj:webView];
 }
