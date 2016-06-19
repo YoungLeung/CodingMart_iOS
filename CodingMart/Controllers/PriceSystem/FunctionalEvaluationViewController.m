@@ -100,7 +100,10 @@
 // 生成购物车默认数据
 - (void)generateDefaultShoppingCarData {
     [_shoppingCarDefaultDict removeAllObjects];
-    for (int i = 0; i < _selectedMenuArray.count; i++) {
+    
+    NSMutableArray *carMenuArray = [NSMutableArray arrayWithArray:_selectedMenuArray];
+    [carMenuArray removeLastObject];
+    for (int i = 0; i < carMenuArray.count; i++) {
         NSMutableArray *secondMenuArray = [NSMutableArray array];
         // 二级菜单
         FunctionMenu *firstMenu = [_firstMenuArray objectAtIndex:i];
@@ -357,6 +360,8 @@
         }
     }
     
+    [tempArray addObject:@"管理后台"];
+    [tempIDArray addObject:@"P006"];
     _selectedMenuArray = tempArray;
     _menuIDArray = tempIDArray;
     [self dismiss];
