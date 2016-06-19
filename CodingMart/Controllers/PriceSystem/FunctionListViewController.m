@@ -61,12 +61,13 @@
     [timeLabel setAttributedText:timeAttributedString];
     [topView addSubview:timeLabel];
     
-    // 功能清单
-    UILabel *functionLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, topView.bottom, kScreen_Width - 30, 42)];
-    [functionLabel setText:@"功能清单"];
-    [functionLabel setFont:[UIFont systemFontOfSize:12.0f]];
-    [functionLabel setTextColor:[UIColor colorWithHexString:@"999999"]];
-    [scrollView addSubview:functionLabel];
+    NSError *error = nil;
+    NSString *string = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PriceH5File" ofType:@"html"] encoding:NSUTF8StringEncoding error:&error];
+    string = [string stringByReplacingOccurrencesOfString:@"${webview_content}" withString:_h5String];
+    
+    UIWebView *web = [[UIWebView alloc] initWithFrame:CGRectMake(0, 118+ 64, kScreen_Width, kScreen_Height - topView.bottom)];
+    [web loadHTMLString:string baseURL:nil];
+    [self.view addSubview:web];
     
     if (_listID) {
         __weak typeof(self) weakSelf = self;

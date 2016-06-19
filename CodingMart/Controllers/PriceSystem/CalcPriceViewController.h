@@ -10,7 +10,7 @@
 
 @interface CalcPriceViewController : BaseViewController
 
-@property (strong, nonatomic) NSString *parameter;
+@property (strong, nonatomic) NSString *parameter, *h5String;
 @property (strong, nonatomic) NSNumber *webPageNumber;
 
 @end

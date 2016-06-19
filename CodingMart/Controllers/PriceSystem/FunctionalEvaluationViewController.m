@@ -1166,8 +1166,51 @@
             }
         }
     }
+    
+    // 生成HTML数据
+    NSMutableString *h5String = [NSMutableString string];
+    for (int i = 0; i < keyArray.count; i++) {
+        NSString *key = [keyArray objectAtIndex:i];
+        NSArray *thirdMenuArray = [_shoppingDict objectForKey:key];
+        NSMutableArray *moduleArray = [NSMutableArray array];
+        NSMutableDictionary *categoryDict = [NSMutableDictionary dictionary];
+        
+        // 平台
+        NSString *platform = [_selectedMenuArray objectAtIndex:i];
+        [h5String appendFormat:@"[{\"platform\":\"%@\", \"category\":[{", platform];
+        
+        // 循环二级菜单
+        NSMutableArray *secondArray = [NSMutableArray arrayWithArray:_secondMenuArray];
+        [secondArray removeObject:@"页面数量"];
+        
+        NSMutableString *tempString = [NSMutableString string];
+        for (int j = 0; j < secondArray.count; j++) {
+            FunctionMenu *menu = secondArray[j];
+            NSString *name = menu.title;
+            [tempString appendFormat:@"\"name\":\"%@\", \"module\":[{\"function\":[", name];
+            NSMutableArray *function = [NSMutableArray array];
+            for (FunctionMenu *subMenu in thirdMenuArray) {
+                [tempString appendFormat:@"\"%@\",", subMenu.title];
+                [function addObject:subMenu.title];
+            }
+            [tempString appendString:@"]}],"];
+            NSDictionary *dict = @{@"name":name, @"function":function};
+            [moduleArray addObject:dict];
+            if (j+1 == secondArray.count) {
+                [tempString appendString:@"}],"];
+            }
+        }
+        [h5String appendString:tempString];
+        [h5String appendString:@"}]"];
+        
+        FunctionMenu *category = [_firstMenuArray objectAtIndex:_selectedFirstIndex];
+        [categoryDict setObject:category.title forKey:@"name"];
+        [categoryDict setObject:moduleArray forKey:@"module"];
+    }
+    
     CalcPriceViewController *vc = [[CalcPriceViewController alloc] init];
     vc.parameter = string;
+    vc.h5String = h5String;
     vc.webPageNumber = _webPageNumber;
     [self.navigationController pushViewController:vc animated:YES];
 }

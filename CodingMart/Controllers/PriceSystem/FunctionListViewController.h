@@ -13,5 +13,6 @@
 
 @property (strong, nonatomic) CalcResult *list;
 @property (strong, nonatomic) NSNumber *listID;
+@property (strong, nonatomic) NSString *h5String;
 
 @end
