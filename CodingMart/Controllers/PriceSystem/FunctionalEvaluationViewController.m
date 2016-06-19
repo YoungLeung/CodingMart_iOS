@@ -101,31 +101,53 @@
 - (void)generateDefaultShoppingCarData {
     [_shoppingCarDefaultDict removeAllObjects];
     
-    NSMutableArray *carMenuArray = [NSMutableArray arrayWithArray:_selectedMenuArray];
-    [carMenuArray removeLastObject];
-    for (int i = 0; i < carMenuArray.count; i++) {
-        NSMutableArray *secondMenuArray = [NSMutableArray array];
-        // 二级菜单
-        FunctionMenu *firstMenu = [_firstMenuArray objectAtIndex:i];
+    NSMutableArray *carIDArray = [NSMutableArray arrayWithArray:_menuIDArray];
+    [carIDArray removeObject:@"P006"];
+    for (int i = 0; i < carIDArray.count; i++) {
         NSMutableDictionary *allMenuDict = [_data objectForKey:@"quotations"];
+        NSMutableArray *firstMenuArray = [NSMutableArray array];
+        NSMutableArray *secondMenuArray = [NSMutableArray array];
+        NSMutableArray *thirdMenuArray = [NSMutableArray array];
+        NSMutableArray *defalutArray = [NSMutableArray array];
+
+        // 一级菜单
+        FunctionMenu *firstMenu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:carIDArray[i]]];
         NSString *children = firstMenu.children;
         NSArray *childrenArray = [children componentsSeparatedByString:@","];
         for (int j = 0; j < childrenArray.count; j++) {
             FunctionMenu *menu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:childrenArray[j]]];
-            [secondMenuArray addObject:menu];
+            [firstMenuArray addObject:menu];
+        }
+        
+        // 二级菜单
+        for (FunctionMenu *menu in firstMenuArray) {
+            NSArray *array = [menu.children componentsSeparatedByString:@","];
+            for (NSString *str in array) {
+                FunctionMenu *secondMenu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:str]];
+                [secondMenuArray addObject:secondMenu];
+            }
         }
         
         // 三级菜单
-        for (int j = 0; j < secondMenuArray.count; j++) {
-            FunctionMenu *menu = [secondMenuArray objectAtIndex:j];
+        for (FunctionMenu *menu in secondMenuArray) {
             NSArray *array = [menu.children componentsSeparatedByString:@","];
-            NSMutableArray *mArray = [NSMutableArray array];
-            for (int k = 0; k < array.count; k++) {
-                FunctionMenu *thirdMenu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:array[k]]];
-                [mArray addObject:thirdMenu];
+            for (NSString *str in array) {
+                if (str.length) {
+                    FunctionMenu *thirdMenu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:str]];
+                    [thirdMenuArray addObject:thirdMenu];
+                        NSLog(@"%@, %@", thirdMenu.title, thirdMenu.is_default);
+                }
             }
-            [_shoppingCarDefaultDict setObject:mArray forKey:_selectedMenuArray[i]];
         }
+        
+        // 从全部功能中寻找默认数据
+        for (FunctionMenu *menu in thirdMenuArray) {
+            if ([menu.is_default isEqual:@1]) {
+                [defalutArray addObject:menu];
+            }
+        }
+        
+        [_shoppingCarDefaultDict setObject:defalutArray forKey:_selectedMenuArray[i]];
     }
     _shoppingDict = _shoppingCarDefaultDict;
     [self updateShoppingCar];
