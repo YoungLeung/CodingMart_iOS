@@ -604,7 +604,7 @@
     
     // 描述
     _bottomMenuLabel = [[UILabel alloc] initWithFrame:CGRectMake(imageView.right + 10, 0, kScreen_Width - _bottomMenuView.width * 0.36 - imageView.width - 10, 44)];
-    [_bottomMenuLabel setText:@"请选择功能模块"];
+    [_bottomMenuLabel setText:nil];
     [_bottomMenuLabel setTextColor:[UIColor whiteColor]];
     [_bottomMenuLabel setFont:[UIFont systemFontOfSize:13.0f]];
     [_bottomMenuLabel setAdjustsFontSizeToFitWidth:YES];
@@ -1097,23 +1097,27 @@
             // 计算结果
             _calcButton = [UIButton buttonWithType:UIButtonTypeCustom];
             [_calcButton setTitle:@"计算结果" forState:UIControlStateNormal];
-            [_calcButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [_calcButton setTitleColor:[UIColor colorWithHexString:@"ffffff" andAlpha:0.5f] forState:UIControlStateNormal];
             [_calcButton.titleLabel setFont:[UIFont systemFontOfSize:16.0f]];
-            [_calcButton.titleLabel setTextColor:[UIColor colorWithHexString:@"ffffff" andAlpha:0.5f]];
             [_calcButton setBackgroundColor:[UIColor colorWithHexString:@"4289DB"]];
             [_calcButton setFrame:CGRectMake(_bottomMenuView.frame.size.width *(1 - 0.36), 0, _bottomMenuView.frame.size.width * 0.36, _bottomMenuView.frame.size.height)];
+            [_calcButton setUserInteractionEnabled:NO];
             [_calcButton addTarget:self action:@selector(calcPrice) forControlEvents:UIControlEventTouchUpInside];
             
             [_bottomMenuView addSubview:_bubbleView];
             [_bottomMenuView addSubview:_numberLabel];
             [_bottomMenuView addSubview:_calcButton];
+            
+            if (_notDefaultItemCount < 5) {
+                [_bottomMenuLabel setText:@"请至少选择5个非默认选项"];
+            }
         } else {
             [_bubbleView setHidden:NO];
             [_numberLabel setHidden:NO];
             [_calcButton setHidden:NO];
             if (_notDefaultItemCount >= 5) {
                 [_calcButton setUserInteractionEnabled:YES];
-                [_bottomMenuLabel setText:@"请选择功能模块"];
+                [_bottomMenuLabel setText:nil];
                 [_calcButton.titleLabel setTextColor:[UIColor colorWithHexString:@"ffffff" andAlpha:1.0f]];
             } else {
                 [_calcButton setHidden:NO];
