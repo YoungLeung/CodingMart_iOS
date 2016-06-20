@@ -272,7 +272,7 @@
     [_savePriceView addSubview:titleLabel];
     
     UIButton *priceListButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [priceListButton setFrame:CGRectMake(0, titleLabel.bottom + 15, titleLabel.width * 0.5, 44)];
+    [priceListButton setFrame:CGRectMake(0, titleLabel.bottom + 15, titleLabel.width * 0.6, 44)];
     [priceListButton setCenterX:titleLabel.centerX];
     [priceListButton setTitle:@"查看我的报价列表" forState:UIControlStateNormal];
     [priceListButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
