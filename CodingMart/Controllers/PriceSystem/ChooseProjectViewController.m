@@ -122,10 +122,11 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
     if (indexPath.section == 0) {
         float cellWidth = (kScreen_Width / 2)-0.5;
         float cellHeight = cellWidth * 0.85;
+        if (kDevice_Is_iPhone5) cellHeight = cellWidth * 0.8;
         return CGSizeMake(cellWidth, cellHeight);
     } else {
         float cellWidth = kScreen_Width;
-        float cellHeight = cellWidth/4 + 40;
+        float cellHeight = cellWidth/4;
         return CGSizeMake(cellWidth, cellHeight);
     }
 }
