@@ -1099,6 +1099,7 @@
             [_calcButton setTitle:@"计算结果" forState:UIControlStateNormal];
             [_calcButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [_calcButton.titleLabel setFont:[UIFont systemFontOfSize:16.0f]];
+            [_calcButton.titleLabel setTextColor:[UIColor colorWithHexString:@"ffffff" andAlpha:0.5f]];
             [_calcButton setBackgroundColor:[UIColor colorWithHexString:@"4289DB"]];
             [_calcButton setFrame:CGRectMake(_bottomMenuView.frame.size.width *(1 - 0.36), 0, _bottomMenuView.frame.size.width * 0.36, _bottomMenuView.frame.size.height)];
             [_calcButton addTarget:self action:@selector(calcPrice) forControlEvents:UIControlEventTouchUpInside];
@@ -1111,13 +1112,14 @@
             [_numberLabel setHidden:NO];
             [_calcButton setHidden:NO];
             if (_notDefaultItemCount >= 5) {
-                [_calcButton setEnabled:YES];
+                [_calcButton setUserInteractionEnabled:YES];
                 [_bottomMenuLabel setText:@"请选择功能模块"];
-                [_calcButton setBackgroundColor:[UIColor colorWithHexString:@"4289DB"]];
+                [_calcButton.titleLabel setTextColor:[UIColor colorWithHexString:@"ffffff" andAlpha:1.0f]];
             } else {
                 [_calcButton setHidden:NO];
+                [_calcButton setUserInteractionEnabled:NO];
                 [_bottomMenuLabel setText:@"请至少选择5个非默认选项"];
-                [_calcButton setBackgroundColor:[UIColor colorWithHexString:@"999999"]];
+                [_calcButton.titleLabel setTextColor:[UIColor colorWithHexString:@"ffffff" andAlpha:0.5f]];
             }
             [_numberLabel setText:[NSString stringWithFormat:@"%ld", (long)count]];
         }
@@ -1125,8 +1127,8 @@
         [_bubbleView setHidden:YES];
         [_numberLabel setHidden:YES];
         [_calcButton setHidden:NO];
-        [_calcButton setEnabled:NO];
-        [_calcButton setBackgroundColor:[UIColor colorWithHexString:@"999999"]];
+        [_calcButton setUserInteractionEnabled:NO];
+        [_calcButton.titleLabel setTextColor:[UIColor colorWithHexString:@"ffffff" andAlpha:0.5f]];
     }
 }
 
