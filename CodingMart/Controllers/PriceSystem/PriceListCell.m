@@ -46,7 +46,7 @@
     
     // 图片
     _iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 60, 60)];
-    [_iconImageView setBackgroundColor:[UIColor grayColor]];
+    [_iconImageView setImage:[UIImage imageNamed:@"price_list_placehoder"]];
     [_centerView addSubview:_iconImageView];
     
     // 标题
