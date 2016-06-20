@@ -12,10 +12,10 @@
 #import "PriceListViewController.h"
 #import "FunctionListViewController.h"
 
-@interface CalcPriceViewController ()<UITextViewDelegate>
+@interface CalcPriceViewController ()<UITextViewDelegate, UITextFieldDelegate>
 
 @property (strong, nonatomic) UIView *backgroundView, *bgView, *savePriceView;
-@property (strong, nonatomic) UIButton *recalcButton, *saveButton;
+@property (strong, nonatomic) UIButton *recalcButton, *saveButton, *confirmSaveButton;
 @property (strong, nonatomic) UILabel *priceLabel, *platformLabel, *timeLabel, *placeHoderLabel;
 @property (strong, nonatomic) UITextField *nameTextField;
 @property (strong, nonatomic) UITextView *descContent;
@@ -212,6 +212,7 @@
     UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, 40)];
     [_nameTextField setLeftView:leftView];
     [_nameTextField setLeftViewMode:UITextFieldViewModeAlways];
+    [_nameTextField setDelegate:self];
     [_savePriceView addSubview:_nameTextField];
     
     // 项目描述
@@ -241,14 +242,14 @@
     [_descContent addSubview:_placeHoderLabel];
     
     // 保存按钮
-    UIButton *saveButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [saveButton setFrame:CGRectMake(15, _descContent.bottom + 15, tipLabel.width, 44)];
-    [saveButton setBackgroundColor:[UIColor colorWithHexString:@"4289DB"]];
-    [saveButton setTitle:@"确认保存" forState:UIControlStateNormal];
-    [saveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [saveButton.layer setCornerRadius:3.0f];
-    [saveButton addTarget:self action:@selector(confirmSave) forControlEvents:UIControlEventTouchUpInside];
-    [_savePriceView addSubview:saveButton];
+    _confirmSaveButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_confirmSaveButton setFrame:CGRectMake(15, _descContent.bottom + 15, tipLabel.width, 44)];
+    [_confirmSaveButton setBackgroundColor:[UIColor colorWithHexString:@"4289DB"]];
+    [_confirmSaveButton setTitle:@"确认保存" forState:UIControlStateNormal];
+    [_confirmSaveButton setTitleColor:[UIColor colorWithHexString:@"ffffff" andAlpha:0.5f] forState:UIControlStateNormal];
+    [_confirmSaveButton.layer setCornerRadius:3.0f];
+    [_confirmSaveButton addTarget:self action:@selector(confirmSave) forControlEvents:UIControlEventTouchUpInside];
+    [_savePriceView addSubview:_confirmSaveButton];
     
     [UIView animateWithDuration:0.2 animations:^{
         [_savePriceView setCenterY:kScreen_CenterY];
@@ -360,6 +361,17 @@
     } else {
         [_placeHoderLabel setHidden:NO];
     }
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if (textField.text.length && range.location != 0) {
+        [_confirmSaveButton setTitleColor:[UIColor colorWithHexString:@"ffffff" andAlpha:1.0] forState:UIControlStateNormal];
+        [_confirmSaveButton setUserInteractionEnabled:YES];
+    } else {
+        [_confirmSaveButton setTitleColor:[UIColor colorWithHexString:@"ffffff" andAlpha:0.5f] forState:UIControlStateNormal];
+        [_confirmSaveButton setUserInteractionEnabled:NO];
+    }
+    return YES;
 }
 
 -(void)keyboardWillShow:(NSNotification *)note{
