@@ -14,7 +14,7 @@
 #import "Reward.h"
 #import "PublishRewardViewController.h"
 
-@interface ChooseProjectViewController ()
+@interface ChooseProjectViewController () <UIAlertViewDelegate>
 
 @property (strong, nonatomic) NSArray *cellImageArray, *cellNameArray, *menuIDArray;
 @property (strong, nonatomic) NextStepCollectionViewCell *cell;
@@ -170,11 +170,8 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
             [selectedIDArray addObject:[_menuIDArray objectAtIndex:indexPath.row]];
         }
         if ([selectedArray containsObject:@"其他"]) {
-            // 跳转到发布
-            Reward *reward = [Reward rewardToBePublished];
-            reward.type = @4;
-            PublishRewardViewController *vc = [PublishRewardViewController storyboardVCWithReward:reward];
-            [self.navigationController pushViewController:vc animated:YES];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"选择[其他项目]，将忽略其它选项" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            [alert show];
         } else {
             [selectedIDArray addObject:@"P006"];
             [selectedArray addObject:@"管理后台"];
@@ -185,6 +182,17 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
             vc.allIDArray = _menuIDArray;
             [self.navigationController pushViewController:vc animated:YES];
         }
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        // 选择了其他
+        // 跳转到发布
+        Reward *reward = [Reward rewardToBePublished];
+        reward.type = @4;
+        PublishRewardViewController *vc = [PublishRewardViewController storyboardVCWithReward:reward];
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 

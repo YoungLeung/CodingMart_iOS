@@ -29,8 +29,8 @@
         [self.nextStepButton setFrame:CGRectMake(15, 15, kScreen_Width - 30, 44)];
         [self.nextStepButton setTitle:@"下一步" forState:UIControlStateNormal];
         [self.nextStepButton.titleLabel setFont:[UIFont systemFontOfSize:17.0f]];
-        [self.nextStepButton.titleLabel setTextColor:[UIColor whiteColor]];
-        [self.nextStepButton setBackgroundColor:[UIColor colorWithHexString:@"4289DB" andAlpha:0.5f]];
+        [self.nextStepButton setTitleColor:[UIColor colorWithHexString:@"ffffff" andAlpha:0.5f] forState:UIControlStateNormal];
+        [self.nextStepButton setBackgroundColor:[UIColor colorWithHexString:@"4289DB"]];
         [self.nextStepButton.layer setCornerRadius:3.0f];
         [self.nextStepButton addTarget:self action:@selector(nextStep) forControlEvents:UIControlEventTouchUpInside];
         [self.nextStepButton setEnabled:NO];
@@ -42,9 +42,9 @@
 - (void)setButtonEnable:(BOOL)enable {
     [self.nextStepButton setEnabled:enable];
     if (enable) {
-        [self.nextStepButton setBackgroundColor:[UIColor colorWithHexString:@"4289DB"]];
+        [self.nextStepButton setTitleColor:[UIColor colorWithHexString:@"ffffff" andAlpha:1.0f] forState:UIControlStateNormal];
     } else {
-        [self.nextStepButton setBackgroundColor:[UIColor colorWithHexString:@"4289DB" andAlpha:0.5f]];
+        [self.nextStepButton setTitleColor:[UIColor colorWithHexString:@"ffffff" andAlpha:0.5f] forState:UIControlStateNormal];
     }
 }
 
