@@ -1073,6 +1073,9 @@
 
 #pragma mark - 显示购物车商品数量
 - (void)updateShoppingCar {
+    float shoppingCarHeight = [self shoppingCarTableViewHeight];
+    [_shoppingCarBgView setFrame:CGRectMake(0, kScreen_Height - shoppingCarHeight - 88, kScreen_Width, shoppingCarHeight + 44)];
+    [_shoppingCarTableView setFrame:CGRectMake(0, 44, kScreen_Width, shoppingCarHeight)];
     NSArray *array = [_shoppingDict allValues];
     NSInteger count = 0;
     for (NSArray *subArray in array) {
