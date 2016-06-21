@@ -866,6 +866,7 @@
             __weak typeof(self) weakSelf = self;
             cell.block = ^(NSNumber *number){
                 weakSelf.webPageNumber = number;
+                [weakSelf updateShoppingCar];
             };
             [cell updateCell:menu];
             return cell;
@@ -1073,9 +1074,11 @@
 
 #pragma mark - 显示购物车商品数量
 - (void)updateShoppingCar {
-    float shoppingCarHeight = [self shoppingCarTableViewHeight];
-    [_shoppingCarBgView setFrame:CGRectMake(0, kScreen_Height - shoppingCarHeight - 88, kScreen_Width, shoppingCarHeight + 44)];
-    [_shoppingCarTableView setFrame:CGRectMake(0, 44, kScreen_Width, shoppingCarHeight)];
+    if (_bgView.hidden == NO) {
+        float shoppingCarHeight = [self shoppingCarTableViewHeight];
+        [_shoppingCarBgView setFrame:CGRectMake(0, kScreen_Height - shoppingCarHeight - 88, kScreen_Width, shoppingCarHeight + 44)];
+        [_shoppingCarTableView setFrame:CGRectMake(0, 44, kScreen_Width, shoppingCarHeight)];
+    }
     NSArray *array = [_shoppingDict allValues];
     NSInteger count = 0;
     for (NSArray *subArray in array) {
@@ -1090,7 +1093,7 @@
             _numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 18, 18)];
             [_numberLabel setFont:[UIFont systemFontOfSize:12.0f]];
             [_numberLabel setTextColor:[UIColor whiteColor]];
-            [_numberLabel setText:[NSString stringWithFormat:@"%ld", (long)count]];
+            [_numberLabel setText:[NSString stringWithFormat:@"%ld", count+_webPageNumber.intValue]];
             [_numberLabel setCenter:_bubbleView.center];
             [_numberLabel setTextAlignment:NSTextAlignmentCenter];
             
@@ -1110,6 +1113,8 @@
             
             if (_notDefaultItemCount < 5) {
                 [_bottomMenuLabel setText:@"请至少选择5个非默认选项"];
+            } else if (_webPageNumber == 0 && [[_selectedMenuArray objectAtIndex:_selectedIndex] isEqualToString:@"前端项目"]) {
+                [_bottomMenuLabel setText:@"请选择前端项目页面数量"];
             }
         } else {
             [_bubbleView setHidden:NO];
@@ -1119,13 +1124,18 @@
                 [_calcButton setUserInteractionEnabled:YES];
                 [_bottomMenuLabel setText:nil];
                 [_calcButton.titleLabel setTextColor:[UIColor colorWithHexString:@"ffffff" andAlpha:1.0f]];
+                if ([_webPageNumber isEqual:@0] && [[_selectedMenuArray objectAtIndex:_selectedIndex] isEqualToString:@"前端项目"]) {
+                    [_bottomMenuLabel setText:@"请选择前端项目页面数量"];
+                    [_calcButton setUserInteractionEnabled:NO];
+                    [_calcButton.titleLabel setTextColor:[UIColor colorWithHexString:@"ffffff" andAlpha:0.5f]];
+                }
             } else {
                 [_calcButton setHidden:NO];
                 [_calcButton setUserInteractionEnabled:NO];
                 [_bottomMenuLabel setText:@"请至少选择5个非默认选项"];
                 [_calcButton.titleLabel setTextColor:[UIColor colorWithHexString:@"ffffff" andAlpha:0.5f]];
             }
-            [_numberLabel setText:[NSString stringWithFormat:@"%ld", (long)count]];
+            [_numberLabel setText:[NSString stringWithFormat:@"%ld", count+_webPageNumber.intValue]];
         }
     } else {
         [_bubbleView setHidden:YES];
