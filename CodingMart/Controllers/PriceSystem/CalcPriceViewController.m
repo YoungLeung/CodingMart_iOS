@@ -184,14 +184,21 @@
     [_savePriceView addSubview:titleLabel];
     
     // 提示
-    UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, titleLabel.bottom + 15, _savePriceView.width - 30, 27)];
+    UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(22, titleLabel.bottom + 20, _savePriceView.width - 40, 0)];
+    [tipLabel setNumberOfLines:0];
     [tipLabel setText:@"您保存／提交的项目，可在我发布的悬赏列表查看或编辑"];
-    [tipLabel setBackgroundColor:[UIColor colorWithHexString:@"FFF6DD"]];
+    [tipLabel setBackgroundColor:[UIColor clearColor]];
     [tipLabel setTextColor:[UIColor colorWithHexString:@"EEA551"]];
     [tipLabel setFont:[UIFont systemFontOfSize:12.0f]];
-    [tipLabel setTextAlignment:NSTextAlignmentCenter];
-    
+    [tipLabel setTextAlignment:NSTextAlignmentLeft];
+    [tipLabel sizeToFit];
     [tipLabel setCornerRadius:1.5f];
+    
+    // 提示背景
+    UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(15, titleLabel.bottom + 15, tipLabel.width+14, tipLabel.height+10)];
+    [backgroundView setBackgroundColor:[UIColor colorWithHexString:@"FFF6DD"]];
+
+    [_savePriceView addSubview:backgroundView];
     [_savePriceView addSubview:tipLabel];
     
     // 项目名称

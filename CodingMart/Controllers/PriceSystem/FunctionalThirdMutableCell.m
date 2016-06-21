@@ -61,7 +61,7 @@
 - (void)addAction {
     NSInteger number = [_numberLabel.text integerValue];
     number++;
-    [_numberLabel setText:[NSString stringWithFormat:@"%ld", number]];
+    [_numberLabel setText:[NSString stringWithFormat:@"%ld", (long)number]];
     if (self.block) {
         self.block([NSNumber numberWithInteger:number]);
     }
@@ -73,7 +73,7 @@
     if (number < 0) {
         number = 0;
     }
-    [_numberLabel setText:[NSString stringWithFormat:@"%ld", number]];
+    [_numberLabel setText:[NSString stringWithFormat:@"%ld", (long)number]];
     if (self.block) {
         self.block([NSNumber numberWithInteger:number]);
     }

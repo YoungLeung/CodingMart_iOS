@@ -1093,7 +1093,7 @@
             _numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 18, 18)];
             [_numberLabel setFont:[UIFont systemFontOfSize:12.0f]];
             [_numberLabel setTextColor:[UIColor whiteColor]];
-            [_numberLabel setText:[NSString stringWithFormat:@"%ld", count+_webPageNumber.intValue]];
+            [_numberLabel setText:[NSString stringWithFormat:@"%d", count+_webPageNumber.intValue]];
             [_numberLabel setCenter:_bubbleView.center];
             [_numberLabel setTextAlignment:NSTextAlignmentCenter];
             
@@ -1135,7 +1135,7 @@
                 [_bottomMenuLabel setText:@"请至少选择5个非默认选项"];
                 [_calcButton.titleLabel setTextColor:[UIColor colorWithHexString:@"ffffff" andAlpha:0.5f]];
             }
-            [_numberLabel setText:[NSString stringWithFormat:@"%ld", count+_webPageNumber.intValue]];
+            [_numberLabel setText:[NSString stringWithFormat:@"%d", count+_webPageNumber.intValue]];
         }
     } else {
         [_bubbleView setHidden:YES];
