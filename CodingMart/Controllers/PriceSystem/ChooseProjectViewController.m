@@ -48,7 +48,7 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
                         @"微信公众号",
                         @"iOS App",
                         @"Android App",
-                        @"HTML5 应用",
+                        @"前端项目",
                         @"其他",
                         ];
     
