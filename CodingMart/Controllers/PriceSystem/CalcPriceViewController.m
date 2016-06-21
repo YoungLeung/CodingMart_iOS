@@ -202,13 +202,13 @@
     [_savePriceView addSubview:tipLabel];
     
     // 项目名称
-    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, tipLabel.bottom + 15, tipLabel.width, 21)];
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, tipLabel.bottom + 15, backgroundView.width, 21)];
     [nameLabel setText:@"项目名称* "];
     [nameLabel setFont:[UIFont systemFontOfSize:15.0f]];
     [_savePriceView addSubview:nameLabel];
     
     // 项目名称Label
-    _nameTextField = [[UITextField alloc] initWithFrame:CGRectMake(15, nameLabel.bottom + 15, tipLabel.width, 40)];
+    _nameTextField = [[UITextField alloc] initWithFrame:CGRectMake(15, nameLabel.bottom + 15, backgroundView.width, 40)];
     [_nameTextField setPlaceholder:@"填写项目名称（必填）"];
     [_nameTextField setBackgroundColor:[UIColor colorWithHexString:@"F6F6F6"]];
     [_nameTextField setTextColor:[UIColor blackColor]];
@@ -223,13 +223,13 @@
     [_savePriceView addSubview:_nameTextField];
     
     // 项目描述
-    UILabel *descLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, _nameTextField.bottom + 15, tipLabel.width, 21)];
+    UILabel *descLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, _nameTextField.bottom + 10, backgroundView.width, 21)];
     [descLabel setText:@"项目描述"];
     [descLabel setFont:[UIFont systemFontOfSize:15.0f]];
     [_savePriceView addSubview:descLabel];
     
     // 项目描述内容
-    _descContent = [[UITextView alloc] initWithFrame:CGRectMake(15, descLabel.bottom + 15, tipLabel.width, 197)];
+    _descContent = [[UITextView alloc] initWithFrame:CGRectMake(15, descLabel.bottom + 15, backgroundView.width, 197)];
     [_descContent setFont:[UIFont systemFontOfSize:14.0f]];
     [_descContent setTextContainerInset:UIEdgeInsetsMake(10, 10, 10, 10)];
     [_descContent setBackgroundColor:[UIColor colorWithHexString:@"F6F6F6"]];
@@ -250,7 +250,7 @@
     
     // 保存按钮
     _confirmSaveButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_confirmSaveButton setFrame:CGRectMake(15, _descContent.bottom + 15, tipLabel.width, 44)];
+    [_confirmSaveButton setFrame:CGRectMake(15, _descContent.bottom + 15, backgroundView.width, 44)];
     [_confirmSaveButton setBackgroundColor:[UIColor colorWithHexString:@"4289DB"]];
     [_confirmSaveButton setTitle:@"确认保存" forState:UIControlStateNormal];
     [_confirmSaveButton setTitleColor:[UIColor colorWithHexString:@"ffffff" andAlpha:0.5f] forState:UIControlStateNormal];
@@ -272,7 +272,7 @@
 // 保存成功
 - (void)saveSuccess {
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, _savePriceView.width, 31)];
-    [titleLabel setText:@"预估报价保存成功！"];
+    [titleLabel setText:@"预估报价保存成功!"];
     [titleLabel setTextColor:[UIColor colorWithHexString:@"4289DB"]];
     [titleLabel setFont:[UIFont systemFontOfSize:22.0f]];
     [titleLabel setTextAlignment:NSTextAlignmentCenter];
@@ -288,14 +288,15 @@
     [priceListButton.layer setCornerRadius:3.0f];
     [_savePriceView addSubview:priceListButton];
     
-    UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, priceListButton.bottom + 30, titleLabel.width*0.75, 0)];
-    [tipLabel setCenterX:kScreen_CenterX];
+    UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, priceListButton.bottom + 30, titleLabel.width*0.85, 0)];
     [tipLabel setNumberOfLines:0];
     [tipLabel setText:@"您可以在发布悬赏的过程中，将预估功能的报价作为参考链接提供给开发者。"];
     [tipLabel setFont:[UIFont systemFontOfSize:14.0f]];
     [tipLabel setTextColor:[UIColor colorWithHexString:@"999999"]];
-    [tipLabel sizeThatFits:CGSizeMake(titleLabel.width*0.75, MAXFLOAT)];
+    [tipLabel sizeThatFits:CGSizeMake(titleLabel.width*0.85, MAXFLOAT)];
     [tipLabel sizeToFit];
+    [tipLabel setTextAlignment:NSTextAlignmentLeft];
+    [tipLabel setCenterX:titleLabel.centerX];
     [_savePriceView addSubview:tipLabel];
 }
 
@@ -346,6 +347,7 @@
 - (void)toMyPriceList {
     [self dismiss];
     PriceListViewController *vc = [[PriceListViewController alloc] init];
+    vc.h5String = self.h5String;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

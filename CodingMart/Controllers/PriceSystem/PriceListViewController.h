@@ -10,4 +10,6 @@
 
 @interface PriceListViewController : BaseTableViewController
 
+@property (strong, nonatomic) NSString *h5String;
+
 @end
