@@ -1187,7 +1187,7 @@
     }
     
     // 生成HTML数据
-    NSMutableString *h5String = [NSMutableString string];
+    NSMutableString *h5String = [NSMutableString stringWithFormat:@"["];
     for (int i = 0; i < keyArray.count; i++) {
         NSString *key = [keyArray objectAtIndex:i];
         NSArray *thirdMenuArray = [_shoppingDict objectForKey:key];
@@ -1196,7 +1196,7 @@
         
         // 平台
         NSString *platform = [_selectedMenuArray objectAtIndex:i];
-        [h5String appendFormat:@"[{\"platform\":\"%@\", \"category\":[{", platform];
+        [h5String appendFormat:@"{\"platform\":\"%@\", \"category\":[{", platform];
         
         // 循环二级菜单
         NSMutableArray *secondArray = [NSMutableArray arrayWithArray:_secondMenuArray];
@@ -1220,12 +1220,13 @@
             }
         }
         [h5String appendString:tempString];
-        [h5String appendString:@"}]"];
+        [h5String appendString:@"},"];
         
         FunctionMenu *category = [_firstMenuArray objectAtIndex:_selectedFirstIndex];
         [categoryDict setObject:category.title forKey:@"name"];
         [categoryDict setObject:moduleArray forKey:@"module"];
     }
+    [h5String appendString:@"]"];
     
     CalcPriceViewController *vc = [[CalcPriceViewController alloc] init];
     vc.parameter = string;
