@@ -168,6 +168,9 @@
         [self.navigationController pushViewController:[JoinedRewardsViewController storyboardVC] animated:YES];
     }
 }
+- (IBAction)footerBtnClicked:(id)sender {
+    
+}
 
 #pragma mark Table M
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{

@@ -154,9 +154,35 @@
                             </constraints>
                         </view>
                         <view key="tableFooterView" contentMode="scaleToFill" id="QMK-aE-aKZ" userLabel="footerView">
-                            <rect key="frame" x="0.0" y="648" width="600" height="44"/>
+                            <rect key="frame" x="0.0" y="648" width="600" height="90"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZiD-Xo-AtC">
+                                    <rect key="frame" x="20" y="23" width="560" height="44"/>
+                                    <color key="backgroundColor" red="0.21568627450980393" green="0.23921568627450979" blue="0.27843137254901962" alpha="1" colorSpace="calibratedRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="44" id="TYy-q2-Hwn"/>
+                                    </constraints>
+                                    <state key="normal" title="切换视图模式">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                            <real key="value" value="3"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="boolean" keyPath="masksToBounds" value="YES"/>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="footerBtnClicked:" destination="mdj-kR-3St" eventType="touchUpInside" id="OnM-eM-zIZ"/>
+                                    </connections>
+                                </button>
+                            </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="ZiD-Xo-AtC" firstAttribute="centerY" secondItem="QMK-aE-aKZ" secondAttribute="centerY" id="8To-WL-5Fw"/>
+                                <constraint firstAttribute="trailing" secondItem="ZiD-Xo-AtC" secondAttribute="trailing" constant="20" id="FGe-42-PD6"/>
+                                <constraint firstItem="ZiD-Xo-AtC" firstAttribute="leading" secondItem="QMK-aE-aKZ" secondAttribute="leading" constant="20" id="Miv-N5-zjs"/>
+                            </constraints>
                         </view>
                         <sections>
                             <tableViewSection headerTitle="1" id="JS4-aj-1ZG">
