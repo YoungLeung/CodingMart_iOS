@@ -79,8 +79,9 @@
     }
 }
 
-- (void)updateCell:(FunctionMenu *)menu {
+- (void)updateCell:(FunctionMenu *)menu number:(NSNumber *)number{
     [_titleLabel setText:menu.title];
+    [_numberLabel setText:[number stringValue]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

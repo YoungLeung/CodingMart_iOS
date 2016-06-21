@@ -672,6 +672,10 @@
     NSMutableArray *array = [NSMutableArray arrayWithArray:[_shoppingDict objectForKey:topMenu]];
 
     // 用户点击的cell
+    if (indexPath.row >= array.count) {
+        _webPageNumber = @0;
+        return;
+    }
     FunctionMenu *menu = [array objectAtIndex:indexPath.row];
     if ([menu.is_default isEqual:@0]) {
         _notDefaultItemCount--;
@@ -690,6 +694,9 @@
     NSInteger count = 0;
     for (NSArray *subArray in array) {
         count += subArray.count;
+    }
+    if ([_webPageNumber intValue] > 0) {
+        count++;
     }
     if (count == 0) {
         return 0 ;
@@ -815,6 +822,9 @@
         NSArray *keyArray = [_shoppingDict allKeys];
         NSString *key = [keyArray objectAtIndex:section];
         NSArray *array = [_shoppingDict objectForKey:key];
+        if ([key isEqualToString:@"前端项目"] && [_webPageNumber intValue] > 0) {
+            return array.count + 1;
+        }
         return array.count;
     }
     return 0;
@@ -868,7 +878,7 @@
                 weakSelf.webPageNumber = number;
                 [weakSelf updateShoppingCar];
             };
-            [cell updateCell:menu];
+            [cell updateCell:menu number:_webPageNumber];
             return cell;
         }
         FunctionalThirdCell *cell = [tableView dequeueReusableCellWithIdentifier:[FunctionalThirdCell cellID]];
@@ -888,8 +898,14 @@
         NSArray *keyArray = [_shoppingDict allKeys];
         NSString *key = [keyArray objectAtIndex:indexPath.section];
         NSArray *menuArray = [_shoppingDict objectForKey:key];
-        FunctionMenu *menu = [menuArray objectAtIndex:indexPath.row];
-        [cell updateCell:menu];
+        if ([key isEqualToString:@"前端项目"] && ([_webPageNumber intValue] > 0 ) && indexPath.row == menuArray.count) {
+            FunctionMenu *h5Menu = [[FunctionMenu alloc] init];
+            h5Menu.title = [NSString stringWithFormat:@"页面数量（%@个）", _webPageNumber];
+            [cell updateCell:h5Menu];
+        } else {
+            FunctionMenu *menu = [menuArray objectAtIndex:indexPath.row];
+            [cell updateCell:menu];
+        }
         return cell;
     }
 }
@@ -1093,7 +1109,7 @@
             _numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 18, 18)];
             [_numberLabel setFont:[UIFont systemFontOfSize:12.0f]];
             [_numberLabel setTextColor:[UIColor whiteColor]];
-            [_numberLabel setText:[NSString stringWithFormat:@"%d", count+_webPageNumber.intValue]];
+            [_numberLabel setText:[NSString stringWithFormat:@"%ld", count+(_webPageNumber.intValue > 0 ? 1 : 0)]];
             [_numberLabel setCenter:_bubbleView.center];
             [_numberLabel setTextAlignment:NSTextAlignmentCenter];
             
@@ -1113,7 +1129,7 @@
             
             if (_notDefaultItemCount < 5) {
                 [_bottomMenuLabel setText:@"请至少选择5个非默认选项"];
-            } else if (_webPageNumber == 0 && [[_selectedMenuArray objectAtIndex:_selectedIndex] isEqualToString:@"前端项目"]) {
+            } else if ([_webPageNumber isEqual:@0] && [[_selectedMenuArray objectAtIndex:_selectedIndex] isEqualToString:@"前端项目"]) {
                 [_bottomMenuLabel setText:@"请选择前端项目页面数量"];
             }
         } else {
@@ -1135,7 +1151,7 @@
                 [_bottomMenuLabel setText:@"请至少选择5个非默认选项"];
                 [_calcButton.titleLabel setTextColor:[UIColor colorWithHexString:@"ffffff" andAlpha:0.5f]];
             }
-            [_numberLabel setText:[NSString stringWithFormat:@"%d", count+_webPageNumber.intValue]];
+            [_numberLabel setText:[NSString stringWithFormat:@"%ld", count+(_webPageNumber.intValue > 0 ? 1 : 0)]];
         }
     } else {
         [_bubbleView setHidden:YES];

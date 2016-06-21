@@ -15,7 +15,7 @@ typedef void(^NumberBlock)(NSNumber *number);
 
 @property (copy, nonatomic) NumberBlock block;
 
-- (void)updateCell:(FunctionMenu *)menu;
+- (void)updateCell:(FunctionMenu *)menu number:(NSNumber *)number;
 + (NSString *)cellID;
 + (float)cellHeight:(FunctionMenu *)menu;
 

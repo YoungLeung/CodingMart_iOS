@@ -65,7 +65,7 @@
     NSString *string = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PriceH5File" ofType:@"html"] encoding:NSUTF8StringEncoding error:&error];
     string = [string stringByReplacingOccurrencesOfString:@"${webview_content}" withString:_h5String];
     
-    UIWebView *web = [[UIWebView alloc] initWithFrame:CGRectMake(0, 118+ 64, kScreen_Width, kScreen_Height - topView.bottom)];
+    UIWebView *web = [[UIWebView alloc] initWithFrame:CGRectMake(0, 118+ 64, kScreen_Width, kScreen_Height - topView.bottom - 64)];
     [web loadHTMLString:string baseURL:nil];
     [self.view addSubview:web];
     
