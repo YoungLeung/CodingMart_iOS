@@ -997,9 +997,10 @@
     if (scrollView == _secondMenuTableView) {
         CGPoint contentOffsetPoint = _secondMenuTableView.contentOffset;
         CGRect frame = _secondMenuTableView.frame;
-        if (contentOffsetPoint.y == _secondMenuTableView.contentSize.height - frame.size.height || _secondMenuTableView.contentSize.height < frame.size.height)
-        {
+        if (contentOffsetPoint.y > 0) {
             [self firstMenuScrollToNext];
+        } else {
+            [self firstMenuScrollToPrev];
         }
     } else if (scrollView == _thirdMenuTableView) {
         NSArray *cellArray = _thirdMenuTableView.visibleCells;
@@ -1014,6 +1015,22 @@
 - (void)firstMenuScrollToNext {
     if (_selectedFirstIndex + 1 < _firstMenuArray.count) {
         _selectedFirstIndex++;
+        NSArray *array = _firstMenuScrollView.subviews;
+        for (int i = 0; i < array.count; i++) {
+            id v = [array objectAtIndex:i];
+            if ([v isKindOfClass:[UIButton class]]) {
+                UIButton *btn = (UIButton *)v;
+                if (btn.tag == _selectedFirstIndex + 10) {
+                    [self firstMenuButtonPress:btn];
+                }
+            }
+        }
+    }
+}
+
+- (void)firstMenuScrollToPrev {
+    if (_selectedFirstIndex - 1 >= 0) {
+        _selectedFirstIndex--;
         NSArray *array = _firstMenuScrollView.subviews;
         for (int i = 0; i < array.count; i++) {
             id v = [array objectAtIndex:i];
