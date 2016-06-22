@@ -7,8 +7,16 @@
 //
 
 #import "SetIdentityViewController.h"
+#import "Login.h"
+#import "Coding_NetAPIManager.h"
+#import "AppDelegate.h"
 
 @interface SetIdentityViewController ()
+@property (strong, nonatomic) NSNumber *loginIdentity;
+@property (weak, nonatomic) IBOutlet UIButton *demandBtn;
+@property (weak, nonatomic) IBOutlet UIButton *developerBtn;
+@property (weak, nonatomic) IBOutlet UIButton *doneBtn;
+@property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
 
 @end
 
@@ -21,21 +29,52 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.view.backgroundColor = [UIColor colorWithHexString:@"0x373D47"];
+    self.loginIdentity = [Login curLoginUser].loginIdentity;
+    _cancelBtn.hidden = (!self.loginIdentity || self.loginIdentity.integerValue == 0);
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)setLoginIdentity:(NSNumber *)loginIdentity{
+    _loginIdentity = loginIdentity;
+    [self updateUI];
 }
 
-/*
-#pragma mark - Navigation
+- (void)updateUI{
+    BOOL isDeveloper = _loginIdentity.integerValue == 1;
+    _developerBtn.backgroundColor = isDeveloper? kColorBrandBlue: [UIColor clearColor];
+    [_developerBtn doBorderWidth:isDeveloper? 0: 1 color:[UIColor whiteColor] cornerRadius:_developerBtn.height/2];
+    
+    BOOL isDemand = _loginIdentity.integerValue == 2;
+    _demandBtn.backgroundColor = isDemand? kColorBrandBlue: [UIColor clearColor];
+    [_demandBtn doBorderWidth:isDemand? 0: 1 color:[UIColor whiteColor] cornerRadius:_demandBtn.height/2];
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    _doneBtn.enabled = isDeveloper || isDemand;
+    [_doneBtn setImage:[UIImage imageNamed:_doneBtn.enabled? @"button_next_enable": @"button_next_disable"] forState:UIControlStateNormal];
 }
-*/
+
+- (IBAction)demandBtnClicked:(id)sender {
+    self.loginIdentity = @2;
+}
+- (IBAction)developerBtnClicked:(id)sender {
+    self.loginIdentity = @1;
+}
+- (IBAction)doneBtnClicked:(id)sender {
+    if ([[Login curLoginUser].loginIdentity isEqual:self.loginIdentity]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+        return;
+    }
+    [NSObject showHUDQueryStr:@"正在设置..."];
+    [[Coding_NetAPIManager sharedManager] post_LoginIdentity:self.loginIdentity andBlock:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (data) {
+            [self dismissViewControllerAnimated:YES completion:^{
+                [(AppDelegate *)[UIApplication sharedApplication].delegate setupTabViewController];
+            }];
+        }
+    }];
+}
+- (IBAction)cancelBtnClicked:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 @end

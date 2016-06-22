@@ -15,6 +15,7 @@
 #import "Login.h"
 #import "JoinedRewardsViewController.h"
 #import "PublishedRewardsViewController.h"
+#import "SetIdentityViewController.h"
 
 typedef NS_ENUM(NSInteger, TabVCType) {
     TabVCTypeFind = 0,
@@ -27,7 +28,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
 };
 
 @interface RootTabViewController ()
-@property (strong, nonatomic) NSArray *tabList;
+@property (strong, nonatomic, readwrite) NSArray *tabList;
 @end
 
 @implementation RootTabViewController
@@ -35,10 +36,18 @@ typedef NS_ENUM(NSInteger, TabVCType) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self updateTabVCList];
+    [self p_setupTabVCList];
 }
 
-- (void)updateTabVCList{
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if ([Login isLogin] && [Login curLoginUser].loginIdentity.integerValue == 0) {
+        [self presentViewController:[SetIdentityViewController storyboardVC] animated:YES completion:nil];
+    }
+}
+
+#pragma mark Private_M
+- (void)p_setupTabVCList{
     NSArray *tabList;
     User *me = [Login curLoginUser];
     if (me.loginIdentity.integerValue == 1){//开发者
@@ -69,12 +78,12 @@ typedef NS_ENUM(NSInteger, TabVCType) {
                     @(TabVCTypeRewards),
                     @(TabVCTypeMe)];
     }
-    if (!_tabList || [tabList isEqual:_tabList]) {
+    if (!_tabList || ![tabList isEqual:_tabList]) {
         _tabList = tabList;
         [self p_setupViewControllers];
     }
 }
-#pragma mark Private_M
+
 - (UIViewController *)p_navWithTabType:(TabVCType)type{
     UIViewController *vc;
     switch (type) {
@@ -109,8 +118,8 @@ typedef NS_ENUM(NSInteger, TabVCType) {
         list = @[@"tab_find",
                  @"tab_rewards",
                  @"tab_price",
-                 @"",
-                 @"",
+                 @"tab_joined_published",
+                 @"tab_joined_published",
                  @"tab_publish",
                  @"tab_user",];
     }

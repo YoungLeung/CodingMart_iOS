@@ -121,6 +121,18 @@
     }];
 }
 
+- (void)post_LoginIdentity:(NSNumber *)loginIdentity andBlock:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/app/login-identity" withParams:@{@"loginIdentity": loginIdentity.stringValue} withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id dataUser, NSError *errorUser) {
+                block(dataUser, errorUser);
+            }];
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 #pragma mark Reward
 - (void)get_rewards:(Rewards *)rewards block:(void (^)(id data, NSError *error))block{
     rewards.isLoading = YES;

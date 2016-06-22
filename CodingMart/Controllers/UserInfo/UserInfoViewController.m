@@ -19,7 +19,9 @@
 #import "MartShareView.h"
 #import "NotificationViewController.h"
 #import "MartIntroduceViewController.h"
-
+#import "SetIdentityViewController.h"
+#import "AppDelegate.h"
+#import "RootTabViewController.h"
 
 @interface UserInfoViewController ()<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *user_iconV;
@@ -30,6 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *fillUserInfoBtn;
 @property (weak, nonatomic) IBOutlet UIView *tableHeaderView;
 @property (strong, nonatomic) UIButton *rightNavBtn;
+@property (weak, nonatomic) IBOutlet UIButton *footerBtn;
 
 @property (strong, nonatomic) User *curUser;
 @property (assign, nonatomic) BOOL isDisappearForLogin;
@@ -90,6 +93,7 @@
     _fillUserInfoBtn.imageEdgeInsets = UIEdgeInsetsMake(0, titleOffset, 0, -titleOffset);
     
     [_user_iconV sd_setImageWithURL:[_curUser.avatar urlWithCodingPath] placeholderImage:[UIImage imageNamed:@"placeholder_user"]];
+    [_footerBtn setTitle:_curUser.loginIdentity.integerValue == 1? @"切换至需求方模式": @"切换至开发者模式" forState:UIControlStateNormal];
     [self.tableView reloadData];
 }
 
@@ -169,7 +173,17 @@
     }
 }
 - (IBAction)footerBtnClicked:(id)sender {
-    
+//    [self presentViewController:[SetIdentityViewController storyboardVC] animated:YES completion:nil];
+    [NSObject showHUDQueryStr:@"正在切换视图..."];
+    [[Coding_NetAPIManager sharedManager] post_LoginIdentity:[Login curLoginUser].loginIdentity.integerValue == 1? @2: @1 andBlock:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (data) {
+            AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            [appDelegate setupTabViewController];
+            RootTabViewController *rootVC = (RootTabViewController *)appDelegate.window.rootViewController;
+            [rootVC setSelectedIndex:rootVC.tabList.count - 1];
+        }
+    }];
 }
 
 #pragma mark Table M

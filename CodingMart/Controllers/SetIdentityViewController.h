@@ -10,6 +10,4 @@
 
 @interface SetIdentityViewController : BaseViewController
 + (instancetype)storyboardVC;
-@property (copy, nonatomic) void (^setSucessBlock)();
-
 @end

@@ -9,5 +9,5 @@
 #import "RDVTabBarController.h"
 
 @interface RootTabViewController : RDVTabBarController<RDVTabBarControllerDelegate>
-- (void)updateTabVCList;
+@property (strong, nonatomic, readonly) NSArray *tabList;
 @end

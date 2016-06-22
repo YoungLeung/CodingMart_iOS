@@ -157,14 +157,19 @@
                             <rect key="frame" x="0.0" y="648" width="600" height="90"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZiD-Xo-AtC">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZiD-Xo-AtC">
                                     <rect key="frame" x="20" y="23" width="560" height="44"/>
                                     <color key="backgroundColor" red="0.21568627450980393" green="0.23921568627450979" blue="0.27843137254901962" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="TYy-q2-Hwn"/>
                                     </constraints>
-                                    <state key="normal" title="切换视图模式">
+                                    <inset key="titleEdgeInsets" minX="-35" minY="0.0" maxX="35" maxY="0.0"/>
+                                    <inset key="imageEdgeInsets" minX="135" minY="0.0" maxX="-135" maxY="0.0"/>
+                                    <state key="normal" title="切换至需求方模式" image="button_exchange">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted">
+                                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -402,6 +407,7 @@
                     <size key="freeformSize" width="600" height="1000"/>
                     <connections>
                         <outlet property="fillUserInfoBtn" destination="1r1-hv-hy8" id="Ewx-DO-wGF"/>
+                        <outlet property="footerBtn" destination="ZiD-Xo-AtC" id="Y70-as-3Au"/>
                         <outlet property="headerBGV" destination="BrE-pF-xhC" id="GDf-Fs-Obe"/>
                         <outlet property="headerBGVTop" destination="Ida-hC-eoY" id="Sb0-ny-r54"/>
                         <outlet property="tableHeaderView" destination="QtH-lO-0Ik" id="RaH-yM-8sU"/>
@@ -5374,6 +5380,7 @@
         <image name="bg_userinfo" width="375" height="200"/>
         <image name="button_arrow_down" width="15" height="15"/>
         <image name="button_arrow_left" width="15" height="15"/>
+        <image name="button_exchange" width="24" height="15"/>
         <image name="button_pen" width="14" height="14"/>
         <image name="button_userinfo_joined" width="34" height="34"/>
         <image name="button_userinfo_published" width="34" height="34"/>
