@@ -135,7 +135,10 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
     ChoosePriceCollectionViewCell *cell = (ChoosePriceCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     [cell setSelected:cell.selected];
     float count = collectionView.indexPathsForSelectedItems.count;
-    if (count > 0 && indexPath.section != 1) {
+    if (indexPath.section == 1) {
+        count--;
+    }
+    if (count > 0) {
             [_cell setButtonEnable:YES];
     } else {
         [_cell setButtonEnable:NO];
