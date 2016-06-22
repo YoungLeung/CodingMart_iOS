@@ -769,9 +769,6 @@
     for (NSArray *subArray in array) {
         count += subArray.count;
     }
-    if (count == 0) {
-        return;
-    }
     
     [self addShoppingCarTableView];
     
