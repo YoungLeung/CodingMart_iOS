@@ -22,6 +22,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 + (instancetype)sharedManager;
 #pragma mark Login
 - (void)get_CurrentUserBlock:(void (^)(id data, NSError *error))block;
+- (void)get_CodingCurrentUserBlock:(void (^)(id data, NSError *error))block;
 
 - (void)get_CheckGK:(NSString *)golbal_key block:(void (^)(id data, NSError *error))block;
 - (void)get_LoginCaptchaIsNeededBlock:(void (^)(id data, NSError *error))block;
@@ -92,5 +93,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 #pragma mark Other
 - (void)get_StartModelBlock:(void (^)(id data, NSError *error))block;
 - (void)get_BannerListBlock:(void (^)(id data, NSError *error))block;
+- (void)get_is2FAOpenBlock:(void (^)(BOOL is2FAOpen, NSError *error))block;
+
 
 @end

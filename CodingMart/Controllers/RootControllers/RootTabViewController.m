@@ -131,7 +131,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
     if (!list) {
         list = @[@"首页",
                  @"悬赏",
-                 @"报价",
+                 @"估价",
                  @"我参与的",
                  @"我发布的",
                  @"发布",
@@ -153,6 +153,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
     }
     
     self.viewControllers = viewControllers;
+    self.tabBar.translucent = YES;
     for (NSInteger index = 0; index < self.tabBar.items.count; index++) {
         RDVTabBarItem *item = self.tabBar.items[index];
         item.titlePositionAdjustment = UIOffsetMake(0, 3);

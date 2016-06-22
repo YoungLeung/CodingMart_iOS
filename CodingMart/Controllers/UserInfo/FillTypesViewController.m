@@ -8,7 +8,6 @@
 
 #import "FillTypesViewController.h"
 #import "FillUserInfoViewController.h"
-#import "FillSkillsViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "Login.h"
 #import "IdentityAuthenticationModel.h"

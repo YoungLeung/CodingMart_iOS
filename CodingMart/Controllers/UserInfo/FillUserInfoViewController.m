@@ -119,7 +119,7 @@
 - (void)setUserInfo:(FillUserInfo *)userInfo{
     _userInfo = userInfo;
     
-    _countryCodeL.text = _userInfo.phoneCountryCode;
+    _countryCodeL.text = _userInfo.phoneCountryCode.length > 0? _userInfo.phoneCountryCode: @"+86";
     _nameF.text = _userInfo.name;
     _emailF.text = _userInfo.email;
     _phoneF.text = _userInfo.mobile;

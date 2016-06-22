@@ -57,6 +57,18 @@
         }
     }];
 }
+- (void)get_CodingCurrentUserBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/current_user";
+    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = data[@"data"];
+            User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:data];
+            block(curLoginUser, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
 - (void)get_CheckGK:(NSString *)golbal_key block:(void (^)(id data, NSError *error))block{
     [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/user/check" withParams:@{@"key": golbal_key} withMethodType:Get andBlock:^(id data, NSError *error) {
         block(data, error);
@@ -92,9 +104,12 @@
         data = data[@"data"];
         User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:data];
         if (curLoginUser) {
-            [Login doLogin:data];
+            [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id dataUser, NSError *errorUser) {
+                block(dataUser, errorUser);
+            }];
+        }else{
+            block(curLoginUser, error);
         }
-        block(curLoginUser, error);
     }];
 }
 
@@ -103,9 +118,12 @@
         data = data[@"data"];
         User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:data];
         if (curLoginUser) {
-            [Login doLogin:data];
+            [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id dataUser, NSError *errorUser) {
+                block(dataUser, errorUser);
+            }];
+        }else{
+            block(curLoginUser, error);
         }
-        block(curLoginUser, error);
     }];
 }
 
@@ -629,6 +647,11 @@
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
         data = [NSArray arrayFromJSON:data[@"data"] ofObjects:@"MartBanner"];
         block(data, error);
+    }];
+}
+- (void)get_is2FAOpenBlock:(void (^)(BOOL is2FAOpen, NSError *error))block{
+    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/user/2fa/method" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        block([data[@"data"] isEqualToString:@"totp"], error);
     }];
 }
 @end
