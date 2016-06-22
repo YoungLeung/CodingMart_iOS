@@ -375,7 +375,7 @@
     for (int i = 0; i < _menuArray.count; i++) {
         UIButton *button = (UIButton *)[platformView viewWithTag:i+100];
         if (button.tag == 105 && button.selected) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"选择[其他项目]，将忽略其它选项" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"选择「其它」类型，将直接进入「快捷发布悬赏」页面" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             [alert show];
             return;
         } else if (button.selected) {
