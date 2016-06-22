@@ -186,7 +186,7 @@
     // 提示
     UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(22, titleLabel.bottom + 20, _savePriceView.width - 40, 0)];
     [tipLabel setNumberOfLines:0];
-    [tipLabel setText:@"您保存／提交的项目，可在我发布的悬赏列表查看或编辑"];
+    [tipLabel setText:@"您保存／提交的项目，可在我的报价列表查看或编辑"];
     [tipLabel setBackgroundColor:[UIColor clearColor]];
     [tipLabel setTextColor:[UIColor colorWithHexString:@"EEA551"]];
     [tipLabel setFont:[UIFont systemFontOfSize:12.0f]];
