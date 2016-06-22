@@ -373,7 +373,10 @@
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    if (textField.text.length && range.location != 0) {
+    if ([string isEqualToString:@" "]) {
+        return NO;
+    }
+    if (string.length || range.location != 0) {
         [_confirmSaveButton setTitleColor:[UIColor colorWithHexString:@"ffffff" andAlpha:1.0] forState:UIControlStateNormal];
         [_confirmSaveButton setUserInteractionEnabled:YES];
     } else {
