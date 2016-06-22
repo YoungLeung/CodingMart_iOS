@@ -15,6 +15,7 @@
 #import <UMengSocial/WXApiObject.h>
 #import <AlipaySDK/AlipaySDK.h>
 #import "Login.h"
+#import "LoginViewController.h"
 
 #define kPriceListData @"priceListData"
 

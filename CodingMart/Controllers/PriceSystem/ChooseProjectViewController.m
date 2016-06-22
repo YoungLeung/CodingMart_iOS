@@ -13,6 +13,8 @@
 #import "Coding_NetAPIManager.h"
 #import "Reward.h"
 #import "PublishRewardViewController.h"
+#import "LoginViewController.h"
+#import "Login.h"
 
 @interface ChooseProjectViewController () <UIAlertViewDelegate>
 
@@ -28,6 +30,8 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self showLogin];
     
     // Uncomment the following line to preserve selection between presentations
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -69,6 +73,13 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
             [NSObject saveResponseData:data toPath:@"priceListData"];
         }
     }];
+}
+
+- (void)showLogin {
+    if (![Login isLogin]) {
+        LoginViewController *vc = [LoginViewController storyboardVCWithUser:nil];
+        [ChooseProjectViewController presentVC:vc dismissBtnTitle:nil];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -139,7 +150,7 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
         count--;
     }
     if (count > 0) {
-            [_cell setButtonEnable:YES];
+        [_cell setButtonEnable:YES];
     } else {
         [_cell setButtonEnable:NO];
     }
@@ -162,6 +173,10 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
 }
 
 - (void)nextStep {
+    if (![Login isLogin]) {
+        [self showLogin];
+        return;
+    }
     NSArray *array = [NSMutableArray arrayWithArray:self.collectionView.indexPathsForSelectedItems];
     NSMutableArray *selectedArray = [NSMutableArray array];
     NSMutableArray *selectedIDArray = [NSMutableArray array];
