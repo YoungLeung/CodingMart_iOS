@@ -151,7 +151,7 @@
 
 #pragma mark Btn
 - (IBAction)myPublishedBtnClicked:(UIButton *)sender {
-    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"我的报价列表"];
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"我发布的悬赏列表"];
 
     if (![Login isLogin]) {
         [self goToLogin];
