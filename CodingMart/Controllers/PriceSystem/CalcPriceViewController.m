@@ -176,7 +176,7 @@
     [_savePriceView addSubview:closeButton];
     
     // 标题
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 25, _savePriceView.width, 25)];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 25, _savePriceView.width, 20)];
     [titleLabel setText:@"保存报价"];
     [titleLabel setFont:[UIFont systemFontOfSize:18.0f]];
     [titleLabel setTextColor:[UIColor colorWithHexString:@"4289DB"]];
@@ -184,18 +184,22 @@
     [_savePriceView addSubview:titleLabel];
     
     // 提示
-    UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(22, titleLabel.bottom + 20, _savePriceView.width - 40, 0)];
+    UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, titleLabel.bottom + 20, _savePriceView.width - 40, 0)];
     [tipLabel setNumberOfLines:0];
     [tipLabel setText:@"您保存／提交的项目，可在我的报价列表查看或编辑"];
     [tipLabel setBackgroundColor:[UIColor clearColor]];
     [tipLabel setTextColor:[UIColor colorWithHexString:@"EEA551"]];
     [tipLabel setFont:[UIFont systemFontOfSize:12.0f]];
-    [tipLabel setTextAlignment:NSTextAlignmentLeft];
-    [tipLabel sizeToFit];
+    [tipLabel setTextAlignment:kDevice_Is_iPhone5 ? NSTextAlignmentLeft : NSTextAlignmentCenter];
+    if (kDevice_Is_iPhone5) {
+        [tipLabel sizeToFit];
+    } else {
+        [tipLabel setHeight:20.0f];
+    }
     [tipLabel setCornerRadius:1.5f];
     
     // 提示背景
-    UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(15, titleLabel.bottom + 15, tipLabel.width+14, tipLabel.height+10)];
+    UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(15, titleLabel.bottom + 15, _savePriceView.width - 30, tipLabel.height+10)];
     [backgroundView setBackgroundColor:[UIColor colorWithHexString:@"FFF6DD"]];
 
     [_savePriceView addSubview:backgroundView];
