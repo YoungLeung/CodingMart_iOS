@@ -23,6 +23,7 @@
 #import "AppDelegate.h"
 #import "RootTabViewController.h"
 #import "AboutViewController.h"
+#import "FillUserInfoViewController.h"
 
 @interface UserInfoViewController ()<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *user_iconV;
@@ -35,6 +36,8 @@
 @property (strong, nonatomic) UIButton *rightNavBtn;
 @property (weak, nonatomic) IBOutlet UIButton *footerBtn;
 @property (weak, nonatomic) IBOutlet UILabel *developerPassL;
+@property (weak, nonatomic) IBOutlet UIImageView *userInfoIconV;
+@property (weak, nonatomic) IBOutlet UILabel *userInfoL;
 
 @property (strong, nonatomic) User *curUser;
 @property (assign, nonatomic) BOOL isDisappearForLogin;
@@ -86,11 +89,13 @@
 
 - (void)refreshUI{
     [self setupNavBarBtn];
-
+    BOOL isDeveloper = [_curUser isDeveloper];
+    [_userInfoIconV setImage:[UIImage imageNamed:isDeveloper? @"icon_userinfo_ certify": @"icon_userinfo_ info"]];
+    _userInfoL.text = isDeveloper? @"认证成为码士": @"个人信息";
     _developerPassL.hidden = ![Login isLogin] || [_curUser canJoinReward];
     [_fillUserInfoBtn setTitle:_curUser.name forState:UIControlStateNormal];
     [_user_iconV sd_setImageWithURL:[_curUser.avatar urlWithCodingPath] placeholderImage:[UIImage imageNamed:@"placeholder_user"]];
-    [_footerBtn setTitle:_curUser.loginIdentity.integerValue == 1? @"切换至需求方模式": @"切换至开发者模式" forState:UIControlStateNormal];
+    [_footerBtn setTitle:isDeveloper? @"切换至需求方模式": @"切换至开发者模式" forState:UIControlStateNormal];
     _footerBtn.hidden = ![Login isLogin];
     [self.tableView reloadData];
 }
@@ -143,7 +148,7 @@
 #pragma mark Btn
 - (IBAction)footerBtnClicked:(id)sender {
     [NSObject showHUDQueryStr:@"正在切换视图..."];
-    [[Coding_NetAPIManager sharedManager] post_LoginIdentity:[Login curLoginUser].loginIdentity.integerValue == 1? @2: @1 andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] post_LoginIdentity:[[Login curLoginUser] isDeveloper]? @2: @1 andBlock:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data) {
             AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -165,7 +170,7 @@
     }else if (section == 1){
         height = 0;
     }else if (section == 2){
-        height = _curUser.loginIdentity.integerValue == 2? 0: 10;
+        height = 10;
     }
     return height;
 }
@@ -179,7 +184,7 @@
     if (section == 0) {
         num = 0;
     }else if (section == 1){
-        num = _curUser.loginIdentity.integerValue == 2? 0: 1;
+        num = 1;
     }else{
         num = 3;
     }
@@ -192,6 +197,15 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 1) {
+        if ([_curUser isDeveloper]) {
+            FillTypesViewController *vc = [FillTypesViewController storyboardVC];
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            FillUserInfoViewController *vc = [FillUserInfoViewController vcInStoryboard:@"UserInfo"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
 }
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{

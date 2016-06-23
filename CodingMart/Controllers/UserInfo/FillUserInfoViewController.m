@@ -14,6 +14,7 @@
 #import "UIViewController+BackButtonHandler.h"
 #import "ActionSheetStringPicker.h"
 #import "CountryCodeListViewController.h"
+#import "Login.h"
 
 @interface FillUserInfoViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *nameF;
@@ -263,11 +264,11 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return _userInfo? 2: 0;
+    return _userInfo? [[Login curLoginUser] isDeveloper]? 2: 1: 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return section == 0? 6: [self p_acceptNewRewardAllNotification]? 2: 1;
+    return section == 0? [[Login curLoginUser] isDeveloper]? 6: 5: [self p_acceptNewRewardAllNotification]? 2: 1;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{

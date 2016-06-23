@@ -121,7 +121,7 @@
                                                     <color key="textColor" red="0.26274509800000001" green="0.2901960784" blue="0.3294117647" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_userinfo_help" translatesAutoresizingMaskIntoConstraints="NO" id="sye-l7-iiP">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sye-l7-iiP">
                                                     <rect key="frame" x="20" y="10" width="25" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="25" id="4FB-aG-npG"/>
@@ -158,7 +158,7 @@
                                                     <color key="textColor" red="0.26274509800000001" green="0.2901960784" blue="0.3294117647" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_userinfo_help" translatesAutoresizingMaskIntoConstraints="NO" id="eTf-Wx-NL3">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_userinfo_ certify" translatesAutoresizingMaskIntoConstraints="NO" id="eTf-Wx-NL3">
                                                     <rect key="frame" x="20" y="10" width="25" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="25" id="1BX-be-Y96"/>
@@ -183,9 +183,6 @@
                                                 <constraint firstItem="5JQ-sL-Ue4" firstAttribute="centerY" secondItem="L0h-cC-ZJE" secondAttribute="centerY" id="vZz-i1-bjp"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="jwX-MP-1VS" kind="show" id="RTP-es-ryJ"/>
-                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -316,6 +313,8 @@
                         <outlet property="headerBGV" destination="BrE-pF-xhC" id="GDf-Fs-Obe"/>
                         <outlet property="headerBGVTop" destination="Ida-hC-eoY" id="Sb0-ny-r54"/>
                         <outlet property="tableHeaderView" destination="QtH-lO-0Ik" id="RaH-yM-8sU"/>
+                        <outlet property="userInfoIconV" destination="eTf-Wx-NL3" id="66p-bi-Ma6"/>
+                        <outlet property="userInfoL" destination="63E-du-v23" id="VxM-CA-Dji"/>
                         <outlet property="user_iconV" destination="Xki-0F-J4Y" id="U9K-O4-PXn"/>
                     </connections>
                 </tableViewController>
@@ -5703,6 +5702,7 @@
         <image name="icon_fill_exam" width="20" height="20"/>
         <image name="icon_fill_skills" width="20" height="20"/>
         <image name="icon_fill_userinfo" width="20" height="20"/>
+        <image name="icon_userinfo_ certify" width="25" height="25"/>
         <image name="icon_userinfo_about" width="25" height="25"/>
         <image name="icon_userinfo_feedback" width="17" height="17"/>
         <image name="icon_userinfo_help" width="25" height="25"/>
