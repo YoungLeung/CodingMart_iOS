@@ -48,7 +48,9 @@
 
 - (void)updateCell:(FunctionMenu *)menu {
     [_titleLabel setText:menu.title];
-    [_contentLabel setText:menu.description_mine];
+    NSString *desc = menu.description_mine;
+    desc = [desc stringByReplacingOccurrencesOfString:@"<br>" withString:@"\n"];
+    [_contentLabel setText:desc];
     [_contentLabel setHeight:[FunctionalThirdCell cellHeight:menu] - 58];
     [_addButton setY:CGRectGetMaxY(_contentLabel.frame) - _addButton.height];
 }
@@ -74,6 +76,8 @@
     float width = kScreen_Width*0.46;
     float height = 58.0f;
     NSString *text = menu.description_mine;
+    text = [text stringByReplacingOccurrencesOfString:@"<br>" withString:@"\n"];
+
     CGSize size = [text boundingRectWithSize:CGSizeMake(width, MAXFLOAT)
                                      options:NSStringDrawingUsesLineFragmentOrigin
                                   attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12.0f]}
