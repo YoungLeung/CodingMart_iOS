@@ -51,7 +51,7 @@
     uname(&systemInfo);
     NSString *deviceString = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
     NSString *userAgent = [NSString stringWithFormat:@"%@_iOS/%@ (%@; iOS %@; Scale/%0.2f)", [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleExecutableKey] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleIdentifierKey], (__bridge id)CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), kCFBundleVersionKey) ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleVersionKey], deviceString, [[UIDevice currentDevice] systemVersion], ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] ? [[UIScreen mainScreen] scale] : 1.0f)];
-    return userAgent;
+    return userAgent;//CodingMart_iOS/2.2.201605191700 (x86_64; iOS 9.3; Scale/2.00)
 }
 + (NSString *)appVersion{
     return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
@@ -77,6 +77,7 @@
                               @"APP":@"5",
                               @"微信开发": @"2",
                               @"HTML5 应用": @"3",
+                              @"咨询": @"6",
                               @"其他": @"4"};
     }
     return baseDictInfo[key];
@@ -90,6 +91,7 @@
                               @"移动应用 App":@"5",
                               @"微信开发": @"2",
                               @"HTML5 应用": @"3",
+                              @"咨询": @"6",
                               @"其他": @"4"};
     }
     return baseDictInfo[key];
@@ -108,7 +110,7 @@
                               @"招募中": @"5",
                               @"开发中": @"6",
                               @"已结束": @"7",
-                              @"待提交": @"8"};
+                              @"待支付": @"8"};
     }
     return baseDictInfo[key];
 }

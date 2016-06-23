@@ -7,7 +7,6 @@
 //
 
 #import "LoginViewController.h"
-#import "QuickLoginViewController.h"
 #import "RegisterPhoneViewController.h"
 #import "CannotLoginViewController.h"
 #import "TwoFactorAuthCodeViewController.h"
@@ -141,12 +140,6 @@
         CannotLoginViewController *vc = (CannotLoginViewController *)segue.destinationViewController;
         if ([_userStr isPhoneNo] || [_userStr isEmail]) {
             vc.userStr = _userStr;
-        }
-    }else if ([segue.destinationViewController isKindOfClass:[QuickLoginViewController class]]){
-        QuickLoginViewController *vc = (QuickLoginViewController *)segue.destinationViewController;
-        vc.loginSucessBlock = _loginSucessBlock;
-        if ([_userStr isPhoneNo]) {
-            vc.mobile = _userStr;
         }
     }else if ([segue.destinationViewController isKindOfClass:[TwoFactorAuthCodeViewController class]]){
         [(TwoFactorAuthCodeViewController *)segue.destinationViewController setLoginSucessBlock:_loginSucessBlock];

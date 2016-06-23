@@ -8,7 +8,6 @@
 
 #import "FillTypesViewController.h"
 #import "FillUserInfoViewController.h"
-#import "FillSkillsViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "Login.h"
 #import "IdentityAuthenticationModel.h"
@@ -140,9 +139,10 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
         if (!self.curUser.fullInfo.boolValue) {
             [NSObject showHudTipStr:@"请先完善个人信息"];
             return;
-        }
-        if (self.identityCode==identity_Authing)
-        {
+        }else if (!self.curUser.fullSkills.boolValue){
+            [NSObject showHudTipStr:@"请先完善技能展示"];
+            return;
+        }else if (self.identityCode==identity_Authing){
             [NSObject showHudTipStr:@"已提交认证，将在工作日48小时内进行审核"];
             return;
         }

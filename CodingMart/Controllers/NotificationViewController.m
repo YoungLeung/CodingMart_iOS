@@ -69,7 +69,6 @@
     }else{
         [self.tableView configBlankPageImage:kBlankPageImageNotification tipStr:@"您还没有收到任何通知"];
     }
-
 }
 
 - (void)p_markReadAll{
@@ -120,10 +119,6 @@
     MartNotification *curN = self.dataList[indexPath.row];
     if (!curN.status.boolValue) {
         [self p_markN:curN];
-    }
-    if (curN.htmlMedia.mediaItems.count > 0) {
-        HtmlMediaItem *item = curN.htmlMedia.mediaItems.firstObject;
-        [self goToLinkStr:item.href];
     }
 }
 

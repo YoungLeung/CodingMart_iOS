@@ -23,7 +23,7 @@ typedef NS_ENUM(NSInteger, RewardStatus) {
     RewardStatusRecruiting,//招募中
     RewardStatusDeveloping,//开发中
     RewardStatusFinished,//已结束
-    RewardStatusPrepare//待提交
+    RewardStatusPrepare//待支付
 };
 
 typedef NS_ENUM(NSInteger, PayMethodType) {
@@ -35,7 +35,7 @@ typedef NS_ENUM(NSInteger, PayMethodType) {
 
 @interface Reward : NSObject
 //List
-@property (strong, nonatomic) NSNumber *id, *type, *status, *progress, *price, *duration, *reward_status, *apply_status, *balance, *price_with_fee, *apply_count;
+@property (strong, nonatomic) NSNumber *id, *type, *status, *progress, *price, *duration, *reward_status, *apply_status, *balance, *price_with_fee, *apply_count, *version;
 @property (strong, nonatomic) NSString *format_price, *format_balance, *format_content, *plain_content, *format_price_with_fee;
 @property (strong, nonatomic) MartFile *first_attach_file, *second_attach_file, *require_doc_file;
 @property (strong, nonatomic) NSString *cover, *home, *managerName;

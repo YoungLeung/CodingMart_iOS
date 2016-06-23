@@ -77,7 +77,11 @@
 }
 - (IBAction)footerBtnClicked:(id)sender {
     [NSObject showHUDQueryStr:@"正在校验验证码..."];
-    [[Coding_NetAPIManager sharedManager] post_CheckPhoneCodeWithPhone:_mobileF.text code:_verify_codeF.text type:PurposeToPasswordReset block:^(id data, NSError *error) {
+    NSString *path = @"api/account/phone/code/check";
+    NSDictionary *params = @{@"phone": _mobileF.text,
+                             @"code": _verify_codeF.text,
+                             @"type": @"reset"};
+    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data) {
             [self performSegueWithIdentifier:NSStringFromClass([PasswordPhoneSetViewController class]) sender:self];

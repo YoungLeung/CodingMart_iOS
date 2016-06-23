@@ -19,7 +19,10 @@
 #import "MartShareView.h"
 #import "NotificationViewController.h"
 #import "MartIntroduceViewController.h"
-
+#import "SetIdentityViewController.h"
+#import "AppDelegate.h"
+#import "RootTabViewController.h"
+#import "AboutViewController.h"
 
 @interface UserInfoViewController ()<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *user_iconV;
@@ -30,9 +33,12 @@
 @property (weak, nonatomic) IBOutlet UIButton *fillUserInfoBtn;
 @property (weak, nonatomic) IBOutlet UIView *tableHeaderView;
 @property (strong, nonatomic) UIButton *rightNavBtn;
+@property (weak, nonatomic) IBOutlet UIButton *footerBtn;
+@property (weak, nonatomic) IBOutlet UILabel *developerPassL;
 
 @property (strong, nonatomic) User *curUser;
 @property (assign, nonatomic) BOOL isDisappearForLogin;
+
 @end
 
 @implementation UserInfoViewController
@@ -46,7 +52,7 @@
     UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, 49, 0);
     self.tableView.contentInset = self.tableView.scrollIndicatorInsets = insets;
     
-    _tableHeaderView.height = (400.0/750 * kScreen_Width - [self navBottomY])+ 90;//90 是背景图下面 button 的高度
+    _tableHeaderView.height = (400.0/750 * kScreen_Width - [self navBottomY]);
     self.tableView.tableHeaderView = _tableHeaderView;
     _user_iconV.layer.masksToBounds = YES;
     _user_iconV.layer.cornerRadius = 0.09 * kScreen_Width;
@@ -81,15 +87,11 @@
 - (void)refreshUI{
     [self setupNavBarBtn];
 
+    _developerPassL.hidden = ![Login isLogin] || [_curUser canJoinReward];
     [_fillUserInfoBtn setTitle:_curUser.name forState:UIControlStateNormal];
-    [_fillUserInfoBtn setImage:[Login isLogin]? [UIImage imageNamed:@"button_pen"]: nil forState:UIControlStateNormal];
-    CGFloat titleOffset = [Login isLogin]? [_curUser.name getWidthWithFont:_fillUserInfoBtn.titleLabel.font constrainedToSize:CGSizeMake(CGFLOAT_MAX, 20)] + 3: 0;
-    CGFloat imageOffset = [Login isLogin]? _fillUserInfoBtn.imageView.width +3: 0;
-    
-    _fillUserInfoBtn.titleEdgeInsets = UIEdgeInsetsMake(0, -imageOffset, 0, imageOffset);
-    _fillUserInfoBtn.imageEdgeInsets = UIEdgeInsetsMake(0, titleOffset, 0, -titleOffset);
-    
     [_user_iconV sd_setImageWithURL:[_curUser.avatar urlWithCodingPath] placeholderImage:[UIImage imageNamed:@"placeholder_user"]];
+    [_footerBtn setTitle:_curUser.loginIdentity.integerValue == 1? @"切换至需求方模式": @"切换至开发者模式" forState:UIControlStateNormal];
+    _footerBtn.hidden = ![Login isLogin];
     [self.tableView reloadData];
 }
 
@@ -138,35 +140,18 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-#pragma mark - ib button action
-
-- (IBAction)fillUserInfoBtnClicked:(id)sender {
-    if (![Login isLogin]) {
-        [self goToLogin];
-    }else{
-        FillTypesViewController *vc = [FillTypesViewController storyboardVC];
-        [self.navigationController pushViewController:vc animated:YES];
-    }
-}
-
 #pragma mark Btn
-- (IBAction)myPublishedBtnClicked:(UIButton *)sender {
-    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"我发布的悬赏列表"];
-
-    if (![Login isLogin]) {
-        [self goToLogin];
-    }else{
-        [self.navigationController pushViewController:[PublishedRewardsViewController storyboardVC] animated:YES];
-    }
-}
-- (IBAction)myJoinedBtnClicked:(UIButton *)sender {
-    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"我参与的悬赏列表"];
-
-    if (![Login isLogin]) {
-        [self goToLogin];
-    }else{
-        [self.navigationController pushViewController:[JoinedRewardsViewController storyboardVC] animated:YES];
-    }
+- (IBAction)footerBtnClicked:(id)sender {
+    [NSObject showHUDQueryStr:@"正在切换视图..."];
+    [[Coding_NetAPIManager sharedManager] post_LoginIdentity:[Login curLoginUser].loginIdentity.integerValue == 1? @2: @1 andBlock:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (data) {
+            AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            [appDelegate setupTabViewController];
+            RootTabViewController *rootVC = (RootTabViewController *)appDelegate.window.rootViewController;
+            [rootVC setSelectedIndex:rootVC.tabList.count - 1];
+        }
+    }];
 }
 
 #pragma mark Table M
@@ -174,39 +159,53 @@
     return [UIView new];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 10;
+    CGFloat height;
+    if (section == 0) {
+        height = 0;
+    }else if (section == 1){
+        height = 0;
+    }else if (section == 2){
+        height = _curUser.loginIdentity.integerValue == 2? 0: 10;
+    }
+    return height;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return [Login isLogin]? 3: 2;
+    return 3;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    NSInteger num;
+    if (section == 0) {
+        num = 0;
+    }else if (section == 1){
+        num = _curUser.loginIdentity.integerValue == 2? 0: 1;
+    }else{
+        num = 3;
+    }
+    return num;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
-    cell.separatorInset = UIEdgeInsetsMake(0, 60, 0, 0);
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    if (indexPath.section == 1) {
-        if (indexPath.row == 0) {//关于码市
-            [self.navigationController pushViewController:[MartIntroduceViewController new] animated:YES];
-        }else if (indexPath.row == 1){//推荐码市
-            [MartShareView showShareViewWithObj:nil];
-        }else{//去评分
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kAppReviewURL]];
+}
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+    if (indexPath.section == 0) {//开发宝，待更
+        return NO;
+    }else if (indexPath.section == 1 ||
+              (indexPath.section == 2 && indexPath.row == 1)){
+        if (![Login isLogin]) {
+            [self goToLogin];
+            return NO;
         }
-    }else if (indexPath.section == 2){
-        [self.view endEditing:YES];
-        [[UIActionSheet bk_actionSheetCustomWithTitle:@"确定要退出当前账号" buttonTitles:nil destructiveTitle:@"确定退出" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-            if (index == 0) {
-                [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"退出登录"];
-                [Login doLogout];
-                self.curUser = [Login curLoginUser];
-            }
-        }] showInView:self.view];
     }
+    return YES;
 }
 #pragma mark header
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{

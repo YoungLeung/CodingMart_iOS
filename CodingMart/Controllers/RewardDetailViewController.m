@@ -15,7 +15,7 @@
 #import "RewardApplyViewController.h"
 #import <BlocksKit/BlocksKit+UIKit.h>
 #import "MartShareView.h"
-#import "FunctionTipsManager.h"
+#import "RewardDetailHeaderView.h"
 
 @interface RewardDetailViewController ()
 @property (strong, nonatomic) Reward *curReward;
@@ -23,7 +23,7 @@
 @property (strong, nonatomic) UIView *bottomV;
 @property (strong, nonatomic) UILabel *topTipL;
 @property (strong, nonatomic) UIButton *rightNavBtn;
-
+@property (strong, nonatomic) RewardDetailHeaderView *headerV;
 @end
 
 @implementation RewardDetailViewController
@@ -53,8 +53,15 @@
         [_rightNavBtn setImage:[UIImage imageNamed:@"nav_icon_more"] forState:UIControlStateNormal];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightNavBtn];
     }
-    if ([FunctionTipsManager needToTip:kFunctionTipStr_ShareR]) {
-        [_rightNavBtn addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(25, 0)];
+    if (!_headerV) {
+        _headerV = [RewardDetailHeaderView viewWithReward:_curReward];
+        [self.webView.scrollView addSubview:_headerV];
+        
+        UIEdgeInsets contentInset = self.webView.scrollView.contentInset;
+        contentInset.top = _headerV.height;
+        self.webView.scrollView.contentInset = contentInset;
+        [_headerV setY:-_headerV.height];
+        [self.webView.scrollView.pullRefreshCtrl setY:self.webView.scrollView.pullRefreshCtrl.y - _headerV.height];
     }
 }
 
@@ -85,6 +92,7 @@
     }
 }
 - (void)refreshNativeView{
+    _headerV.curReward = _rewardDetal.reward;
     UIEdgeInsets contentInset = self.webView.scrollView.contentInset;
     if (_rewardDetal.reward.status.integerValue == 5) {//招募中的 Reward
         //顶部提示
@@ -94,7 +102,7 @@
                 if (!_topTipL) {
                     _topTipL = [UILabel new];
                     _topTipL.textAlignment = NSTextAlignmentCenter;
-                    _topTipL.backgroundColor = [UIColor colorWithHexString:@"0xF2DEDE"];
+                    _topTipL.backgroundColor = [UIColor colorWithHexString:@"0xF2DEDE" andAlpha:0.6];
                     _topTipL.textColor = [UIColor colorWithHexString:@"0xC55351"];
                     _topTipL.font = [UIFont systemFontOfSize:12];
                     __weak typeof(self) weakSelf = self;
@@ -115,7 +123,7 @@
             }
         }
         //底部 按钮 + 状态
-        contentInset.bottom = 50;
+        contentInset.bottom = 60;
         if (!_bottomV) {
             _bottomV = [UIView new];
             _bottomV.backgroundColor = self.view.backgroundColor;
@@ -123,7 +131,7 @@
             [self.view addSubview:_bottomV];
             [_bottomV mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.right.bottom.equalTo(self.view);
-                make.height.mas_equalTo(50);
+                make.height.mas_equalTo(60);
             }];
         }
         [[_bottomV subviews] enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -136,14 +144,14 @@
             [_bottomV addSubview:bottomBtn];
             CGFloat btnLeftInset = _rewardDetal.joinStatus.integerValue == JoinStatusNotJoin? 15: (CGRectGetWidth(self.view.frame) - 15 - 110);//110
             [bottomBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.edges.equalTo(self.bottomV).insets(UIEdgeInsetsMake(8, btnLeftInset, 8, 15));
+                make.edges.equalTo(self.bottomV).insets(UIEdgeInsetsMake(10, btnLeftInset, 10, 15));
             }];
         }
         UILabel *bottomL = [self p_bottomLWithStatus:_rewardDetal.joinStatus];
         if (bottomL) {
             [_bottomV addSubview:bottomL];
             [bottomL mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.edges.equalTo(self.bottomV).insets(UIEdgeInsetsMake(8, 15, 8, 140));
+                make.edges.equalTo(self.bottomV).insets(UIEdgeInsetsMake(10, 15, 10, 140));
             }];
         }
     }else{
@@ -171,9 +179,9 @@
     UIButton *bottomBtn = nil;
     switch (joinStatus.integerValue) {
         case JoinStatusFresh:
+        case JoinStatusChecked:
             bottomBtn = [self p_bottomBtnWithTitle:@"编辑" bgColorHexStr:@"0x4289DB"];
             break;
-        case JoinStatusChecked:
         case JoinStatusSucessed:
             break;
         case JoinStatusFailed:
@@ -257,10 +265,6 @@
 - (void)navBtnClicked:(id)sender{
     NSObject *shareObj = _rewardDetal.reward? _rewardDetal.reward: _curReward? _curReward: nil;
     if (shareObj) {
-        if ([FunctionTipsManager needToTip:kFunctionTipStr_ShareR]) {
-            [FunctionTipsManager markTiped:kFunctionTipStr_ShareR];
-            [_rightNavBtn removeBadgeTips];
-        }
         [MartShareView showShareViewWithObj:shareObj];
     }
 }

@@ -75,6 +75,10 @@
     return 20;
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:15];
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }

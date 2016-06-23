@@ -99,7 +99,7 @@
         [self addSubview:_refreshL];
         [self addSubview:_sloganL];
         [_loopV mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(self).offset(-50);
+            make.centerX.equalTo(self).offset(-30);
             make.centerY.equalTo(self.mas_bottom).offset(-kPullLoading_OffsetY/2);
         }];
         [_logoV mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -107,7 +107,7 @@
         }];
         [_refreshL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.loopV);
-            make.left.equalTo(self.loopV.mas_right).offset(20);
+            make.left.equalTo(self.loopV.mas_right).offset(10);
         }];
         [_sloganL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self);
@@ -223,6 +223,7 @@
             [_scrollView setContentOffset:contentOffset animated:NO];
             contentOffset.y = -self.originalContentInset.top;
             [_scrollView setContentOffset:contentOffset animated:YES];
+            [self updateSlogan];
         });
     }
 }

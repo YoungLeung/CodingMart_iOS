@@ -84,6 +84,11 @@
     [attrStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"0xF5A623"] range:[tipStr rangeOfString:_reward.format_balance]];
     return attrStr;
 }
+- (IBAction)rePublishBtnClicked:(id)sender {
+    if (_rePublishBtnBlock) {
+        _rePublishBtnBlock(_reward);
+    }
+}
 
 - (IBAction)payBtnClicked:(UIButton *)sender {
     if (_payBtnBlock) {

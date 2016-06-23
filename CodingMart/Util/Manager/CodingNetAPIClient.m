@@ -105,6 +105,8 @@ static dispatch_once_t onceToken_Coding;
                 if ([Login isLogin]) {
                     id responseObject = [NSObject loadResponseWithPath:localPath];
                     block(responseObject, error);
+                }else{
+                    block(nil, error);
                 }
             }];
             break;}

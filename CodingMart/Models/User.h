@@ -9,10 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @interface User : NSObject
-@property (readwrite, nonatomic, strong) NSString *avatar, *name, *global_key, *path, *slogan, *company, *tags_str, *tags, *location, *job_str, *job, *email, *birthday, *pinyinName;
+@property (readwrite, nonatomic, strong) NSString *avatar, *name, *global_key, *path, *slogan, *company, *tags_str, *tags, *location, *job_str, *job, *email, *birthday, *pinyinName, *phone_country_code;
 @property (readwrite, nonatomic, strong) NSString *curPassword, *resetPassword, *resetPasswordConfirm, *phone, *introduction;
 
-@property (readwrite, nonatomic, strong) NSNumber *id, *sex, *follow, *followed, *fans_count, *follows_count, *tweets_count;
+@property (readwrite, nonatomic, strong) NSNumber *id, *sex, *follow, *followed, *fans_count, *follows_count, *tweets_count, *publishedCount, *joinedCount, *email_validation;
+@property (strong, nonatomic) NSNumber *loginIdentity;//0 未设置，1 开发者，2 需求方
 @property (strong, nonatomic) NSNumber *status;//是否已激活
 @property (strong, nonatomic) NSNumber *passingSurvey;//是否已通过码市测试
 @property (strong, nonatomic) NSNumber *fullInfo;//是否完善个人资料

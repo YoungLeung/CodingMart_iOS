@@ -14,6 +14,7 @@
 @interface PublishedRewardCell : UITableViewCell
 @property (strong, nonatomic) Reward *reward;
 @property (strong, nonatomic) void(^payBtnBlock)(Reward *reward);
+@property (strong, nonatomic) void(^rePublishBtnBlock)(Reward *reward);
 @property (strong, nonatomic) void(^goToPrivateRewardBlock)(Reward *reward);
 @property (strong, nonatomic) void(^goToPublicRewardBlock)(Reward *reward);
 

@@ -216,7 +216,7 @@
     CGFloat height = 0;
     if ([obj isKindOfClass:[RewardPrivate class]]) {
         RewardPrivate *curRewardP = obj;
-        CGFloat roleCount = curRewardP.metro.roles.count;
+        CGFloat roleCount = curRewardP.basicInfo.status.integerValue == RewardStatusDeveloping? curRewardP.metro.roles.count: 1;
         height = roleCount * kRewardMetroViewStageHeight + (roleCount+ 1) *kRewardMetroViewStagePadding + 2* 20;
         height = MAX(height, 90);
     }

@@ -8,9 +8,9 @@
 
 #import "AboutViewController.h"
 #import "UITTTAttributedLabel.h"
+#import "MartShareView.h"
 
 @interface AboutViewController ()
-@property (weak, nonatomic) IBOutlet UITTTAttributedLabel *footerL;
 @property (weak, nonatomic) IBOutlet UILabel *versionL;
 
 @end
@@ -21,27 +21,20 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"关于页面"];
-    
-    self.title = @"关于码市";
-    [_footerL addLinkToStr:@"400-992-1001" value:@"400-992-1001" hasUnderline:YES clickedBlock:^(id value) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://400-992-1001"]];
-    }];
     _versionL.text = [NSString stringWithFormat:@"V%@", [NSObject appVersion]];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row == 0){//推荐给好友
+        [MartShareView showShareViewWithObj:nil];
+    }else{//去评分
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kAppReviewURL]];
+    }
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];
 }
-*/
 
 @end

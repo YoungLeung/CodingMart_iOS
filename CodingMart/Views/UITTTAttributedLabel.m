@@ -113,7 +113,7 @@
     self.linkAttributes = @{(__bridge NSString *)kCTUnderlineStyleAttributeName : [NSNumber numberWithBool:hasUnderline],
                             (NSString *)kCTForegroundColorAttributeName : (__bridge id)[UIColor colorWithHexString:@"0x2FAEEA"].CGColor};
     self.activeLinkAttributes = @{(NSString *)kCTUnderlineStyleAttributeName : [NSNumber numberWithBool:hasUnderline],
-                                  (NSString *)kCTForegroundColorAttributeName : (__bridge id)[[UIColor colorWithHexString:@"0x1b9d59"] CGColor]};
+                                  (NSString *)kCTForegroundColorAttributeName : (__bridge id)[[UIColor colorWithHexString:@"0x2D59A2"] CGColor]};
 }
 - (void)addLinkToStr:(NSString *)str value:(id)value hasUnderline:(BOOL)hasUnderline clickedBlock:(void (^)(id value))block{
     if (str.length <= 0) {

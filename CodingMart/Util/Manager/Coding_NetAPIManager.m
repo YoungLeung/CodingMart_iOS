@@ -58,23 +58,16 @@
         }
     }];
 }
-- (void)post_QuickGeneratePhoneCodeWithMobile:(NSString *)mobile block:(void (^)(id data, NSError *error))block{
-    NSString *path = @"api/app/verify_code";
-    NSDictionary *params = @{@"mobile": mobile};
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-        block(data, error);
-    }];
-}
-- (void)post_QuickLoginWithMobile:(NSString *)mobile verify_code:(NSString *)verify_code block:(void (^)(id data, NSError *error))block{
-    NSString *path = @"api/app/fastlogin";
-    NSDictionary *params = @{@"mobile": mobile,
-                             @"verify_code": verify_code,
-                             @"channel": kRegisterChannel};
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+- (void)get_CodingCurrentUserBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/current_user";
+    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
-            [Login doLogin:nil];
+            data = data[@"data"];
+            User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:data];
+            block(curLoginUser, nil);
+        }else{
+            block(nil, error);
         }
-        block(data, error);
     }];
 }
 - (void)get_CheckGK:(NSString *)golbal_key block:(void (^)(id data, NSError *error))block{
@@ -112,9 +105,12 @@
         data = data[@"data"];
         User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:data];
         if (curLoginUser) {
-            [Login doLogin:data];
+            [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id dataUser, NSError *errorUser) {
+                block(dataUser, errorUser);
+            }];
+        }else{
+            block(curLoginUser, error);
         }
-        block(curLoginUser, error);
     }];
 }
 
@@ -123,9 +119,12 @@
         data = data[@"data"];
         User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:data];
         if (curLoginUser) {
-            [Login doLogin:data];
+            [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id dataUser, NSError *errorUser) {
+                block(dataUser, errorUser);
+            }];
+        }else{
+            block(curLoginUser, error);
         }
-        block(curLoginUser, error);
     }];
 }
 
@@ -141,70 +140,18 @@
     }];
 }
 
-- (void)post_CheckPhoneCodeWithPhone:(NSString *)phone code:(NSString *)code type:(PurposeType)type block:(void (^)(id data, NSError *error))block{
-    NSString *path = @"api/account/phone/code/check";
-    NSMutableDictionary *params = @{@"phone": phone,
-                                    @"code": code}.mutableCopy;
-    switch (type) {
-        case PurposeToRegister:
-            params[@"type"] = @"register";
-            break;
-        case PurposeToPasswordActivate:
-            params[@"type"] = @"activate";
-            break;
-        case PurposeToPasswordReset:
-            params[@"type"] = @"reset";
-            break;
-    }
-    
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-        block(data, error);
-    }];
-}
-- (void)post_SetPasswordWithPhone:(NSString *)phone code:(NSString *)code password:(NSString *)password captcha:(NSString *)captcha type:(PurposeType)type block:(void (^)(id data, NSError *error))block{
-    NSString *path = @"api/account/register/phone";
-    NSMutableDictionary *params = @{@"phone": phone,
-                                    @"code": code,
-                                    @"password": [password sha1Str]}.mutableCopy;
-    switch (type) {
-        case PurposeToRegister:{
-            path = @"api/account/register/phone";
-            params[@"channel"] = kRegisterChannel;
-            break;
+- (void)post_LoginIdentity:(NSNumber *)loginIdentity andBlock:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/app/login-identity" withParams:@{@"loginIdentity": loginIdentity.stringValue} withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id dataUser, NSError *errorUser) {
+                block(dataUser, errorUser);
+            }];
+        }else{
+            block(nil, error);
         }
-        case PurposeToPasswordActivate:
-            path = @"api/account/activate/phone/set_password";
-            break;
-        case PurposeToPasswordReset:
-            path = @"api/phone/resetPassword";
-            break;
-    }
-    if (captcha.length > 0) {
-        params[@"j_captcha"] = captcha;
-    }
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-        block(data, error);
     }];
 }
-- (void)post_SetPasswordWithEmail:(NSString *)email captcha:(NSString *)captcha type:(PurposeType)type block:(void (^)(id data, NSError *error))block{
-    NSString *path;
-    NSDictionary *params = @{@"email": email,
-                             @"j_captcha": captcha};
-    switch (type) {
-        case PurposeToPasswordActivate:
-            path = @"api/activate";
-            break;
-        case PurposeToPasswordReset:
-            path = @"api/resetPassword";
-            break;
-        default:
-            path = nil;
-            break;
-    }
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
-        block(data, nil);
-    }];
-}
+
 #pragma mark Reward
 - (void)get_rewards:(Rewards *)rewards block:(void (^)(id data, NSError *error))block{
     rewards.isLoading = YES;
@@ -219,7 +166,7 @@
 }
 - (void)get_JoinedRewardListBlock:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/joined";
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"pageSize": @500} withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             data = [NSObject arrayFromJSON:data[@"data"][@"rewards"][@"list"] ofObjects:@"Reward"];
         }
@@ -228,7 +175,7 @@
 }
 - (void)get_PublishededRewardListBlock:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/published";
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"pageSize": @500} withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             data = [NSObject arrayFromJSON:data[@"data"][@"rewards"][@"list"] ofObjects:@"Reward"];
         }
@@ -762,4 +709,9 @@
     }];
 }
 
+- (void)get_is2FAOpenBlock:(void (^)(BOOL is2FAOpen, NSError *error))block{
+    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/user/2fa/method" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        block([data[@"data"] isEqualToString:@"totp"], error);
+    }];
+}
 @end

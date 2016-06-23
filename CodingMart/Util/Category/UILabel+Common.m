@@ -10,10 +10,16 @@
 
 @implementation UILabel (Common)
 - (void)setAttrStrWithStr:(NSString *)text diffColorStr:(NSString *)diffColorStr diffColor:(UIColor *)diffColor{
-    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:text];
-    NSRange diffColorRange = [text rangeOfString:diffColorStr];
-    if (diffColorRange.location != NSNotFound) {
-        [attrStr addAttribute:NSForegroundColorAttributeName value:diffColor range:diffColorRange];
+
+    NSMutableAttributedString *attrStr;
+    if (text) {
+        attrStr = [[NSMutableAttributedString alloc] initWithString:text];
+    }
+    if (diffColorStr && diffColor) {
+        NSRange diffColorRange = [text rangeOfString:diffColorStr];
+        if (diffColorRange.location != NSNotFound) {
+            [attrStr addAttribute:NSForegroundColorAttributeName value:diffColor range:diffColorRange];
+        }
     }
     self.attributedText = attrStr;
 }
