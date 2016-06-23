@@ -9,7 +9,6 @@
 #import "SetIdentityViewController.h"
 #import "Login.h"
 #import "Coding_NetAPIManager.h"
-#import "AppDelegate.h"
 
 @interface SetIdentityViewController ()
 @property (strong, nonatomic) NSNumber *loginIdentity;
@@ -68,7 +67,7 @@
         [NSObject hideHUDQuery];
         if (data) {
             [self dismissViewControllerAnimated:YES completion:^{
-                [(AppDelegate *)[UIApplication sharedApplication].delegate setupTabViewController];
+                [UIViewController updateTabVCList];
             }];
         }
     }];

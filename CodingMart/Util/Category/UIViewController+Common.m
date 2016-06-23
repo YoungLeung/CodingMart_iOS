@@ -15,6 +15,7 @@
 #import "FillTypesViewController.h"
 #import "RDVTabBarController.h"
 #import "RootTabViewController.h"
+#import "AppDelegate.h"
 
 @implementation UIViewController (Common)
 + (UIViewController *)presentingVC{
@@ -99,6 +100,10 @@
     if (resultVC) {
         [self presentVC:resultVC dismissBtnTitle:@"关闭"];
     }
+}
+
++(void)updateTabVCList{
+    [(AppDelegate *)[UIApplication sharedApplication].delegate setupTabViewController];
 }
 
 - (void)dismissModalViewControllerAnimatedYes{
