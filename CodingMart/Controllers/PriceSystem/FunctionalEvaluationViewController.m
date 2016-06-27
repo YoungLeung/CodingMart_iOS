@@ -996,7 +996,7 @@
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     if (scrollView == _secondMenuTableView) {
         CGPoint contentOffsetPoint = _secondMenuTableView.contentOffset;
-        CGRect frame = _secondMenuTableView.frame;
+//        CGRect frame = _secondMenuTableView.frame;
         if (contentOffsetPoint.y > 0) {
             [self firstMenuScrollToNext];
         } else {

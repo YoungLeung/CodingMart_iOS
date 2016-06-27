@@ -25,7 +25,7 @@
     [super viewDidLoad];
     self.title = @"我的报价";
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"发布" target:self action:@selector(post)];
-    
+
     _dataList = [NSArray array];
     
     [self.tableView registerClass:[PriceListCell class] forCellReuseIdentifier:[PriceListCell cellID]];

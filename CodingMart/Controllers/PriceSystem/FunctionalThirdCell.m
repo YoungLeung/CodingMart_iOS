@@ -29,6 +29,7 @@
         [_titleLabel setFont:[UIFont systemFontOfSize:14.0f]];
         [_titleLabel setTextColor:[UIColor colorWithHexString:@"222222"]];
         [_titleLabel setTextAlignment:NSTextAlignmentLeft];
+        [_titleLabel setNumberOfLines:0];
         
         _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_titleLabel.frame) + 10, _titleLabel.frame.size.width, 0)];
         [_contentLabel setNumberOfLines:0];
@@ -48,10 +49,12 @@
 
 - (void)updateCell:(FunctionMenu *)menu {
     [_titleLabel setText:menu.title];
+    [_titleLabel setHeight:[self calcHeight:menu.title andFontSize:14.0f]];
     NSString *desc = menu.description_mine;
     desc = [desc stringByReplacingOccurrencesOfString:@"<br>" withString:@"\n"];
     [_contentLabel setText:desc];
-    [_contentLabel setHeight:[FunctionalThirdCell cellHeight:menu] - 58];
+    [_contentLabel setHeight:[self calcHeight:desc andFontSize:12.0f]];
+    [_contentLabel setY:_titleLabel.bottom + 5];
     [_addButton setY:CGRectGetMaxY(_contentLabel.frame) - _addButton.height];
 }
 
@@ -72,9 +75,25 @@
     return @"thirdNumberCell";
 }
 
+- (float)calcHeight:(NSString *)title andFontSize:(float)fontSize {
+    float width = kScreen_Width*0.46;
+    CGSize size = [title boundingRectWithSize:CGSizeMake(width, MAXFLOAT)
+                                           options:NSStringDrawingUsesLineFragmentOrigin
+                                        attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:fontSize]}
+                                           context:nil].size;
+    return size.height;
+}
+
 + (float)cellHeight:(FunctionMenu *)menu {
     float width = kScreen_Width*0.46;
-    float height = 58.0f;
+    float height = 38.0f;
+    
+    NSString *title = menu.title;
+    CGSize titleSize = [title boundingRectWithSize:CGSizeMake(width, MAXFLOAT)
+                                          options:NSStringDrawingUsesLineFragmentOrigin
+                                       attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14.0f]}
+                                          context:nil].size;
+    
     NSString *text = menu.description_mine;
     text = [text stringByReplacingOccurrencesOfString:@"<br>" withString:@"\n"];
 
@@ -82,8 +101,7 @@
                                      options:NSStringDrawingUsesLineFragmentOrigin
                                   attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12.0f]}
                                      context:nil].size;
-    height += size.height;
-    return height;
+    return height + titleSize.height + size.height;
 }
 
 @end
