@@ -15,6 +15,7 @@
 #import "PublishRewardViewController.h"
 #import "LoginViewController.h"
 #import "Login.h"
+#import "PriceListViewController.h"
 
 @interface ChooseProjectViewController () <UIAlertViewDelegate>
 
@@ -63,6 +64,8 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
                      @"P005",
                      @"P006",
                      ];
+    
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"我的报价" target:self action:@selector(myPriceList)];
     
     [self.collectionView registerClass:[NextStepCollectionViewCell class] forCellWithReuseIdentifier:nextStepReuseIdentifier];
     [self.collectionView setAllowsMultipleSelection:YES];
@@ -214,6 +217,11 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
         PublishRewardViewController *vc = [PublishRewardViewController storyboardVCWithReward:reward];
         [self.navigationController pushViewController:vc animated:YES];
     }
+}
+
+- (void)myPriceList {
+    PriceListViewController *vc = [[PriceListViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end
