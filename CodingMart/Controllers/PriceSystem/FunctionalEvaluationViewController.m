@@ -577,8 +577,11 @@
         NSArray *array = [menu.children componentsSeparatedByString:@","];
         NSMutableArray *mArray = [NSMutableArray array];
         for (int j = 0; j < array.count; j++) {
-            FunctionMenu *thirdMenu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:array[j]]];
-            [mArray addObject:thirdMenu];
+            NSString *key = array[j];
+            if (key.length) {
+                FunctionMenu *thirdMenu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:key]];
+                [mArray addObject:thirdMenu];
+            }
         }
         [_thirdMenuDict setObject:[mArray copy] forKey:menu.code];
     }

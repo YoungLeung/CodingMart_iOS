@@ -14,6 +14,7 @@
 @interface FunctionListViewController ()
 
 @property (strong, nonatomic) NSString *shareLink;
+@property (strong, nonatomic) UIWebView *webView;
 
 @end
 
@@ -80,10 +81,11 @@
 }
 
 - (void)rightBarButtonItemClicked {
-    UIWebView *webView = [[UIWebView alloc] init];
-    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_shareLink]]];
-    [webView stopLoading];
-    [MartShareView showShareViewWithObj:webView];
+    _webView = [[UIWebView alloc] init];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:_shareLink]];
+    [_webView loadRequest:request];
+    [MartShareView showShareViewWithObj:_webView];
+    [_webView stopLoading];
 }
 
 - (void)didReceiveMemoryWarning {
