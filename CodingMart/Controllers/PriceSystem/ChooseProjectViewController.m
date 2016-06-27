@@ -16,6 +16,8 @@
 #import "LoginViewController.h"
 #import "Login.h"
 #import "PriceListViewController.h"
+#import "AppDelegate.h"
+#import "RootTabViewController.h"
 
 @interface ChooseProjectViewController () <UIAlertViewDelegate>
 
@@ -28,6 +30,18 @@
 
 static NSString * const reuseIdentifier = @"Cell";
 static NSString * const nextStepReuseIdentifier = @"NextStepCell";
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    BOOL firstUse = [User payedForPriceSystem];
+    if (firstUse) {
+        // 切换到支付界面
+        AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [appDelegate setupTabViewController];
+        RootTabViewController *rootVC = (RootTabViewController *)appDelegate.window.rootViewController;
+        [rootVC setSelectedIndex:1];
+    }
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

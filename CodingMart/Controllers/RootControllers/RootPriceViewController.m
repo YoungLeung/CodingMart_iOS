@@ -46,18 +46,17 @@
     BOOL firstUse = [User payedForPriceSystem];
     if (firstUse && [Login isLogin]) {
         // 第一次使用
-        __weak typeof(self)weakSelf = self;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf checkPayed];
-        });
+        [self checkPayed];
     }
     
-    // 加载菜单数据
-    [[Coding_NetAPIManager sharedManager] get_quoteFunctions:^(id data, NSError *error) {
-        if (!error) {
-            [NSObject saveResponseData:data toPath:kPriceListData];
-        }
-    }];
+    if ([Login isLogin]) {
+        // 加载菜单数据
+        [[Coding_NetAPIManager sharedManager] get_quoteFunctions:^(id data, NSError *error) {
+            if (!error) {
+                [NSObject saveResponseData:data toPath:kPriceListData];
+            }
+        }];
+    }
 }
 
 - (void)viewDidLoad {
@@ -66,17 +65,24 @@
 
 // 检查有没有支付过1元
 - (void)checkPayed {
-    [[Coding_NetAPIManager sharedManager] get_payedBlock:^(id data, NSError *error) {
-        if (data) {
-            NSDictionary *dictionary = [data objectForKey:@"data"];
-            [User payedForPriceSystemData:dictionary];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"changePriceSystemViewController" object:nil];
-        }
-    }];
+    BOOL firstUse = [User payedForPriceSystem];
+    if (firstUse) {
+        [[Coding_NetAPIManager sharedManager] get_payedBlock:^(id data, NSError *error) {
+            if (data) {
+                NSDictionary *dictionary = [data objectForKey:@"data"];
+                [User payedForPriceSystemData:dictionary];
+                if (dictionary) {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"changePriceSystemViewController" object:nil];
+                }
+            }
+        }];
+    }
 }
 
 #pragma mark - First Time
 - (IBAction)startButtonPress:(id)sender {
+    if (![Login isLogin]) return;
+    [self showLogin];
     __weak typeof(self)weakSelf = self;
     self.chooseSystemPayView = [[ChooseSystemPayView alloc] init];
     self.chooseSystemPayView.payBlock = ^(NSInteger type){
@@ -86,6 +92,7 @@
 
 #pragma mark - handleSucessPay
 - (void)handlePayURL:(NSURL *)url{
+    
     if (_selectedPayMethod == 0) {
         __weak typeof(self) weakSelf = self;
         [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
@@ -119,6 +126,13 @@
     UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nav animated:YES completion:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"changePriceSystemViewController" object:nil];
+}
+
+- (void)showLogin {
+    if (![Login isLogin]) {
+        LoginViewController *vc = [LoginViewController storyboardVCWithUser:nil];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
 }
 
 #pragma mark - Second Time

@@ -18,6 +18,7 @@
 #import "JoinedRewardsViewController.h"
 #import "PublishedRewardsViewController.h"
 #import "SetIdentityViewController.h"
+#import "AppDelegate.h"
 
 typedef NS_ENUM(NSInteger, TabVCType) {
     TabVCTypeFind = 0,
@@ -114,26 +115,6 @@ typedef NS_ENUM(NSInteger, TabVCType) {
     return [[BaseNavigationController alloc] initWithRootViewController:vc];
 }
 
-- (void)customizeTabBarForController {
-    NSArray *tabBarItemImages = @[@"tab_rewards", @"tab_find", @"tab_publish", @"tab_price", @"tab_user"];
-    NSArray *tabBarItemTitles = @[@"首页", @"发现", @"发布", @"报价", @"个人中心"];
-    NSInteger index = 0;
-    for (RDVTabBarItem *item in self.tabBar.items) {
-        item.titlePositionAdjustment = UIOffsetMake(0, 3);
-        item.unselectedTitleAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:10],
-                                           NSForegroundColorAttributeName: [UIColor colorWithHexString:@"0xADBBCB"],
-                                           };
-        item.selectedTitleAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:10],
-                                         NSForegroundColorAttributeName: kColorBrandBlue,
-                                         };
-        UIImage *selectedimage = [UIImage imageNamed:[NSString stringWithFormat:@"%@_selected", tabBarItemImages[index]]];
-        UIImage *unselectedimage = [UIImage imageNamed:[NSString stringWithFormat:@"%@_normal", tabBarItemImages[index]]];
-        [item setFinishedSelectedImage:selectedimage withFinishedUnselectedImage:unselectedimage];
-        [item setTitle:[tabBarItemTitles objectAtIndex:index]];
-    }
-    self.delegate = self;
-}
-
 - (NSString *)p_tabImageNameWithTabType:(TabVCType)type{
     static NSArray *list;
     if (!list) {
@@ -211,13 +192,9 @@ typedef NS_ENUM(NSInteger, TabVCType) {
 }
 
 - (void)changePriceSystemViewController {
-    RootPriceViewController *priceVC = [RootPriceViewController storyboardVC];
-    UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:priceVC];
-    NSMutableArray *array = [NSMutableArray arrayWithArray:self.viewControllers];
-    [array replaceObjectAtIndex:3 withObject:nav];
-    [self setViewControllers:array];
-    [self customizeTabBarForController];
-    [self setSelectedIndex:3];
+    AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [appDelegate setupTabViewController];
+    [self setSelectedIndex:1];
 }
 
 @end

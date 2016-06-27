@@ -521,6 +521,9 @@
 #pragma mark - 二级菜单
 - (void)generateSecondMenu {
     [_secondMenuArray removeAllObjects];
+    if (_selectedFirstIndex >= _firstMenuArray.count) {
+        return;
+    }
     FunctionMenu *firstMenu = [_firstMenuArray objectAtIndex:_selectedFirstIndex];
     NSMutableDictionary *allMenuDict = [_data objectForKey:@"quotations"];
     
