@@ -160,7 +160,8 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (collectionView.indexPathsForSelectedItems.count == 0) {
+    NSInteger count = collectionView.indexPathsForSelectedItems.count;
+    if (count == 0) {
         [_cell setButtonEnable:NO];
     }
 }
