@@ -49,7 +49,7 @@
         [self checkPayed];
     }
     
-    if ([Login isLogin]) {
+    if ([Login isLogin] && !firstUse) {
         // 加载菜单数据
         [[Coding_NetAPIManager sharedManager] get_quoteFunctions:^(id data, NSError *error) {
             if (!error) {
@@ -92,7 +92,6 @@
 
 #pragma mark - handleSucessPay
 - (void)handlePayURL:(NSURL *)url{
-    
     if (_selectedPayMethod == 0) {
         __weak typeof(self) weakSelf = self;
         [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {

@@ -194,7 +194,7 @@ typedef NS_ENUM(NSUInteger, PriceSystemPayMethod) {
     }
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setObject:@"0.01" forKey:@"price"]; // 价格，固定参数
+    [params setObject:@"1" forKey:@"price"]; // 价格，固定参数
     [params setObject:_selectedPayMethod == PriceSystemPayMethodAlipay ? @"alipay" : @"wechat" forKey:@"platform"]; // 平台
     [params setObject:@"1" forKey:@"type"]; // 固定参数
     
