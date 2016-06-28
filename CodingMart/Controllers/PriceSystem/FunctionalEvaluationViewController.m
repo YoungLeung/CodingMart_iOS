@@ -1018,11 +1018,11 @@
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     if (scrollView == _secondMenuTableView) {
-        CGPoint contentOffsetPoint = _secondMenuTableView.contentOffset;
-//        CGRect frame = _secondMenuTableView.frame;
-        if (contentOffsetPoint.y > 0) {
+        CGFloat contentYoffset = scrollView.contentOffset.y;
+        
+        if (contentYoffset > 50.0f) {
             [self firstMenuScrollToNext];
-        } else {
+        } else if (contentYoffset < -50.0f){
             [self firstMenuScrollToPrev];
         }
     } else if (scrollView == _thirdMenuTableView) {
