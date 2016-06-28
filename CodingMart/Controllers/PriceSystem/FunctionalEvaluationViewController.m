@@ -654,19 +654,21 @@
     NSString *topMenu = [_selectedMenuArray objectAtIndex:_selectedIndex];
     NSMutableArray *array = [NSMutableArray array];
     if ([_shoppingDict objectForKey:topMenu]) {
-        array = [NSMutableArray arrayWithArray:[_shoppingDict objectForKey:topMenu]];
+        [array addObjectsFromArray:[_shoppingDict objectForKey:topMenu]];
     }
     
     // 移除用户点击的数据
     FunctionMenu *menu = [_secondMenuArray objectAtIndex:indexPath.section];
     NSArray *thirdMenuArray = [_thirdMenuDict objectForKey:menu.code];
     FunctionMenu *thirdMenu = [thirdMenuArray objectAtIndex:indexPath.row];
-    if ([array containsObject:thirdMenu]) {
-        [array removeObject:thirdMenu];
-        if (array.count) {
-            [_shoppingDict setObject:[array copy] forKey:topMenu];
-        } else {
-            [_shoppingDict removeObjectForKey:topMenu];
+    for (FunctionMenu *tempMenu in [NSArray arrayWithArray:array]) {
+        if ([tempMenu.code isEqualToString:thirdMenu.code]) {
+            [array removeObject:tempMenu];
+            if (array.count) {
+                [_shoppingDict setObject:[NSArray arrayWithArray:array] forKey:topMenu];
+            } else {
+                [_shoppingDict removeObjectForKey:topMenu];
+            }
         }
     }
 }
@@ -910,6 +912,24 @@
             [cell updateCell:menu];
         }
         return cell;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView == _thirdMenuTableView){
+        FunctionMenu *menu = [_secondMenuArray objectAtIndex:indexPath.section];
+        NSArray *thirdMenuArray = [_thirdMenuDict objectForKey:menu.code];
+        FunctionMenu *thirdMenu = [thirdMenuArray objectAtIndex:indexPath.row];
+        // 循环购物车判断是否选中该item
+        NSArray *selectedArray = [_shoppingDict objectForKey:[_selectedMenuArray objectAtIndex:_selectedIndex]];
+        if (selectedArray.count) {
+            for (FunctionMenu *selectedMenu in selectedArray) {
+                if ([selectedMenu.code isEqualToString:thirdMenu.code]) {
+                    [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+                }
+            }
+        }
     }
 }
 

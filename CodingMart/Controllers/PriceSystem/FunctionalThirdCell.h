@@ -12,6 +12,7 @@
 @interface FunctionalThirdCell : UITableViewCell
 
 - (void)updateCell:(FunctionMenu *)menu;
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated;
 + (NSString *)cellID;
 + (NSString *)cellNumberID;
 + (float)cellHeight:(FunctionMenu *)menu;
