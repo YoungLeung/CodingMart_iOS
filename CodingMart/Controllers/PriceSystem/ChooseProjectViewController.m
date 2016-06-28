@@ -178,6 +178,12 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
     if (count == 0) {
         [_cell setButtonEnable:NO];
     }
+    if (count == 1) {
+        NSIndexPath *oneIndexPath = [collectionView.indexPathsForVisibleItems lastObject];
+        if (oneIndexPath.section == 1) {
+            [_cell setButtonEnable:NO];
+        }
+    }
 }
 
 #pragma mark <UICollectionViewDelegate>
