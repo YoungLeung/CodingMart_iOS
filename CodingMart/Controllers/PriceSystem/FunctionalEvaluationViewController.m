@@ -663,6 +663,9 @@
     FunctionMenu *thirdMenu = [thirdMenuArray objectAtIndex:indexPath.row];
     for (FunctionMenu *tempMenu in [NSArray arrayWithArray:array]) {
         if ([tempMenu.code isEqualToString:thirdMenu.code]) {
+            if ([tempMenu.is_default isEqual:@0]) {
+                _notDefaultItemCount--;
+            }
             [array removeObject:tempMenu];
             if (array.count) {
                 [_shoppingDict setObject:[NSArray arrayWithArray:array] forKey:topMenu];
@@ -1156,11 +1159,12 @@
             // 计算结果
             _calcButton = [UIButton buttonWithType:UIButtonTypeCustom];
             [_calcButton setTitle:@"计算结果" forState:UIControlStateNormal];
-            [_calcButton setTitleColor:[UIColor colorWithHexString:@"ffffff" andAlpha:0.5f] forState:UIControlStateNormal];
+            [_calcButton setTitleColor:[UIColor colorWithHexString:@"ffffff" andAlpha:1.0f] forState:UIControlStateNormal];
+            [_calcButton setTitleColor:[UIColor colorWithHexString:@"ffffff" andAlpha:0.5f] forState:UIControlStateDisabled];
             [_calcButton.titleLabel setFont:[UIFont systemFontOfSize:16.0f]];
             [_calcButton setBackgroundColor:[UIColor colorWithHexString:@"4289DB"]];
             [_calcButton setFrame:CGRectMake(_bottomMenuView.frame.size.width *(1 - 0.36), 0, _bottomMenuView.frame.size.width * 0.36, _bottomMenuView.frame.size.height)];
-            [_calcButton setUserInteractionEnabled:NO];
+            [_calcButton setEnabled:NO];
             [_calcButton addTarget:self action:@selector(calcPrice) forControlEvents:UIControlEventTouchUpInside];
             
             [_bottomMenuView addSubview:_bubbleView];
@@ -1175,30 +1179,23 @@
         } else {
             [_bubbleView setHidden:NO];
             [_numberLabel setHidden:NO];
-            [_calcButton setHidden:NO];
             if (_notDefaultItemCount >= 5) {
-                [_calcButton setUserInteractionEnabled:YES];
                 [_bottomMenuLabel setText:nil];
-                [_calcButton.titleLabel setTextColor:[UIColor colorWithHexString:@"ffffff" andAlpha:1.0f]];
+                [_calcButton setEnabled:YES];
                 if ([_webPageNumber isEqual:@0] && [[_selectedMenuArray objectAtIndex:_selectedIndex] isEqualToString:@"前端项目"]) {
+                    [_calcButton setEnabled:NO];
                     [_bottomMenuLabel setText:@"请选择前端项目页面数量"];
-                    [_calcButton setUserInteractionEnabled:NO];
-                    [_calcButton.titleLabel setTextColor:[UIColor colorWithHexString:@"ffffff" andAlpha:0.5f]];
                 }
             } else {
-                [_calcButton setHidden:NO];
-                [_calcButton setUserInteractionEnabled:NO];
+                [_calcButton setEnabled:NO];
                 [_bottomMenuLabel setText:@"请至少选择5个非默认选项"];
-                [_calcButton.titleLabel setTextColor:[UIColor colorWithHexString:@"ffffff" andAlpha:0.5f]];
             }
             [_numberLabel setText:[NSString stringWithFormat:@"%ld", count+(_webPageNumber.intValue > 0 ? 1 : 0)]];
         }
     } else {
         [_bubbleView setHidden:YES];
         [_numberLabel setHidden:YES];
-        [_calcButton setHidden:NO];
-        [_calcButton setUserInteractionEnabled:NO];
-        [_calcButton.titleLabel setTextColor:[UIColor colorWithHexString:@"ffffff" andAlpha:0.5f]];
+        [_calcButton setEnabled:NO];
     }
 }
 
