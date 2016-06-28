@@ -31,7 +31,6 @@
     [self.tableView registerClass:[PriceListCell class] forCellReuseIdentifier:[PriceListCell cellID]];
     [self.tableView eaAddPullToRefreshAction:@selector(refresh) onTarget:self];
     [self refresh];
-    [self.tableView setHidden:YES];
 }
 
 - (void)refresh {
