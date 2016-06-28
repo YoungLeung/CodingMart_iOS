@@ -91,7 +91,7 @@
     [self setupNavBarBtn];
     BOOL isDeveloper = [_curUser isDeveloper];
     [_userInfoIconV setImage:[UIImage imageNamed:isDeveloper? @"icon_userinfo_ certify": @"icon_userinfo_ info"]];
-    _userInfoL.text = isDeveloper? @"认证成为码士": @"个人信息";
+    _userInfoL.text = isDeveloper? @"成为认证码士": @"个人信息";
     _developerPassL.hidden = ![Login isLogin] || [_curUser canJoinReward];
     [_fillUserInfoBtn setTitle:_curUser.name forState:UIControlStateNormal];
     [_user_iconV sd_setImageWithURL:[_curUser.avatar urlWithCodingPath] placeholderImage:[UIImage imageNamed:@"placeholder_user"]];
