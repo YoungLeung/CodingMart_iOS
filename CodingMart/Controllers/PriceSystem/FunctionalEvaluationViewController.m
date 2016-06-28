@@ -852,7 +852,13 @@
         }
         FunctionMenu *menu = [_secondMenuArray objectAtIndex:section];
         NSArray *array = [menu.children componentsSeparatedByString:@","];
-        return array.count;
+        NSInteger count = 0;
+        for (NSString *str in array) {
+            if (str.length) {
+                count++;
+            }
+        }
+        return count;
     } else if (tableView == _shoppingCarTableView) {
         NSArray *keyArray = [_shoppingDict allKeys];
         NSString *key = [keyArray objectAtIndex:section];
