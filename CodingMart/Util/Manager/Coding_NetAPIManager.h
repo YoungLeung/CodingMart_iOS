@@ -104,5 +104,5 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)post_savePrice:(NSDictionary *)params block:(void (^)(id data, NSError *error))block;
 - (void)get_priceList:(void (^)(id data, NSError *error))block;
 - (void)post_shareLink:(NSDictionary *)params block:(void (^)(id data, NSError *error))block;
-
+- (void)get_priceH5Data:(NSDictionary *)params block:(void (^)(id data, NSError *error))block;
 @end
