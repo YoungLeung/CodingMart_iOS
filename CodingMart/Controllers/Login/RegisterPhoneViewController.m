@@ -40,7 +40,7 @@
                              @"iso_code": @"cn"};
     
     __weak typeof(self) weakSelf = self;
-    [_footerL addLinkToStr:@"《码市用户协议》" value:nil hasUnderline:YES clickedBlock:^(id value) {
+    [_footerL addLinkToStr:@"《码市用户服务协议》" value:nil hasUnderline:YES clickedBlock:^(id value) {
         [weakSelf goToServiceTerms];
     }];
     
@@ -115,7 +115,7 @@
 #pragma mark goTo
 - (void)goToServiceTerms{
     NSString *pathForServiceterms = [[NSBundle mainBundle] pathForResource:@"service_terms" ofType:@"html"];
-    [self goToWebVCWithUrlStr:pathForServiceterms title:@"用户协议"];
+    [self goToWebVCWithUrlStr:pathForServiceterms title:@"码市用户服务协议"];
 }
 
 #pragma mark - Navigation
