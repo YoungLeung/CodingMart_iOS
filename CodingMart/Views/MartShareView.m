@@ -291,6 +291,8 @@
         title = @"悬赏分享到";
     }else if ([_objToShare isKindOfClass:[UIWebView class]]){
         title = @"链接分享到";
+    }else if ([_objToShare isKindOfClass:[NSURL class]]){
+        title = @"链接分享到";
     }else{
         title = @"App 分享到";
     }
@@ -303,6 +305,8 @@
         linkStr = [(Reward *)_objToShare toShareLinkStr];
     }else if ([_objToShare isKindOfClass:[UIWebView class]]){
         linkStr = [(UIWebView *)_objToShare request].URL.absoluteString;
+    }else if ([_objToShare isKindOfClass:[NSURL class]]){
+        linkStr = [(NSURL *)_objToShare absoluteString];
     }else{
         linkStr = [NSObject baseURLStr];
     }

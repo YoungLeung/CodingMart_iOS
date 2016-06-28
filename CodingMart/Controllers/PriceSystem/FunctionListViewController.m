@@ -15,9 +15,9 @@
 @interface FunctionListViewController ()
 
 @property (strong, nonatomic) NSString *shareLink;
-@property (strong, nonatomic) UIWebView *webView;
 @property (strong, nonatomic) NSDictionary *dataDict;
 @property (strong, nonatomic) UIView *topView;
+@property (strong, nonatomic) NSURL *shareURL;
 
 @end
 
@@ -32,7 +32,7 @@
     }
 
     _dataDict = [NSDictionary dictionary];
-
+    
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:scrollView];
     
@@ -94,11 +94,8 @@
 }
 
 - (void)rightBarButtonItemClicked {
-    _webView = [[UIWebView alloc] init];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:_shareLink]];
-    [_webView loadRequest:request];
-    [MartShareView showShareViewWithObj:_webView];
-    [_webView stopLoading];
+    _shareURL = [NSURL URLWithString:_shareLink];
+    [MartShareView showShareViewWithObj:_shareURL];
 }
 
 - (void)generateAndLoadH5Data {
