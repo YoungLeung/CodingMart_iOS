@@ -635,6 +635,24 @@
 
 #pragma mark - 购物车
 - (void)generateShoppingCarData:(NSIndexPath *)indexPath {
+    // 检查是否是单选
+    // 获取二级菜单
+    FunctionMenu *secondMenu = [_secondMenuArray objectAtIndex:indexPath.section];
+    if ([secondMenu.dom_type isEqual:@2]) {
+        // 如果是单选选项的话，清空其他cell选中状态
+        for (int i = 0; i < _secondMenuArray.count; i++) {
+            if (i != indexPath.row) {
+                NSIndexPath *theIndexPath = [NSIndexPath indexPathForRow:i inSection:indexPath.section];
+                FunctionalSecondMenuCell *cell = [_thirdMenuTableView cellForRowAtIndexPath:theIndexPath];
+                if (cell.selected) {
+                    [cell setSelected:NO animated:YES];
+                    [self removeShoppingCarData:theIndexPath];
+                    [self updateShoppingCar];
+                }
+            }
+        }
+    }
+    
     // 获取主菜单
     NSString *topMenu = [_selectedMenuArray objectAtIndex:_selectedIndex];
     NSMutableArray *array = [NSMutableArray array];
