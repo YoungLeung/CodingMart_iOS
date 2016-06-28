@@ -133,6 +133,15 @@
         
         // 三级菜单
         for (FunctionMenu *menu in secondMenuArray) {
+            if ([menu.dom_type isEqual:@2]) {
+                // 单选框默认添加第一个
+                NSArray *array = [menu.children componentsSeparatedByString:@","];
+                NSString *str = [array firstObject];
+                if (str.length) {
+                    FunctionMenu *thirdMenu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:str]];
+                    [defalutArray addObject:thirdMenu];
+                }
+            }
             NSArray *array = [menu.children componentsSeparatedByString:@","];
             for (NSString *str in array) {
                 if (str.length) {
