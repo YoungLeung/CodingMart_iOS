@@ -1056,9 +1056,9 @@
     if (scrollView == _secondMenuTableView) {
         CGFloat contentYoffset = scrollView.contentOffset.y;
         
-        if (contentYoffset > 50.0f) {
+        if (contentYoffset > 100.0f) {
             [self firstMenuScrollToNext];
-        } else if (contentYoffset < -50.0f){
+        } else if (contentYoffset < -100.0f){
             [self firstMenuScrollToPrev];
         }
     } else if (scrollView == _thirdMenuTableView) {
