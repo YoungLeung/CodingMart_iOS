@@ -31,6 +31,7 @@
     [self.tableView registerClass:[PriceListCell class] forCellReuseIdentifier:[PriceListCell cellID]];
     [self.tableView eaAddPullToRefreshAction:@selector(refresh) onTarget:self];
     [self refresh];
+    [self setExtraCellLineHidden:self.tableView];
 }
 
 - (void)refresh {
@@ -91,7 +92,13 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-
+#pragma mark - 去除多余分割线
+- (void)setExtraCellLineHidden:(UITableView *)tableView{
+    UIView *view =[ [UIView alloc]init];
+    view.backgroundColor = [UIColor clearColor];
+    [tableView setTableFooterView:view];
+    [tableView setTableHeaderView:view];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
