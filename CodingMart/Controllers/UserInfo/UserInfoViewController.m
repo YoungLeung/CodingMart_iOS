@@ -55,10 +55,10 @@
     UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, 49, 0);
     self.tableView.contentInset = self.tableView.scrollIndicatorInsets = insets;
     
-    _tableHeaderView.height = (400.0/750 * kScreen_Width - [self navBottomY]);
+    _tableHeaderView.height = (450.0/750 * kScreen_Width - [self navBottomY]);
     self.tableView.tableHeaderView = _tableHeaderView;
     _user_iconV.layer.masksToBounds = YES;
-    _user_iconV.layer.cornerRadius = 0.09 * kScreen_Width;
+    _user_iconV.layer.cornerRadius = 150.0/750 * kScreen_Width/2;
 
     __weak typeof(self) weakSelf = self;
     [_headerBGV bk_whenTapped:^{
