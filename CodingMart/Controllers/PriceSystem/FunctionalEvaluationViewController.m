@@ -1208,10 +1208,10 @@
         } else {
             [_bubbleView setHidden:NO];
             [_numberLabel setHidden:NO];
-            if (_notDefaultItemCount >= 5) {
+            if (_notDefaultItemCount >= 5 || (_selectedMenuArray.count == 2 &&[_selectedMenuArray containsObject:@"前端项目"])) {
                 [_bottomMenuLabel setText:nil];
                 [_calcButton setEnabled:YES];
-                if ([_webPageNumber isEqual:@0] && [[_selectedMenuArray objectAtIndex:_selectedIndex] isEqualToString:@"前端项目"]) {
+                if ([_webPageNumber isEqual:@0] && [_selectedMenuArray containsObject:@"前端项目"]) {
                     [_calcButton setEnabled:NO];
                     [_bottomMenuLabel setText:@"请选择前端项目页面数量"];
                 }
