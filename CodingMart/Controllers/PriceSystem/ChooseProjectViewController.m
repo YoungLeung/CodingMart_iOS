@@ -165,6 +165,7 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
     float count = collectionView.indexPathsForSelectedItems.count;
     if (indexPath.section == 1) {
         count--;
+        [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     }
     if (count > 0) {
         [_cell setButtonEnable:YES];
