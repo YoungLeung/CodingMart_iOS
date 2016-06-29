@@ -141,20 +141,16 @@
                     FunctionMenu *thirdMenu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:str]];
                     [defalutArray addObject:thirdMenu];
                 }
-            }
-            NSArray *array = [menu.children componentsSeparatedByString:@","];
-            for (NSString *str in array) {
-                if (str.length) {
-                    FunctionMenu *thirdMenu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:str]];
-                    [thirdMenuArray addObject:thirdMenu];
+            } else {
+                NSArray *array = [menu.children componentsSeparatedByString:@","];
+                for (NSString *str in array) {
+                    if (str.length) {
+                        FunctionMenu *thirdMenu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:str]];
+                        if ([thirdMenu.is_default isEqual:@1]) {
+                            [defalutArray addObject:thirdMenu];
+                        }
+                    }
                 }
-            }
-        }
-        
-        // 从全部功能中寻找默认数据
-        for (FunctionMenu *menu in thirdMenuArray) {
-            if ([menu.is_default isEqual:@1]) {
-                [defalutArray addObject:menu];
             }
         }
         
