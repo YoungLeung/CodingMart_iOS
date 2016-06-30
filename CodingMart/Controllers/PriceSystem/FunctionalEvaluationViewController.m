@@ -1201,7 +1201,11 @@
             [_bottomMenuView addSubview:_calcButton];
             
             if (_notDefaultItemCount < 5) {
-                [_bottomMenuLabel setText:@"请至少选择5个非默认选项"];
+                if (_selectedMenuArray.count == 2 &&[_selectedMenuArray containsObject:@"前端项目"]) {
+                    [_bottomMenuLabel setText:@"请选择前端项目页面数量"];
+                } else {
+                    [_bottomMenuLabel setText:@"请至少选择5个非默认选项"];
+                }
             } else if ([_webPageNumber isEqual:@0] && [[_selectedMenuArray objectAtIndex:_selectedIndex] isEqualToString:@"前端项目"]) {
                 [_bottomMenuLabel setText:@"请选择前端项目页面数量"];
             }
