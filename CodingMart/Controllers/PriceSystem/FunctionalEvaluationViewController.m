@@ -1243,42 +1243,53 @@
     NSMutableDictionary *allMenuDict = [_data objectForKey:@"quotations"];
     NSMutableString *string = [NSMutableString string];
     NSArray *keyArray = [_shoppingDict allKeys];
+    NSMutableArray *categoryArray = [NSMutableArray array];
+    NSMutableArray *modelArray = [NSMutableArray array];
+    NSMutableArray *platformArray = [NSMutableArray array];
+    
+    // 找出所有catrgory&model
     for (int i = 0; i < keyArray.count; i++) {
-        NSString *key = [keyArray objectAtIndex:i];
-        NSArray *thirdMenuArray = [_shoppingDict objectForKey:key];
-        
-        // 平台
         NSString *platform = [_menuIDArray objectAtIndex:i];
-        
-        NSMutableArray *secondArray = [NSMutableArray array];
         FunctionMenu *firstMenu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:platform]];
+        [platformArray addObject:firstMenu];
         NSString *children = firstMenu.children;
         NSArray *childrenArray = [children componentsSeparatedByString:@","];
         for (int i = 0; i < childrenArray.count; i++) {
-            FunctionMenu *menu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:childrenArray[i]]];
-            NSArray *modelChildArray = [menu.children componentsSeparatedByString:@","];
+            FunctionMenu *category = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:childrenArray[i]]];
+            NSArray *modelChildArray = [category.children componentsSeparatedByString:@","];
+            [categoryArray addObject:category];
             for (NSString *str in modelChildArray) {
                 if (str.length) {
                     FunctionMenu *modelMenu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:str]];
-                    [secondArray addObject:modelMenu];
+                    [modelArray addObject:modelMenu];
                 }
             }
         }
+    }
+    
+    for (int i = 0; i < keyArray.count; i++) {
+        NSString *key = [keyArray objectAtIndex:i];
+        NSArray *thirdMenuArray = [_shoppingDict objectForKey:key];
 
-        [secondArray removeObject:@"页面数量"];
-        
         for (int j = 0; j < thirdMenuArray.count; j++) {
-            [string appendFormat:@"%@>", platform];
-            // 分类
-            FunctionMenu *firstMenu = [_firstMenuArray objectAtIndex:_selectedFirstIndex];
-            [string appendFormat:@"%@>", firstMenu.code];
-            
-            // 模块
             FunctionMenu *thirdMenu = [thirdMenuArray objectAtIndex:j];
-            
-            for (FunctionMenu *m in secondArray) {
-                if ([m.children containsString:thirdMenu.code]) {
-                    [string appendFormat:@"%@>", m.code];
+            for (FunctionMenu *model in modelArray) {
+                if ([model.children containsString:thirdMenu.code]) {
+                    for (FunctionMenu *category in categoryArray) {
+                        if ([category.children containsString:model.code]) {
+                            // 平台
+                            for (FunctionMenu *platform in platformArray) {
+                                if ([platform.children containsString:category.code]) {
+                                    [string appendFormat:@"%@>", platform.code];
+                                }
+                            }
+
+                            // 分类
+                            [string appendFormat:@"%@>", category.code];
+                        }
+                    }
+                    // 模块
+                    [string appendFormat:@"%@>", model.code];
                 }
             }
             
