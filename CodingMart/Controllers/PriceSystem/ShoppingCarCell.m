@@ -28,7 +28,7 @@
         [_titleLabel setTextColor:[UIColor colorWithHexString:@"222222"]];
         
         _addButton = [[UIImageView alloc] initWithFrame:CGRectMake(kScreen_Width - 40, 11, 20, 20)];
-        [_addButton setImage:[UIImage imageNamed:@"price_menu_cancel"]];
+        [_addButton setImage:[UIImage imageNamed:@"price_selected"]];
 
         [self addSubview:_titleLabel];
         [self addSubview:_addButton];

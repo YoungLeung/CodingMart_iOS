@@ -1240,6 +1240,7 @@
 
 #pragma mark - 计算结果
 - (void)calcPrice {
+    NSMutableDictionary *allMenuDict = [_data objectForKey:@"quotations"];
     NSMutableString *string = [NSMutableString string];
     NSArray *keyArray = [_shoppingDict allKeys];
     for (int i = 0; i < keyArray.count; i++) {
@@ -1249,7 +1250,21 @@
         // 平台
         NSString *platform = [_menuIDArray objectAtIndex:i];
         
-        NSMutableArray *secondArray = [NSMutableArray arrayWithArray:_secondMenuArray];
+        NSMutableArray *secondArray = [NSMutableArray array];
+        FunctionMenu *firstMenu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:platform]];
+        NSString *children = firstMenu.children;
+        NSArray *childrenArray = [children componentsSeparatedByString:@","];
+        for (int i = 0; i < childrenArray.count; i++) {
+            FunctionMenu *menu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:childrenArray[i]]];
+            NSArray *modelChildArray = [menu.children componentsSeparatedByString:@","];
+            for (NSString *str in modelChildArray) {
+                if (str.length) {
+                    FunctionMenu *modelMenu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:str]];
+                    [secondArray addObject:modelMenu];
+                }
+            }
+        }
+
         [secondArray removeObject:@"页面数量"];
         
         for (int j = 0; j < thirdMenuArray.count; j++) {
@@ -1259,11 +1274,15 @@
             [string appendFormat:@"%@>", firstMenu.code];
             
             // 模块
-            FunctionMenu *secondMenu = [secondArray objectAtIndex:_selectedSecondIndex];
-            [string appendFormat:@"%@>", secondMenu.code];
+            FunctionMenu *thirdMenu = [thirdMenuArray objectAtIndex:j];
+            
+            for (FunctionMenu *m in secondArray) {
+                if ([m.children containsString:thirdMenu.code]) {
+                    [string appendFormat:@"%@>", m.code];
+                }
+            }
             
             // 功能
-            FunctionMenu *thirdMenu = [thirdMenuArray objectAtIndex:j];
             if (i == keyArray.count - 1 && j == thirdMenuArray.count - 1) {
                 [string appendFormat:@"%@", thirdMenu.code];
             } else {
