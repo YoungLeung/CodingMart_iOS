@@ -194,7 +194,8 @@ typedef NS_ENUM(NSInteger, TabVCType) {
 - (void)changePriceSystemViewController {
     AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [appDelegate setupTabViewController];
-    [self setSelectedIndex:1];
+    RootTabViewController *rootVC = (RootTabViewController *)appDelegate.window.rootViewController;
+    [rootVC setSelectedIndex:1];
 }
 
 @end

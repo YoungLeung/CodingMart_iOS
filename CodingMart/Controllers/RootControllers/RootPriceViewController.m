@@ -7,7 +7,6 @@
 //
 
 #import "RootPriceViewController.h"
-#import "ChooseSystemPayView.h"
 #import "User.h"
 #import "Coding_NetAPIManager.h"
 #import "PriceSystemPaySuccessViewController.h"
@@ -22,7 +21,6 @@
 @interface RootPriceViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *startSystemButton;
-@property (strong, nonatomic) ChooseSystemPayView *chooseSystemPayView;
 @property (assign, nonatomic) NSInteger selectedPayMethod;
 
 @end
@@ -117,6 +115,7 @@
 }
 
 - (void)paySuccess {
+    [self checkPayed];
     [self.chooseSystemPayView dismiss];
     [[NSUserDefaults standardUserDefaults] setObject:@{@"payed":@"YES"} forKey:@"payedForPriceSystem"];
     [[NSUserDefaults standardUserDefaults] synchronize];

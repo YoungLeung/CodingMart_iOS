@@ -7,8 +7,11 @@
 //
 
 #import "BaseViewController.h"
+#import "ChooseSystemPayView.h"
 
 @interface RootPriceViewController : BaseViewController
+
+@property (strong, nonatomic) ChooseSystemPayView *chooseSystemPayView;
 
 + (instancetype)storyboardVC;
 - (void)handlePayURL:(NSURL *)url;

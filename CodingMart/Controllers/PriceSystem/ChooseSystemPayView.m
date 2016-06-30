@@ -16,6 +16,7 @@
 #import <UMengSocial/WXApi.h>
 #import <UMengSocial/WXApiObject.h>
 #import <AlipaySDK/AlipaySDK.h>
+#import "User.h"
 
 typedef NS_ENUM(NSUInteger, PriceSystemPayMethod) {
     /// 支付宝支付
@@ -243,10 +244,23 @@ typedef NS_ENUM(NSUInteger, PriceSystemPayMethod) {
 - (void)handleAliResult:(NSDictionary *)resultDic{
     if ([resultDic[@"resultStatus"] integerValue] == 9000) {
         [NSObject showHudTipStr:@"支付成功"];
+        [self checkPayed];
     }else{
         NSString *tipStr = resultDic[@"memo"];
         [NSObject showHudTipStr:tipStr.length > 0? tipStr: @"支付失败"];
     }
+}
+
+- (void)checkPayed {
+    [[Coding_NetAPIManager sharedManager] get_payedBlock:^(id data, NSError *error) {
+        if (data) {
+            NSDictionary *dictionary = [data objectForKey:@"data"];
+            [User payedForPriceSystemData:dictionary];
+            if (dictionary) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"changePriceSystemViewController" object:nil];
+            }
+        }
+    }];
 }
 
 #pragma mark - app url
