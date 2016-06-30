@@ -110,7 +110,6 @@
         NSMutableDictionary *allMenuDict = [_data objectForKey:@"quotations"];
         NSMutableArray *firstMenuArray = [NSMutableArray array];
         NSMutableArray *secondMenuArray = [NSMutableArray array];
-        NSMutableArray *thirdMenuArray = [NSMutableArray array];
         NSMutableArray *defalutArray = [NSMutableArray array];
 
         // 一级菜单
@@ -642,6 +641,7 @@
                 FunctionalSecondMenuCell *cell = [_thirdMenuTableView cellForRowAtIndexPath:theIndexPath];
                 if (cell.selected) {
                     [cell setSelected:NO animated:YES];
+                    [_thirdMenuTableView deselectRowAtIndexPath:theIndexPath animated:NO];
                     [self removeShoppingCarData:theIndexPath];
                     [self updateShoppingCar];
                 }
@@ -958,7 +958,7 @@
         if (selectedArray.count) {
             for (FunctionMenu *selectedMenu in selectedArray) {
                 if ([selectedMenu.code isEqualToString:thirdMenu.code]) {
-                    [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+                    [cell setSelected:YES animated:NO];
                 }
             }
         }
