@@ -39,6 +39,7 @@
         return;
     }
     _isLoading = YES;
+    [self.view beginLoading];
     __weak typeof(self)weakSelf = self;
     [[Coding_NetAPIManager sharedManager] get_priceList:^(id data, NSError *error) {
         _isLoading = NO;
@@ -47,6 +48,7 @@
             weakSelf.dataList = data;
             [weakSelf.tableView.pullRefreshCtrl endRefreshing];
             [weakSelf.tableView reloadData];
+            [weakSelf.view endLoading];
         }
     }];
 }
