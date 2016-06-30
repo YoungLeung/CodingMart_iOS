@@ -99,61 +99,34 @@
 }
 
 - (void)generateAndLoadH5Data {
-    NSArray *itemsArray = [NSObject arrayFromJSON:_dataDict[@"items"] ofObjects:@"FunctionMenu"];
-    NSMutableArray *menuArray = [NSMutableArray array];
-    for (FunctionMenu *m in itemsArray) {
-        if ([m.type isEqual:@1]) {
-            [menuArray addObject:m];
+//    由扁平数据整理出树状关系
+    NSArray *platformItems = [_dataDict[@"items"] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"parentCode.length = 0"]];//根节点，对应平台
+    NSMutableArray *platformList = @[].mutableCopy;
+    for (NSDictionary *platform in platformItems) {
+        NSMutableDictionary *platformDict = @{@"platform": platform[@"title"]}.mutableCopy;
+        NSArray *categoryItems = [_dataDict[@"items"] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"parentCode = %@", platform[@"code"]]];//某平台下的分类
+        NSMutableArray *categoryList = @[].mutableCopy;
+        for (NSDictionary *category in categoryItems) {
+            NSMutableDictionary *categoryDict = @{@"name": category[@"title"]}.mutableCopy;
+            NSArray *moduleItems = [_dataDict[@"items"] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"parentCode = %@", category[@"code"]]];//某分类下的模块
+            NSMutableArray *moduleList = @[].mutableCopy;
+            for (NSDictionary *module in moduleItems) {
+                NSMutableDictionary *moduleDict = @{@"name": module[@"title"]}.mutableCopy;
+                NSArray *functionItems = [_dataDict[@"items"] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"parentCode = %@", module[@"code"]]];//某模块下的功能点
+                NSMutableArray *functionList = [functionItems valueForKey:@"title"];
+                moduleDict[@"function"] = functionList;
+                [moduleList addObject:moduleDict];
+            }
+            categoryDict[@"module"] = moduleList;
+            [categoryList addObject:categoryDict];
         }
+        platformDict[@"category"] = categoryList;
+        [platformList addObject:platformDict];
     }
-    
-    // 生成HTML数据
-    NSMutableString *h5String = [NSMutableString stringWithFormat:@"["];
-    for (int i = 0; i < menuArray.count; i++) {
-        // 平台
-        FunctionMenu *menu = [menuArray objectAtIndex:i];
-        NSString *platform = menu.title;
-        [h5String appendFormat:@"{\"platform\":\"%@\", \"category\":[{", platform];
-        
-        // 循环分类、模块、具体商品
-        // 分类数据
-        NSMutableArray *categoryArray = [NSMutableArray array];
-        for (FunctionMenu *m in itemsArray) {
-            if ([m.parentCode isEqual:menu.code]) {
-                [categoryArray addObject:m];
-            }
-        }
-        for (int j = 0; j < categoryArray.count; j++) {
-            //  分类
-            FunctionMenu *categoryMenu = [categoryArray objectAtIndex:j];
-            NSString *name = categoryMenu.title;
-            [h5String appendFormat:@"\"name\":\"%@\", \"module\":[{\"function\":[", name];
-            // 模块数据
-            NSMutableArray *modelArray = [NSMutableArray array];
-            for (FunctionMenu *m in itemsArray) {
-                if ([m.parentCode isEqual:categoryMenu.code]) {
-                    [modelArray addObject:m];
-                }
-            }
-            // 具体商品数据
-            for (int k = 0; k < modelArray.count; k++) {
-                FunctionMenu *modelMenu = [modelArray objectAtIndex:i];
-                for (FunctionMenu *m in itemsArray) {
-                    if ([m.parentCode isEqual:modelMenu.code]) {
-                        [h5String appendFormat:@"\"%@\",", m.title];
-                    }
-                }
-                [h5String appendFormat:@"], \"name\":\"%@\"}]", modelMenu.title];
-            }
-            
-            if (j+1 == categoryArray.count) {
-                [h5String appendString:@"}],"];
-            }
-        }
-        [h5String appendString:@"},"];
-    }
-    [h5String appendString:@"]"];
-    
+//    将数据转成对应的 json 字符串
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:platformList options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *h5String = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+//    填充 web 视图
     NSError *error = nil;
     NSString *string = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PriceH5File" ofType:@"html"] encoding:NSUTF8StringEncoding error:&error];
     string = [string stringByReplacingOccurrencesOfString:@"${webview_content}" withString:h5String];
