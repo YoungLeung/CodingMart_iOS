@@ -38,7 +38,7 @@
         [_contentLabel setTextAlignment:NSTextAlignmentNatural];
         
         _addButton = [[UIImageView alloc] initWithFrame:CGRectMake(width - 35, CGRectGetMaxY(_titleLabel.frame) + 5, 20, 20)];
-        [_addButton setImage:[UIImage imageNamed:@"price_menu_add"]];
+        [_addButton setImage:[UIImage imageNamed:@"price_unselected"]];
         
         [self addSubview:_titleLabel];
         [self addSubview:_contentLabel];
@@ -61,9 +61,9 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
     if (selected) {
-        [_addButton setImage:[UIImage imageNamed:@"price_menu_cancel"]];
+        [_addButton setImage:[UIImage imageNamed:@"price_selected"]];
     } else {
-        [_addButton setImage:[UIImage imageNamed:@"price_menu_add"]];
+        [_addButton setImage:[UIImage imageNamed:@"price_unselected"]];
     }
 }
 
