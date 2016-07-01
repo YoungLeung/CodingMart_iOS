@@ -37,6 +37,7 @@
     _idL.text = [NSString stringWithFormat:@" No.%@  ", _curReward.id.stringValue];
     _roleTypesL.text = _curReward.roleTypesDisplay;
     UIColor *diffColor = [UIColor colorWithHexString:@"0xF5A623"];
+    _priceL.font = _typeL.font = _durationL.font = [UIFont systemFontOfSize:kDevice_Is_iPhone6 || kDevice_Is_iPhone6Plus? 14: 12];
     [_priceL setAttrStrWithStr:[NSString stringWithFormat:@"金额：%@", _curReward.format_price] diffColorStr:_curReward.format_price diffColor:diffColor];
     [_typeL setAttrStrWithStr:[NSString stringWithFormat:@"类型：%@", _curReward.typeDisplay] diffColorStr:_curReward.typeDisplay diffColor:diffColor];
     [_durationL setAttrStrWithStr:[NSString stringWithFormat:@"周期：%@ 天", _curReward.duration.stringValue] diffColorStr:_curReward.duration.stringValue diffColor:diffColor];
