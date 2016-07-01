@@ -1303,47 +1303,85 @@
     }
     
     // 生成HTML数据
-    NSMutableString *h5String = [NSMutableString stringWithFormat:@"["];
-    for (int i = 0; i < keyArray.count; i++) {
+    NSMutableArray *platformList = @[].mutableCopy;
+    for (int i = 0; i < platformArray.count; i++) {
+        FunctionMenu *platformMenu = [platformArray objectAtIndex:i];
+        NSMutableDictionary *platformDict = @{@"platform":platformMenu.title}.mutableCopy;
+        NSMutableArray *categoryList = @[].mutableCopy;
         NSString *key = [keyArray objectAtIndex:i];
         NSArray *thirdMenuArray = [_shoppingDict objectForKey:key];
-        NSMutableArray *moduleArray = [NSMutableArray array];
-        NSMutableDictionary *categoryDict = [NSMutableDictionary dictionary];
         
-        // 平台
-        NSString *platform = [_selectedMenuArray objectAtIndex:i];
-        [h5String appendFormat:@"{\"platform\":\"%@\", \"category\":[{", platform];
-        
-        // 循环二级菜单
-        NSMutableArray *secondArray = [NSMutableArray arrayWithArray:_secondMenuArray];
-        [secondArray removeObject:@"页面数量"];
-        
-        NSMutableString *tempString = [NSMutableString string];
-        for (int j = 0; j < secondArray.count; j++) {
-            FunctionMenu *menu = secondArray[j];
-            NSString *name = menu.title;
-            [tempString appendFormat:@"\"name\":\"%@\", \"module\":[{\"function\":[", name];
-            NSMutableArray *function = [NSMutableArray array];
-            for (FunctionMenu *subMenu in thirdMenuArray) {
-                [tempString appendFormat:@"\"%@\",", subMenu.title];
-                [function addObject:subMenu.title];
+        // 再次过滤数据
+        NSMutableArray *newCategoryArray = @[].mutableCopy;
+        NSMutableArray *newModelArray = @[].mutableCopy;
+        for (FunctionMenu *category in categoryArray) {
+            if ([platformMenu.children containsString:category.code]) {
+                // 模块
+                for (FunctionMenu *module in modelArray) {
+                    // item
+                    for (FunctionMenu *item in thirdMenuArray) {
+                        if ([module.children containsString:item.code]) {
+                            BOOL find = NO;
+                            for (FunctionMenu *m in newModelArray) {
+                                if ([m.code isEqual:module.code]) {
+                                    find = YES;
+                                }
+                            }
+                            if (!find) {
+                                [newModelArray addObject:module];
+                            }
+                        }
+                    }
+                }
             }
-            [tempString appendString:@"]}],"];
-            NSDictionary *dict = @{@"name":name, @"function":function};
-            [moduleArray addObject:dict];
-            if (j+1 == secondArray.count) {
-                [tempString appendString:@"}],"];
+            for (FunctionMenu *m in newModelArray) {
+                if ([category.children containsString:m.code]) {
+                    BOOL find = NO;
+                    for (FunctionMenu *c in newCategoryArray) {
+                        if ([c.code isEqual:category.code]) {
+                            find = YES;
+                        }
+                    }
+                    if (!find) {
+                        [newCategoryArray addObject:category];
+                    }
+                }
             }
         }
-        [h5String appendString:tempString];
-        [h5String appendString:@"},"];
         
-        FunctionMenu *category = [_firstMenuArray objectAtIndex:_selectedFirstIndex];
-        [categoryDict setObject:category.title forKey:@"name"];
-        [categoryDict setObject:moduleArray forKey:@"module"];
+        // 分类
+        for (FunctionMenu *category in newCategoryArray) {
+            if ([platformMenu.children containsString:category.code]) {
+                NSMutableDictionary *categoryDict = @{@"name": category.title}.mutableCopy;
+                NSMutableArray *moduleList = @[].mutableCopy;
+                // 模块
+                for (FunctionMenu *module in newModelArray) {
+                    NSMutableDictionary *moduleDict = @{}.mutableCopy;
+                    NSMutableArray *functionList = @[].mutableCopy;
+                    
+                    if ([category.children containsString:module.code]) {
+                        // item
+                        for (FunctionMenu *item in thirdMenuArray) {
+                            if ([module.children containsString:item.code]) {
+                                [functionList addObject:item.title];
+                            }
+                        }
+                        [moduleDict setObject:module.title forKey:@"name"];
+                        moduleDict[@"function"] = functionList;
+                        [moduleList addObject:moduleDict];
+                    }
+                }
+                categoryDict[@"module"] = moduleList;
+                [categoryList addObject:categoryDict];
+            }
+        }
+        platformDict[@"category"] = categoryList;
+        [platformList addObject:platformDict];
     }
-    [h5String appendString:@"]"];
     
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:platformList options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *h5String = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+
     CalcPriceViewController *vc = [[CalcPriceViewController alloc] init];
     vc.parameter = string;
     vc.h5String = h5String;
