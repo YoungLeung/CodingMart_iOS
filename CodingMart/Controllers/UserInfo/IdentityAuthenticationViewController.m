@@ -427,8 +427,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     }else
     {
         //下载
-        NSString *savedPath = [NSHomeDirectory() stringByAppendingString:@"/Documents/condingDev.pdf"];
-        [self downloadFileWithPath:savedPath];
+        [self downloadFileWithPath:[self documentLocalPath]];
     }
     
 }
@@ -482,7 +481,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 
 -(NSString*)documentLocalPath
 {
-    NSString *savedPath = [NSHomeDirectory() stringByAppendingString:@"/Documents/condingDev.pdf"];
+    NSString *savedPath = [NSHomeDirectory() stringByAppendingString:@"/Documents/condingDev_0.pdf"];
     return savedPath;
 }
 
