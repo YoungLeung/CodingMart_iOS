@@ -90,7 +90,6 @@
     FunctionListViewController *vc = [[FunctionListViewController alloc] init];
     vc.list = (id)list;
     vc.listID = list.id;
-    vc.h5String = self.h5String;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

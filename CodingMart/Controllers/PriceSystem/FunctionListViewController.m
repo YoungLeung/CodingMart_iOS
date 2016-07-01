@@ -100,6 +100,8 @@
 
 - (void)generateAndLoadH5Data {
 //    由扁平数据整理出树状关系
+    NSDictionary *quote = _dataDict[@"quote"];
+    NSInteger webPageCount = [[quote objectForKey:@"webPageCount"] integerValue];
     NSArray *platformItems = [_dataDict[@"items"] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"parentCode.length = 0"]];//根节点，对应平台
     NSMutableArray *platformList = @[].mutableCopy;
     for (NSDictionary *platform in platformItems) {
@@ -122,6 +124,11 @@
         }
         platformDict[@"category"] = categoryList;
         [platformList addObject:platformDict];
+        
+        if ([platform[@"code"] isEqualToString:@"P005"] && webPageCount > 0) {
+            NSDictionary *tempDict = @{@"name":@"页面数量", @"module":@[@{@"name":[NSNumber numberWithInteger:webPageCount],@"function":@[]}]};
+            [categoryList addObject:tempDict];
+        }
     }
 //    将数据转成对应的 json 字符串
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:platformList options:NSJSONWritingPrettyPrinted error:nil];

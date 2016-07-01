@@ -1384,7 +1384,7 @@
                 [categoryList addObject:categoryDict];
                 
                 if ([platformMenu.code isEqualToString:@"P005"]) {
-                    NSDictionary *tempDict = @{@"name":@"页面数量", @"module":@[@{@"name":@"1",@"function":@[]}]};
+                    NSDictionary *tempDict = @{@"name":@"页面数量", @"module":@[@{@"name":_webPageNumber,@"function":@[]}]};
                     [categoryList addObject:tempDict];
                 }
             }
