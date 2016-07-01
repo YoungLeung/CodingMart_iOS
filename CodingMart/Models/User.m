@@ -8,6 +8,8 @@
 
 #import "User.h"
 
+#define kPayedForPriceSystem @"payedForPriceSystem"
+
 @implementation User
 + (User *)userWithGlobalKey:(NSString *)global_key{
     User *curUser = [[User alloc] init];
@@ -159,5 +161,22 @@
         tipStr = @"新密码不得长于64位";
     }
     return tipStr;
+}
+
++ (void)payedForPriceSystemData:(NSDictionary *)data {
+    if (data) {
+        [[NSUserDefaults standardUserDefaults] setObject:data forKey:kPayedForPriceSystem];
+    } else {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kPayedForPriceSystem];
+    }
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (BOOL)payedForPriceSystem {
+    NSDictionary *payedData = [[NSUserDefaults standardUserDefaults] objectForKey:kPayedForPriceSystem];
+    if (payedData) {
+        return NO;
+    }
+    return YES;
 }
 @end

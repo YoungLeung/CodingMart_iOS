@@ -31,6 +31,7 @@
 #import "SkillRole.h"
 #import "MartSkill.h"
 #import "RewardPrivate.h"
+#import "CalcResult.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -649,9 +650,78 @@
         block(data, error);
     }];
 }
+
+#pragma mark 自主评估系统
+- (void)get_payedBlock:(void (^)(id data, NSError *error))block {
+    NSString *path = @"api/quote/payed";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+
+- (void)post_payFirstForPriceSystem:(NSDictionary *)params block:(void (^)(id, NSError *))block {
+    NSString *path = @"api/payment/app/charge";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
+        data = [data objectForKey:@"data"];
+        block(data, error);
+    }];
+}
+
+- (void)get_quoteFunctions:(void (^)(id, NSError *))block {
+    NSString *path = @"api/quote/functions";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        data = [data objectForKey:@"data"];
+        block(data, error);
+    }];
+}
+
+- (void)post_calcPrice:(NSDictionary *)params block:(void (^)(id, NSError *))block {
+    NSString *path = @"api/quote/calculate";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
+        data = data[@"data"];
+        CalcResult *result = [NSObject objectOfClass:@"CalcResult" fromJSON:data];
+        block(result, error);
+    }];
+}
+
+- (void)post_savePrice:(NSDictionary *)params block:(void (^)(id, NSError *))block {
+    NSString *path = @"api/quote/save";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
+        data = data[@"data"];
+        block(data, error);
+    }];
+}
+
+- (void)get_priceList:(void (^)(id, NSError *))block {
+    NSString *path = @"api/quote/list";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        data = [NSArray arrayFromJSON:data[@"data"] ofObjects:@"PriceList"];
+        block(data, error);
+    }];
+}
+
+- (void)post_shareLink:(NSDictionary *)params block:(void (^)(id, NSError *))block {
+    NSNumber *listID = [params objectForKey:@"listID"];
+    NSString *path = [NSString stringWithFormat:@"api/quote/%@/share", listID];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
+        data = data[@"data"];
+        block(data, error);
+    }];
+}
+
 - (void)get_is2FAOpenBlock:(void (^)(BOOL is2FAOpen, NSError *error))block{
     [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/user/2fa/method" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         block([data[@"data"] isEqualToString:@"totp"], error);
     }];
 }
+
+- (void)get_priceH5Data:(NSDictionary *)params block:(void (^)(id data, NSError *error))block {
+    NSNumber *listID = [params objectForKey:@"listID"];
+    NSString *path = [NSString stringWithFormat:@"api/quote/%@", listID];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
+        data = data[@"data"];
+        block(data, error);
+    }];
+}
+
 @end

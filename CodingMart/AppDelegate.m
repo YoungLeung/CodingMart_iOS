@@ -21,6 +21,7 @@
 #import <Google/Analytics.h>
 #import <FLEX/FLEXManager.h>
 #import "WelcomeViewController.h"
+#import "RootPriceViewController.h"
 
 @interface AppDelegate ()
 
@@ -197,6 +198,8 @@
     UIViewController *vc = [UIViewController presentingVC];
     if ([vc isKindOfClass:[PayMethodViewController class]]) {
         [(PayMethodViewController *)vc handlePayURL:url];
+    } else if ([vc isKindOfClass:[RootPriceViewController class]]){
+        [(RootPriceViewController *)vc handlePayURL:url];
     }
 }
 

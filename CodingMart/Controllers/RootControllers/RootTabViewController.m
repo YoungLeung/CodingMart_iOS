@@ -10,12 +10,15 @@
 #import "RootFindViewController.h"
 #import "RootPublishViewController.h"
 #import "RootRewardsViewController.h"
+#import "RootPriceViewController.h"
+#import "ChooseProjectViewController.h"
 #import "UserInfoViewController.h"
 #import "RDVTabBarItem.h"
 #import "Login.h"
 #import "JoinedRewardsViewController.h"
 #import "PublishedRewardsViewController.h"
 #import "SetIdentityViewController.h"
+#import "AppDelegate.h"
 
 typedef NS_ENUM(NSInteger, TabVCType) {
     TabVCTypeFind = 0,
@@ -101,7 +104,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
             vc = [RootRewardsViewController vcInStoryboard:@"Root"];
             break;
         case TabVCTypePrice:
-            vc = [BaseViewController new];
+            vc = [RootPriceViewController storyboardVC];
             break;
         case TabVCTypeMyJoined:
             vc = [JoinedRewardsViewController vcInStoryboard:@"Independence"];
@@ -176,6 +179,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
         [item setTitle:[tabTitles objectAtIndex:index]];
     }
     self.delegate = self;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changePriceSystemViewController) name:@"changePriceSystemViewController" object:nil];
 }
 
 #pragma mark RDVTabBarControllerDelegate
@@ -194,5 +198,11 @@ typedef NS_ENUM(NSInteger, TabVCType) {
     return YES;
 }
 
+- (void)changePriceSystemViewController {
+    AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [appDelegate setupTabViewController];
+    RootTabViewController *rootVC = (RootTabViewController *)appDelegate.window.rootViewController;
+    [rootVC setSelectedIndex:1];
+}
 
 @end

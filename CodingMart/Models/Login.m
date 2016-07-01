@@ -14,6 +14,7 @@
 #define kLoginPreUserEmail @"pre_user_email"
 #define kLoginUserDict @"user_dict"
 #define kLoginDataListPath @"login_data_list_path.plist"
+#define kPayedForPriceSystem @"payedForPriceSystem"
 
 static User *curLoginUser;
 
@@ -164,6 +165,7 @@ static User *curLoginUser;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:[NSNumber numberWithBool:NO] forKey:kLoginStatus];
     [defaults removeObjectForKey:kLoginUserDict];
+    [defaults removeObjectForKey:kPayedForPriceSystem];
     [defaults synchronize];
     curLoginUser = nil;
     
