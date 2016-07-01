@@ -1302,20 +1302,17 @@
         }
     }
     
-    // 生成HTML数据
-    NSMutableArray *platformList = @[].mutableCopy;
+    // 再次过滤数据
+    NSMutableArray *newCategoryArray = @[].mutableCopy;
+    NSMutableArray *newModelArray = @[].mutableCopy;
+    NSMutableArray *itemsMenuArray = @[].mutableCopy;
     for (int i = 0; i < platformArray.count; i++) {
-        FunctionMenu *platformMenu = [platformArray objectAtIndex:i];
-        NSMutableDictionary *platformDict = @{@"platform":platformMenu.title}.mutableCopy;
-        NSMutableArray *categoryList = @[].mutableCopy;
         NSString *key = [keyArray objectAtIndex:i];
         NSArray *thirdMenuArray = [_shoppingDict objectForKey:key];
-        
-        // 再次过滤数据
-        NSMutableArray *newCategoryArray = @[].mutableCopy;
-        NSMutableArray *newModelArray = @[].mutableCopy;
+        [itemsMenuArray addObjectsFromArray:thirdMenuArray];
+        FunctionMenu *platform = [platformArray objectAtIndex:i];
         for (FunctionMenu *category in categoryArray) {
-            if ([platformMenu.children containsString:category.code]) {
+            if ([platform.children containsString:category.code]) {
                 // 模块
                 for (FunctionMenu *module in modelArray) {
                     // item
@@ -1334,20 +1331,31 @@
                     }
                 }
             }
-            for (FunctionMenu *m in newModelArray) {
-                if ([category.children containsString:m.code]) {
-                    BOOL find = NO;
-                    for (FunctionMenu *c in newCategoryArray) {
-                        if ([c.code isEqual:category.code]) {
-                            find = YES;
-                        }
+        }
+    }
+    
+    for (FunctionMenu *category in categoryArray) {
+        for (FunctionMenu *m in newModelArray) {
+            if ([category.children containsString:m.code]) {
+                BOOL find = NO;
+                for (FunctionMenu *c in newCategoryArray) {
+                    if ([c.code isEqual:category.code]) {
+                        find = YES;
                     }
-                    if (!find) {
-                        [newCategoryArray addObject:category];
-                    }
+                }
+                if (!find) {
+                    [newCategoryArray addObject:category];
                 }
             }
         }
+    }
+    
+    // 生成HTML数据
+    NSMutableArray *platformList = @[].mutableCopy;
+    for (int i = 0; i < platformArray.count; i++) {
+        FunctionMenu *platformMenu = [platformArray objectAtIndex:i];
+        NSMutableDictionary *platformDict = @{@"platform":platformMenu.title}.mutableCopy;
+        NSMutableArray *categoryList = @[].mutableCopy;
         
         // 分类
         for (FunctionMenu *category in newCategoryArray) {
@@ -1361,7 +1369,7 @@
                     
                     if ([category.children containsString:module.code]) {
                         // item
-                        for (FunctionMenu *item in thirdMenuArray) {
+                        for (FunctionMenu *item in itemsMenuArray) {
                             if ([module.children containsString:item.code]) {
                                 [functionList addObject:item.title];
                             }
@@ -1371,8 +1379,14 @@
                         [moduleList addObject:moduleDict];
                     }
                 }
+                
                 categoryDict[@"module"] = moduleList;
                 [categoryList addObject:categoryDict];
+                
+                if ([platformMenu.code isEqualToString:@"P005"]) {
+                    NSDictionary *tempDict = @{@"name":@"页面数量", @"module":@[@{@"name":@"1",@"function":@[]}]};
+                    [categoryList addObject:tempDict];
+                }
             }
         }
         platformDict[@"category"] = categoryList;
