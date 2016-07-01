@@ -24,7 +24,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *aboutPrice0;
 @property (weak, nonatomic) IBOutlet UILabel *aboutPrice1;
 @property (weak, nonatomic) IBOutlet UILabel *aboutPrice2;
-@property (weak, nonatomic) IBOutlet UILabel *aboutVersionL;
 @property (weak, nonatomic) IBOutlet UILabel *contactInfoL;
 @property (weak, nonatomic) IBOutlet UILabel *processL0;
 @property (weak, nonatomic) IBOutlet UILabel *processL1;
@@ -85,7 +84,6 @@
         make.width.mas_equalTo(kScreen_Width);
     }];
     //内容
-    _aboutVersionL.text = [NSString stringWithFormat:@"版本号：V%@", [NSObject appVersion]];
     [_contactInfoL addAttrDict:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:14]} toStr:@"码市科技有限公司"];
 
     [_processL0 addAttrDict:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:14]} toStr:@"无忧交付"];

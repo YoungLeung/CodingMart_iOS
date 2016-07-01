@@ -10,7 +10,6 @@
 
 #import "WelcomeViewController.h"
 #import "LoginViewController.h"
-#import "AppDelegate.h"
 #import "iCarousel.h"
 #import "SMPageControl.h"
 
@@ -73,13 +72,13 @@
 - (void)loginBtnClicked{
     LoginViewController *vc = [LoginViewController storyboardVCWithUser:nil];
     vc.loginSucessBlock = ^(){
-        [(AppDelegate *)[UIApplication sharedApplication].delegate setupTabViewController];
+        [UIViewController updateTabVCList];
     };
     [UIViewController presentVC:vc dismissBtnTitle:@"取消"];
 }
 
 - (void)useBtnClicked{
-    [(AppDelegate *)[UIApplication sharedApplication].delegate setupTabViewController];
+    [UIViewController updateTabVCList];
 }
 
 #pragma mark - content

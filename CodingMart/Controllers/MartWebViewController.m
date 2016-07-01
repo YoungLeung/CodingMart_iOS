@@ -90,9 +90,7 @@
 }
 
 - (void)handleRefresh{
-    if (!_webView.isLoading) {
-        [_webView reload];
-    }
+    [_webView reload];
 }
 
 - (void)viewWillAppear:(BOOL)animated{

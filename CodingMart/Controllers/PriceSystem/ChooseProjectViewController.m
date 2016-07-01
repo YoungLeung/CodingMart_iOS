@@ -58,7 +58,7 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
     _cellImageArray = @[@"price_icon_Web",
                         @"price_icon_Wechat",
                         @"price_icon_iOS_APP",
-                        @"price_icon_Android _APP",
+                        @"price_icon_Android_APP",
                         @"price_icon_HTML5",
                         @"price_icon_other",
                         ];

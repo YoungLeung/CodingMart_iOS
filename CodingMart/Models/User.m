@@ -20,6 +20,7 @@
     User *userTourist = [User new];
     userTourist.global_key = @"user_tourist";
     userTourist.name = @"请登录";
+    userTourist.loginIdentity = @1;
     return userTourist;
 }
 - (BOOL)isSameToUser:(User *)user{
@@ -31,6 +32,10 @@
 }
 - (BOOL)canJoinReward{
     return (![self isSameToUser:[User userTourist]] && self.status.boolValue && self.fullInfo.boolValue && self.fullSkills.boolValue && self.passingSurvey.boolValue);
+}
+
+- (BOOL)isDeveloper{
+    return _loginIdentity.integerValue == 1;
 }
 
 - (NSString *)toUserInfoPath{

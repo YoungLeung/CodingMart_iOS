@@ -40,12 +40,20 @@ typedef NS_ENUM(NSInteger, TabVCType) {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self p_setupTabVCList];
+    [self p_setupViewControllers];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     if ([Login isLogin] && [Login curLoginUser].loginIdentity.integerValue == 0) {
         [self presentViewController:[SetIdentityViewController storyboardVC] animated:YES completion:nil];
+    }else{
+        NSArray *preTabList = _tabList;
+        [self p_setupTabVCList];
+        if (![preTabList isEqual:_tabList]) {
+            [UIViewController updateTabVCList];
+            [NSObject showHudTipStr:@"视图已切换"];
+        }
     }
 }
 
@@ -83,7 +91,6 @@ typedef NS_ENUM(NSInteger, TabVCType) {
     }
     if (!_tabList || ![tabList isEqual:_tabList]) {
         _tabList = tabList;
-        [self p_setupViewControllers];
     }
 }
 
