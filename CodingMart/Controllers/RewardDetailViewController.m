@@ -94,7 +94,7 @@
 - (void)refreshNativeView{
     _headerV.curReward = _rewardDetal.reward;
     UIEdgeInsets contentInset = self.webView.scrollView.contentInset;
-    if (_rewardDetal.reward.status.integerValue == 5 && [[Login curLoginUser] isDeveloper]) {//招募中的 Reward
+    if (_rewardDetal.reward.status.integerValue == 5 && ![[Login curLoginUser] isDemandSide]) {//招募中的 Reward
         //顶部提示
         if ([Login isLogin]) {
             User *loginUser = [Login curLoginUser];

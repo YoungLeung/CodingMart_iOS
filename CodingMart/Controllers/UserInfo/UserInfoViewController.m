@@ -89,7 +89,7 @@
 
 - (void)refreshUI{
     [self setupNavBarBtn];
-    BOOL isDeveloper = [_curUser isDeveloper];
+    BOOL isDeveloper = _curUser.loginIdentity.integerValue == 1;
     [_userInfoIconV setImage:[UIImage imageNamed:isDeveloper? @"icon_userinfo_ certify": @"icon_userinfo_ info"]];
     _userInfoL.text = isDeveloper? @"成为认证码士": @"个人信息";
     _developerPassL.hidden = ![Login isLogin] || [_curUser canJoinReward];
@@ -148,7 +148,7 @@
 #pragma mark Btn
 - (IBAction)footerBtnClicked:(id)sender {
     [NSObject showHUDQueryStr:@"正在切换视图..."];
-    [[Coding_NetAPIManager sharedManager] post_LoginIdentity:[[Login curLoginUser] isDeveloper]? @2: @1 andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] post_LoginIdentity:[[Login curLoginUser] isDemandSide]? @1: @2 andBlock:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data) {
             AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -170,7 +170,7 @@
     }else if (section == 1){
         height = 0;
     }else if (section == 2){
-        height = 10;
+        height = _curUser.loginIdentity.integerValue == 0? 0: 10;
     }
     return height;
 }
@@ -184,7 +184,7 @@
     if (section == 0) {
         num = 0;
     }else if (section == 1){
-        num = 1;
+        num = _curUser.loginIdentity.integerValue == 0? 0: 1;
     }else{
         num = 3;
     }
@@ -198,7 +198,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 1) {
-        if ([_curUser isDeveloper]) {
+        if (![_curUser isDemandSide]) {
             FillTypesViewController *vc = [FillTypesViewController storyboardVC];
             [self.navigationController pushViewController:vc animated:YES];
         }else{

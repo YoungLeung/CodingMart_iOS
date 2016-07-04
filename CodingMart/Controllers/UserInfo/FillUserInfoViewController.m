@@ -264,11 +264,11 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return _userInfo? [[Login curLoginUser] isDeveloper]? 2: 1: 0;
+    return _userInfo? ![[Login curLoginUser] isDemandSide]? 2: 1: 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return section == 0? [[Login curLoginUser] isDeveloper]? 6: 5: [self p_acceptNewRewardAllNotification]? 2: 1;
+    return section == 0? ![[Login curLoginUser] isDemandSide]? 6: 5: [self p_acceptNewRewardAllNotification]? 2: 1;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
