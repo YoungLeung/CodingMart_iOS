@@ -381,10 +381,42 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection id="thZ-4C-i6d">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="vMl-4r-saS">
+                                        <rect key="frame" x="0.0" y="159" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vMl-4r-saS" id="z7D-3V-Ey0">
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="清除缓存" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ygu-92-Ezf">
+                                                    <rect key="frame" x="15" y="13" width="60" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.26274509800000001" green="0.2901960784" blue="0.3294117647" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10.0 M" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tkj-ei-jlt">
+                                                    <rect key="frame" x="524" y="14" width="43" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="ygu-92-Ezf" firstAttribute="leading" secondItem="z7D-3V-Ey0" secondAttribute="leadingMargin" constant="7" id="8dO-kr-FhN"/>
+                                                <constraint firstItem="tkj-ei-jlt" firstAttribute="centerY" secondItem="ygu-92-Ezf" secondAttribute="centerY" id="IEA-zM-gf9"/>
+                                                <constraint firstItem="ygu-92-Ezf" firstAttribute="centerY" secondItem="z7D-3V-Ey0" secondAttribute="centerY" id="lyb-BY-e27"/>
+                                                <constraint firstAttribute="trailing" secondItem="tkj-ei-jlt" secondAttribute="trailing" id="uxv-ks-5q2"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection id="Xey-9O-pLE">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="kvy-2j-RlI">
-                                        <rect key="frame" x="0.0" y="159" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="239" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kvy-2j-RlI" id="KWA-pY-3bP">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
@@ -417,6 +449,9 @@
                     </tableView>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="600"/>
+                    <connections>
+                        <outlet property="cacheL" destination="tkj-ei-jlt" id="iqC-qI-GOm"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kse-q1-FDx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -5710,7 +5745,7 @@
         <image name="icon_userinfo_share" width="25" height="25"/>
         <image name="image_ia_addfile" width="118" height="118"/>
         <image name="imgDelete" width="15" height="15"/>
-        <image name="logo_mart_about" width="90" height="90"/>
+        <image name="logo_mart_about" width="80" height="80"/>
         <image name="placeholder_user" width="60" height="60"/>
         <image name="skill_add_pro_big" width="15" height="15"/>
         <image name="skill_add_pro_small" width="12" height="12"/>
