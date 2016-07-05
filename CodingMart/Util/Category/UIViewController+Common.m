@@ -102,8 +102,12 @@
     }
 }
 
-+(void)updateTabVCList{
-    [(AppDelegate *)[UIApplication sharedApplication].delegate setupTabViewController];
++(void)updateTabVCListWithSelectedIndex:(NSInteger)selectedIndex{
+    AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [appDelegate setupTabViewController];
+    RootTabViewController *rootVC = (RootTabViewController *)appDelegate.window.rootViewController;
+    selectedIndex = MAX(0, MIN(rootVC.tabList.count - 1, selectedIndex));
+    [rootVC setSelectedIndex:selectedIndex];
 }
 
 - (void)dismissModalViewControllerAnimatedYes{

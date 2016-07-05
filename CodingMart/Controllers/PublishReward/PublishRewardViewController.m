@@ -59,6 +59,7 @@
                   @"移动应用 App",
                   @"微信开发",
                   @"HTML5 应用",
+                  @"咨询",
                   @"其他"];
     _budgetList = @[@"1万以下",
                     @"1-3万",
@@ -225,6 +226,14 @@
     if (![_rewardToBePublished.id isKindOfClass:[NSNumber class]]) {
         [Reward deleteCurDraft];
     }
+    
+    if (self.navigationController.viewControllers.firstObject == self) {
+        [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id data, NSError *error) {
+            [UIViewController updateTabVCListWithSelectedIndex:2];
+        }];
+        return;
+    }
+    
     __block UIViewController *vc;
     [self.navigationController.childViewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([obj isKindOfClass:[PublishedRewardsViewController class]]) {

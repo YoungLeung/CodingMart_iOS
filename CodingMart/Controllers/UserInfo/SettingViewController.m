@@ -53,7 +53,7 @@
             if (index == 0) {
                 [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"退出登录"];
                 [Login doLogout];
-                [UIViewController updateTabVCList];
+                [UIViewController updateTabVCListWithSelectedIndex:NSIntegerMax];
             }
         }] showInView:self.view];
     }

@@ -72,13 +72,13 @@
 - (void)loginBtnClicked{
     LoginViewController *vc = [LoginViewController storyboardVCWithUser:nil];
     vc.loginSucessBlock = ^(){
-        [UIViewController updateTabVCList];
+        [UIViewController updateTabVCListWithSelectedIndex:0];
     };
     [UIViewController presentVC:vc dismissBtnTitle:@"取消"];
 }
 
 - (void)useBtnClicked{
-    [UIViewController updateTabVCList];
+    [UIViewController updateTabVCListWithSelectedIndex:0];
 }
 
 #pragma mark - content
