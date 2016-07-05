@@ -234,17 +234,19 @@
         CGFloat maxHeight = self.view.height - self.tabView.bottom - CGRectGetHeight(self.rdv_tabBarController.tabBar.frame);
         __weak typeof(self) weakSelf = self;
         [self.tabView showDropListWithData:list selectedIndex:index inView:self.view maxHeight:maxHeight actionBlock:^(EaseDropListView *dropView) {
-            NSString *resultValue = dropView.dataList[dropView.selectedIndex];
-            if (tag == 0) {
-                weakSelf.selectedType = resultValue;
-            }else if (tag == 1){
-                weakSelf.selectedStatus = resultValue;
-            }else{
-                weakSelf.selectedRoleType = resultValue;
-            }
             self.selectedTabIndex = NSNotFound;
-            [weakSelf lazyRefreshData];
-            weakSelf.myTableView.showsInfiniteScrolling = weakSelf.curRewards.canLoadMore;
+            if (dropView.selectedIndex != NSNotFound) {
+                NSString *resultValue = dropView.dataList[dropView.selectedIndex];
+                if (tag == 0) {
+                    weakSelf.selectedType = resultValue;
+                }else if (tag == 1){
+                    weakSelf.selectedStatus = resultValue;
+                }else{
+                    weakSelf.selectedRoleType = resultValue;
+                }
+                [weakSelf lazyRefreshData];
+                weakSelf.myTableView.showsInfiniteScrolling = weakSelf.curRewards.canLoadMore;
+            }
         }];
     }
 }

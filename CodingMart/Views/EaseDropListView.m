@@ -30,7 +30,8 @@
             view.alpha = 0.0;
             __weak typeof(self) weakSelf = self;
             [view bk_whenTapped:^{
-                [weakSelf dismissSendAction:NO];
+                weakSelf.selectedIndex = NSNotFound;
+                [weakSelf dismissSendAction:YES];
             }];
             [self addSubview:view];
             [view mas_makeConstraints:^(MASConstraintMaker *make) {
