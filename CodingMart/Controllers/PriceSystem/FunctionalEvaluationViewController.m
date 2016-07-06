@@ -1234,6 +1234,7 @@
 
 // 重置购物车
 - (void)resetShoppingCar {
+    _notDefaultItemCount = 0;
     [self generateDefaultShoppingCarData];
     [self updateShoppingCar];
 }
