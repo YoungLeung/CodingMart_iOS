@@ -69,6 +69,7 @@
         [NSObject showHudTipStr:tipStr];
         return;
     }
+    [MobClick event:kUmeng_Event_UserAction label:@"设置_账号设置_设置邮箱"];
     NSDictionary *params = @{@"email": _emailF.text,
                              @"j_captcha": _j_captchaF.text,
                              @"two_factor_code": !_is2FAOpen? [_two_factor_codeF.text sha1Str]: _two_factor_codeF.text};

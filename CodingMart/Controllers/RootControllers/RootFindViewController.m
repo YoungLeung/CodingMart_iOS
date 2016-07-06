@@ -58,15 +58,19 @@
     };
     [self.headerIconsContainerV addLineUp:NO andDown:YES];
     [self.headerIconIntroduce bk_whenTapped:^{
+        [MobClick event:kUmeng_Event_UserAction label:@"首页_码市介绍"];
         [weakSelf goToMartIntroduce];
     }];
     [self.headerIconCase bk_whenTapped:^{
+        [MobClick event:kUmeng_Event_UserAction label:@"首页_经典案例"];
         [weakSelf goToCaseListVC];
     }];
     [self.headerIconTalk bk_whenTapped:^{
+        [MobClick event:kUmeng_Event_UserAction label:@"首页_码士说"];
         [weakSelf goToWebVCWithUrlStr:@"/reviews/developers" title:@"码士说"];
     }];
     [self.headerIconCall bk_whenTapped:^{
+        [MobClick event:kUmeng_Event_UserAction label:@"首页_联系我们"];
         [weakSelf contactUs];
     }];
     
@@ -228,20 +232,17 @@
 }
 
 - (void)goToMartIntroduce{
-    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"码市介绍"];
-    
     MartIntroduceViewController *vc = [MartIntroduceViewController new];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)goToCaseListVC{
-    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"码市案例"];
-    
     CaseListViewController *vc = [CaseListViewController new];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)goToNotificationVC{
+    [MobClick event:kUmeng_Event_UserAction label:@"顶部导航_通知"];
     NotificationViewController *vc = [NotificationViewController storyboardVC];
     [self.navigationController pushViewController:vc animated:YES];
 }

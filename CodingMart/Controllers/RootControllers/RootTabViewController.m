@@ -186,6 +186,13 @@ typedef NS_ENUM(NSInteger, TabVCType) {
 
 #pragma mark RDVTabBarControllerDelegate
 - (BOOL)tabBarController:(RDVTabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController{
+    
+    NSUInteger index = [tabBarController.viewControllers indexOfObject:viewController];
+    TabVCType type = [self.tabList[index] integerValue];
+    NSString *tabName = [self p_tabTitleWithTabType:type];
+    [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"底部导航_%@", tabName]];
+    
+    
     if (tabBarController.selectedViewController != viewController) {
         return YES;
     }

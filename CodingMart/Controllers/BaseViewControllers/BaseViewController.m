@@ -20,6 +20,18 @@
     self.view.backgroundColor = kColorBGDark;
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    //umemg
+    [MobClick beginLogPageView:[self className]];
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    //umeng
+    [MobClick endLogPageView:[self className]];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

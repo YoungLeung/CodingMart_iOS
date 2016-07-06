@@ -27,9 +27,7 @@
     }];
 }
 
-- (IBAction)footerBtnClicked:(id)sender {
-    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"登录_2FA"];
-    
+- (IBAction)footerBtnClicked:(id)sender {    
     [NSObject showHUDQueryStr:@"正在登录..."];
     [[Coding_NetAPIManager sharedManager] post_LoginWith2FA:_optCodeF.text andBlock:^(id data, NSError *error) {
         [NSObject hideHUDQuery];

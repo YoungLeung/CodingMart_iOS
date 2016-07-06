@@ -234,19 +234,21 @@
         CGFloat maxHeight = self.view.height - self.tabView.bottom - CGRectGetHeight(self.rdv_tabBarController.tabBar.frame);
         __weak typeof(self) weakSelf = self;
         [self.tabView showDropListWithData:list selectedIndex:index inView:self.view maxHeight:maxHeight actionBlock:^(EaseDropListView *dropView) {
-            self.selectedTabIndex = NSNotFound;
             if (dropView.selectedIndex != NSNotFound) {
-                NSString *resultValue = dropView.dataList[dropView.selectedIndex];
+                NSString *tabStr = tag == 0? @"类型": tag == 1? @"进度": @"角色";
+                NSString *valueStr = dropView.dataList[dropView.selectedIndex];
+                [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"悬赏_%@_%@", tabStr, valueStr]];
                 if (tag == 0) {
-                    weakSelf.selectedType = resultValue;
+                    weakSelf.selectedType = valueStr;
                 }else if (tag == 1){
-                    weakSelf.selectedStatus = resultValue;
+                    weakSelf.selectedStatus = valueStr;
                 }else{
-                    weakSelf.selectedRoleType = resultValue;
+                    weakSelf.selectedRoleType = valueStr;
                 }
                 [weakSelf lazyRefreshData];
                 weakSelf.myTableView.showsInfiniteScrolling = weakSelf.curRewards.canLoadMore;
             }
+            self.selectedTabIndex = NSNotFound;
         }];
     }
 }
@@ -295,21 +297,9 @@
     RewardDetailViewController *vc = [RewardDetailViewController vcWithReward:curReward];
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (void)goToMartIntroduce{
-    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"码市介绍"];
-    
-    MartIntroduceViewController *vc = [MartIntroduceViewController new];
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (void)goToCaseListVC{
-    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"码市案例"];
-
-    CaseListViewController *vc = [CaseListViewController new];
-    [self.navigationController pushViewController:vc animated:YES];
-}
 
 - (void)goToNotificationVC{
+    [MobClick event:kUmeng_Event_UserAction label:@"顶部导航_通知"];
     NotificationViewController *vc = [NotificationViewController storyboardVC];
     [self.navigationController pushViewController:vc animated:YES];
 }

@@ -20,15 +20,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"关于页面"];
     _versionL.text = [NSString stringWithFormat:@"V%@", [NSObject appVersion]];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row == 0){//推荐给好友
+        [MobClick event:kUmeng_Event_UserAction label:@"关于码市_推荐给好友"];
         [MartShareView showShareViewWithObj:nil];
     }else{//去评分
+        [MobClick event:kUmeng_Event_UserAction label:@"关于码市_去评分"];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kAppReviewURL]];
     }
 }

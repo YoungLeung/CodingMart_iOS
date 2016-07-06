@@ -219,7 +219,7 @@
             NSString *tipStr = status == RewardStatusRejected? @"很遗憾，您发布的悬赏未通过": status == RewardStatusCanceled? @"您取消了该悬赏的发布": @"您发布的悬赏还未开始招募，请耐心等待";
             WEAKSELF;
             void (^buttonBlock)() = status == RewardStatusPassed? nil: ^{
-                [weakSelf goToRePublish];
+                [weakSelf goToRePublish:nil];
             };
             [cell setupImage:imageName tipStr:tipStr buttonBlock:buttonBlock];
             return cell;
@@ -357,6 +357,13 @@
 #pragma mark RewardCoderStageViewAction
 
 - (void)doStageAction:(RewardCoderStageViewAction)actionIndex stage:(RewardMetroRoleStage *)stage role:(RewardMetroRole *)role{
+    NSString *actionStr = (actionIndex == RewardCoderStageViewActionDocument? @"查看交付文档":
+                           actionIndex == RewardCoderStageViewActionReason? @"查看原因":
+                           actionIndex == RewardCoderStageViewActionSubmit? @"提交交付文档":
+                           actionIndex == RewardCoderStageViewActionCancel? @"撤销交付文档":
+                           actionIndex == RewardCoderStageViewActionPass? @"确认验收": @"验收不通过");
+    [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"悬赏详情_%@", actionStr]];
+
     NSLog(@"%@ - %@ - %lu", role.role_name, stage.stage_no, (unsigned long)actionIndex);
     if (actionIndex == RewardCoderStageViewActionDocument) {
         if (stage.stage_file.length > 0) {
@@ -448,7 +455,7 @@
     NSMutableArray *items = @[].mutableCopy;
     if (canEdit) {
         [items addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_more"] style:UIBarButtonItemStylePlain target:self action:@selector(moreBtnClicked:)]];
-        [items addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_edit"] style:UIBarButtonItemStylePlain target:self action:@selector(goToRePublish)]];
+        [items addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_edit"] style:UIBarButtonItemStylePlain target:self action:@selector(goToRePublish:)]];
     }
     [items addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_activity"] style:UIBarButtonItemStylePlain target:self action:@selector(goToActivity)]];
     self.navigationItem.rightBarButtonItems = items;
@@ -468,6 +475,7 @@
 }
 
 - (void)cancelPublish{
+    [MobClick event:kUmeng_Event_UserAction label:@"取消发布"];
     __weak typeof(self) weakSelf = self;
     [NSObject showHUDQueryStr:@"正在取消悬赏..."];
     [[Coding_NetAPIManager sharedManager] post_CancelRewardId:_curRewardP.basicInfo.id block:^(id data, NSError *error) {
@@ -479,11 +487,13 @@
     }];
 }
 
-- (void)goToRePublish{
+- (void)goToRePublish:(id)sender{
+    [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"悬赏详情_%@", sender? @"编辑": @"重新发布"]];
     [self.navigationController pushViewController:[PublishRewardViewController storyboardVCWithReward:_curRewardP.basicInfo] animated:YES];
 }
 
 - (void)goToActivity{
+    [MobClick event:kUmeng_Event_UserAction label:@"悬赏详情_动态"];
     [self goToWebVCWithUrlStr:[NSString stringWithFormat:@"/user/p/%@#activity", _curRewardP.basicInfo.id.stringValue] title:@"项目动态"];
 }
 

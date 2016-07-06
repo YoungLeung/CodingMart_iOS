@@ -45,6 +45,7 @@
         [NSObject showHudTipStr:tipStr];
         return;
     }
+    [MobClick event:kUmeng_Event_UserAction label:@"设置_账号设置_设置密码"];
     NSDictionary *params = @{@"current_password" : [_current_passwordF.text sha1Str],
                             @"password" : [_passwordF.text sha1Str],
                             @"confirm_password" : [_confirm_passwordF.text sha1Str]};

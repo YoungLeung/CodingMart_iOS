@@ -204,6 +204,10 @@
 
 - (IBAction)nextStepBtnClicked:(id)sender {
     if ([Login isLogin]) {
+        NSString *typeStr = [[NSObject rewardTypeLongDict] findKeyFromStrValue:_rewardToBePublished.type.stringValue];
+        NSString *budgetStr = _budgetList[_rewardToBePublished.budget.integerValue];
+        [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"发布悬赏_%@_%@_点击提交", typeStr, budgetStr]];
+        
         [NSObject showHUDQueryStr:@"正在发布悬赏..."];
         [[Coding_NetAPIManager sharedManager] post_Reward:_rewardToBePublished block:^(id data, NSError *error) {
             [NSObject hideHUDQuery];
@@ -220,9 +224,7 @@
     }
 }
 
-- (void)publishSucessed{
-    [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"发布悬赏_提交成功"];
-    
+- (void)publishSucessed{    
     if (![_rewardToBePublished.id isKindOfClass:[NSNumber class]]) {
         [Reward deleteCurDraft];
     }

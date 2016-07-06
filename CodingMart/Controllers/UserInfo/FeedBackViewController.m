@@ -101,6 +101,7 @@
         [NSObject showHudTipStr:tipStr];
         return;
     }
+    [MobClick event:kUmeng_Event_UserAction label:@"帮助与反馈_提交意见反馈"];
     [NSObject showHUDQueryStr:@"正在发送..."];
     [[Coding_NetAPIManager sharedManager] post_FeedBack:_feedBackInfo block:^(id data, NSError *error) {
         [NSObject hideHUDQuery];

@@ -267,8 +267,9 @@
 }
 
 - (void)p_doShareToSnsName:(NSString *)snsName{
-    NSLog(@"p_doShareToSnsName : %@", snsName);
-
+    if ([_objToShare isKindOfClass:[Reward class]]) {
+        [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"悬赏分享_%@", snsName]];
+    }
     if ([snsName isEqualToString:@"copylink"]) {
         [[UIPasteboard generalPasteboard] setString:[self p_shareLinkStr]];
         [NSObject showHudTipStr:@"链接已拷贝到粘贴板"];
@@ -492,7 +493,7 @@
 }
 
 - (void)buttonClicked{
-//    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:[NSString stringWithFormat:@"umeng_social_%@", _snsName]];
+//    [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"umeng_social_%@", _snsName]];
     if (self.clickedBlock) {
         self.clickedBlock(_snsName);
     }

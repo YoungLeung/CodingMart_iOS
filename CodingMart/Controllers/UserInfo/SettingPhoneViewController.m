@@ -94,6 +94,7 @@
         [NSObject showHudTipStr:tipStr];
         return;
     }
+    [MobClick event:kUmeng_Event_UserAction label:@"设置_账号设置_设置手机"];
     NSMutableDictionary *params = @{@"phone": _phoneF.text,
                                     @"code": _codeF.text,
                                     @"phoneCountryCode": _phoneCountryCodeL.text,

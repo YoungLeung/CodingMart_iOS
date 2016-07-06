@@ -94,9 +94,11 @@
     cell.reward = _rewardList[indexPath.row];
     __weak typeof(self) weakSelf = self;
     cell.cancelJoinBlock = ^(Reward *reward){
+        [MobClick event:kUmeng_Event_UserAction label:@"取消参与"];
         [weakSelf cancelJoinReward:reward];
     };
     cell.reJoinBlock = ^(Reward *reward){
+        [MobClick event:kUmeng_Event_UserAction label:reward.apply_status.integerValue > JoinStatusSucessed? @"重新报名": @"编辑申请"];
         [weakSelf reJoinReward:reward];
     };
     cell.goToJoinedRewardBlock =  ^(Reward *reward){

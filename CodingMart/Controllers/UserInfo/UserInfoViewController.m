@@ -147,6 +147,7 @@
 
 #pragma mark Btn
 - (IBAction)footerBtnClicked:(id)sender {
+    [MobClick event:kUmeng_Event_UserAction label:[_curUser isDemandSide]? @"切换至开发者模式": @"切换至需求方模式"];
     [NSObject showHUDQueryStr:@"正在切换视图..."];
     [[Coding_NetAPIManager sharedManager] post_LoginIdentity:[[Login curLoginUser] isDemandSide]? @1: @2 andBlock:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
@@ -199,12 +200,17 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 1) {
         if (![_curUser isDemandSide]) {
+            [MobClick event:kUmeng_Event_UserAction label:@"个人中心_个人信息"];
             FillTypesViewController *vc = [FillTypesViewController storyboardVC];
             [self.navigationController pushViewController:vc animated:YES];
         }else{
+            [MobClick event:kUmeng_Event_UserAction label:@"个人中心_成为认证码士"];
             FillUserInfoViewController *vc = [FillUserInfoViewController vcInStoryboard:@"UserInfo"];
             [self.navigationController pushViewController:vc animated:YES];
         }
+    }else if (indexPath.section == 2) {
+        NSString *labelStr = indexPath.row == 0? @"个人中心_帮助与反馈": indexPath.row == 1? @"个人中心_设置": @"个人中心_关于码市";
+        [MobClick event:kUmeng_Event_UserAction label:labelStr];
     }
 }
 
@@ -236,8 +242,7 @@
 
 #pragma mark goTo
 - (void)goToLogin{
-    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"个人中心_弹出登录"];
-    
+    [MobClick event:kUmeng_Event_UserAction label:@"个人中心_请登录"];
     _isDisappearForLogin = YES;
     LoginViewController *vc = [LoginViewController storyboardVCWithUser:nil];
     vc.loginSucessBlock = ^(){
