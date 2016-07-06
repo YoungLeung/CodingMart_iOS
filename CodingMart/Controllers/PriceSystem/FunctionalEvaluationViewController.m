@@ -958,7 +958,8 @@
         if (selectedArray.count) {
             for (FunctionMenu *selectedMenu in selectedArray) {
                 if ([selectedMenu.code isEqualToString:thirdMenu.code]) {
-                    [cell setSelected:YES animated:NO];
+//                    [cell setSelected:YES animated:NO];
+                    [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
                 }
             }
         }
