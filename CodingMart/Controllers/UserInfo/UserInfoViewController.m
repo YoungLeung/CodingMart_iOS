@@ -92,7 +92,7 @@
     BOOL isDeveloper = _curUser.loginIdentity.integerValue == 1;
     [_userInfoIconV setImage:[UIImage imageNamed:isDeveloper? @"icon_userinfo_ certify": @"icon_userinfo_ info"]];
     _userInfoL.text = isDeveloper? @"成为认证码士": @"个人信息";
-    _developerPassL.hidden = ![Login isLogin] || [_curUser canJoinReward];
+    _developerPassL.hidden = ![Login isLogin] || [_curUser isDemandSide] || [_curUser canJoinReward];
     [_fillUserInfoBtn setTitle:_curUser.name forState:UIControlStateNormal];
     [_user_iconV sd_setImageWithURL:[_curUser.avatar urlWithCodingPath] placeholderImage:[UIImage imageNamed:@"placeholder_user"]];
     [_footerBtn setTitle:isDeveloper? @"切换至需求方模式": @"切换至开发者模式" forState:UIControlStateNormal];
