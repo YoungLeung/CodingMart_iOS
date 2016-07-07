@@ -15,23 +15,20 @@
 #import "ActionSheetStringPicker.h"
 #import "CountryCodeListViewController.h"
 #import "Login.h"
+#import "SettingWorkEmailViewController.h"
+#import "SettingWorkPhoneViewController.h"
 
 @interface FillUserInfoViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *nameF;
 @property (weak, nonatomic) IBOutlet UITextField *emailF;
 @property (weak, nonatomic) IBOutlet UITextField *phoneF;
-@property (weak, nonatomic) IBOutlet UITextField *codeF;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *phone_code_separatorLC;
 @property (weak, nonatomic) IBOutlet UITextField *qqNumF;
 @property (weak, nonatomic) IBOutlet UITextField *locationF;
 @property (weak, nonatomic) IBOutlet UITextField *freeTimeF;
 @property (weak, nonatomic) IBOutlet UITextField *rewardRoleF;
 @property (weak, nonatomic) IBOutlet UISwitch *acceptNewRewardAllNotificationSwitch;
-@property (weak, nonatomic) IBOutlet UIButton *codeBtn;
 @property (weak, nonatomic) IBOutlet UILabel *phoneVerifiedL;
-@property (weak, nonatomic) IBOutlet UIView *codeLineV;
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *submitBtn;
-@property (weak, nonatomic) IBOutlet UILabel *countryCodeL;
 
 @property (nonatomic, strong, readwrite) NSTimer *timer;
 @property (assign, nonatomic) NSTimeInterval durationToValidity;
@@ -44,7 +41,6 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     self.title = @"个人信息";
-    _phone_code_separatorLC.constant = 0.5;
     [self p_setupEvents];
     [self refresh];
 }
@@ -54,53 +50,21 @@
     [_nameF.rac_textSignal subscribeNext:^(NSString *newText){
         weakSelf.userInfo.name = newText;
     }];
-    [_emailF.rac_textSignal subscribeNext:^(NSString *newText){
-        weakSelf.userInfo.email = newText;
-    }];
-    [_phoneF.rac_textSignal subscribeNext:^(NSString *newText){
-        weakSelf.userInfo.mobile = newText;
-        if (newText.length > 0) {
-            BOOL isVerified = [newText isEqualToString:weakSelf.originalUserInfo.mobile];//已验证
-            weakSelf.phoneVerifiedL.hidden = !isVerified;
-            weakSelf.codeBtn.hidden = isVerified;
-            weakSelf.codeF.hidden = isVerified;
-            weakSelf.codeLineV.hidden = isVerified;
-        }else{//电话号码空白
-            weakSelf.phoneVerifiedL.hidden =
-            weakSelf.codeBtn.hidden =
-            weakSelf.codeF.hidden =
-            weakSelf.codeLineV.hidden = YES;
-        }
-    }];
-    [_codeF.rac_textSignal subscribeNext:^(NSString *newText){
-        weakSelf.userInfo.code = newText;
-    }];
     [_qqNumF.rac_textSignal subscribeNext:^(NSString *newText){
         weakSelf.userInfo.qq= newText;
     }];
     RAC(self, submitBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, userInfo.name),
-                                                              RACObserve(self, userInfo.email),
-                                                              RACObserve(self, userInfo.mobile),
                                                               RACObserve(self, userInfo.qq),
                                                               RACObserve(self, userInfo.province),
                                                               RACObserve(self, userInfo.city),
                                                               RACObserve(self, userInfo.district),
-                                                              RACObserve(self, userInfo.code),
                                                               RACObserve(self, userInfo.free_time),
                                                               RACObserve(self, userInfo.reward_role),
                                                               RACObserve(self, userInfo.acceptNewRewardAllNotification),
-                                                              RACObserve(self, userInfo.country),
                                                               ] reduce:^id{
-                                                                  BOOL canPost = NO;
-                                                                  if ([weakSelf.userInfo canPost:weakSelf.originalUserInfo]) {
-                                                                      if ([weakSelf.userInfo.mobile isEqualToString:weakSelf.originalUserInfo.mobile]) {
-                                                                          canPost = YES;
-                                                                      }else{
-                                                                          canPost = weakSelf.userInfo.code.length > 0;
-                                                                      }
-                                                                  }
-                                                                  return @(canPost);
+                                                                  return @([weakSelf.userInfo canPost:weakSelf.originalUserInfo]);
                                                               }];
+
 }
 
 - (BOOL)p_acceptNewRewardAllNotification{
@@ -120,10 +84,9 @@
 - (void)setUserInfo:(FillUserInfo *)userInfo{
     _userInfo = userInfo;
     
-    _countryCodeL.text = _userInfo.phoneCountryCode.length > 0? _userInfo.phoneCountryCode: @"+86";
     _nameF.text = _userInfo.name;
     _emailF.text = _userInfo.email;
-    _phoneF.text = _userInfo.mobile;
+    _phoneF.text = _userInfo.mobile.length > 0? [NSString stringWithFormat:@"(%@) %@", _userInfo.phoneCountryCode.length > 0? _userInfo.phoneCountryCode: @"+86", _userInfo.mobile]: nil;
     _phoneVerifiedL.hidden = (_userInfo.mobile.length == 0);
     _qqNumF.text = _userInfo.qq;
     if (_userInfo.district_name.length > 0) {
@@ -157,41 +120,6 @@
 }
 
 #pragma mark Btn
-
-- (IBAction)countryCodeBtnClicked:(id)sender {
-    CountryCodeListViewController *vc = [CountryCodeListViewController storyboardVC];
-    WEAKSELF;
-    vc.selectedBlock = ^(NSDictionary *countryCodeDict){
-        weakSelf.userInfo.country = countryCodeDict[@"iso_code"];
-        weakSelf.userInfo.phoneCountryCode = [NSString stringWithFormat:@"+%@", countryCodeDict[@"country_code"]];
-        weakSelf.countryCodeL.text = weakSelf.userInfo.phoneCountryCode;
-    };
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (void)p_setButton:(UIButton *)button toEnabled:(BOOL)enabled{
-    UIColor *foreColor = [UIColor colorWithHexString:enabled? @"0x4289DB": @"0xCCCCCC"];
-    button.backgroundColor = foreColor;
-    button.enabled = enabled;
-    if (enabled) {
-        [button setTitle:@"发送验证码" forState:UIControlStateNormal];
-    }else if ([button.titleLabel.text isEqualToString:@"发送验证码"]){
-        [button setTitle:@"正在发送..." forState:UIControlStateNormal];
-    }
-}
-
-- (IBAction)codeBtnClicked:(id)sender {
-    [self p_setButton:_codeBtn toEnabled:NO];
-    [[Coding_NetAPIManager sharedManager] post_UserInfoVerifyCodeWithMobile:_userInfo.mobile phoneCountryCode:_userInfo.phoneCountryCode block:^(id data, NSError *error) {
-        if (data) {
-            [NSObject showHudTipStr:@"验证码发送成功"];
-            [self startUpTimer];
-        }else{
-            [self p_setButton:self.codeBtn toEnabled:YES];
-        }
-    }];
-}
-
 - (IBAction)submitBtnClicked:(id)sender {
     if ([_userInfo.mobile isEqualToString:_originalUserInfo.mobile]) {
         _userInfo.code = nil;
@@ -208,34 +136,6 @@
 - (IBAction)acceptNewRewardAllNotificationSwitchValueChanged:(UISwitch *)sender {
     self.userInfo.acceptNewRewardAllNotification = @(sender.on);
     [self.tableView reloadData];
-}
-
-#pragma mark verify_codeBtn Timer
-- (void)startUpTimer{
-    _durationToValidity = 60;
-    [_codeBtn setTitle:[NSString stringWithFormat:@"%.0f 秒", _durationToValidity] forState:UIControlStateNormal];
-    [self p_setButton:self.codeBtn toEnabled:NO];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:1
-                                                  target:self
-                                                selector:@selector(redrawTimer:)
-                                                userInfo:nil
-                                                 repeats:YES];
-}
-
-- (void)invalidateTimer{
-    [self p_setButton:_codeBtn toEnabled:YES];
-    [self.timer invalidate];
-    self.timer = nil;
-}
-
-- (void)redrawTimer:(NSTimer *)timer {
-    _durationToValidity--;
-    if (_durationToValidity > 0) {
-        _codeBtn.titleLabel.text = [NSString stringWithFormat:@"%.0f 秒", _durationToValidity];//防止 button_title 闪烁
-        [_codeBtn setTitle:[NSString stringWithFormat:@"%.0f 秒", _durationToValidity] forState:UIControlStateNormal];
-    }else{
-        [self invalidateTimer];
-    }
 }
 
 #pragma mark Table M
@@ -264,30 +164,30 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return _userInfo? ![[Login curLoginUser] isDemandSide]? 2: 1: 0;
+    return _userInfo? ![[Login curLoginUser] isDemandSide]? 3: 2: 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return section == 0? ![[Login curLoginUser] isDemandSide]? 6: 5: [self p_acceptNewRewardAllNotification]? 2: 1;
+    return section == 0? ![[Login curLoginUser] isDemandSide]? 4: 3: section == 1? 2: [self p_acceptNewRewardAllNotification]? 2: 1;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
-    if (indexPath.row == 2) {
-        cell.separatorInset = UIEdgeInsetsMake(0, kScreen_Width, 0, 0);//隐藏掉它
-    }else{
+    if (indexPath.section == 0 && indexPath.row < 2) {
         cell.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15);
+    }else{
+        cell.separatorInset = UIEdgeInsetsMake(0, kScreen_Width, 0, 0);//隐藏掉它
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0 && indexPath.row == 5) {
+    if (indexPath.section == 0 && indexPath.row == 3) {//我现在是？
         WEAKSELF;
         NSInteger initialRow = weakSelf.userInfo.reward_role? weakSelf.userInfo.reward_role.integerValue: 0;
         [ActionSheetStringPicker showPickerWithTitle:nil rows:@[[FillUserInfo reward_role_display_list]] initialSelection:@[@(initialRow)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
             weakSelf.userInfo.reward_role = selectedIndex.firstObject;
             weakSelf.rewardRoleF.text = [weakSelf.userInfo reward_role_display];
         } cancelBlock:nil origin:self.view];
-    }else if (indexPath.section == 1 && indexPath.row == 1) {
+    }else if (indexPath.section == 2 && indexPath.row == 1) {//空闲时间？
         WEAKSELF;
         NSInteger initialRow = weakSelf.userInfo.free_time? weakSelf.userInfo.free_time.integerValue: 0;
         [ActionSheetStringPicker showPickerWithTitle:nil rows:@[[FillUserInfo free_time_display_list]] initialSelection:@[@(initialRow)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
@@ -298,22 +198,42 @@
 }
 #pragma mark Sugue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    LocationViewController *vc = segue.destinationViewController;
-    NSMutableArray *curSelectedList = @[].mutableCopy;
-    if (_userInfo.province) {
-        curSelectedList[0] = _userInfo.province;
-        if (_userInfo.city) {
-            curSelectedList[1] = _userInfo.city;
-            if (_userInfo.district) {
-                curSelectedList[2] = _userInfo.district;
+    if ([segue.destinationViewController isKindOfClass:[LocationViewController class]]) {
+        LocationViewController *vc = segue.destinationViewController;
+        NSMutableArray *curSelectedList = @[].mutableCopy;
+        if (_userInfo.province) {
+            curSelectedList[0] = _userInfo.province;
+            if (_userInfo.city) {
+                curSelectedList[1] = _userInfo.city;
+                if (_userInfo.district) {
+                    curSelectedList[2] = _userInfo.district;
+                }
             }
         }
+        vc.originalSelectedList = curSelectedList;
+        __weak typeof(self) weakSelf = self;
+        vc.complateBlock = ^(NSArray *selectedList){
+            [weakSelf locationsSelected:selectedList];
+        };
+    }else if ([segue.destinationViewController isKindOfClass:[SettingWorkEmailViewController class]]){
+        SettingWorkEmailViewController *vc = segue.destinationViewController;
+        vc.userInfo = _userInfo;
+        __weak typeof(self) weakSelf = self;
+        vc.complateBlock = ^(NSString *email){
+            weakSelf.originalUserInfo.email = weakSelf.userInfo.email = email;
+            weakSelf.emailF.text = email;
+        };
+    }else if ([segue.destinationViewController isKindOfClass:[SettingWorkPhoneViewController class]]){
+        SettingWorkPhoneViewController *vc = segue.destinationViewController;
+        vc.userInfo = _userInfo;
+        __weak typeof(self) weakSelf = self;
+        vc.complateBlock = ^(NSString *country, NSString *phoneCountryCode, NSString *mobile){
+            weakSelf.originalUserInfo.country = weakSelf.userInfo.country = country;
+            weakSelf.originalUserInfo.phoneCountryCode = weakSelf.userInfo.phoneCountryCode = phoneCountryCode;
+            weakSelf.originalUserInfo.mobile = weakSelf.userInfo.mobile = mobile;
+            weakSelf.phoneF.text = [NSString stringWithFormat:@"(%@) %@",phoneCountryCode, mobile];
+        };
     }
-    vc.originalSelectedList = curSelectedList;
-    __weak typeof(self) weakSelf = self;
-    vc.complateBlock = ^(NSArray *selectedList){
-        [weakSelf locationsSelected:selectedList];
-    };
 }
 - (void)locationsSelected:(NSArray *)selectedList{
     if (selectedList.count >= 3) {
