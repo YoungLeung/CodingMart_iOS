@@ -63,11 +63,11 @@
         [_headerV setY:-_headerV.height];
         [self.webView.scrollView.pullRefreshCtrl setY:self.webView.scrollView.pullRefreshCtrl.y - _headerV.height];
     }
+    [self handleRefresh];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self handleRefresh];
 }
 
 - (void)handleRefresh{
@@ -94,7 +94,7 @@
 - (void)refreshNativeView{
     _headerV.curReward = _rewardDetal.reward;
     UIEdgeInsets contentInset = self.webView.scrollView.contentInset;
-    if (_rewardDetal.reward.status.integerValue == 5 && [[Login curLoginUser] isDeveloper]) {//招募中的 Reward
+    if (_rewardDetal.reward.status.integerValue == 5 && ![[Login curLoginUser] isDemandSide]) {//招募中的 Reward
         //顶部提示
         if ([Login isLogin]) {
             User *loginUser = [Login curLoginUser];
@@ -180,7 +180,7 @@
     switch (joinStatus.integerValue) {
         case JoinStatusFresh:
         case JoinStatusChecked:
-            bottomBtn = [self p_bottomBtnWithTitle:@"编辑" bgColorHexStr:@"0x4289DB"];
+            bottomBtn = [self p_bottomBtnWithTitle:@"编辑申请内容" bgColorHexStr:@"0x4289DB"];
             break;
         case JoinStatusSucessed:
             break;
@@ -240,6 +240,7 @@
 }
 
 - (void)bottomBtnClicked:(UIButton *)sender{
+    [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"悬赏详情_%@", sender.titleLabel.text]];
     if ([Login isLogin]) {
         if (![[Login curLoginUser] canJoinReward]) {//未完善个人资料
             FillTypesViewController *vc = [FillTypesViewController storyboardVC];
@@ -259,7 +260,6 @@
         };
         [UIViewController presentVC:vc dismissBtnTitle:@"取消"];
     }
-    NSLog(@"bottomBtnClicked : %@", sender.titleLabel.text);
 }
 
 - (void)navBtnClicked:(id)sender{

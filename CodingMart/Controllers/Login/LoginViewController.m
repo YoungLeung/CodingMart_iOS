@@ -99,9 +99,7 @@
 
 #pragma mark - Button
 
-- (IBAction)loginBtnClicked:(id)sender {
-    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"登录"];
-    
+- (IBAction)loginBtnClicked:(id)sender {    
     [NSObject showHUDQueryStr:@"正在登录..."];
     [[Coding_NetAPIManager sharedManager] post_LoginWithUserStr:_userStr password:_password captcha:(_captchaNeeded? _captcha: nil) block:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
@@ -120,10 +118,12 @@
 }
 
 - (IBAction)cannotLoginBtnClicked:(id)sender {
+    [MobClick event:kUmeng_Event_UserAction label:@"登录_找回密码"];
     [self performSegueWithIdentifier:NSStringFromClass([CannotLoginViewController class]) sender:nil];
 }
 
 - (IBAction)registerBtnClicked:(id)sender {
+    [MobClick event:kUmeng_Event_UserAction label:@"登录_去注册"];
     [self performSegueWithIdentifier:NSStringFromClass([RegisterPhoneViewController class]) sender:self];
 }
 

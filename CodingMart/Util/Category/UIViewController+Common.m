@@ -102,8 +102,12 @@
     }
 }
 
-+(void)updateTabVCList{
-    [(AppDelegate *)[UIApplication sharedApplication].delegate setupTabViewController];
++(void)updateTabVCListWithSelectedIndex:(NSInteger)selectedIndex{
+    AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [appDelegate setupTabViewController];
+    RootTabViewController *rootVC = (RootTabViewController *)appDelegate.window.rootViewController;
+    selectedIndex = MAX(0, MIN(rootVC.tabList.count - 1, selectedIndex));
+    [rootVC setSelectedIndex:selectedIndex];
 }
 
 - (void)dismissModalViewControllerAnimatedYes{
@@ -154,8 +158,6 @@
         if (self.navigationController.childViewControllers.count > 1) {
             [self.rdv_tabBarController setTabBarHidden:YES animated:YES];
         }
-        //umemg
-        [MobClick beginLogPageView:[self className]];
     }
     [self customViewWillAppear:animated];
 }
@@ -181,10 +183,6 @@
     if (!self.navigationItem.backBarButtonItem
         && self.navigationController.viewControllers.count > 1) {//设置返回按钮(backBarButtonItem的图片不能设置；如果用leftBarButtonItem属性，则iOS7自带的滑动返回功能会失效)
         self.navigationItem.backBarButtonItem = [self backButton];
-    }
-    if ([self p_needSwizzleHandle]) {
-        //umeng
-        [MobClick endLogPageView:[self className]];
     }
     [self customViewWillDisappear:animated];
 }

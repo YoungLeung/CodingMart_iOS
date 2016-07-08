@@ -14,7 +14,7 @@
 + (void)handleNotificationInfo:(NSDictionary *)userInfo applicationState:(UIApplicationState)applicationState;
 + (UIViewController *)analyseVCFromLinkStr:(NSString *)linkStr;
 + (void)presentLinkStr:(NSString *)linkStr;
-+(void)updateTabVCList;
++(void)updateTabVCListWithSelectedIndex:(NSInteger)selectedIndex;
 
 - (void)dismissModalViewControllerAnimatedYes;
 - (void)goToWebVCWithUrlStr:(NSString *)curUrlStr title:(NSString *)titleStr;

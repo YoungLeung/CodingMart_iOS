@@ -24,6 +24,7 @@
 }
 
 - (void)awakeFromNib{
+    _normalStateTitle = self.titleLabel.text;
     self.enabled = self.isEnabled;
 }
 
@@ -36,9 +37,12 @@
     }else{
         self.backgroundColor = foreColor;
     }
+    if (!_normalStateTitle) {
+        _normalStateTitle = @"发送验证码";
+    }
     if (enabled) {
-        [self setTitle:@"发送验证码" forState:UIControlStateNormal];
-    }else if ([self.titleLabel.text isEqualToString:@"发送验证码"]){
+        [self setTitle:_normalStateTitle forState:UIControlStateNormal];
+    }else if ([self.titleLabel.text isEqualToString:_normalStateTitle]){
         [self setTitle:@"正在发送..." forState:UIControlStateNormal];
     }
 }

@@ -89,10 +89,10 @@
 
 - (void)refreshUI{
     [self setupNavBarBtn];
-    BOOL isDeveloper = [_curUser isDeveloper];
+    BOOL isDeveloper = _curUser.loginIdentity.integerValue == 1;
     [_userInfoIconV setImage:[UIImage imageNamed:isDeveloper? @"icon_userinfo_ certify": @"icon_userinfo_ info"]];
     _userInfoL.text = isDeveloper? @"成为认证码士": @"个人信息";
-    _developerPassL.hidden = ![Login isLogin] || [_curUser canJoinReward];
+    _developerPassL.hidden = ![Login isLogin] || [_curUser isDemandSide] || [_curUser canJoinReward];
     [_fillUserInfoBtn setTitle:_curUser.name forState:UIControlStateNormal];
     [_user_iconV sd_setImageWithURL:[_curUser.avatar urlWithCodingPath] placeholderImage:[UIImage imageNamed:@"placeholder_user"]];
     [_footerBtn setTitle:isDeveloper? @"切换至需求方模式": @"切换至开发者模式" forState:UIControlStateNormal];
@@ -147,8 +147,9 @@
 
 #pragma mark Btn
 - (IBAction)footerBtnClicked:(id)sender {
+    [MobClick event:kUmeng_Event_UserAction label:[_curUser isDemandSide]? @"切换至开发者模式": @"切换至需求方模式"];
     [NSObject showHUDQueryStr:@"正在切换视图..."];
-    [[Coding_NetAPIManager sharedManager] post_LoginIdentity:[[Login curLoginUser] isDeveloper]? @2: @1 andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] post_LoginIdentity:[[Login curLoginUser] isDemandSide]? @1: @2 andBlock:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data) {
             AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -170,7 +171,7 @@
     }else if (section == 1){
         height = 0;
     }else if (section == 2){
-        height = 10;
+        height = _curUser.loginIdentity.integerValue == 0? 0: 10;
     }
     return height;
 }
@@ -184,7 +185,7 @@
     if (section == 0) {
         num = 0;
     }else if (section == 1){
-        num = 1;
+        num = _curUser.loginIdentity.integerValue == 0? 0: 1;
     }else{
         num = 3;
     }
@@ -198,13 +199,18 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 1) {
-        if ([_curUser isDeveloper]) {
+        if (![_curUser isDemandSide]) {
+            [MobClick event:kUmeng_Event_UserAction label:@"个人中心_个人信息"];
             FillTypesViewController *vc = [FillTypesViewController storyboardVC];
             [self.navigationController pushViewController:vc animated:YES];
         }else{
+            [MobClick event:kUmeng_Event_UserAction label:@"个人中心_成为认证码士"];
             FillUserInfoViewController *vc = [FillUserInfoViewController vcInStoryboard:@"UserInfo"];
             [self.navigationController pushViewController:vc animated:YES];
         }
+    }else if (indexPath.section == 2) {
+        NSString *labelStr = indexPath.row == 0? @"个人中心_帮助与反馈": indexPath.row == 1? @"个人中心_设置": @"个人中心_关于码市";
+        [MobClick event:kUmeng_Event_UserAction label:labelStr];
     }
 }
 
@@ -236,8 +242,7 @@
 
 #pragma mark goTo
 - (void)goToLogin{
-    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"个人中心_弹出登录"];
-    
+    [MobClick event:kUmeng_Event_UserAction label:@"个人中心_请登录"];
     _isDisappearForLogin = YES;
     LoginViewController *vc = [LoginViewController storyboardVCWithUser:nil];
     vc.loginSucessBlock = ^(){

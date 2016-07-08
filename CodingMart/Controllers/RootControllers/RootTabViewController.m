@@ -19,6 +19,7 @@
 #import "PublishedRewardsViewController.h"
 #import "SetIdentityViewController.h"
 #import "AppDelegate.h"
+#import "PublishRewardViewController.h"
 
 typedef NS_ENUM(NSInteger, TabVCType) {
     TabVCTypeFind = 0,
@@ -51,7 +52,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
         NSArray *preTabList = _tabList;
         [self p_setupTabVCList];
         if (![preTabList isEqual:_tabList]) {
-            [UIViewController updateTabVCList];
+            [UIViewController updateTabVCListWithSelectedIndex:0];
             [NSObject showHudTipStr:@"视图已切换"];
         }
     }
@@ -113,7 +114,8 @@ typedef NS_ENUM(NSInteger, TabVCType) {
             vc = [PublishedRewardsViewController vcInStoryboard:@"Independence"];
             break;
         case TabVCTypePublish:
-            vc = [RootPublishViewController vcInStoryboard:@"Root"];
+            vc = [PublishRewardViewController storyboardVCWithReward:nil];
+//            vc = [RootPublishViewController vcInStoryboard:@"Root"];
             break;
         case TabVCTypeMe:
             vc = [UserInfoViewController vcInStoryboard:@"UserInfo"];
@@ -184,6 +186,13 @@ typedef NS_ENUM(NSInteger, TabVCType) {
 
 #pragma mark RDVTabBarControllerDelegate
 - (BOOL)tabBarController:(RDVTabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController{
+    
+    NSUInteger index = [tabBarController.viewControllers indexOfObject:viewController];
+    TabVCType type = [self.tabList[index] integerValue];
+    NSString *tabName = [self p_tabTitleWithTabType:type];
+    [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"底部导航_%@", tabName]];
+    
+    
     if (tabBarController.selectedViewController != viewController) {
         return YES;
     }

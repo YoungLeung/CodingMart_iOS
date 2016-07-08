@@ -70,15 +70,17 @@
 }
 
 - (void)loginBtnClicked{
+    [MobClick event:kUmeng_Event_UserAction label:@"欢迎页_登录码市"];
     LoginViewController *vc = [LoginViewController storyboardVCWithUser:nil];
     vc.loginSucessBlock = ^(){
-        [UIViewController updateTabVCList];
+        [UIViewController updateTabVCListWithSelectedIndex:0];
     };
     [UIViewController presentVC:vc dismissBtnTitle:@"取消"];
 }
 
 - (void)useBtnClicked{
-    [UIViewController updateTabVCList];
+    [MobClick event:kUmeng_Event_UserAction label:@"欢迎页_先用用看"];
+    [UIViewController updateTabVCListWithSelectedIndex:0];
 }
 
 #pragma mark - content
@@ -138,10 +140,10 @@
             [itemView setImage:@"welcome_2" title:@"省心" text:@"全云端开发工具，过程全透明"];
             break;
         case 3:
-            [itemView setImage:@"welcome_3" title:@"安全" text:@"专属项目监理监管，双向协议保障"];
+            [itemView setImage:@"welcome_3" title:@"安全" text:@"专属项目顾问监管，双向协议保障"];
             break;
         default:
-            [itemView setImage:@"welcome_0" title:nil text:@"『 码市是 CODING 旗下的软件众包平台，以云计算技术搭建的云端软件开发平台作为沟通和监管工具，快速连接开发者与需求方，提供专业项目监理进行项目全过程监控 』"];
+            [itemView setImage:@"welcome_0" title:nil text:@"『 码市是 CODING 旗下的软件众包平台，以云计算技术搭建的云端软件开发平台作为沟通和监管工具，快速连接开发者与需求方，提供专业项目顾问进行项目全过程监控 』"];
             break;
     }
     return itemView;

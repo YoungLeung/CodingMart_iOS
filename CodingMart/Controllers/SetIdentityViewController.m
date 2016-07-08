@@ -67,7 +67,7 @@
         [NSObject hideHUDQuery];
         if (data) {
             [self dismissViewControllerAnimated:YES completion:^{
-                [UIViewController updateTabVCList];
+                [UIViewController updateTabVCListWithSelectedIndex:0];
             }];
         }
     }];
