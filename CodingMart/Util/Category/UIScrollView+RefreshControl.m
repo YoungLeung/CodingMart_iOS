@@ -139,7 +139,7 @@
 
 - (void)updateSlogan{
     NSArray *sloganList = @[@"海量认证开发者，精简 IT 建设成本",
-                            @"云端开发工具，过程全透明，专属项目监理",
+                            @"云端开发工具，过程全透明，专属项目顾问",
                             @"专业监管，双向协议保障，纠纷仲裁"];
     _sloganL.text = sloganList[rand()%sloganList.count];
 }

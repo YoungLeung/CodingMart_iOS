@@ -71,6 +71,8 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 @property (weak, nonatomic) IBOutlet UIButton *download_identity_img_auth_Button;
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *submitBtn;
 @property (weak, nonatomic) IBOutlet UITextView *userAgreementTextView;
+@property (weak, nonatomic) IBOutlet UIView *tableHeaderV;
+@property (weak, nonatomic) IBOutlet UILabel *failureReasonL;
 
 
 @property (strong,nonatomic)IdentityAuthenticationModel *model;
@@ -129,27 +131,26 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
 
 
 
--(void)configUI
-{
+-(void)configUI{
     [self hideAllStatusEx];
     
-    if ([self isDocumentExistsAtPath])
-    {
+    if ([self isDocumentExistsAtPath]){
         [self.download_identity_img_auth_Button setTitle:@"打开模板" forState:UIControlStateNormal];
-    }else
-    {
+    }else{
         [self.download_identity_img_auth_Button setTitle:@"下载模板" forState:UIControlStateNormal];
     }
     _checkBox.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [self setupDefValue];
     [self setupEvent];
     //计算textview高度
-//     self.userAgreementTextViewHeight =[IdentityAuthenticationViewController heightForString:[self userProtocol] fontSize:14 andWidth:kScreen_Width-30]+230;
+    //     self.userAgreementTextViewHeight =[IdentityAuthenticationViewController heightForString:[self userProtocol] fontSize:14 andWidth:kScreen_Width-30]+230;
     
-         self.userAgreementTextViewHeight =[IdentityAuthenticationViewController heightForString:[self userProtocol] fontSize:14 andWidth:kScreen_Width-30]+15;
-     self.textViewHeight.constant=self.userAgreementTextViewHeight;
+    self.userAgreementTextViewHeight =[IdentityAuthenticationViewController heightForString:[self userProtocol] fontSize:14 andWidth:kScreen_Width-30]+15;
+    self.textViewHeight.constant=self.userAgreementTextViewHeight;
     
-
+    CGFloat failureReasonLHeight = [_failureReasonL.text getHeightWithFont:_failureReasonL.font constrainedToSize:CGSizeMake(kScreen_Width - 50, CGFLOAT_MAX)];
+    _tableHeaderV.height = _failureReasonL.text.length > 0? 75 + failureReasonLHeight: 30;
+    _tableHeaderV.height = 30;
 }
 
 -(void)setupEvent
@@ -344,7 +345,7 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     switch (indexPath.row)
     {
         case 0:
-            return 132;
+            return 112;
             break;
         case 1:
             return 80;

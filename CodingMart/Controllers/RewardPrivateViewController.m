@@ -168,7 +168,7 @@
             headerV = [self p_headerViewWithStr:status > RewardStatusRecruiting? @"码士分配": @"报名列表"];
         }
     }else if (section == 3 && _curRewardP.basicInfo.status.integerValue > RewardStatusRecruiting){
-        headerV = [self p_headerViewWithStr:_curRewardP.basicInfo.managerName.length > 0? [NSString stringWithFormat:@"阶段列表 | 项目监理：%@", _curRewardP.basicInfo.managerName]: @"阶段列表"];
+        headerV = [self p_headerViewWithStr:_curRewardP.basicInfo.managerName.length > 0? [NSString stringWithFormat:@"阶段列表 | 项目顾问：%@", _curRewardP.basicInfo.managerName]: @"阶段列表"];
     }else if (section == 4){
         headerV = [self p_headerViewWithStr:@"需求文档"];
     }else{

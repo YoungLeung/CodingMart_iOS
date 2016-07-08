@@ -67,7 +67,7 @@
     [_topView addSubview:timeLabel];
     
     NSError *error = nil;
-    NSString *string = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PriceH5File" ofType:@"html"] encoding:NSUTF8StringEncoding error:&error];
+    NSString *string = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"price_template" ofType:@"html"] encoding:NSUTF8StringEncoding error:&error];
     if (_h5String) {
         string = [string stringByReplacingOccurrencesOfString:@"${webview_content}" withString:_h5String];
         UIWebView *web = [[UIWebView alloc] initWithFrame:CGRectMake(0, 118+ 64, kScreen_Width, kScreen_Height - _topView.bottom - 64)];
@@ -126,7 +126,8 @@
         [platformList addObject:platformDict];
         
         if ([platform[@"code"] isEqualToString:@"P005"] && webPageCount > 0) {
-            NSDictionary *tempDict = @{@"name":@"页面数量", @"module":@[@{@"name":[NSNumber numberWithInteger:webPageCount],@"function":@[]}]};
+            NSDictionary *tempDict = @{@"name": @"页面数量",
+                                       @"count": @(webPageCount)};
             [categoryList addObject:tempDict];
         }
     }
@@ -135,7 +136,7 @@
     NSString *h5String = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 //    填充 web 视图
     NSError *error = nil;
-    NSString *string = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PriceH5File" ofType:@"html"] encoding:NSUTF8StringEncoding error:&error];
+    NSString *string = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"price_template" ofType:@"html"] encoding:NSUTF8StringEncoding error:&error];
     string = [string stringByReplacingOccurrencesOfString:@"${webview_content}" withString:h5String];
     UIWebView *web = [[UIWebView alloc] initWithFrame:CGRectMake(0, 118+ 64, kScreen_Width, kScreen_Height - _topView.bottom - 64)];
     [web loadHTMLString:string baseURL:nil];
