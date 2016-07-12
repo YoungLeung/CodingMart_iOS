@@ -147,10 +147,16 @@ typedef NS_ENUM(NSInteger, UIIdentityMode)
     
     self.userAgreementTextViewHeight =[IdentityAuthenticationViewController heightForString:[self userProtocol] fontSize:14 andWidth:kScreen_Width-30]+15;
     self.textViewHeight.constant=self.userAgreementTextViewHeight;
-    
+    if (_originalModel.status.integerValue == 2) {
+        _failureReasonL.text = [NSString stringWithFormat:@"原因：%@%@。请核对信息后，重新提交",
+                  _originalModel.reject_reason_text,
+                  (_originalModel.reject_detail.length > 0? [NSString stringWithFormat:@" - %@", _originalModel.reject_detail]: @"")];
+    }else{
+        _failureReasonL.text = nil;
+    }
     CGFloat failureReasonLHeight = [_failureReasonL.text getHeightWithFont:_failureReasonL.font constrainedToSize:CGSizeMake(kScreen_Width - 50, CGFLOAT_MAX)];
     _tableHeaderV.height = _failureReasonL.text.length > 0? 75 + failureReasonLHeight: 30;
-    _tableHeaderV.height = 30;
+//    _tableHeaderV.height = 30;
 }
 
 -(void)setupEvent

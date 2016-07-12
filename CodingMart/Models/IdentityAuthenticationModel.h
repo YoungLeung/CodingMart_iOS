@@ -22,6 +22,9 @@
 @property(nonatomic,strong)NSString *identity_img_back;
 @property(nonatomic,strong)NSString *identity_img_auth;
 
+@property (strong, nonatomic) NSNumber *status, *reject_reason;
+@property (strong, nonatomic) NSString *reject_reason_text, *reject_detail;
+
 //             未认证 0
 //             认证通过 1
 //             认证失败 2
