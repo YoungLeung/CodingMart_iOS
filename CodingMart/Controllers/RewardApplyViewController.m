@@ -105,6 +105,7 @@
 }
 
 - (IBAction)submitBtnClicked:(id)sender {
+    [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"悬赏详情_%@_点击参与悬赏", [self p_NameOfRoleType:_curJoinInfo.role_type_id]]];
     [NSObject showHUDQueryStr:@"正在提交..."];
     [[Coding_NetAPIManager sharedManager] post_JoinInfo:_curJoinInfo block:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
