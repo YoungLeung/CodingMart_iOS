@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *loginBtn;
 @property (weak, nonatomic) IBOutlet UIButton *cannotLoginBtn;
+@property (weak, nonatomic) IBOutlet UILabel *registerL;
 
 
 
@@ -43,6 +44,10 @@
     // Do any additional setup after loading the view.
     RAC(self, loginBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, userStr), RACObserve(self, password), RACObserve(self, captcha), RACObserve(self, captchaNeeded)] reduce:^id(NSString *userStr, NSString *password, NSString *captcha, NSNumber *captchaNeeded){
         return @(userStr.length > 0 && password.length > 0 && (captcha.length > 0 || !captchaNeeded.boolValue));
+    }];
+    [_registerL setAttrStrWithStr:@"没有码市帐号，立即注册" diffColorStr:@"立即注册" diffColor:kColorBrandBlue];
+    [_registerL bk_whenTapped:^{
+        [self registerLTaped];
     }];
     [self addChangeBaseURLGesture];
 }
@@ -122,7 +127,7 @@
     [self performSegueWithIdentifier:NSStringFromClass([CannotLoginViewController class]) sender:nil];
 }
 
-- (IBAction)registerBtnClicked:(id)sender {
+- (void)registerLTaped{
     [MobClick event:kUmeng_Event_UserAction label:@"登录_去注册"];
     [self performSegueWithIdentifier:NSStringFromClass([RegisterPhoneViewController class]) sender:self];
 }

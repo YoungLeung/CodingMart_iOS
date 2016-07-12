@@ -14,6 +14,7 @@
 #import "Coding_NetAPIManager.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "CountryCodeListViewController.h"
+#import <BlocksKit/BlocksKit+UIKit.h>
 
 @interface RegisterPhoneViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *mobileF;
@@ -22,11 +23,11 @@
 @property (weak, nonatomic) IBOutlet PhoneCodeButton *verify_codeBtn;
 
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *footerBtn;
-@property (weak, nonatomic) IBOutlet UITTTAttributedLabel *footerL;
 
 @property (weak, nonatomic) IBOutlet UILabel *countryCodeL;
 @property (strong, nonatomic) NSDictionary *countryCodeDict;
 
+@property (strong, nonatomic) UILabel *loginL;
 
 @end
 
@@ -38,15 +39,23 @@
     self.countryCodeDict = @{@"country": @"China",
                              @"country_code": @"86",
                              @"iso_code": @"cn"};
-    
-    __weak typeof(self) weakSelf = self;
-    [_footerL addLinkToStr:@"《码市用户服务协议》" value:nil hasUnderline:YES clickedBlock:^(id value) {
-        [weakSelf goToServiceTerms];
-    }];
-    
     _mobileF.text = _mobile;
     RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[self.mobileF.rac_textSignal, self.verify_codeF.rac_textSignal, self.global_keyF.rac_textSignal] reduce:^id(NSString *mobile, NSString *verify_code, NSString *global_key){
         return @(mobile.length > 0 && verify_code.length > 0 && global_key.length > 0);
+    }];
+    
+    if (!_loginL) {
+        _loginL = [UILabel new];
+        _loginL.userInteractionEnabled = YES;
+        _loginL.textColor = [UIColor colorWithHexString:@"0x999999"];
+        _loginL.font = [UIFont systemFontOfSize:15];
+        _loginL.textAlignment = NSTextAlignmentCenter;
+        _loginL.frame = CGRectMake(0, kScreen_Height - self.navBottomY - 60, kScreen_Width, 30);
+        [self.view addSubview:_loginL];
+    }
+    [_loginL setAttrStrWithStr:@"已有码市帐号，立即登录" diffColorStr:@"立即登录" diffColor:kColorBrandBlue];
+    [_loginL bk_whenTapped:^{
+        [self.navigationController popViewControllerAnimated:YES];
     }];
 }
 
