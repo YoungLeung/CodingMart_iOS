@@ -73,6 +73,16 @@
     self.agreementChecked = @YES;
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if ([Login isLogin]) {
+        [self.view removeBlankPageView];
+    }else{
+        [self.view configBlankPageImage:kBlankPageImageFail tipStr:@"您的网络好像出现了问题" buttonTitle:@"刷新一下" buttonBlock:nil];
+    }
+    self.tableView.scrollEnabled = [Login isLogin];
+}
+
 - (void)setupRAC{
     __weak typeof(self) weakSelf = self;
     [RACObserve(self, rewardToBePublished.type) subscribeNext:^(NSNumber *type) {

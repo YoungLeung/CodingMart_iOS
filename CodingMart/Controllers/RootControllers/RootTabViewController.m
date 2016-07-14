@@ -115,8 +115,8 @@ typedef NS_ENUM(NSInteger, TabVCType) {
             vc = [PublishedRewardsViewController vcInStoryboard:@"Independence"];
             break;
         case TabVCTypePublish:
-            vc = [PublishRewardViewController storyboardVCWithReward:nil];
-//            vc = [RootPublishViewController vcInStoryboard:@"Root"];
+//            vc = [PublishRewardViewController storyboardVCWithReward:nil];
+            vc = [RootPublishViewController vcInStoryboard:@"Root"];
             break;
         case TabVCTypeMe:
             vc = [UserInfoViewController vcInStoryboard:@"UserInfo"];
