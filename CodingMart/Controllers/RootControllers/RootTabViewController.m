@@ -88,6 +88,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
     }else{
         tabList = @[@(TabVCTypeFind),
                     @(TabVCTypeRewards),
+                    @(TabVCTypePublish),
                     @(TabVCTypeMe)];
     }
     if (!_tabList || ![tabList isEqual:_tabList]) {
