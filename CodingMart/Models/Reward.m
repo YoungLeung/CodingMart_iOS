@@ -82,9 +82,9 @@
         User *curUser = [Login curLoginUser];
         rewardToBePublished.contact_name = rewardToBePublished.contact_name ?: curUser.name;
         rewardToBePublished.contact_mobile = rewardToBePublished.contact_mobile ?: curUser.phone;
-        rewardToBePublished.country = rewardToBePublished.country ?: @"cn";
-        rewardToBePublished.phoneCountryCode = rewardToBePublished.phoneCountryCode ?: @"+86";
     }
+    rewardToBePublished.country = rewardToBePublished.country ?: @"cn";
+    rewardToBePublished.phoneCountryCode = rewardToBePublished.phoneCountryCode ?: @"+86";
     return rewardToBePublished;
 }
 - (NSDictionary *)toPostParams{
