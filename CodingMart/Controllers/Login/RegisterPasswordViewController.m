@@ -84,10 +84,13 @@
         params[@"j_captcha"] = _captchaCell.textF.text;
     }
     [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-        [NSObject hideHUDQuery];
         if (data) {
-            [self dismissViewControllerAnimated:YES completion:self.loginSucessBlock];
+            [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id data, NSError *error) {
+                [NSObject hideHUDQuery];
+                [self dismissViewControllerAnimated:YES completion:self.loginSucessBlock];
+            }];
         }else{
+            [NSObject hideHUDQuery];
             [self refreshCaptchaNeeded];
         }
     }];
