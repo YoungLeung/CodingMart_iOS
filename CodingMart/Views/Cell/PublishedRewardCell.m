@@ -23,7 +23,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *numL;
 @property (weak, nonatomic) IBOutlet UIImageView *allPaidV;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *priceBottomConstraint;
-
+@property (weak, nonatomic) IBOutlet UIButton *payBtn;
 @end
 
 @implementation PublishedRewardCell
@@ -76,6 +76,7 @@
     _rewardNumL.text = [NSString stringWithFormat:@" No.%@  ", _reward.id.stringValue];
     _numL.text = _reward.status.integerValue == RewardStatusRecruiting? [NSString stringWithFormat:@"%@人报名",_reward.apply_count.stringValue]: nil;
     _priceBottomConstraint.constant = _reward.roleTypesDisplay.length > 0? 0: -20;
+    _payBtn.enabled = _reward.mpay.integerValue ==0;
 }
 
 - (NSAttributedString *)p_payTipStr{
