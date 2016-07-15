@@ -28,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *rewardRoleF;
 @property (weak, nonatomic) IBOutlet UISwitch *acceptNewRewardAllNotificationSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *phoneVerifiedL;
+@property (weak, nonatomic) IBOutlet UILabel *emailVerifiedL;
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *submitBtn;
 
 @property (nonatomic, strong, readwrite) NSTimer *timer;
@@ -87,7 +88,8 @@
     _nameF.text = _userInfo.name;
     _emailF.text = _userInfo.email;
     _phoneF.text = _userInfo.mobile.length > 0? [NSString stringWithFormat:@"(%@) %@", _userInfo.phoneCountryCode.length > 0? _userInfo.phoneCountryCode: @"+86", _userInfo.mobile]: nil;
-    _phoneVerifiedL.hidden = (_userInfo.mobile.length == 0);
+    _phoneVerifiedL.text = _userInfo.phone_validation.boolValue? @"已验证": @"";
+    _emailVerifiedL.text = _userInfo.email_validation.boolValue? @"已验证": @"";
     _qqNumF.text = _userInfo.qq;
     if (_userInfo.district_name.length > 0) {
         _locationF.text = [NSString stringWithFormat:@"%@ - %@ - %@", _userInfo.province_name, _userInfo.city_name, _userInfo.district_name];
