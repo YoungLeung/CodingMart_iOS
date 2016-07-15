@@ -111,10 +111,15 @@
     
     _documentBtn.hidden = !(status != 2 && _curStage.stage_file.length > 0);
     _reasonBtn.hidden = !(status == 2 && _curStage.modify_file.length > 0);;
-    _submitBtn.hidden = !(isStageOwner && (status == 0 || status == 2));;
-    _cancelBtn.hidden = !(!isRewardOwner && isStageOwner && status == 1);
-    _passBtn.hidden = _rejectBtn.hidden = !(isRewardOwner && status == 1);
-    _bottomLineV.hidden = _submitBtn.hidden && _cancelBtn.hidden && _passBtn.hidden && _rejectBtn.hidden;
+    
+    if (_curStage.isMpay) {
+        _submitBtn.hidden = _cancelBtn.hidden = _passBtn.hidden = _rejectBtn.hidden = _bottomLineV.hidden = YES;
+    }else{
+        _submitBtn.hidden = !(isStageOwner && (status == 0 || status == 2));;
+        _cancelBtn.hidden = !(!isRewardOwner && isStageOwner && status == 1);
+        _passBtn.hidden = _rejectBtn.hidden = !(isRewardOwner && status == 1);
+        _bottomLineV.hidden = _submitBtn.hidden && _cancelBtn.hidden && _passBtn.hidden && _rejectBtn.hidden;
+    }
 }
 
 - (IBAction)actionBtnClicked:(UIButton *)sender {
@@ -128,14 +133,18 @@
     if ([obj isKindOfClass:[RewardMetroRoleStage class]]) {
         RewardMetroRoleStage *stage = obj;
         if (stage.isExpand) {
-            NSInteger status = stage.status.integerValue;
-            BOOL isRewardOwner = stage.isRewardOwner;
-            BOOL isStageOwner = stage.isStageOwner;
-            if ((isRewardOwner && status == 1) ||//通过、拒绝
-                (isStageOwner && (status == 0 || status == 1 || status == 2))) {//提交、撤销提交
-                height = 290;
-            }else{
+            if (stage.isMpay) {
                 height = 230;
+            }else{
+                NSInteger status = stage.status.integerValue;
+                BOOL isRewardOwner = stage.isRewardOwner;
+                BOOL isStageOwner = stage.isStageOwner;
+                if ((isRewardOwner && status == 1) ||//通过、拒绝
+                    (isStageOwner && (status == 0 || status == 1 || status == 2))) {//提交、撤销提交
+                    height = 290;
+                }else{
+                    height = 230;
+                }
             }
         }else{
             height = 35;
