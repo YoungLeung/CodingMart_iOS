@@ -73,8 +73,8 @@
     }
     _statusL.textColor = [UIColor colorWithHexString:textHexStrList[_reward.status.integerValue]];
     _allPaidV.hidden = !(_reward.balance.floatValue == 0 && _reward.price.floatValue > 0);
-    _rewardNumL.text = [NSString stringWithFormat:@" No.%@  ", _reward.id.stringValue];
-    _numL.text = _reward.status.integerValue == RewardStatusRecruiting? [NSString stringWithFormat:@"%@人报名",_reward.apply_count.stringValue]: nil;
+    _rewardNumL.text = [NSString stringWithFormat:@" No.%@ ", _reward.id.stringValue];
+    _numL.text = [NSString stringWithFormat:@"%@人报名，%@人浏览",_reward.apply_count, _reward.visitCount];
     _priceBottomConstraint.constant = _reward.roleTypesDisplay.length > 0? 0: -20;
     _payBtn.enabled = _reward.mpay.integerValue ==0;
 }
