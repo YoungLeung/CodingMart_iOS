@@ -10,6 +10,7 @@
 #import "RewardPrivateViewController.h"
 #import "MartWebViewController.h"
 #import "Reward.h"
+#import "RewardActivitiesViewController.h"
 
 @interface PayResultViewController ()
 @property (strong, nonatomic) Reward *curReward;
@@ -45,8 +46,8 @@
 #pragma mark - Btn 
 
 - (IBAction)recordBtnClicked:(id)sender {
-    NSString *path = [NSString stringWithFormat:@"/user/p/%@#activity", _curReward.id.stringValue];
-    [self goToWebVCWithUrlStr:path title:@"项目动态"];
+    [MobClick event:kUmeng_Event_UserAction label:@"支付结果_动态"];
+    [self.navigationController pushViewController:[RewardActivitiesViewController vcWithActivities:[Activities ActivitiesWithRewardId:_curReward.id]] animated:YES];
 }
 
 - (IBAction)rewardDetailBtnClicked:(id)sender {

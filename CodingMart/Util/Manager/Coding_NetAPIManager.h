@@ -15,7 +15,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
     PurposeToPasswordReset
 };
 
-@class Reward, FeedBackInfo, SettingNotificationInfo, VerifiedInfo, FillUserInfo, FillSkills, RewardDetail, JoinInfo, Rewards, SkillPro, SkillRole, MartSkill, RewardPrivate;
+@class Reward, FeedBackInfo, SettingNotificationInfo, VerifiedInfo, FillUserInfo, FillSkills, RewardDetail, JoinInfo, Rewards, SkillPro, SkillRole, MartSkill, RewardPrivate, Activities;
 
 
 @interface Coding_NetAPIManager : NSObject
@@ -52,6 +52,8 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)post_CancelStageDocument:(NSNumber *)stageId block:(void (^)(id data, NSError *error))block;
 - (void)post_AcceptStageDocument:(NSNumber *)stageId block:(void (^)(id data, NSError *error))block;
 - (void)post_RejectStageDocument:(NSNumber *)stageId linkStr:(NSString *)linkStr block:(void (^)(id data, NSError *error))block;
+
+- (void)get_activities:(Activities *)activities block:(void (^)(id data, NSError *error))block;
 
 #pragma mark Case
 - (void)get_CaseListWithType:(NSString *)type block:(void (^)(id data, NSError *error))block;

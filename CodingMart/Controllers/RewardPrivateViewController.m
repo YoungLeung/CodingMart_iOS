@@ -27,6 +27,7 @@
 #import "EATextEditView.h"
 #import "Login.h"
 #import "ApplyCoderViewController.h"
+#import "RewardActivitiesViewController.h"
 
 @interface RewardPrivateViewController ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -494,7 +495,7 @@
 
 - (void)goToActivity{
     [MobClick event:kUmeng_Event_UserAction label:@"悬赏详情_动态"];
-    [self goToWebVCWithUrlStr:[NSString stringWithFormat:@"/user/p/%@#activity", _curRewardP.basicInfo.id.stringValue] title:@"项目动态"];
+    [self.navigationController pushViewController:[RewardActivitiesViewController vcWithActivities:[Activities ActivitiesWithRewardId:_curRewardP.basicInfo.id]] animated:YES];
 }
 
 - (void)goToPayReward:(Reward *)reward{

@@ -32,6 +32,7 @@
 #import "MartSkill.h"
 #import "RewardPrivate.h"
 #import "CalcResult.h"
+#import "Activities.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -414,6 +415,19 @@
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"stageId": stageId, @"file": linkStr} withMethodType:Post andBlock:^(id data, NSError *error) {
         block(data, error);
     }];
+}
+
+- (void)get_activities:(Activities *)activities block:(void (^)(id data, NSError *error))block{
+    activities.isLoading = YES;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[activities toPath] withParams:[activities toParams] withMethodType:Get andBlock:^(id data, NSError *error) {
+        activities.isLoading = NO;
+        if (data) {
+            data = [NSObject objectOfClass:@"Activities" fromJSON:data[@"data"]];
+            [activities handleObj:data];
+        }
+        block(activities, error);
+    }];
+
 }
 
 #pragma mark Case
