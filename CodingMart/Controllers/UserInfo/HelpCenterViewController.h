@@ -6,8 +6,8 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "MartWebViewController.h"
 
-@interface HelpCenterViewController : BaseTableViewController
+@interface HelpCenterViewController : MartWebViewController
 
 @end

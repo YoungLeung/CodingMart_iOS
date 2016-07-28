@@ -24,6 +24,7 @@
 #import "RootTabViewController.h"
 #import "AboutViewController.h"
 #import "FillUserInfoViewController.h"
+#import "HelpCenterViewController.h"
 
 @interface UserInfoViewController ()<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *user_iconV;
@@ -211,6 +212,10 @@
     }else if (indexPath.section == 2) {
         NSString *labelStr = indexPath.row == 0? @"个人中心_帮助与反馈": indexPath.row == 1? @"个人中心_设置": @"个人中心_关于码市";
         [MobClick event:kUmeng_Event_UserAction label:labelStr];
+        if (indexPath.row == 0) {
+            HelpCenterViewController *vc = [HelpCenterViewController new];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     }
 }
 

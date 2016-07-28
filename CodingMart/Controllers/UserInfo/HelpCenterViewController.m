@@ -7,7 +7,7 @@
 //
 
 #import "HelpCenterViewController.h"
-#import "MartWebViewController.h"
+#import "FeedBackViewController.h"
 
 @interface HelpCenterViewController ()
 
@@ -15,52 +15,25 @@
 
 @implementation HelpCenterViewController
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.curUrlStr = @"/help";//?type=common
+        self.titleStr = @"帮助中心";
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"反馈" style:UIBarButtonItemStylePlain target:self action:@selector(rightNavBtnClicked)];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
-#pragma mark Table M
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    return [UIView new];
-}
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 20;
-}
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 0) {
-        NSArray *linkList = @[@"/help?type=common",
-                              @"/help?type=guide",
-                              @"/help?type=customer",
-                              @"/help?type=developer"];
-        if (indexPath.row < linkList.count) {
-            NSString *titleStr = nil;
-            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-            for (UIView *subV in cell.contentView.subviews) {
-                if ([subV isKindOfClass:[UILabel class]]) {
-                    titleStr = [(UILabel *)subV text];
-                    break;
-                }
-            }
-            [self goToWebVCWithUrlStr:linkList[indexPath.row] title:titleStr];
-        }
-    }
+- (void)rightNavBtnClicked{
+    FeedBackViewController *vc = [FeedBackViewController vcInStoryboard:@"UserInfo"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end
