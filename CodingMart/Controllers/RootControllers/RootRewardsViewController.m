@@ -233,8 +233,8 @@
         NSInteger index = [list indexOfObject:tag == 0? _selectedType: tag == 1? _selectedStatus: _selectedRoleType];
         CGFloat maxHeight = self.view.height - self.tabView.bottom - CGRectGetHeight(self.rdv_tabBarController.tabBar.frame);
         __weak typeof(self) weakSelf = self;
-        [self.tabView showDropListWithData:list selectedIndex:index inView:self.view maxHeight:maxHeight actionBlock:^(EaseDropListView *dropView) {
-            if (dropView.selectedIndex != NSNotFound) {
+        [self.tabView showDropListWithData:list selectedIndex:index inView:self.view maxHeight:maxHeight actionBlock:^(EaseDropListView *dropView, BOOL isComfirmed) {
+            if (dropView.selectedIndex != NSNotFound && isComfirmed) {
                 NSString *tabStr = tag == 0? @"类型": tag == 1? @"进度": @"角色";
                 NSString *valueStr = dropView.dataList[dropView.selectedIndex];
                 [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"悬赏_%@_%@", tabStr, valueStr]];

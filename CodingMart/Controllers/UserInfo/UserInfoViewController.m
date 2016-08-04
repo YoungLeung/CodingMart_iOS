@@ -39,6 +39,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *developerPassL;
 @property (weak, nonatomic) IBOutlet UIImageView *userInfoIconV;
 @property (weak, nonatomic) IBOutlet UILabel *userInfoL;
+@property (weak, nonatomic) IBOutlet UILabel *mPayL;
 
 @property (strong, nonatomic) User *curUser;
 @property (assign, nonatomic) BOOL isDisappearForLogin;
@@ -110,6 +111,16 @@
     [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id data, NSError *error) {
         weakSelf.curUser = data? data: [Login curLoginUser];
         [weakSelf refreshUnReadNotification];
+        [weakSelf refreshMpay];
+    }];
+}
+
+- (void)refreshMpay{
+    WEAKSELF;
+    [[Coding_NetAPIManager sharedManager] get_MPayBlock:^(id data, NSError *error) {
+        if (data) {
+            weakSelf.mPayL.text = [NSString stringWithFormat:@"￥ %@", data];
+        }
     }];
 }
 
@@ -170,9 +181,9 @@
     if (section == 0) {
         height = 0;
     }else if (section == 1){
-        height = 0;
+        height = ![Login isLogin]? 0: 10;
     }else if (section == 2){
-        height = _curUser.loginIdentity.integerValue == 0? 0: 10;
+        height = ![Login isLogin]? 0: 10;
     }
     return height;
 }
@@ -184,9 +195,9 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSInteger num;
     if (section == 0) {
-        num = 0;
+        num = ![Login isLogin]? 0: 1;
     }else if (section == 1){
-        num = _curUser.loginIdentity.integerValue == 0? 0: 1;
+        num = ![Login isLogin]? 0: 1;
     }else{
         num = 3;
     }
@@ -222,7 +233,7 @@
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
     if (indexPath.section == 0) {//开发宝，待更
-        return NO;
+        return YES;
     }else if (indexPath.section == 1 ||
               (indexPath.section == 2 && indexPath.row == 1)){
         if (![Login isLogin]) {

@@ -33,6 +33,7 @@
 #import "RewardPrivate.h"
 #import "CalcResult.h"
 #import "Activities.h"
+#import "MPayOrders.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -427,7 +428,6 @@
         }
         block(activities, error);
     }];
-
 }
 
 #pragma mark Case
@@ -635,6 +635,28 @@
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"role_ids": role_ids ?: @[]} withMethodType:Post andBlock:^(id data, NSError *error) {
         block(data, error);
     }];
+}
+
+- (void)get_MPayBlock:(void (^)(id, NSError *))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/mpay/account" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = data[@"account"][@"balance"];
+        }
+        block(data, error);
+    }];
+}
+
+- (void)get_MPayOrders:(MPayOrders *)orders block:(void (^)(id data, NSError *error))block{
+    orders.isLoading = YES;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[orders toPath] withParams:[orders toParams] withMethodType:Get andBlock:^(id data, NSError *error) {
+        orders.isLoading = NO;
+        if (data) {
+            data = [NSObject objectOfClass:@"MPayOrders" fromJSON:data];
+            [orders handleObj:data];
+        }
+        block(orders, error);
+    }];
+
 }
 
 #pragma mark FeedBack
