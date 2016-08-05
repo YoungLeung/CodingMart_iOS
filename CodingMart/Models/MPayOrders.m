@@ -44,7 +44,7 @@ static NSDictionary *timeDict, *typeDict, *statusDict, *typeNewDict;
         }
         if (timeDict[_time]) {
             NSDate *fromDate = [NSDate dateWithTimeIntervalSinceNow:-[timeDict[_time] doubleValue]* 24* 60* 60];
-            params[@"from"] = @([fromDate timeIntervalSince1970] * 1000);
+            params[@"from"] = @((long)[fromDate timeIntervalSince1970] * 1000);
         }
     }
     if (_typeList.count > 0) {

@@ -147,6 +147,7 @@
                 }else{
                     weakSelf.orders.statusList = dropView.selectedDataList;
                 }
+                weakSelf.orders.order = nil;
                 [weakSelf refresh];
             }
             self.selectedTabIndex = NSNotFound;

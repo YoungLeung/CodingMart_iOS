@@ -228,7 +228,7 @@
     }
     self.easeDropListView.isMutiple = isMutiple;
     self.easeDropListView.dataList = dataList;
-    if (isMutiple) {
+    if (!isMutiple) {
         if (selectedDataList.count > 0) {
             self.easeDropListView.selectedIndex = [dataList indexOfObject:selectedDataList.firstObject];
         }else{
