@@ -15,7 +15,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
     PurposeToPasswordReset
 };
 
-@class Reward, FeedBackInfo, SettingNotificationInfo, VerifiedInfo, FillUserInfo, FillSkills, RewardDetail, JoinInfo, Rewards, SkillPro, SkillRole, MartSkill, RewardPrivate, Activities, MPayOrders;
+@class Reward, FeedBackInfo, SettingNotificationInfo, VerifiedInfo, FillUserInfo, FillSkills, RewardDetail, JoinInfo, Rewards, SkillPro, SkillRole, MartSkill, RewardPrivate, Activities, MPayOrders, MPayPassword, MPayAccount, MPayAccounts, Withdraw;
 
 
 @interface Coding_NetAPIManager : NSObject
@@ -81,8 +81,15 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)post_DeleteSkillPro:(NSNumber *)proId block:(void (^)(id data, NSError *error))block;
 - (void)post_SkillRole:(SkillRole *)role block:(void (^)(id data, NSError *error))block;
 - (void)post_SkillRoles:(NSArray *)role_ids block:(void (^)(id data, NSError *error))block;
-- (void)get_MPayBlock:(void (^)(id data, NSError *error))block;
+#pragma mark MPay
+- (void)get_MPayBalanceBlock:(void (^)(NSString *balanceStr, NSNumber *balanceNum, NSError *error))block;
 - (void)get_MPayOrders:(MPayOrders *)orders block:(void (^)(id data, NSError *error))block;
+- (void)get_MPayPasswordBlock:(void (^)(id data, NSError *error))block;
+- (void)post_MPayPassword:(MPayPassword *)psd isPhoneCodeUsed:(BOOL)isPhoneCodeUsed block:(void (^)(id data, NSError *error))block;
+- (void)get_MPayAccountsBlock:(void (^)(MPayAccounts *data, NSError *error))block;
+- (void)get_MPayAccountBlock:(void (^)(MPayAccount *data, NSError *error))block;
+- (void)post_MPayAccount:(MPayAccount *)account block:(void (^)(id data, NSError *error))block;
+- (void)post_WithdrawMPayAccount:(MPayAccount *)account block:(void (^)(id data, NSError *error))block;
 
 #pragma mark FeedBack
 - (void)post_FeedBack:(FeedBackInfo *)feedBackInfo  block:(void (^)(id data, NSError *error))block;

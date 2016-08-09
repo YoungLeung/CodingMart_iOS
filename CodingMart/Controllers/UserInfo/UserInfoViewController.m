@@ -117,9 +117,9 @@
 
 - (void)refreshMpay{
     WEAKSELF;
-    [[Coding_NetAPIManager sharedManager] get_MPayBlock:^(id data, NSError *error) {
-        if (data) {
-            weakSelf.mPayL.text = [NSString stringWithFormat:@"￥ %@", data];
+    [[Coding_NetAPIManager sharedManager] get_MPayBalanceBlock:^(NSString *balanceStr, NSNumber *balanceNum, NSError *error) {
+        if (balanceStr) {
+            weakSelf.mPayL.text = [NSString stringWithFormat:@"￥ %@", balanceStr];
         }
     }];
 }

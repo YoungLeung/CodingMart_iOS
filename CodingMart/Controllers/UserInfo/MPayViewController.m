@@ -12,6 +12,14 @@
 #import "MPayOrders.h"
 #import "SVPullToRefresh.h"
 #import "EaseDropListView.h"
+#import "MPayPasswordTypeViewController.h"
+#import "MPayPasswordByPhoneViewController.h"
+#import "MPayWithdrawViewController.h"
+#import "MPayWithdrawAcountViewController.h"
+#import "MPayDepositViewController.h"
+#import "MPayAccounts.h"
+#import "EATipView.h"
+#import "FillUserInfoViewController.h"
 
 @interface MPayViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *balanceL;
@@ -41,7 +49,19 @@
     [_myTableView addInfiniteScrollingWithActionHandler:^{
         [weakSelf refreshOrdersMore:YES];
     }];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     [self refresh];
+}
+
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    if (self.sectionHeaderV.easeDropListView.isShowing) {
+        self.selectedTabIndex = NSNotFound;
+        [self.sectionHeaderV.easeDropListView dismissSendAction:NO];
+    }
 }
 
 - (void)setSelectedTabIndex:(NSInteger)selectedTabIndex{
@@ -82,9 +102,9 @@
 
 - (void)refreshMpay{
     WEAKSELF;
-    [[Coding_NetAPIManager sharedManager] get_MPayBlock:^(id data, NSError *error) {
-        if (data) {
-            weakSelf.balanceL.text = data;
+    [[Coding_NetAPIManager sharedManager] get_MPayBalanceBlock:^(NSString *balanceStr, NSNumber *balanceNum, NSError *error) {
+        if (balanceStr) {
+            weakSelf.balanceL.text = balanceStr;
         }
     }];
 }
@@ -111,14 +131,75 @@
 
 - (IBAction)withdrawBtnClicked:(id)sender {
 //    提现
+    WEAKSELF;
+    [[Coding_NetAPIManager sharedManager] get_MPayAccountsBlock:^(MPayAccounts *data, NSError *error) {
+        [weakSelf goToWithdrawWithMPayAccounts:data];
+    }];
+}
+
+- (void)goToWithdrawWithMPayAccounts:(MPayAccounts *)accounts{
+    BOOL passIdentity =accounts.passIdentity.boolValue, hasPassword = accounts.hasPassword.boolValue;
+    if (!passIdentity || !hasPassword) {//交易密码 && 个人信息
+        //提示框
+        WEAKSELF;
+        void (^identityBlock)() = ^(){
+            [weakSelf.navigationController pushViewController:[FillUserInfoViewController vcInStoryboard:@"UserInfo"] animated:YES];
+        };
+        void (^passwordBlock)() = ^(){
+            [weakSelf navBtnClicked];
+        };
+        EATipView *tipV;
+        if (!passIdentity && !hasPassword) {
+            tipV = [EATipView instancetypeWithTitle:@"您还未完成身份认证和设置交易密码！" tipStr:@"为了您的资金安全，您需要完成「个人信息」并「设置交易密码」后方可申请提现。"];
+            [tipV setLeftBtnTitle:@"个人信息" block:identityBlock];
+            [tipV setRightBtnTitle:@"设置交易密码" block:passwordBlock];
+        }else if (!passIdentity){
+            tipV = [EATipView instancetypeWithTitle:@"您还未完成身份认证！" tipStr:@"为了您的资金安全，您需要完成「个人信息」后方可申请提现。"];
+            [tipV setLeftBtnTitle:@"取消" block:nil];
+            [tipV setRightBtnTitle:@"个人信息" block:identityBlock];
+        }else{
+            tipV = [EATipView instancetypeWithTitle:@"您还未设置交易密码！" tipStr:@"为了您的资金安全，您需要「设置交易密码」后方可申请提现。"];
+            [tipV setLeftBtnTitle:@"取消" block:nil];
+            [tipV setRightBtnTitle:@"设置交易密码" block:passwordBlock];
+        }
+        [tipV showInView:self.view];
+    }else{
+        MPayAccount *account;
+        for (MPayAccount *acc in accounts.accounts) {
+            if ([acc.accountType isEqualToString:@"Alipay"]) {
+                account = acc;
+            }
+        }
+        BOOL canWithDraw = account && [account.status isEqualToString:@"Success"];
+        UIViewController *vc = [canWithDraw? [MPayWithdrawViewController class]: [MPayWithdrawAcountViewController class] vcInStoryboard:@"UserInfo"];
+        [vc setValue:account forKey:@"account"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 - (IBAction)depositBtnClicked:(id)sender {
 //    充值
+    MPayDepositViewController *vc = [MPayDepositViewController vcInStoryboard:@"UserInfo"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)navBtnClicked{
 //    设置交易密码
+    WEAKSELF;
+    [NSObject showHUDQueryStr:@"请稍等..."];
+    [[Coding_NetAPIManager sharedManager] get_MPayPasswordBlock:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (!error) {
+            if (![(MPayPassword *)data account].isSafe.boolValue) {//初次设置
+                MPayPasswordByPhoneViewController *vc = [MPayPasswordByPhoneViewController vcInStoryboard:@"UserInfo"];
+                vc.title = @"设置交易密码";
+                vc.psd = data;
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            }else{
+                [weakSelf.navigationController pushViewController:[MPayPasswordTypeViewController vcInStoryboard:@"UserInfo"] animated:YES];
+            }
+        }
+    }];
 }
 
 #pragma mark header tab

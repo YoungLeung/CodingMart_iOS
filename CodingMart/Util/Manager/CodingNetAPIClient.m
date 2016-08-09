@@ -211,7 +211,7 @@ static dispatch_once_t onceToken_Coding;
     
 }
 
--(void)requestJsonDataWithPath:(NSString *)aPath file:(NSDictionary *)file withParams:(NSDictionary *)params withMethodType:(NetworkMethod)method andBlock:(void (^)(id, NSError *))block{
+-(void)requestJsonDataWithPath:(NSString *)aPath file:(NSDictionary *)file withParams:(NSDictionary *)params withMethodType:(NetworkMethod)method andBlock:(void (^)(id data, NSError *error))block{
     //log请求数据
     DebugLog(@"\n===========request===========\n%@:\n%@", aPath, params);
     aPath = [aPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];

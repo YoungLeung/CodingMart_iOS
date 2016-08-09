@@ -34,6 +34,10 @@
 #import "CalcResult.h"
 #import "Activities.h"
 #import "MPayOrders.h"
+#import "MpayPassword.h"
+#import "MPayAccount.h"
+#import "MPayAccounts.h"
+#import "Withdraw.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -637,12 +641,11 @@
     }];
 }
 
-- (void)get_MPayBlock:(void (^)(id, NSError *))block{
+#pragma mark MPay
+
+- (void)get_MPayBalanceBlock:(void (^)(NSString *balanceStr, NSNumber *balanceNum, NSError *error))block{
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/mpay/account" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
-        if (data) {
-            data = data[@"account"][@"balance"];
-        }
-        block(data, error);
+        block(data[@"account"][@"balance"], data[@"account"][@"balanceValue"], error);
     }];
 }
 
@@ -657,6 +660,59 @@
         block(orders, error);
     }];
 
+}
+
+- (void)get_MPayPasswordBlock:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/mpay/password" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+             data = [NSObject objectOfClass:@"MPayPassword" fromJSON:data];
+        }
+        block(data, error);
+    }];
+}
+- (void)post_MPayPassword:(MPayPassword *)psd isPhoneCodeUsed:(BOOL)isPhoneCodeUsed block:(void (^)(id data, NSError *error))block{
+    if (!psd) {
+        block(nil, nil);
+        return;
+    }
+    NSMutableDictionary *params = @{@"newPassword": psd.nextPassword}.mutableCopy;
+    if (isPhoneCodeUsed) {
+        params[@"verifyCode"] = psd.verifyCode;
+    }else{
+        params[@"oldPassword"] = psd.oldPassword;
+    }
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/mpay/password" withParams:params withMethodType:isPhoneCodeUsed? Post: Put andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+- (void)get_MPayAccountsBlock:(void (^)(MPayAccounts *data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/mpay/withdraw/require" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject objectOfClass:@"MPayAccounts" fromJSON:data];
+        }
+        block(data, error);
+    }];
+}
+- (void)get_MPayAccountBlock:(void (^)(MPayAccount *data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/mpay/withdraw/account" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = data[@"account"]? [NSObject objectOfClass:@"MPayAccount" fromJSON:data[@"account"]]: nil;
+        }
+        block(data, error);
+    }];
+}
+- (void)post_MPayAccount:(MPayAccount *)account block:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/mpay/withdraw/account" withParams:[account toParams] withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+- (void)post_WithdrawMPayAccount:(MPayAccount *)account block:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/mpay/withdraw" withParams:[account toWithdrawParams] withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject objectOfClass:@"Withdraw" fromJSON:data];
+        }
+        block(data, error);
+    }];
 }
 
 #pragma mark FeedBack
@@ -692,7 +748,7 @@
     }];
 }
 
-- (void)post_payFirstForPriceSystem:(NSDictionary *)params block:(void (^)(id, NSError *))block {
+- (void)post_payFirstForPriceSystem:(NSDictionary *)params block:(void (^)(id data, NSError *error))block {
     NSString *path = @"api/payment/app/charge";
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
         data = [data objectForKey:@"data"];
@@ -700,7 +756,7 @@
     }];
 }
 
-- (void)get_quoteFunctions:(void (^)(id, NSError *))block {
+- (void)get_quoteFunctions:(void (^)(id data, NSError *error))block {
     NSString *path = @"api/quote/functions";
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         data = [data objectForKey:@"data"];
@@ -708,7 +764,7 @@
     }];
 }
 
-- (void)post_calcPrice:(NSDictionary *)params block:(void (^)(id, NSError *))block {
+- (void)post_calcPrice:(NSDictionary *)params block:(void (^)(id data, NSError *error))block {
     NSString *path = @"api/quote/calculate";
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
         data = data[@"data"];
@@ -717,7 +773,7 @@
     }];
 }
 
-- (void)post_savePrice:(NSDictionary *)params block:(void (^)(id, NSError *))block {
+- (void)post_savePrice:(NSDictionary *)params block:(void (^)(id data, NSError *error))block {
     NSString *path = @"api/quote/save";
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
         data = data[@"data"];
@@ -725,7 +781,7 @@
     }];
 }
 
-- (void)get_priceList:(void (^)(id, NSError *))block {
+- (void)get_priceList:(void (^)(id data, NSError *error))block {
     NSString *path = @"api/quote/list";
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         data = [NSArray arrayFromJSON:data[@"data"] ofObjects:@"PriceList"];
@@ -733,7 +789,7 @@
     }];
 }
 
-- (void)post_shareLink:(NSDictionary *)params block:(void (^)(id, NSError *))block {
+- (void)post_shareLink:(NSDictionary *)params block:(void (^)(id data, NSError *error))block {
     NSNumber *listID = [params objectForKey:@"listID"];
     NSString *path = [NSString stringWithFormat:@"api/quote/%@/share", listID];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {

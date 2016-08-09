@@ -13,7 +13,7 @@
 @property (strong, nonatomic) UIView *bgView, *contentView;
 @property (strong, nonatomic) UIView *topLineV, *bottomLineV, *splitLineV;
 @property (strong, nonatomic) UILabel *titleL, *tipL;
-@property (strong, nonatomic) UIButton *cancelBtn, *confirmBtn;
+@property (strong, nonatomic) UIButton *cancelBtn, *confirmBtn, *forgetPasswordBtn;
 @property (strong, nonatomic) UITextField *textF;
 @end
 
@@ -147,6 +147,40 @@
     _text = text;
     _textF.text = text;
 }
+
+- (void)setIsForPassword:(BOOL)isForPassword{
+    _isForPassword = isForPassword;
+    _textF.secureTextEntry = _isForPassword;
+    self.forgetPasswordBtn.hidden = !(_isForPassword && _forgetPasswordBlock);
+}
+
+- (void)setForgetPasswordBlock:(void (^)())forgetPasswordBlock{
+    _forgetPasswordBlock = forgetPasswordBlock;
+    self.forgetPasswordBtn.hidden = !(_isForPassword && _forgetPasswordBlock);
+}
+
+- (UIButton *)forgetPasswordBtn{
+    if (!_forgetPasswordBtn) {
+        _forgetPasswordBtn = [UIButton new];
+        _forgetPasswordBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+        [_forgetPasswordBtn setTitleColor:kColorBrandBlue forState:UIControlStateNormal];
+        [_forgetPasswordBtn setTitle:@"忘记密码？" forState:UIControlStateNormal];
+        WEAKSELF;
+        [_forgetPasswordBtn bk_addEventHandler:^(id sender) {
+            if (weakSelf.forgetPasswordBlock) {
+                weakSelf.forgetPasswordBlock();
+            }
+        } forControlEvents:UIControlEventTouchUpInside];
+        [_contentView addSubview:_forgetPasswordBtn];
+        [_forgetPasswordBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(_tipL);
+            make.right.equalTo(_topLineV);
+            make.size.mas_equalTo(CGSizeMake(80, 35));
+        }];
+    }
+    return _forgetPasswordBtn;
+}
+
 
 - (void)showInView:(UIView *)view{
     if ([view isKindOfClass:[UIScrollView class]]) {

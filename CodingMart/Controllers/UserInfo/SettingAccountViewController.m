@@ -10,6 +10,8 @@
 #import "Coding_NetAPIManager.h"
 #import "Login.h"
 #import <BlocksKit/BlocksKit+UIKit.h>
+#import "MPayPasswordTypeViewController.h"
+#import "MPayPasswordByPhoneViewController.h"
 
 @interface SettingAccountViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *gkL;
@@ -73,6 +75,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 2 && indexPath.row == 1) {//交易密码
+        [self goToSetMPayPassword];
+    }
 }
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
@@ -96,6 +101,23 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     [segue.destinationViewController setValue:_codingUser forKey:@"codingUser"];
+}
+
+#pragma mark MPay
+- (void)goToSetMPayPassword{
+    WEAKSELF;
+    [NSObject showHUDQueryStr:@"请稍等..."];
+    [[Coding_NetAPIManager sharedManager] get_MPayPasswordBlock:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (![[(MPayPassword *)data account] isSafe]) {//初次设置
+            MPayPasswordByPhoneViewController *vc = [MPayPasswordByPhoneViewController vcInStoryboard:@"UserInfo"];
+            vc.title = @"设置交易密码";
+            vc.psd = data;
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        }else{
+            [weakSelf.navigationController pushViewController:[MPayPasswordTypeViewController vcInStoryboard:@"UserInfo"] animated:YES];
+        }
+    }];
 }
 
 @end
