@@ -11,14 +11,17 @@
 #import "RewardMetro.h"
 #import "RewardApply.h"
 #import "MartFile.h"
+#import "RewardStagePay.h"
 
 @interface RewardPrivate : NSObject
 @property (strong, nonatomic) Reward *basicInfo;
 @property (strong, nonatomic) RewardMetro *metro;
 @property (strong, nonatomic) RewardApply *apply;
+@property (strong, nonatomic) RewardStagePay *stagePay;
 @property (strong, nonatomic, readonly) NSArray *filesToShow;
 @property (strong, nonatomic) NSDictionary *prd;
 - (void)prepareHandle;
 - (void)dealWithPreRewardP:(RewardPrivate *)rewardP;
 - (BOOL)isRewardOwner;
+- (BOOL)needToShowStagePay;
 @end

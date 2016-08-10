@@ -77,4 +77,7 @@
 - (BOOL)isRewardOwner{
     return [_basicInfo.owner.global_key isEqualToString:[Login curLoginUser].global_key];
 }
+- (BOOL)needToShowStagePay{
+    return (_basicInfo.status.integerValue == RewardStatusDeveloping && _basicInfo.mpay.boolValue);
+}
 @end

@@ -21,6 +21,7 @@
 #import "RewardPrivateCoderCell.h"
 #import "RewardPrivateCoderStagesCell.h"
 #import "RewardPrivateFileCell.h"
+#import "RewardPrivateStagePayCell.h"
 #import "RewardPrivateCoderBlankCell.h"
 #import "RewardPrivateCoderStagesBlankCell.h"
 #import "PayMethodViewController.h"
@@ -105,17 +106,17 @@
     switch (status) {
         case RewardStatusFresh:
         case RewardStatusAccepted://地铁图
-            sectionNum = 3;
+            sectionNum = 4;
             break;
         case RewardStatusRejected:
         case RewardStatusCanceled:
         case RewardStatusPassed://提示语
-            sectionNum = 3;
+            sectionNum = 4;
             break;
         case RewardStatusRecruiting:
         case RewardStatusDeveloping:
         case RewardStatusFinished://地铁图+阶段验收
-            sectionNum = _curRewardP.filesToShow.count > 0? 5: 4;
+            sectionNum = _curRewardP.filesToShow.count > 0? 6: 5;
             break;
         default:
             sectionNum = 0;
@@ -129,17 +130,21 @@
     }
     NSInteger status = _curRewardP.basicInfo.status.integerValue;
     NSInteger rowNum = 0;
-    if (section == 0 || section == 1) {
-        rowNum = 1;
-    }else if (section == 2){
+    if (section < 3) {
+        if (section == 1) {
+            rowNum = [_curRewardP needToShowStagePay]? 1: 0;
+        }else{
+            rowNum = 1;
+        }
+    }else if (section == 3){
         if (status < RewardStatusRecruiting) {
             rowNum = 3;
         }else{
             rowNum = MAX(1, _curRewardP.apply.coders.count);
         }
-    }else if (section == 3){
-        rowNum = status <= RewardStatusRecruiting? 0: MAX(1, _curRewardP.metro.roles.count);
     }else if (section == 4){
+        rowNum = status <= RewardStatusRecruiting? 0: MAX(1, _curRewardP.metro.roles.count);
+    }else if (section == 5){
         rowNum = _curRewardP.filesToShow.count;
     }
     return rowNum;
@@ -149,9 +154,11 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     CGFloat headerHeight = 0;
     if (section == 0 ||
-        (section == 3 && _curRewardP.basicInfo.status.integerValue <= RewardStatusRecruiting)) {
+        (section == 4 && _curRewardP.basicInfo.status.integerValue <= RewardStatusRecruiting)) {
         headerHeight = 1.0/[UIScreen mainScreen].scale;
     }else if (section == 1){
+        headerHeight = [_curRewardP needToShowStagePay]? 44: 1.0/[UIScreen mainScreen].scale;
+    }else if (section == 2){
         headerHeight = 10;
     }else{
         headerHeight = 44;
@@ -161,16 +168,18 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *headerV;
-    if (section == 2){
+    if (section == 1 && [_curRewardP needToShowStagePay]) {
+        headerV = [self p_headerViewWithStr:@"资金动态"];
+    }else if (section == 3){
         NSInteger status = _curRewardP.basicInfo.status.integerValue;
         if (status < RewardStatusRecruiting) {
             headerV = [self p_headerViewWithStr:@"项目描述"];
         }else{
             headerV = [self p_headerViewWithStr:status > RewardStatusRecruiting? @"码士分配": @"报名列表"];
         }
-    }else if (section == 3 && _curRewardP.basicInfo.status.integerValue > RewardStatusRecruiting){
+    }else if (section == 4 && _curRewardP.basicInfo.status.integerValue > RewardStatusRecruiting){
         headerV = [self p_headerViewWithStr:_curRewardP.basicInfo.managerName.length > 0? [NSString stringWithFormat:@"阶段列表 | 项目顾问：%@", _curRewardP.basicInfo.managerName]: @"阶段列表"];
-    }else if (section == 4){
+    }else if (section == 5){
         headerV = [self p_headerViewWithStr:@"需求文档"];
     }else{
         headerV = [UIView new];
@@ -212,6 +221,10 @@
         [cell setupWithReward:_curRewardP.basicInfo];
         return cell;
     }else if (indexPath.section == 1){
+        RewardPrivateStagePayCell *cell = [tableView dequeueReusableCellWithIdentifier:[_curRewardP isRewardOwner]? kCellIdentifier_RewardPrivateStagePayCell_0: kCellIdentifier_RewardPrivateStagePayCell_1 forIndexPath:indexPath];
+        cell.stagePay = _curRewardP.stagePay;
+        return cell;
+    }else if (indexPath.section == 2){
         if (status == RewardStatusRejected ||
             status == RewardStatusCanceled ||
             status == RewardStatusPassed) {//提示语
@@ -229,7 +242,7 @@
             cell.rewardP = _curRewardP;
             return cell;
         }
-    }else if (indexPath.section == 2){
+    }else if (indexPath.section == 3){
         if (status < RewardStatusRecruiting) {//项目描述
             if (indexPath.row == 0) {
                 RewardPrivateBasicInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateBasicInfoCell forIndexPath:indexPath];
@@ -254,7 +267,7 @@
                 return cell;
             }
         }
-    }else if (indexPath.section == 3){//阶段列表
+    }else if (indexPath.section == 4){//阶段列表
         if (_curRewardP.metro.roles.count > indexPath.row) {
             RewardPrivateCoderStagesCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateCoderStagesCell forIndexPath:indexPath];
             cell.curRole = _curRewardP.metro.roles[indexPath.row];
@@ -265,7 +278,6 @@
             cell.stageHeaderTappedBlock = ^(RewardMetroRole *role, RewardMetroRoleStage *stage){
                 stage.isExpand = !stage.isExpand;
                 [weakSelf.myTableView reloadData];
-//                [weakSelf.myTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
             };
             return cell;
         }else{
@@ -280,16 +292,16 @@
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section <= 1) {
+    if (indexPath.section <= 2) {
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:15];
-    }else if (indexPath.section == 2){
+    }else if (indexPath.section == 3){
         NSInteger status = _curRewardP.basicInfo.status.integerValue;
         if (status >= RewardStatusRecruiting) {
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:15];
         }else{
             [cell addLineUp:indexPath.row == 0 andDown:indexPath.row == [self tableView:_myTableView numberOfRowsInSection:indexPath.section] - 1 andColor:[UIColor colorWithHexString:@"0xdddddd"]];
         }
-    }else if (indexPath.section >= 3){
+    }else if (indexPath.section >= 4){
         [cell addLineUp:indexPath.row == 0 andDown:indexPath.row == [self tableView:_myTableView numberOfRowsInSection:indexPath.section] - 1 andColor:[UIColor colorWithHexString:@"0xdddddd"]];
     }
 }
@@ -300,6 +312,8 @@
     if (indexPath.section == 0) {
         cellHeight = [RewardPrivateTopCell cellHeight];
     }else if (indexPath.section == 1){
+        cellHeight = [RewardPrivateStagePayCell cellHeight];
+    }else if (indexPath.section == 2){
         if (status == RewardStatusRejected ||
             status == RewardStatusCanceled ||
             status == RewardStatusPassed) {//提示语
@@ -307,7 +321,7 @@
         }else{//地铁图
             cellHeight = [RewardPrivateMetroCell cellHeightWithObj:_curRewardP];
         }
-    }else if (indexPath.section == 2){
+    }else if (indexPath.section == 3){
         if (status < RewardStatusRecruiting) {//项目描述
             if (indexPath.row == 0) {
                 cellHeight = [RewardPrivateBasicInfoCell cellHeight];
@@ -319,7 +333,7 @@
         }else{//码士分配
             cellHeight = _curRewardP.apply.coders.count > indexPath.row? [RewardPrivateCoderCell cellHeight]: [RewardPrivateCoderBlankCell cellHeight];
         }
-    }else if (indexPath.section == 3){//阶段列表
+    }else if (indexPath.section == 4){//阶段列表
         cellHeight = _curRewardP.metro.roles.count > indexPath.row? [RewardPrivateCoderStagesCell cellHeightWithObj:_curRewardP.metro.roles[indexPath.row]]: [RewardPrivateCoderStagesBlankCell cellHeight];
     }else{//文件列表
         cellHeight = [RewardPrivateFileCell cellHeight];
@@ -331,13 +345,13 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     NSInteger status = _curRewardP.basicInfo.status.integerValue;
-    if (indexPath.section == 2 &&
+    if (indexPath.section == 3 &&
         status >= RewardStatusRecruiting &&
         _curRewardP.apply.coders.count > indexPath.row) {//码士分配
         RewardApplyCoder *curCoder = _curRewardP.apply.coders[indexPath.row];
         ApplyCoderViewController *vc = [ApplyCoderViewController vcWithCoder:curCoder reward:_curRewardP.basicInfo];
         [self.navigationController pushViewController:vc animated:YES];
-    }else if (indexPath.section == 4 &&
+    }else if (indexPath.section == 5 &&
               _curRewardP.filesToShow.count > indexPath.row){
         MartFile *curFile = _curRewardP.filesToShow[indexPath.row];
         if (![curFile isKindOfClass:[MartFile class]]) {
