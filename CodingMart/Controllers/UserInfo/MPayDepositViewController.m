@@ -204,7 +204,7 @@
     }
     [NSObject showHUDQueryStr:@"正在查询订单状态..."];
     [[Coding_NetAPIManager sharedManager] get_MPayOrderStatus:orderId block:^(id data, NSError *error) {
-        if ([data[@"status"] isEqual:@(1)]) {//交易成功
+        if (data && [data isKindOfClass:[NSString class]] && [(NSString *)data isEqualToString:@"Success"]) {//交易成功
             [NSObject hideHUDQuery];
             [self goToSucessVC:data];
         }else{

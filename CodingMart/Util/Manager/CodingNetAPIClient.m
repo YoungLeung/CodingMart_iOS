@@ -42,6 +42,7 @@ static dispatch_once_t onceToken_Coding;
         return nil;
     }
     self.responseSerializer = [AFJSONResponseSerializer serializer];
+    [(AFJSONResponseSerializer *)self.responseSerializer setReadingOptions:(NSJSONReadingOptions)0 | NSJSONReadingAllowFragments];
     self.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/plain", @"text/javascript", @"text/json", @"text/html", nil];
     
 

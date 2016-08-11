@@ -214,6 +214,9 @@
 
 //网络请求
 + (BOOL)saveResponseData:(NSDictionary *)data toPath:(NSString *)requestPath{
+    if (!data || ![data isKindOfClass:[NSDictionary class]]) {
+        return NO;
+    }
     User *loginUser = [Login curLoginUser];
     if (!loginUser) {
         return NO;
@@ -288,6 +291,9 @@
     return [self handleResponse:responseJSON autoShowError:YES];
 }
 -(id)handleResponse:(id)responseJSON autoShowError:(BOOL)autoShowError{
+    if ([responseJSON isKindOfClass:[NSDictionary class]]) {
+        return nil;
+    }
     NSError *error = nil;
     //code为非0值时，表示有错
     NSNumber *resultCode = responseJSON[@"code"];

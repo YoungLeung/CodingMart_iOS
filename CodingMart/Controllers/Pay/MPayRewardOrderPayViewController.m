@@ -82,7 +82,7 @@
     [NSObject showHUDQueryStr:@"正在支付..."];
     [[Coding_NetAPIManager sharedManager] post_MPayOrderId:_curMPayOrder.orderId password:psd block:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
-        if (data) {
+        if (data && [(NSNumber *)data boolValue]) {
             MPayRewardOrderPayResultViewController *vc = [MPayRewardOrderPayResultViewController vcInStoryboard:@"Pay"];
             vc.curReward = weakSelf.curReward;
             vc.curMPayOrder = weakSelf.curMPayOrder;
