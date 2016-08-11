@@ -8,6 +8,12 @@
 
 #import "MPayDepositViewController.h"
 #import "Login.h"
+#import <UMengSocial/WXApi.h>
+#import <UMengSocial/WXApiObject.h>
+#import <AlipaySDK/AlipaySDK.h>
+#import "UIButton+Query.h"
+#import "Coding_NetAPIManager.h"
+#import "Reward.h"
 
 @interface MPayDepositViewController ()
 
@@ -22,6 +28,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *contactL;
 
 @property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
+
+@property (strong, nonatomic) NSDictionary *payDict;
 
 //@property (strong, nonatomic) NSString *platform;//Weixin、
 @end
@@ -46,6 +54,7 @@
     });
 }
 
+#pragma mark Table
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return section == 1? 15: 0;
 }
@@ -98,8 +107,118 @@
     }
 }
 
-- (IBAction)bottomBtnClicked:(id)sender {
-//    TODO
-    [NSObject showHudTipStr:@"待开发"];
+#pragma mark - app url
+- (BOOL)p_canOpenWeiXin{
+    return [self p_canOpen:@"weixin://"];
 }
+
+- (BOOL)p_canOpenAlipay{
+    return [self p_canOpen:@"alipay://"];
+}
+
+- (BOOL)p_canOpen:(NSString*)url{
+    return [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:url]];
+}
+
+#pragma mark Btn
+
+- (IBAction)bottomBtnClicked:(UIButton *)sender {
+    if (_platformIndex == PayMethodWeiXin && ![self p_canOpenWeiXin]){
+        [NSObject showHudTipStr:@"您还没有安装「微信」"];
+        return;
+    }
+    if (_priceF.text.floatValue < 0 || _priceF.text.floatValue > 100000) {
+        [NSObject showHudTipStr:@"充值金额必须在「1 ~ 100,000」元之间, 最多保留两位小数!"];
+        return;
+    }
+    __weak typeof(self) weakSelf = self;
+    [sender startQueryAnimate];
+    [[Coding_NetAPIManager sharedManager] post_GenerateOrderWithDepositPrice:@(_priceF.text.floatValue) methodType:_platformIndex block:^(id data, NSError *error) {
+        [sender stopQueryAnimate];
+        if (data) {
+            weakSelf.payDict = data;
+            [weakSelf goToPay];
+        }
+    }];
+}
+
+
+- (void)goToPay{
+    if (_platformIndex == PayMethodAlipay) {
+        [self aliPay];
+    }else if (_platformIndex == PayMethodWeiXin){
+        [self weixinPay];
+    }
+}
+
+- (void)weixinPay{
+    PayReq *req = [PayReq new];
+    NSDictionary *resultDict = _payDict[@"weixinAppResult"];
+    
+    req.partnerId = resultDict[@"partnerId"];
+    req.prepayId = resultDict[@"prepayId"];
+    req.nonceStr = resultDict[@"nonceStr"];
+    req.timeStamp = [resultDict[@"timestamp"] intValue];
+    req.package = resultDict[@"package"];
+    req.sign = resultDict[@"sign"];
+    [WXApi sendReq:req];
+}
+
+- (void)aliPay{
+    __weak typeof(self) weakSelf = self;
+    [[AlipaySDK defaultService] payOrder:_payDict[@"alipayAppResult"][@"order"] fromScheme:kAppScheme callback:^(NSDictionary *resultDic) {
+        [weakSelf handleAliResult:resultDic];
+    }];
+}
+
+#pragma mark - handleSucessPay
+- (void)handlePayURL:(NSURL *)url{
+    if (_platformIndex == PayMethodAlipay) {
+        __weak typeof(self) weakSelf = self;
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+            [weakSelf handleAliResult:resultDic];
+        }];
+    }else if (_platformIndex == PayMethodWeiXin){
+        NSInteger resultCode = [[url queryParams][@"ret"] intValue];
+        if (resultCode == 0) {
+            [self paySucess];
+        }else if (resultCode == -1){
+            [NSObject showHudTipStr:@"支付失败"];
+        }
+    }
+}
+
+- (void)handleAliResult:(NSDictionary *)resultDic{
+    if ([resultDic[@"resultStatus"] integerValue] == 9000) {
+        [self paySucess];
+    }else{
+        NSString *tipStr = resultDic[@"memo"];
+        [NSObject showHudTipStr:tipStr.length > 0? tipStr: @"支付失败"];
+    }
+}
+
+- (void)paySucess{
+    NSString *orderId = _payDict[@"orderId"];
+    if (orderId.length <= 0) {
+        return;
+    }
+    [NSObject showHUDQueryStr:@"正在查询订单状态..."];
+    [[Coding_NetAPIManager sharedManager] get_MPayOrderStatus:orderId block:^(id data, NSError *error) {
+        if ([data[@"status"] isEqual:@(1)]) {//交易成功
+            [NSObject hideHUDQuery];
+            [self goToSucessVC:data];
+        }else{
+            [self paySucess];
+        }
+    }];
+}
+
+- (void)goToSucessVC:(NSDictionary *)orderDict{
+    kTipAlert(@"支付成功");
+    
+    if (self.navigationController.topViewController == self) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
 @end

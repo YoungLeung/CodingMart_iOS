@@ -736,6 +736,24 @@
         block(data, error);
     }];
 }
+- (void)post_GenerateOrderWithDepositPrice:(NSNumber *)depositPrice methodType:(PayMethodType)methodType block:(void (^)(id data, NSError *error))block{
+    NSDictionary *params = @{@"service": @"App",
+                             @"price": depositPrice,
+                             @"platform": methodType == PayMethodAlipay? @"Alipay": methodType == PayMethodWeiXin? @"Weixin": @"Bank"};
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/mpay/deposit" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+
+- (void)get_MPayOrderStatus:(NSString *)orderId block:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/mpay/order/%@/status", orderId];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+
+}
+
 #pragma mark FeedBack
 - (void)post_FeedBack:(FeedBackInfo *)feedBackInfo  block:(void (^)(id data, NSError *error))block{
     NSString *path  = @"api/feedback";
