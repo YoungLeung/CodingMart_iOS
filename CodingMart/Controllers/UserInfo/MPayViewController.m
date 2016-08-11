@@ -132,7 +132,9 @@
 - (IBAction)withdrawBtnClicked:(id)sender {
 //    提现
     WEAKSELF;
+    [NSObject showHUDQueryStr:@"请稍等..."];
     [[Coding_NetAPIManager sharedManager] get_MPayAccountsBlock:^(MPayAccounts *data, NSError *error) {
+        [NSObject hideHUDQuery];
         [weakSelf goToWithdrawWithMPayAccounts:data];
     }];
 }

@@ -9,6 +9,15 @@
 #import "MPayAccount.h"
 
 @implementation MPayAccount
+
+- (instancetype)init{
+    self = [super init];
+    if (self) {
+        _accountType = @"Alipay";
+    }
+    return self;
+}
+
 - (NSDictionary *)toParams{
     NSDictionary *params;
     if ([_accountType isEqualToString:@"Alipay"]) {

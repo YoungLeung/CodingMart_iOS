@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface MPayOrder : NSObject
-@property (strong, nonatomic) NSDate *createdAt;
-@property (strong, nonatomic) NSNumber *orderId, *productId;
-@property (strong, nonatomic) NSNumber *orderType, *productType, *status;
-@property (strong, nonatomic) NSString *title, *totalFee;
+@property (strong, nonatomic) NSString *orderId, *orderType, *productType, *status, *title, *totalFee;
+@property (strong, nonatomic) NSNumber *productId, *creatorId, *userId;
+@property (strong, nonatomic) NSDate *createdAt, *updatedAt;
+
 @end

@@ -110,18 +110,20 @@
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id data, NSError *error) {
         weakSelf.curUser = data? data: [Login curLoginUser];
-        [weakSelf refreshUnReadNotification];
-        [weakSelf refreshMpay];
     }];
+    
+    [self refreshUnReadNotification];
+    [self refreshMpay];
 }
 
 - (void)refreshMpay{
-    WEAKSELF;
-    [[Coding_NetAPIManager sharedManager] get_MPayBalanceBlock:^(NSString *balanceStr, NSNumber *balanceNum, NSError *error) {
-        if (balanceStr) {
-            weakSelf.mPayL.text = [NSString stringWithFormat:@"￥ %@", balanceStr];
-        }
-    }];
+    self.mPayL.text = @"";
+//    WEAKSELF;
+//    [[Coding_NetAPIManager sharedManager] get_MPayBalanceBlock:^(NSString *balanceStr, NSNumber *balanceNum, NSError *error) {
+//        if (balanceStr) {
+//            weakSelf.mPayL.text = [NSString stringWithFormat:@"￥ %@", balanceStr];
+//        }
+//    }];
 }
 
 - (void)refreshUnReadNotification{

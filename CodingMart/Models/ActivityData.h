@@ -11,5 +11,5 @@
 @interface ActivityData : NSObject
 @property (strong, nonatomic) NSNumber *id, *reward_id, *user_id, *target_type, *target_id, *action;
 @property (strong, nonatomic) NSString *content;
-@property (strong, nonatomic) NSDate *format_created_at;
+@property (strong, nonatomic) NSDate *created_at;
 @end

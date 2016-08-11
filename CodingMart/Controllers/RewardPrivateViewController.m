@@ -29,6 +29,9 @@
 #import "Login.h"
 #import "ApplyCoderViewController.h"
 #import "RewardActivitiesViewController.h"
+#import "MPayRewardOrderGenerateViewController.h"
+#import <BlocksKit/BlocksKit+UIKit.h>
+#import "EATipView.h"
 
 @interface RewardPrivateViewController ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -88,7 +91,7 @@
         if (data) {
             [(RewardPrivate *)data dealWithPreRewardP:weakSelf.curRewardP];
             weakSelf.curRewardP = data;
-            weakSelf.bottomView.hidden = ![weakSelf.curRewardP isRewardOwner] || ![weakSelf.curRewardP.basicInfo needToPay] || weakSelf.curRewardP.basicInfo.mpay.integerValue == 1;
+            weakSelf.bottomView.hidden = ![weakSelf.curRewardP isRewardOwner] || ![weakSelf.curRewardP.basicInfo needToPay] || weakSelf.curRewardP.basicInfo.mpay.boolValue;
             weakSelf.bottomLabel.text = [NSString stringWithFormat:@"还剩 %@ 未付清", weakSelf.curRewardP.basicInfo.format_balance];
             [weakSelf.myTableView reloadData];
             [weakSelf refreshNav];
@@ -170,6 +173,25 @@
     UIView *headerV;
     if (section == 1 && [_curRewardP needToShowStagePay]) {
         headerV = [self p_headerViewWithStr:@"资金动态"];
+        if ([_curRewardP isRewardOwner]) {//码市提醒
+            UIButton *tipBtn = [UIButton new];
+            tipBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+            [tipBtn setTitleColor:[UIColor colorWithHexString:@"0x999999"] forState:UIControlStateNormal];
+            [tipBtn setImage:[UIImage imageNamed:@"icon_info"] forState:UIControlStateNormal];
+            [tipBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 3, 0, -10)];
+            [tipBtn setTitle:@"码市提醒" forState:UIControlStateNormal];
+            [headerV addSubview:tipBtn];
+            [tipBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.height.equalTo(headerV);
+                make.right.equalTo(headerV).offset(-15);
+                make.width.mas_equalTo(80);
+            }];
+            WEAKSELF;
+            [tipBtn bk_addEventHandler:^(id sender) {
+                EATipView *tipV = [EATipView instancetypeWithTitle:@"码市提醒您" tipStr:@"为保障您的利益，需求方需预先支付当前阶段款到开发宝，此阶段才正式启动。强烈建议在需求方支付当前阶段款后再进行阶段开发。如遇问题，请您及时联系需求方或码市客服。"];
+                [tipV showInView:weakSelf.view];
+            } forControlEvents:UIControlEventTouchUpInside];
+        }
     }else if (section == 3){
         NSInteger status = _curRewardP.basicInfo.status.integerValue;
         if (status < RewardStatusRecruiting) {
@@ -513,9 +535,15 @@
 }
 
 - (void)goToPayReward:(Reward *)reward{
-    PayMethodViewController *vc = [PayMethodViewController storyboardVC];
-    vc.curReward = reward;
-    [self.navigationController pushViewController:vc animated:YES];
+    if (reward.mpay.boolValue) {
+        MPayRewardOrderGenerateViewController *vc = [MPayRewardOrderGenerateViewController vcInStoryboard:@"Pay"];
+        vc.curReward = reward;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        PayMethodViewController *vc = [PayMethodViewController storyboardVC];
+        vc.curReward = reward;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 

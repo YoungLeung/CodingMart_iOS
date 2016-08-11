@@ -14,6 +14,7 @@
 #import "RewardPrivateViewController.h"
 #import "PayMethodViewController.h"
 #import "PublishRewardViewController.h"
+#import "MPayRewardOrderGenerateViewController.h"
 
 @interface PublishedRewardsViewController ()<UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
@@ -127,9 +128,15 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)goToPayReward:(Reward *)reward{
-    PayMethodViewController *vc = [PayMethodViewController storyboardVC];
-    vc.curReward = reward;
-    [self.navigationController pushViewController:vc animated:YES];
+    if (reward.mpay.boolValue) {
+        MPayRewardOrderGenerateViewController *vc = [MPayRewardOrderGenerateViewController vcInStoryboard:@"Pay"];
+        vc.curReward = reward;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        PayMethodViewController *vc = [PayMethodViewController storyboardVC];
+        vc.curReward = reward;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 #pragma mark Table M
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{

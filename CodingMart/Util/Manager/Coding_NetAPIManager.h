@@ -90,6 +90,9 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)get_MPayAccountBlock:(void (^)(MPayAccount *data, NSError *error))block;
 - (void)post_MPayAccount:(MPayAccount *)account block:(void (^)(id data, NSError *error))block;
 - (void)post_WithdrawMPayAccount:(MPayAccount *)account block:(void (^)(id data, NSError *error))block;
+- (void)post_GenerateOrderWithRewardId:(NSNumber *)rewardId totalFee:(NSString *)totalFee block:(void (^)(id data, NSError *error))block;
+- (void)get_GenerateOrderWithRewardId:(NSNumber *)rewardId block:(void (^)(id data, NSError *error))block;
+- (void)post_MPayOrderId:(NSString *)orderId password:(NSString *)password block:(void (^)(id data, NSError *error))block;
 
 #pragma mark FeedBack
 - (void)post_FeedBack:(FeedBackInfo *)feedBackInfo  block:(void (^)(id data, NSError *error))block;

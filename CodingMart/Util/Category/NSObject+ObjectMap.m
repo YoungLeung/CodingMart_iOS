@@ -236,27 +236,7 @@ static const __unused short _base64DecodingTable[256] = {
             
             // check if NSDate or not
             if ([classType isEqualToString:@"T@\"NSDate\""]) {
-//                1970年的long型数字
-                NSObject *obj = [dict objectForKey:key];
-                if ([obj isKindOfClass:[NSNumber class]]) {
-                    NSNumber *timeSince1970 = (NSNumber *)obj;
-                    NSTimeInterval timeSince1970TimeInterval = timeSince1970.doubleValue/1000;
-                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:timeSince1970TimeInterval];
-                    [newObject setValue:date forKey:propertyName];
-                }else{
-//                            日期字符串
-                    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                    [formatter setDateFormat:OMDateFormat];
-                    [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:OMTimeZone]];
-                    NSString *dateString = [[dict objectForKey:key] stringByReplacingOccurrencesOfString:@"T" withString:@" "];
-                    NSDate *date = [formatter dateFromString:dateString];
-                    if (!date) {
-                        [formatter setDateFormat:EADateFormat];
-                        [formatter setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US"]];
-                        date = [formatter dateFromString:dateString];
-                    }
-                    [newObject setValue:date forKey:propertyName];
-                }
+                [newObject setValue:[self dateFromObject:[dict objectForKey:key]] forKey:propertyName];
             }
             else {
                 if ([dict objectForKey:key] != [NSNull null]) {
@@ -384,28 +364,7 @@ static const char * getPropertyType(objc_property_t property) {
                     NSString *classType = [self typeFromProperty:property];
                     // check if NSDate or not
                     if ([classType isEqualToString:@"T@\"NSDate\""]) {
-//                        1970年的long型数字
-                        NSObject *obj = [nestedArray[xx] objectForKey:newKey];
-                        if ([obj isKindOfClass:[NSNumber class]]) {
-                            NSNumber *timeSince1970 = (NSNumber *)obj;
-                            NSTimeInterval timeSince1970TimeInterval = timeSince1970.doubleValue/1000;
-                            NSDate *date = [NSDate dateWithTimeIntervalSince1970:timeSince1970TimeInterval];
-                            [nestedObj setValue:date forKey:tempNewKey];
-                        }else{
-//                            日期字符串
-                            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                            [formatter setDateFormat:OMDateFormat];
-                            [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:OMTimeZone]];
-                            
-                            NSString *dateString = [[nestedArray[xx] objectForKey:newKey] stringByReplacingOccurrencesOfString:@"T" withString:@" "];
-                            NSDate *date = [formatter dateFromString:dateString];
-                            if (!date) {
-                                [formatter setDateFormat:EADateFormat];
-                                [formatter setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US"]];
-                                date = [formatter dateFromString:dateString];
-                            }
-                            [nestedObj setValue:date forKey:tempNewKey];
-                        }
+                        [nestedObj setValue:[self dateFromObject:[nestedArray[xx] objectForKey:newKey]] forKey:tempNewKey];
                     }
                     else {
                         [nestedObj setValue:[nestedArray[xx] objectForKey:newKey] forKey:tempNewKey];
@@ -644,9 +603,7 @@ static const char * getPropertyType(objc_property_t property) {
         else {
             [objectsArray addObject:[self dictionaryWithPropertiesOfObject:[ContentArray objectAtIndex:ii]]];
         }
-        
     }
-    
     return objectsArray;
 }
 
@@ -658,6 +615,29 @@ static const char * getPropertyType(objc_property_t property) {
     [formatter setDateFormat:OMDateFormat];
     [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:OMTimeZone]];
     return [formatter stringFromDate:date];
+}
+
++ (NSDate *)dateFromObject:(id)obj{
+    NSDate *date;
+    if ([obj isKindOfClass:[NSString class]]) {//日期字符串
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:OMDateFormat];
+//        [formatter setTimeZone:[NSTimeZone localTimeZone]];
+        [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:OMTimeZone]];
+        NSString *dateString = (NSString *)obj;
+        date = [formatter dateFromString:dateString];
+        if (!date) {
+            [formatter setDateFormat:EADateFormat];
+            [formatter setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US"]];
+            date = [formatter dateFromString:dateString];
+        }
+        if (!date && [dateString isPureFloat]) {
+            date = [NSDate dateWithTimeIntervalSince1970:[(NSString *)obj doubleValue]/1000];
+        }
+    }else if ([obj isKindOfClass:[NSNumber class]]) {//1970年的long型数字
+        date = [NSDate dateWithTimeIntervalSince1970:[(NSNumber *)obj doubleValue]/1000];
+    }
+    return date;
 }
 
 #pragma mark - SOAP/XML Serialization

@@ -158,6 +158,9 @@
     _bgView.alpha = 0.0;
     
     CGFloat viewHeight = 44 + 25 + [_tipStr getHeightWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(view.width - 60, CGFLOAT_MAX)] + 25 + 44;
+    BOOL hideBottom = _leftBtn.titleLabel.text.length <= 0 && _rightBtn.titleLabel.text.length <= 0;
+    _leftBtn.hidden = _rightBtn.hidden = _bottomLineV.hidden = _splitLineV.hidden = hideBottom;
+    viewHeight -= hideBottom? 45: 0;
     _contentView.frame = CGRectMake(15, view.height, view.width - 30, viewHeight);
     [view addSubview:self];
     

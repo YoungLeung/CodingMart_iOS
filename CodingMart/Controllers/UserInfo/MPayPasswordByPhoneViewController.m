@@ -42,7 +42,7 @@
 }
 
 - (IBAction)codeBtnClicked:(PhoneCodeButton *)sender {
-    if (![_phoneF.text isPhoneNo]) {
+    if (![_psd.mobile isPhoneNo]) {
         [NSObject showHudTipStr:@"手机号码格式有误"];
         return;
     }
@@ -50,7 +50,7 @@
     NSString *path = @"api/userinfo/send_verify_code_with_country";
     NSDictionary *params = @{@"mobile": _psd.mobile,
                              @"phoneCountryCode": _psd.phoneCountryCode};
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             [NSObject showHudTipStr:@"验证码发送成功"];
             [sender startUpTimer];

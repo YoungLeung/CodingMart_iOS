@@ -124,7 +124,7 @@
     [RACObserve(self, agreementChecked) subscribeNext:^(NSNumber *agreementChecked) {
         [weakSelf.checkBtn setImage:[UIImage imageNamed:(agreementChecked.boolValue? @"checkbox_checked": @"checkbox_check")] forState:UIControlStateNormal];
     }];
-    [_agreementL addLinkToStr:@"《码市用户权责条款议》" value:nil hasUnderline:YES clickedBlock:^(id value) {
+    [_agreementL addLinkToStr:@"《码市用户权责条款》" value:nil hasUnderline:YES clickedBlock:^(id value) {
         [weakSelf goToPublishAgreement];
     }];
 
@@ -176,7 +176,7 @@
 #pragma mark Nav
 - (void)goToPublishAgreement{
     NSString *pathForServiceterms = [[NSBundle mainBundle] pathForResource:@"publish_agreement" ofType:@"html"];
-    [self goToWebVCWithUrlStr:pathForServiceterms title:@"码市用户权责条款议"];
+    [self goToWebVCWithUrlStr:pathForServiceterms title:@"码市用户权责条款"];
 }
 
 #pragma mark - Button

@@ -76,7 +76,8 @@
     _rewardNumL.text = [NSString stringWithFormat:@" No.%@ ", _reward.id.stringValue];
     _numL.text = [NSString stringWithFormat:@"%@人报名，%@人浏览",_reward.apply_count, _reward.visitCount];
     _priceBottomConstraint.constant = _reward.roleTypesDisplay.length > 0? 0: -20;
-    _payBtn.enabled = _reward.mpay.integerValue ==0;
+    
+    [_payBtn setTitle:_reward.mpay.boolValue? @"支付订金":@"立即付款" forState:UIControlStateNormal];
 }
 
 - (NSAttributedString *)p_payTipStr{

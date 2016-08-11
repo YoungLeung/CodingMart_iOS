@@ -53,7 +53,7 @@
     _lineIconV.image = [UIImage imageNamed:haveRead? @"activity_read": @"activity_unread"];
     _userL.text = _curActivity.user.name;
     _contentL.text = _curActivity.action_msg;
-    _timeL.text = [_curActivity.activity.format_created_at stringWithFormat:@"yyyy-mm-dd HH:mm"];
+    _timeL.text = [_curActivity.activity.created_at stringWithFormat:@"yyyy-MM-dd HH:mm"];
 }
 
 + (CGFloat)cellHeightWithObj:(id)obj{

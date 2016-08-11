@@ -42,13 +42,10 @@
 }
 
 - (IBAction)footerBtnClicked:(id)sender {
-    if (!_account) {
-        _account = [MPayAccount new];
-    }
-    _account.price = _priceF.text;
-    _account.description_mine = _descriptionF.text;
     NSString *tipStr;
-    if (!_account) {
+    if (_balance.floatValue <= 0) {
+        tipStr = @"账户余额不足，您无法进行提现操作。";
+    }else if (!_account) {
         tipStr = @"未能获取到账户信息";
     }else if (_account.price.length <= 0 || _account.price.floatValue <= 0) {
         tipStr = @"提现金额必须大于 0";
@@ -57,6 +54,13 @@
         [NSObject showHudTipStr:tipStr];
         return;
     }
+    
+    if (!_account) {
+        _account = [MPayAccount new];
+    }
+    _account.price = _priceF.text;
+    _account.description_mine = _descriptionF.text;
+
     WEAKSELF;
     EATextEditView *psdView = [EATextEditView instancetypeWithTitle:@"请输入交易密码" tipStr:@"请输入交易密码" andConfirmBlock:^(NSString *text) {
         [weakSelf sendRequestWithPsd:[text sha1Str]];

@@ -47,7 +47,7 @@
         for (RewardMetroRoleStage *stage in role.stages) {
             stage.isRewardOwner = isRewardOwner;
             stage.isStageOwner = isStageOwner;
-            stage.isMpay = _basicInfo.mpay.integerValue == 1;
+            stage.isMpay = _basicInfo.mpay.boolValue;
             stage.isExpand = (stage.status.integerValue < 3 && !roleHasExpand) && (isRewardOwner || isStageOwner);
             if (stage.isExpand) {
                 roleHasExpand = YES;

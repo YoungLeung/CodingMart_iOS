@@ -33,8 +33,8 @@
     _totalFeeL.text = [NSString stringWithFormat:@"￥ %@", _withdraw.order.totalFee];
     _accountL.text = [NSString stringWithFormat:@"%@（%@）", _withdraw.account.account, _withdraw.account.accountName];
     
-    _createdAtL.text = [[NSDate dateWithTimeIntervalSince1970:_withdraw.order.createdAt.doubleValue/1000] stringWithFormat:@"yyyy-MM-dd HH:mm"];
-    _updatedAtL.text = [[NSDate dateWithTimeIntervalSince1970:_withdraw.order.updatedAt.doubleValue/1000] stringWithFormat:@"yyyy-MM-dd HH:mm"];
+    _createdAtL.text = [_withdraw.order.createdAt stringWithFormat:@"yyyy-MM-dd HH:mm"];
+    _updatedAtL.text = [_withdraw.order.updatedAt stringWithFormat:@"yyyy-MM-dd HH:mm"];
 }
 
 @end

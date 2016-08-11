@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "WithdrawAccount.h"
-#import "WithdrawOrder.h"
+#import "MPayOrder.h"
 
 @interface Withdraw : NSObject
 @property (strong, nonatomic) WithdrawAccount *account;
-@property (strong, nonatomic) WithdrawOrder *order;
+@property (strong, nonatomic) MPayOrder *order;
 @end
