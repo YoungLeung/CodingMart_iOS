@@ -19,6 +19,7 @@
 #import <BlocksKit/BlocksKit+UIKit.h>
 #import "Rewards.h"
 #import "SVPullToRefresh.h"
+#import "PublishRewardViewController.h"
 
 @interface RootFindViewController ()
 @property (strong, nonatomic, readonly) NSArray *dataList;
@@ -186,24 +187,32 @@
 
 #pragma mark - UnReadTip_NavBtn
 - (void)refreshRightNavBtn{
-    if (![Login isLogin]) {
-        [self.navigationItem setRightBarButtonItem:nil animated:YES];
-        return;
-    }
-    if (!self.navigationItem.rightBarButtonItem) {
-        _rightNavBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-        [_rightNavBtn setImage:[UIImage imageNamed:@"nav_icon_tip"] forState:UIControlStateNormal];
-        [_rightNavBtn addTarget:self action:@selector(goToNotificationVC) forControlEvents:UIControlEventTouchUpInside];
-        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:_rightNavBtn] animated:YES];
-    }
-    __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] get_NotificationUnReadCountBlock:^(id data, NSError *error) {
-        if ([(NSNumber *)data integerValue] > 0) {
-            [weakSelf.rightNavBtn addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(33, 12)];
-        }else{
-            [weakSelf.rightNavBtn removeBadgeTips];
-        }
-    }];
+//    发布
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_edit"] style:UIBarButtonItemStylePlain target:self action:@selector(goToPublish:)];
+    
+//    通知
+//    if (![Login isLogin]) {
+//        [self.navigationItem setRightBarButtonItem:nil animated:YES];
+//        return;
+//    }
+//    if (!self.navigationItem.rightBarButtonItem) {
+//        _rightNavBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+//        [_rightNavBtn setImage:[UIImage imageNamed:@"nav_icon_tip"] forState:UIControlStateNormal];
+//        [_rightNavBtn addTarget:self action:@selector(goToNotificationVC) forControlEvents:UIControlEventTouchUpInside];
+//        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:_rightNavBtn] animated:YES];
+//    }
+//    __weak typeof(self) weakSelf = self;
+//    [[Coding_NetAPIManager sharedManager] get_NotificationUnReadCountBlock:^(id data, NSError *error) {
+//        if ([(NSNumber *)data integerValue] > 0) {
+//            [weakSelf.rightNavBtn addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(33, 12)];
+//        }else{
+//            [weakSelf.rightNavBtn removeBadgeTips];
+//        }
+//    }];
+}
+
+- (void)goToPublish:(id)sender{
+    [self.navigationController pushViewController:[PublishRewardViewController storyboardVCWithReward:[sender isKindOfClass:[Reward class]]? sender: nil] animated:YES];
 }
 
 #pragma mark Table M
