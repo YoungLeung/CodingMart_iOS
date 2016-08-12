@@ -173,7 +173,7 @@
     UIView *headerV;
     if (section == 1 && [_curRewardP needToShowStagePay]) {
         headerV = [self p_headerViewWithStr:@"资金动态"];
-        if ([_curRewardP isRewardOwner]) {//码市提醒
+        if (![_curRewardP isRewardOwner]) {//码市提醒
             UIButton *tipBtn = [UIButton new];
             tipBtn.titleLabel.font = [UIFont systemFontOfSize:12];
             [tipBtn setTitleColor:[UIColor colorWithHexString:@"0x999999"] forState:UIControlStateNormal];
