@@ -291,7 +291,7 @@
     return [self handleResponse:responseJSON autoShowError:YES];
 }
 -(id)handleResponse:(id)responseJSON autoShowError:(BOOL)autoShowError{
-    if ([responseJSON isKindOfClass:[NSDictionary class]]) {
+    if (![responseJSON isKindOfClass:[NSDictionary class]]) {
         return nil;
     }
     NSError *error = nil;
