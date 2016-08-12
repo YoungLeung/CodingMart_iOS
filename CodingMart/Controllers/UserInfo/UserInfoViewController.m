@@ -26,6 +26,8 @@
 #import "FillUserInfoViewController.h"
 #import "HelpCenterViewController.h"
 #import "FunctionTipsManager.h"
+#import "MPayViewController.h"
+#import "EATipView.h"
 
 @interface UserInfoViewController ()<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *user_iconV;
@@ -240,7 +242,20 @@
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
     if (indexPath.section == 0) {//开发宝，待更
-        return YES;
+        if (_curUser.fullInfo.boolValue) {
+            return YES;
+        }else{
+            //提示框
+            WEAKSELF;
+            void (^identityBlock)() = ^(){
+                [weakSelf.navigationController pushViewController:[FillUserInfoViewController vcInStoryboard:@"UserInfo"] animated:YES];
+            };
+            EATipView *tipV = [EATipView instancetypeWithTitle:@"您还未完善个人信息！" tipStr:@"为了您的资金安全，您需要完善「个人信息」后方可申请提现。"];
+            [tipV setLeftBtnTitle:@"取消" block:nil];
+            [tipV setRightBtnTitle:@"个人信息" block:identityBlock];
+            [tipV showInView:self.view];
+            return NO;
+        }
     }else if (indexPath.section == 1 ||
               (indexPath.section == 2 && indexPath.row == 1)){
         if (![Login isLogin]) {
