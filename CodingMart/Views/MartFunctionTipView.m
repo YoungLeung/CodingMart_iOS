@@ -23,6 +23,7 @@
     if (self) {
         _imageV = [UIImageView new];
         _imageV.frame = self.frame = kScreen_Frame;
+        _imageV.backgroundColor = self.backgroundColor = [UIColor clearColor];
         [self addSubview:_imageV];
         
         WEAKSELF;

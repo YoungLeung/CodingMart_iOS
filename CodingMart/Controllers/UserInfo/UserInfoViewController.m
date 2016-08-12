@@ -25,7 +25,7 @@
 #import "AboutViewController.h"
 #import "FillUserInfoViewController.h"
 #import "HelpCenterViewController.h"
-#import "MartFunctionTipView.h"
+#import "FunctionTipsManager.h"
 
 @interface UserInfoViewController ()<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *user_iconV;
@@ -69,6 +69,10 @@
     }];
     
     self.curUser = [Login curLoginUser];
+    if ([Login isLogin] && [FunctionTipsManager needToTip:kFunctionTipStr_MPay]) {
+        [MartFunctionTipView showFunctionImages:@[@"function_mpay"]];
+        [FunctionTipsManager markTiped:kFunctionTipStr_MPay];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated{

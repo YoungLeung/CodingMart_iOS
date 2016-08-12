@@ -16,7 +16,18 @@ static NSString *kFunctionTipStr_JoinedR = @"JoinedR";
 static NSString *kFunctionTipStr_ShareR = @"ShareR";
 static NSString *kFunctionTipStr_ShareApp = @"ShareApp";
 
+static NSString *kFunctionTipStr_MPay = @"MPay";
+//static NSString *kFunctionTipStr_ = @"";
+//static NSString *kFunctionTipStr_ = @"";
+//static NSString *kFunctionTipStr_ = @"";
+//static NSString *kFunctionTipStr_ = @"";
+//static NSString *kFunctionTipStr_ = @"";
+
+
+
+
 #import <Foundation/Foundation.h>
+#import "MartFunctionTipView.h"
 
 @interface FunctionTipsManager : NSObject
 + (instancetype)shareManager;
