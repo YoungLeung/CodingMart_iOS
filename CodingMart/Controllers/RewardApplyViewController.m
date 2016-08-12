@@ -48,13 +48,13 @@
 }
 - (void)p_setupEvents{
     __weak typeof(self) weakSelf = self;
-    RAC(self.submitBtn, enabled) = [RACSignal combineLatest:@[RACObserve(self, curJoinInfo.role_type_id),
+    RAC(self.submitBtn, enabled) = [RACSignal combineLatest:@[RACObserve(self, curJoinInfo.roleTypeId),
                                                               RACObserve(self, curJoinInfo.message),
-                                                              RACObserve(self, curJoinInfo.secret)] reduce:^id(NSNumber *role_type_id, NSString *message, NSNumber *secret){
-                                                                  return @(role_type_id != nil && message.length > 0 && secret.boolValue);
+                                                              RACObserve(self, curJoinInfo.secret)] reduce:^id(NSNumber *roleTypeId, NSString *message, NSNumber *secret){
+                                                                  return @(roleTypeId != nil && message.length > 0 && secret.boolValue);
                                                               }];
-    [RACObserve(self, curJoinInfo.role_type_id) subscribeNext:^(NSNumber *obj) {
-        weakSelf.role_typeF.text = [self p_NameOfRoleType:_curJoinInfo.role_type_id];
+    [RACObserve(self, curJoinInfo.roleTypeId) subscribeNext:^(NSNumber *obj) {
+        weakSelf.role_typeF.text = [self p_NameOfRoleType:_curJoinInfo.roleTypeId];
     }];
     [_messageT.rac_textSignal subscribeNext:^(NSString *newText) {
         weakSelf.curJoinInfo.message = newText;
@@ -105,7 +105,7 @@
 }
 
 - (IBAction)submitBtnClicked:(id)sender {
-    [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"悬赏详情_%@_点击参与悬赏", [self p_NameOfRoleType:_curJoinInfo.role_type_id]]];
+    [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"悬赏详情_%@_点击参与悬赏", [self p_NameOfRoleType:_curJoinInfo.roleTypeId]]];
     [NSObject showHUDQueryStr:@"正在提交..."];
     [[Coding_NetAPIManager sharedManager] post_JoinInfo:_curJoinInfo block:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
@@ -135,10 +135,10 @@
         __weak typeof(self) weakSelf = self;
         [ActionSheetStringPicker showPickerWithTitle:nil
                                                 rows:@[[_rewardDetail.reward.roleTypes valueForKey:@"name"]]
-                                    initialSelection:@[@([self p_IndexOfRoleType:_curJoinInfo.role_type_id])]
+                                    initialSelection:@[@([self p_IndexOfRoleType:_curJoinInfo.roleTypeId])]
                                            doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
                                                NSNumber *index = selectedIndex.firstObject;
-                                               weakSelf.curJoinInfo.role_type_id = [(RewardRoleType *)weakSelf.rewardDetail.reward.roleTypes[index.integerValue] id];
+                                               weakSelf.curJoinInfo.roleTypeId = [(RewardRoleType *)weakSelf.rewardDetail.reward.roleTypes[index.integerValue] id];
                                            }
                                          cancelBlock:nil
                                               origin:self.view];

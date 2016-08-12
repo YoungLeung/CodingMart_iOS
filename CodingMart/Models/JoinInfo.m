@@ -17,15 +17,15 @@
     }
     return self;
 }
-+(instancetype)joinInfoWithRewardId:(NSNumber *)reward_id{
++(instancetype)joinInfoWithRewardId:(NSNumber *)rewardId{
     JoinInfo *info = [self new];
-    info.reward_id = reward_id;
+    info.rewardId = rewardId;
     return info;
 }
 - (NSDictionary *)toParams{
     NSMutableDictionary *params = @{}.mutableCopy;
-    params[@"reward_id"] = _reward_id;
-    params[@"role_type"] = _role_type_id;
+    params[@"reward_id"] = _rewardId;
+    params[@"role_type"] = _roleTypeId;
     params[@"message"] = _message;
     params[@"secret"] = _secret.boolValue? @(1): @(0);
     return params;
