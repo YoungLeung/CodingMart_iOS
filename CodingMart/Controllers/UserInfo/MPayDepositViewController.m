@@ -127,7 +127,7 @@
         [NSObject showHudTipStr:@"您还没有安装「微信」"];
         return;
     }
-    if (_priceF.text.floatValue < 0 || _priceF.text.floatValue > 100000) {
+    if (_priceF.text.floatValue < 1 || _priceF.text.floatValue > 100000) {
         [NSObject showHudTipStr:@"充值金额必须在「1 ~ 100,000」元之间, 最多保留两位小数!"];
         return;
     }
