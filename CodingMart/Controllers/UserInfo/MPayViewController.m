@@ -152,11 +152,11 @@
         };
         EATipView *tipV;
         if (!passIdentity && !hasPassword) {
-            tipV = [EATipView instancetypeWithTitle:@"您还未完成身份认证和设置交易密码！" tipStr:@"为了您的资金安全，您需要完成「个人信息」并「设置交易密码」后方可申请提现。"];
+            tipV = [EATipView instancetypeWithTitle:@"您还未完成身份认证和设置交易密码！" tipStr:@"为了您的资金安全，您需要完善「个人信息」并「设置交易密码」后方可申请提现。"];
             [tipV setLeftBtnTitle:@"个人信息" block:identityBlock];
             [tipV setRightBtnTitle:@"设置交易密码" block:passwordBlock];
         }else if (!passIdentity){
-            tipV = [EATipView instancetypeWithTitle:@"您还未完成身份认证！" tipStr:@"为了您的资金安全，您需要完成「个人信息」后方可申请提现。"];
+            tipV = [EATipView instancetypeWithTitle:@"您还未完成身份认证！" tipStr:@"为了您的资金安全，您需要完善「个人信息」后方可申请提现。"];
             [tipV setLeftBtnTitle:@"取消" block:nil];
             [tipV setRightBtnTitle:@"个人信息" block:identityBlock];
         }else{

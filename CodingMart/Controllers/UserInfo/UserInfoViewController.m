@@ -25,6 +25,7 @@
 #import "AboutViewController.h"
 #import "FillUserInfoViewController.h"
 #import "HelpCenterViewController.h"
+#import "MartFunctionTipView.h"
 
 @interface UserInfoViewController ()<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *user_iconV;
