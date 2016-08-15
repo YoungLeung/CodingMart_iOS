@@ -250,7 +250,7 @@
             void (^identityBlock)() = ^(){
                 [weakSelf.navigationController pushViewController:[FillUserInfoViewController vcInStoryboard:@"UserInfo"] animated:YES];
             };
-            EATipView *tipV = [EATipView instancetypeWithTitle:@"您还未完善个人信息！" tipStr:@"为了您的资金安全，您需要完善「个人信息」后方可申请提现。"];
+            EATipView *tipV = [EATipView instancetypeWithTitle:@"您还未完善个人信息！" tipStr:@"为了您的资金安全，您需要完善「个人信息」后方可使用开发宝。"];
             [tipV setLeftBtnTitle:@"取消" block:nil];
             [tipV setRightBtnTitle:@"个人信息" block:identityBlock];
             [tipV showInView:self.view];
