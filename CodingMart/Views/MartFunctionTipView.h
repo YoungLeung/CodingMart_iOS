@@ -10,4 +10,5 @@
 
 @interface MartFunctionTipView : UIView
 + (void)showFunctionImages:(NSArray *)imageNames;
++ (void)showFunctionImages:(NSArray *)imageNames onlyOneTime:(BOOL)onlyOneTime;
 @end

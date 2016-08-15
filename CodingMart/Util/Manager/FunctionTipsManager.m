@@ -7,6 +7,7 @@
 //
 
 static NSString *kFunctionTipStr_Version = @"version";
+static NSString *kFunctionTipStr_Update = @"isAppUpdate";
 
 #import "FunctionTipsManager.h"
 
@@ -29,8 +30,10 @@ static NSString *kFunctionTipStr_Version = @"version";
     self = [super init];
     if (self) {
         _tipsDict = [NSMutableDictionary dictionaryWithContentsOfFile:[self p_cacheFilePath]];
+        BOOL isAppUpdate = _tipsDict != nil;
         if (![[_tipsDict valueForKey:@"version"] isEqualToString:[NSObject appBuildVersion]]) {
             _tipsDict = [@{kFunctionTipStr_Version: [NSObject appBuildVersion],
+                           kFunctionTipStr_Update: @(isAppUpdate),
                            //Function Need To Tip
 //                           kFunctionTipStr_UserInfo: @(YES),
 //                           kFunctionTipStr_PublishedR: @(YES),
@@ -70,5 +73,8 @@ static NSString *kFunctionTipStr_Version = @"version";
 }
 + (BOOL)markTiped:(NSString *)functionStr{
     return [[self shareManager] markTiped:functionStr];
+}
++ (BOOL)isAppUpdate{
+    return [[self shareManager] needToTip:kFunctionTipStr_Update];
 }
 @end

@@ -71,9 +71,19 @@
     }];
     
     self.curUser = [Login curLoginUser];
-    if ([Login isLogin] && [FunctionTipsManager needToTip:kFunctionTipStr_MPay]) {
-        [MartFunctionTipView showFunctionImages:@[@"function_mpay"]];
-        [FunctionTipsManager markTiped:kFunctionTipStr_MPay];
+    if ([Login isLogin]) {
+        if ([FunctionTipsManager isAppUpdate]) {
+            if ([FunctionTipsManager needToTip:kFunctionTipStr_MPay]) {
+                [MartFunctionTipView showFunctionImages:@[@"function_mpay"]];
+                [FunctionTipsManager markTiped:kFunctionTipStr_MPay];
+            }
+        }else{
+            if (_curUser.loginIdentity.integerValue == 1) {//开发者
+                [MartFunctionTipView showFunctionImages:@[@"guidance_dev_user"] onlyOneTime:YES];
+            }else if (_curUser.loginIdentity.integerValue == 2){//需求方
+                [MartFunctionTipView showFunctionImages:@[@"guidance_dem_user"] onlyOneTime:YES];
+            }
+        }
     }
 }
 

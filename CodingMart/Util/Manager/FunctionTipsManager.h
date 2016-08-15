@@ -33,5 +33,5 @@ static NSString *kFunctionTipStr_MPay = @"MPay";
 + (instancetype)shareManager;
 + (BOOL)needToTip:(NSString *)functionStr;
 + (BOOL)markTiped:(NSString *)functionStr;
-
++ (BOOL)isAppUpdate;
 @end

@@ -16,6 +16,7 @@
 #import <BlocksKit/BlocksKit+UIKit.h>
 #import "MartShareView.h"
 #import "RewardDetailHeaderView.h"
+#import "MartFunctionTipView.h"
 
 @interface RewardDetailViewController ()
 @property (strong, nonatomic) Reward *curReward;
@@ -64,6 +65,10 @@
         [self.webView.scrollView.pullRefreshCtrl setY:self.webView.scrollView.pullRefreshCtrl.y - _headerV.height];
     }
     [self handleRefresh];
+    
+    if ([Login curLoginUser].loginIdentity.integerValue != 2) {//开发者
+        [MartFunctionTipView showFunctionImages:@[@"guidance_dev_reward_public"] onlyOneTime:YES];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated{

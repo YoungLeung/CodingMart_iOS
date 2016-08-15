@@ -32,6 +32,7 @@
 #import "MPayRewardOrderGenerateViewController.h"
 #import <BlocksKit/BlocksKit+UIKit.h>
 #import "EATipView.h"
+#import "MartFunctionTipView.h"
 
 @interface RewardPrivateViewController ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -78,6 +79,7 @@
     [_bottomView addLineUp:YES andDown:NO];
     //        refresh
     [_myTableView eaAddPullToRefreshAction:@selector(handleRefresh) onTarget:self];
+    [MartFunctionTipView showFunctionImages:@[@"guidance_dev_dem_reward_private"] onlyOneTime:YES];
 }
 
 - (void)setCurRewardP:(RewardPrivate *)curRewardP{

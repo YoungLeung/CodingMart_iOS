@@ -76,6 +76,7 @@
     _rewardsDict = [NSMutableDictionary new];
 
     [self p_setupContent];
+    [MartFunctionTipView showFunctionImages:@[@"guidance_dev_rewards"] onlyOneTime:YES];
 }
 
 - (void)p_setupContent{

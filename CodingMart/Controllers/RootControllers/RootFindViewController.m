@@ -20,6 +20,7 @@
 #import "Rewards.h"
 #import "SVPullToRefresh.h"
 #import "PublishRewardViewController.h"
+#import "MartFunctionTipView.h"
 
 @interface RootFindViewController ()
 @property (strong, nonatomic, readonly) NSArray *dataList;
@@ -93,6 +94,18 @@
     _curRewards = [Rewards RewardsWithType:@"所有类型" status:@"招募中" roleType:@"所有角色"];
     
     [self refreshData];
+    if ([Login curLoginUser].loginIdentity.integerValue != 1) {
+        NSArray *guidances;
+        if ([Login curLoginUser].loginIdentity.integerValue == 2) {
+            guidances = @[@"guidance_dem_home_0",
+                          @"guidance_dem_home_1",
+                          @"guidance_dem_home_2"];
+        }else{
+            guidances = @[@"guidance_dem_home_0",
+                          @"guidance_dem_home_2"];
+        }
+        [MartFunctionTipView showFunctionImages:guidances onlyOneTime:YES];
+    }
 }
 
 - (CGFloat)p_tableHeaderH{

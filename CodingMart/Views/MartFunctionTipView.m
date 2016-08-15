@@ -45,9 +45,33 @@
 }
 
 + (void)showFunctionImages:(NSArray *)imageNames{
+    if (imageNames.count <= 0) {
+        return;
+    }
     MartFunctionTipView *tipV = [MartFunctionTipView new];
     tipV.imageNames = imageNames;
     [tipV show];
+}
+
++ (void)showFunctionImages:(NSArray *)imageNames onlyOneTime:(BOOL)onlyOneTime{
+    if (imageNames.count <= 0) {
+        return;
+    }
+    if (onlyOneTime) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSMutableArray *hasShowedImages = @[].mutableCopy;
+        for (NSString *imageName in imageNames) {
+            if ([defaults objectForKey:imageName]) {
+                [hasShowedImages addObject:imageName];
+            }else{
+                [defaults setObject:@1 forKey:imageName];
+            }
+        }
+        NSMutableArray *needShowImages = imageNames.mutableCopy;
+        [needShowImages removeObjectsInArray:hasShowedImages];
+        imageNames = needShowImages;
+    }
+    [self showFunctionImages:imageNames];
 }
 
 - (void)show{
