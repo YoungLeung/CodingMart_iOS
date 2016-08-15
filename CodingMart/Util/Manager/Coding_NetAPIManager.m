@@ -636,7 +636,7 @@
 }
 - (void)post_SkillRoles:(NSArray *)role_ids block:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/userinfo/roles";
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"role_ids": role_ids ?: @[]} withMethodType:Post andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"role_ids[]": role_ids ?: @[]} withMethodType:Post andBlock:^(id data, NSError *error) {
         block(data, error);
     }];
 }

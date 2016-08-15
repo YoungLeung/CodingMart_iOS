@@ -31,7 +31,7 @@
 - (NSDictionary *)toParams{
     NSMutableDictionary *params = @{}.mutableCopy;
     params[@"role_id"] = _role.id;
-    params[@"skill_ids"] = [self.selectedSkills valueForKey:@"id"];
+    params[@"skill_ids[]"] = [self.selectedSkills valueForKey:@"id"];
     params[@"good_at"] = _user_role.good_at;
     params[@"abilities"] = _user_role.abilities;
     return params;
