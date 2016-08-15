@@ -146,7 +146,7 @@
     UILabel *titleL = [UILabel new];
     titleL.font = [UIFont systemFontOfSize:15];
     titleL.textColor = [UIColor colorWithHexString:@"0x999999"];
-    titleL.text = section == 0? @"码市信息": @"接单状态";
+    titleL.text = section == 0? @"码市信息": section == 1? @"": @"接单状态";
     [headerV addSubview:titleL];
     [titleL mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(headerV).insets(UIEdgeInsetsMake(0, 15, 0, 15));
