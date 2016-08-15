@@ -80,6 +80,15 @@
     [_myTableView eaAddPullToRefreshAction:@selector(handleRefresh) onTarget:self];
 }
 
+- (void)setCurRewardP:(RewardPrivate *)curRewardP{
+    _curRewardP = curRewardP;
+    _bottomView.hidden = ![_curRewardP isRewardOwner] || ![_curRewardP.basicInfo needToPay];
+    _bottomLabel.text = _curRewardP.basicInfo.mpay.boolValue? @"您需要先支付悬赏订金": [NSString stringWithFormat:@"还剩 %@ 未付清", _curRewardP.basicInfo.format_balance];
+    [_bottomBtn setTitle:_curRewardP.basicInfo.mpay.boolValue? @"支付订金": @"立即付款" forState:UIControlStateNormal];
+    [_myTableView reloadData];
+    [self refreshNav];
+}
+
 - (void)handleRefresh{
     __weak typeof(self) weakSelf = self;
     if (!_curRewardP.metro) {
@@ -91,10 +100,6 @@
         if (data) {
             [(RewardPrivate *)data dealWithPreRewardP:weakSelf.curRewardP];
             weakSelf.curRewardP = data;
-            weakSelf.bottomView.hidden = ![weakSelf.curRewardP isRewardOwner] || ![weakSelf.curRewardP.basicInfo needToPay] || weakSelf.curRewardP.basicInfo.mpay.boolValue;
-            weakSelf.bottomLabel.text = [NSString stringWithFormat:@"还剩 %@ 未付清", weakSelf.curRewardP.basicInfo.format_balance];
-            [weakSelf.myTableView reloadData];
-            [weakSelf refreshNav];
         }
     }];
 }
