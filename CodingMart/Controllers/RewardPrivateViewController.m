@@ -79,9 +79,6 @@
     [_bottomView addLineUp:YES andDown:NO];
     //        refresh
     [_myTableView eaAddPullToRefreshAction:@selector(handleRefresh) onTarget:self];
-    if (![FunctionTipsManager isAppUpdate]) {
-        [MartFunctionTipView showFunctionImages:@[@"guidance_dem_dev_reward_private"] onlyOneTime:YES];
-    }
 }
 
 - (void)setCurRewardP:(RewardPrivate *)curRewardP{
@@ -91,6 +88,10 @@
     [_bottomBtn setTitle:_curRewardP.basicInfo.mpay.boolValue? @"支付订金": @"立即付款" forState:UIControlStateNormal];
     [_myTableView reloadData];
     [self refreshNav];
+    
+    if (![FunctionTipsManager isAppUpdate] && _curRewardP.basicInfo.status.integerValue == RewardStatusDeveloping) {
+        [MartFunctionTipView showFunctionImages:@[@"guidance_dem_dev_reward_private"] onlyOneTime:YES];
+    }
 }
 
 - (void)handleRefresh{
