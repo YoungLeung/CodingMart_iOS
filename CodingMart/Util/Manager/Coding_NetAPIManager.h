@@ -16,7 +16,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
     PurposeToPasswordReset
 };
 
-@class Reward, FeedBackInfo, SettingNotificationInfo, VerifiedInfo, FillUserInfo, FillSkills, RewardDetail, JoinInfo, Rewards, SkillPro, SkillRole, MartSkill, RewardPrivate, Activities, MPayOrders, MPayPassword, MPayAccount, MPayAccounts, Withdraw;
+@class Reward, FeedBackInfo, SettingNotificationInfo, VerifiedInfo, FillUserInfo, FillSkills, RewardDetail, JoinInfo, Rewards, SkillPro, SkillRole, MartSkill, RewardPrivate, Activities, MPayOrders, MPayPassword, MPayAccount, MPayAccounts, Withdraw, MartNotifications;
 
 
 @interface Coding_NetAPIManager : NSObject
@@ -61,7 +61,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 
 #pragma mark Notification
 - (void)get_NotificationUnReadCountBlock:(void (^)(id data, NSError *error))block;
-- (void)get_NotificationUnRead:(BOOL)onlyUnRead block:(void (^)(id data, NSError *error))block;
+- (void)get_Notifications:(MartNotifications *)notifications block:(void (^)(id data, NSError *error))block;
 - (void)post_markNotificationBlock:(void (^)(id data, NSError *error))block;
 - (void)post_markNotification:(NSNumber *)notificationID block:(void (^)(id data, NSError *error))block;
 #pragma mark Setting

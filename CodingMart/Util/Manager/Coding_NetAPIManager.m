@@ -38,6 +38,7 @@
 #import "MPayAccount.h"
 #import "MPayAccounts.h"
 #import "Withdraw.h"
+#import "MartNotifications.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -462,6 +463,18 @@
             dataList = [NSObject arrayFromJSON:data[@"data"][@"list"] ofObjects:@"MartNotification"];
         }
         block(dataList, error);
+    }];
+}
+
+- (void)get_Notifications:(MartNotifications *)notifications block:(void (^)(id data, NSError *error))block{
+    notifications.isLoading = YES;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[notifications toPath] withParams:[notifications toParams] withMethodType:Get andBlock:^(id data, NSError *error) {
+        notifications.isLoading = NO;
+        MartNotifications *dataR = [NSObject objectOfClass:@"MartNotifications" fromJSON:data[@"data"]];
+        if (dataR) {
+            [notifications handleObj:dataR];
+        }
+        block(notifications, error);
     }];
 }
 
