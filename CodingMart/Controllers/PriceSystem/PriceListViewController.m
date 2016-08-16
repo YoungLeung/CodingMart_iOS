@@ -39,7 +39,9 @@
         return;
     }
     _isLoading = YES;
-    [self.view beginLoading];
+    if (_dataList.count <= 0) {
+        [self.view beginLoading];
+    }
     __weak typeof(self)weakSelf = self;
     [[Coding_NetAPIManager sharedManager] get_priceList:^(id data, NSError *error) {
         _isLoading = NO;
