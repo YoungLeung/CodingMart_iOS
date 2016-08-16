@@ -45,6 +45,9 @@
 }
 
 + (void)showFunctionImages:(NSArray *)imageNames{
+    if (kScreen_Height == 480) {//iPhone 4 的尺寸，忽略
+        return;
+    }
     if (imageNames.count <= 0) {
         return;
     }
@@ -54,6 +57,9 @@
 }
 
 + (void)showFunctionImages:(NSArray *)imageNames onlyOneTime:(BOOL)onlyOneTime{
+    if (kScreen_Height == 480) {//iPhone 4 的尺寸，忽略
+        return;
+    }
     if (imageNames.count <= 0) {
         return;
     }
@@ -67,6 +73,7 @@
                 [defaults setObject:@1 forKey:imageName];
             }
         }
+        [defaults synchronize];
         NSMutableArray *needShowImages = imageNames.mutableCopy;
         [needShowImages removeObjectsInArray:hasShowedImages];
         imageNames = needShowImages;

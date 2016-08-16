@@ -15,7 +15,6 @@
 #import "PayMethodViewController.h"
 #import "PublishRewardViewController.h"
 #import "MPayRewardOrderGenerateViewController.h"
-#import "MartFunctionTipView.h"
 
 @interface PublishedRewardsViewController ()<UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
@@ -37,7 +36,9 @@
     self.title = @"我发布的悬赏";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_edit"] style:UIBarButtonItemStylePlain target:self action:@selector(goToPublish:)];
     [self.myTableView eaAddPullToRefreshAction:@selector(refresh) onTarget:self];
-    [MartFunctionTipView showFunctionImages:@[@"guidance_dem_rewards_publish"] onlyOneTime:YES];
+    if (![FunctionTipsManager isAppUpdate]) {
+        [MartFunctionTipView showFunctionImages:@[@"guidance_dem_rewards_publish"] onlyOneTime:YES];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated{

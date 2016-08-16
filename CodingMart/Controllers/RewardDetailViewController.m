@@ -16,7 +16,6 @@
 #import <BlocksKit/BlocksKit+UIKit.h>
 #import "MartShareView.h"
 #import "RewardDetailHeaderView.h"
-#import "MartFunctionTipView.h"
 
 @interface RewardDetailViewController ()
 @property (strong, nonatomic) Reward *curReward;
@@ -66,7 +65,7 @@
     }
     [self handleRefresh];
     
-    if ([Login curLoginUser].loginIdentity.integerValue != 2) {//开发者
+    if (![FunctionTipsManager isAppUpdate] && [Login curLoginUser].loginIdentity.integerValue != 2) {//开发者
         [MartFunctionTipView showFunctionImages:@[@"guidance_dev_reward_public"] onlyOneTime:YES];
     }
 }

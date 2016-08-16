@@ -79,7 +79,9 @@
     [_bottomView addLineUp:YES andDown:NO];
     //        refresh
     [_myTableView eaAddPullToRefreshAction:@selector(handleRefresh) onTarget:self];
-    [MartFunctionTipView showFunctionImages:@[@"guidance_dev_dem_reward_private"] onlyOneTime:YES];
+    if (![FunctionTipsManager isAppUpdate]) {
+        [MartFunctionTipView showFunctionImages:@[@"guidance_dem_dev_reward_private"] onlyOneTime:YES];
+    }
 }
 
 - (void)setCurRewardP:(RewardPrivate *)curRewardP{
@@ -509,7 +511,8 @@
     RewardStatus status = _curRewardP.basicInfo.status.integerValue;
     __weak typeof(self) weakSelf = self;
     if (status == RewardStatusFresh ||
-        status == RewardStatusAccepted) {
+        status == RewardStatusAccepted ||
+        (status == RewardStatusRecruiting && _curRewardP.basicInfo.version.integerValue == 1)) {
         [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"取消发布"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0){
                 [weakSelf cancelPublish];

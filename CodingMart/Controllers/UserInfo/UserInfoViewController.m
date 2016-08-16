@@ -78,11 +78,7 @@
                 [FunctionTipsManager markTiped:kFunctionTipStr_MPay];
             }
         }else{
-            if (_curUser.loginIdentity.integerValue == 1) {//开发者
-                [MartFunctionTipView showFunctionImages:@[@"guidance_dev_user"] onlyOneTime:YES];
-            }else if (_curUser.loginIdentity.integerValue == 2){//需求方
-                [MartFunctionTipView showFunctionImages:@[@"guidance_dem_user"] onlyOneTime:YES];
-            }
+            [MartFunctionTipView showFunctionImages:@[@"guidance_dem_dev_user"] onlyOneTime:YES];
         }
     }
 }
