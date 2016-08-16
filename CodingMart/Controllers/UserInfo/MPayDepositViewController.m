@@ -128,7 +128,7 @@
         return;
     }
     if (_priceF.text.floatValue < 1 || _priceF.text.floatValue > 100000) {
-        [NSObject showHudTipStr:@"充值金额必须在「1 ~ 100,000」元之间, 最多保留两位小数!"];
+        [NSObject showHudTipStr:@"充值金额必须在「1 ~ 100,000」元之间, 最多保留两位小数"];
         return;
     }
     __weak typeof(self) weakSelf = self;
