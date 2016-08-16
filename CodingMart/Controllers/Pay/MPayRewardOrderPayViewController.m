@@ -41,6 +41,11 @@
     _balanceLackL.text = _balanceEnoughL.text = [NSString stringWithFormat:@"￥ %@", _balanceStr];
 }
 
+- (void)setBalanceValue:(NSNumber *)balanceValue{
+    _balanceValue = balanceValue;
+    [_bottomBtn setTitle:[self p_isBalanceEnough]? @"确认支付": @"充值开发宝" forState:UIControlStateNormal];
+}
+
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self refresh];
