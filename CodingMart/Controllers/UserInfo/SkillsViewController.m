@@ -14,6 +14,7 @@
 #import "SkillRoleCell.h"
 #import "SkillProCell.h"
 #import "EASingleSelectView.h"
+#import "SkillUserInfoCell.h"
 
 @interface SkillsViewController ()
 @property (strong, nonatomic) IBOutlet UIView *firstSectionH;
@@ -22,6 +23,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *addProSBtn;
 
 @property (strong, nonatomic) MartSkill *skill;
+@property (strong, nonatomic) FillUserInfo *userInfo;
+@property (strong, nonatomic) NSDictionary *userInfoData;
 @end
 
 @implementation SkillsViewController
@@ -47,33 +50,66 @@
     [self.tableView reloadData];
 }
 
+- (void)setUserInfoData:(NSDictionary *)userInfoData{
+    _userInfoData = userInfoData;
+    self.userInfo = userInfoData[@"data"][@"info"]? [NSObject objectOfClass:@"FillUserInfo" fromJSON:userInfoData[@"data"][@"info"]]: nil;
+}
+
+- (void)setUserInfo:(FillUserInfo *)userInfo{
+    _userInfo = userInfo;
+    [self.tableView reloadData];
+}
+
 - (void)refresh{
-    if (!_skill) {
+    if (!_skill || !_userInfo) {
         [self.tableView beginLoading];
     }
     WEAKSELF;
     [[Coding_NetAPIManager sharedManager] get_SkillBlock:^(id data, NSError *error) {
-        [weakSelf.tableView endLoading];
-        [weakSelf.tableView.pullRefreshCtrl endRefreshing];
         if (data) {
             weakSelf.skill = data;
+            [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id dataU, NSError *errorU) {
+                [weakSelf.tableView endLoading];
+                [weakSelf.tableView.pullRefreshCtrl endRefreshing];
+                if (dataU) {
+                    weakSelf.userInfoData = dataU;
+                }
+            }];
+        }else{
+            [weakSelf.tableView endLoading];
+            [weakSelf.tableView.pullRefreshCtrl endRefreshing];
         }
     }];
 }
 
 #pragma mark - Table
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return _skill? 2: 0;
+    return (_skill && _userInfo)? 3: 0;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    return section == 0? _firstSectionH: _secondSectionH;
+    if (section > 1) {
+        UIView *headerV = [UIView new];
+        UILabel *titleL = [UILabel new];
+        titleL.font = [UIFont systemFontOfSize:15];
+        titleL.textColor = [UIColor colorWithHexString:@"0x999999"];
+        titleL.text = @"开发者信息";
+        [headerV addSubview:titleL];
+        [titleL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(headerV).insets(UIEdgeInsetsMake(0, 15, 0, 15));
+        }];
+        return headerV;
+    }else{
+        return section == 0? _firstSectionH: _secondSectionH;
+    }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    CGFloat height = 200;
+    CGFloat height = 0;
     if (section == 0) {
         height = _skill.roleList.count > 0? 90: 140;
-    }else{
+    }else if (section == 1){
         height = _skill.proList.count > 0? 45: 110;
+    }else{
+        height = 44;
     }
     return height;
 }
@@ -89,7 +125,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return section == 0? _skill.roleList.count: _skill.proList.count;
+    return section == 0? _skill.roleList.count: section == 1? _skill.proList.count: 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -102,7 +138,7 @@
             [weakSelf goToRole:roleT];
         };
         return cell;
-    }else{
+    }else if (indexPath.section == 1){
         SkillPro *pro = _skill.proList[indexPath.row];
         SkillProCell * cell = [tableView dequeueReusableCellWithIdentifier:pro.files.count > 0? kCellIdentifier_SkillProCellHasFiles: kCellIdentifier_SkillProCell];
         cell.pro = pro;
@@ -113,6 +149,13 @@
             [weakSelf goToPro:proT];
         };
         return cell;
+    }else{
+        SkillUserInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_SkillUserInfoCell forIndexPath:indexPath];
+        cell.userInfo = _userInfo;
+        cell.updateUserInfoBlock = ^(FillUserInfo *userInfo){
+            [weakSelf updateUserInfo:userInfo];
+        };
+        return cell;
     }
 }
 
@@ -120,10 +163,27 @@
     CGFloat height = 0;
     if (indexPath.section == 0) {
         height = [SkillRoleCell cellHeightWithObj:_skill.roleList[indexPath.row]];
-    }else{
+    }else if (indexPath.section == 1){
         height = [SkillProCell cellHeightWithObj:_skill.proList[indexPath.row]];
+    }else{
+        height = [SkillUserInfoCell cellHeightWithObj:_userInfo];
     }
     return height;
+}
+
+#pragma mark UserInfo
+- (void)updateUserInfo:(FillUserInfo *)userInfo{
+    WEAKSELF;
+    [NSObject showHUDQueryStr:@"正在保存..."];
+    [[Coding_NetAPIManager sharedManager] post_FillDeveloperInfo:userInfo block:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (data) {
+            weakSelf.userInfo = userInfo;
+            [NSObject showHudTipStr:@"保存成功"];
+        }else{
+            weakSelf.userInfoData = weakSelf.userInfoData;//更新 userInfo，reload Table
+        }
+    }];
 }
 
 #pragma mark - ib_action

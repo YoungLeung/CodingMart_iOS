@@ -521,6 +521,16 @@
         block(data, error);
     }];
 }
+- (void)post_FillDeveloperInfo:(FillUserInfo *)info block:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/developer/info";
+    NSMutableDictionary *params = @{}.mutableCopy;
+    params[@"acceptNewRewardAllNotification"] = info.acceptNewRewardAllNotification.boolValue? @"true": @"false";
+    params[@"freeTime"] = info.free_time;
+    params[@"rewardRole"] = info.reward_role;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
 - (void)post_FillSkills:(FillSkills *)skills block:(void (^)(id data, NSError *error))block{
     NSString *path  = @"api/skills";
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:[skills toParams] withMethodType:Post andBlock:^(id data, NSError *error) {

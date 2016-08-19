@@ -146,7 +146,7 @@
     UILabel *titleL = [UILabel new];
     titleL.font = [UIFont systemFontOfSize:15];
     titleL.textColor = [UIColor colorWithHexString:@"0x999999"];
-    titleL.text = section == 0? @"码市信息": section == 1? @"": @"接单状态";
+    titleL.text = section == 0? @"码市信息": section == 1? @"联系信息": @"接单状态";
     [headerV addSubview:titleL];
     [titleL mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(headerV).insets(UIEdgeInsetsMake(0, 15, 0, 15));
@@ -166,11 +166,11 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return _userInfo? ![[Login curLoginUser] isDemandSide]? 3: 2: 0;
+    return _userInfo? ![[Login curLoginUser] isDemandSide]? 2: 2: 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return section == 0? ![[Login curLoginUser] isDemandSide]? 4: 3: section == 1? 2: [self p_acceptNewRewardAllNotification]? 2: 1;
+    return section == 0? ![[Login curLoginUser] isDemandSide]? 3: 3: section == 1? 2: [self p_acceptNewRewardAllNotification]? 2: 1;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{

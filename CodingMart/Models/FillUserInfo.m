@@ -62,6 +62,7 @@
     params[@"free_time"] = _free_time;
     params[@"phoneCountryCode"] = _phoneCountryCode;
     params[@"country"] = _country;
+    params[@"reward_role"] = _reward_role;
     return params;
 }
 
