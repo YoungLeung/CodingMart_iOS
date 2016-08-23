@@ -22,12 +22,8 @@
 
 - (void)setCurMPayOrder:(MPayOrder *)curMPayOrder{
     _curMPayOrder = curMPayOrder;
-    if (_curMPayOrder) {
-        _totalFeeF.text = _curMPayOrder.totalFee;
-        _totalFeeF.userInteractionEnabled = NO;
-    }else{
-        _totalFeeF.userInteractionEnabled = YES;
-    }
+    _totalFeeF.text = _curMPayOrder.totalFee ?: @"500";
+    _totalFeeF.userInteractionEnabled = NO;
 }
 
 - (void)viewDidLoad {
@@ -43,7 +39,7 @@
 - (void)refresh{
     WEAKSELF;
     [[Coding_NetAPIManager sharedManager] get_GenerateOrderWithRewardId:_curReward.id block:^(id data, NSError *error) {
-        if (data) {
+        if (!error) {
             weakSelf.curMPayOrder = data;
         }
     }];
