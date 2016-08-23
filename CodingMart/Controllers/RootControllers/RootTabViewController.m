@@ -10,7 +10,7 @@
 #import "RootFindViewController.h"
 #import "RootPublishViewController.h"
 #import "RootRewardsViewController.h"
-#import "ChooseProjectViewController.h"
+#import "RootQuoteViewController.h"
 #import "UserInfoViewController.h"
 #import "RDVTabBarItem.h"
 #import "Login.h"
@@ -23,7 +23,7 @@
 typedef NS_ENUM(NSInteger, TabVCType) {
     TabVCTypeFind = 0,
     TabVCTypeRewards,
-    TabVCTypePrice,
+    TabVCTypeQuote,
     TabVCTypeMyJoined,
     TabVCTypeMyPublished,
     TabVCTypePublish,
@@ -76,13 +76,13 @@ typedef NS_ENUM(NSInteger, TabVCType) {
     }else if (me.loginIdentity.integerValue == 2){//需求方
         if (me.publishedCount.integerValue > 0) {
             tabList = @[@(TabVCTypeFind),
-                        @(TabVCTypePrice),
+                        @(TabVCTypeQuote),
                         @(TabVCTypeMyPublished),
                         @(TabVCTypeMe)];
             
         }else{
             tabList = @[@(TabVCTypeFind),
-                        @(TabVCTypePrice),
+                        @(TabVCTypeQuote),
                         @(TabVCTypePublish),
                         @(TabVCTypeMe)];
         }
@@ -106,8 +106,8 @@ typedef NS_ENUM(NSInteger, TabVCType) {
         case TabVCTypeRewards:
             vc = [RootRewardsViewController vcInStoryboard:@"Root"];
             break;
-        case TabVCTypePrice:
-            vc = [ChooseProjectViewController storyboardVC];
+        case TabVCTypeQuote:
+            vc = [RootQuoteViewController storyboardVC];
             break;
         case TabVCTypeMyJoined:
             vc = [JoinedRewardsViewController vcInStoryboard:@"Independence"];
@@ -116,7 +116,6 @@ typedef NS_ENUM(NSInteger, TabVCType) {
             vc = [PublishedRewardsViewController vcInStoryboard:@"Independence"];
             break;
         case TabVCTypePublish:
-//            vc = [PublishRewardViewController storyboardVCWithReward:nil];
             vc = [RootPublishViewController vcInStoryboard:@"Root"];
             break;
         case TabVCTypeMe:

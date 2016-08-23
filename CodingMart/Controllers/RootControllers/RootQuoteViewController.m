@@ -1,12 +1,12 @@
 //
-//  ChooseProjectViewController.m
+//  RootQuoteViewController.m
 //  
 //
 //  Created by Frank on 16/5/21.
 //
 //
 
-#import "ChooseProjectViewController.h"
+#import "RootQuoteViewController.h"
 #import "ChoosePriceCollectionViewCell.h"
 #import "NextStepCollectionViewCell.h"
 #import "FunctionalEvaluationViewController.h"
@@ -19,21 +19,21 @@
 #import "AppDelegate.h"
 #import "RootTabViewController.h"
 
-@interface ChooseProjectViewController () <UIAlertViewDelegate>
+@interface RootQuoteViewController () <UIAlertViewDelegate>
 
 @property (strong, nonatomic) NSArray *cellImageArray, *cellNameArray, *menuIDArray;
 @property (strong, nonatomic) NextStepCollectionViewCell *cell;
 
 @end
 
-@implementation ChooseProjectViewController
+@implementation RootQuoteViewController
 
 static NSString * const reuseIdentifier = @"Cell";
 static NSString * const nextStepReuseIdentifier = @"NextStepCell";
 
 + (instancetype)storyboardVC{
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Root" bundle:nil];
-    return [storyboard instantiateViewControllerWithIdentifier:@"ChooseProjectViewController"];
+    return [storyboard instantiateViewControllerWithIdentifier:@"RootQuoteViewController"];
 }
 
 - (void)viewDidLoad {
@@ -88,7 +88,7 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
 - (void)showLogin {
     if (![Login isLogin]) {
         LoginViewController *vc = [LoginViewController storyboardVCWithUser:nil];
-        [ChooseProjectViewController presentVC:vc dismissBtnTitle:nil];
+        [RootQuoteViewController presentVC:vc dismissBtnTitle:nil];
     }
 }
 
