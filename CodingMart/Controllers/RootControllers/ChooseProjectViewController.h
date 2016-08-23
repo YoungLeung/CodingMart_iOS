@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ChooseProjectViewController : UICollectionViewController
-
++ (instancetype)storyboardVC;
 @end

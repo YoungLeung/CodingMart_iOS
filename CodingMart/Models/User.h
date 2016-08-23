@@ -47,6 +47,4 @@
 
 - (NSString *)changePasswordTips;
 
-+ (void)payedForPriceSystemData:(NSDictionary *)data;
-+ (BOOL)payedForPriceSystem;
 @end

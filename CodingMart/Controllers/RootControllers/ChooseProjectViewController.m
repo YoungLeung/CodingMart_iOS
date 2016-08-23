@@ -31,16 +31,9 @@
 static NSString * const reuseIdentifier = @"Cell";
 static NSString * const nextStepReuseIdentifier = @"NextStepCell";
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    BOOL firstUse = [User payedForPriceSystem];
-    if (firstUse) {
-        // 切换到支付界面
-        AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        [appDelegate setupTabViewController];
-        RootTabViewController *rootVC = (RootTabViewController *)appDelegate.window.rootViewController;
-        [rootVC setSelectedIndex:1];
-    }
++ (instancetype)storyboardVC{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Root" bundle:nil];
+    return [storyboard instantiateViewControllerWithIdentifier:@"ChooseProjectViewController"];
 }
 
 - (void)viewDidLoad {

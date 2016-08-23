@@ -21,7 +21,6 @@
 #import <Google/Analytics.h>
 #import <FLEX/FLEXManager.h>
 #import "WelcomeViewController.h"
-#import "RootPriceViewController.h"
 #import "MPayDepositViewController.h"
 
 @interface AppDelegate ()

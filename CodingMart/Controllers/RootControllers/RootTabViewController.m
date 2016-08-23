@@ -10,7 +10,6 @@
 #import "RootFindViewController.h"
 #import "RootPublishViewController.h"
 #import "RootRewardsViewController.h"
-#import "RootPriceViewController.h"
 #import "ChooseProjectViewController.h"
 #import "UserInfoViewController.h"
 #import "RDVTabBarItem.h"
@@ -108,7 +107,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
             vc = [RootRewardsViewController vcInStoryboard:@"Root"];
             break;
         case TabVCTypePrice:
-            vc = [RootPriceViewController storyboardVC];
+            vc = [ChooseProjectViewController storyboardVC];
             break;
         case TabVCTypeMyJoined:
             vc = [JoinedRewardsViewController vcInStoryboard:@"Independence"];
