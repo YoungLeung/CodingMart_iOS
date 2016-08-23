@@ -46,14 +46,16 @@ typedef NS_ENUM(NSInteger, TabVCType) {
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    if ([Login isLogin] && [Login curLoginUser].loginIdentity.integerValue == 0) {
-        [self presentViewController:[SetIdentityViewController storyboardVC] animated:YES completion:nil];
-    }else{
-        NSArray *preTabList = _tabList;
-        [self p_setupTabVCList];
-        if (![preTabList isEqual:_tabList]) {
-            [UIViewController updateTabVCListWithSelectedIndex:0];
-            [NSObject showHudTipStr:@"视图已切换"];
+    if ([(UINavigationController *)self.selectedViewController childViewControllers].count == 1) {
+        if ([Login isLogin] && [Login curLoginUser].loginIdentity.integerValue == 0) {
+            [self presentViewController:[SetIdentityViewController storyboardVC] animated:YES completion:nil];
+        }else{
+            NSArray *preTabList = _tabList;
+            [self p_setupTabVCList];
+            if (![preTabList isEqual:_tabList]) {
+                [UIViewController updateTabVCListWithSelectedIndex:0];
+                [NSObject showHudTipStr:@"视图已切换"];
+            }
         }
     }
 }

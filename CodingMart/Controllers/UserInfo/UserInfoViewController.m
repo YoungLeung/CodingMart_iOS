@@ -19,7 +19,6 @@
 #import "MartShareView.h"
 #import "NotificationViewController.h"
 #import "MartIntroduceViewController.h"
-#import "SetIdentityViewController.h"
 #import "AppDelegate.h"
 #import "RootTabViewController.h"
 #import "AboutViewController.h"
