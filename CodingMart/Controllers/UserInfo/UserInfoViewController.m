@@ -287,7 +287,7 @@
 - (void)goToLogin{
     [MobClick event:kUmeng_Event_UserAction label:@"个人中心_请登录"];
     _isDisappearForLogin = YES;
-    LoginViewController *vc = [LoginViewController storyboardVCWithUser:nil];
+    LoginViewController *vc = [LoginViewController storyboardVCWithUserStr:nil];
     vc.loginSucessBlock = ^(){
         [self refreshData];
     };

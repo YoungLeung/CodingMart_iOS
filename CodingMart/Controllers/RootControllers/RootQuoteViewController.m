@@ -87,7 +87,7 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
 
 - (void)showLogin {
     if (![Login isLogin]) {
-        LoginViewController *vc = [LoginViewController storyboardVCWithUser:nil];
+        LoginViewController *vc = [LoginViewController storyboardVCWithUserStr:nil];
         [RootQuoteViewController presentVC:vc dismissBtnTitle:nil];
     }
 }

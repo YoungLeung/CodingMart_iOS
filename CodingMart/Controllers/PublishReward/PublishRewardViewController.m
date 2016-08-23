@@ -240,7 +240,7 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
             }
         }];
     }else{
-        LoginViewController *vc = [LoginViewController storyboardVCWithUser:_rewardToBePublished.contact_mobile];
+        LoginViewController *vc = [LoginViewController storyboardVCWithUserStr:_rewardToBePublished.contact_mobile];
         vc.loginSucessBlock = ^(){
             [self nextStepBtnClicked:nil];
         };

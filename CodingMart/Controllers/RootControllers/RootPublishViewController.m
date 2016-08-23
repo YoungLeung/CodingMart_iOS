@@ -95,7 +95,7 @@
         PublishRewardViewController *vc = [PublishRewardViewController storyboardVCWithReward:reward];
         [self.navigationController pushViewController:vc animated:YES];
     }else{
-        LoginViewController *vc = [LoginViewController storyboardVCWithUser:nil];
+        LoginViewController *vc = [LoginViewController storyboardVCWithUserStr:nil];
         vc.loginSucessBlock = ^(){
             [self goToPublishWithType:type];
         };

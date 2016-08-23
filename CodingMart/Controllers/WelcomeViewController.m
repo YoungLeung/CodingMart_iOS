@@ -71,7 +71,7 @@
 
 - (void)loginBtnClicked{
     [MobClick event:kUmeng_Event_UserAction label:@"欢迎页_登录码市"];
-    LoginViewController *vc = [LoginViewController storyboardVCWithUser:nil];
+    LoginViewController *vc = [LoginViewController storyboardVCWithUserStr:nil];
     vc.loginSucessBlock = ^(){
         [UIViewController updateTabVCListWithSelectedIndex:0];
     };

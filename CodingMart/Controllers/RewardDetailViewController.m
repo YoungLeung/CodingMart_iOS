@@ -258,7 +258,7 @@
         }
     }else{
         __weak typeof(self) weakSelf = self;
-        LoginViewController *vc = [LoginViewController storyboardVCWithUser:nil];
+        LoginViewController *vc = [LoginViewController storyboardVCWithUserStr:nil];
         vc.loginSucessBlock = ^(){
             [weakSelf bottomBtnClicked:nil];
         };

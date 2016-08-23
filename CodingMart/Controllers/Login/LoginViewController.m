@@ -32,7 +32,7 @@
 
 @implementation LoginViewController
 
-+ (instancetype)storyboardVCWithUser:(NSString *)userStr{
++ (instancetype)storyboardVCWithUserStr:(NSString *)userStr{
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
     LoginViewController *vc = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass(self)];
     vc.userStr = userStr;
