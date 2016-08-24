@@ -43,19 +43,12 @@ typedef NS_ENUM(NSInteger, TabVCType) {
     [self p_setupViewControllers];
 }
 
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    if ([(UINavigationController *)self.selectedViewController childViewControllers].count == 1) {
-        if ([Login isLogin] && [Login curLoginUser].loginIdentity.integerValue == 0) {
-            [self presentViewController:[SetIdentityViewController storyboardVC] animated:YES completion:nil];
-        }else{
-            NSArray *preTabList = _tabList;
-            [self p_setupTabVCList];
-            if (![preTabList isEqual:_tabList]) {
-                [UIViewController updateTabVCListWithSelectedIndex:0];
-                [NSObject showHudTipStr:@"视图已切换"];
-            }
-        }
+- (void)checkUpdateTabVCListWithSelectedIndex:(NSInteger)selectedIndex{
+    NSArray *preTabList = _tabList;
+    [self p_setupTabVCList];
+    if (![preTabList isEqual:_tabList]) {
+        [UIViewController updateTabVCListWithSelectedIndex:selectedIndex];
+        [NSObject showHudTipStr:@"视图已切换"];
     }
 }
 
@@ -182,7 +175,6 @@ typedef NS_ENUM(NSInteger, TabVCType) {
         [item setTitle:[tabTitles objectAtIndex:index]];
     }
     self.delegate = self;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changePriceSystemViewController) name:@"changePriceSystemViewController" object:nil];
 }
 
 #pragma mark RDVTabBarControllerDelegate
@@ -206,13 +198,6 @@ typedef NS_ENUM(NSInteger, TabVCType) {
     }
     [nav.topViewController tabBarItemClicked];
     return YES;
-}
-
-- (void)changePriceSystemViewController {
-    AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [appDelegate setupTabViewController];
-    RootTabViewController *rootVC = (RootTabViewController *)appDelegate.window.rootViewController;
-    [rootVC setSelectedIndex:1];
 }
 
 @end

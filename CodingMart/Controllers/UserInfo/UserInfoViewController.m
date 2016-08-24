@@ -99,6 +99,8 @@
 - (void)setCurUser:(User *)curUser{
     _curUser = curUser;
     [self refreshUI];
+    //更新 tab 视图，放在这里
+    [(RootTabViewController *)self.rdv_tabBarController checkUpdateTabVCListWithSelectedIndex:NSIntegerMax];
 }
 
 - (void)refreshUI{
@@ -178,10 +180,7 @@
     [[Coding_NetAPIManager sharedManager] post_LoginIdentity:[[Login curLoginUser] isDemandSide]? @1: @2 andBlock:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data) {
-            AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-            [appDelegate setupTabViewController];
-            RootTabViewController *rootVC = (RootTabViewController *)appDelegate.window.rootViewController;
-            [rootVC setSelectedIndex:rootVC.tabList.count - 1];
+            [UIViewController updateTabVCListWithSelectedIndex:NSIntegerMax];
         }
     }];
 }
