@@ -21,11 +21,11 @@
 #import "PublishedRewardsViewController.h"
 #import "CountryCodeListViewController.h"
 #import "EATipView.h"
+#import "QuickLoginViewController.h"
 
 @interface PublishRewardViewController ()
 @property (strong, nonatomic) Reward *rewardToBePublished;
 @property (strong, nonatomic) NSArray *typeList, *budgetList;
-@property (assign, nonatomic) NSNumber *agreementChecked;
 
 @property (weak, nonatomic) IBOutlet UITextField *typeL;
 @property (weak, nonatomic) IBOutlet UITextField *budgetL;
@@ -37,7 +37,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *contact_mobile_codeF;
 @property (weak, nonatomic) IBOutlet PhoneCodeButton *codeBtn;
 
-@property (weak, nonatomic) IBOutlet UIButton *checkBtn;
 @property (weak, nonatomic) IBOutlet UITTTAttributedLabel *agreementL;
 
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *nextStepBtn;
@@ -70,17 +69,6 @@
         _rewardToBePublished = [Reward rewardToBePublished];
     }
     [self setupRAC];
-    self.agreementChecked = @YES;
-}
-
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    if ([Login isLogin]) {
-        [self.view removeBlankPageView];
-    }else{
-        [self.view configBlankPageImage:kBlankPageImageFail tipStr:@"您的网络好像出现了问题" buttonTitle:@"刷新一下" buttonBlock:nil];
-    }
-    self.tableView.scrollEnabled = [Login isLogin];
 }
 
 - (void)setupRAC{
@@ -117,10 +105,7 @@
         weakSelf.rewardToBePublished.contact_mobile_code = newText;
     }];
 
-    [RACObserve(self, agreementChecked) subscribeNext:^(NSNumber *agreementChecked) {
-        [weakSelf.checkBtn setImage:[UIImage imageNamed:(agreementChecked.boolValue? @"checkbox_checked": @"checkbox_check")] forState:UIControlStateNormal];
-    }];
-    [_agreementL addLinkToStr:@"《码市用户权责条款》" value:nil hasUnderline:YES clickedBlock:^(id value) {
+    [_agreementL addLinkToStr:@"《码市用户权责条款》" value:nil hasUnderline:NO clickedBlock:^(id value) {
         [weakSelf goToPublishAgreement];
     }];
 
@@ -133,17 +118,16 @@
                                                                 RACObserve(self, rewardToBePublished.description_mine),
                                                                 RACObserve(self, rewardToBePublished.contact_name),
                                                                 RACObserve(self, rewardToBePublished.contact_mobile),
-                                                                RACObserve(self, rewardToBePublished.contact_mobile_code),
-                                                                RACObserve(self, agreementChecked)]
+                                                                RACObserve(self, rewardToBePublished.contact_mobile_code)]
                                                        reduce:^id(NSNumber *type,
                                                                   NSNumber *budget,
                                                                   NSString *name,
                                                                   NSString *description_mine,
                                                                   NSString *contact_name,
                                                                   NSString *contact_mobile,
-                                                                  NSString *contact_mobile_code,
-                                                                  NSNumber *agreementChecked){
-                                                           return @(type && budget && name.length > 0 && description_mine.length > 0 && contact_name.length > 0 && contact_mobile.length > 0 && contact_mobile_code.length > 0 && agreementChecked.boolValue);
+                                                                  NSString *contact_mobile_code){
+                                                           return @(type && budget && name.length > 0 && description_mine.length > 0 && contact_name.length > 0 &&
+                                                                    (![Login isLogin] || (contact_mobile.length > 0 && contact_mobile_code.length > 0)));
                                                        }];
 }
 
@@ -221,17 +205,11 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
     [tipV showInView:kKeyWindow];
 }
 
-
-- (IBAction)checkBtnClicked:(id)sender {
-    self.agreementChecked = @(!self.agreementChecked.boolValue);
-}
-
 - (IBAction)nextStepBtnClicked:(id)sender {
     if ([Login isLogin]) {
         NSString *typeStr = [[NSObject rewardTypeLongDict] findKeyFromStrValue:_rewardToBePublished.type.stringValue];
         NSString *budgetStr = _budgetList[_rewardToBePublished.budget.integerValue];
         [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"发布悬赏_%@_%@_点击提交", typeStr, budgetStr]];
-        
         [NSObject showHUDQueryStr:@"正在发布悬赏..."];
         [[Coding_NetAPIManager sharedManager] post_Reward:_rewardToBePublished block:^(id data, NSError *error) {
             [NSObject hideHUDQuery];
@@ -240,9 +218,12 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
             }
         }];
     }else{
-        LoginViewController *vc = [LoginViewController storyboardVCWithUserStr:_rewardToBePublished.contact_mobile];
+        WEAKSELF;
+        QuickLoginViewController *vc = [QuickLoginViewController storyboardVCWithPhone:_rewardToBePublished.contact_mobile];
         vc.loginSucessBlock = ^(){
-            [self nextStepBtnClicked:nil];
+            User *curUser = [Login curLoginUser];
+            weakSelf.rewardToBePublished.contact_mobile = curUser.phone;
+            [weakSelf nextStepBtnClicked:nil];
         };
         [UIViewController presentVC:vc dismissBtnTitle:@"取消"];
     }
@@ -301,6 +282,20 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return section == 0? 15: 44;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 1.0/[UIScreen mainScreen].scale;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    NSInteger rowNum;
+    if (section == 0) {
+        rowNum = 4;
+    }else{
+        rowNum = [Login isLogin]? 3: 1;
+    }
+    return rowNum;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{

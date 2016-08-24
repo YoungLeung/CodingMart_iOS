@@ -9,5 +9,7 @@
 #import "BaseTableViewController.h"
 
 @interface QuickLoginViewController : BaseTableViewController
++ (instancetype)storyboardVCWithPhone:(NSString *)phone;
+@property (copy, nonatomic) void (^loginSucessBlock)();
 
 @end

@@ -9,5 +9,8 @@
 #import "BaseTableViewController.h"
 
 @interface QuickAccountInfoViewController : BaseTableViewController
+@property (strong, nonatomic) NSString *phone, *verify_code;
+@property (strong, nonatomic) NSDictionary *countryCodeDict;
+@property (copy, nonatomic) void (^loginSucessBlock)();
 
 @end

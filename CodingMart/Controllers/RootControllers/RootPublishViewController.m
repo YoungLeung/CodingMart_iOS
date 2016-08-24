@@ -83,24 +83,15 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSString *typeValue = [NSObject rewardTypeLongDict][_typeList[indexPath.row]];
     [self goToPublishWithType:@(typeValue.integerValue)];
-    
 }
 
 #pragma mark GoTo VC
 
 - (void)goToPublishWithType:(NSNumber *)type{
-    if ([Login isLogin]) {
-        Reward *reward = [Reward rewardToBePublished];
-        reward.type = type;
-        PublishRewardViewController *vc = [PublishRewardViewController storyboardVCWithReward:reward];
-        [self.navigationController pushViewController:vc animated:YES];
-    }else{
-        LoginViewController *vc = [LoginViewController storyboardVCWithUserStr:nil];
-        vc.loginSucessBlock = ^(){
-            [self goToPublishWithType:type];
-        };
-        [UIViewController presentVC:vc dismissBtnTitle:@"取消"];
-    }
+    Reward *reward = [Reward rewardToBePublished];
+    reward.type = type;
+    PublishRewardViewController *vc = [PublishRewardViewController storyboardVCWithReward:reward];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)goToPublishedVC{

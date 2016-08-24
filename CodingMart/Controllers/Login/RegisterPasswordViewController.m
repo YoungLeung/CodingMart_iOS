@@ -51,7 +51,7 @@
             NSNumber *captchaNeededResult = (NSNumber *)data;
             self.captchaNeeded = captchaNeededResult.boolValue;
             if (!self.captchaNeeded) {
-                self.captchaCell.textF = nil;
+                self.captchaCell.textF.text = nil;
             }
             [self.tableView reloadData];
         }
@@ -85,7 +85,7 @@
     }
     [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
-            [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id data, NSError *error) {
+            [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id dataU, NSError *errorU) {
                 [NSObject hideHUDQuery];
                 [self dismissViewControllerAnimated:YES completion:self.loginSucessBlock];
             }];
