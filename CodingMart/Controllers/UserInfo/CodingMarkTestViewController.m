@@ -44,7 +44,6 @@
     }];
     
     if (self.hasPassTheTesting){
-        [NSObject showHudTipStr:@"您已经通过测试，可以查看答案"];
         [self.confirmationBtn setTitle:@"查看答案" forState:UIControlStateNormal];
     }
 }

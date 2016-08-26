@@ -14,6 +14,7 @@
 #import "CodingMarkTestViewController.h"
 #import "IdentityAuthenticationViewController.h"
 #import "SkillsViewController.h"
+#import "IdentityViewController.h"
 
 typedef NS_ENUM(NSInteger, IdentityStatusCode)
 {
@@ -146,9 +147,10 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
             [NSObject showHudTipStr:@"已提交认证，将在工作日48小时内进行审核"];
             return;
         }
-        IdentityAuthenticationViewController *vc = [IdentityAuthenticationViewController storyboardVC];
-        vc.identity_server_CacheDataDic=self.identity_server_CacheDataDic;
-        [self.navigationController pushViewController:vc animated:YES];
+        if (self.identity_server_CacheDataDic) {
+            UIViewController *vc = [IdentityViewController vcWithIdetityDict:self.identity_server_CacheDataDic];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     }
 }
 
