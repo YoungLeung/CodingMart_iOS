@@ -16,6 +16,7 @@
 #import "EAXibTipView.h"
 #import "JTSImageViewController.h"
 #import "Coding_NetAPIManager.h"
+#import <MBProgressHUD.h>
 
 @interface IdentityViewController ()<JTSImageViewControllerOptionsDelegate>
 @property (weak, nonatomic) IBOutlet UIView *headerV;
@@ -113,6 +114,17 @@
     imageInfo.referenceRect = imageV.frame;
     imageInfo.referenceView = imageV.superview;
     JTSImageViewController *imageViewer = [[JTSImageViewController alloc] initWithImageInfo:imageInfo mode:JTSImageViewControllerMode_Image backgroundStyle:JTSImageViewControllerBackgroundOption_None];
+    WEAKSELF;
+    imageViewer.deleteBlock = ^(JTSImageViewController *obj){
+        [obj dismiss:YES];
+        if (isFront) {
+            weakSelf.model.identity_img_front = nil;
+            weakSelf.frontImageV.hidden = YES;
+        }else{
+            weakSelf.model.identity_img_back = nil;
+            weakSelf.backImageV.hidden = YES;
+        }
+    };
     imageViewer.optionsDelegate = self;
     [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
 }
@@ -161,9 +173,72 @@
 }
 
 - (IBAction)frontBtnClicked:(id)sender {
+    [self selectImageAlertWithFront:YES];
 }
 
 - (IBAction)backBtnClicked:(id)sender {
+    [self selectImageAlertWithFront:NO];
+}
+
+- (void)selectImageAlertWithFront:(BOOL)isFront{
+    [self.view endEditing:YES];
+    __weak typeof(self) weakSelf = self;
+    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"拍照",@"从相册选择"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index){
+        [weakSelf selectImageActionIndex:index withFront:isFront];
+    }] showInView:self.view];
+}
+
+- (void)selectImageActionIndex:(NSInteger)index withFront:(BOOL)isFront{
+    if (index >= 2) {
+        return;
+    }
+    WEAKSELF;
+    UIImagePickerController *imagePicker = [UIImagePickerController new];
+    imagePicker.sourceType = index == 0? UIImagePickerControllerSourceTypeCamera: UIImagePickerControllerSourceTypePhotoLibrary;
+    imagePicker.allowsEditing = NO;
+    {//UINavigationBar
+        UINavigationBar *navBar =  [UINavigationBar appearanceWhenContainedIn:[UIImagePickerController class], nil];
+        navBar.translucent = NO;
+        [navBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+        [navBar setShadowImage:[UIImage new]];
+        navBar.barTintColor = kColorBrandBlue;
+    }
+    imagePicker.bk_didCancelBlock = ^(UIImagePickerController *vc){
+        [vc dismissViewControllerAnimated:YES completion:nil];
+    };
+    imagePicker.bk_didFinishPickingMediaBlock = ^(UIImagePickerController *vc, NSDictionary *info){
+        [vc dismissViewControllerAnimated:YES completion:nil];
+        [weakSelf uploadImage:info[@"UIImagePickerControllerOriginalImage"] name:isFront? @"front": @"back" isFront:isFront];
+    };
+    [self presentViewController:imagePicker animated:YES completion:nil];
+}
+
+-(void)uploadImage:(UIImage *)image name:(NSString *)name isFront:(BOOL)isFront{
+    MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:kKeyWindow animated:YES];;
+    HUD.mode = MBProgressHUDModeDeterminateHorizontalBar;
+    HUD.labelText = @"正在上传图片...";
+    HUD.removeFromSuperViewOnHide = YES;
+    WEAKSELF
+    [[CodingNetAPIClient sharedJsonClient] uploadImage:image path:@"api/upload" name:name successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
+        HUD.hidden = YES;
+        
+        NSString *imagePath =responseObject[@"data"][@"url"];
+        if (imagePath.length > 0) {
+            if (isFront) {
+                weakSelf.model.identity_img_front = imagePath;
+                weakSelf.frontImageV.hidden = NO;
+                weakSelf.frontImageV.image = image;
+            }else{
+                weakSelf.model.identity_img_back = imagePath;
+                weakSelf.backImageV.hidden = NO;
+                weakSelf.backImageV.image = image;
+            }
+        }
+    } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
+        HUD.hidden = YES;
+    } progerssBlock:^(CGFloat progressValue) {
+        HUD.progress = MAX(0, progressValue-0.05) ;
+    }];
 }
 
 #pragma mark Table

@@ -11,6 +11,7 @@
 #import "JTSSimpleImageDownloader.h"
 #import "UIImage+JTSImageEffects.h"
 #import "UIApplication+JTSImageViewController.h"
+#import <BlocksKit/BlocksKit+UIKit.h>
 
 CG_INLINE CGFLOAT_TYPE JTSImageFloatAbs(CGFLOAT_TYPE aFloat) {
 #if CGFLOAT_IS_DOUBLE
@@ -125,6 +126,27 @@ typedef struct {
 ///--------------------------------------------------------------------------------------------------------------------
 
 @implementation JTSImageViewController
+
+#pragma mark easeeeeeeeee
+
+- (void)setDeleteBlock:(void (^)(JTSImageViewController *))deleteBlock{
+    _deleteBlock = deleteBlock;
+//    UIButton *deleteBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+    UIButton *deleteBtn = [UIButton new];
+    [deleteBtn setImage:[UIImage imageNamed:@"nav_icon_delete"] forState:UIControlStateNormal];
+    WEAKSELF;
+    [deleteBtn bk_addEventHandler:^(id sender) {
+        if (weakSelf.deleteBlock) {
+            weakSelf.deleteBlock(weakSelf);
+        }
+    } forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:deleteBtn];
+    [deleteBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(20);
+        make.right.equalTo(self.view);
+        make.size.mas_equalTo(CGSizeMake(44, 44));
+    }];
+}
 
 #pragma mark - Public
 
