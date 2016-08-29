@@ -183,7 +183,7 @@
             [weakSelf refreshData];
         }];
     }else{
-        [self.myTableView configBlankPageImage:kBlankPageImageRewardList tipStr:@"当前还没有符合条件的悬赏"];
+        [self.myTableView configBlankPageImage:kBlankPageImageRewardList tipStr:@"当前还没有符合条件的项目"];
     }
     if (self.myTableView.blankPageView) {
         self.myTableView.blankPageView.frame = CGRectMake(0, 10, kScreen_Width, kScreen_Height - CGRectGetMaxY(self.tabView.frame));
@@ -240,7 +240,7 @@
             if (dropView.selectedIndex != NSNotFound && isComfirmed) {
                 NSString *tabStr = tag == 0? @"类型": tag == 1? @"进度": @"角色";
                 NSString *valueStr = dropView.dataList[dropView.selectedIndex];
-                [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"悬赏_%@_%@", tabStr, valueStr]];
+                [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"项目_%@_%@", tabStr, valueStr]];
                 if (tag == 0) {
                     weakSelf.selectedType = valueStr;
                 }else if (tag == 1){

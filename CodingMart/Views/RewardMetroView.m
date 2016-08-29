@@ -91,7 +91,7 @@
     if (_curRewardP.basicInfo.status.integerValue == RewardStatusDeveloping &&
         _curRewardP.metro.roles.count > 0 &&
         index > 0 &&
-        [metroStatus[index -1] integerValue] == RewardStatusDeveloping) {//悬赏当前状态是开发中 & 有阶段划分 & 上一个状态是开发中
+        [metroStatus[index -1] integerValue] == RewardStatusDeveloping) {//项目当前状态是开发中 & 有阶段划分 & 上一个状态是开发中
         
         CGFloat roleCount = _curRewardP.metro.roles.count;
         CGFloat maxStageCount = 0;

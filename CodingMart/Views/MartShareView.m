@@ -268,7 +268,7 @@
 
 - (void)p_doShareToSnsName:(NSString *)snsName{
     if ([_objToShare isKindOfClass:[Reward class]]) {
-        [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"悬赏分享_%@", snsName]];
+        [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"项目分享_%@", snsName]];
     }
     if ([snsName isEqualToString:@"copylink"]) {
         [[UIPasteboard generalPasteboard] setString:[self p_shareLinkStr]];
@@ -289,7 +289,7 @@
 - (void)p_checkTitle{
     NSString *title;
     if ([_objToShare isKindOfClass:[Reward class]]) {
-        title = @"悬赏分享到";
+        title = @"项目分享到";
     }else if ([_objToShare isKindOfClass:[UIWebView class]]){
         title = @"链接分享到";
     }else if ([_objToShare isKindOfClass:[NSURL class]]){
@@ -352,7 +352,7 @@
     callback = kAppScheme;
     type = @"tweet";
     if ([_objToShare isKindOfClass:[Reward class]]) {
-        content = [NSString stringWithFormat:@"#Coding 码市# 分享了一个悬赏《%@》[网页链接](%@)", [self p_shareTitle], [self p_shareLinkStr]];
+        content = [NSString stringWithFormat:@"#Coding 码市# 分享了一个项目《%@》[网页链接](%@)", [self p_shareTitle], [self p_shareLinkStr]];
     }else if (_objToShare){
         content = [NSString stringWithFormat:@"#Coding 码市# %@ %@", [self p_shareTitle], [self p_shareLinkStr]];
     }else{
@@ -435,7 +435,7 @@
     }else if ([platformName isEqualToString:@"sina"]){
         NSString *shareText;
         if ([_objToShare isKindOfClass:[Reward class]]) {
-            shareText = [NSString stringWithFormat:@"#Coding 码市# 分享了一个悬赏《%@》%@", [self p_shareTitle], [self p_shareLinkStr]];
+            shareText = [NSString stringWithFormat:@"#Coding 码市# 分享了一个项目《%@》%@", [self p_shareTitle], [self p_shareLinkStr]];
         }else if (_objToShare){
             shareText = [NSString stringWithFormat:@"#Coding 码市# %@ %@", [self p_shareTitle], [self p_shareLinkStr]];
         }else{

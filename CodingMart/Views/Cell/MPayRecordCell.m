@@ -47,7 +47,7 @@ static NSDictionary *statusNameDict, *orderTypeNameDict, *actionSymbolDict;
                               @"Refund": @"退款",
                               @"EventPayment": @"活动出账",
                               @"EventDeposit": @"活动入账",
-                              @"ApplyContact": @"悬赏申请联系信息",};
+                              @"ApplyContact": @"项目申请联系信息",};
     }
     if (!actionSymbolDict) {
         actionSymbolDict = @{@"UnknownOType": @"?",
@@ -70,7 +70,7 @@ static NSDictionary *statusNameDict, *orderTypeNameDict, *actionSymbolDict;
     if ([_order.orderType.description isEqualToString:@"WithDraw"]) {
         //TODO 这里有个「查看进度」按钮
     }else if ([_order.orderType.description isEqualToString:@"Refund"]){
-        orderTypeName = ([_order.productType.description isEqualToString:@"Reward"]? @"悬赏订金退款":
+        orderTypeName = ([_order.productType.description isEqualToString:@"Reward"]? @"项目订金退款":
                          [_order.productType.description isEqualToString:@"RewardStage"]? @"项目阶段退款": orderTypeName);
     }
     _typeL.text = orderTypeName;

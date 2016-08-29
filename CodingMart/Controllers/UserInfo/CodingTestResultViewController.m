@@ -52,13 +52,13 @@
         [self.view addSubview:self.titleNoticeButton];
         
         self.detailLabel =[UILabel new];
-        self.detailLabel.text=@"马上开始报名码市悬赏吧";
+        self.detailLabel.text=@"马上开始报名码市需求吧";
         self.detailLabel.font=[UIFont systemFontOfSize:14];
         self.detailLabel.textAlignment=NSTextAlignmentCenter;
         [self.view addSubview:self.detailLabel];
         
         [self.view addSubview:self.configBtn];
-        [self.configBtn setTitle:@"查看悬赏" forState:UIControlStateNormal];
+        [self.configBtn setTitle:@"查看需求" forState:UIControlStateNormal];
         
         [self.titleNoticeButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.view.mas_top).offset(82);

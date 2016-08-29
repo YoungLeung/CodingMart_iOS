@@ -209,8 +209,8 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
     if ([Login isLogin]) {
         NSString *typeStr = [[NSObject rewardTypeLongDict] findKeyFromStrValue:_rewardToBePublished.type.stringValue];
         NSString *budgetStr = _budgetList[_rewardToBePublished.budget.integerValue];
-        [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"发布悬赏_%@_%@_点击提交", typeStr, budgetStr]];
-        [NSObject showHUDQueryStr:@"正在发布悬赏..."];
+        [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"发布需求_%@_%@_点击提交", typeStr, budgetStr]];
+        [NSObject showHUDQueryStr:@"正在发布需求..."];
         [[Coding_NetAPIManager sharedManager] post_Reward:_rewardToBePublished block:^(id data, NSError *error) {
             [NSObject hideHUDQuery];
             if (data) {

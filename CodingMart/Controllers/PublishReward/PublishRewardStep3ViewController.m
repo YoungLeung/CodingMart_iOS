@@ -30,7 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"发布悬赏";
+    self.title = @"发布需求";
     UIView *tableHeaderView = self.tableView.tableHeaderView;
     tableHeaderView.height = 0.35 * kScreen_Width;
     self.tableView.tableHeaderView = tableHeaderView;
@@ -89,7 +89,7 @@
 #pragma mark Btn
 - (IBAction)nextStepBtnClicked:(id)sender {
     if ([Login isLogin]) {
-        [NSObject showHUDQueryStr:@"正在发布悬赏..."];
+        [NSObject showHUDQueryStr:@"正在发布需求..."];
         [[Coding_NetAPIManager sharedManager] post_Reward:_rewardToBePublished block:^(id data, NSError *error) {
             [NSObject hideHUDQuery];
             if (data) {
@@ -125,9 +125,6 @@
         PublishedRewardsViewController *publishedVC = [PublishedRewardsViewController storyboardVC];
         [nav pushViewController:userVC animated:NO];
         [nav pushViewController:publishedVC animated:YES];
-        
-//        kTipAlert(@"悬赏发布成功！\n可以去到「个人中心」-「我发布的悬赏」中查找");
-//        [self.navigationController popToRootViewControllerAnimated:YES];
     }
 }
 

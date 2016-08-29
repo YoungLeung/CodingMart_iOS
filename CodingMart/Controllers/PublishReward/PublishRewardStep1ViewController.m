@@ -38,7 +38,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"发布悬赏";
+    self.title = @"发布需求";
     UIView *tableHeaderView = self.tableView.tableHeaderView;
     tableHeaderView.height = 0.35 * kScreen_Width;
     self.tableView.tableHeaderView = tableHeaderView;

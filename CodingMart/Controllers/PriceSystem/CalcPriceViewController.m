@@ -294,7 +294,7 @@
     
     UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, priceListButton.bottom + 30, titleLabel.width*0.85, 0)];
     [tipLabel setNumberOfLines:0];
-    [tipLabel setText:@"您可以在发布悬赏的过程中，将预估功能的报价作为参考链接提供给开发者。"];
+    [tipLabel setText:@"您可以在发布需求的过程中，将预估功能的报价作为参考链接提供给开发者。"];
     [tipLabel setFont:[UIFont systemFontOfSize:14.0f]];
     [tipLabel setTextColor:[UIColor colorWithHexString:@"999999"]];
     [tipLabel sizeThatFits:CGSizeMake(titleLabel.width*0.85, MAXFLOAT)];

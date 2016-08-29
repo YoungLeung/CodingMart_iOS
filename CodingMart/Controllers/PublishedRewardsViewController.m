@@ -33,7 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"我发布的悬赏";
+    self.title = @"我发布的项目";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_edit"] style:UIBarButtonItemStylePlain target:self action:@selector(goToPublish:)];
     [self.myTableView eaAddPullToRefreshAction:@selector(refresh) onTarget:self];
     if (![FunctionTipsManager isAppUpdate]) {
@@ -84,7 +84,7 @@
             [weakSelf refresh];
         }];
     }else{
-        [self.myTableView configBlankPageImage:kBlankPageImagePublishJoin tipStr:@"您还没有发布的悬赏" buttonTitle:@"去试试" buttonBlock:^(id sender) {
+        [self.myTableView configBlankPageImage:kBlankPageImagePublishJoin tipStr:@"您还没有发布的项目" buttonTitle:@"去试试" buttonBlock:^(id sender) {
             [weakSelf goToPublish:nil];
         }];
     }
@@ -99,11 +99,11 @@
 - (void)cancelReward:(Reward *)reward{
     [[UIActionSheet bk_actionSheetCustomWithTitle:@"确定要取消发布吗？" buttonTitles:@[@"确定"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
         if (index == 0) {
-            [NSObject showHUDQueryStr:@"正在取消悬赏..."];
+            [NSObject showHUDQueryStr:@"正在取消项目..."];
             [[Coding_NetAPIManager sharedManager] post_CancelRewardId:reward.id block:^(id data, NSError *error) {
                 [NSObject hideHUDQuery];
                 if (data) {
-                    [NSObject showHudTipStr:@"悬赏已取消"];
+                    [NSObject showHudTipStr:@"项目已取消"];
                     [self refresh];
                 }
             }];
@@ -124,7 +124,7 @@
 //                                    @"审核中",
 //                                    @"未通过",
 //                                    @"已取消"];
-//        [NSObject showHudTipStr:[NSString stringWithFormat:@"项目%@，不能查看悬赏详情", statusDisplayList[reward.status.integerValue]]];
+//        [NSObject showHudTipStr:[NSString stringWithFormat:@"项目%@，不能查看项目详情", statusDisplayList[reward.status.integerValue]]];
         return;
     }
     RewardDetailViewController *vc = [RewardDetailViewController vcWithReward:reward];

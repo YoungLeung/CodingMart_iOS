@@ -31,7 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"我参与的悬赏";
+    self.title = @"我参与的项目";
     _myTableView.rowHeight = [JoinedRewardCell cellHeight];
     [_myTableView eaAddPullToRefreshAction:@selector(refresh) onTarget:self];
 }
@@ -70,7 +70,7 @@
             [weakSelf refresh];
         }];
     }else{
-        [self.myTableView configBlankPageImage:kBlankPageImagePublishJoin tipStr:@"您还没有参与的悬赏" buttonTitle:@"去看看" buttonBlock:^(id sender) {
+        [self.myTableView configBlankPageImage:kBlankPageImagePublishJoin tipStr:@"您还没有参与的项目" buttonTitle:@"去看看" buttonBlock:^(id sender) {
             [weakSelf.rdv_tabBarController setSelectedIndex:0];
             [weakSelf.navigationController popToRootViewControllerAnimated:NO];
         }];
@@ -114,7 +114,7 @@
 - (void)cancelJoinReward:(Reward *)reward{
     [[UIActionSheet bk_actionSheetCustomWithTitle:@"确定要取消申请吗？" buttonTitles:@[@"确定"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
         if (index == 0) {
-            [NSObject showHUDQueryStr:@"正在取消悬赏..."];
+            [NSObject showHUDQueryStr:@"正在取消项目..."];
             [[Coding_NetAPIManager sharedManager] post_CancelJoinReward:reward.id block:^(id data, NSError *error) {
                 [NSObject hideHUDQuery];
                 if (data) {

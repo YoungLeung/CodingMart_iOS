@@ -84,7 +84,7 @@
 - (void)setCurRewardP:(RewardPrivate *)curRewardP{
     _curRewardP = curRewardP;
     _bottomView.hidden = ![_curRewardP isRewardOwner] || ![_curRewardP.basicInfo needToPay];
-    _bottomLabel.text = _curRewardP.basicInfo.mpay.boolValue? @"您需要先支付悬赏订金": [NSString stringWithFormat:@"还剩 %@ 未付清", _curRewardP.basicInfo.format_balance];
+    _bottomLabel.text = _curRewardP.basicInfo.mpay.boolValue? @"您需要先支付项目订金": [NSString stringWithFormat:@"还剩 %@ 未付清", _curRewardP.basicInfo.format_balance];
     [_bottomBtn setTitle:_curRewardP.basicInfo.mpay.boolValue? @"支付订金": @"立即付款" forState:UIControlStateNormal];
     [_myTableView reloadData];
     [self refreshNav];
@@ -262,7 +262,7 @@
             status == RewardStatusPassed) {//提示语
             RewardPrivateTipCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateTipCell forIndexPath:indexPath];
             NSString *imageName = status == RewardStatusPassed? @"reward_privete_clock": @"reward_privete_tip";
-            NSString *tipStr = status == RewardStatusRejected? @"很遗憾，您发布的悬赏未通过": status == RewardStatusCanceled? @"您取消了该悬赏的发布": @"您发布的悬赏还未开始招募，请耐心等待";
+            NSString *tipStr = status == RewardStatusRejected? @"很遗憾，您发布的项目未通过": status == RewardStatusCanceled? @"您取消了该项目的发布": @"您发布的项目还未开始招募，请耐心等待";
             WEAKSELF;
             void (^buttonBlock)() = status == RewardStatusPassed? nil: ^{
                 [weakSelf goToRePublish:nil];
@@ -409,7 +409,7 @@
                            actionIndex == RewardCoderStageViewActionSubmit? @"提交交付文档":
                            actionIndex == RewardCoderStageViewActionCancel? @"撤销交付文档":
                            actionIndex == RewardCoderStageViewActionPass? @"确认验收": @"验收不通过");
-    [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"悬赏详情_%@", actionStr]];
+    [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"项目详情_%@", actionStr]];
 
     NSLog(@"%@ - %@ - %lu", role.role_name, stage.stage_no, (unsigned long)actionIndex);
     if (actionIndex == RewardCoderStageViewActionDocument) {
@@ -527,23 +527,23 @@
 - (void)cancelPublish{
     [MobClick event:kUmeng_Event_UserAction label:@"取消发布"];
     __weak typeof(self) weakSelf = self;
-    [NSObject showHUDQueryStr:@"正在取消悬赏..."];
+    [NSObject showHUDQueryStr:@"正在取消项目..."];
     [[Coding_NetAPIManager sharedManager] post_CancelRewardId:_curRewardP.basicInfo.id block:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data) {
-            [NSObject showHudTipStr:@"悬赏已取消"];
+            [NSObject showHudTipStr:@"项目已取消"];
             [weakSelf handleRefresh];
         }
     }];
 }
 
 - (void)goToRePublish:(id)sender{
-    [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"悬赏详情_%@", sender? @"编辑": @"重新发布"]];
+    [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"项目详情_%@", sender? @"编辑": @"重新发布"]];
     [self.navigationController pushViewController:[PublishRewardViewController storyboardVCWithReward:_curRewardP.basicInfo] animated:YES];
 }
 
 - (void)goToActivity{
-    [MobClick event:kUmeng_Event_UserAction label:@"悬赏详情_动态"];
+    [MobClick event:kUmeng_Event_UserAction label:@"项目详情_动态"];
     [self.navigationController pushViewController:[RewardActivitiesViewController vcWithActivities:[Activities ActivitiesWithRewardId:_curRewardP.basicInfo.id]] animated:YES];
 }
 

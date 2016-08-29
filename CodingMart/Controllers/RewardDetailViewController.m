@@ -45,7 +45,7 @@
 }
 
 - (void)viewDidLoad{
-    self.titleStr = @"悬赏详情";
+    self.titleStr = @"项目详情";
     [super viewDidLoad];
     if (!_rightNavBtn) {
         _rightNavBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 22, 22)];
@@ -121,7 +121,7 @@
                         make.top.equalTo(self.view).offset([self navBottomY]);
                     }];
                 }
-                _topTipL.text = ![loginUser canJoinReward]? @"未完善个人资料不能参与悬赏，去完善 >>": @"您的账号还未激活，请前往 Coding 网站激活";
+                _topTipL.text = ![loginUser canJoinReward]? @"未完善个人资料不能参与项目，去完善 >>": @"您的账号还未激活，请前往 Coding 网站激活";
             }else{
                 [_topTipL removeFromSuperview];
             }
@@ -195,7 +195,7 @@
             bottomBtn = [self p_bottomBtnWithTitle:@"重新报名" bgColorHexStr:@"0x4289DB"];
             break;
         default:
-            bottomBtn = [self p_bottomBtnWithTitle:@"参与悬赏" bgColorHexStr:@"0x4289DB"];
+            bottomBtn = [self p_bottomBtnWithTitle:@"参与项目" bgColorHexStr:@"0x4289DB"];
             break;
     }
     return bottomBtn;
@@ -244,7 +244,7 @@
 }
 
 - (void)bottomBtnClicked:(UIButton *)sender{
-    [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"悬赏详情_%@", sender.titleLabel.text]];
+    [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"项目详情_%@", sender.titleLabel.text]];
     if ([Login isLogin]) {
         if (![[Login curLoginUser] canJoinReward]) {//未完善个人资料
             FillTypesViewController *vc = [FillTypesViewController storyboardVC];

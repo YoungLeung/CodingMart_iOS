@@ -136,7 +136,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
     static NSArray *list;
     if (!list) {
         list = @[@"首页",
-                 @"悬赏",
+                 @"项目",
                  @"估价",
                  @"我参与的",
                  @"我发布的",
