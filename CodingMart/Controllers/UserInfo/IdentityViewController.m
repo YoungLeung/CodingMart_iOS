@@ -144,6 +144,8 @@
         tipStr = @"请上传身份证正面图片";
     }else if (_model.identity_img_back.length <= 0){
         tipStr = @"请上传身份证背面图片";
+    }else if ([_model isSameTo:_originalModel]){
+        tipStr = @"信息无改动，无法直接提交";
     }
     if (tipStr.length > 0) {
         [NSObject showHudTipStr:tipStr];
@@ -268,7 +270,8 @@
 
 #pragma mark VC
 - (void)goToAgreement{
-    [self goToWebVCWithUrlStr:@"https://coding.net/api/project/81234/files/histories/944147/download" title:@"身份认证授权与承诺书"];
+    NSString *urlStr = @"https://coding.net/api/project/81234/files/histories/944147/download";//待更改
+    [self goToWebVCWithUrlStr:urlStr title:@"身份认证授权与承诺书"];
 }
 
 @end
