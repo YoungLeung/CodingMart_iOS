@@ -270,7 +270,7 @@
 
 #pragma mark VC
 - (void)goToAgreement{
-    NSString *urlStr = @"https://coding.net/api/project/81234/files/histories/944147/download";//待更改
+    NSString *urlStr = @"https://dn-coding-net-production-public-file.qbox.me/%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E6%8E%88%E6%9D%83%E4%B8%8E%E6%89%BF%E8%AF%BA%E4%B9%A6_160816.pdf";
     [self goToWebVCWithUrlStr:urlStr title:@"身份认证授权与承诺书"];
 }
 

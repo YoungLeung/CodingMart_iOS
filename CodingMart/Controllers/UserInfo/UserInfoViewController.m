@@ -56,6 +56,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = nil;
     UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, 49, 0);
     self.tableView.contentInset = self.tableView.scrollIndicatorInsets = insets;
     
