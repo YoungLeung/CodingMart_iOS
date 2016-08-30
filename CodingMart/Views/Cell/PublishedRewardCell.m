@@ -15,7 +15,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *typeImgV;
 @property (weak, nonatomic) IBOutlet UILabel *typeL;
 @property (weak, nonatomic) IBOutlet UILabel *roleTypesL;
-@property (weak, nonatomic) IBOutlet UILabel *priceL;
 @property (weak, nonatomic) IBOutlet UILabel *statusL;
 @property (weak, nonatomic) IBOutlet UIView *tapView;
 @property (weak, nonatomic) IBOutlet UILabel *payTipL;
@@ -24,6 +23,13 @@
 @property (weak, nonatomic) IBOutlet UIImageView *allPaidV;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *priceBottomConstraint;
 @property (weak, nonatomic) IBOutlet UIButton *payBtn;
+
+@property (weak, nonatomic) IBOutlet UILabel *versionL;
+@property (weak, nonatomic) IBOutlet UILabel *priceL;
+@property (weak, nonatomic) IBOutlet UILabel *durationL;
+
+
+
 @end
 
 @implementation PublishedRewardCell
@@ -52,7 +58,11 @@
     _typeImgV.image = [UIImage imageNamed:_reward.typeImageName];
     _typeL.text = _reward.typeDisplay;
     _roleTypesL.text = _reward.roleTypesDisplay;
+    
+    _versionL.text = _reward.version.integerValue == 0? @"快速发布": @"自助发布";
     _priceL.text = _reward.format_price;
+    _durationL.text = [NSString stringWithFormat:@"%@ 天", _reward.duration];
+    
     _statusL.text = _reward.statusDisplay;
     if (_payTipL) {
         _payTipL.attributedText = [self p_payTipStr];

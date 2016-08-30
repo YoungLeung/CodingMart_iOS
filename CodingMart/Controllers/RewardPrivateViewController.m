@@ -263,11 +263,13 @@
             RewardPrivateTipCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateTipCell forIndexPath:indexPath];
             NSString *imageName = status == RewardStatusPassed? @"reward_privete_clock": @"reward_privete_tip";
             NSString *tipStr = status == RewardStatusRejected? @"很遗憾，您发布的项目未通过": status == RewardStatusCanceled? @"您取消了该项目的发布": @"您发布的项目还未开始招募，请耐心等待";
+            NSString *subTipStr = (status != RewardStatusPassed && _curRewardP.basicInfo.version.integerValue != 0)? @"手机暂时不支持 「重新发布」 功能，请前往码市网站操作": nil;
             WEAKSELF;
-            void (^buttonBlock)() = status == RewardStatusPassed? nil: ^{
+            void (^buttonBlock)() = (status == RewardStatusPassed || _curRewardP.basicInfo.version.integerValue != 0)? nil: ^{
                 [weakSelf goToRePublish:nil];
             };
-            [cell setupImage:imageName tipStr:tipStr buttonBlock:buttonBlock];
+            
+            [cell setupImage:imageName tipStr:tipStr subTipStr:subTipStr buttonBlock:buttonBlock];
             return cell;
         }else{//地铁图
             RewardPrivateMetroCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateMetroCell forIndexPath:indexPath];
@@ -283,6 +285,10 @@
             }else if (indexPath.row == 1){
                 RewardPrivateDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateDetailCell forIndexPath:indexPath];
                 cell.rewardP = _curRewardP;
+                WEAKSELF;
+                cell.fileClickedBlock = ^(MartFile *clickedFile){
+                    [weakSelf goToWebVCWithUrlStr:clickedFile.url title:clickedFile.filename];
+                };
                 return cell;
             }else{
                 RewardPrivateContactCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateContactCell forIndexPath:indexPath];

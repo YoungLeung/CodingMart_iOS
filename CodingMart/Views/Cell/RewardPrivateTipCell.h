@@ -11,6 +11,6 @@
 #import <UIKit/UIKit.h>
 
 @interface RewardPrivateTipCell : UITableViewCell
-- (void)setupImage:(NSString *)imageName tipStr:(NSString *)tipStr buttonBlock:(void(^)())block;
+- (void)setupImage:(NSString *)imageName tipStr:(NSString *)tipStr subTipStr:(NSString *)subTipStr buttonBlock:(void(^)())block;
 + (CGFloat)cellHeight;
 @end
