@@ -35,14 +35,14 @@ typedef NS_ENUM(NSInteger, PayMethodType) {
 
 @interface Reward : NSObject
 //List
-@property (strong, nonatomic) NSNumber *id, *type, *status, *progress, *price, *duration, *reward_status, *apply_status, *balance, *price_with_fee, *apply_count, *version, *mpay, *visitCount;
+@property (strong, nonatomic) NSNumber *id, *type, *status, *progress, *price, *duration, *warranty, *reward_status, *apply_status, *balance, *price_with_fee, *apply_count, *version, *mpay, *visitCount;
 @property (strong, nonatomic) NSNumber *need_pay_prepayment;
-@property (strong, nonatomic) NSString *format_price, *format_balance, *format_content, *plain_content, *format_price_with_fee;
+@property (strong, nonatomic) NSString *format_price, *format_balance, *format_content, *plain_content, *format_price_with_fee, *format_first_sample, *format_second_sample, *developPlan, *rewardDemand;
 @property (strong, nonatomic) MartFile *first_attach_file, *second_attach_file, *require_doc_file;
 @property (strong, nonatomic) NSString *cover, *home, *managerName;
 @property (strong, nonatomic) User *owner;
 @property (strong, nonatomic) HtmlMedia *format_contentMedia;
-@property (strong, nonatomic) NSMutableArray *roleTypes, *winners;
+@property (strong, nonatomic) NSMutableArray *roleTypes, *roles, *winners;
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
 //Do Publish
 @property (strong, nonatomic) NSNumber *budget, *require_clear, *need_pm;

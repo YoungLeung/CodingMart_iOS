@@ -25,6 +25,9 @@
     [metroStatus sortUsingComparator:^NSComparisonResult(NSNumber * _Nonnull obj1, NSNumber * _Nonnull obj2) {
         return [obj1 compare:obj2];
     }];
+    if (_basicInfo.version.integerValue != 0 && metroStatus.count > 1) {
+        [metroStatus replaceObjectsInRange:NSMakeRange(0, 2) withObjectsFromArray:@[@(RewardStatusPrepare)]];
+    }
     _metro.metroStatus = metroStatus;
     _filesToShow = [NSObject arrayFromJSON:_prd[@"filesToShow"] ofObjects:@"MartFile"];
     

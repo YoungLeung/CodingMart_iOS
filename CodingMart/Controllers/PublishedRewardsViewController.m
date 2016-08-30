@@ -111,10 +111,6 @@
     }] showInView:self.view];
 }
 - (void)goToPrivateReward:(Reward *)reward{
-    if (reward.version.integerValue > 0 && reward.status.integerValue > RewardStatusFinished) {
-        [self goToWebVCWithUrlStr:[NSString stringWithFormat:@"/user/p/%@", reward.id.stringValue] title:@"项目状态"];
-        return;
-    }
     RewardPrivateViewController *vc = [RewardPrivateViewController vcWithReward:reward];
     [self.navigationController pushViewController:vc animated:YES];
 }

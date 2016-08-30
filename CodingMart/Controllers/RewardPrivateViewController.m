@@ -33,6 +33,10 @@
 #import <BlocksKit/BlocksKit+UIKit.h>
 #import "EATipView.h"
 #import "MartFunctionTipView.h"
+#import "RewardPrivateDespCell.h"
+#import "RewardPrivateExampleCell.h"
+#import "RewardPrivatePlanCell.h"
+#import "RewardPrivateRolesCell.h"
 
 @interface RewardPrivateViewController ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -118,6 +122,7 @@
     NSInteger status = _curRewardP.basicInfo.status.integerValue;
     switch (status) {
         case RewardStatusFresh:
+        case RewardStatusPrepare:
         case RewardStatusAccepted://地铁图
             sectionNum = 4;
             break;
@@ -150,8 +155,8 @@
             rowNum = 1;
         }
     }else if (section == 3){
-        if (status < RewardStatusRecruiting) {
-            rowNum = 3;
+        if (status < RewardStatusRecruiting || status == RewardStatusPrepare) {
+            rowNum = _curRewardP.basicInfo.version.integerValue != 0? 5: 3;
         }else{
             rowNum = MAX(1, _curRewardP.apply.coders.count);
         }
@@ -277,23 +282,34 @@
             return cell;
         }
     }else if (indexPath.section == 3){
-        if (status < RewardStatusRecruiting) {//项目描述
-            if (indexPath.row == 0) {
-                RewardPrivateBasicInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateBasicInfoCell forIndexPath:indexPath];
-                cell.rewardP = _curRewardP;
-                return cell;
-            }else if (indexPath.row == 1){
-                RewardPrivateDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateDetailCell forIndexPath:indexPath];
-                cell.rewardP = _curRewardP;
-                WEAKSELF;
-                cell.fileClickedBlock = ^(MartFile *clickedFile){
-                    [weakSelf goToWebVCWithUrlStr:clickedFile.url title:clickedFile.filename];
-                };
+        if (status < RewardStatusRecruiting || status == RewardStatusPrepare) {//项目描述
+            if (_curRewardP.basicInfo.version.integerValue != 0) {
+                NSString *cellIdentifier = (indexPath.row == 0? kCellIdentifier_RewardPrivateDespCell:
+                                            indexPath.row == 1? kCellIdentifier_RewardPrivateExampleCell:
+                                            indexPath.row == 2? kCellIdentifier_RewardPrivatePlanCell:
+                                            indexPath.row == 3? kCellIdentifier_RewardPrivateRolesCell:
+                                            kCellIdentifier_RewardPrivateContactCell);
+                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+                [cell setValue:_curRewardP forKey:@"rewardP"];
                 return cell;
             }else{
-                RewardPrivateContactCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateContactCell forIndexPath:indexPath];
-                cell.rewardP = _curRewardP;
-                return cell;
+                if (indexPath.row == 0) {
+                    RewardPrivateBasicInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateBasicInfoCell forIndexPath:indexPath];
+                    cell.rewardP = _curRewardP;
+                    return cell;
+                }else if (indexPath.row == 1){
+                    RewardPrivateDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateDetailCell forIndexPath:indexPath];
+                    cell.rewardP = _curRewardP;
+                    WEAKSELF;
+                    cell.fileClickedBlock = ^(MartFile *clickedFile){
+                        [weakSelf goToWebVCWithUrlStr:clickedFile.url title:clickedFile.filename];
+                    };
+                    return cell;
+                }else{
+                    RewardPrivateContactCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateContactCell forIndexPath:indexPath];
+                    cell.rewardP = _curRewardP;
+                    return cell;
+                }
             }
         }else{//码士分配
             if (_curRewardP.apply.coders.count > indexPath.row) {
@@ -334,7 +350,7 @@
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:15];
     }else if (indexPath.section == 3){
         NSInteger status = _curRewardP.basicInfo.status.integerValue;
-        if (status >= RewardStatusRecruiting) {
+        if (status >= RewardStatusRecruiting && status != RewardStatusPrepare) {
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:15];
         }else{
             [cell addLineUp:indexPath.row == 0 andDown:indexPath.row == [self tableView:_myTableView numberOfRowsInSection:indexPath.section] - 1 andColor:[UIColor colorWithHexString:@"0xdddddd"]];
@@ -360,13 +376,17 @@
             cellHeight = [RewardPrivateMetroCell cellHeightWithObj:_curRewardP];
         }
     }else if (indexPath.section == 3){
-        if (status < RewardStatusRecruiting) {//项目描述
-            if (indexPath.row == 0) {
-                cellHeight = [RewardPrivateBasicInfoCell cellHeight];
-            }else if (indexPath.row == 1){
-                cellHeight = [RewardPrivateDetailCell cellHeightWithObj:_curRewardP];
+        if (status < RewardStatusRecruiting || status == RewardStatusPrepare) {//项目描述
+            if (_curRewardP.basicInfo.version.integerValue != 0) {
+                cellHeight = (indexPath.row == 0? [RewardPrivateDespCell cellHeightWithObj:_curRewardP]:
+                              indexPath.row == 1? [RewardPrivateExampleCell cellHeightWithObj:_curRewardP]:
+                              indexPath.row == 2? [RewardPrivatePlanCell cellHeightWithObj:_curRewardP]:
+                              indexPath.row == 3? [RewardPrivateRolesCell cellHeightWithObj:_curRewardP]:
+                              [RewardPrivateContactCell cellHeightWithObj:_curRewardP]);
             }else{
-                cellHeight = [RewardPrivateContactCell cellHeight];
+                cellHeight = (indexPath.row == 0? [RewardPrivateBasicInfoCell cellHeight]:
+                              indexPath.row == 1? [RewardPrivateDetailCell cellHeightWithObj:_curRewardP]:
+                              [RewardPrivateContactCell cellHeightWithObj:_curRewardP]);
             }
         }else{//码士分配
             cellHeight = _curRewardP.apply.coders.count > indexPath.row? [RewardPrivateCoderCell cellHeight]: [RewardPrivateCoderBlankCell cellHeight];
@@ -509,7 +529,9 @@
     if (canEdit) {
         [items addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_more"] style:UIBarButtonItemStylePlain target:self action:@selector(moreBtnClicked:)]];
         [items addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_edit"] style:UIBarButtonItemStylePlain target:self action:@selector(goToRePublish:)]];
-    }else if (isOwner && status == RewardStatusRecruiting && _curRewardP.basicInfo.version.integerValue == 1){
+    }else if (isOwner &&
+              ((status == RewardStatusRecruiting && _curRewardP.basicInfo.version.integerValue == 1)||
+               status == RewardStatusPrepare)){
         [items addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_more"] style:UIBarButtonItemStylePlain target:self action:@selector(moreBtnClicked:)]];
     }
     [items addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_activity"] style:UIBarButtonItemStylePlain target:self action:@selector(goToActivity)]];
@@ -521,6 +543,7 @@
     __weak typeof(self) weakSelf = self;
     if (status == RewardStatusFresh ||
         status == RewardStatusAccepted ||
+        status == RewardStatusPrepare ||
         (status == RewardStatusRecruiting && _curRewardP.basicInfo.version.integerValue == 1)) {
         [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"取消发布"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0){

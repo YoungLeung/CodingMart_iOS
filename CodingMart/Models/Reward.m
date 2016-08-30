@@ -17,6 +17,7 @@
     self = [super init];
     if (self) {
         _propertyArrayMap = @{@"roleTypes" : @"RewardRoleType",
+                              @"roles" : @"RewardRoleType",
                               @"winners" : @"RewardWinnerInfo"};
     }
     return self;
