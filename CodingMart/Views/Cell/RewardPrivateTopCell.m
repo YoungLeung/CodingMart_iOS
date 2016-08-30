@@ -11,10 +11,13 @@
 @interface RewardPrivateTopCell ()
 @property (weak, nonatomic) IBOutlet UILabel *nameL;
 @property (weak, nonatomic) IBOutlet UILabel *idL;
+@property (weak, nonatomic) IBOutlet UIImageView *typeImgView;
+@property (weak, nonatomic) IBOutlet UILabel *typeL;
 @property (weak, nonatomic) IBOutlet UILabel *roleTypesL;
 @property (weak, nonatomic) IBOutlet UILabel *priceL;
-@property (weak, nonatomic) IBOutlet UILabel *typeL;
 @property (weak, nonatomic) IBOutlet UILabel *durationL;
+@property (weak, nonatomic) IBOutlet UILabel *ownerNameL;
+@property (weak, nonatomic) IBOutlet UILabel *serviceTypeL;
 
 @end
 
@@ -35,13 +38,39 @@
     _nameL.text = curR.name;
     _idL.text = [NSString stringWithFormat:@" No.%@  ", curR.id.stringValue];
     _roleTypesL.text = curR.roleTypesDisplay;
-    UIColor *diffColor = [UIColor colorWithHexString:@"0xF5A623"];
-    [_priceL setAttrStrWithStr:[NSString stringWithFormat:@"金额：%@", curR.format_price] diffColorStr:curR.format_price diffColor:diffColor];
-    [_typeL setAttrStrWithStr:[NSString stringWithFormat:@"类型：%@", curR.typeDisplay] diffColorStr:curR.typeDisplay diffColor:diffColor];
-    [_durationL setAttrStrWithStr:[NSString stringWithFormat:@"周期：%@ 天", curR.duration.stringValue] diffColorStr:curR.duration.stringValue diffColor:diffColor];
+    
+    
+    _typeImgView.image = [UIImage imageNamed:curR.typeImageName];
+    _typeL.text = curR.typeDisplay;
+
+    _ownerNameL.text = curR.owner.name;
+    _durationL.text = [NSString stringWithFormat:@"%@ 天", curR.duration];
+    static NSArray *service_type_list;
+    if (service_type_list.count <= 0) {
+        service_type_list = @[@"软件开发", @"产品原型", @"UI 设计"];
+    }
+    if (service_type_list.count > curR.service_type.integerValue) {
+        _serviceTypeL.text = service_type_list[curR.service_type.integerValue];
+    }else{
+        _serviceTypeL.text = @"--";
+    }
+    
+    _priceL.attributedText = [self priceAttrStrWithReward:curR];
 }
+
+- (NSAttributedString *)priceAttrStrWithReward:(Reward *)curR{
+    NSString *priceStr = [NSString stringWithFormat:@"项目金额：%@ 元 %@", curR.format_price, curR.service_fee_percent.integerValue > 0? [NSString stringWithFormat:@"+ %@.0%%服务费", curR.service_fee_percent]: @" 无服务费"];
+    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:priceStr];
+    if (curR.format_price.length > 0) {
+        
+        [attrStr addAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:@"0xF5A623"],
+                                 NSFontAttributeName: [UIFont systemFontOfSize:20]} range:[priceStr rangeOfString:curR.format_price]];
+    }
+    return attrStr;
+}
+
 + (CGFloat)cellHeight{
-    return 120;
+    return 150;
 }
 
 
