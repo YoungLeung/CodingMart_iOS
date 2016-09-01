@@ -410,8 +410,15 @@
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"stageId": stageId} withMethodType:Post andBlock:^(id data, NSError *error) {
         block(data, error);
     }];
-
 }
+
+- (void)post_AcceptStageDocument:(NSNumber *)stageId password:(NSString *)password block:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/mpay/stage/%@/acceptance", stageId];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"password": password} withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+
 - (void)post_RejectStageDocument:(NSNumber *)stageId linkStr:(NSString *)linkStr block:(void (^)(id data, NSError *error))block{
     if (!stageId || !linkStr) {
         block(nil, nil);
@@ -775,6 +782,16 @@
         block(data, error);
     }];
 
+}
+
+- (void)post_GenerateOrderWithStageId:(NSNumber *)stageId block:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/mpay/stage/%@/order", stageId];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject objectOfClass:@"MPayOrder" fromJSON:data];
+        }
+        block(data, error);
+    }];
 }
 
 #pragma mark FeedBack

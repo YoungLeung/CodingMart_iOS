@@ -320,7 +320,7 @@
     }else if ([_objToShare isKindOfClass:[UIWebView class]]){
         title = @"Coding 码市";
     }else{
-        title = @"Coding 码市 - 一站式在线软件开发平台";
+        title = @"Coding 码市 - 基于云技术的软件外包服务平台";
     }
     return title;
 }
@@ -331,7 +331,7 @@
     }else if ([_objToShare isKindOfClass:[UIWebView class]]){
         text =[(UIWebView *)_objToShare stringByEvaluatingJavaScriptFromString:@"document.title"];
     }else{
-        text = @"#Coding 码市# 你有想法，我来实现；一站式在线软件开发平台 http://mart.coding.net";
+        text = @"#Coding 码市# 你有想法，我来实现；基于云技术的软件外包服务平台 http://mart.coding.net";
     }
     return text;
 }
@@ -356,7 +356,7 @@
     }else if (_objToShare){
         content = [NSString stringWithFormat:@"#Coding 码市# %@ %@", [self p_shareTitle], [self p_shareLinkStr]];
     }else{
-        content = [NSString stringWithFormat:@"#Coding 码市# 一站式在线软件开发平台 %@", [self p_shareLinkStr]];
+        content = [NSString stringWithFormat:@"#Coding 码市# 基于云技术的软件外包服务平台 %@", [self p_shareLinkStr]];
     }
     content = [content URLEncoding];
     
@@ -439,7 +439,7 @@
         }else if (_objToShare){
             shareText = [NSString stringWithFormat:@"#Coding 码市# %@ %@", [self p_shareTitle], [self p_shareLinkStr]];
         }else{
-            shareText = [NSString stringWithFormat:@"#Coding 码市# 一站式在线软件开发平台 %@", [self p_shareLinkStr]];
+            shareText = [NSString stringWithFormat:@"#Coding 码市# 基于云技术的软件外包服务平台 %@", [self p_shareLinkStr]];
         }
         socialData.shareText = shareText;
         socialData.shareImage = nil;

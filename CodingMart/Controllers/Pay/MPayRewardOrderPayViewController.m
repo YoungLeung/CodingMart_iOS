@@ -32,7 +32,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _orderIdL.text = _curMPayOrder.orderId;
-    _titleL.text = _curMPayOrder.title;
+    _titleL.text = _curMPayOrder.name;
     _totalFeeL.text = [NSString stringWithFormat:@"￥ %@", _curMPayOrder.totalFee];
 }
 
@@ -100,7 +100,13 @@
 #pragma mark Table
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
-        return 44.0;
+        if (indexPath.row == 1) {
+            CGFloat contentW = kScreen_Width - 15* 2 - 70 - 10;
+            CGFloat contentH = [_curMPayOrder.name getHeightWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake(contentW, CGFLOAT_MAX)];
+            return MAX(44.0, contentH + 25);
+        }else{
+            return 44.0;
+        }
     }else{
         BOOL isEnough = [self p_isBalanceEnough];
         if (indexPath.row == 0) {

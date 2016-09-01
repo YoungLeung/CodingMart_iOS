@@ -9,5 +9,7 @@
 #import "MPayOrder.h"
 
 @implementation MPayOrder
-
+- (NSString *)name{
+    return _description_mine.length > 0? _description_mine: _title;
+}
 @end

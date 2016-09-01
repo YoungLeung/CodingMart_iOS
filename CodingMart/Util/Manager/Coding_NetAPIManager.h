@@ -52,6 +52,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)post_SubmitStageDocument:(NSNumber *)stageId linkStr:(NSString *)linkStr block:(void (^)(id data, NSError *error))block;
 - (void)post_CancelStageDocument:(NSNumber *)stageId block:(void (^)(id data, NSError *error))block;
 - (void)post_AcceptStageDocument:(NSNumber *)stageId block:(void (^)(id data, NSError *error))block;
+- (void)post_AcceptStageDocument:(NSNumber *)stageId password:(NSString *)password block:(void (^)(id data, NSError *error))block;
 - (void)post_RejectStageDocument:(NSNumber *)stageId linkStr:(NSString *)linkStr block:(void (^)(id data, NSError *error))block;
 
 - (void)get_activities:(Activities *)activities block:(void (^)(id data, NSError *error))block;
@@ -97,6 +98,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)post_MPayOrderId:(NSString *)orderId password:(NSString *)password block:(void (^)(id data, NSError *error))block;
 - (void)post_GenerateOrderWithDepositPrice:(NSNumber *)depositPrice methodType:(PayMethodType)methodType block:(void (^)(id data, NSError *error))block;
 - (void)get_MPayOrderStatus:(NSString *)orderId block:(void (^)(id data, NSError *error))block;
+- (void)post_GenerateOrderWithStageId:(NSNumber *)stageId block:(void (^)(id data, NSError *error))block;
 
 #pragma mark FeedBack
 - (void)post_FeedBack:(FeedBackInfo *)feedBackInfo  block:(void (^)(id data, NSError *error))block;

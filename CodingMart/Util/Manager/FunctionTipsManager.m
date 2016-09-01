@@ -40,7 +40,7 @@ static NSString *kFunctionTipStr_Update = @"isAppUpdate";
 //                           kFunctionTipStr_JoinedR: @(YES),
 //                           kFunctionTipStr_ShareR: @(YES),
 //                           kFunctionTipStr_ShareApp: @(YES),
-                           kFunctionTipStr_MPay: @(YES),
+//                           kFunctionTipStr_MPay: @(YES),
                            } mutableCopy];
             [_tipsDict writeToFile:[self p_cacheFilePath] atomically:YES];
         }

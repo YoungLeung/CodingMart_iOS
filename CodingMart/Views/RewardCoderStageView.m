@@ -13,10 +13,17 @@
 @property (weak, nonatomic) IBOutlet UIView *headerV;
 @property (weak, nonatomic) IBOutlet UILabel *stage_noL;
 @property (weak, nonatomic) IBOutlet UIImageView *arrowImageV;
+
+
 @property (weak, nonatomic) IBOutlet UILabel *descriptionL;
 @property (weak, nonatomic) IBOutlet UILabel *documentL;
-@property (weak, nonatomic) IBOutlet UILabel *dateL;
+@property (weak, nonatomic) IBOutlet UILabel *planDateL;
+@property (weak, nonatomic) IBOutlet UILabel *planDaysL;
+@property (weak, nonatomic) IBOutlet UILabel *factDateL;
 @property (weak, nonatomic) IBOutlet UILabel *priceL;
+@property (weak, nonatomic) IBOutlet UILabel *payedL;
+
+
 @property (weak, nonatomic) IBOutlet UILabel *statusL;
 @property (weak, nonatomic) IBOutlet UIView *statusTipV;
 @property (weak, nonatomic) IBOutlet UIImageView *statusTipBGV;
@@ -29,6 +36,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
 @property (weak, nonatomic) IBOutlet UIButton *passBtn;
 @property (weak, nonatomic) IBOutlet UIButton *rejectBtn;
+@property (weak, nonatomic) IBOutlet UIButton *payBtn;
+
 @end
 
 @implementation RewardCoderStageView
@@ -41,13 +50,8 @@
 
 - (void)setCurStage:(RewardMetroRoleStage *)curStage{
     _curStage = curStage;
-
     WEAKSELF;
-
-    BOOL isRewardOwner = _curStage.isRewardOwner;
-    BOOL isStageOwner = _curStage.isStageOwner;
-
-    _headerV.backgroundColor = [UIColor colorWithHexString:_curStage.status.integerValue < 3? @"0x4289DB": @"0xC9D6E5"];
+    _headerV.backgroundColor = [UIColor colorWithHexString:![_curStage isFinished]? @"0x4289DB": @"0xC9D6E5"];
     _stage_noL.text = _curStage.stage_no;
     _arrowImageV.transform = CGAffineTransformMakeRotation(_curStage.isExpand? 0: M_PI);
     [_headerV bk_whenTapped:^{
@@ -58,50 +62,37 @@
     if (!_curStage.isExpand) {
         return;
     }
+    BOOL isRewardOwner = _curStage.isRewardOwner;
+    BOOL isStageOwner = _curStage.isStageOwner;
+    
     _descriptionL.text = _curStage.stage_task;
     _documentL.text = _curStage.stage_file_desc;
-    _dateL.text = _curStage.deadline;
+    _planDateL.text = [NSString stringWithFormat:@"%@ - %@", _curStage.planStartAtFormat, _curStage.planFinishAtFormat];
+    _planDaysL.text = _curStage.planDays.stringValue;
+    _factDateL.text = [NSString stringWithFormat:@"%@ - %@", _curStage.factStartAtFormat.length > 0? _curStage.factStartAtFormat: @"", _curStage.factFinishAtFormat.length > 0? _curStage.factFinishAtFormat: @""];
     _priceL.text = _curStage.format_price;
+    _payedL.text = _curStage.payedText;
     
-    NSArray *statusDisplayList = @[@"待交付", @"待验收", @"验收未通过", @"已验收", @"已付款"];
-    NSArray *statusColorList = @[@"0xF5A623", @"0xF5A623", @"0xE84D60", @"0x4289DB", @"0x4289DB"];
-    NSInteger status = _curStage.status.integerValue;
-    _statusL.text = statusDisplayList.count > status? statusDisplayList[status]: @"未知";
-    if (statusColorList.count > status) {
-        _statusL.textColor = [UIColor colorWithHexString:statusColorList[status]];
+    static NSDictionary *statusColorDict;
+    if (!statusColorDict) {
+        statusColorDict = @{@1: @"0xF5A623",
+                            @2: @"0xF5A623",
+                            @3: @"0xF5A623",
+                            @4: @"0x4289DB",
+                            @5: @"0xE84D60",
+                            @6: @"0xE84D60",
+                            @7: @"0xE84D60"};
     }
+    if (statusColorDict[_curStage.statusOrigin]) {
+        _statusL.textColor = [UIColor colorWithHexString:statusColorDict[_curStage.statusOrigin]];
+    }
+    _statusL.text = _curStage.statusText;
+
+    
     
     NSString *tipStr = nil;
-    NSString *leftTimeStr;
-    
-    NSTimeInterval deadline_check_timestamp = _curStage.deadline_timestamp.doubleValue;
-    if (status == 1) {
-        if (_curStage.deadline_check_timestamp.doubleValue > 259200000.0 * 10) {//259200000（3天） 是个默认值
-            deadline_check_timestamp = _curStage.deadline_check_timestamp.doubleValue;
-        }else{
-            deadline_check_timestamp += _curStage.deadline_check_timestamp.doubleValue;
-        }
-    }
-    NSTimeInterval left_timestamp = deadline_check_timestamp - [NSDate date].timeIntervalSince1970 * 1000;
-    if (status != 1) {//截止时间默认加一天，但是验收时间不加
-        left_timestamp += 86400000;
-    }
-    left_timestamp /= 1000* 60;//分钟
-    NSInteger day = floor(left_timestamp/ 60 / 24);
-    NSInteger hour = (NSInteger)(left_timestamp/ 60) % 24;
-    NSInteger minute = (NSInteger)left_timestamp %60;
-    leftTimeStr = day > 0? [NSString stringWithFormat:@"%ld 天 %ld 小时", (long)day, (long)hour]: [NSString stringWithFormat:@"%ld 小时 %ld 分钟", (long)hour, (long)minute];
-    
-    if (status == 1) {
-        if (left_timestamp > 0) {
-            tipStr = [NSString stringWithFormat:@"%@后自动确认验收", leftTimeStr];
-        }
-    }else if (isStageOwner){
-        if (status == 0 || status == 2) {
-            tipStr = left_timestamp < 0? @"已延期": [NSString stringWithFormat:@"还剩 %@", leftTimeStr];
-        }else if (status == 3){
-//            tipStr = @"该阶段款项将会在3天内到账";
-        }
+    if ([_curStage needToPay]) {
+        tipStr = isRewardOwner? @"支付后才能启动此阶段": isStageOwner? @"该阶段未支付，为保障您的利益，请在需求方支付当前阶段款后再进行阶段开发，请及时联系需求方": nil;
     }
     _statusTipL.text = tipStr;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -109,17 +100,14 @@
     });
     _statusTipV.hidden = !tipStr;
     
-    _documentBtn.hidden = !(status != 2 && _curStage.stage_file.length > 0);
-    _reasonBtn.hidden = !(status == 2 && _curStage.modify_file.length > 0);;
-    
-    if (_curStage.isMpay) {
-        _submitBtn.hidden = _cancelBtn.hidden = _passBtn.hidden = _rejectBtn.hidden = _bottomLineV.hidden = YES;
-    }else{
-        _submitBtn.hidden = !(isStageOwner && (status == 0 || status == 2));;
-        _cancelBtn.hidden = !(!isRewardOwner && isStageOwner && status == 1);
-        _passBtn.hidden = _rejectBtn.hidden = !(isRewardOwner && status == 1);
-        _bottomLineV.hidden = _submitBtn.hidden && _cancelBtn.hidden && _passBtn.hidden && _rejectBtn.hidden;
-    }
+    _documentBtn.hidden = !(![_curStage isRejected] && _curStage.stage_file.length > 0);
+    _reasonBtn.hidden = !([_curStage isRejected] && _curStage.modify_file.length > 0);;
+
+    _payBtn.hidden = !([_curStage needToPay] && isRewardOwner);
+    _submitBtn.hidden = ![_curStage canSubmitObj];
+    _cancelBtn.hidden = !([_curStage canCancelObj] && !isRewardOwner);
+    _passBtn.hidden = _rejectBtn.hidden = ![_curStage canAcceptAndRejectObj];
+    _bottomLineV.hidden = _submitBtn.hidden && _cancelBtn.hidden && _passBtn.hidden && _rejectBtn.hidden;
 }
 
 - (IBAction)actionBtnClicked:(UIButton *)sender {
@@ -133,18 +121,10 @@
     if ([obj isKindOfClass:[RewardMetroRoleStage class]]) {
         RewardMetroRoleStage *stage = obj;
         if (stage.isExpand) {
-            if (stage.isMpay) {
-                height = 230;
+            if ([stage canSubmitObj] || [stage canCancelObj] || [stage canAcceptAndRejectObj]) {
+                height = 325 + 60;
             }else{
-                NSInteger status = stage.status.integerValue;
-                BOOL isRewardOwner = stage.isRewardOwner;
-                BOOL isStageOwner = stage.isStageOwner;
-                if ((isRewardOwner && status == 1) ||//通过、拒绝
-                    (isStageOwner && (status == 0 || status == 1 || status == 2))) {//提交、撤销提交
-                    height = 290;
-                }else{
-                    height = 230;
-                }
+                height = 325;
             }
         }else{
             height = 35;

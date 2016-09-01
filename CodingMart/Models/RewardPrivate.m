@@ -51,7 +51,7 @@
             stage.isRewardOwner = isRewardOwner;
             stage.isStageOwner = isStageOwner;
             stage.isMpay = _basicInfo.mpay.boolValue;
-            stage.isExpand = (stage.status.integerValue < 3 && !roleHasExpand) && (isRewardOwner || isStageOwner);
+            stage.isExpand = (![stage isFinished] && !roleHasExpand) && (isRewardOwner || isStageOwner);
             if (stage.isExpand) {
                 roleHasExpand = YES;
             }

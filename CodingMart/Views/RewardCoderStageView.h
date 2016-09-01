@@ -16,6 +16,7 @@ typedef NS_ENUM(NSUInteger, RewardCoderStageViewAction) {
     RewardCoderStageViewActionCancel,
     RewardCoderStageViewActionPass,
     RewardCoderStageViewActionReject,
+    RewardCoderStageViewActionPay,
 };
 
 

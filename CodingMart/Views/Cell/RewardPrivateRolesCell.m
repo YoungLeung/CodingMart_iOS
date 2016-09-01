@@ -42,8 +42,8 @@
         return nil;
     }
     NSArray *valueList = [_rewardP.basicInfo.roles valueForKey:@"totalPrice"];
-    NSString *priceStr = [valueList componentsJoinedByString:@"元\n"];
-    priceStr = [priceStr stringByAppendingString:@"元"];
+    NSString *priceStr = [valueList componentsJoinedByString:@" 元\n"];
+    priceStr = [priceStr stringByAppendingString:@" 元"];
     NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
     style.minimumLineHeight = 25;
     style.alignment = NSTextAlignmentLeft;
