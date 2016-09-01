@@ -446,7 +446,7 @@
         
         if (_curRewardP.basicInfo.mpay.boolValue) {
             WEAKSELF;
-            EATextEditView *psdView = [EATextEditView instancetypeWithTitle:@"请输入交易密码" tipStr:@"请输入交易密码" andConfirmBlock:^(NSString *text) {
+            EATextEditView *psdView = [EATextEditView instancetypeWithTitle:@"确认该阶段验收通过？" tipStr:@"请输入交易密码" andConfirmBlock:^(NSString *text) {
                 [weakSelf passStage:stage withPsd:[text sha1Str]];
             }];
             psdView.isForPassword = YES;

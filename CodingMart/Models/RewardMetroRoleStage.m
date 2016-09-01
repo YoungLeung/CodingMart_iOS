@@ -47,9 +47,8 @@
             _statusOrigin.integerValue == 3);
 }
 - (BOOL)canAcceptAndRejectObj{
-    return YES;
-//    return (_isRewardOwner &&
-//            _statusOrigin.integerValue == 3);
+    return (_isRewardOwner &&
+            _statusOrigin.integerValue == 3);
 }
 
 @end
