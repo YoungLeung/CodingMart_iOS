@@ -50,7 +50,7 @@ typedef NS_ENUM(NSInteger, BadgePositionType) {
 - (void)setSubScrollsToTop:(BOOL)scrollsToTop;
 
 
-- (void)addGradientLayerWithColors:(NSArray *)cgColorArray;
+- (void)addGradientLayerWithColors:(NSArray *)cgColorArray;//CGColor
 - (void)addGradientLayerWithColors:(NSArray *)cgColorArray locations:(NSArray *)floatNumArray startPoint:(CGPoint )aPoint endPoint:(CGPoint)endPoint;
 - (void)addLineUp:(BOOL)hasUp andDown:(BOOL)hasDown;
 - (void)addLineUp:(BOOL)hasUp andDown:(BOOL)hasDown andColor:(UIColor *)color;

@@ -30,10 +30,10 @@
 
 - (void)refreshMaxPrice{
     WEAKSELF;
-    [[Coding_NetAPIManager sharedManager] get_MPayBalanceBlock:^(NSString *balanceStr, NSNumber *balanceNum, NSError *error) {
-        if (balanceStr) {
-            weakSelf.priceF.placeholder = [NSString stringWithFormat:@"本次最大可提现金额 %@ 元", balanceStr];
-            weakSelf.balance = balanceNum;
+    [[Coding_NetAPIManager sharedManager] get_MPayBalanceBlock:^(NSDictionary *data, NSError *error) {
+        if (data) {
+            weakSelf.priceF.placeholder = [NSString stringWithFormat:@"本次最大可提现金额 %@ 元", data[@"balance"]];
+            weakSelf.balance = data[@"balanceValue"];
             if (weakSelf.balance.floatValue <= 0) {
                 kTipAlert(@"账户余额不足，您无法进行提现操作。");
             }

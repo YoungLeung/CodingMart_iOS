@@ -41,7 +41,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *developerPassL;
 @property (weak, nonatomic) IBOutlet UIImageView *userInfoIconV;
 @property (weak, nonatomic) IBOutlet UILabel *userInfoL;
-@property (weak, nonatomic) IBOutlet UILabel *mPayL;
 
 @property (strong, nonatomic) User *curUser;
 @property (assign, nonatomic) BOOL isDisappearForLogin;
@@ -128,17 +127,6 @@
     }];
     
     [self refreshUnReadNotification];
-    [self refreshMpay];
-}
-
-- (void)refreshMpay{
-    self.mPayL.text = @"";
-//    WEAKSELF;
-//    [[Coding_NetAPIManager sharedManager] get_MPayBalanceBlock:^(NSString *balanceStr, NSNumber *balanceNum, NSError *error) {
-//        if (balanceStr) {
-//            weakSelf.mPayL.text = [NSString stringWithFormat:@"￥ %@", balanceStr];
-//        }
-//    }];
 }
 
 - (void)refreshUnReadNotification{

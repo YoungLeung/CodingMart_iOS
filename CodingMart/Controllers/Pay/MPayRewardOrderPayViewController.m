@@ -53,9 +53,9 @@
 
 - (void)refresh{
     WEAKSELF;
-    [[Coding_NetAPIManager sharedManager] get_MPayBalanceBlock:^(NSString *balanceStr, NSNumber *balanceNum, NSError *error) {
-        weakSelf.balanceStr = balanceStr;
-        weakSelf.balanceValue = balanceNum;
+    [[Coding_NetAPIManager sharedManager] get_MPayBalanceBlock:^(NSDictionary *data, NSError *error) {
+        weakSelf.balanceStr = data[@"balance"];
+        weakSelf.balanceValue = data[@"balanceValue"];
         [weakSelf.tableView reloadData];
     }];
 }

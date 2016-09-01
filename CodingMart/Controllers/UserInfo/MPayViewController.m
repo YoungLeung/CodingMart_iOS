@@ -20,10 +20,14 @@
 #import "MPayAccounts.h"
 #import "EATipView.h"
 #import "FillUserInfoViewController.h"
+#import "FreezeRecordViewController.h"
 
 @interface MPayViewController ()<UITableViewDataSource, UITableViewDelegate>
+@property (weak, nonatomic) IBOutlet UILabel *totalL;
 @property (weak, nonatomic) IBOutlet UILabel *balanceL;
+@property (weak, nonatomic) IBOutlet UILabel *freezeL;
 @property (weak, nonatomic) IBOutlet UIView *headerV;
+@property (weak, nonatomic) IBOutlet UIView *headerLightV;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *topConstraint;
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 
@@ -45,6 +49,9 @@
     _statusList = @[@"处理中", @"已完成", @"已取消", @"已失败",];
     _orders = [MPayOrders new];
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"设置交易密码" target:self action:@selector(navBtnClicked)];
+    UIColor *whiteColor = [UIColor whiteColor];
+    [_headerLightV addGradientLayerWithColors:@[(id)[whiteColor colorWithAlphaComponent:0.12].CGColor,
+                                                (id)[whiteColor colorWithAlphaComponent:0.05].CGColor] locations:nil startPoint:CGPointMake(0.5, 0.0) endPoint:CGPointMake(0.5, 1.0)];
     WEAKSELF;
     [_myTableView addInfiniteScrollingWithActionHandler:^{
         [weakSelf refreshOrdersMore:YES];
@@ -102,9 +109,11 @@
 
 - (void)refreshMpay{
     WEAKSELF;
-    [[Coding_NetAPIManager sharedManager] get_MPayBalanceBlock:^(NSString *balanceStr, NSNumber *balanceNum, NSError *error) {
-        if (balanceStr) {
-            weakSelf.balanceL.text = balanceStr;
+    [[Coding_NetAPIManager sharedManager] get_MPayBalanceBlock:^(NSDictionary *data, NSError *error) {
+        if (data) {
+            weakSelf.balanceL.text = data[@"balance"];
+            weakSelf.freezeL.text = data[@"freeze"];
+            weakSelf.totalL.text = [NSString stringWithFormat:@"%.2f", [data[@"balanceValue"] floatValue] + [data[@"freezeValue"] floatValue]];
         }
     }];
 }
@@ -113,13 +122,10 @@
     if (_orders.isLoading) {
         return;
     }
-    if (_orders.order.count <= 0 && !self.myTableView.pullRefreshCtrl.isRefreshing) {
-        [self.view beginLoading];
-    }
+
     _orders.willLoadMore = loadMore;
     WEAKSELF;
     [[Coding_NetAPIManager sharedManager] get_MPayOrders:_orders block:^(id data, NSError *error) {
-        [weakSelf.view endLoading];
         [weakSelf.myTableView.pullRefreshCtrl endRefreshing];
         [weakSelf.myTableView.infiniteScrollingView stopAnimating];
         [weakSelf.myTableView reloadData];
@@ -202,6 +208,15 @@
             }
         }
     }];
+}
+
+- (IBAction)balanceViewClicked:(id)sender {
+    [self withdrawBtnClicked:nil];
+}
+
+- (IBAction)freezeViewClicked:(id)sender {
+    FreezeRecordViewController *vc = [FreezeRecordViewController vcInStoryboard:@"UserInfo"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark header tab

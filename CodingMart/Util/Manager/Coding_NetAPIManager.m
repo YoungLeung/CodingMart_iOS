@@ -39,6 +39,8 @@
 #import "MPayAccounts.h"
 #import "Withdraw.h"
 #import "MartNotifications.h"
+#import "FreezeRecords.h"
+#import "FreezeRecord.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -673,9 +675,9 @@
 
 #pragma mark MPay
 
-- (void)get_MPayBalanceBlock:(void (^)(NSString *balanceStr, NSNumber *balanceNum, NSError *error))block{
+- (void)get_MPayBalanceBlock:(void (^)(NSDictionary *data, NSError *error))block{
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/mpay/account" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
-        block(data[@"account"][@"balance"], data[@"account"][@"balanceValue"], error);
+        block(data[@"account"], error);
     }];
 }
 
@@ -689,7 +691,18 @@
         }
         block(orders, error);
     }];
+}
 
+- (void)get_FreezeRecords:(FreezeRecords *)records block:(void (^)(id data, NSError *error))block{
+    records.isLoading = YES;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[records toPath] withParams:[records toParams] withMethodType:Get andBlock:^(id data, NSError *error) {
+        records.isLoading = NO;
+        if (data) {
+            data = [NSObject objectOfClass:@"FreezeRecords" fromJSON:data];
+            [records handleObj:data];
+        }
+        block(records, error);
+    }];
 }
 
 - (void)get_MPayPasswordBlock:(void (^)(id data, NSError *error))block{
