@@ -184,8 +184,8 @@
     CGPoint stageVPosition = CGPointMake(_stagePadding + indexX* (_stageWidth + _stagePadding),
                                           _stagePadding + indexY* (_stageHeight + _stagePadding));
     UIView *stageV = [[UIView alloc] initWithFrame:CGRectMake(stageVPosition.x, stageVPosition.y, _stageWidth, _stageHeight)];
-    BOOL stageDone = stage.status.integerValue >= 3;
-    stageV.backgroundColor = stageDone? roleColor: [UIColor colorWithHexString:@"0xCCCCCC"];
+    BOOL stageHighlighted = [@[@2, @3, @4, @5] containsObject:stage.statusOrigin];
+    stageV.backgroundColor = stageHighlighted? roleColor: [UIColor colorWithHexString:@"0xCCCCCC"];
     stageV.cornerRadius = 2;
     
     UILabel *stageL = ({
@@ -201,7 +201,7 @@
     UIView *dotV = ({
         CGFloat dotWidth = 3.0;
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake((_stageWidth - dotWidth)/2, (_stageHeight - dotWidth - 3), dotWidth, dotWidth)];
-        view.backgroundColor = [UIColor colorWithHexString:stageDone? @"0xCCCCCC": @"0xFFFFFF"];
+        view.backgroundColor = [UIColor colorWithHexString:stageHighlighted? @"0xCCCCCC": @"0xFFFFFF"];
         view.cornerRadius = dotWidth/2;
         view;
     });
