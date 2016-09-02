@@ -104,7 +104,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
         tabList = @[@(TabVCTypeFind),
                     @(TabVCTypeRewards),
                     @(TabVCTypePublish),
-                    @(TabVCTypeQuote),
+//                    @(TabVCTypeQuote),
                     @(TabVCTypeMe)].mutableCopy;
     }
     if ([me.global_key isEqualToString:@"hahaah"]) {
