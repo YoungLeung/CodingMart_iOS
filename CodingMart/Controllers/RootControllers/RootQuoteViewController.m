@@ -17,7 +17,6 @@
 #import "Login.h"
 #import "PriceListViewController.h"
 #import "AppDelegate.h"
-#import "RootTabViewController.h"
 
 @interface RootQuoteViewController () <UIAlertViewDelegate>
 
@@ -38,16 +37,8 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self showLogin];
-    
-    // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Register cell classes
     self.view.backgroundColor = kColorBGDark;
     self.collectionView.backgroundColor = kColorBGDark;
-    
     _cellImageArray = @[@"price_icon_Web",
                         @"price_icon_Wechat",
                         @"price_icon_iOS_APP",
@@ -55,7 +46,6 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
                         @"price_icon_HTML5",
                         @"price_icon_other",
                         ];
-    
     _cellNameArray = @[@"Web 网站",
                         @"微信公众号",
                         @"iOS App",
@@ -63,7 +53,6 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
                         @"前端项目",
                         @"其他",
                         ];
-    
     _menuIDArray = @[@"P001",
                      @"P004",
                      @"P002",
@@ -71,12 +60,9 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
                      @"P005",
                      @"P006",
                      ];
-    
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"我的报价" target:self action:@selector(myPriceList)];
-    
     [self.collectionView registerClass:[NextStepCollectionViewCell class] forCellWithReuseIdentifier:nextStepReuseIdentifier];
     [self.collectionView setAllowsMultipleSelection:YES];
-
     // 加载菜单数据
     [[Coding_NetAPIManager sharedManager] get_quoteFunctions:^(id data, NSError *error) {
         if (!error) {
@@ -85,34 +71,31 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
     }];
 }
 
-- (void)showLogin {
-    if (![Login isLogin]) {
-        LoginViewController *vc = [LoginViewController storyboardVCWithUserStr:nil];
-        [RootQuoteViewController presentVC:vc dismissBtnTitle:nil];
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    //更新 tab 视图，放在这里
+    if ([Login curLoginUser].loginIdentity.integerValue != 2) {
+        [self changeTabVCList];
+    }else {
+        [(RootTabViewController *)self.rdv_tabBarController checkUpdateTabVCListWithSelectedIndex:1];
     }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)changeTabVCList{
+    [NSObject showHUDQueryStr:@"正在切换视图..."];
+    [[Coding_NetAPIManager sharedManager] post_LoginIdentity:@2 andBlock:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (data) {
+            [UIViewController updateTabVCListWithSelectedIndex:1];
+        }
+    }];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 2;
 }
-
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (section == 0) {
@@ -191,10 +174,6 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
 }
 
 - (void)nextStep {
-    if (![Login isLogin]) {
-        [self showLogin];
-        return;
-    }
     NSArray *array = [NSMutableArray arrayWithArray:self.collectionView.indexPathsForSelectedItems];
     NSMutableArray *selectedArray = [NSMutableArray array];
     NSMutableArray *selectedIDArray = [NSMutableArray array];

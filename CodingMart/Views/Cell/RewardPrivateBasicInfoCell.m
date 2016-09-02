@@ -37,10 +37,10 @@
                                  @1: @"1-3万",
                                  @2: @"3-5万",
                                  @3: @"5万以上",
-                                 @10:   @"2万以下",
-                                 @11:  @"2-5万",
-                                 @12:  @"5-10万",
-                                 @13:  @"10万以上"};
+                                 @10: @"2万以下",
+                                 @11: @"2-5万",
+                                 @12: @"5-10万",
+                                 @13: @"10万以上"};
     _rewardP = rewardP;
     _idL.text = rewardP.basicInfo.id.stringValue;
     _typeL.text = rewardP.basicInfo.typeDisplay;

@@ -60,15 +60,17 @@ typedef NS_ENUM(NSInteger, TabVCType) {
     return needToSet;
 }
 
-- (void)checkUpdateTabVCListWithSelectedIndex:(NSInteger)selectedIndex{
+- (BOOL)checkUpdateTabVCListWithSelectedIndex:(NSInteger)selectedIndex{
     if (![self checkIfIdentityNeedToSet]) {
         NSArray *preTabList = _tabList;
         [self p_setupTabVCList];
         if (![preTabList isEqual:_tabList]) {
             [UIViewController updateTabVCListWithSelectedIndex:selectedIndex];
             [NSObject showHudTipStr:@"视图已切换"];
+            return YES;
         }
     }
+    return NO;
 }
 
 #pragma mark Private_M
@@ -102,6 +104,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
         tabList = @[@(TabVCTypeFind),
                     @(TabVCTypeRewards),
                     @(TabVCTypePublish),
+                    @(TabVCTypeQuote),
                     @(TabVCTypeMe)];
     }
     if (!_tabList || ![tabList isEqual:_tabList]) {

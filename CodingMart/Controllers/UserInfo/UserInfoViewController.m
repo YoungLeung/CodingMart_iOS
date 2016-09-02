@@ -20,7 +20,6 @@
 #import "NotificationViewController.h"
 #import "MartIntroduceViewController.h"
 #import "AppDelegate.h"
-#import "RootTabViewController.h"
 #import "AboutViewController.h"
 #import "FillUserInfoViewController.h"
 #import "HelpCenterViewController.h"

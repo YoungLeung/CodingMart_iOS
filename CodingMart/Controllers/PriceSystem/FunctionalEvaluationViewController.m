@@ -19,6 +19,8 @@
 #import "Reward.h"
 #import "PublishRewardViewController.h"
 #import <FDFullscreenPopGesture/UINavigationController+FDFullscreenPopGesture.h>
+#import "Login.h"
+#import "QuickLoginViewController.h"
 
 @interface FunctionalEvaluationViewController () <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 
@@ -1244,6 +1246,16 @@
 
 #pragma mark - 计算结果
 - (void)calcPrice {
+    if (![Login isLogin]) {
+        WEAKSELF;
+        QuickLoginViewController *vc = [QuickLoginViewController storyboardVCWithPhone:nil];
+        vc.loginSucessBlock = ^(){
+            [weakSelf calcPrice];
+        };
+        [UIViewController presentVC:vc dismissBtnTitle:@"取消"];
+        return;
+    }
+    
     NSMutableDictionary *allMenuDict = [_data objectForKey:@"quotations"];
     NSMutableString *string = [NSMutableString string];
     NSArray *keyArray = [_shoppingDict allKeys];

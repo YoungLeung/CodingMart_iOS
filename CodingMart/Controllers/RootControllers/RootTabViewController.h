@@ -10,5 +10,5 @@
 
 @interface RootTabViewController : RDVTabBarController<RDVTabBarControllerDelegate>
 @property (strong, nonatomic, readonly) NSArray *tabList;
-- (void)checkUpdateTabVCListWithSelectedIndex:(NSInteger)selectedIndex;
+- (BOOL)checkUpdateTabVCListWithSelectedIndex:(NSInteger)selectedIndex;
 @end

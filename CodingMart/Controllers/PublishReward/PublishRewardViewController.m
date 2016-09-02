@@ -22,7 +22,6 @@
 #import "CountryCodeListViewController.h"
 #import "EATipView.h"
 #import "QuickLoginViewController.h"
-#import "RootPublishViewController.h"
 
 @interface PublishRewardViewController ()
 @property (strong, nonatomic) Reward *rewardToBePublished;
@@ -234,9 +233,9 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
     if (![_rewardToBePublished.id isKindOfClass:[NSNumber class]]) {
         [Reward deleteCurDraft];
     }
-    if ([self.navigationController.viewControllers.firstObject isKindOfClass:[RootPublishViewController class]]) {
+    if ([Login curLoginUser].loginIdentity.integerValue != 2) {
         [self changeTabVCList];
-    }else{
+    }else if (![(RootTabViewController *)self.rdv_tabBarController checkUpdateTabVCListWithSelectedIndex:2]){
         __block UIViewController *vc;
         [self.navigationController.childViewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if ([obj isKindOfClass:[PublishedRewardsViewController class]]) {

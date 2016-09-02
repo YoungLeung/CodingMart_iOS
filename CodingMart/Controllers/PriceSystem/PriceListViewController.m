@@ -10,7 +10,6 @@
 #import "Coding_NetAPIManager.h"
 #import "PriceListCell.h"
 #import "FunctionListViewController.h"
-#import "RootTabViewController.h"
 
 @interface PriceListViewController ()
 

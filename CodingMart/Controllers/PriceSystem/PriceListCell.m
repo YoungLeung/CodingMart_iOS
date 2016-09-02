@@ -50,7 +50,7 @@
     [_centerView addSubview:_iconImageView];
     
     // 标题
-    _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(_iconImageView.right + 12, 10, _centerView.width - _iconImageView.width - 12, 18)];
+    _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(_iconImageView.right + 12, 10, _centerView.width - _iconImageView.right - 12 - 15, 18)];
     [_titleLabel setFont:[UIFont systemFontOfSize:16.0f]];
     [_titleLabel setTextColor:[UIColor blackColor]];
     [_centerView addSubview:_titleLabel];

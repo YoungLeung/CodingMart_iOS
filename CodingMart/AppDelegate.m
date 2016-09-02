@@ -16,7 +16,6 @@
 #import <UMengSocial/UMSocialQQHandler.h>
 #import <UMengSocial/UMSocialSinaSSOHandler.h>
 #import <UMengSocial/WXApi.h>
-#import "RootTabViewController.h"
 #import "PayMethodViewController.h"
 #import <Google/Analytics.h>
 #import <FLEX/FLEXManager.h>
