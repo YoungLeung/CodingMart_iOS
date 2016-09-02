@@ -61,10 +61,10 @@
                   @"HTML5 应用",
                   @"咨询",
                   @"其他"];
-    _budgetList = @[@"1万以下",
-                    @"1-3万",
-                    @"3-5万",
-                    @"5万以上"];
+    _budgetList = @[@"2万以下",
+                    @"2-5万",
+                    @"5-10万",
+                    @"10万以上"];
     
     if (!_rewardToBePublished) {
         _rewardToBePublished = [Reward rewardToBePublished];
@@ -80,7 +80,7 @@
     }];
     [RACObserve(self, rewardToBePublished.budget) subscribeNext:^(NSNumber *budget) {
         weakSelf.budgetL.textColor = [UIColor colorWithHexString:budget? @"0x000000": @"0xCCCCCC"];
-        weakSelf.budgetL.text = budget? weakSelf.budgetList[budget.integerValue]: @"请选择";
+        weakSelf.budgetL.text = budget? weakSelf.budgetList[budget.integerValue% 10]: @"请选择";
     }];
     
     _nameF.text = _rewardToBePublished.name;
@@ -209,7 +209,7 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
 - (IBAction)nextStepBtnClicked:(id)sender {
     if ([Login isLogin]) {
         NSString *typeStr = [[NSObject rewardTypeLongDict] findKeyFromStrValue:_rewardToBePublished.type.stringValue];
-        NSString *budgetStr = _budgetList[_rewardToBePublished.budget.integerValue];
+        NSString *budgetStr = _budgetList[_rewardToBePublished.budget.integerValue% 10];
         [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"发布需求_%@_%@_点击提交", typeStr, budgetStr]];
         [NSObject showHUDQueryStr:@"正在发布需求..."];
         [[Coding_NetAPIManager sharedManager] post_Reward:_rewardToBePublished block:^(id data, NSError *error) {
@@ -332,7 +332,7 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
             }
         }else{
             list = _budgetList;
-            curRow = _rewardToBePublished.budget? _rewardToBePublished.budget.integerValue: 0;
+            curRow = _rewardToBePublished.budget? _rewardToBePublished.budget.integerValue% 10: 0;
         }
         __weak typeof(self) weakSelf = self;
         [ActionSheetStringPicker showPickerWithTitle:nil rows:@[list] initialSelection:@[@(curRow)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
@@ -341,7 +341,7 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
                 NSString *value = [[NSObject rewardTypeLongDict] objectForKey:list[selectedRow.integerValue]];
                 weakSelf.rewardToBePublished.type = @(value.integerValue);
             }else{
-                weakSelf.rewardToBePublished.budget = selectedRow;
+                weakSelf.rewardToBePublished.budget = @(selectedRow.integerValue + 10);
             }
         } cancelBlock:nil origin:self.view];
     }
