@@ -127,6 +127,10 @@
 }
 
 - (void)confirmBtnClicked{
+    if ([_textF.text isEmpty]) {
+        [NSObject showHudTipStr:@"填写内容不能为空"];
+        return;
+    }
     if (_confirmBlock) {
         _confirmBlock(_textF.text);
     }
