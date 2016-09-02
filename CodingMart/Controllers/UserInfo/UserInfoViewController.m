@@ -209,6 +209,7 @@
     if (indexPath.section == 1 && ![_curUser isDemandSide]) {
         if ([FunctionTipsManager needToTip:kFunctionTipStr_RenZhengMaShi]) {
             [cell.contentView addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(kScreen_Width - 15 - 20, 22)];
+            _developerPassL.hidden = YES;
         }
     }
 }
@@ -222,6 +223,7 @@
                 [FunctionTipsManager markTiped:kFunctionTipStr_RenZhengMaShi];
                 UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
                 [cell.contentView removeBadgeTips];
+                _developerPassL.hidden = ![Login isLogin] || [_curUser isDemandSide] || [_curUser canJoinReward];
             }
             FillTypesViewController *vc = [FillTypesViewController storyboardVC];
             [self.navigationController pushViewController:vc animated:YES];
