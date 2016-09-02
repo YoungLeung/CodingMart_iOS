@@ -22,6 +22,7 @@
 #import "CountryCodeListViewController.h"
 #import "EATipView.h"
 #import "QuickLoginViewController.h"
+#import "RootPublishViewController.h"
 
 @interface PublishRewardViewController ()
 @property (strong, nonatomic) Reward *rewardToBePublished;
@@ -233,29 +234,35 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
     if (![_rewardToBePublished.id isKindOfClass:[NSNumber class]]) {
         [Reward deleteCurDraft];
     }
-    
-    if (self.navigationController.viewControllers.firstObject == self) {
-        [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id data, NSError *error) {
-            [UIViewController updateTabVCListWithSelectedIndex:2];
+    if ([self.navigationController.viewControllers.firstObject isKindOfClass:[RootPublishViewController class]]) {
+        [self changeTabVCList];
+    }else{
+        __block UIViewController *vc;
+        [self.navigationController.childViewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj isKindOfClass:[PublishedRewardsViewController class]]) {
+                vc = obj;
+                *stop = YES;
+            }
         }];
-        return;
+        if (vc) {
+            [self.navigationController popToViewController:vc animated:YES];
+        }else{
+            UINavigationController *nav = self.navigationController;
+            [nav popToRootViewControllerAnimated:NO];
+            PublishedRewardsViewController *publishedVC = [PublishedRewardsViewController storyboardVC];
+            [nav pushViewController:publishedVC animated:YES];
+        }
     }
-    
-    __block UIViewController *vc;
-    [self.navigationController.childViewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([obj isKindOfClass:[PublishedRewardsViewController class]]) {
-            vc = obj;
-            *stop = YES;
+}
+
+- (void)changeTabVCList{
+    [NSObject showHUDQueryStr:@"正在切换视图..."];
+    [[Coding_NetAPIManager sharedManager] post_LoginIdentity:@2 andBlock:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (data) {
+            [UIViewController updateTabVCListWithSelectedIndex:2];
         }
     }];
-    if (vc) {
-        [self.navigationController popToViewController:vc animated:YES];
-    }else{
-        UINavigationController *nav = self.navigationController;
-        [nav popToRootViewControllerAnimated:NO];
-        PublishedRewardsViewController *publishedVC = [PublishedRewardsViewController storyboardVC];
-        [nav pushViewController:publishedVC animated:YES];
-    }
 }
 
 #pragma mark Table
