@@ -77,7 +77,7 @@
 
 - (IBAction)verify_codeBtnClicked:(id)sender {
     if (_mobileF.text.length <= 0) {
-        [NSObject showHudTipStr:@"请填写手机号码先"];
+        [NSObject showHudTipStr:@"请填写手机号码"];
         return;
     }
     _verify_codeBtn.enabled = NO;

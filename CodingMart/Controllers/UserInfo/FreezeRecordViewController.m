@@ -63,6 +63,17 @@
 }
 
 - (IBAction)tipBtnClicked:(id)sender {
+    NSString *tipStr =
+@"需求方：\n\
+如果您有冻结资金，码市会在您确认任何一个阶段验收时，当前阶段款的10%将会被解冻、打入您的开发宝中，可直接提现；\n\
+\n\
+开发者：\n\
+如果您有冻结资金，码市会在您参与的项目的任何一个阶段验收通过时，当前阶段款的10%将会被解冻打入您的开发中。\n\
+\n\
+注意：\n\
+如剩余冻结资金不足验收阶段款的10%，则全部解冻。";
+    EATipView *tipV = [EATipView instancetypeWithTitle:@"解冻说明" tipStr:tipStr];
+    [tipV showInView:kKeyWindow];
 }
 
 #pragma mark table
