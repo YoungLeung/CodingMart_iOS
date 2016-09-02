@@ -211,8 +211,10 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"选择「其它」类型，将直接进入「发布需求」页面" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             [alert show];
         } else {
-            [selectedIDArray addObject:@"P006"];
-            [selectedArray addObject:@"管理后台"];
+            if (![selectedIDArray isEqualToArray:@[@"P005"]]) {
+                [selectedIDArray addObject:@"P006"];
+                [selectedArray addObject:@"管理后台"];
+            }
             FunctionalEvaluationViewController *vc = [[FunctionalEvaluationViewController alloc] init];
             vc.menuArray = _cellNameArray;
             vc.menuIDArray = selectedIDArray;
