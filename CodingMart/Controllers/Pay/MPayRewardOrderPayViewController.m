@@ -12,6 +12,8 @@
 #import "MPayDepositViewController.h"
 #import "MPayPasswordByPhoneViewController.h"
 #import "MPayRewardOrderPayResultViewController.h"
+#import "MPayAccounts.h"
+#import "EATipView.h"
 
 @interface MPayRewardOrderPayViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *orderIdL;
@@ -67,19 +69,52 @@
 - (IBAction)bottomBtnClicked:(id)sender {
     if ([self p_isBalanceEnough]) {
         WEAKSELF;
-        EATextEditView *psdView = [EATextEditView instancetypeWithTitle:@"请输入交易密码" tipStr:@"请输入交易密码" andConfirmBlock:^(NSString *text) {
-            [weakSelf sendRequestWithPsd:[text sha1Str]];
+        [NSObject showHUDQueryStr:@"请稍等..."];
+        [[Coding_NetAPIManager sharedManager] get_MPayAccountsBlock:^(MPayAccounts *data, NSError *error) {
+            [NSObject hideHUDQuery];
+            [weakSelf dealWithMPayAccounts:data];
         }];
-        psdView.isForPassword = YES;
-        psdView.forgetPasswordBlock = ^(){
+        [self goToPay];
+    }else{
+        [self goToDepositVC];
+    }
+}
+
+- (void)dealWithMPayAccounts:(MPayAccounts *)accounts{
+    BOOL passIdentity =accounts.passIdentity.boolValue, hasPassword = accounts.hasPassword.boolValue;
+    if (!passIdentity || !hasPassword) {//交易密码 && 个人信息
+        //提示框
+        WEAKSELF;
+        void (^passwordBlock)() = ^(){
             MPayPasswordByPhoneViewController *vc = [MPayPasswordByPhoneViewController vcInStoryboard:@"UserInfo"];
+            vc.title = @"设置交易密码";
             [weakSelf.navigationController pushViewController:vc animated:YES];
         };
-        [psdView showInView:self.view];
+        EATipView *tipV = [EATipView instancetypeWithTitle:@"您还未设置交易密码！" tipStr:@"为了您的资金安全，您需要「设置交易密码」后方可支付订单。"];
+        [tipV setLeftBtnTitle:@"取消" block:nil];
+        [tipV setRightBtnTitle:@"设置交易密码" block:passwordBlock];
+        [tipV showInView:self.view];
     }else{
-        MPayDepositViewController *vc = [MPayDepositViewController vcInStoryboard:@"UserInfo"];
-        [self.navigationController pushViewController:vc animated:YES];
+        [self goToPay];
     }
+}
+
+- (void)goToDepositVC{
+    MPayDepositViewController *vc = [MPayDepositViewController vcInStoryboard:@"UserInfo"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)goToPay{
+    WEAKSELF;
+    EATextEditView *psdView = [EATextEditView instancetypeWithTitle:@"请输入交易密码" tipStr:@"请输入交易密码" andConfirmBlock:^(NSString *text) {
+        [weakSelf sendRequestWithPsd:[text sha1Str]];
+    }];
+    psdView.isForPassword = YES;
+    psdView.forgetPasswordBlock = ^(){
+        MPayPasswordByPhoneViewController *vc = [MPayPasswordByPhoneViewController vcInStoryboard:@"UserInfo"];
+        [weakSelf.navigationController pushViewController:vc animated:YES];
+    };
+    [psdView showInView:self.view];
 }
 
 - (void)sendRequestWithPsd:(NSString *)psd{
@@ -95,7 +130,6 @@
         }
     }];
 }
-
 
 #pragma mark Table
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
