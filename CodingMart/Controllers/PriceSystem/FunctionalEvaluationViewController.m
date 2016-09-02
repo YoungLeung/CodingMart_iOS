@@ -387,9 +387,11 @@
             [tempIDArray addObject:[_allIDArray objectAtIndex:i]];
         }
     }
-    
-    [tempArray addObject:@"管理后台"];
-    [tempIDArray addObject:@"P006"];
+    if (![tempIDArray isEqualToArray:@[@"P005"]]) {
+        [tempArray addObject:@"管理后台"];
+        [tempIDArray addObject:@"P006"];
+    }
+
     _selectedMenuArray = tempArray;
     _menuIDArray = tempIDArray;
     [self dismiss];
