@@ -14,6 +14,7 @@
 #import "MPayRewardOrderPayResultViewController.h"
 #import "MPayAccounts.h"
 #import "EATipView.h"
+#import "FillUserInfoViewController.h"
 
 @interface MPayRewardOrderPayViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *orderIdL;
@@ -74,7 +75,6 @@
             [NSObject hideHUDQuery];
             [weakSelf dealWithMPayAccounts:data];
         }];
-        [self goToPay];
     }else{
         [self goToDepositVC];
     }
@@ -85,14 +85,28 @@
     if (!passIdentity || !hasPassword) {//交易密码 && 个人信息
         //提示框
         WEAKSELF;
+        void (^identityBlock)() = ^(){
+            [weakSelf.navigationController pushViewController:[FillUserInfoViewController vcInStoryboard:@"UserInfo"] animated:YES];
+        };
         void (^passwordBlock)() = ^(){
             MPayPasswordByPhoneViewController *vc = [MPayPasswordByPhoneViewController vcInStoryboard:@"UserInfo"];
             vc.title = @"设置交易密码";
             [weakSelf.navigationController pushViewController:vc animated:YES];
         };
-        EATipView *tipV = [EATipView instancetypeWithTitle:@"您还未设置交易密码！" tipStr:@"为了您的资金安全，您需要「设置交易密码」后方可支付订单。"];
-        [tipV setLeftBtnTitle:@"取消" block:nil];
-        [tipV setRightBtnTitle:@"设置交易密码" block:passwordBlock];
+        EATipView *tipV;
+        if (!passIdentity && !hasPassword) {
+            tipV = [EATipView instancetypeWithTitle:@"您还未完善个人信息和设置交易密码！" tipStr:@"为了您的资金安全，您需要完善「个人信息」并「设置交易密码」后方可支付订单。"];
+            [tipV setLeftBtnTitle:@"个人信息" block:identityBlock];
+            [tipV setRightBtnTitle:@"设置交易密码" block:passwordBlock];
+        }else if (!passIdentity){
+            tipV = [EATipView instancetypeWithTitle:@"您还未完善个人信息！" tipStr:@"为了您的资金安全，您需要完善「个人信息」后方可支付订单。"];
+            [tipV setLeftBtnTitle:@"取消" block:nil];
+            [tipV setRightBtnTitle:@"个人信息" block:identityBlock];
+        }else{
+            tipV = [EATipView instancetypeWithTitle:@"您还未设置交易密码！" tipStr:@"为了您的资金安全，您需要「设置交易密码」后方可支付订单。"];
+            [tipV setLeftBtnTitle:@"取消" block:nil];
+            [tipV setRightBtnTitle:@"设置交易密码" block:passwordBlock];
+        }
         [tipV showInView:self.view];
     }else{
         [self goToPay];

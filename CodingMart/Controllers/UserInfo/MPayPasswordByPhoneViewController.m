@@ -29,14 +29,14 @@
 
 - (void)lazyRefresh{
     if (_psd) {
-        _phoneF.text= [NSString stringWithFormat:@"%@ %@", _psd.phoneCountryCode, _psd.mobile];
+        _phoneF.text= [NSString stringWithFormat:@"%@ %@", _psd.phoneCountryCode ?: @"+86", _psd.mobile];
     }else{
         WEAKSELF;
         [NSObject showHUDQueryStr:@"请稍等..."];
         [[Coding_NetAPIManager sharedManager] get_MPayPasswordBlock:^(id data, NSError *error) {
             [NSObject hideHUDQuery];
             weakSelf.psd = data;
-            weakSelf.phoneF.text = [NSString stringWithFormat:@"%@ %@", weakSelf.psd.phoneCountryCode, weakSelf.psd.mobile];
+            weakSelf.phoneF.text = [NSString stringWithFormat:@"%@ %@", weakSelf.psd.phoneCountryCode ?: @"+86", weakSelf.psd.mobile];
         }];
     }
 }
