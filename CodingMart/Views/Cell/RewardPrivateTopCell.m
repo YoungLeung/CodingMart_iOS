@@ -7,6 +7,7 @@
 //
 
 #import "RewardPrivateTopCell.h"
+#import "Login.h"
 
 @interface RewardPrivateTopCell ()
 @property (weak, nonatomic) IBOutlet UILabel *nameL;
@@ -59,10 +60,9 @@
 }
 
 - (NSAttributedString *)priceAttrStrWithReward:(Reward *)curR{
-    NSString *priceStr = [NSString stringWithFormat:@"项目金额：%@ 元 %@", curR.format_price, curR.service_fee_percent.integerValue > 0? [NSString stringWithFormat:@"+ %@.0%%服务费", curR.service_fee_percent]: @" 无服务费"];
+    NSString *priceStr = [NSString stringWithFormat:@"项目金额：%@ 元 %@", curR.format_price, ![curR.owner.global_key isEqualToString:[Login curLoginUser].global_key]? @"": curR.service_fee_percent.integerValue > 0? [NSString stringWithFormat:@"+ %@.0%%服务费", curR.service_fee_percent]: @" 无服务费"];
     NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:priceStr];
     if (curR.format_price.length > 0) {
-        
         [attrStr addAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:@"0xF5A623"],
                                  NSFontAttributeName: [UIFont systemFontOfSize:20]} range:[priceStr rangeOfString:curR.format_price]];
     }
