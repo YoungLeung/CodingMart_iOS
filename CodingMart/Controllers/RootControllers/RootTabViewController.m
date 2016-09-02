@@ -75,37 +75,40 @@ typedef NS_ENUM(NSInteger, TabVCType) {
 
 #pragma mark Private_M
 - (void)p_setupTabVCList{
-    NSArray *tabList;
+    NSMutableArray *tabList;
     User *me = [Login curLoginUser];
     if (me.loginIdentity.integerValue == 1){//开发者
         if (me.joinedCount.integerValue > 0) {
             tabList = @[@(TabVCTypeRewards),
                         @(TabVCTypeMyJoined),
-                        @(TabVCTypeMe)];
+                        @(TabVCTypeMe)].mutableCopy;
         }else{
             tabList = @[@(TabVCTypeFind),
                         @(TabVCTypeRewards),
-                        @(TabVCTypeMe)];
+                        @(TabVCTypeMe)].mutableCopy;
         }
     }else if (me.loginIdentity.integerValue == 2){//需求方
         if (me.publishedCount.integerValue > 0) {
             tabList = @[@(TabVCTypeFind),
                         @(TabVCTypeQuote),
                         @(TabVCTypeMyPublished),
-                        @(TabVCTypeMe)];
+                        @(TabVCTypeMe)].mutableCopy;
             
         }else{
             tabList = @[@(TabVCTypeFind),
                         @(TabVCTypeQuote),
                         @(TabVCTypePublish),
-                        @(TabVCTypeMe)];
+                        @(TabVCTypeMe)].mutableCopy;
         }
     }else{
         tabList = @[@(TabVCTypeFind),
                     @(TabVCTypeRewards),
                     @(TabVCTypePublish),
                     @(TabVCTypeQuote),
-                    @(TabVCTypeMe)];
+                    @(TabVCTypeMe)].mutableCopy;
+    }
+    if ([me.global_key isEqualToString:@"hahaah"]) {
+        [tabList removeObject:@(TabVCTypeQuote)];
     }
     if (!_tabList || ![tabList isEqual:_tabList]) {
         _tabList = tabList;
