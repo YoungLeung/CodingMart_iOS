@@ -57,6 +57,32 @@
             }
         }
     }
+    
+    //排序，把自己移到第一位
+    NSMutableArray *coders = _apply.coders.mutableCopy;
+    NSMutableArray *roles = _metro.roles.mutableCopy;
+    __block NSUInteger coderIndex, roleIndex;
+    coderIndex = roleIndex = NSNotFound;
+    [coders enumerateObjectsUsingBlock:^(RewardApplyCoder *obj, NSUInteger idx, BOOL *stop) {
+        if ([obj.global_key isEqualToString:[Login curLoginUser].global_key]) {
+            coderIndex = idx;
+            *stop = YES;
+        }
+    }];
+    [roles enumerateObjectsUsingBlock:^(RewardMetroRole *obj, NSUInteger idx, BOOL *stop) {
+        if ([obj.ownerId isEqualToNumber:[Login curLoginUser].id]) {
+            roleIndex = idx;
+            *stop = YES;
+        }
+    }];
+    if (coderIndex != NSNotFound) {
+        [coders exchangeObjectAtIndex:0 withObjectAtIndex:coderIndex];
+        _apply.coders = coders.copy;
+    }
+    if (roleIndex != NSNotFound) {
+        [roles exchangeObjectAtIndex:0 withObjectAtIndex:roleIndex];
+        _metro.roles = roles.copy;
+    }
 }
 
 - (void)dealWithPreRewardP:(RewardPrivate *)rewardP{
