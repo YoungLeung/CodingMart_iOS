@@ -24,7 +24,6 @@
 #import "AboutViewController.h"
 #import "FillUserInfoViewController.h"
 #import "HelpCenterViewController.h"
-#import "FunctionTipsManager.h"
 #import "MPayViewController.h"
 #import "EATipView.h"
 
@@ -208,17 +207,27 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];
+    if (indexPath.section == 1 && ![_curUser isDemandSide]) {
+        if ([FunctionTipsManager needToTip:kFunctionTipStr_RenZhengMaShi]) {
+            [cell.contentView addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(kScreen_Width - 15 - 20, 22)];
+        }
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 1) {
         if (![_curUser isDemandSide]) {
-            [MobClick event:kUmeng_Event_UserAction label:@"个人中心_个人信息"];
+            [MobClick event:kUmeng_Event_UserAction label:@"个人中心_成为认证码士"];
+            if ([FunctionTipsManager needToTip:kFunctionTipStr_RenZhengMaShi]) {
+                [FunctionTipsManager markTiped:kFunctionTipStr_RenZhengMaShi];
+                UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+                [cell.contentView removeBadgeTips];
+            }
             FillTypesViewController *vc = [FillTypesViewController storyboardVC];
             [self.navigationController pushViewController:vc animated:YES];
         }else{
-            [MobClick event:kUmeng_Event_UserAction label:@"个人中心_成为认证码士"];
+            [MobClick event:kUmeng_Event_UserAction label:@"个人中心_个人信息"];
             FillUserInfoViewController *vc = [FillUserInfoViewController vcInStoryboard:@"UserInfo"];
             [self.navigationController pushViewController:vc animated:YES];
         }

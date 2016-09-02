@@ -10,7 +10,6 @@
 #import "RewardDetailViewController.h"
 #import "Login.h"
 #import "UserInfoViewController.h"
-#import "FunctionTipsManager.h"
 #import "LoginViewController.h"
 #import "CaseListViewController.h"
 #import "MartIntroduceViewController.h"

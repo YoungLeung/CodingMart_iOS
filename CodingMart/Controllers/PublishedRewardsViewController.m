@@ -38,6 +38,11 @@
     [self.myTableView eaAddPullToRefreshAction:@selector(refresh) onTarget:self];
     if (![FunctionTipsManager isAppUpdate]) {
         [MartFunctionTipView showFunctionImages:@[@"guidance_dem_rewards_publish"] onlyOneTime:YES];
+    }else{
+        if ([FunctionTipsManager needToTip:kFunctionTipStr_JieDuanZhiFu]) {
+            [MartFunctionTipView showFunctionImages:@[@"function_jieduanzhifu"]];
+            [FunctionTipsManager markTiped:kFunctionTipStr_JieDuanZhiFu];
+        }
     }
 }
 

@@ -44,6 +44,10 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
     [super viewDidLoad];
     self.title = @"完善资料";
     [self getUserinfo];
+    if ([FunctionTipsManager needToTip:kFunctionTipStr_ShenFenRenZheng]) {
+        [MartFunctionTipView showFunctionImages:@[@"function_shenfenrenzheng"]];
+        [FunctionTipsManager markTiped:kFunctionTipStr_ShenFenRenZheng];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -53,67 +57,55 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
     }else{
         [self refresh];
     }
- 
     [self refreshIdCardCheck];
 }
 
 - (void)refresh{
-
     [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id data, NSError *error) {
         if (data) {
             self.curUser = data;
         }
     }];
-    
 }
 
--(void)refreshIdCardCheck
-{
+-(void)refreshIdCardCheck{
     WEAKSELF
-    [[Coding_NetAPIManager sharedManager]get_AppInfo:^(id data, NSError *error)
-     {
-         if (data){
-             NSDictionary *dataDic =data[@"data"];
-             NSInteger status=[dataDic[@"status"] integerValue];
-             weakSelf.identityCode=status;
-             weakSelf.identity_server_CacheDataDic=data[@"data"];
-             if (weakSelf.identityCode==identity_Authfaild){
-                 weakSelf.statusCheckV.hidden=YES;
-                 weakSelf.identityStatusLabel.hidden=NO;
-                 weakSelf.identityStatusLabel.textColor=[UIColor colorWithHexString:@"FF4B80"];
-                 weakSelf.identityStatusLabel.text=@"认证失败";
-             }else if(weakSelf.identityCode==identity_Authing){
-                 weakSelf.statusCheckV.hidden=YES;
-                 weakSelf.identityStatusLabel.hidden=NO;
-                 weakSelf.identityStatusLabel.textColor=[UIColor colorWithHexString:@"F5A623"];
-                 weakSelf.identityStatusLabel.text=@"认证中";
-             }else{
-                 weakSelf.statusCheckV.hidden=NO;
-                 weakSelf.identityStatusLabel.hidden=YES;
-             }
-         }
-     }];
+    [[Coding_NetAPIManager sharedManager]get_AppInfo:^(id data, NSError *error){
+        if (data){
+            NSDictionary *dataDic =data[@"data"];
+            NSInteger status=[dataDic[@"status"] integerValue];
+            weakSelf.identityCode=status;
+            weakSelf.identity_server_CacheDataDic=data[@"data"];
+            if (weakSelf.identityCode==identity_Authfaild){
+                weakSelf.statusCheckV.hidden=YES;
+                weakSelf.identityStatusLabel.hidden=NO;
+                weakSelf.identityStatusLabel.textColor=[UIColor colorWithHexString:@"FF4B80"];
+                weakSelf.identityStatusLabel.text=@"认证失败";
+            }else if(weakSelf.identityCode==identity_Authing){
+                weakSelf.statusCheckV.hidden=YES;
+                weakSelf.identityStatusLabel.hidden=NO;
+                weakSelf.identityStatusLabel.textColor=[UIColor colorWithHexString:@"F5A623"];
+                weakSelf.identityStatusLabel.text=@"认证中";
+            }else{
+                weakSelf.statusCheckV.hidden=NO;
+                weakSelf.identityStatusLabel.hidden=YES;
+            }
+        }
+    }];
 }
 
-- (void)setCurUser:(User *)curUser
-{
+- (void)setCurUser:(User *)curUser{
     _curUser = curUser;
     _userinfoCheckV.image = [UIImage imageNamed:_curUser.fullInfo.boolValue? @"fill_checked": @"fill_unchecked"];
     _skillsCheckV.image = [UIImage imageNamed:_curUser.fullSkills.boolValue? @"fill_checked": @"fill_unchecked"];
-    
     _testingCheckV.image = [UIImage imageNamed:_curUser.passingSurvey.boolValue? @"fill_checked": @"fill_unchecked"];
     _statusCheckV.image = [UIImage imageNamed:_curUser.identityChecked.boolValue? @"fill_checked": @"fill_unchecked"];
-    
-    
 }
 
--(void)getUserinfo
-{
-    [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id data, NSError *error)
-    {
+-(void)getUserinfo{
+    [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id data, NSError *error){
         FillUserInfo *userInfo = data[@"data"][@"info"]? [NSObject objectOfClass:@"FillUserInfo" fromJSON:data[@"data"][@"info"]]: [FillUserInfo new];
-        if (userInfo.name)
-        {
+        if (userInfo.name){
             [IdentityAuthenticationModel cacheUserName:userInfo.name];
         }
     }];
@@ -153,21 +145,11 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
     }
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    if (section==0)
-    {
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (section == 0){
         return 40;
-    }
-    else if(section==1)
-    {
+    }else{
         return 20;
-    }else if (section==2)
-    {
-        return 8;
-    }else
-    {
-        return 1;
     }
 }
 @end

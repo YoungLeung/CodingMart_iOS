@@ -15,11 +15,11 @@ static NSString *kFunctionTipStr_PublishedR = @"PublishedR";
 static NSString *kFunctionTipStr_JoinedR = @"JoinedR";
 static NSString *kFunctionTipStr_ShareR = @"ShareR";
 static NSString *kFunctionTipStr_ShareApp = @"ShareApp";
-
 static NSString *kFunctionTipStr_MPay = @"MPay";
-//static NSString *kFunctionTipStr_ = @"";
-//static NSString *kFunctionTipStr_ = @"";
-//static NSString *kFunctionTipStr_ = @"";
+
+static NSString *kFunctionTipStr_RenZhengMaShi = @"RenZhengMaShi";
+static NSString *kFunctionTipStr_ShenFenRenZheng = @"ShenFenRenZheng";
+static NSString *kFunctionTipStr_JieDuanZhiFu = @"JieDuanZhiFu";
 //static NSString *kFunctionTipStr_ = @"";
 //static NSString *kFunctionTipStr_ = @"";
 
