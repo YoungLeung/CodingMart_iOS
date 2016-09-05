@@ -42,6 +42,8 @@
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *nextStepBtn;
 @property (weak, nonatomic) IBOutlet UILabel *countryCodeL;
 
+@property (assign, nonatomic) BOOL isPhoneNeeded;
+
 @end
 
 @implementation PublishRewardViewController
@@ -68,6 +70,7 @@
     if (!_rewardToBePublished) {
         _rewardToBePublished = [Reward rewardToBePublished];
     }
+    _isPhoneNeeded = [Login isLogin];
     [self setupRAC];
 }
 
@@ -127,7 +130,7 @@
                                                                   NSString *contact_mobile,
                                                                   NSString *contact_mobile_code){
                                                            return @(type && budget && name.length > 0 && description_mine.length > 0 && contact_name.length > 0 &&
-                                                                    (![Login isLogin] || (contact_mobile.length > 0 && contact_mobile_code.length > 0)));
+                                                                    (!_isPhoneNeeded || (contact_mobile.length > 0 && contact_mobile_code.length > 0)));
                                                        }];
 }
 
@@ -299,7 +302,7 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
     if (section == 0) {
         rowNum = 4;
     }else{
-        rowNum = [Login isLogin]? 3: 1;
+        rowNum = _isPhoneNeeded? 3: 1;
     }
     return rowNum;
 }
