@@ -43,8 +43,8 @@
     _skillsL.text = _curCoder.good_at.length > 0? _curCoder.good_at: @"未填写";
     _messageL.text = _curCoder.message;
     _idL.text = _curCoder.global_key;
-    _phoneL.text = _curCoder.mobile;
-    _qqL.text = _curCoder.qq;
+    _phoneL.text = _curCoder.mobile.length > 0? _curCoder.mobile: @"--";
+    _qqL.text = _curCoder.qq.length > 0? _curCoder.qq: @"--";
     _reward_roleL.text = _curCoder.reward_roleDisplay;
 }
 

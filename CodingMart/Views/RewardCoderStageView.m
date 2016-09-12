@@ -70,7 +70,7 @@
     _planDateL.text = [NSString stringWithFormat:@"%@ - %@", _curStage.planStartAtFormat, _curStage.planFinishAtFormat];
     _planDaysL.text = _curStage.planDays.stringValue;
     _factDateL.text = [NSString stringWithFormat:@"%@ - %@", _curStage.factStartAtFormat.length > 0? _curStage.factStartAtFormat: @"", _curStage.factFinishAtFormat.length > 0? _curStage.factFinishAtFormat: @""];
-    _priceL.text = _curStage.format_price;
+    _priceL.text = (_curStage.isRewardOwner || _curStage.isStageOwner)? _curStage.format_price: @"￥--";
     _payedL.text = _curStage.payedText;
     
     static NSDictionary *statusColorDict;
