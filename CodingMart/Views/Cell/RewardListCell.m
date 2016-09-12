@@ -8,10 +8,11 @@
 
 #import "RewardListCell.h"
 #import "UIImageView+WebCache.h"
+#import "YLImageView.h"
 
 @interface RewardListCell()
 @property (weak, nonatomic) IBOutlet UILabel *rewardNumL;
-@property (weak, nonatomic) IBOutlet UIImageView *coverView;
+@property (weak, nonatomic) IBOutlet YLImageView *coverView;
 @property (weak, nonatomic) IBOutlet UILabel *titleL;
 @property (weak, nonatomic) IBOutlet UIImageView *typeImgView;
 @property (weak, nonatomic) IBOutlet UILabel *typeL;
