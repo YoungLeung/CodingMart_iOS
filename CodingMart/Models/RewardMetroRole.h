@@ -14,6 +14,7 @@
 @property (strong, nonatomic) NSString *role_name, *description_mine, *assistant_name, *assistant_global_key, *role_type, *global_key;
 @property (strong, nonatomic) NSArray *stages;
 @property (strong, nonatomic) NSDictionary *propertyArrayMap;
+@property (assign, nonatomic) BOOL isRewardOwner, isStageOwner;
 
 @property (strong, nonatomic) UIColor *roleColor;
 @end

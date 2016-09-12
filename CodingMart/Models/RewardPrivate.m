@@ -39,6 +39,9 @@
                               @"0xDFDF17"];//黄
     for (int index = 0; index < _metro.roles.count; index++) {
         RewardMetroRole *role = _metro.roles[index];
+        role.isRewardOwner = isRewardOwner;
+        role.isStageOwner = [role.owner_id isEqual:[Login curLoginUser].id];
+
         role.roleColor = [UIColor colorWithHexString:_metro.roles.count == 1? colorStrList[1]: colorStrList[index % colorStrList.count]];
         for (RewardApplyCoder *coder in _apply.coders) {
             if ([coder.user_id isEqual:role.owner_id]) {
@@ -46,12 +49,11 @@
             }
         }
         BOOL roleHasExpand = NO;
-        BOOL isStageOwner = [role.owner_id isEqual:[Login curLoginUser].id];
         for (RewardMetroRoleStage *stage in role.stages) {
             stage.isRewardOwner = isRewardOwner;
-            stage.isStageOwner = isStageOwner;
+            stage.isStageOwner = role.isStageOwner;
             stage.isMpay = _basicInfo.mpay.boolValue;
-            stage.isExpand = (![stage isFinished] && !roleHasExpand) && (isRewardOwner || isStageOwner);
+            stage.isExpand = (![stage isFinished] && !roleHasExpand) && (isRewardOwner || role.isStageOwner);
             if (stage.isExpand) {
                 roleHasExpand = YES;
             }
