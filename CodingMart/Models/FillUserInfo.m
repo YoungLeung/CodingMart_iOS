@@ -48,6 +48,20 @@
     }
 }
 
+- (NSString *)phoneCountryCode{
+    if (_phoneCountryCode) {
+        _phoneCountryCode = @"+86";
+    }
+    return _phoneCountryCode;
+}
+
+- (NSString *)country{
+    if (!_country) {
+        _country = @"cn";
+    }
+    return _country;
+}
+
 - (NSDictionary *)toParams{
     NSMutableDictionary *params = @{}.mutableCopy;
     params[@"name"] = _name;

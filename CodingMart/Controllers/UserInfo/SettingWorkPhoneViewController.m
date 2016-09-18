@@ -25,7 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    _phoneCountryCodeL.text = _userInfo.phoneCountryCode.length > 0? _userInfo.phoneCountryCode: @"+86";
+    _phoneCountryCodeL.text = _userInfo.phoneCountryCode;
     _phoneF.text = _userInfo.mobile;
 }
 
