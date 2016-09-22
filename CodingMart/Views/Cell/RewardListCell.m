@@ -26,6 +26,7 @@
 @implementation RewardListCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     CGFloat coverViewWidth = kScreen_Width - 24.0;
     UIBezierPath *path = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, coverViewWidth, coverViewWidth/2)];

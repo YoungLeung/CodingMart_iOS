@@ -35,6 +35,7 @@
 @implementation PublishedRewardCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     __weak typeof(self) weakSelf = self;
     [_tapView bk_whenTapped:^{

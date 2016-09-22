@@ -18,6 +18,7 @@
     return self;
 }
 - (void)awakeFromNib {
+    [super awakeFromNib];
     [self p_setupUI];
 }
 - (void)p_setupUI{

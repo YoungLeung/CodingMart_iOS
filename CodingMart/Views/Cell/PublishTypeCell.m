@@ -18,6 +18,7 @@
 @implementation PublishTypeCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     if (kScreen_Width == 320) {
         _imageWidthConstraint.constant = 5;

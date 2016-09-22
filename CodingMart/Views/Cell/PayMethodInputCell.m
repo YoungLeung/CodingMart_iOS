@@ -15,6 +15,7 @@
 @implementation PayMethodInputCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     _textF.delegate = self;
 }

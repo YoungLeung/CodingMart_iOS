@@ -31,6 +31,7 @@
 @implementation JoinedRewardCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     [_editBtn setTitleColor:[UIColor colorWithHexString:@"0x999999"] forState:UIControlStateDisabled];
     [_rewardBtn setTitleColor:[UIColor colorWithHexString:@"0x999999"] forState:UIControlStateDisabled];

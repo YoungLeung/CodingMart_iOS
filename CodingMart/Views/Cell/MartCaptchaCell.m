@@ -14,6 +14,7 @@
 @implementation MartCaptchaCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     __weak typeof(self) wealSelf = self;
     [_imgV bk_whenTapped:^{

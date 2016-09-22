@@ -24,6 +24,7 @@
 }
 
 - (void)awakeFromNib{
+    [super awakeFromNib];
     _normalStateTitle = self.titleLabel.text;
     self.enabled = self.isEnabled;
 }
