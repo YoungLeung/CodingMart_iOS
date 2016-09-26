@@ -78,7 +78,7 @@
     [_backImageV bk_whenTapped:^{
         [weakSelf showImageWithFront:NO];
     }];
-    [_bottomL addLinkToStr:@"《身份认证授权与承诺书》" value:nil hasUnderline:NO clickedBlock:^(id value) {
+    [_bottomL addLinkToStr:@"《码市认证授权与承诺书》" value:nil hasUnderline:NO clickedBlock:^(id value) {
         [weakSelf goToAgreement];
     }];
 
@@ -152,12 +152,12 @@
         return;
     }
 
-    [NSObject showHUDQueryStr:@"正在提交身份认证..."];
+    [NSObject showHUDQueryStr:@"正在提交码市认证..."];
     WEAKSELF
     [[Coding_NetAPIManager sharedManager] post_Authentication:[self.model toParams] block:^(id data, NSError *error){
          [NSObject hideHUDQuery];
          if (data) {
-             [NSObject showHudTipStr:@"身份认证提交成功"];
+             [NSObject showHudTipStr:@"码市认证提交成功"];
              [weakSelf.navigationController popViewControllerAnimated:YES];
          }
     }];
@@ -271,7 +271,7 @@
 #pragma mark VC
 - (void)goToAgreement{
     NSString *urlStr = @"https://dn-coding-net-production-public-file.qbox.me/%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E6%8E%88%E6%9D%83%E4%B8%8E%E6%89%BF%E8%AF%BA%E4%B9%A6_160816.pdf";
-    [self goToWebVCWithUrlStr:urlStr title:@"身份认证授权与承诺书"];
+    [self goToWebVCWithUrlStr:urlStr title:@"码市认证授权与承诺书"];
 }
 
 @end
