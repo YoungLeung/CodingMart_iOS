@@ -42,4 +42,19 @@
     [attrStr addAttributes:attrDict range:range];
     self.attributedText = attrStr;
 }
+
++ (instancetype)labelWithFont:(UIFont *)font textColor:(UIColor *)textColor{
+    UILabel *label = [self new];
+    label.font = font;
+    label.textColor = textColor;
+    return label;
+}
+
++ (instancetype)labelWithSystemFontSize:(CGFloat)fontSize textColorHexString:(NSString *)stringToConvert{
+    UILabel *label = [self new];
+    label.font = [UIFont systemFontOfSize:fontSize];
+    label.textColor = [UIColor colorWithHexString:stringToConvert];
+    return label;
+}
+
 @end

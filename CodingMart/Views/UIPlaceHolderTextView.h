@@ -11,6 +11,8 @@
 @interface UIPlaceHolderTextView : UITextView
 @property (nonatomic, strong) IBInspectable NSString *placeholder;
 @property (nonatomic, strong) IBInspectable UIColor *placeholderColor;
+@property (nonatomic, assign) IBInspectable NSInteger minLength;
+@property (nonatomic, assign) IBInspectable NSInteger maxLength;
 
 -(void)textChanged:(NSNotification*)notification;
 
