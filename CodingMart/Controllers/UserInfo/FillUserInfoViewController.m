@@ -143,18 +143,10 @@
 #pragma mark Table M
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *headerV = [UIView new];
-    UILabel *titleL = [UILabel new];
-    titleL.font = [UIFont systemFontOfSize:15];
-    titleL.textColor = [UIColor colorWithHexString:@"0x999999"];
-    titleL.text = section == 0? @"码市信息": section == 1? @"联系信息": @"接单状态";
-    [headerV addSubview:titleL];
-    [titleL mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(headerV).insets(UIEdgeInsetsMake(0, 15, 0, 15));
-    }];
     return headerV;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 44;
+    return section == 0? 1.0/[UIScreen mainScreen].scale: 20;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
