@@ -515,12 +515,6 @@
         block(data, error);
     }];
 }
-- (void)get_FillSkillsBlock:(void (^)(id data, NSError *error))block{
-    NSString *path  = @"api/skills";
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
-        block(data, error);
-    }];
-}
 - (void)post_FillUserInfo:(FillUserInfo *)info block:(void (^)(id data, NSError *error))block{
     NSString *path  = @"api/userinfo";
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:[info toParams] withMethodType:Post andBlock:^(id data, NSError *error) {
@@ -537,15 +531,6 @@
     params[@"freeTime"] = info.free_time;
     params[@"rewardRole"] = info.reward_role;
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-        block(data, error);
-    }];
-}
-- (void)post_FillSkills:(FillSkills *)skills block:(void (^)(id data, NSError *error))block{
-    NSString *path  = @"api/skills";
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:[skills toParams] withMethodType:Post andBlock:^(id data, NSError *error) {
-        if (data) {
-            data = [NSObject objectOfClass:@"FillSkills" fromJSON:data[@"data"]];
-        }
         block(data, error);
     }];
 }
