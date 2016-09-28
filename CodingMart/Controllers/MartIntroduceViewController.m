@@ -21,14 +21,7 @@
 @property (weak, nonatomic) IBOutlet UIView *aboutWidthV;
 @property (weak, nonatomic) IBOutlet UIView *processWidthV;
 @property (weak, nonatomic) IBOutlet UIView *contactWidthV;
-@property (weak, nonatomic) IBOutlet UILabel *aboutPrice0;
-@property (weak, nonatomic) IBOutlet UILabel *aboutPrice1;
-@property (weak, nonatomic) IBOutlet UILabel *aboutPrice2;
 @property (weak, nonatomic) IBOutlet UILabel *contactInfoL;
-@property (weak, nonatomic) IBOutlet UILabel *processL0;
-@property (weak, nonatomic) IBOutlet UILabel *processL1;
-@property (weak, nonatomic) IBOutlet UILabel *processL2;
-
 @end
 
 @implementation MartIntroduceViewController
@@ -69,10 +62,6 @@
 }
 
 - (void)setupUI{
-    //窄屏上字号处理
-    if (kScreen_Width == 320) {
-        _aboutPrice0.font = _aboutPrice1.font = _aboutPrice2.font = [UIFont systemFontOfSize:13];
-    }
     //视图限宽
     [_aboutWidthV mas_updateConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(kScreen_Width);
@@ -85,10 +74,6 @@
     }];
     //内容
     [_contactInfoL addAttrDict:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:14]} toStr:@"码市科技有限公司"];
-
-    [_processL0 addAttrDict:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:14]} toStr:@"无忧交付"];
-    [_processL1 addAttrDict:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:14]} toStr:@"便捷跟踪"];
-    [_processL2 addAttrDict:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:14]} toStr:@"无忧质保"];
 }
 
 #pragma mark iCarousel M
