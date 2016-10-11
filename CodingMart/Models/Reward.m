@@ -87,6 +87,7 @@
         User *curUser = [Login curLoginUser];
         rewardToBePublished.contact_name = rewardToBePublished.contact_name ?: curUser.name;
         rewardToBePublished.contact_mobile = rewardToBePublished.contact_mobile ?: curUser.phone;
+        rewardToBePublished.contact_email = rewardToBePublished.contact_email ?: curUser.email;
     }
     rewardToBePublished.country = rewardToBePublished.country ?: @"cn";
     rewardToBePublished.phoneCountryCode = rewardToBePublished.phoneCountryCode ?: @"+86";
@@ -99,6 +100,7 @@
     params[@"name"] = _name;
     params[@"description"] = _description_mine;
     params[@"contact_name"] = _contact_name;
+    params[@"contactEmail"] = _contact_email;
     params[@"contact_mobile"] = _contact_mobile;
     params[@"contact_mobile_code"] = _contact_mobile_code;
     params[@"survey_extra"] = _survey_extra;

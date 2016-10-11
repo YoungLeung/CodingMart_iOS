@@ -30,9 +30,11 @@
 @property (weak, nonatomic) IBOutlet UITextField *typeL;
 @property (weak, nonatomic) IBOutlet UITextField *budgetL;
 @property (weak, nonatomic) IBOutlet UITextField *nameF;
+
 @property (weak, nonatomic) IBOutlet UIPlaceHolderTextView *descriptionTextView;
 
 @property (weak, nonatomic) IBOutlet UITextField *contact_nameF;
+@property (weak, nonatomic) IBOutlet UITextField *contact_emailF;
 @property (weak, nonatomic) IBOutlet UITextField *contact_mobileF;
 @property (weak, nonatomic) IBOutlet UITextField *contact_mobile_codeF;
 @property (weak, nonatomic) IBOutlet PhoneCodeButton *codeBtn;
@@ -88,6 +90,7 @@
     _nameF.text = _rewardToBePublished.name;
     _descriptionTextView.text = _rewardToBePublished.description_mine;
     _contact_nameF.text = _rewardToBePublished.contact_name;
+    _contact_emailF.text = _rewardToBePublished.contact_email;
     _contact_mobileF.text = _rewardToBePublished.contact_mobile;
     
     [_nameF.rac_textSignal subscribeNext:^(NSString *newText){
@@ -100,6 +103,9 @@
     }];
     [_contact_nameF.rac_textSignal subscribeNext:^(NSString *newText){
         weakSelf.rewardToBePublished.contact_name = newText;
+    }];
+    [_contact_emailF.rac_textSignal subscribeNext:^(NSString *newText) {
+        weakSelf.rewardToBePublished.contact_email = newText;
     }];
     [_contact_mobileF.rac_textSignal subscribeNext:^(NSString *newText){
         weakSelf.rewardToBePublished.contact_mobile = newText;
@@ -120,6 +126,7 @@
                                                                 RACObserve(self, rewardToBePublished.name),
                                                                 RACObserve(self, rewardToBePublished.description_mine),
                                                                 RACObserve(self, rewardToBePublished.contact_name),
+                                                                RACObserve(self, rewardToBePublished.contact_email),
                                                                 RACObserve(self, rewardToBePublished.contact_mobile),
                                                                 RACObserve(self, rewardToBePublished.contact_mobile_code)]
                                                        reduce:^id(NSNumber *type,
@@ -127,9 +134,10 @@
                                                                   NSString *name,
                                                                   NSString *description_mine,
                                                                   NSString *contact_name,
+                                                                  NSString *contact_email,
                                                                   NSString *contact_mobile,
                                                                   NSString *contact_mobile_code){
-                                                           return @(type && budget && name.length > 0 && description_mine.length > 0 && contact_name.length > 0 &&
+                                                           return @(type && budget && name.length > 0 && description_mine.length > 0 && contact_name.length > 0 && contact_email.length > 0 &&
                                                                     (!_isPhoneNeeded || (contact_mobile.length > 0 && contact_mobile_code.length > 0)));
                                                        }];
 }
@@ -302,14 +310,14 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
     if (section == 0) {
         rowNum = 4;
     }else{
-        rowNum = _isPhoneNeeded? 3: 1;
+        rowNum = _isPhoneNeeded? 4: 2;
     }
     return rowNum;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
-    if (indexPath.row == 0) {
+    if (indexPath.row == 0 || (indexPath.section == 1 && indexPath.row == 1)) {
         cell.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15);
     }else{
         cell.separatorInset = UIEdgeInsetsMake(0, kScreen_Width, 0, 0);
