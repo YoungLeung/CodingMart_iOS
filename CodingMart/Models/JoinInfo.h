@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RewardApplyResume.h"
 
 typedef NS_ENUM(NSInteger, JoinStatus) {
     JoinStatusNotJoin = -1,//没有参与过
@@ -18,8 +19,10 @@ typedef NS_ENUM(NSInteger, JoinStatus) {
 };
 
 @interface JoinInfo : NSObject
-@property (strong, nonatomic) NSNumber *id, *rewardId, *roleTypeId, *status, *secret;
+@property (strong, nonatomic) NSNumber *id, *rewardId, *roleTypeId, *status;
 @property (strong, nonatomic) NSString *message, *created_at, *updated_at;
+@property (strong, nonatomic) NSArray *roleIdArr, *projectIdArr;
+@property (strong, nonatomic) NSArray *applyResumeList;
 - (NSDictionary *)toParams;
 +(instancetype)joinInfoWithRewardId:(NSNumber *)rewardId;
 @end

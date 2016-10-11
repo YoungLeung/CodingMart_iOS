@@ -71,6 +71,7 @@ NSInteger const UI_PLACEHOLDER_LT_LABEL_TAG = 888;
         [_placeHolderL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(insets.left + 5);
             make.top.equalTo(self).offset(insets.top);
+            make.width.equalTo(self).offset(-insets.left - insets.right - 2* 5);//可能由于 scrollView 的关系，右下边界失效，选择约束宽度
         }];
     }
     return _placeHolderL;
