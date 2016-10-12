@@ -8,12 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "SkillRoleSkill.h"
-#import "SkiillRoleType.h"
+#import "SkillRoleType.h"
 #import "SkillRoleUser.h"
 
 @interface SkillRole : NSObject
 @property (strong, nonatomic) NSArray *skills;
-@property (strong, nonatomic) SkiillRoleType *role;
+@property (strong, nonatomic) SkillRoleType *role;
 @property (strong, nonatomic) SkillRoleUser *user_role;
 @property (strong, nonatomic, readonly) NSString *skillsDisplay;
 @property (strong, nonatomic, readonly) NSArray *selectedSkills;

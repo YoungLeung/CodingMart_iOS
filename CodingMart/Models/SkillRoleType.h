@@ -1,5 +1,5 @@
 //
-//  SkiillRoleType.h
+//  SkillRoleType.h
 //  CodingMart
 //
 //  Created by Ease on 16/4/11.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SkiillRoleType : NSObject
+@interface SkillRoleType : NSObject
 @property (strong, nonatomic) NSNumber *id, *selected;
 @property (strong, nonatomic) NSString *code, *name, *data;
 - (NSArray *)goodAtList;

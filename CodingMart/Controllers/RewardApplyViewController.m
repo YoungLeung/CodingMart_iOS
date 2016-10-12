@@ -103,7 +103,7 @@
         return nil;
     }
     NSMutableArray *nameArr = @[].mutableCopy;
-    for (SkiillRoleType *rt in [_skillRoleArr valueForKey:@"role"]) {
+    for (SkillRoleType *rt in [_skillRoleArr valueForKey:@"role"]) {
         if ([roleArr containsObject:rt.id]) {
             [nameArr addObject:rt.name];
         }

@@ -125,7 +125,7 @@
 }
 - (void)dealWithskillList:(NSArray *)list{
     NSString *skillsStr = [list componentsJoinedByString:@","];
-    for (SkiillRoleType *type in _role.skills) {
+    for (SkillRoleType *type in _role.skills) {
         type.selected = @([skillsStr containsString:type.name]);
     }
     _skillsL.text = _role.skillsDisplay;

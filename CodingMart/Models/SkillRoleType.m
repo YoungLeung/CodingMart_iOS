@@ -1,14 +1,14 @@
 //
-//  SkiillRoleType.m
+//  SkillRoleType.m
 //  CodingMart
 //
 //  Created by Ease on 16/4/11.
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "SkiillRoleType.h"
+#import "SkillRoleType.h"
 
-@implementation SkiillRoleType
+@implementation SkillRoleType
 - (NSArray *)goodAtList{
     if (_data.length <= 0) {
         return nil;
