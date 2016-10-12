@@ -10,8 +10,8 @@
 #import "MartFile.h"
 
 @interface SkillPro : NSObject
-@property (strong, nonatomic) NSNumber *id, *user_id, *until_now;
-@property (strong, nonatomic) NSString *project_name, *description_mine, *duty, *link;
+@property (strong, nonatomic) NSNumber *id, *user_id, *until_now, *projectType;
+@property (strong, nonatomic) NSString *project_name, *description_mine, *duty, *link, *industry, *industryName, *projectTypeName;
 @property (strong, nonatomic) NSDate *start_time, *finish_time;
 @property (strong, nonatomic) NSMutableArray<MartFile *> *files;
 @property (strong, nonatomic, readonly) NSDictionary *propertyArrayMap;

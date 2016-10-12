@@ -19,9 +19,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _projectIdArr = _curJoinInfo.projectIdArr.mutableCopy ?: @[].mutableCopy;
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"确定" target:self action:@selector(confirmBtnClicked)];
 }
 
-- (IBAction)bottomBtnClicked:(id)sender {
+- (void)confirmBtnClicked{
     _curJoinInfo.projectIdArr = _projectIdArr.copy;
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -46,6 +47,7 @@
     return [RewardApplyProjectListCell cellHeight];
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     SkillPro *sp = _skillProArr[indexPath.row];
     RewardApplyProjectListCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if ([_projectIdArr containsObject:sp.id]) {

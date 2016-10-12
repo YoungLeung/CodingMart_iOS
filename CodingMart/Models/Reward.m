@@ -60,7 +60,7 @@
     _statusDisplay = [[NSObject rewardStatusDict] findKeyFromStrValue:self.status.stringValue];
     _statusStrColorHexStr = [[NSObject rewardStatusStrColorDict] objectForKey:_status.stringValue];
     _statusBGColorHexStr = [[NSObject rewardStatusBGColorDict] objectForKey:_status.stringValue];
-    _roleTypesDisplay = [[_roleTypes valueForKey:@"name"] componentsJoinedByString:@"，"];
+    _roleTypesDisplay = [[_roleTypes valueForKey:@"name"] componentsJoinedByString:@","];
 }
 + (BOOL)saveDraft:(Reward *)curReward{
     if (!curReward) {

@@ -108,7 +108,7 @@
             [nameArr addObject:rt.name];
         }
     }
-    return [nameArr componentsJoinedByString:@", "];
+    return [nameArr componentsJoinedByString:@","];
 }
 
 - (NSString *)p_NameOfProjectArr:(NSArray *)proArr{
@@ -212,8 +212,8 @@
         if (indexPath.row == 0) {
             [self.view endEditing:YES];
             WEAKSELF
-            [EAMultiSelectView showInView:self.view withTitle:@"选择要显示的角色" dataList:[[_skillRoleArr valueForKey:@"role"] valueForKey:@"name"] selectedList:[_roleIdArrF.text componentsSeparatedByString:@", "] andConfirmBlock:^(NSArray *selectedList) {
-                NSString *selectedStr = [selectedList componentsJoinedByString:@", "];
+            [EAMultiSelectView showInView:self.view withTitle:@"选择要显示的角色" dataList:[[_skillRoleArr valueForKey:@"role"] valueForKey:@"name"] selectedList:[_roleIdArrF.text componentsSeparatedByString:@","] andConfirmBlock:^(NSArray *selectedList) {
+                NSString *selectedStr = [selectedList componentsJoinedByString:@","];
                 NSMutableArray *rL = @[].mutableCopy;
                 for (SkillRole *sr in weakSelf.skillRoleArr) {
                     if ([selectedStr containsString:sr.role.name]) {

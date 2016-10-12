@@ -14,7 +14,7 @@
 }
 
 - (NSString *)skillsDisplay{
-    return [[self.selectedSkills valueForKey:@"name"] componentsJoinedByString:@"，"];
+    return [[self.selectedSkills valueForKey:@"name"] componentsJoinedByString:@","];
 }
 
 - (NSArray *)selectedSkills{

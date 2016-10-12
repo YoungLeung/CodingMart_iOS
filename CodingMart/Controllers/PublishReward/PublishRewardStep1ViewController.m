@@ -44,7 +44,7 @@
     self.tableView.tableHeaderView = tableHeaderView;
     
     _typeList = @[@"Web 网站",
-                  @"移动应用 App",
+                  @"移动应用 APP",
                   @"微信开发",
                   @"HTML5 应用",
                   @"其他"];

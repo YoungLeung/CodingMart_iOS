@@ -11,12 +11,16 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "NSDate+Helper.h"
 #import "ActionSheetDatePicker.h"
+#import "ActionSheetStringPicker.h"
 #import "Coding_NetAPIManager.h"
+#import "ProjectIndustryListViewController.h"
 
 @interface FillProjectSkillViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *nameF;
 @property (weak, nonatomic) IBOutlet UITextField *startL;
 @property (weak, nonatomic) IBOutlet UITextField *finishL;
+@property (weak, nonatomic) IBOutlet UITextField *projectTypeF;
+@property (weak, nonatomic) IBOutlet UITextField *industryF;
 @property (weak, nonatomic) IBOutlet UIPlaceHolderTextView *descriptionT;
 @property (weak, nonatomic) IBOutlet UIPlaceHolderTextView *dutyT;
 @property (weak, nonatomic) IBOutlet UITextField *linkF;
@@ -90,6 +94,12 @@
     }];
     [_linkF.rac_textSignal subscribeNext:^(NSString *value) {
         weakSelf.pro.link = value;
+    }];
+    [RACObserve(self, pro.industryName) subscribeNext:^(NSString *value) {
+        weakSelf.industryF.text = value;
+    }];
+    [RACObserve(self, pro.projectTypeName) subscribeNext:^(NSString *value) {
+        weakSelf.projectTypeF.text = value;
     }];
     [self updateFileList];
 }
@@ -175,9 +185,8 @@
 #pragma mark Table
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 5+ _pro.files.count;
+    return 7+ _pro.files.count;
 }
-
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
@@ -186,6 +195,35 @@
         cell.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15);
     }else{
         cell.separatorInset = UIEdgeInsetsMake(0, kScreen_Width, 0, 0);//隐藏
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row == 1) {//项目类型
+        NSArray *list = @[@"Web 网站",
+                          @"移动应用 APP",
+                          @"微信开发",
+                          @"HTML5 应用",
+                          @"其他"];
+        NSInteger curRow = 0;
+        if (_pro.projectTypeName) {
+            curRow = [list indexOfObject:_pro.projectTypeName];
+            curRow = curRow != NSNotFound? curRow: 0;
+        }
+        __weak typeof(self) weakSelf = self;
+        [ActionSheetStringPicker showPickerWithTitle:nil rows:@[list] initialSelection:@[@(curRow)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
+            weakSelf.pro.projectTypeName = selectedValue.firstObject;
+            weakSelf.pro.projectType = @[@1,
+                                         @2,
+                                         @3,
+                                         @4,
+                                         @5][[(NSNumber *)selectedIndex.firstObject integerValue]];
+        } cancelBlock:nil origin:self.view];
+    }else if (indexPath.row == 3){
+        ProjectIndustryListViewController *vc = [ProjectIndustryListViewController vcInStoryboard:@"UserInfo"];
+        vc.skillPro = _pro;
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 @end

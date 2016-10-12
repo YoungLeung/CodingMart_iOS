@@ -41,6 +41,7 @@
 #import "MartNotifications.h"
 #import "FreezeRecords.h"
 #import "FreezeRecord.h"
+#import "ProjectIndustry.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -654,6 +655,15 @@
 - (void)post_SkillRoles:(NSArray *)role_ids block:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/userinfo/roles";
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"role_ids[]": role_ids ?: @[]} withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+
+- (void)get_IndustriesBlock:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/industry" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject arrayFromJSON:data[@"industryName"] ofObjects:@"ProjectIndustry"];
+        }
         block(data, error);
     }];
 }

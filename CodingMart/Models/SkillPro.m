@@ -27,7 +27,8 @@
     params[@"duty"] = _duty;
     params[@"link"] = _link;
     params[@"file_ids"] = [_files valueForKey:@"id"];
-    
+    params[@"industry"] = _industry;
+    params[@"project_type"] = _projectType;
     return params;
 }
 @end

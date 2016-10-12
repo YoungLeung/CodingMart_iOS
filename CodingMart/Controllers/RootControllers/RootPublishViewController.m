@@ -27,7 +27,7 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     _typeList = @[@"Web 网站",
-                  @"移动应用 App",
+                  @"移动应用 APP",
                   @"微信开发",
                   @"HTML5 应用",
                   @"其他"];

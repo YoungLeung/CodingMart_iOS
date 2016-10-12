@@ -14,13 +14,12 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *nameL;
 @property (weak, nonatomic) IBOutlet UILabel *timeL;
-
+@property (weak, nonatomic) IBOutlet UILabel *projectTypeNameL;
 @property (weak, nonatomic) IBOutlet UILabel *descriptionL;
+@property (weak, nonatomic) IBOutlet UILabel *industryNameL;
 @property (weak, nonatomic) IBOutlet UILabel *dutyL;
 @property (weak, nonatomic) IBOutlet UITTTAttributedLabel *linkL;
-
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *fileButtonList;
-
 @property (strong, nonatomic) IBOutletCollection(UILabel) NSArray *fileLabelList;
 
 @end
@@ -33,6 +32,8 @@
     _timeL.text = [NSString stringWithFormat:@"%@ - %@", [_pro.start_time stringWithFormat:@"yyyy.MM"], _pro.until_now.boolValue? @"至今": [_pro.finish_time stringWithFormat:@"yyyy.MM"]];
     _descriptionL.text = _pro.description_mine.length > 0 ? _pro.description_mine: @"未填写";
     _dutyL.text = _pro.duty.length > 0? _pro.duty: @"未填写";
+    _projectTypeNameL.text = _pro.projectTypeName.length > 0? _pro.projectTypeName: @"未填写";
+    _industryNameL.text = _pro.industryName.length > 0? _pro.industryName: @"未填写";
 
     _linkL.text = _pro.link.length > 0? _pro.link: @"未填写";
     if (_pro.link.length > 0) {
@@ -82,6 +83,8 @@
         height += 15+ MAX(20, [pro.description_mine getHeightWithFont:font constrainedToSize:CGSizeMake(width, CGFLOAT_MAX)]);
         height += 15+ MAX(20, [pro.duty getHeightWithFont:font constrainedToSize:CGSizeMake(width, CGFLOAT_MAX)]);
         height += 15+ MAX(20, [pro.link getHeightWithFont:font constrainedToSize:CGSizeMake(width, CGFLOAT_MAX)]);
+        height += 15+ MAX(20, [pro.projectTypeName getHeightWithFont:font constrainedToSize:CGSizeMake(width, CGFLOAT_MAX)]);
+        height += 15+ MAX(20, [pro.industryName getHeightWithFont:font constrainedToSize:CGSizeMake(width, CGFLOAT_MAX)]);
         height += 15;
         if (pro.files.count > 0) {
             height += 15;

@@ -17,29 +17,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="GRs-oS-cBF">
-                            <rect key="frame" x="0.0" y="144" width="375" height="90"/>
+                            <rect key="frame" x="0.0" y="144" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2l9-ws-aCT" customClass="TableViewFooterButton">
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="44" id="IYM-Jx-Dck"/>
-                                    </constraints>
-                                    <state key="normal" title="确定"/>
-                                    <connections>
-                                        <action selector="bottomBtnClicked:" destination="NjH-Mf-g7i" eventType="touchUpInside" id="HKv-C2-YCp"/>
-                                        <action selector="submitBtnClicked:" destination="9ab-59-qie" eventType="touchUpInside" id="fxV-yY-PCa"/>
-                                    </connections>
-                                </button>
-                            </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstAttribute="trailing" secondItem="2l9-ws-aCT" secondAttribute="trailing" constant="15" id="SE6-E3-jil"/>
-                                <constraint firstItem="2l9-ws-aCT" firstAttribute="leading" secondItem="GRs-oS-cBF" secondAttribute="leading" constant="15" id="odH-2G-2AO"/>
-                                <constraint firstAttribute="bottom" secondItem="2l9-ws-aCT" secondAttribute="bottom" constant="20" id="pAo-kz-zeb"/>
-                            </constraints>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="RewardApplyProjectListCell" rowHeight="70" id="zzC-Bi-G3O" customClass="RewardApplyProjectListCell">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="RewardApplyProjectListCell" rowHeight="70" id="zzC-Bi-G3O" customClass="RewardApplyProjectListCell">
                                 <rect key="frame" x="0.0" y="56" width="375" height="70"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zzC-Bi-G3O" id="JQ7-NT-zpl">
