@@ -6357,11 +6357,31 @@ Coding 码市团队</string>
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="56Y-Yc-Hvf">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="技能展示项还有未完善的信息，完善后才能参与悬赏" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pXR-t8-b5M">
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <color key="textColor" red="0.96078431372549022" green="0.65098039215686276" blue="0.13725490196078433" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" red="0.9882352941176471" green="0.97254901960784312" blue="0.89411764705882346" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="pXR-t8-b5M" secondAttribute="trailing" constant="15" id="KGq-H8-gBx"/>
+                                <constraint firstItem="pXR-t8-b5M" firstAttribute="top" secondItem="56Y-Yc-Hvf" secondAttribute="top" id="RVb-bf-nIm"/>
+                                <constraint firstItem="pXR-t8-b5M" firstAttribute="centerY" secondItem="56Y-Yc-Hvf" secondAttribute="centerY" id="TcJ-Iu-RvN"/>
+                                <constraint firstItem="pXR-t8-b5M" firstAttribute="leading" secondItem="56Y-Yc-Hvf" secondAttribute="leading" constant="15" id="TeJ-yz-A1U"/>
+                                <constraint firstItem="pXR-t8-b5M" firstAttribute="centerX" secondItem="56Y-Yc-Hvf" secondAttribute="centerX" id="lBu-mY-Vjb"/>
+                                <constraint firstAttribute="bottom" secondItem="pXR-t8-b5M" secondAttribute="bottom" id="pX5-HF-8ke"/>
+                            </constraints>
+                        </view>
                         <sections>
                             <tableViewSection headerTitle="完善以下信息，即可参与项目" id="xxs-f9-6CW">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="nVz-dZ-Wsy">
-                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="96" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nVz-dZ-Wsy" id="oJr-ii-L0I">
                                             <frame key="frameInset" width="375" height="43"/>
@@ -6409,7 +6429,7 @@ Coding 码市团队</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="zAv-Tq-DGA">
-                                        <rect key="frame" x="0.0" y="100" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="140" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zAv-Tq-DGA" id="XdJ-Q1-h2l">
                                             <frame key="frameInset" width="375" height="43"/>
@@ -6454,7 +6474,7 @@ Coding 码市团队</string>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Veg-7U-qeF">
-                                        <rect key="frame" x="0.0" y="144" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="184" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Veg-7U-qeF" id="5kb-cw-oGz">
                                             <frame key="frameInset" width="375" height="43"/>
@@ -6503,7 +6523,7 @@ Coding 码市团队</string>
                             <tableViewSection headerTitle="通过码市认证将会有更多需求方选择你" id="lN0-Jh-Hnz">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="wI6-2y-dyZ">
-                                        <rect key="frame" x="0.0" y="245" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="285" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wI6-2y-dyZ" id="rBI-po-0kl">
                                             <frame key="frameInset" width="375" height="43"/>
@@ -6571,6 +6591,7 @@ Coding 码市团队</string>
                         <outlet property="skillsCheckV" destination="U8b-58-f01" id="CAo-Qk-God"/>
                         <outlet property="statusCheckV" destination="eMK-dH-38X" id="aoR-Wh-uAB"/>
                         <outlet property="testingCheckV" destination="r3j-nj-Et9" id="2lg-fW-ucw"/>
+                        <outlet property="tipHeaderV" destination="56Y-Yc-Hvf" id="M4S-aV-cTO"/>
                         <outlet property="userinfoCheckV" destination="nIC-Xe-k8P" id="Hhy-cT-QYP"/>
                     </connections>
                 </tableViewController>

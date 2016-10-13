@@ -29,6 +29,7 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 @property (weak, nonatomic) IBOutlet UIImageView *testingCheckV;
 @property (weak, nonatomic) IBOutlet UIImageView *statusCheckV;
 @property (weak, nonatomic) IBOutlet UILabel *identityStatusLabel;
+@property (weak, nonatomic) IBOutlet UIView *tipHeaderV;
 @property (strong, nonatomic) User *curUser;
 
 @property (assign,nonatomic)IdentityStatusCode identityCode;
@@ -43,6 +44,7 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 - (void)viewDidLoad{
     [super viewDidLoad];
     self.title = @"完善资料";
+    _tipHeaderV.height = 0;
     [self getUserinfo];
     if ([FunctionTipsManager needToTip:kFunctionTipStr_ShenFenRenZheng]) {
         [MartFunctionTipView showFunctionImages:@[@"function_shenfenrenzheng"]];
@@ -96,6 +98,10 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 
 - (void)setCurUser:(User *)curUser{
     _curUser = curUser;
+    _tipHeaderV.height = (_curUser.fullInfo.boolValue &&
+                          !_curUser.fullSkills.boolValue &&
+                          _curUser.passingSurvey.boolValue)? 40: 0;
+    [self.tableView reloadData];
     _userinfoCheckV.image = [UIImage imageNamed:_curUser.fullInfo.boolValue? @"fill_checked": @"fill_unchecked"];
     _skillsCheckV.image = [UIImage imageNamed:_curUser.fullSkills.boolValue? @"fill_checked": @"fill_unchecked"];
     _testingCheckV.image = [UIImage imageNamed:_curUser.passingSurvey.boolValue? @"fill_checked": @"fill_unchecked"];
