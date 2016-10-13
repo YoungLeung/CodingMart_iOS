@@ -106,9 +106,11 @@
                 if (!_topTipL) {
                     _topTipL = [UILabel new];
                     _topTipL.textAlignment = NSTextAlignmentCenter;
-                    _topTipL.backgroundColor = [UIColor colorWithHexString:@"0xF2DEDE" andAlpha:0.6];
+                    _topTipL.backgroundColor = [UIColor colorWithHexString:@"0xF2DEDE"];
                     _topTipL.textColor = [UIColor colorWithHexString:@"0xC55351"];
-                    _topTipL.font = [UIFont systemFontOfSize:12];
+                    _topTipL.font = [UIFont systemFontOfSize:14];
+                    _topTipL.adjustsFontSizeToFitWidth = YES;
+                    _topTipL.minimumScaleFactor = 0.5;
                     __weak typeof(self) weakSelf = self;
                     _topTipL.userInteractionEnabled = YES;
                     [_topTipL bk_whenTapped:^{
@@ -117,13 +119,19 @@
                     [self.view addSubview:_topTipL];
                     [_topTipL mas_makeConstraints:^(MASConstraintMaker *make) {
                         make.left.right.equalTo(self.view);
-                        make.height.mas_equalTo(27);
+                        make.height.mas_equalTo(40);
                         make.top.equalTo(self.view).offset([self navBottomY]);
                     }];
                 }
-                _topTipL.text = ![loginUser canJoinReward]? @"未完善个人资料不能参与项目，去完善 >>": @"您的账号还未激活，请前往 Coding 网站激活";
+                _topTipL.text = ![loginUser canJoinReward]? @"请前往个人信息页面完善开发者信息，去完善>>": @"您的账号还未激活，请前往 Coding 网站激活";
+                [self.webView mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(40, 0, 0, 0));
+                }];
             }else{
                 [_topTipL removeFromSuperview];
+                [self.webView mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.edges.equalTo(self.view);
+                }];
             }
         }
         //底部 按钮 + 状态
