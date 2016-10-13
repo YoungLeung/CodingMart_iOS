@@ -75,7 +75,7 @@
     CGFloat height = 0;
     if ([obj isKindOfClass:[SkillPro class]]) {
         SkillPro *pro = obj;
-        height += 8+ 8+ 44;
+        height += 44 + 20;
         
         UIFont *font = [UIFont systemFontOfSize:14];
         CGFloat width = kScreen_Width - (15+ 10)* 2 - (70+ 10);

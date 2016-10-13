@@ -101,7 +101,6 @@
         canPost = _name.length > 0 &&
         _email.length > 0 &&//是必填项了
         _mobile.length > 0 &&
-        _reward_role &&
         (!_acceptNewRewardAllNotification.boolValue || _free_time) &&
         _province;//省、市、区 有一个就好
         //&& _city && _district;

@@ -65,7 +65,7 @@
     CGFloat cellHeight = 0;
     if ([obj isKindOfClass:[FillUserInfo class]]) {
         FillUserInfo *info = obj;
-        cellHeight = info.acceptNewRewardAllNotification.boolValue? 260: 160;
+        cellHeight = info.acceptNewRewardAllNotification.boolValue? 270: 175;
     }
     return cellHeight;
 }

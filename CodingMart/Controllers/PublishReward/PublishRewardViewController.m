@@ -303,7 +303,7 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return section == 0? 15: 44;
+    return section == 0? 20: 44;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
@@ -313,7 +313,7 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSInteger rowNum;
     if (section == 0) {
-        rowNum = 4;
+        rowNum = 5;
     }else{
         rowNum = _isPhoneNeeded? 4: 2;
     }

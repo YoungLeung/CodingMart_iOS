@@ -166,6 +166,6 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return section == 0? 0: 20;
+    return section == 0? 0: 10;
 }
 @end

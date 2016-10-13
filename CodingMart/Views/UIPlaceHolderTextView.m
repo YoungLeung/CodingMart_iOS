@@ -104,8 +104,8 @@ NSInteger const UI_PLACEHOLDER_LT_LABEL_TAG = 888;
 }
 
 - (NSString *)lengthTipStr{
-    NSString *tipStr = nil;
-    if (_minLength || _maxLength) {
+    if ((_minLength || _maxLength) && self.text.length > 0) {
+        NSString *tipStr = nil;
         if (_minLength && self.text.length < _minLength) {
             tipStr = [NSString stringWithFormat:@"还差 %lu 字", -self.text.length + _minLength];
         }else if (_maxLength && self.text.length > _maxLength){
@@ -113,8 +113,10 @@ NSInteger const UI_PLACEHOLDER_LT_LABEL_TAG = 888;
         }else{
             tipStr = [NSString stringWithFormat:@"已输入 %lu 字", self.text.length];
         }
+        return tipStr;
+    }else{
+        return nil;
     }
-    return tipStr;
 }
 
 - (void)textChanged:(NSNotification *)notification{

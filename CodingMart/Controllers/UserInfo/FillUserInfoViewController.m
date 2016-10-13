@@ -25,7 +25,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *qqNumF;
 @property (weak, nonatomic) IBOutlet UITextField *locationF;
 @property (weak, nonatomic) IBOutlet UITextField *freeTimeF;
-@property (weak, nonatomic) IBOutlet UITextField *rewardRoleF;
 @property (weak, nonatomic) IBOutlet UISwitch *acceptNewRewardAllNotificationSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *phoneVerifiedL;
 @property (weak, nonatomic) IBOutlet UILabel *emailVerifiedL;
@@ -60,7 +59,6 @@
                                                               RACObserve(self, userInfo.city),
                                                               RACObserve(self, userInfo.district),
                                                               RACObserve(self, userInfo.free_time),
-                                                              RACObserve(self, userInfo.reward_role),
                                                               RACObserve(self, userInfo.acceptNewRewardAllNotification),
                                                               ] reduce:^id{
                                                                   return @([weakSelf.userInfo canPost:weakSelf.originalUserInfo]);
@@ -99,7 +97,6 @@
         _locationF.text = @"";
     }
     _freeTimeF.text = [_userInfo free_time_display];
-    _rewardRoleF.text = [_userInfo reward_role_display];
     _acceptNewRewardAllNotificationSwitch.on = [self p_acceptNewRewardAllNotification];
     _submitBtn.hidden = (_userInfo == nil);
     [self.tableView reloadData];
@@ -146,7 +143,7 @@
     return headerV;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return section == 0? 1.0/[UIScreen mainScreen].scale: 20;
+    return section == 0? 1.0/[UIScreen mainScreen].scale: 10;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
@@ -174,14 +171,7 @@
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0 && indexPath.row == 3) {//我现在是？
-        WEAKSELF;
-        NSInteger initialRow = weakSelf.userInfo.reward_role? weakSelf.userInfo.reward_role.integerValue: 0;
-        [ActionSheetStringPicker showPickerWithTitle:nil rows:@[[FillUserInfo reward_role_display_list]] initialSelection:@[@(initialRow)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
-            weakSelf.userInfo.reward_role = selectedIndex.firstObject;
-            weakSelf.rewardRoleF.text = [weakSelf.userInfo reward_role_display];
-        } cancelBlock:nil origin:self.view];
-    }else if (indexPath.section == 2 && indexPath.row == 1) {//空闲时间？
+    if (indexPath.section == 2 && indexPath.row == 1) {//空闲时间？
         WEAKSELF;
         NSInteger initialRow = weakSelf.userInfo.free_time? weakSelf.userInfo.free_time.integerValue: 0;
         [ActionSheetStringPicker showPickerWithTitle:nil rows:@[[FillUserInfo free_time_display_list]] initialSelection:@[@(initialRow)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {

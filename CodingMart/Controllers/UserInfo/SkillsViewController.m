@@ -105,9 +105,9 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     CGFloat height = 0;
     if (section == 0) {
-        height = _skill.roleList.count > 0? 90: 140;
+        height = _skill.roleList.count > 0? 95: 150;
     }else if (section == 1){
-        height = _skill.proList.count > 0? 45: 110;
+        height = _skill.proList.count > 0? 35: 100;
     }else{
         height = 44;
     }

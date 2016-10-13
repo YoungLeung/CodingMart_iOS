@@ -247,7 +247,7 @@
 
 #pragma mark Table
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return section == 0? 30: 20;
+    return section == 0? 0: 10;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -261,7 +261,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat rowH;
     if (indexPath.section == 0) {
-        rowH = indexPath.row == 0? 127: 80;
+        rowH = indexPath.row == 0? 130: 80;
     }else if (indexPath.section == 1){
         rowH = 66 + 2* ((kScreen_Width - 30)* 160/ 350) + 15 + 60;
     }else{

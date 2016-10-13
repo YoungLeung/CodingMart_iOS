@@ -56,7 +56,7 @@
 
 #pragma mark Table
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return section == 1? 15: 0;
+    return section == 1? 10: 0;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     return [UIView new];
