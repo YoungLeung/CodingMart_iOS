@@ -19,8 +19,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *durationF;
 @property (weak, nonatomic) IBOutlet UITextField *first_sampleF;
 @property (weak, nonatomic) IBOutlet UITextField *second_sampleF;
-
-
 @end
 
 @implementation PublishRewardStep2ViewController

@@ -205,7 +205,8 @@
         return;
     }
     NSString *path = @"api/cancel";
-    NSDictionary *params = @{@"id": rewardId};
+    NSDictionary *params = @{@"id": rewardId,
+                             @"reason": @"不想做了"};
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         block(data, error);
     }];
