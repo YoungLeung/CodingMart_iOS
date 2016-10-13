@@ -165,6 +165,8 @@
 
 - (IBAction)demoBtnClicked:(id)sender {
     if (!_demoTipV) {
+        CGFloat demoWidth = kScreen_Width - 30;
+        _demoV.size = CGSizeMake(demoWidth, _demoV.height/_demoV.width * demoWidth);
         _demoTipV = [EAXibTipView instancetypeWithXibView:_demoV];
     }
     [_demoTipV showInView:self.view];

@@ -199,14 +199,14 @@
         block(data, error);
     }];
 }
-- (void)post_CancelRewardId:(NSNumber *)rewardId block:(void (^)(id data, NSError *error))block{
-    if (![rewardId isKindOfClass:[NSNumber class]]) {
+- (void)post_CancelReward:(Reward *)reward block:(void (^)(id data, NSError *error))block{
+    if (![reward.id isKindOfClass:[NSNumber class]] || reward.cancelReason.length <= 0) {
         block(nil, nil);
         return;
     }
     NSString *path = @"api/cancel";
-    NSDictionary *params = @{@"id": rewardId,
-                             @"reason": @"不想做了"};
+    NSDictionary *params = @{@"id": reward.id,
+                             @"reason": reward.cancelReason};
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         block(data, error);
     }];

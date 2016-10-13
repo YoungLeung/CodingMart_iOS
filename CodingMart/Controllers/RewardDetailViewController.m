@@ -206,6 +206,8 @@
             bottomBtn = [self p_bottomBtnWithTitle:@"参与项目" bgColorHexStr:@"0x4289DB"];
             break;
     }
+    bottomBtn.enabled = [[Login curLoginUser] canJoinReward];
+    bottomBtn.alpha = bottomBtn.enabled? 1.0: 0.5;
     return bottomBtn;
 }
 

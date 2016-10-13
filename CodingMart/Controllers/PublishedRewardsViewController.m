@@ -101,20 +101,6 @@
     [self.navigationController pushViewController:[PublishRewardViewController storyboardVCWithReward:[sender isKindOfClass:[Reward class]]? sender: nil] animated:YES];
 }
 
-- (void)cancelReward:(Reward *)reward{
-    [[UIActionSheet bk_actionSheetCustomWithTitle:@"确定要取消发布吗？" buttonTitles:@[@"确定"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-        if (index == 0) {
-            [NSObject showHUDQueryStr:@"正在取消项目..."];
-            [[Coding_NetAPIManager sharedManager] post_CancelRewardId:reward.id block:^(id data, NSError *error) {
-                [NSObject hideHUDQuery];
-                if (data) {
-                    [NSObject showHudTipStr:@"项目已取消"];
-                    [self refresh];
-                }
-            }];
-        }
-    }] showInView:self.view];
-}
 - (void)goToPrivateReward:(Reward *)reward{
     RewardPrivateViewController *vc = [RewardPrivateViewController vcWithReward:reward];
     [self.navigationController pushViewController:vc animated:YES];

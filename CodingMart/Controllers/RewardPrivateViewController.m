@@ -40,16 +40,20 @@
 #import "MPayStageOrderGenetateViewController.h"
 #import "EATextEditView.h"
 #import "MPayPasswordByPhoneViewController.h"
+#import "RewardCancelReasonCell.h"
+#import "EAXibTipView.h"
 
 @interface RewardPrivateViewController ()<UITableViewDataSource, UITableViewDelegate>
-
-@property (strong, nonatomic) RewardPrivate *curRewardP;
-
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
-
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UILabel *bottomLabel;
 @property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
+@property (strong, nonatomic) IBOutlet UIView *cancelReasonV;
+@property (strong, nonatomic) EAXibTipView *cancelReasonTipV;
+
+
+@property (strong, nonatomic) RewardPrivate *curRewardP;
+@property (strong, nonatomic) NSArray *cancelReasonList;
 @end
 
 @implementation RewardPrivateViewController
@@ -129,87 +133,104 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    if (!_curRewardP.metro) {
-        return 0;
+    if (tableView == _myTableView) {
+        if (!_curRewardP.metro) {
+            return 0;
+        }
+        NSInteger sectionNum = [self isCurRewardStarted]? 5: 4;
+        sectionNum += _curRewardP.filesToShow.count > 0? 1: 0;
+        return sectionNum;
+    }else{
+        return 1;
     }
-    NSInteger sectionNum = [self isCurRewardStarted]? 5: 4;
-    sectionNum += _curRewardP.filesToShow.count > 0? 1: 0;
-    return sectionNum;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (!_curRewardP.metro) {
-        return 0;
-    }
-    NSInteger rowNum = 0;
-    if ([self isCurRewardStarted]) {
-        rowNum = (section == 0? 1:
-                  section == 1? [_curRewardP needToShowStagePay]? 1: 0:
-                  section == 2? 1:
-                  section == 3? MAX(1, _curRewardP.apply.coders.count):
-                  section == 4? [self isCurRewardRecruiting]? 0: MAX(1, _curRewardP.metro.roles.count):
-                  _curRewardP.filesToShow.count);
+    if (tableView == _myTableView) {
+        if (!_curRewardP.metro) {
+            return 0;
+        }
+        NSInteger rowNum = 0;
+        if ([self isCurRewardStarted]) {
+            rowNum = (section == 0? 1:
+                      section == 1? [_curRewardP needToShowStagePay]? 1: 0:
+                      section == 2? 1:
+                      section == 3? MAX(1, _curRewardP.apply.coders.count):
+                      section == 4? [self isCurRewardRecruiting]? 0: MAX(1, _curRewardP.metro.roles.count):
+                      _curRewardP.filesToShow.count);
+        }else{
+            rowNum = (section == 0? 1:
+                      section == 1? [_curRewardP needToShowStagePay]? 1: 0:
+                      section == 2? 1:
+                      section == 3? _curRewardP.basicInfo.version.integerValue != 0? 5: 3:
+                      _curRewardP.filesToShow.count);
+        }
+        return rowNum;
     }else{
-        rowNum = (section == 0? 1:
-                  section == 1? [_curRewardP needToShowStagePay]? 1: 0:
-                  section == 2? 1:
-                  section == 3? _curRewardP.basicInfo.version.integerValue != 0? 5: 3:
-                  _curRewardP.filesToShow.count);
+        return _cancelReasonList.count;
     }
-    return rowNum;
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    CGFloat headerHeight = 0;
-    CGFloat minHeight = 1.0/[UIScreen mainScreen].scale;
-    headerHeight = (section == 0? minHeight:
-                    section == 1? [_curRewardP needToShowStagePay]? 44: minHeight:
-                    section == 2? 10:
-                    section == 4? [self isCurRewardRecruiting]? minHeight: 44:
-                    44);
-    return headerHeight;
+    if (tableView == _myTableView) {
+        CGFloat headerHeight = 0;
+        CGFloat minHeight = 1.0/[UIScreen mainScreen].scale;
+        headerHeight = (section == 0? minHeight:
+                        section == 1? [_curRewardP needToShowStagePay]? 44: minHeight:
+                        section == 2? 10:
+                        section == 4? [self isCurRewardRecruiting]? minHeight: 44:
+                        44);
+        return headerHeight;
+    }else{
+        return 0;
+    }
+    
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView *headerV;
-    if (section == 1) {
-        if ([_curRewardP needToShowStagePay]) {
-            headerV = [self p_headerViewWithStr:@"资金动态"];
-            if (![_curRewardP isRewardOwner]) {//码市提醒
-                UIButton *tipBtn = [UIButton new];
-                tipBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-                [tipBtn setTitleColor:[UIColor colorWithHexString:@"0x999999"] forState:UIControlStateNormal];
-                [tipBtn setImage:[UIImage imageNamed:@"icon_info"] forState:UIControlStateNormal];
-                [tipBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 3, 0, -10)];
-                [tipBtn setTitle:@"码市提醒" forState:UIControlStateNormal];
-                [headerV addSubview:tipBtn];
-                [tipBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.centerY.height.equalTo(headerV);
-                    make.right.equalTo(headerV).offset(-15);
-                    make.width.mas_equalTo(80);
-                }];
-                WEAKSELF;
-                [tipBtn bk_addEventHandler:^(id sender) {
-                    EATipView *tipV = [EATipView instancetypeWithTitle:@"码市提醒您" tipStr:@"为保障您的利益，需求方需预先支付当前阶段款到开发宝，此阶段才正式启动。强烈建议在需求方支付当前阶段款后再进行阶段开发。如遇问题，请您及时联系需求方或码市客服。"];
-                    [tipV showInView:weakSelf.view];
-                } forControlEvents:UIControlEventTouchUpInside];
+    if (tableView == _myTableView) {
+        UIView *headerV;
+        if (section == 1) {
+            if ([_curRewardP needToShowStagePay]) {
+                headerV = [self p_headerViewWithStr:@"资金动态"];
+                if (![_curRewardP isRewardOwner]) {//码市提醒
+                    UIButton *tipBtn = [UIButton new];
+                    tipBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+                    [tipBtn setTitleColor:[UIColor colorWithHexString:@"0x999999"] forState:UIControlStateNormal];
+                    [tipBtn setImage:[UIImage imageNamed:@"icon_info"] forState:UIControlStateNormal];
+                    [tipBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 3, 0, -10)];
+                    [tipBtn setTitle:@"码市提醒" forState:UIControlStateNormal];
+                    [headerV addSubview:tipBtn];
+                    [tipBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.centerY.height.equalTo(headerV);
+                        make.right.equalTo(headerV).offset(-15);
+                        make.width.mas_equalTo(80);
+                    }];
+                    WEAKSELF;
+                    [tipBtn bk_addEventHandler:^(id sender) {
+                        EATipView *tipV = [EATipView instancetypeWithTitle:@"码市提醒您" tipStr:@"为保障您的利益，需求方需预先支付当前阶段款到开发宝，此阶段才正式启动。强烈建议在需求方支付当前阶段款后再进行阶段开发。如遇问题，请您及时联系需求方或码市客服。"];
+                        [tipV showInView:weakSelf.view];
+                    } forControlEvents:UIControlEventTouchUpInside];
+                }
+            }
+        }else{
+            if ([self isCurRewardStarted]) {
+                NSInteger status = _curRewardP.basicInfo.status.integerValue;
+                headerV = [self p_headerViewWithStr:(section == 3? status > RewardStatusRecruiting? @"码士分配": @"报名列表":
+                                                     section == 4? [self isCurRewardRecruiting]? nil: _curRewardP.basicInfo.managerName.length > 0? [NSString stringWithFormat:@"阶段列表 | 项目顾问：%@", _curRewardP.basicInfo.managerName]: @"阶段列表":
+                                                     section == 5? @"需求文档":
+                                                     nil)];
+            }else{
+                headerV = [self p_headerViewWithStr:(section == 3? @"项目描述":
+                                                     section == 4? @"需求文档":
+                                                     nil)];
             }
         }
+        return headerV ?: [UIView new];
     }else{
-        if ([self isCurRewardStarted]) {
-            NSInteger status = _curRewardP.basicInfo.status.integerValue;
-            headerV = [self p_headerViewWithStr:(section == 3? status > RewardStatusRecruiting? @"码士分配": @"报名列表":
-                                                 section == 4? [self isCurRewardRecruiting]? nil: _curRewardP.basicInfo.managerName.length > 0? [NSString stringWithFormat:@"阶段列表 | 项目顾问：%@", _curRewardP.basicInfo.managerName]: @"阶段列表":
-                                                 section == 5? @"需求文档":
-                                                 nil)];
-        }else{
-            headerV = [self p_headerViewWithStr:(section == 3? @"项目描述":
-                                                 section == 4? @"需求文档":
-                                                 nil)];
-        }
+        return nil;
     }
-    return headerV ?: [UIView new];
 }
 
 - (UIView *)p_headerViewWithStr:(NSString *)titleStr{
@@ -234,176 +255,192 @@
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 1.0/[UIScreen mainScreen].scale;
+    return (tableView != _myTableView)? 0: 1.0/[UIScreen mainScreen].scale;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    return [UIView new];
+    return (tableView != _myTableView)? nil: [UIView new];
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSInteger status = _curRewardP.basicInfo.status.integerValue;
-    if (indexPath.section == 0) {
-        RewardPrivateTopCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateTopCell forIndexPath:indexPath];
-        [cell setupWithReward:_curRewardP.basicInfo];
-        return cell;
-    }else if (indexPath.section == 1){
-        RewardPrivateStagePayCell *cell = [tableView dequeueReusableCellWithIdentifier:[_curRewardP isRewardOwner]? kCellIdentifier_RewardPrivateStagePayCell_0: kCellIdentifier_RewardPrivateStagePayCell_1 forIndexPath:indexPath];
-        cell.stagePay = _curRewardP.stagePay;
-        return cell;
-    }else if (indexPath.section == 2){
-        if (status == RewardStatusRejected ||
-            status == RewardStatusCanceled ||
-            status == RewardStatusPassed) {//提示语
-            RewardPrivateTipCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateTipCell forIndexPath:indexPath];
-            NSString *imageName = status == RewardStatusPassed? @"reward_privete_clock": @"reward_privete_tip";
-            NSString *tipStr = status == RewardStatusRejected? @"很遗憾，您发布的项目未通过": status == RewardStatusCanceled? @"您取消了该项目的发布": @"您发布的项目还未开始招募，请耐心等待";
-            NSString *subTipStr = (status != RewardStatusPassed && _curRewardP.basicInfo.version.integerValue != 0)? @"手机暂时不支持 「重新发布」 功能，请前往码市网站操作": nil;
-            WEAKSELF;
-            void (^buttonBlock)() = (status == RewardStatusPassed || _curRewardP.basicInfo.version.integerValue != 0)? nil: ^{
-                [weakSelf goToRePublish:nil];
-            };
-            
-            [cell setupImage:imageName tipStr:tipStr subTipStr:subTipStr buttonBlock:buttonBlock];
+    if (tableView == _myTableView) {
+        NSInteger status = _curRewardP.basicInfo.status.integerValue;
+        if (indexPath.section == 0) {
+            RewardPrivateTopCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateTopCell forIndexPath:indexPath];
+            [cell setupWithReward:_curRewardP.basicInfo];
             return cell;
-        }else{//地铁图
-            RewardPrivateMetroCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateMetroCell forIndexPath:indexPath];
-            cell.rewardP = _curRewardP;
+        }else if (indexPath.section == 1){
+            RewardPrivateStagePayCell *cell = [tableView dequeueReusableCellWithIdentifier:[_curRewardP isRewardOwner]? kCellIdentifier_RewardPrivateStagePayCell_0: kCellIdentifier_RewardPrivateStagePayCell_1 forIndexPath:indexPath];
+            cell.stagePay = _curRewardP.stagePay;
             return cell;
-        }
-    }else if (indexPath.section == 3){
-        if ([self isCurRewardStarted]) {//码士分配
-            if (_curRewardP.apply.coders.count > indexPath.row) {
-                RewardPrivateCoderCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateCoderCell forIndexPath:indexPath];
-                cell.curCoder = _curRewardP.apply.coders[indexPath.row];
+        }else if (indexPath.section == 2){
+            if (status == RewardStatusRejected ||
+                status == RewardStatusCanceled ||
+                status == RewardStatusPassed) {//提示语
+                RewardPrivateTipCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateTipCell forIndexPath:indexPath];
+                NSString *imageName = status == RewardStatusPassed? @"reward_privete_clock": @"reward_privete_tip";
+                NSString *tipStr = status == RewardStatusRejected? @"很遗憾，您发布的项目未通过": status == RewardStatusCanceled? @"您取消了该项目的发布": @"您发布的项目还未开始招募，请耐心等待";
+                NSString *subTipStr = (status != RewardStatusPassed && _curRewardP.basicInfo.version.integerValue != 0)? @"手机暂时不支持 「重新发布」 功能，请前往码市网站操作": nil;
+                WEAKSELF;
+                void (^buttonBlock)() = (status == RewardStatusPassed || _curRewardP.basicInfo.version.integerValue != 0)? nil: ^{
+                    [weakSelf goToRePublish:nil];
+                };
+                
+                [cell setupImage:imageName tipStr:tipStr subTipStr:subTipStr buttonBlock:buttonBlock];
                 return cell;
-            }else{
-                RewardPrivateCoderBlankCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateCoderBlankCell forIndexPath:indexPath];
+            }else{//地铁图
+                RewardPrivateMetroCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateMetroCell forIndexPath:indexPath];
+                cell.rewardP = _curRewardP;
                 return cell;
             }
-        }else{
-            //项目描述
-            if (_curRewardP.basicInfo.version.integerValue != 0) {
-                NSString *cellIdentifier = (indexPath.row == 0? kCellIdentifier_RewardPrivateDespCell:
-                                            indexPath.row == 1? kCellIdentifier_RewardPrivateExampleCell:
-                                            indexPath.row == 2? kCellIdentifier_RewardPrivatePlanCell:
-                                            indexPath.row == 3? kCellIdentifier_RewardPrivateRolesCell:
-                                            kCellIdentifier_RewardPrivateContactCell);
-                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-                [cell setValue:_curRewardP forKey:@"rewardP"];
-                return cell;
-            }else{
-                NSString *cellIdentifier = (indexPath.row == 0? kCellIdentifier_RewardPrivateBasicInfoCell:
-                                            indexPath.row == 1? kCellIdentifier_RewardPrivateDetailCell:
-                                            kCellIdentifier_RewardPrivateContactCell);
-                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-                [cell setValue:_curRewardP forKey:@"rewardP"];
-                if (indexPath.row == 1) {
-                    WEAKSELF;
-                    [(RewardPrivateDetailCell *)cell setFileClickedBlock:^(MartFile *clickedFile) {
-                        [weakSelf goToWebVCWithUrlStr:clickedFile.url title:clickedFile.filename];
-                    }];
+        }else if (indexPath.section == 3){
+            if ([self isCurRewardStarted]) {//码士分配
+                if (_curRewardP.apply.coders.count > indexPath.row) {
+                    RewardPrivateCoderCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateCoderCell forIndexPath:indexPath];
+                    cell.curCoder = _curRewardP.apply.coders[indexPath.row];
+                    return cell;
+                }else{
+                    RewardPrivateCoderBlankCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateCoderBlankCell forIndexPath:indexPath];
+                    return cell;
                 }
+            }else{
+                //项目描述
+                if (_curRewardP.basicInfo.version.integerValue != 0) {
+                    NSString *cellIdentifier = (indexPath.row == 0? kCellIdentifier_RewardPrivateDespCell:
+                                                indexPath.row == 1? kCellIdentifier_RewardPrivateExampleCell:
+                                                indexPath.row == 2? kCellIdentifier_RewardPrivatePlanCell:
+                                                indexPath.row == 3? kCellIdentifier_RewardPrivateRolesCell:
+                                                kCellIdentifier_RewardPrivateContactCell);
+                    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+                    [cell setValue:_curRewardP forKey:@"rewardP"];
+                    return cell;
+                }else{
+                    NSString *cellIdentifier = (indexPath.row == 0? kCellIdentifier_RewardPrivateBasicInfoCell:
+                                                indexPath.row == 1? kCellIdentifier_RewardPrivateDetailCell:
+                                                kCellIdentifier_RewardPrivateContactCell);
+                    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+                    [cell setValue:_curRewardP forKey:@"rewardP"];
+                    if (indexPath.row == 1) {
+                        WEAKSELF;
+                        [(RewardPrivateDetailCell *)cell setFileClickedBlock:^(MartFile *clickedFile) {
+                            [weakSelf goToWebVCWithUrlStr:clickedFile.url title:clickedFile.filename];
+                        }];
+                    }
+                    return cell;
+                }
+            }
+        }else if (indexPath.section == 4 && [self isCurRewardStarted]){//阶段列表
+            if (_curRewardP.metro.roles.count > indexPath.row) {
+                RewardPrivateCoderStagesCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateCoderStagesCell forIndexPath:indexPath];
+                cell.curRole = _curRewardP.metro.roles[indexPath.row];
+                WEAKSELF;
+                cell.buttonBlock = ^(RewardMetroRole *role, RewardMetroRoleStage *stage, RewardCoderStageViewAction actionIndex){
+                    [weakSelf doStageAction:actionIndex stage:stage role:role];
+                };
+                cell.stageHeaderTappedBlock = ^(RewardMetroRole *role, RewardMetroRoleStage *stage){
+                    stage.isExpand = !stage.isExpand;
+                    [weakSelf.myTableView reloadData];
+                };
+                return cell;
+            }else{
+                RewardPrivateCoderStagesBlankCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateCoderStagesBlankCell forIndexPath:indexPath];
                 return cell;
             }
-        }
-    }else if (indexPath.section == 4 && [self isCurRewardStarted]){//阶段列表
-        if (_curRewardP.metro.roles.count > indexPath.row) {
-            RewardPrivateCoderStagesCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateCoderStagesCell forIndexPath:indexPath];
-            cell.curRole = _curRewardP.metro.roles[indexPath.row];
-            WEAKSELF;
-            cell.buttonBlock = ^(RewardMetroRole *role, RewardMetroRoleStage *stage, RewardCoderStageViewAction actionIndex){
-                [weakSelf doStageAction:actionIndex stage:stage role:role];
-            };
-            cell.stageHeaderTappedBlock = ^(RewardMetroRole *role, RewardMetroRoleStage *stage){
-                stage.isExpand = !stage.isExpand;
-                [weakSelf.myTableView reloadData];
-            };
-            return cell;
-        }else{
-            RewardPrivateCoderStagesBlankCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateCoderStagesBlankCell forIndexPath:indexPath];
+        }else{//文件列表
+            RewardPrivateFileCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateFileCell forIndexPath:indexPath];
+            cell.curFile = _curRewardP.filesToShow.count > indexPath.row? _curRewardP.filesToShow[indexPath.row]: nil;
             return cell;
         }
-    }else{//文件列表
-        RewardPrivateFileCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateFileCell forIndexPath:indexPath];
-        cell.curFile = _curRewardP.filesToShow.count > indexPath.row? _curRewardP.filesToShow[indexPath.row]: nil;
+    }else{
+        RewardCancelReasonCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardCancelReasonCell forIndexPath:indexPath];
+        cell.reasonL.text = _cancelReasonList[indexPath.row];
+        cell.selected = [_curRewardP.basicInfo.cancelReason isEqualToString:cell.reasonL.text];
         return cell;
     }
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section <= 2) {
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:15];
-    }else if (indexPath.section == 3){
-        if ([self isCurRewardStarted]) {
+    if (tableView == _myTableView) {
+        if (indexPath.section <= 2) {
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:15];
-        }else{
+        }else if (indexPath.section == 3){
+            if ([self isCurRewardStarted]) {
+                [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:15];
+            }else{
+                [cell addLineUp:indexPath.row == 0 andDown:indexPath.row == [self tableView:_myTableView numberOfRowsInSection:indexPath.section] - 1 andColor:[UIColor colorWithHexString:@"0xdddddd"]];
+            }
+        }else if (indexPath.section >= 4){
             [cell addLineUp:indexPath.row == 0 andDown:indexPath.row == [self tableView:_myTableView numberOfRowsInSection:indexPath.section] - 1 andColor:[UIColor colorWithHexString:@"0xdddddd"]];
         }
-    }else if (indexPath.section >= 4){
-        [cell addLineUp:indexPath.row == 0 andDown:indexPath.row == [self tableView:_myTableView numberOfRowsInSection:indexPath.section] - 1 andColor:[UIColor colorWithHexString:@"0xdddddd"]];
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat cellHeight = 0;
-    NSInteger status = _curRewardP.basicInfo.status.integerValue;
-    if (indexPath.section == 0) {
-        cellHeight = [RewardPrivateTopCell cellHeight];
-    }else if (indexPath.section == 1){
-        cellHeight = [RewardPrivateStagePayCell cellHeight];
-    }else if (indexPath.section == 2){
-        if (status == RewardStatusRejected ||
-            status == RewardStatusCanceled ||
-            status == RewardStatusPassed) {//提示语
-            cellHeight = [RewardPrivateTipCell cellHeight];
-        }else{//地铁图
-            cellHeight = [RewardPrivateMetroCell cellHeightWithObj:_curRewardP];
-        }
-    }else if (indexPath.section == 3){
-        if ([self isCurRewardStarted]) {//码士分配
-            cellHeight = _curRewardP.apply.coders.count > indexPath.row? [RewardPrivateCoderCell cellHeight]: [RewardPrivateCoderBlankCell cellHeight];
-        }else{
-            //项目描述
-            if (_curRewardP.basicInfo.version.integerValue != 0) {
-                cellHeight = (indexPath.row == 0? [RewardPrivateDespCell cellHeightWithObj:_curRewardP]:
-                              indexPath.row == 1? [RewardPrivateExampleCell cellHeightWithObj:_curRewardP]:
-                              indexPath.row == 2? [RewardPrivatePlanCell cellHeightWithObj:_curRewardP]:
-                              indexPath.row == 3? [RewardPrivateRolesCell cellHeightWithObj:_curRewardP]:
-                              [RewardPrivateContactCell cellHeightWithObj:_curRewardP]);
-            }else{
-                cellHeight = (indexPath.row == 0? [RewardPrivateBasicInfoCell cellHeight]:
-                              indexPath.row == 1? [RewardPrivateDetailCell cellHeightWithObj:_curRewardP]:
-                              [RewardPrivateContactCell cellHeightWithObj:_curRewardP]);
+    if (tableView == _myTableView) {
+        NSInteger status = _curRewardP.basicInfo.status.integerValue;
+        if (indexPath.section == 0) {
+            cellHeight = [RewardPrivateTopCell cellHeight];
+        }else if (indexPath.section == 1){
+            cellHeight = [RewardPrivateStagePayCell cellHeight];
+        }else if (indexPath.section == 2){
+            if (status == RewardStatusRejected ||
+                status == RewardStatusCanceled ||
+                status == RewardStatusPassed) {//提示语
+                cellHeight = [RewardPrivateTipCell cellHeight];
+            }else{//地铁图
+                cellHeight = [RewardPrivateMetroCell cellHeightWithObj:_curRewardP];
             }
+        }else if (indexPath.section == 3){
+            if ([self isCurRewardStarted]) {//码士分配
+                cellHeight = _curRewardP.apply.coders.count > indexPath.row? [RewardPrivateCoderCell cellHeight]: [RewardPrivateCoderBlankCell cellHeight];
+            }else{
+                //项目描述
+                if (_curRewardP.basicInfo.version.integerValue != 0) {
+                    cellHeight = (indexPath.row == 0? [RewardPrivateDespCell cellHeightWithObj:_curRewardP]:
+                                  indexPath.row == 1? [RewardPrivateExampleCell cellHeightWithObj:_curRewardP]:
+                                  indexPath.row == 2? [RewardPrivatePlanCell cellHeightWithObj:_curRewardP]:
+                                  indexPath.row == 3? [RewardPrivateRolesCell cellHeightWithObj:_curRewardP]:
+                                  [RewardPrivateContactCell cellHeightWithObj:_curRewardP]);
+                }else{
+                    cellHeight = (indexPath.row == 0? [RewardPrivateBasicInfoCell cellHeight]:
+                                  indexPath.row == 1? [RewardPrivateDetailCell cellHeightWithObj:_curRewardP]:
+                                  [RewardPrivateContactCell cellHeightWithObj:_curRewardP]);
+                }
+            }
+        }else if (indexPath.section == 4 && [self isCurRewardStarted]){//阶段列表
+            cellHeight = _curRewardP.metro.roles.count > indexPath.row? [RewardPrivateCoderStagesCell cellHeightWithObj:_curRewardP.metro.roles[indexPath.row]]: [RewardPrivateCoderStagesBlankCell cellHeight];
+        }else{//文件列表
+            cellHeight = [RewardPrivateFileCell cellHeight];
         }
-    }else if (indexPath.section == 4 && [self isCurRewardStarted]){//阶段列表
-        cellHeight = _curRewardP.metro.roles.count > indexPath.row? [RewardPrivateCoderStagesCell cellHeightWithObj:_curRewardP.metro.roles[indexPath.row]]: [RewardPrivateCoderStagesBlankCell cellHeight];
-    }else{//文件列表
-        cellHeight = [RewardPrivateFileCell cellHeight];
+    }else{
+        cellHeight = 40.0;
     }
     return cellHeight;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    if (indexPath.section == 3 &&
-        [self isCurRewardStarted] &&
-        _curRewardP.apply.coders.count > indexPath.row) {//码士分配
-        RewardApplyCoder *curCoder = _curRewardP.apply.coders[indexPath.row];
-        ApplyCoderViewController *vc = [ApplyCoderViewController vcWithCoder:curCoder reward:_curRewardP.basicInfo];
-        [self.navigationController pushViewController:vc animated:YES];
-    }else if (((indexPath.section == 5 && [self isCurRewardStarted]) ||
-               (indexPath.section == 4 && ![self isCurRewardStarted])) &&
-              _curRewardP.filesToShow.count > indexPath.row){
-        MartFile *curFile = _curRewardP.filesToShow[indexPath.row];
-        if (![curFile isKindOfClass:[MartFile class]]) {
-            [NSObject showHudTipStr:@"无法查看"];
-        }else{
-            [self goToWebVCWithUrlStr:curFile.url title:curFile.filename];
+    if (tableView == _myTableView) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        if (indexPath.section == 3 &&
+            [self isCurRewardStarted] &&
+            _curRewardP.apply.coders.count > indexPath.row) {//码士分配
+            RewardApplyCoder *curCoder = _curRewardP.apply.coders[indexPath.row];
+            ApplyCoderViewController *vc = [ApplyCoderViewController vcWithCoder:curCoder reward:_curRewardP.basicInfo];
+            [self.navigationController pushViewController:vc animated:YES];
+        }else if (((indexPath.section == 5 && [self isCurRewardStarted]) ||
+                   (indexPath.section == 4 && ![self isCurRewardStarted])) &&
+                  _curRewardP.filesToShow.count > indexPath.row){
+            MartFile *curFile = _curRewardP.filesToShow[indexPath.row];
+            if (![curFile isKindOfClass:[MartFile class]]) {
+                [NSObject showHudTipStr:@"无法查看"];
+            }else{
+                [self goToWebVCWithUrlStr:curFile.url title:curFile.filename];
+            }
         }
+    }else{
+        _curRewardP.basicInfo.cancelReason = _cancelReasonList[indexPath.row];
     }
 }
 
@@ -577,7 +614,7 @@
         (status == RewardStatusRecruiting && _curRewardP.basicInfo.version.integerValue == 1)) {
         [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"取消发布"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0){
-                [weakSelf cancelPublish];
+                [weakSelf cancelPublishTip];
             }
         }] showInView:self.view];
     }
@@ -587,7 +624,7 @@
     [MobClick event:kUmeng_Event_UserAction label:@"取消发布"];
     __weak typeof(self) weakSelf = self;
     [NSObject showHUDQueryStr:@"正在取消项目..."];
-    [[Coding_NetAPIManager sharedManager] post_CancelRewardId:_curRewardP.basicInfo.id block:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] post_CancelReward:_curRewardP.basicInfo block:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data) {
             [NSObject showHudTipStr:@"项目已取消"];
@@ -616,6 +653,28 @@
         vc.curReward = reward;
         [self.navigationController pushViewController:vc animated:YES];
     }
+}
+
+#pragma mark CancelReasonV
+- (void)cancelPublishTip{
+    if (!_cancelReasonTipV) {
+        _cancelReasonList = @[@"不想做了",
+                              @"没有合适的开发者",
+                              @"预算不够",
+                              @"需求有较大变更，暂时不做了",
+                              @"其它原因"];
+        CGFloat demoHeight = 50 + 45 + 20 + 40* _cancelReasonList.count;
+        _cancelReasonV.size = CGSizeMake(kScreen_Width - 30, demoHeight);
+        _cancelReasonTipV = [EAXibTipView instancetypeWithXibView:_cancelReasonV];
+    }
+    [_cancelReasonTipV showInView:self.view];
+}
+- (IBAction)cancelBtnReasonClicked:(id)sender {
+    [_cancelReasonTipV dismiss];
+}
+- (IBAction)confirmBtnReasonClicked:(id)sender {
+    [_cancelReasonTipV dismiss];
+    [self cancelPublish];
 }
 
 
