@@ -106,6 +106,7 @@
     params[@"survey_extra"] = _survey_extra;
     params[@"country"] = _country;
     params[@"phoneCountryCode"] = _phoneCountryCode;
+    params[@"industry"] = _industry;
     if ([_id isKindOfClass:[NSNumber class]]) {
         params[@"id"] = _id;
     }

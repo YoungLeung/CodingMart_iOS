@@ -8,7 +8,9 @@
 
 #import "BaseTableViewController.h"
 #import "SkillPro.h"
+#import "Reward.h"
 
 @interface ProjectIndustryListViewController : BaseTableViewController
 @property (strong, nonatomic) SkillPro *skillPro;
+@property (strong, nonatomic) Reward *curReward;
 @end

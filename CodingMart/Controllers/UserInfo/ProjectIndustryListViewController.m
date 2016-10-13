@@ -20,7 +20,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    _choosedList = [_skillPro.industry componentsSeparatedByString:@","].mutableCopy ?: @[].mutableCopy;
+    if (_skillPro) {
+        _choosedList = [_skillPro.industry componentsSeparatedByString:@","].mutableCopy ?: @[].mutableCopy;
+    }else if (_curReward){
+        _choosedList = [_curReward.industry componentsSeparatedByString:@","].mutableCopy ?: @[].mutableCopy;
+    }
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"确定" target:self action:@selector(confirmBtnClicked)];
     [self.tableView eaAddPullToRefreshAction:@selector(refresh) onTarget:self];
     [self refresh];
@@ -42,14 +46,19 @@
 }
 
 - (void)confirmBtnClicked{
-    _skillPro.industry = [_choosedList componentsJoinedByString:@","];
     NSMutableArray *nameList = @[].mutableCopy;
     for (ProjectIndustry *industry in _industryList) {
         if ([_choosedList containsObject:industry.id.stringValue]) {
             [nameList addObject:industry.name];
         }
     }
-    _skillPro.industryName = [nameList componentsJoinedByString:@","];
+    if (_skillPro) {
+        _skillPro.industry = [_choosedList componentsJoinedByString:@","];
+        _skillPro.industryName = [nameList componentsJoinedByString:@","];
+    }else if (_curReward){
+        _curReward.industry = [_choosedList componentsJoinedByString:@","];
+        _curReward.industryName = [nameList componentsJoinedByString:@","];
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 

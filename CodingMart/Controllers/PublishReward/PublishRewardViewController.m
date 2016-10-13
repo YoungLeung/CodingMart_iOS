@@ -22,6 +22,7 @@
 #import "CountryCodeListViewController.h"
 #import "EATipView.h"
 #import "QuickLoginViewController.h"
+#import "ProjectIndustryListViewController.h"
 
 @interface PublishRewardViewController ()
 @property (strong, nonatomic) Reward *rewardToBePublished;
@@ -30,6 +31,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *typeL;
 @property (weak, nonatomic) IBOutlet UITextField *budgetL;
 @property (weak, nonatomic) IBOutlet UITextField *nameF;
+@property (weak, nonatomic) IBOutlet UITextField *industryNameL;
 
 @property (weak, nonatomic) IBOutlet UIPlaceHolderTextView *descriptionTextView;
 
@@ -79,12 +81,13 @@
 - (void)setupRAC{
     __weak typeof(self) weakSelf = self;
     [RACObserve(self, rewardToBePublished.type) subscribeNext:^(NSNumber *type) {
-            weakSelf.typeL.textColor = [UIColor colorWithHexString:type? @"0x000000": @"0xCCCCCC"];
-            weakSelf.typeL.text = type? [[NSObject rewardTypeLongDict] findKeyFromStrValue:type.stringValue]: @"请选择";
+        weakSelf.typeL.text = type? [[NSObject rewardTypeLongDict] findKeyFromStrValue:type.stringValue]: @"";
     }];
     [RACObserve(self, rewardToBePublished.budget) subscribeNext:^(NSNumber *budget) {
-        weakSelf.budgetL.textColor = [UIColor colorWithHexString:budget? @"0x000000": @"0xCCCCCC"];
-        weakSelf.budgetL.text = budget? weakSelf.budgetList[budget.integerValue% 10]: @"请选择";
+        weakSelf.budgetL.text = budget? weakSelf.budgetList[budget.integerValue% 10]: @"";
+    }];
+    [RACObserve(self, rewardToBePublished.industryName) subscribeNext:^(NSString *value) {
+        weakSelf.industryNameL.text = value;
     }];
     
     _nameF.text = _rewardToBePublished.name;
@@ -123,6 +126,7 @@
     }];
     RAC(self, nextStepBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, rewardToBePublished.type),
                                                                 RACObserve(self, rewardToBePublished.budget),
+                                                                RACObserve(self, rewardToBePublished.industry),
                                                                 RACObserve(self, rewardToBePublished.name),
                                                                 RACObserve(self, rewardToBePublished.description_mine),
                                                                 RACObserve(self, rewardToBePublished.contact_name),
@@ -131,13 +135,14 @@
                                                                 RACObserve(self, rewardToBePublished.contact_mobile_code)]
                                                        reduce:^id(NSNumber *type,
                                                                   NSNumber *budget,
+                                                                  NSString *industry,
                                                                   NSString *name,
                                                                   NSString *description_mine,
                                                                   NSString *contact_name,
                                                                   NSString *contact_email,
                                                                   NSString *contact_mobile,
                                                                   NSString *contact_mobile_code){
-                                                           return @(type && budget && name.length > 0 && description_mine.length > 0 && contact_name.length > 0 && contact_email.length > 0 &&
+                                                           return @(type && budget && industry.length > 0 && name.length > 0 && description_mine.length > 0 && contact_name.length > 0 && contact_email.length > 0 &&
                                                                     (!_isPhoneNeeded || (contact_mobile.length > 0 && contact_mobile_code.length > 0)));
                                                        }];
 }
@@ -326,34 +331,34 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0 && [@[@2, @3] containsObject:@(indexPath.row)]) {
         NSArray *list;
-        NSInteger curRow;
-        if (indexPath.row == 1) {
+        NSInteger curRow = 0;
+        if (indexPath.row == 2) {
             list = _typeList;
             if (_rewardToBePublished.type) {
                 NSString *key = [[NSObject rewardTypeLongDict] findKeyFromStrValue:_rewardToBePublished.type.stringValue];
                 curRow = [list indexOfObject:key];
-                if (curRow == NSNotFound) {
-                    curRow = 1;
-                }
-            }else{
-                curRow = 0;
+                curRow = curRow != NSNotFound? curRow: 0;
             }
-        }else{
+        }else if (indexPath.row == 3){
             list = _budgetList;
             curRow = _rewardToBePublished.budget? _rewardToBePublished.budget.integerValue% 10: 0;
         }
         __weak typeof(self) weakSelf = self;
         [ActionSheetStringPicker showPickerWithTitle:nil rows:@[list] initialSelection:@[@(curRow)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
             NSNumber *selectedRow = selectedIndex.firstObject;
-            if (indexPath.row == 1) {
+            if (indexPath.row == 2) {
                 NSString *value = [[NSObject rewardTypeLongDict] objectForKey:list[selectedRow.integerValue]];
                 weakSelf.rewardToBePublished.type = @(value.integerValue);
-            }else{
+            }else if (indexPath.row == 3){
                 weakSelf.rewardToBePublished.budget = @(selectedRow.integerValue + 10);
             }
         } cancelBlock:nil origin:self.view];
+    }else if (indexPath.section == 0 && indexPath.row == 1){
+        ProjectIndustryListViewController *vc = [ProjectIndustryListViewController vcInStoryboard:@"UserInfo"];
+        vc.curReward = _rewardToBePublished;
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
