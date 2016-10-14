@@ -205,6 +205,8 @@
         __weak typeof(self) weakSelf = self;
         vc.complateBlock = ^(NSString *email){
             weakSelf.originalUserInfo.email = weakSelf.userInfo.email = email;
+            weakSelf.originalUserInfo.email_validation = weakSelf.userInfo.email_validation = @YES;
+            weakSelf.emailVerifiedL.text = @"已验证";
             weakSelf.emailF.text = email;
         };
     }else if ([segue.destinationViewController isKindOfClass:[SettingWorkPhoneViewController class]]){
@@ -215,6 +217,8 @@
             weakSelf.originalUserInfo.country = weakSelf.userInfo.country = country;
             weakSelf.originalUserInfo.phoneCountryCode = weakSelf.userInfo.phoneCountryCode = phoneCountryCode;
             weakSelf.originalUserInfo.mobile = weakSelf.userInfo.mobile = mobile;
+            weakSelf.originalUserInfo.phone_validation = weakSelf.userInfo.phone_validation = @YES;
+            weakSelf.phoneVerifiedL.text = @"已验证";
             weakSelf.phoneF.text = [NSString stringWithFormat:@"(%@) %@",phoneCountryCode, mobile];
         };
     }
