@@ -41,11 +41,11 @@
 - (void)updateUI{
     BOOL isDeveloper = _loginIdentity.integerValue == 1;
     _developerBtn.backgroundColor = isDeveloper? kColorBrandBlue: [UIColor clearColor];
-    [_developerBtn doBorderWidth:isDeveloper? 0: 1 color:[UIColor whiteColor] cornerRadius:_developerBtn.height/2];
+    [_developerBtn doBorderWidth:isDeveloper? 0: 1 color:[UIColor whiteColor] cornerRadius:22];
     
     BOOL isDemand = _loginIdentity.integerValue == 2;
     _demandBtn.backgroundColor = isDemand? kColorBrandBlue: [UIColor clearColor];
-    [_demandBtn doBorderWidth:isDemand? 0: 1 color:[UIColor whiteColor] cornerRadius:_demandBtn.height/2];
+    [_demandBtn doBorderWidth:isDemand? 0: 1 color:[UIColor whiteColor] cornerRadius:22];
 
     _doneBtn.enabled = isDeveloper || isDemand;
     [_doneBtn setImage:[UIImage imageNamed:_doneBtn.enabled? @"button_next_enable": @"button_next_disable"] forState:UIControlStateNormal];
