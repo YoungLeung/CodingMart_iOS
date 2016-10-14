@@ -156,7 +156,7 @@
                       section == 1? [_curRewardP needToShowStagePay]? 1: 0:
                       section == 2? 1:
                       section == 3? MAX(1, _curRewardP.apply.coders.count):
-                      section == 4? [self isCurRewardRecruiting]? 0: MAX(1, _curRewardP.metro.roles.count):
+                      section == 4? MAX(1, _curRewardP.metro.roles.count):
                       _curRewardP.filesToShow.count);
         }else{
             rowNum = (section == 0? 1:
@@ -179,7 +179,7 @@
         headerHeight = (section == 0? minHeight:
                         section == 1? [_curRewardP needToShowStagePay]? 44: minHeight:
                         section == 2? 10:
-                        section == 4? [self isCurRewardRecruiting]? minHeight: 44:
+                        section == 4? 44:
                         44);
         return headerHeight;
     }else{
@@ -218,7 +218,7 @@
             if ([self isCurRewardStarted]) {
                 NSInteger status = _curRewardP.basicInfo.status.integerValue;
                 headerV = [self p_headerViewWithStr:(section == 3? status > RewardStatusRecruiting? @"码士分配": @"报名列表":
-                                                     section == 4? [self isCurRewardRecruiting]? nil: _curRewardP.basicInfo.managerName.length > 0? [NSString stringWithFormat:@"阶段列表 | 项目顾问：%@", _curRewardP.basicInfo.managerName]: @"阶段列表":
+                                                     section == 4? _curRewardP.basicInfo.managerName.length > 0? [NSString stringWithFormat:@"阶段列表 | 项目顾问：%@", _curRewardP.basicInfo.managerName]: @"阶段列表":
                                                      section == 5? @"需求文档":
                                                      nil)];
             }else{
