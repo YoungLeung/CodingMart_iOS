@@ -80,11 +80,11 @@
     [_nameF.rac_textSignal subscribeNext:^(NSString *value) {
         weakSelf.pro.project_name = value;
     }];
-    [RACObserve(self, pro.start_time) subscribeNext:^(NSDate *date) {
-        weakSelf.startL.text = [date stringWithFormat:@"yyyy-MM-dd"];
+    [RACObserve(self, pro.start_time_numerical) subscribeNext:^(NSString *dateStr) {
+        weakSelf.startL.text = dateStr;
     }];
     [RACObserve(self, pro.until_now) subscribeNext:^(id x) {
-        weakSelf.finishL.text = weakSelf.pro.until_now.boolValue? @"至今": [weakSelf.pro.finish_time stringWithFormat:@"yyyy-MM-dd"];
+        weakSelf.finishL.text = weakSelf.pro.until_now.boolValue? @"至今": weakSelf.pro.finish_time_numerical;
     }];
     [_descriptionT.rac_textSignal subscribeNext:^(NSString *value) {
         weakSelf.pro.description_mine = value;
@@ -118,8 +118,9 @@
 - (IBAction)startBtnClicked:(id)sender {
     [self.view endEditing:YES];
     WEAKSELF;
-    ActionSheetDatePicker *picker = [[ActionSheetDatePicker alloc] initWithTitle:@"起始时间" datePickerMode:UIDatePickerModeDate selectedDate:_pro.start_time ?:[NSDate date] doneBlock:^(ActionSheetDatePicker *picker, NSDate *selectedDate, id origin) {
-        weakSelf.pro.start_time = selectedDate;
+    
+    ActionSheetDatePicker *picker = [[ActionSheetDatePicker alloc] initWithTitle:@"起始时间" datePickerMode:UIDatePickerModeDate selectedDate:[NSDate dateFromString:_pro.start_time_numerical withFormat:@"yyyy-MM-dd"] ?:[NSDate date] doneBlock:^(ActionSheetDatePicker *picker, NSDate *selectedDate, id origin) {
+        weakSelf.pro.start_time_numerical = [selectedDate stringWithFormat:@"yyyy-MM-dd"];
     } cancelBlock:nil origin:self.view];
     picker.maximumDate = [NSDate date];
     [picker showActionSheetPicker];
@@ -128,8 +129,8 @@
 - (IBAction)finishBtnClicked:(id)sender {
     [self.view endEditing:YES];
     WEAKSELF;
-    ActionSheetDatePicker *picker = [[ActionSheetDatePicker alloc] initWithTitle:@"结束时间" datePickerMode:UIDatePickerModeDate selectedDate:_pro.finish_time ?:[NSDate date] doneBlock:^(ActionSheetDatePicker *picker, NSDate *selectedDate, id origin) {
-        weakSelf.pro.finish_time = selectedDate;
+    ActionSheetDatePicker *picker = [[ActionSheetDatePicker alloc] initWithTitle:@"结束时间" datePickerMode:UIDatePickerModeDate selectedDate:[NSDate dateFromString:_pro.finish_time_numerical withFormat:@"yyyy-MM-dd"] ?:[NSDate date] doneBlock:^(ActionSheetDatePicker *picker, NSDate *selectedDate, id origin) {
+        weakSelf.pro.finish_time_numerical = [selectedDate stringWithFormat:@"yyyy-MM-dd"];
         weakSelf.pro.until_now = @(NO);
     } cancelBlock:^(ActionSheetDatePicker *picker) {
         if (picker.cancelButtonClicked) {
@@ -157,7 +158,13 @@
 
 - (IBAction)saveBtnClicked:(id)sender {
     NSString *tipStr = nil;
-    NSString *someThingEmpty = _pro.project_name.length <= 0? @"项目名称": !_pro.start_time? @"起始时间": (!_pro.finish_time && !_pro.until_now.boolValue)? @"结束时间": _pro.description_mine.length <= 0? @"项目描述": _pro.duty.length <= 0? @"我的职责": nil;
+    NSString *someThingEmpty = (_pro.project_name.length <= 0? @"项目名称":
+                                !_pro.projectType? @"项目类型":
+                                _pro.start_time_numerical.length <= 0? @"起始时间":
+                                (_pro.finish_time_numerical.length <= 0 && !_pro.until_now.boolValue)? @"结束时间":
+                                _pro.industry.length <= 0? @"行业标签":
+                                _pro.description_mine.length <= 0? @"项目描述":
+                                _pro.duty.length <= 0? @"我的职责": nil);
     if (someThingEmpty) {
         tipStr = [NSString stringWithFormat:@"请填写%@", someThingEmpty];
     }else if (_pro.description_mine.length < 100 || _pro.description_mine.length > 2000){
