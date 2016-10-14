@@ -43,7 +43,6 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 }
 - (void)viewDidLoad{
     [super viewDidLoad];
-    self.title = @"完善资料";
     _tipHeaderV.height = 0;
     [self getUserinfo];
     if ([FunctionTipsManager needToTip:kFunctionTipStr_ShenFenRenZheng]) {
