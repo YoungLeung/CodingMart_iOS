@@ -80,7 +80,7 @@
                            @"0x2FAEEA",
                            @"0xBACDD8",
                            @"0x666666",
-                           @"0x4289DB",
+                           @"0x6F58E4",
                            ];
     }
     if (textHexStrList.count > _reward.status.integerValue) {

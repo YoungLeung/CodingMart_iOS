@@ -157,4 +157,7 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
         return 20;
     }
 }
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    cell.separatorInset = UIEdgeInsetsMake(0, 20, 0, 0);
+}
 @end
