@@ -22,7 +22,7 @@
     _record = record;
     _sourceL.text = _record.source;
     _amountL.text = _record.amount;
-    _dataL.text = [_record.createdAt stringWithFormat:@"yyyy-MM-dd"];
+    _dataL.text = [_record.updatedAt stringWithFormat:@"yyyy-MM-dd"];
 }
 
 + (CGFloat)cellHeight{

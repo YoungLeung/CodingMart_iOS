@@ -47,7 +47,11 @@ static NSDictionary *statusNameDict, *orderTypeNameDict, *actionSymbolDict;
                               @"Refund": @"退款",
                               @"EventPayment": @"活动出账",
                               @"EventDeposit": @"活动入账",
-                              @"ApplyContact": @"项目申请联系信息",};
+                              @"SystemDeduct": @"系统扣款",
+                              @"SystemRemit": @"系统打款",
+                              @"ApplyContactDeduct": @"查看开发者联系信息",
+                              @"ApplyContactRemit": @"查看开发者联系信息",};
+
     }
     if (!actionSymbolDict) {
         actionSymbolDict = @{@"UnknownOType": @"?",
@@ -60,7 +64,11 @@ static NSDictionary *statusNameDict, *orderTypeNameDict, *actionSymbolDict;
                              @"Refund": @"+",
                              @"EventPayment": @"-",
                              @"EventDeposit": @"+",
-                             @"ApplyContact": @"-",};
+                             @"ApplyContact": @"-",
+                             @"SystemDeduct": @"-",
+                             @"SystemRemit": @"+",
+                             @"ApplyContactDeduct": @"-",
+                             @"ApplyContactRemit": @"+",};
     }
     _order = order;
     
