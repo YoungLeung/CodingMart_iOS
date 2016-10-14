@@ -548,7 +548,7 @@
 - (void)post_UserInfoVerifyCodeWithMobile:(NSString *)mobile phoneCountryCode:(NSString *)phoneCountryCode block:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/userinfo/send_verify_code_with_country";
     NSDictionary *params = @{@"mobile": mobile,
-                             @"phoneCountryCode": phoneCountryCode};
+                             @"phoneCountryCode": phoneCountryCode ?: @"+86"};
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         block(data, error);
     }];

@@ -49,7 +49,7 @@
     sender.enabled = NO;
     NSString *path = @"api/userinfo/send_verify_code_with_country";
     NSDictionary *params = @{@"mobile": _psd.mobile,
-                             @"phoneCountryCode": _psd.phoneCountryCode};
+                             @"phoneCountryCode": _psd.phoneCountryCode ?: @"+86"};
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             [NSObject showHudTipStr:@"验证码发送成功"];
