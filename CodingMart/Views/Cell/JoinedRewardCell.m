@@ -71,10 +71,13 @@
                            @"0x2FAEEA",
                            @"0xBACDD8",
                            @"0x666666",
+                           @"0x6F58E4",
                            ];
     }
-    _statusL.borderColor =
-    _statusL.textColor = [UIColor colorWithHexString:textHexStrList[_reward.status.integerValue]];
+    if (textHexStrList.count > _reward.status.integerValue) {
+        _statusL.borderColor =
+        _statusL.textColor = [UIColor colorWithHexString:textHexStrList[_reward.status.integerValue]];
+    }
     _statusL.text = _reward.statusDisplay;
     _applyStatusL.text = [[NSObject applyStatusDict] findKeyFromStrValue:_reward.apply_status.stringValue];
     _numL.text = _reward.status.integerValue == RewardStatusRecruiting? [NSString stringWithFormat:@"%@人报名",_reward.apply_count.stringValue]: nil;
