@@ -80,9 +80,12 @@
                            @"0x2FAEEA",
                            @"0xBACDD8",
                            @"0x666666",
+                           @"0x4289DB",
                            ];
     }
-    _statusL.textColor = [UIColor colorWithHexString:textHexStrList[_reward.status.integerValue]];
+    if (textHexStrList.count > _reward.status.integerValue) {
+        _statusL.textColor = [UIColor colorWithHexString:textHexStrList[_reward.status.integerValue]];
+    }
     _allPaidV.hidden = !(_reward.balance.floatValue == 0 && _reward.price.floatValue > 0);
     _rewardNumL.text = [NSString stringWithFormat:@" No.%@ ", _reward.id.stringValue];
     _numL.text = [NSString stringWithFormat:@"%@人报名，%@人浏览",_reward.apply_count, _reward.visitCount];
