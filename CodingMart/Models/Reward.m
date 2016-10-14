@@ -31,6 +31,9 @@
 - (NSNumber *)status{
     return _status ?: _reward_status;
 }
+- (NSNumber *)apply_status{
+    return _apply_status.integerValue < 5? _apply_status: @(JoinStatusChecked);
+}
 - (NSString *)payMoney{
     return _payMoney ?: _balance.stringValue;
 }
