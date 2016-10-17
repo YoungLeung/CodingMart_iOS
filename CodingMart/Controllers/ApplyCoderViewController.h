@@ -8,8 +8,9 @@
 
 #import "BaseTableViewController.h"
 #import "RewardApplyCoder.h"
-#import "Reward.h"
+#import "RewardPrivate.h"
 
-@interface ApplyCoderViewController : BaseTableViewController
-+ (instancetype)vcWithCoder:(RewardApplyCoder *)coder reward:(Reward *)reward;
+@interface ApplyCoderViewController : BaseViewController
+@property (assign, nonatomic) BOOL showListBtn;
++ (instancetype)vcWithCoder:(RewardApplyCoder *)coder rewardP:(RewardPrivate *)rewardP;
 @end

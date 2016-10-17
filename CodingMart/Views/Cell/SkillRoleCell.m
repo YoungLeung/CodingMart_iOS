@@ -23,7 +23,7 @@
     
     _nameL.text = _role.role.name;
     _skillsL.text = _role.skillsDisplay.length > 0 ? _role.skillsDisplay: @"未填写";
-    _abilitiesL.text = _role.user_role.abilities.length > 0 ? _role.user_role.abilities: @"未填写";
+    _abilitiesL.text = _role.specialSkill.length > 0 ? _role.specialSkill: @"未填写";
     _goodAtL.text= _role.user_role.good_at.length > 0 ? _role.user_role.good_at: @"未填写";
 }
 - (IBAction)headerViewClicked:(id)sender {

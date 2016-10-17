@@ -57,6 +57,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 
 - (void)get_activities:(Activities *)activities block:(void (^)(id data, NSError *error))block;
 
+- (void)get_CoderDetailWithRewardId:(NSNumber *)rewardId applyId:(NSNumber *)applyId block:(void (^)(id data, NSError *error))block;
 #pragma mark Case
 - (void)get_CaseListWithType:(NSString *)type block:(void (^)(id data, NSError *error))block;
 

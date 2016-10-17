@@ -9,13 +9,18 @@
 #import "RewardPrivate.h"
 #import "Login.h"
 
+//@interface RewardPrivate ()
+//@property (strong, nonatomic, readwrite) NSArray *filesToShow, *roleApplyList;
+//@end
+
 @implementation RewardPrivate
 - (void)prepareHandle{
+    //coder.maluation
     for (RewardApplyCoder *coder in _apply.coders) {
         NSDictionary *maluationDict = _apply.maluation[coder.global_key];
         coder.maluation = [NSObject objectOfClass:@"RewardCoderMaluation" fromJSON:maluationDict];;
     }
-    
+    //metro.metroStatus
     NSMutableArray *metroStatus = @[].mutableCopy;
     [[_metro.allStatus allKeys] enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (![self.metro.hangStatus containsObject:@(obj.integerValue)] && obj.integerValue != 8) {
@@ -29,8 +34,9 @@
         [metroStatus replaceObjectsInRange:NSMakeRange(0, 2) withObjectsFromArray:@[@(RewardStatusPrepare)]];
     }
     _metro.metroStatus = metroStatus;
+    //filesToShow
     _filesToShow = [NSObject arrayFromJSON:_prd[@"filesToShow"] ofObjects:@"MartFile"];
-    
+    //metro.roles.stages
     BOOL isRewardOwner = [self isRewardOwner];
     NSArray *colorStrList = @[@"0xF28C08",//橙
                               @"0x68C20D",//绿
@@ -59,28 +65,30 @@
             }
         }
     }
-    
-    //排序，把自己移到第一位
-    NSMutableArray *coders = _apply.coders.mutableCopy;
-    NSMutableArray *roles = _metro.roles.mutableCopy;
-    __block NSUInteger coderIndex, roleIndex;
-    coderIndex = roleIndex = NSNotFound;
-    [coders enumerateObjectsUsingBlock:^(RewardApplyCoder *obj, NSUInteger idx, BOOL *stop) {
-        if ([obj.global_key isEqualToString:[Login curLoginUser].global_key]) {
-            coderIndex = idx;
-            *stop = YES;
+    //roleApplyList
+    NSMutableArray *roleApplyList = @[].mutableCopy;
+    for (RewardRoleType *roleType in _basicInfo.roleTypes) {
+        RewardPrivateRoleApply *roleApply = [RewardPrivateRoleApply new];
+        roleApply.roleType = roleType;
+        NSMutableArray *coders = [_apply.coders filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"role_type_id = %@", roleType.id]].mutableCopy;
+        RewardApplyCoder *coderIsMe = [coders filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"global_key = %@", [Login curLoginUser].global_key]].firstObject;
+        if (coderIsMe && coderIsMe != coders.firstObject) {
+            [coders exchangeObjectAtIndex:0 withObjectAtIndex:[coders indexOfObject:coderIsMe]];
         }
-    }];
+        roleApply.coders = coders;
+        roleApply.passedCoder = [roleApply.coders filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"status = 2"]].firstObject;
+        [roleApplyList addObject:roleApply];
+    }
+    _roleApplyList = roleApplyList.copy;
+    //排序，把自己移到第一位
+    NSMutableArray *roles = _metro.roles.mutableCopy;
+    __block NSUInteger roleIndex = NSNotFound;
     [roles enumerateObjectsUsingBlock:^(RewardMetroRole *obj, NSUInteger idx, BOOL *stop) {
         if ([obj.ownerId isEqualToNumber:[Login curLoginUser].id]) {
             roleIndex = idx;
             *stop = YES;
         }
     }];
-    if (coderIndex != NSNotFound) {
-        [coders exchangeObjectAtIndex:0 withObjectAtIndex:coderIndex];
-        _apply.coders = coders.copy;
-    }
     if (roleIndex != NSNotFound) {
         [roles exchangeObjectAtIndex:0 withObjectAtIndex:roleIndex];
         _metro.roles = roles.copy;
@@ -111,4 +119,8 @@
 - (BOOL)needToShowStagePay{
     return (_basicInfo.status.integerValue == RewardStatusDeveloping && _basicInfo.mpay.boolValue);
 }
+@end
+
+@implementation RewardPrivateRoleApply
+
 @end

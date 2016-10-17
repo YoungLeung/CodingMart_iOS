@@ -13,12 +13,14 @@
 
 @interface SkillRole : NSObject
 @property (strong, nonatomic) NSArray *skills;
+@property (strong, nonatomic) NSArray *roleSkills;
 @property (strong, nonatomic) SkillRoleType *role;
 @property (strong, nonatomic) SkillRoleUser *user_role;
 @property (strong, nonatomic, readonly) NSString *skillsDisplay;
 @property (strong, nonatomic, readonly) NSArray *selectedSkills;
 @property (strong, nonatomic, readonly) NSDictionary *propertyArrayMap;
 @property (strong, nonatomic) NSArray *role_ids;
+@property (strong, nonatomic) NSString *roleName, *specialSkill;
 
 - (NSDictionary *)toParams;
 @end

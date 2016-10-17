@@ -19,9 +19,17 @@
 @property (strong, nonatomic) RewardApply *apply;
 @property (strong, nonatomic) RewardStagePay *stagePay;
 @property (strong, nonatomic, readonly) NSArray *filesToShow;
+@property (strong, nonatomic, readonly) NSArray *roleApplyList;
 @property (strong, nonatomic) NSDictionary *prd;
 - (void)prepareHandle;
 - (void)dealWithPreRewardP:(RewardPrivate *)rewardP;
 - (BOOL)isRewardOwner;
 - (BOOL)needToShowStagePay;
+@end
+
+
+@interface RewardPrivateRoleApply : NSObject
+@property (strong, nonatomic) RewardRoleType *roleType;
+@property (strong, nonatomic) NSArray *coders;
+@property (strong, nonatomic) RewardApplyCoder *passedCoder;
 @end

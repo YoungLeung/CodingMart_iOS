@@ -10,11 +10,23 @@
 
 @implementation SkillRole
 - (NSDictionary *)propertyArrayMap{
-    return @{@"skills": @"SkillRoleSkill"};
+    return @{@"skills": @"SkillRoleSkill",
+             @"roleSkills": @"NSString"};
 }
 
 - (NSString *)skillsDisplay{
-    return [[self.selectedSkills valueForKey:@"name"] componentsJoinedByString:@","];
+    NSString *skillsDisplay = [[self.selectedSkills valueForKey:@"name"] componentsJoinedByString:@","];
+    if (skillsDisplay.length <= 0) {
+        skillsDisplay = [self.roleSkills componentsJoinedByString:@","];
+    }
+    return skillsDisplay;
+}
+
+- (NSString *)specialSkill{
+    if (!_specialSkill) {
+        _specialSkill = self.user_role.abilities;
+    }
+    return _specialSkill;
 }
 
 - (NSArray *)selectedSkills{

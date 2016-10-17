@@ -42,6 +42,7 @@
 #import "FreezeRecords.h"
 #import "FreezeRecord.h"
 #import "ProjectIndustry.h"
+#import "RewardApplyCoderDetail.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -443,6 +444,16 @@
             [activities handleObj:data];
         }
         block(activities, error);
+    }];
+}
+
+- (void)get_CoderDetailWithRewardId:(NSNumber *)rewardId applyId:(NSNumber *)applyId block:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/reward/%@/apply/%@/resume", rewardId, applyId];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject objectOfClass:@"RewardApplyCoderDetail" fromJSON:data];
+        }
+        block(data, error);
     }];
 }
 

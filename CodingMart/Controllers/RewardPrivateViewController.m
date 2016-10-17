@@ -18,7 +18,7 @@
 #import "RewardPrivateBasicInfoCell.h"
 #import "RewardPrivateDetailCell.h"
 #import "RewardPrivateContactCell.h"
-#import "RewardPrivateCoderCell.h"
+#import "RewardPrivateRoleApplyCell.h"
 #import "RewardPrivateCoderStagesCell.h"
 #import "RewardPrivateFileCell.h"
 #import "RewardPrivateStagePayCell.h"
@@ -42,6 +42,7 @@
 #import "MPayPasswordByPhoneViewController.h"
 #import "RewardCancelReasonCell.h"
 #import "EAXibTipView.h"
+#import "ApplyCoderListViewController.h"
 
 @interface RewardPrivateViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
@@ -155,7 +156,7 @@
             rowNum = (section == 0? 1:
                       section == 1? [_curRewardP needToShowStagePay]? 1: 0:
                       section == 2? 1:
-                      section == 3? MAX(1, _curRewardP.apply.coders.count):
+                      section == 3? MAX(1, _curRewardP.roleApplyList.count):
                       section == 4? MAX(1, _curRewardP.metro.roles.count):
                       _curRewardP.filesToShow.count);
         }else{
@@ -217,7 +218,7 @@
         }else{
             if ([self isCurRewardStarted]) {
                 NSInteger status = _curRewardP.basicInfo.status.integerValue;
-                headerV = [self p_headerViewWithStr:(section == 3? status > RewardStatusRecruiting? @"码士分配": @"报名列表":
+                headerV = [self p_headerViewWithStr:(section == 3? @"开发者报名列表":
                                                      section == 4? _curRewardP.basicInfo.managerName.length > 0? [NSString stringWithFormat:@"阶段列表 | 项目顾问：%@", _curRewardP.basicInfo.managerName]: @"阶段列表":
                                                      section == 5? @"需求文档":
                                                      nil)];
@@ -295,10 +296,10 @@
                 return cell;
             }
         }else if (indexPath.section == 3){
-            if ([self isCurRewardStarted]) {//码士分配
-                if (_curRewardP.apply.coders.count > indexPath.row) {
-                    RewardPrivateCoderCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateCoderCell forIndexPath:indexPath];
-                    cell.curCoder = _curRewardP.apply.coders[indexPath.row];
+            if ([self isCurRewardStarted]) {//开发者报名列表
+                if (_curRewardP.roleApplyList.count > indexPath.row) {
+                    RewardPrivateRoleApplyCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateRoleApplyCell forIndexPath:indexPath];
+                    cell.roleApply = _curRewardP.roleApplyList[indexPath.row];
                     return cell;
                 }else{
                     RewardPrivateCoderBlankCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateCoderBlankCell forIndexPath:indexPath];
@@ -393,8 +394,8 @@
                 cellHeight = [RewardPrivateMetroCell cellHeightWithObj:_curRewardP];
             }
         }else if (indexPath.section == 3){
-            if ([self isCurRewardStarted]) {//码士分配
-                cellHeight = _curRewardP.apply.coders.count > indexPath.row? [RewardPrivateCoderCell cellHeight]: [RewardPrivateCoderBlankCell cellHeight];
+            if ([self isCurRewardStarted]) {//开发者报名列表
+                cellHeight = _curRewardP.roleApplyList.count > indexPath.row? [RewardPrivateRoleApplyCell cellHeight]: [RewardPrivateCoderBlankCell cellHeight];
             }else{
                 //项目描述
                 if (_curRewardP.basicInfo.version.integerValue != 0) {
@@ -425,10 +426,20 @@
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         if (indexPath.section == 3 &&
             [self isCurRewardStarted] &&
-            _curRewardP.apply.coders.count > indexPath.row) {//码士分配
-            RewardApplyCoder *curCoder = _curRewardP.apply.coders[indexPath.row];
-            ApplyCoderViewController *vc = [ApplyCoderViewController vcWithCoder:curCoder reward:_curRewardP.basicInfo];
-            [self.navigationController pushViewController:vc animated:YES];
+            _curRewardP.roleApplyList.count > indexPath.row) {//开发者报名列表
+            RewardPrivateRoleApply *roleApply = _curRewardP.roleApplyList[indexPath.row];
+            if (roleApply.passedCoder) {
+                ApplyCoderViewController *vc = [ApplyCoderViewController vcWithCoder:roleApply.passedCoder rewardP:_curRewardP];
+                vc.showListBtn = YES;
+                [self.navigationController pushViewController:vc animated:YES];
+            }else if (roleApply.coders.count > 0){
+                ApplyCoderListViewController *vc = [ApplyCoderListViewController vcInStoryboard:@"Independence"];
+                vc.curRewardP = _curRewardP;
+                vc.roleApply = roleApply;
+                [self.navigationController pushViewController:vc animated:YES];
+            }else{
+                [NSObject showHudTipStr:@"暂时还没有码士报名该角色"];
+            }
         }else if (((indexPath.section == 5 && [self isCurRewardStarted]) ||
                    (indexPath.section == 4 && ![self isCurRewardStarted])) &&
                   _curRewardP.filesToShow.count > indexPath.row){

@@ -13,19 +13,22 @@
 - (NSDictionary *)propertyArrayMap{
     return @{@"files": @"MartFile"};
 }
-- (NSDate *)start_time{
-    if (_start_time_numerical.length > 0) {
-        return [NSDate dateFromString:_start_time_numerical withFormat:@"yyyy-MM-dd"];
-    }else{
-        return nil;
+- (void)setProjectName:(NSString *)projectName{
+    _projectName = _project_name = projectName;
+}
+- (void)setEndedAt:(NSString *)endedAt{
+    _endedAt = endedAt;
+    if ([_endedAt isEqualToString:@"至今"]) {
+        _until_now = @YES;
     }
 }
+- (NSDate *)start_time{
+    NSString *timeStr = _start_time_numerical ?: _startedAt;
+    return timeStr.length >= 10? [NSDate dateFromString:[timeStr substringToIndex:10] withFormat:@"yyyy-MM-dd"]: nil;
+}
 - (NSDate *)finish_time{
-    if (_finish_time_numerical.length > 0) {
-        return [NSDate dateFromString:_finish_time_numerical withFormat:@"yyyy-MM-dd"];
-    }else{
-        return nil;
-    }
+    NSString *timeStr =  _finish_time_numerical ?: _endedAt;
+    return timeStr.length >= 10? [NSDate dateFromString:[timeStr substringToIndex:10] withFormat:@"yyyy-MM-dd"]: nil;
 }
 - (NSDictionary *)toParams{
     NSMutableDictionary *params = @{}.mutableCopy;

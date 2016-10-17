@@ -170,10 +170,10 @@
     return 1.0/[UIScreen mainScreen].scale;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return section == 0? 1.0/[UIScreen mainScreen].scale: 40;
+    return section == 0? 10: 40;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    return section == 0? nil: ({
+    return section == 0? [UIView new]: ({
         UIView *headerV = [UIView new];
         UILabel *label = [UILabel labelWithSystemFontSize:14 textColorHexString:@"808080"];
         label.text = @"显示给需求方的个人 / 技能信息";
