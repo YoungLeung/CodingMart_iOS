@@ -31,9 +31,9 @@
 - (void)setRoleApply:(RewardPrivateRoleApply *)roleApply{
     _roleApply = roleApply;
     
-    _nameL.text = [NSString stringWithFormat:@"（%@）", _roleApply.passedCoder.name ?: @"待定"];
     _roleTypeL.text = _roleApply.roleType.name;
-    ;
+    _nameL.text = [NSString stringWithFormat:@"（%@）", _roleApply.passedCoder.name ?: @"待定"];
+    _nameL.textColor = _roleApply.passedCoder.name? kColorBrandBlue: [UIColor colorWithHexString:@"0x999999"];
     _rightL.text = _roleApply.passedCoder? @"查看申请资料": [NSString stringWithFormat:@"%lu 人报名", (unsigned long)_roleApply.coders.count];
 }
 
