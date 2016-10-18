@@ -58,6 +58,12 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)get_activities:(Activities *)activities block:(void (^)(id data, NSError *error))block;
 
 - (void)get_CoderDetailWithRewardId:(NSNumber *)rewardId applyId:(NSNumber *)applyId block:(void (^)(id data, NSError *error))block;
+- (void)post_RejectApply:(NSNumber *)applyId block:(void (^)(id data, NSError *error))block;
+- (void)post_AcceptApply:(NSNumber *)applyId block:(void (^)(id data, NSError *error))block;
+- (void)get_ApplyContactParam:(NSNumber *)rewardId block:(void (^)(id data, NSError *error))block;
+- (void)get_ApplyContact:(NSNumber *)applyId block:(void (^)(id data, NSError *error))block;
+- (void)post_ApplyContactOrder:(NSNumber *)applyId block:(void (^)(id data, NSError *error))block;
+
 #pragma mark Case
 - (void)get_CaseListWithType:(NSString *)type block:(void (^)(id data, NSError *error))block;
 

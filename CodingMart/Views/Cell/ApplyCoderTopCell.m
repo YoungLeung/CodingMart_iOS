@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *coderIcon;
 @property (weak, nonatomic) IBOutlet UILabel *coderName;
 @property (weak, nonatomic) IBOutlet UILabel *timeL;
+@property (weak, nonatomic) IBOutlet UIImageView *statusV;
 
 @end
 
@@ -34,6 +35,7 @@
     [_coderIcon sd_setImageWithURL:[_curCoder.avatar urlImageWithCodePathResize:60* 2]];
     _coderName.text = _curCoder.name;
     _timeL.text = [NSString stringWithFormat:@"报名时间：%@",  _curCoder.createdAt.length > 2? [_curCoder.createdAt substringToIndex:_curCoder.createdAt.length - 2]: @"--"];
+    _statusV.image = [UIImage imageNamed:[NSString stringWithFormat:@"icon_apply_status_%@", _curCoder.status]];
 }
 
 + (CGFloat)cellHeight{

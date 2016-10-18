@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface MartFile : NSObject
-@property (strong, nonatomic) NSString *filename, *url, *extension;
+@property (strong, nonatomic) NSString *filename, *url, *extension, *fileUrl, *fileName;
 @property (strong, nonatomic) NSNumber *id, *size;
 @property (strong, nonatomic) NSDate *created_at;
 @end

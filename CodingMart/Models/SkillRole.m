@@ -29,6 +29,10 @@
     return _specialSkill;
 }
 
+- (NSString *)roleName{
+    return _roleName ?: _role.name;
+}
+
 - (NSArray *)selectedSkills{
     return [_skills filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:[NSString stringWithFormat:@"selected == YES"]]];
 }

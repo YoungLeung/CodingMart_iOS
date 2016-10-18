@@ -9,5 +9,11 @@
 #import "MartFile.h"
 
 @implementation MartFile
+- (NSString *)url{
+    return _url ?: _fileUrl;
+}
 
+- (NSString *)filename{
+    return _filename ?: _fileName;
+}
 @end

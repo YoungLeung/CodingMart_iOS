@@ -14,7 +14,7 @@
 @property (strong, nonatomic) NSString *project_name, *description_mine, *duty, *link, *industry, *industryName, *projectTypeName, *projectName;
 @property (strong, nonatomic) NSString *start_time_numerical, *finish_time_numerical, *startedAt, *endedAt;
 @property (strong, nonatomic, readonly) NSDate *start_time, *finish_time;
-@property (strong, nonatomic) NSMutableArray<MartFile *> *files;
+@property (strong, nonatomic) NSMutableArray<MartFile *> *files, *attaches;
 @property (strong, nonatomic, readonly) NSDictionary *propertyArrayMap;
 
 - (NSDictionary *)toParams;

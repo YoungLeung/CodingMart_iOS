@@ -137,10 +137,15 @@
     [[Coding_NetAPIManager sharedManager] post_MPayOrderId:_curMPayOrder.orderId password:psd block:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data && [(NSNumber *)data boolValue]) {
-            MPayRewardOrderPayResultViewController *vc = [MPayRewardOrderPayResultViewController vcInStoryboard:@"Pay"];
-            vc.curReward = weakSelf.curReward;
-            vc.curMPayOrder = weakSelf.curMPayOrder;
-            [weakSelf.navigationController pushViewController:vc animated:YES];
+            if (weakSelf.paySuccessBlock) {
+                weakSelf.paySuccessBlock(weakSelf.curMPayOrder);
+                [weakSelf.navigationController popViewControllerAnimated:YES];
+            }else{
+                MPayRewardOrderPayResultViewController *vc = [MPayRewardOrderPayResultViewController vcInStoryboard:@"Pay"];
+                vc.curReward = weakSelf.curReward;
+                vc.curMPayOrder = weakSelf.curMPayOrder;
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            }
         }
     }];
 }

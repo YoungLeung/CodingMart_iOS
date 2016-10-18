@@ -217,7 +217,6 @@
             }
         }else{
             if ([self isCurRewardStarted]) {
-                NSInteger status = _curRewardP.basicInfo.status.integerValue;
                 headerV = [self p_headerViewWithStr:(section == 3? @"开发者报名列表":
                                                      section == 4? _curRewardP.basicInfo.managerName.length > 0? [NSString stringWithFormat:@"阶段列表 | 项目顾问：%@", _curRewardP.basicInfo.managerName]: @"阶段列表":
                                                      section == 5? @"需求文档":
@@ -431,6 +430,7 @@
             if (roleApply.passedCoder) {
                 ApplyCoderViewController *vc = [ApplyCoderViewController vcWithCoder:roleApply.passedCoder rewardP:_curRewardP];
                 vc.showListBtn = YES;
+                vc.roleApply = roleApply;
                 [self.navigationController pushViewController:vc animated:YES];
             }else if (roleApply.coders.count > 0){
                 ApplyCoderListViewController *vc = [ApplyCoderListViewController vcInStoryboard:@"Independence"];

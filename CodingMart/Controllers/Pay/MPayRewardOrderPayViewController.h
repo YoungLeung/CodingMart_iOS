@@ -13,5 +13,6 @@
 @interface MPayRewardOrderPayViewController : BaseTableViewController
 @property (strong, nonatomic) Reward *curReward;
 @property (strong, nonatomic) MPayOrder *curMPayOrder;
+@property (copy, nonatomic) void(^paySuccessBlock)(MPayOrder *curMPayOrder);
 
 @end

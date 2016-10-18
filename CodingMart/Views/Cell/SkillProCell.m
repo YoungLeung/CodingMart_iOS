@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UITTTAttributedLabel *linkL;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *fileButtonList;
 @property (strong, nonatomic) IBOutletCollection(UILabel) NSArray *fileLabelList;
+@property (weak, nonatomic) IBOutlet UIImageView *editIconV;
 
 @end
 
@@ -58,6 +59,11 @@
     }];
 }
 
+- (void)setEditProBlock:(void (^)(SkillPro *))editProBlock{
+    _editProBlock = editProBlock;
+    _editIconV.hidden = !_editProBlock;
+}
+
 - (IBAction)fileBtnClicked:(id)sender {
     NSUInteger index = [self.fileButtonList indexOfObject:sender];
     if (_clickedFileBlock) {
@@ -78,7 +84,7 @@
         height += 44 + 20;
         
         UIFont *font = [UIFont systemFontOfSize:14];
-        CGFloat width = kScreen_Width - (15+ 10)* 2 - (70+ 10);
+        CGFloat width = kScreen_Width - (15+ 10)* 2 - (75+ 10);
         
         height += 15+ MAX(20, [pro.description_mine getHeightWithFont:font constrainedToSize:CGSizeMake(width, CGFLOAT_MAX)]);
         height += 15+ MAX(20, [pro.duty getHeightWithFont:font constrainedToSize:CGSizeMake(width, CGFLOAT_MAX)]);

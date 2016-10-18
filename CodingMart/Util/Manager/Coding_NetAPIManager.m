@@ -456,6 +456,40 @@
         block(data, error);
     }];
 }
+- (void)post_RejectApply:(NSNumber *)applyId block:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/apply/%@/reject", applyId];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+- (void)post_AcceptApply:(NSNumber *)applyId block:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/apply/%@/pass", applyId];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+
+- (void)get_ApplyContactParam:(NSNumber *)rewardId block:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/reward/%@/apply/contact/param", rewardId];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+- (void)get_ApplyContact:(NSNumber *)applyId block:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/apply/%@/contact", applyId];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+- (void)post_ApplyContactOrder:(NSNumber *)applyId block:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/apply/%@/order", applyId];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject objectOfClass:@"MPayOrder" fromJSON:data];
+        }
+        block(data, error);
+    }];
+}
 
 #pragma mark Case
 - (void)get_CaseListWithType:(NSString *)type block:(void (^)(id data, NSError *error))block{

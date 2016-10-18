@@ -11,6 +11,7 @@
 #import "RewardPrivate.h"
 
 @interface ApplyCoderViewController : BaseViewController
+@property (strong, nonatomic) RewardPrivateRoleApply *roleApply;
 @property (assign, nonatomic) BOOL showListBtn;
 + (instancetype)vcWithCoder:(RewardApplyCoder *)coder rewardP:(RewardPrivate *)rewardP;
 @end

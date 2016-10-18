@@ -16,12 +16,20 @@
 #import "SkillProCell.h"
 #import <BlocksKit/BlocksKit+UIKit.h>
 #import "ApplyCoderListViewController.h"
+#import "EATipView.h"
+#import "Coding_NetAPIManager.h"
+#import "RewardPrivateViewController.h"
+#import "MPayRewardOrderPayViewController.h"
 
 @interface ApplyCoderViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) RewardApplyCoder *curCoder;
 @property (strong, nonatomic) RewardApplyCoderDetail *curCoderDetail;
 @property (strong, nonatomic) RewardPrivate *curRewardP;
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
+@property (weak, nonatomic) IBOutlet UIButton *rejectBtn;
+@property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
+@property (weak, nonatomic) IBOutlet UIButton *acceptBtn;
+@property (weak, nonatomic) IBOutlet UIView *bottomV;
 
 @end
 
@@ -37,12 +45,28 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    self.title = @"码市报名信息";
+    self.title = _roleApply.roleType.name;
     if (_showListBtn) {
         self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"申请列表" target:self action:@selector(navBtnClicked)];
     }
+    [self configBottomV];
+    _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [_myTableView eaAddPullToRefreshAction:@selector(refresh) onTarget:self];
     [self refresh];
+}
+
+- (void)configBottomV{
+    NSInteger status = _curCoder.status.integerValue;
+    if (status <= JoinStatusChecked) {//两个按钮
+        _bottomV.hidden = _acceptBtn.hidden = _rejectBtn.hidden = NO;
+        _cancelBtn.hidden = YES;
+    }else if (status == JoinStatusSucessed){//一个按钮
+        _bottomV.hidden = _cancelBtn.hidden = NO;
+        _acceptBtn.hidden = _rejectBtn.hidden = YES;
+    }else{//没有按钮
+        _bottomV.hidden = YES;
+    }
+    _myTableView.contentInset = UIEdgeInsetsMake(0, 0, _bottomV.hidden? 0: 60, 0);
 }
 
 - (void)refresh{
@@ -71,9 +95,56 @@
     }
     return (section == 0? 1:
             section == 1? 3:
-            section == 2? (1):
+            section == 2? _curCoder.mobile.length > 0? 3: 1:
             section == 3? _curCoderDetail.roles.count:
             _curCoderDetail.projects.count);
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    CGFloat minHeight = 1.0/ [UIScreen mainScreen].scale;
+    return (section == 0? minHeight:
+            section == 1? 10:
+            section == 2? 10:
+            section == 3? _curCoderDetail.roles.count > 0? 35: minHeight:
+            _curCoderDetail.projects.count > 0? 35: minHeight);
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UIView *headerV = [UIView new];
+    NSString *headerStr = nil;
+    if (section == 3 && _curCoderDetail.roles.count > 0) {
+        headerStr = @"能胜任的角色类型";
+    }else if (section == 4 && _curCoderDetail.projects.count > 0){
+        headerStr = @"项目经验";
+    }
+    if (headerStr.length > 0) {
+        headerV.backgroundColor = [UIColor whiteColor];
+        UILabel *label = [UILabel labelWithSystemFontSize:15 textColorHexString:@"0x222222"];
+        label.text = headerStr;
+        [headerV addSubview:label];
+        [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(headerV).offset(15);
+            make.top.equalTo(headerV);
+        }];
+    }
+    return headerV;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return section == 2? (_curCoderDetail.roles.count + _curCoderDetail.projects.count) > 0? 25: 10: 1.0/ [UIScreen mainScreen].scale;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    UIView *footerV = [UIView new];
+    if (section == 2 && (_curCoderDetail.roles.count + _curCoderDetail.projects.count) > 0) {
+        UIView *whiteV = [[UIView alloc] initWithFrame:CGRectMake(0, 10, kScreen_Width, 15)];
+        whiteV.backgroundColor = [UIColor whiteColor];
+        [whiteV addLineUp:YES andDown:NO];
+        [footerV addSubview:whiteV];
+    }else if (section == 3 && _curCoderDetail.projects.count > 0){
+        footerV.backgroundColor = [UIColor whiteColor];
+    }
+    return footerV;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -94,13 +165,15 @@
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:15];
         return cell;
     }else if (indexPath.section == 2){
-        if (/* DISABLES CODE */ (YES)) {//没有查看权限
+        if (_curCoder.mobile.length <= 0) {//没有查看权限
             CoderTitleButtonCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_CoderTitleButtonCell forIndexPath:indexPath];
             cell.titleL.text = @"联系方式";
-            WEAKSELF
-            [cell.button bk_addEventHandler:^(id sender) {
-                [weakSelf checkContactInfo];
-            } forControlEvents:UIControlEventTouchUpInside];
+            if (![cell.button bk_hasEventHandlersForControlEvents:UIControlEventTouchUpInside]) {
+                WEAKSELF
+                [cell.button bk_addEventHandler:^(id sender) {
+                    [weakSelf checkContactInfoClicked];
+                } forControlEvents:UIControlEventTouchUpInside];
+            }
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:15];
             return cell;
         }else{
@@ -111,7 +184,7 @@
                                 @"MAIL：");
             cell.valueL.text = (row == 0? _curCoder.mobile:
                                 row == 1? _curCoder.qq:
-                                nil);
+                                _curCoder.email);
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:15];
             return cell;
         }
@@ -145,13 +218,13 @@
                          _curCoderDetail.reason);
         height = [MartTitleValueCell cellHeightWithStr:str];
     }else if (indexPath.section == 2){
-        if (/* DISABLES CODE */ (YES)) {//没有查看权限
+        if (_curCoder.mobile.length <= 0) {//没有查看权限
             height = [CoderTitleButtonCell cellHeight];
         }else{
             NSInteger row = indexPath.row;
             NSString *str = (row == 0? _curCoder.mobile:
                              row == 1? _curCoder.qq:
-                             nil);
+                             _curCoder.email);
             height = [MartTitleValueCell cellHeightWithStr:str];
         }
     }else if (indexPath.section == 3){
@@ -164,7 +237,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 2 && indexPath.row == 0 && NO) {
+    if (indexPath.section == 2 && indexPath.row == 0 && _curCoder.mobile.length > 0) {
         [[UIActionSheet bk_actionSheetCustomWithTitle:@"是否需要拨打电话" buttonTitles:@[@"拨打电话"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0) {
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", _curCoder.mobile]]];
@@ -174,9 +247,125 @@
 }
 
 #pragma mark Action
-- (void)checkContactInfo{
-    
+- (void)checkContactInfoClicked{
+    [NSObject showHUDQueryStr:@"请稍等..."];
+    WEAKSELF
+    [[Coding_NetAPIManager sharedManager] get_ApplyContactParam:_curRewardP.basicInfo.id block:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (data) {
+            [weakSelf checkContactInfoTip:data];
+        }
+    }];
 }
+
+- (void)checkContactInfoTip:(NSDictionary *)dict{
+    NSString *tipStr = [NSString stringWithFormat:@"您可以免费查看 %@ 位报名者联系方式。 如果您需要查看更多开发者，需要支付 %@ 元/人的服务费，费用会从您的开发宝中扣除。\n\n您当前还可以免费查看 %@ 人联系方式", dict[@"freeTotal"], dict[@"fee"], dict[@"freeRemain"] ?: @0];
+    EATipView *tipV = [EATipView instancetypeWithTitle:@"查看联系方式" tipStr:tipStr];
+    [tipV setLeftBtnTitle:@"取消" block:nil];
+    WEAKSELF
+    [tipV setRightBtnTitle:[dict[@"freeRemain"] integerValue] > 0? @"确定": @"支付并查看" block:^{
+        [weakSelf doCheckContactInfo:dict];
+    }];
+    [tipV showInView:self.view];
+}
+- (void)doCheckContactInfo:(NSDictionary *)dict{
+    if ([dict[@"freeRemain"] integerValue] > 0) {//免费
+        [self sendContactRequest];
+    }else{//要付钱
+        WEAKSELF
+        [NSObject showHUDQueryStr:@"请稍等..."];
+        [[Coding_NetAPIManager sharedManager] post_ApplyContactOrder:_curCoder.apply_id block:^(id data, NSError *error) {
+            [NSObject hideHUDQuery];
+            if (data) {
+                [weakSelf goToPay:data];
+            }
+        }];
+    }
+}
+
+- (void)sendContactRequest{
+    WEAKSELF
+    [NSObject showHUDQueryStr:@"请稍等..."];
+    [[Coding_NetAPIManager sharedManager] get_ApplyContact:_curCoder.apply_id block:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (data) {
+            weakSelf.curCoder.mobile = data[@"phone"];
+            weakSelf.curCoder.email = data[@"email"];
+            weakSelf.curCoder.qq = data[@"qq"];
+            [weakSelf.myTableView reloadData];
+        }
+    }];
+}
+
+- (void)goToPay:(MPayOrder *)order{
+    MPayRewardOrderPayViewController *vc = [MPayRewardOrderPayViewController vcInStoryboard:@"Pay"];
+    vc.curReward = _curRewardP.basicInfo;
+    vc.curMPayOrder = order;
+    WEAKSELF
+    vc.paySuccessBlock = ^(MPayOrder *curMPayOrder){
+        [weakSelf sendContactRequest];
+    };
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (IBAction)rejectBtnClicked:(id)sender {
+    EATipView *tipV = [EATipView instancetypeWithTitle:@"拒绝合作" tipStr:@"拒绝与此位开发者合作？"];
+    [tipV setLeftBtnTitle:@"取消" block:nil];
+    WEAKSELF
+    [tipV setRightBtnTitle:@"确定" block:^{
+        [weakSelf doRejectCoder:weakSelf.curCoder];
+    }];
+    [tipV showInView:self.view];
+}
+- (void)doRejectCoder:(RewardApplyCoder *)curCoder{
+    [NSObject showHUDQueryStr:@"请稍等..."];
+    WEAKSELF
+    [[Coding_NetAPIManager sharedManager] post_RejectApply:curCoder.apply_id block:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (data) {
+            curCoder.status = @(JoinStatusFailed);
+            [weakSelf.myTableView reloadData];
+            [weakSelf configBottomV];
+        }
+    }];
+}
+- (IBAction)acceptBtnClicked:(id)sender {
+    EATipView *tipV = [EATipView instancetypeWithTitle:@"确认合作" tipStr:@"确定选择此开发者进行项目合作？"];
+    [tipV setLeftBtnTitle:@"取消" block:nil];
+    WEAKSELF
+    [tipV setRightBtnTitle:@"确定" block:^{
+        [weakSelf doAcceptCoder:weakSelf.curCoder];
+    }];
+    [tipV showInView:self.view];
+}
+- (void)doAcceptCoder:(RewardApplyCoder *)curCoder{
+    [NSObject showHUDQueryStr:@"请稍等..."];
+    WEAKSELF
+    [[Coding_NetAPIManager sharedManager] post_AcceptApply:curCoder.apply_id block:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (data) {
+            curCoder.status = @(JoinStatusSucessed);
+            [weakSelf sucessAcceptCoder:curCoder];
+        }
+    }];
+}
+- (void)sucessAcceptCoder:(RewardApplyCoder *)curCoder{
+    NSString *tipStr = [NSString stringWithFormat:@"您已选定「%@」的开发者「%@」\n\n请与开发者沟通详细需求，等待开发者提交阶段划分。 确认阶段划分并支付第一阶段款项后，项目将正式启动。", _roleApply.roleType.name, curCoder.name];
+    EATipView *tipV = [EATipView instancetypeWithTitle:@"已选定开发者" tipStr:tipStr];
+    
+    UIViewController *tipVC = nil;
+    for (UIViewController *vc in self.navigationController.viewControllers) {
+        if ([vc isKindOfClass:[RewardPrivateViewController class]]) {
+            tipVC = vc;
+            break;
+        }
+    }
+    [tipV showInView:tipVC.view ?: self.view];
+    if (tipVC) {
+        [self.navigationController popToViewController:tipVC animated:YES];
+    }
+}
+
 
 - (void)navBtnClicked{
     ApplyCoderListViewController *vc = [ApplyCoderListViewController vcInStoryboard:@"Independence"];

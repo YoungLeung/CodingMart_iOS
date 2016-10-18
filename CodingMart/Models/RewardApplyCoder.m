@@ -17,6 +17,10 @@
     return _mobile.length > 0? _mobile: _user_mobile;
 }
 
+- (NSString *)email{
+    return _email.length > 0? _email: _userEmail;
+}
+
 - (NSString *)reward_roleDisplay{
     return _reward_role.integerValue == 0? @"独立开发者": @"开发者团队";
 }

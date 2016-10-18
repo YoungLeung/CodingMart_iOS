@@ -11,7 +11,8 @@
 
 @implementation SkillPro
 - (NSDictionary *)propertyArrayMap{
-    return @{@"files": @"MartFile"};
+    return @{@"files": @"MartFile",
+             @"attaches": @"MartFile"};
 }
 - (void)setProjectName:(NSString *)projectName{
     _projectName = _project_name = projectName;
@@ -29,6 +30,9 @@
 - (NSDate *)finish_time{
     NSString *timeStr =  _finish_time_numerical ?: _endedAt;
     return timeStr.length >= 10? [NSDate dateFromString:[timeStr substringToIndex:10] withFormat:@"yyyy-MM-dd"]: nil;
+}
+- (NSMutableArray<MartFile *> *)files{
+    return _files ?: _attaches;
 }
 - (NSDictionary *)toParams{
     NSMutableDictionary *params = @{}.mutableCopy;

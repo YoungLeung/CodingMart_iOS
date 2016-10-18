@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *abilitiesL;
 @property (weak, nonatomic) IBOutlet UILabel *goodAtL;
 @property (weak, nonatomic) IBOutlet UILabel *nameL;
+@property (weak, nonatomic) IBOutlet UIImageView *editIconV;
 
 @end
 
@@ -21,10 +22,15 @@
 - (void)setRole:(SkillRole *)role{
     _role = role;
     
-    _nameL.text = _role.role.name;
+    _nameL.text = _role.roleName;
     _skillsL.text = _role.skillsDisplay.length > 0 ? _role.skillsDisplay: @"未填写";
     _abilitiesL.text = _role.specialSkill.length > 0 ? _role.specialSkill: @"未填写";
     _goodAtL.text= _role.user_role.good_at.length > 0 ? _role.user_role.good_at: @"未填写";
+}
+
+- (void)setEditRoleBlock:(void (^)(SkillRole *))editRoleBlock{
+    _editRoleBlock = editRoleBlock;
+    _editIconV.hidden = !_editRoleBlock;
 }
 - (IBAction)headerViewClicked:(id)sender {
     if (_editRoleBlock) {
@@ -39,7 +45,7 @@
         height += 44 + 20;
         
         UIFont *font = [UIFont systemFontOfSize:14];
-        CGFloat width = kScreen_Width - (15+ 10)* 2 - (70+ 10);
+        CGFloat width = kScreen_Width - (15+ 10)* 2 - (75+ 10);
         
         height += 20+ MAX(20, [role.skillsDisplay getHeightWithFont:font constrainedToSize:CGSizeMake(width, CGFLOAT_MAX)]);
         height += 20+ MAX(20, [role.user_role.abilities getHeightWithFont:font constrainedToSize:CGSizeMake(width, CGFLOAT_MAX)]);
