@@ -111,7 +111,7 @@
 #pragma mark Link
 - (void)setupUIStyle:(BOOL)hasUnderline{
     self.linkAttributes = @{(__bridge NSString *)kCTUnderlineStyleAttributeName : [NSNumber numberWithBool:hasUnderline],
-                            (NSString *)kCTForegroundColorAttributeName : (__bridge id)[UIColor colorWithHexString:@"0x2FAEEA"].CGColor};
+                            (NSString *)kCTForegroundColorAttributeName : (__bridge id)[UIColor colorWithHexString:@"0x4289DB"].CGColor};
     self.activeLinkAttributes = @{(NSString *)kCTUnderlineStyleAttributeName : [NSNumber numberWithBool:hasUnderline],
                                   (NSString *)kCTForegroundColorAttributeName : (__bridge id)[[UIColor colorWithHexString:@"0x2D59A2"] CGColor]};
 }

@@ -129,7 +129,8 @@
 - (IBAction)finishBtnClicked:(id)sender {
     [self.view endEditing:YES];
     WEAKSELF;
-    ActionSheetDatePicker *picker = [[ActionSheetDatePicker alloc] initWithTitle:@"结束时间" datePickerMode:UIDatePickerModeDate selectedDate:[NSDate dateFromString:_pro.finish_time_numerical withFormat:@"yyyy-MM-dd"] ?:[NSDate date] doneBlock:^(ActionSheetDatePicker *picker, NSDate *selectedDate, id origin) {
+    
+    ActionSheetDatePicker *picker = [[ActionSheetDatePicker alloc] initWithTitle:@"结束时间" datePickerMode:UIDatePickerModeDate selectedDate:_pro.until_now.boolValue? [NSDate date]: [NSDate dateFromString:_pro.finish_time_numerical withFormat:@"yyyy-MM-dd"] ?:[NSDate date] doneBlock:^(ActionSheetDatePicker *picker, NSDate *selectedDate, id origin) {
         weakSelf.pro.finish_time_numerical = [selectedDate stringWithFormat:@"yyyy-MM-dd"];
         weakSelf.pro.until_now = @(NO);
     } cancelBlock:^(ActionSheetDatePicker *picker) {
