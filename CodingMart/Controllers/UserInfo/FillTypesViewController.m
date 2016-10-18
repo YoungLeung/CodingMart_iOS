@@ -157,8 +157,6 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
             [self.navigationController pushViewController:vc animated:YES];
         }
     }else if (indexPath.section == 1){
-        [NSObject showHudTipStr:@"码士认证已升级，请登陆码市网页端进行码士认证"];
-        return;
 //        if (!self.curUser.fullInfo.boolValue) {
 //            [NSObject showHudTipStr:@"请先完善个人信息"];
 //            return;
@@ -169,10 +167,12 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 //            [NSObject showHudTipStr:@"已提交认证，将在工作日48小时内进行审核"];
 //            return;
 //        }
-//        if (self.identity_server_CacheDataDic) {
-//            UIViewController *vc = [IdentityViewController vcWithIdetityDict:self.identity_server_CacheDataDic];
-//            [self.navigationController pushViewController:vc animated:YES];
-//        }
+        if ([self.identity_server_CacheDataDic[@"status"] integerValue] == 1) {//status == 1 是认证通过
+            UIViewController *vc = [IdentityViewController vcWithIdetityDict:self.identity_server_CacheDataDic];
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            [NSObject showHudTipStr:@"码士认证已升级，请登录码市网页端进行码士认证"];
+        }
     }
 }
 
