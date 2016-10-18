@@ -31,7 +31,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ApplyCoderListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ApplyCoderListCell forIndexPath:indexPath];
     cell.curCoder = _roleApply.coders[indexPath.row];
-    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
     return cell;
 }
 

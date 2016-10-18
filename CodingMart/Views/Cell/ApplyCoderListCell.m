@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *rejectBtn;
 @property (weak, nonatomic) IBOutlet UIButton *acceptBtn;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *rejectBtnTrailing;
+@property (weak, nonatomic) IBOutlet UIView *topView;
 
 @end
 
@@ -28,6 +29,7 @@
 
 - (void)awakeFromNib{
     [super awakeFromNib];
+    _topView.backgroundColor = kColorBGDark;
     WEAKSELF
     [_rejectBtn bk_addEventHandler:^(id sender) {
         if (weakSelf.rejectBlock) {

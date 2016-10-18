@@ -3233,6 +3233,12 @@ Android 开发工程师</string>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ViM-Kf-SVz">
                                             <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="au6-M0-2sb">
+                                                    <color key="backgroundColor" red="0.8666666666666667" green="0.8666666666666667" blue="0.8666666666666667" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="1" id="K3L-4N-sW2" customClass="NSLayoutConstraintLine"/>
+                                                    </constraints>
+                                                </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mXb-SU-T8x">
                                                     <color key="backgroundColor" red="0.8666666666666667" green="0.8666666666666667" blue="0.8666666666666667" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
@@ -3245,7 +3251,10 @@ Android 开发工程师</string>
                                                 <constraint firstAttribute="height" constant="10" id="1wY-q9-8OG"/>
                                                 <constraint firstAttribute="trailing" secondItem="mXb-SU-T8x" secondAttribute="trailing" id="6jX-zS-FWm"/>
                                                 <constraint firstAttribute="bottom" secondItem="mXb-SU-T8x" secondAttribute="bottom" id="VUG-4A-89T"/>
+                                                <constraint firstItem="au6-M0-2sb" firstAttribute="top" secondItem="ViM-Kf-SVz" secondAttribute="top" id="Z3C-hS-CQZ"/>
+                                                <constraint firstItem="au6-M0-2sb" firstAttribute="leading" secondItem="ViM-Kf-SVz" secondAttribute="leading" id="aRe-JT-njO"/>
                                                 <constraint firstItem="mXb-SU-T8x" firstAttribute="leading" secondItem="ViM-Kf-SVz" secondAttribute="leading" id="kGg-A6-VRm"/>
+                                                <constraint firstAttribute="trailing" secondItem="au6-M0-2sb" secondAttribute="trailing" id="uUc-at-9qL"/>
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cZ6-y2-hUM">
@@ -3398,6 +3407,7 @@ Android 开发工程师</string>
                                     <outlet property="reward_roleL" destination="q34-Ei-HRw" id="LvT-2k-p7v"/>
                                     <outlet property="statusL" destination="bKM-u5-5ez" id="Rho-zB-By2"/>
                                     <outlet property="timeL" destination="qcf-by-6Im" id="vhz-Xo-e1N"/>
+                                    <outlet property="topView" destination="ViM-Kf-SVz" id="Ke5-xg-QzK"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
