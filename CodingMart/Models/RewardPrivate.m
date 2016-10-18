@@ -23,7 +23,7 @@
     //metro.metroStatus
     NSMutableArray *metroStatus = @[].mutableCopy;
     [[_metro.allStatus allKeys] enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (![self.metro.hangStatus containsObject:@(obj.integerValue)] && obj.integerValue != 8) {
+        if (![self.metro.hangStatus containsObject:@(obj.integerValue)] && obj.integerValue != RewardStatusPrepare) {
             [metroStatus addObject:@(obj.integerValue)];
         }
     }];
@@ -32,6 +32,12 @@
     }];
     if (_basicInfo.version.integerValue != 0 && metroStatus.count > 1) {
         [metroStatus replaceObjectsInRange:NSMakeRange(0, 2) withObjectsFromArray:@[@(RewardStatusPrepare)]];
+    }
+    if (![metroStatus.lastObject isEqual:@(RewardStatusFinished)]) {
+        NSUInteger finishedIndex = [metroStatus indexOfObject:@(RewardStatusFinished)];
+        if (finishedIndex != NSNotFound) {
+            [metroStatus exchangeObjectAtIndex:finishedIndex withObjectAtIndex:metroStatus.count - 1];
+        }
     }
     _metro.metroStatus = metroStatus;
     //filesToShow
