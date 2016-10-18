@@ -43,7 +43,7 @@
 @implementation RewardCoderStageView
 
 + (instancetype)viewWithStage:(RewardMetroRoleStage *)stage{
-    RewardCoderStageView *view = [[[NSBundle mainBundle] loadNibNamed:@"RewardCoderStageView" owner:self options:nil] firstObject];
+    RewardCoderStageView *view = [[[NSBundle mainBundle] loadNibNamed:@"RewardCoderStageView" owner:self options:nil] objectAtIndex:stage.isMpay? 0: 1];
     view.curStage = stage;
     return view;
 }
@@ -67,7 +67,7 @@
     
     _descriptionL.text = _curStage.stage_task;
     _documentL.text = _curStage.stage_file_desc;
-    _planDateL.text = [NSString stringWithFormat:@"%@ - %@", _curStage.planStartAtFormat, _curStage.planFinishAtFormat];
+    _planDateL.text = _curStage.isMpay? [NSString stringWithFormat:@"%@ - %@", _curStage.planStartAtFormat, _curStage.planFinishAtFormat]: _curStage.planFinishAtFormat;
     _planDaysL.text = _curStage.planDays.stringValue;
     _factDateL.text = [NSString stringWithFormat:@"%@ - %@", _curStage.factStartAtFormat.length > 0? _curStage.factStartAtFormat: @"", _curStage.factFinishAtFormat.length > 0? _curStage.factFinishAtFormat: @""];
     _priceL.text = (_curStage.isRewardOwner || _curStage.isStageOwner)? _curStage.format_price: @"￥--";
@@ -121,10 +121,14 @@
     if ([obj isKindOfClass:[RewardMetroRoleStage class]]) {
         RewardMetroRoleStage *stage = obj;
         if (stage.isExpand) {
-            if ([stage canSubmitObj] || [stage canCancelObj] || [stage canAcceptAndRejectObj]) {
-                height = 325 + 60;
+            if (stage.isMpay) {
+                if ([stage canSubmitObj] || [stage canCancelObj] || [stage canAcceptAndRejectObj]) {
+                    height = 325 + 60;
+                }else{
+                    height = 325;
+                }
             }else{
-                height = 325;
+                height = 237;
             }
         }else{
             height = 35;
