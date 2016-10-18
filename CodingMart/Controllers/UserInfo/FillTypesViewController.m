@@ -29,7 +29,9 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 @property (weak, nonatomic) IBOutlet UIImageView *testingCheckV;
 @property (weak, nonatomic) IBOutlet UIImageView *statusCheckV;
 @property (weak, nonatomic) IBOutlet UILabel *identityStatusLabel;
-@property (weak, nonatomic) IBOutlet UIView *tipHeaderV;
+@property (strong, nonatomic) IBOutlet UIView *header1V;
+@property (strong, nonatomic) IBOutlet UIView *header2V;
+@property (strong, nonatomic) IBOutlet UIView *header1TipV;
 @property (strong, nonatomic) User *curUser;
 
 @property (assign,nonatomic)IdentityStatusCode identityCode;
@@ -43,7 +45,6 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 }
 - (void)viewDidLoad{
     [super viewDidLoad];
-    _tipHeaderV.height = 0;
     [self getUserinfo];
     if ([FunctionTipsManager needToTip:kFunctionTipStr_ShenFenRenZheng]) {
         [MartFunctionTipView showFunctionImages:@[@"function_shenfenrenzheng"]];
@@ -97,9 +98,6 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 
 - (void)setCurUser:(User *)curUser{
     _curUser = curUser;
-    _tipHeaderV.height = (_curUser.fullInfo.boolValue &&
-                          !_curUser.fullSkills.boolValue &&
-                          _curUser.passingSurvey.boolValue)? 40: 0;
     [self.tableView reloadData];
     _userinfoCheckV.image = [UIImage imageNamed:_curUser.fullInfo.boolValue? @"fill_checked": @"fill_unchecked"];
     _skillsCheckV.image = [UIImage imageNamed:_curUser.fullSkills.boolValue? @"fill_checked": @"fill_unchecked"];
@@ -117,6 +115,32 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 }
 
 #pragma mark Table M
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    BOOL needTip =(_curUser.fullInfo.boolValue &&
+                   !_curUser.fullSkills.boolValue &&
+                   _curUser.passingSurvey.boolValue);
+    if (section == 0){
+        return needTip? 80: 40;
+    }else{
+        return 40;
+    }
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    BOOL needTip =(_curUser.fullInfo.boolValue &&
+                   !_curUser.fullSkills.boolValue &&
+                   _curUser.passingSurvey.boolValue);
+    if (section == 0){
+        return needTip? _header1TipV: _header1V;
+    }else{
+        return _header2V;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 1.0/[UIScreen mainScreen].scale;
+}
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -152,13 +176,6 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
     }
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (section == 0){
-        return 40;
-    }else{
-        return 20;
-    }
-}
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     cell.separatorInset = UIEdgeInsetsMake(0, 20, 0, 0);
 }
