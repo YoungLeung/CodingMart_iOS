@@ -216,6 +216,12 @@
                                                             <integer key="value" value="2"/>
                                                         </userDefinedRuntimeAttribute>
                                                         <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="描述可以包含您对项目的理解、过往的相关经验、采用的技术方案等，详细的描述能增加您选中参与悬赏的几率。"/>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="minLength">
+                                                            <integer key="value" value="10"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="maxLength">
+                                                            <integer key="value" value="300"/>
+                                                        </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </textView>
                                             </subviews>
@@ -522,16 +528,16 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="kMt-hu-xh7">
                                 <color key="backgroundColor" red="0.94117647058823528" green="0.94901960784313721" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="8s5-k1-Yew">
-                                    <rect key="frame" x="0.0" y="878" width="600" height="44"/>
+                                    <rect key="frame" x="0.0" y="878" width="1000" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="JoinedRewardCell_0" rowHeight="170" id="zce-U9-afx" customClass="JoinedRewardCell">
-                                        <rect key="frame" x="0.0" y="28" width="600" height="170"/>
+                                        <rect key="frame" x="0.0" y="28" width="1000" height="170"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zce-U9-afx" id="usG-57-qNc">
-                                            <frame key="frameInset" width="600" height="170"/>
+                                            <frame key="frameInset" width="1000" height="170"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="reward_type_icon_0" translatesAutoresizingMaskIntoConstraints="NO" id="PPe-Vl-weM" userLabel="typeImgView">
@@ -728,10 +734,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="JoinedRewardCell_1" rowHeight="170" id="LSf-0l-UgL" customClass="JoinedRewardCell">
-                                        <rect key="frame" x="0.0" y="198" width="600" height="170"/>
+                                        <rect key="frame" x="0.0" y="198" width="1000" height="170"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LSf-0l-UgL" id="bp2-0f-Ye2">
-                                            <frame key="frameInset" width="600" height="170"/>
+                                            <frame key="frameInset" width="1000" height="170"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="reward_type_icon_0" translatesAutoresizingMaskIntoConstraints="NO" id="S7K-7b-665" userLabel="typeImgView">
@@ -929,10 +935,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="JoinedRewardCell_2" rowHeight="170" id="phF-6x-1fP" customClass="JoinedRewardCell">
-                                        <rect key="frame" x="0.0" y="368" width="600" height="170"/>
+                                        <rect key="frame" x="0.0" y="368" width="1000" height="170"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="phF-6x-1fP" id="rKv-pu-DW6">
-                                            <frame key="frameInset" width="600" height="170"/>
+                                            <frame key="frameInset" width="1000" height="170"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="reward_type_icon_0" translatesAutoresizingMaskIntoConstraints="NO" id="lkR-dl-GAM" userLabel="typeImgView">
@@ -1104,10 +1110,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="JoinedRewardCell_3" rowHeight="170" id="Kch-Oa-Nj2" customClass="JoinedRewardCell">
-                                        <rect key="frame" x="0.0" y="538" width="600" height="170"/>
+                                        <rect key="frame" x="0.0" y="538" width="1000" height="170"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kch-Oa-Nj2" id="giQ-cf-Owi">
-                                            <frame key="frameInset" width="600" height="170"/>
+                                            <frame key="frameInset" width="1000" height="170"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="reward_type_icon_0" translatesAutoresizingMaskIntoConstraints="NO" id="mRN-c3-lTe" userLabel="typeImgView">
@@ -1279,10 +1285,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="JoinedRewardCell_4" rowHeight="170" id="5xe-6z-P29" customClass="JoinedRewardCell">
-                                        <rect key="frame" x="0.0" y="708" width="600" height="170"/>
+                                        <rect key="frame" x="0.0" y="708" width="1000" height="170"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5xe-6z-P29" id="DjE-aq-lna">
-                                            <frame key="frameInset" width="600" height="170"/>
+                                            <frame key="frameInset" width="1000" height="170"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="reward_type_icon_0" translatesAutoresizingMaskIntoConstraints="NO" id="1xs-IN-ZKJ" userLabel="typeImgView">
@@ -1621,7 +1627,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="T3L-fd-LIg">
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="4KN-zU-WVG">
-                                    <rect key="frame" x="0.0" y="2509" width="375" height="44"/>
+                                    <rect key="frame" x="0.0" y="2508.5" width="1000" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 </view>
