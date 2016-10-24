@@ -207,6 +207,14 @@
     }
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if ([cell isKindOfClass:[MartTitleValueCell class]]) {
+        BOOL isMobileCell = indexPath.section == 2 && indexPath.row == 0 && _curCoder.mobile.length > 0;
+        [(MartTitleValueCell *)cell valueL].textColor = isMobileCell? kColorBrandBlue: [UIColor colorWithHexString:@"0x222222"];
+        cell.selectionStyle = isMobileCell? UITableViewCellSelectionStyleDefault: UITableViewCellSelectionStyleNone;
+    }
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat height = 0;
     if (indexPath.section == 0) {
