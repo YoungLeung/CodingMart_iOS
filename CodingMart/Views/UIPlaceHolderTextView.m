@@ -31,6 +31,7 @@ NSInteger const UI_PLACEHOLDER_LT_LABEL_TAG = 888;
 - (void)awakeFromNib{
     [super awakeFromNib];
     // Use Interface Builder User Defined Runtime Attributes to set
+    self.textContainerInset = UIEdgeInsetsMake(8, 8, 8, 8);
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged:) name:UITextViewTextDidChangeNotification object:nil];
 }
 
