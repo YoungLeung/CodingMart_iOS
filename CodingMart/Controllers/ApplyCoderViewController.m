@@ -57,14 +57,13 @@
 
 - (void)configBottomV{
     NSInteger status = _curCoder.status.integerValue;
+    _bottomV.hidden = YES;//没有按钮
     if (status <= JoinStatusChecked) {//两个按钮
         _bottomV.hidden = _acceptBtn.hidden = _rejectBtn.hidden = NO;
         _cancelBtn.hidden = YES;
-    }else if (status == JoinStatusSucessed){//一个按钮
+    }else if (status == JoinStatusSucessed && !_curCoder.hasPayedStage.boolValue){//一个按钮
         _bottomV.hidden = _cancelBtn.hidden = NO;
         _acceptBtn.hidden = _rejectBtn.hidden = YES;
-    }else{//没有按钮
-        _bottomV.hidden = YES;
     }
     _myTableView.contentInset = UIEdgeInsetsMake(0, 0, _bottomV.hidden? 0: 60, 0);
 }

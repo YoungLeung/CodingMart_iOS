@@ -83,6 +83,10 @@
         }
         roleApply.coders = coders;
         roleApply.passedCoder = [roleApply.coders filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"status = 2"]].firstObject;
+        if (roleApply.passedCoder) {
+            RewardMetroRole *role = [_metro.roles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"roleName = %@", roleApply.passedCoder.name]].firstObject;
+            roleApply.passedCoder.hasPayedStage = @(role.stages.count - role.notPayedCount.integerValue > 0);
+        }
         [roleApplyList addObject:roleApply];
     }
     _roleApplyList = roleApplyList.copy;
