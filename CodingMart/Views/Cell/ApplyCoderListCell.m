@@ -64,8 +64,8 @@
     _coderName.text = _curCoder.name;
     _timeL.text = [NSString stringWithFormat:@"报名时间：%@",  _curCoder.createdAt.length > 2? [_curCoder.createdAt substringToIndex:_curCoder.createdAt.length - 2]: @"--"];
     [_rejectBtn setTitle:_curCoder.status.integerValue == JoinStatusSucessed? @"取消合作": @"不合适" forState:UIControlStateNormal];
-    _rejectBtn.hidden = !(_curCoder.status.integerValue < JoinStatusFailed && !_curCoder.hasPayedStage.boolValue);//拒绝之前，都可以拒绝 && 没有支付过
-    _acceptBtn.hidden = !(_curCoder.status.integerValue < JoinStatusSucessed);//接受之前，都可以接受
+    _rejectBtn.hidden = !(_curCoder.loginUserIsOwner.boolValue && _curCoder.status.integerValue < JoinStatusFailed && !_curCoder.hasPayedStage.boolValue);//拒绝之前，都可以拒绝 && 没有支付过
+    _acceptBtn.hidden = !(_curCoder.loginUserIsOwner.boolValue && _curCoder.status.integerValue < JoinStatusSucessed);//接受之前，都可以接受
     _rejectBtnTrailing.constant = _acceptBtn.hidden? 15: 100;
 }
 
@@ -73,7 +73,7 @@
     CGFloat cellHeight = 0;
     if ([obj isKindOfClass:[RewardApplyCoder class]]) {
         RewardApplyCoder *coder = (RewardApplyCoder *)obj;
-        cellHeight = (coder.status.integerValue < JoinStatusFailed && !coder.hasPayedStage.boolValue)? 180: 150;
+        cellHeight = (coder.loginUserIsOwner.boolValue && coder.status.integerValue < JoinStatusFailed && !coder.hasPayedStage.boolValue)? 180: 150;
     }
     return cellHeight;
 }

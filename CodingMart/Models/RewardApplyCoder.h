@@ -11,7 +11,8 @@
 
 @interface RewardApplyCoder : NSObject
 @property (strong, nonatomic) NSString *global_key, *user_name, *name, *role_name, *role_type, *mobile, *user_mobile, *qq, *skills, *message, *good_at, *avatar, *createdAt, *email, *userEmail;
-@property (strong, nonatomic) NSNumber *role_type_id, *user_id, *reward_role, *status, *apply_id, *hasPayedStage;
+@property (strong, nonatomic) NSNumber *role_type_id, *user_id, *reward_role, *status, *apply_id;
+@property (strong, nonatomic) NSNumber *hasPayedStage, *loginUserIsOwner;
 @property (strong, nonatomic) RewardCoderMaluation *maluation;
 
 - (NSString *)reward_roleDisplay;

@@ -18,7 +18,8 @@
     //coder.maluation
     for (RewardApplyCoder *coder in _apply.coders) {
         NSDictionary *maluationDict = _apply.maluation[coder.global_key];
-        coder.maluation = [NSObject objectOfClass:@"RewardCoderMaluation" fromJSON:maluationDict];;
+        coder.maluation = [NSObject objectOfClass:@"RewardCoderMaluation" fromJSON:maluationDict];
+        coder.loginUserIsOwner = @([self isRewardOwner]);
     }
     //metro.metroStatus
     NSMutableArray *metroStatus = @[].mutableCopy;
