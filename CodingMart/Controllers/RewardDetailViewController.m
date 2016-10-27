@@ -261,9 +261,13 @@
             [self.navigationController pushViewController:vc animated:YES];
         }else{//去提交
             if (_rewardDetal) {
-                RewardApplyViewController *vc = [RewardApplyViewController storyboardVC];
-                vc.rewardDetail = _rewardDetal;
-                [self.navigationController pushViewController:vc animated:YES];
+                if (_rewardDetal.reward.roleTypesNotCompleted.count <= 0) {
+                    [NSObject showHudTipStr:@"该悬赏所有角色都已招募完毕"];
+                }else{
+                    RewardApplyViewController *vc = [RewardApplyViewController storyboardVC];
+                    vc.rewardDetail = _rewardDetal;
+                    [self.navigationController pushViewController:vc animated:YES];
+                }
             }
         }
     }else{

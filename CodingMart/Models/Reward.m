@@ -66,6 +66,11 @@
     _statusBGColorHexStr = [[NSObject rewardStatusBGColorDict] objectForKey:_status.stringValue];
     _roleTypesDisplay = [[_roleTypes valueForKey:@"name"] componentsJoinedByString:@","];
 }
+
+- (NSArray *)roleTypesNotCompleted{
+    NSArray *list = [_roleTypes filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"completed != 1"]];
+    return list;
+}
 + (BOOL)saveDraft:(Reward *)curReward{
     if (!curReward) {
         return NO;

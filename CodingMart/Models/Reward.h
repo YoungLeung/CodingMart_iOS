@@ -51,6 +51,7 @@ typedef NS_ENUM(NSInteger, PayMethodType) {
 @property (strong, nonatomic) NSString *name, *description_mine, *contact_name, *contact_email, *contact_mobile, *first_sample, *second_sample, *first_file, *second_file, *require_doc, *survey_extra, *contact_mobile_code, *recommend, *country, *phoneCountryCode;
 //Display
 @property (strong, nonatomic) NSString *typeDisplay, *typeImageName, *statusDisplay, *roleTypesDisplay, *statusStrColorHexStr, *statusBGColorHexStr;
+@property (strong, nonatomic, readonly) NSArray *roleTypesNotCompleted;
 //Pay
 @property (strong, nonatomic) NSString *payMoney;
 @property (assign ,nonatomic) PayMethodType payType;

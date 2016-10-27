@@ -131,7 +131,7 @@
         return nil;
     }
     __block NSString *role_type_name;
-    [_rewardDetail.reward.roleTypes enumerateObjectsUsingBlock:^(RewardRoleType *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [_rewardDetail.reward.roleTypesNotCompleted enumerateObjectsUsingBlock:^(RewardRoleType *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (obj.id.integerValue == role_type.integerValue) {
             role_type_name = obj.name;
             *stop = YES;
@@ -145,7 +145,7 @@
         return 0;
     }
     __block NSUInteger index;
-    [_rewardDetail.reward.roleTypes enumerateObjectsUsingBlock:^(RewardRoleType *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [_rewardDetail.reward.roleTypesNotCompleted enumerateObjectsUsingBlock:^(RewardRoleType *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (obj.id.integerValue == role_type.integerValue) {
             index = idx;
             *stop = YES;
@@ -197,13 +197,17 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {//报名角色
+            if (_rewardDetail.reward.roleTypesNotCompleted.count <= 0) {
+                [NSObject showHudTipStr:@"该悬赏所有角色都已招募完毕"];
+                return;
+            }
             __weak typeof(self) weakSelf = self;
             [ActionSheetStringPicker showPickerWithTitle:nil
-                                                    rows:@[[_rewardDetail.reward.roleTypes valueForKey:@"name"]]
+                                                    rows:@[[_rewardDetail.reward.roleTypesNotCompleted valueForKey:@"name"]]
                                         initialSelection:@[@([self p_IndexOfRoleType:_curJoinInfo.roleTypeId])]
                                                doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
                                                    NSNumber *index = selectedIndex.firstObject;
-                                                   weakSelf.curJoinInfo.roleTypeId = [(RewardRoleType *)weakSelf.rewardDetail.reward.roleTypes[index.integerValue] id];
+                                                   weakSelf.curJoinInfo.roleTypeId = [(RewardRoleType *)weakSelf.rewardDetail.reward.roleTypesNotCompleted[index.integerValue] id];
                                                }
                                              cancelBlock:nil
                                                   origin:self.view];
