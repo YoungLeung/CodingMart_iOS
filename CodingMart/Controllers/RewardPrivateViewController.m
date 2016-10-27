@@ -156,7 +156,7 @@
             rowNum = (section == 0? 1:
                       section == 1? [_curRewardP needToShowStagePay]? 1: 0:
                       section == 2? 1:
-                      section == 3? MAX(1, _curRewardP.roleApplyList.count):
+                      section == 3? ![_curRewardP isRewardOwner]? 0: MAX(1, _curRewardP.roleApplyList.count):
                       section == 4? MAX(1, _curRewardP.metro.roles.count):
                       _curRewardP.filesToShow.count);
         }else{
@@ -180,6 +180,7 @@
         headerHeight = (section == 0? minHeight:
                         section == 1? [_curRewardP needToShowStagePay]? 44: minHeight:
                         section == 2? 10:
+                        section == 3? [_curRewardP isRewardOwner]? 44: minHeight:
                         section == 4? 44:
                         44);
         return headerHeight;
@@ -217,7 +218,7 @@
             }
         }else{
             if ([self isCurRewardStarted]) {
-                headerV = [self p_headerViewWithStr:(section == 3? @"开发者报名列表":
+                headerV = [self p_headerViewWithStr:(section == 3 && [_curRewardP isRewardOwner]? @"开发者报名列表":
                                                      section == 4? _curRewardP.basicInfo.managerName.length > 0? [NSString stringWithFormat:@"阶段列表 | 项目顾问：%@", _curRewardP.basicInfo.managerName]: @"阶段列表":
                                                      section == 5? @"需求文档":
                                                      nil)];
@@ -362,7 +363,7 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView == _myTableView) {
-        if (indexPath.section <= 2) {
+        if (indexPath.section <= 2) {            
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:15];
         }else if (indexPath.section == 3){
             if ([self isCurRewardStarted]) {
