@@ -41,7 +41,7 @@
     }
     params[@"project_name"] = _project_name;
     params[@"start_time"] = _start_time_numerical;
-    params[@"finish_time"] = _finish_time_numerical;
+    params[@"finish_time"] = _finish_time_numerical ?: @"";
     params[@"until_now"] = _until_now;
     params[@"description"] = _description_mine;
     params[@"duty"] = _duty;
