@@ -23,4 +23,7 @@
 - (NSDictionary *)toParams;
 - (BOOL)canPost:(FillUserInfo *)originalObj;
 - (BOOL)isSameTo:(FillUserInfo *)obj;
+
++ (void)cacheInfoData:(NSDictionary *)dict;
++ (FillUserInfo *)infoCached;
 @end

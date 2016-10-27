@@ -560,6 +560,9 @@
 - (void)get_FillUserInfoBlock:(void (^)(id data, NSError *error))block{
     NSString *path  = @"api/userinfo";
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            [FillUserInfo cacheInfoData:data];
+        }
         block(data, error);
     }];
 }

@@ -7,6 +7,7 @@
 //
 
 #import "FillUserInfo.h"
+#import "Login.h"
 
 @implementation FillUserInfo
 + (NSArray *)free_time_display_list{
@@ -122,4 +123,25 @@
      [NSObject isSameStr:_country to:obj.country]
     );
 }
+
++ (void)cacheInfoData:(NSDictionary *)dict{
+    if ([dict isKindOfClass:[NSDictionary class]]) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:dict forKey:[self p_cacheKey]];
+        [defaults synchronize];
+    }
+}
++ (FillUserInfo *)infoCached{
+    if ([Login isLogin]) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSDictionary *data = [defaults objectForKey:[self p_cacheKey]];
+        return data[@"data"][@"info"]? [NSObject objectOfClass:@"FillUserInfo" fromJSON:data[@"data"][@"info"]]: nil;
+    }else{
+        return nil;
+    }
+}
++ (NSString *)p_cacheKey{
+    return [NSString stringWithFormat:@"%@_UserInfo_Key", [Login curLoginUser].global_key];
+}
+
 @end
