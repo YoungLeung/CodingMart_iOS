@@ -43,9 +43,7 @@
 -(void)buildUI
 {
     self.view.backgroundColor=[UIColor whiteColor];
-    if (self.isPass)
-    {
-        
+    if (self.isPass){
         [self.titleNoticeButton setTitle:@"恭喜您，成功通过本次秘籍测试" forState:UIControlStateNormal];
         
         [self.titleNoticeButton setImage:[UIImage imageNamed:@"fill_checked"] forState:UIControlStateNormal];
@@ -61,7 +59,7 @@
         [self.configBtn setTitle:@"查看需求" forState:UIControlStateNormal];
         
         [self.titleNoticeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.view.mas_top).offset(82);
+            make.top.equalTo(self.view.mas_top).offset(82 + 64);
             make.left.equalTo(self.view.mas_left);
             make.right.equalTo(self.view.mas_right);
             make.height.equalTo(@45);
@@ -82,19 +80,7 @@
             make.right.equalTo(self.view.mas_right).offset(-20);
             make.height.equalTo(@45);
         }];
-        
-     
-        
-       
-    }else
-    {
-//        UIScrollView *bgScrollView =[UIScrollView new];
-//        [self.view addSubview:bgScrollView];
-//        [bgScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.edges.equalTo(self.view);
-//        }];
-//        bgScrollView.contentSize=CGSizeMake(kScreen_Width, kScreen_Height);
-        
+    }else{
         [self.titleNoticeButton setTitle:@"您未能通过本次秘笈测试" forState:UIControlStateNormal];
         [self.titleNoticeButton setImage:[UIImage imageNamed:@"fail_pass"] forState:UIControlStateNormal];
         [self.view addSubview:self.titleNoticeButton];
@@ -114,7 +100,7 @@
         
         
         [self.titleNoticeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.view.mas_top).offset(17);
+            make.top.equalTo(self.view.mas_top).offset(17 + 64);
             make.left.equalTo(self.view.mas_left);
             make.right.equalTo(self.view.mas_right);
             make.height.equalTo(@25);
@@ -151,9 +137,6 @@
             make.right.equalTo(self.view.mas_right).offset(-20);
             make.height.equalTo(@45);
         }];
-        
-//        NSString *tips =[NSString stringWithFormat:@"您有%d个问题回答错误，请点击回答错误的问题并查看正确答案，然后重新答题。",self.correctCount];
-//        self.detailLabel.text=tips;
     }
 }
 
@@ -290,24 +273,5 @@
     }
     
 }
-
-//-(NSMutableDictionary*)userSelectDic
-//{
-//    if (!_userSelectDic) {
-//        _userSelectDic=[[NSMutableDictionary alloc]init];
-//        
-//    }
-//    return _userSelectDic;
-//}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
