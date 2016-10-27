@@ -18,6 +18,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *authDescL;
 @property (weak, nonatomic) IBOutlet UITTTAttributedLabel *bottomL;
 @property (strong, nonatomic) IBOutlet UIView *payV;
+@property (weak, nonatomic) IBOutlet UILabel *payNameL;
+@property (weak, nonatomic) IBOutlet UILabel *payIdentityL;
 
 @property (strong, nonatomic) EAXibTipView *payTipV;
 @end
@@ -28,7 +30,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     WEAKSELF
-    [_bottomL addLinkToStr:@"《码市认证授权与承诺书》" value:nil hasUnderline:NO clickedBlock:^(id value) {
+    [_bottomL addLinkToStr:@"《身份认证授权与承诺书》" value:nil hasUnderline:NO clickedBlock:^(id value) {
         [weakSelf goToAgreement];
     }];
     _nameF.text = _info.name;
@@ -37,7 +39,7 @@
 
 #pragma mark Table
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return section == 0? 0: 10;
+    return section == 0? 1.0/[UIScreen mainScreen].scale: 10;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -97,6 +99,8 @@
         _payV.frame = CGRectMake(0, 0, kScreen_Width - 30, height);
         _payTipV = [EAXibTipView instancetypeWithXibView:_payV];
     }
+    _payNameL.text = _nameF.text;
+    _payIdentityL.text = _identityF.text;
     [_payTipV showInView:self.view];
 }
 - (IBAction)dismissPayTipV:(id)sender {
@@ -105,12 +109,13 @@
 - (IBAction)goToPay:(id)sender {
     [_payTipV dismiss];
     //ToDo
+    [NSObject showHudTipStr:@"To Do"];
 }
 
 #pragma mark VC
 - (void)goToAgreement{
     NSString *urlStr = @"https://dn-coding-net-production-public-file.qbox.me/%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E6%8E%88%E6%9D%83%E4%B8%8E%E6%89%BF%E8%AF%BA%E4%B9%A6_160816.pdf";
-    [self goToWebVCWithUrlStr:urlStr title:@"码市认证授权与承诺书"];
+    [self goToWebVCWithUrlStr:urlStr title:@"身份认证授权与承诺书"];
 }
 
 - (void)goToStep2{

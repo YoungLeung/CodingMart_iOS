@@ -4075,7 +4075,7 @@
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4XQ-jl-7kf" customClass="UITTTAttributedLabel">
                                     <string key="text">点击『提交审核』代表您已仔细阅读上述「认证说明」
-并同意遵守《码市认证授权与承诺书》</string>
+并同意遵守《身份认证授权与承诺书》</string>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
@@ -4368,7 +4368,7 @@
       用户应保证其提供给码市平台的所有资料和信息的真实性、合法性、准确性和有效性；否则，码市平台有权终止和取消用户通过码市平台获取的服务和酬金。因用户提供的资料偏差给码市平台或第三方造成损害的，该用户应依法承担相应的责任。
       保护用户隐私信息是码市平台的一项基本原则，码市平台会采取合理有效的措施确保用户信息的安全性，请您放心！除法律法规规定的情形外，未经用户许可 码市平台绝不会向任何第三方泄漏用户的资料和信息。
       用户理解并同意：授权码市平台对其提交的资料和信息进行甄别核实；码市平台基于法律法规对已授权的用户提供的资料和信息进行身份审核和认证。
-      请您按照要求上传身份证正面照、身份证背面照并同意《码市认证授权与承诺书》。上传的身份证正反面照片应保证身份证信息均清晰可见无遮挡，否则，认证将不予通过。
+      请您按照要求上传身份证正面照、身份证背面照并同意《身份认证授权与承诺书》。上传的身份证正反面照片应保证身份证信息均清晰可见无遮挡，否则，认证将不予通过。
       感谢您的配合，祝您顺利通过认证！
 
 Coding 码市团队</string>
@@ -4561,6 +4561,12 @@ Coding 码市团队</string>
                         <constraint firstItem="bov-Bj-pvD" firstAttribute="top" secondItem="Rdj-TH-CfQ" secondAttribute="bottom" id="vih-7R-0Iu"/>
                         <constraint firstAttribute="trailing" secondItem="dXs-MY-o0U" secondAttribute="trailing" constant="10" id="zWY-B8-DIl"/>
                     </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="2"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="masksToBounds" value="YES"/>
+                    </userDefinedRuntimeAttributes>
                 </view>
             </objects>
             <point key="canvasLocation" x="-671.20000000000005" y="-1184.7076461769116"/>
@@ -6493,7 +6499,7 @@ Coding 码市团队</mutableString>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DTQ-UZ-Fz5" customClass="UITTTAttributedLabel">
                                     <string key="text">点击『提交审核』代表您已仔细阅读上述「认证说明」
-并同意遵守《码市认证授权与承诺书》</string>
+并同意遵守《身份认证授权与承诺书》</string>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
@@ -6810,6 +6816,8 @@ Coding 码市团队</mutableString>
                         <outlet property="bottomL" destination="DTQ-UZ-Fz5" id="Z0b-QZ-bRc"/>
                         <outlet property="identityF" destination="RTH-5P-JV3" id="D52-BZ-hTu"/>
                         <outlet property="nameF" destination="Tuf-7b-NiF" id="vht-DO-hTZ"/>
+                        <outlet property="payIdentityL" destination="AJb-11-U3l" id="kJv-TV-o6f"/>
+                        <outlet property="payNameL" destination="NUR-Sa-Pma" id="l3U-e3-a3Y"/>
                         <outlet property="payV" destination="27E-a2-wW7" id="gUN-0I-Xba"/>
                     </connections>
                 </tableViewController>
@@ -6877,7 +6885,6 @@ Coding 码市团队</mutableString>
                             </constraints>
                             <state key="normal" title="微信支付"/>
                             <connections>
-                                <action selector="bottomBtnClicked:" destination="6g4-Au-LAu" eventType="touchUpInside" id="IZ3-18-VEK"/>
                                 <action selector="goToPay:" destination="6g4-Au-LAu" eventType="touchUpInside" id="atq-Df-M4x"/>
                             </connections>
                         </button>
@@ -6911,6 +6918,12 @@ Coding 码市团队</mutableString>
                         <constraint firstAttribute="trailing" secondItem="nh0-X4-UXS" secondAttribute="trailing" constant="10" id="wHJ-i0-awB"/>
                         <constraint firstItem="vro-4E-gLC" firstAttribute="leading" secondItem="27E-a2-wW7" secondAttribute="leading" constant="15" id="wRR-1U-grR"/>
                     </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="2"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="masksToBounds" value="YES"/>
+                    </userDefinedRuntimeAttributes>
                 </view>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SuX-R6-gC6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -7051,6 +7064,18 @@ Coding 码市团队</mutableString>
                                                         <constraint firstAttribute="height" constant="160" id="9i0-WD-Cm6"/>
                                                         <constraint firstAttribute="width" constant="160" id="P8z-vh-9aF"/>
                                                     </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                            <real key="value" value="0.5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="masksToBounds" value="YES"/>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                            <color key="value" red="0.8666666666666667" green="0.8666666666666667" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                            <real key="value" value="2"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="签署流程" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W6f-sh-yjd">
                                                     <constraints>
@@ -7070,7 +7095,7 @@ Coding 码市团队</mutableString>
                                                     <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="查看「身份认证授权与承诺书」" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fWQ-5K-WYf">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="查看《身份认证授权与承诺书》" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fWQ-5K-WYf" customClass="UITTTAttributedLabel">
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -7102,6 +7127,12 @@ Coding 码市团队</mutableString>
                             <outlet property="delegate" destination="cRl-QK-d0u" id="oue-Yy-Rnu"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="agreementL" destination="fWQ-5K-WYf" id="MA3-gE-fZV"/>
+                        <outlet property="codeImageV" destination="GUG-hB-fjy" id="LDn-BT-t4a"/>
+                        <outlet property="tip1L" destination="km9-Rk-kll" id="yKJ-mH-PBL"/>
+                        <outlet property="tip2L" destination="s9J-O5-hhH" id="BOs-zU-YNu"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Av-OO-oCo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -7122,7 +7153,7 @@ Coding 码市团队</mutableString>
                                         <rect key="frame" x="0.0" y="35" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nVz-dZ-Wsy" id="oJr-ii-L0I">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <frame key="frameInset" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="个人信息" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4EV-38-56d">
@@ -7170,7 +7201,7 @@ Coding 码市团队</mutableString>
                                         <rect key="frame" x="0.0" y="79" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zAv-Tq-DGA" id="XdJ-Q1-h2l">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <frame key="frameInset" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="技能展示" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rVm-5i-SuV">
@@ -7215,7 +7246,7 @@ Coding 码市团队</mutableString>
                                         <rect key="frame" x="0.0" y="123" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Veg-7U-qeF" id="5kb-cw-oGz">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <frame key="frameInset" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="码市测试" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="92H-Ht-0ZX">
@@ -7264,7 +7295,7 @@ Coding 码市团队</mutableString>
                                         <rect key="frame" x="0.0" y="203" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wI6-2y-dyZ" id="rBI-po-0kl">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <frame key="frameInset" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="码市认证" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kyZ-nc-d4t">

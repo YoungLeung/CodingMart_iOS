@@ -720,9 +720,25 @@
 - (void)get_IdentityInfoBlock:(void (^)(id data, NSError *error))block{
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/user/info" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
-            data = [NSObject objectOfClass:@"IdentityInfo" fromJSON:data];
+            IdentityInfo *info = [NSObject objectOfClass:@"IdentityInfo" fromJSON:data];
+            if ([@[@"Unchecked", @"Rejected"] containsObject:info.status]) {
+                block(info, error);
+            }else{//后续步骤，需要承诺书链接
+                [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/user/identity/sign" withParams:nil withMethodType:Get andBlock:^(id dataS, NSError *errorS) {
+                    if (dataS[@"documentId"]) {
+                        info.agreementLinkStr = [NSString stringWithFormat:@"/api/user/identity/sign/%@", dataS[@"documentId"]];
+                    }
+                    if ([info.status isEqualToString:@"Checked"]) {
+                        block(info, error);
+                    }else{//签署流程，需要二维码
+                        //To Do
+                        block(info, error);
+                    }
+                }];
+            }
+        }else{
+            block(data, error);
         }
-        block(data, error);
     }];
 }
 - (void)post_IdentityInfo:(IdentityInfo *)info block:(void (^)(id data, NSError *error))block{

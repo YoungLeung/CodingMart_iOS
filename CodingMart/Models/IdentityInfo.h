@@ -17,4 +17,5 @@
 @property (strong, nonatomic) NSNumber *userId;
 @property (strong, nonatomic) NSString *name, *identity, *email, *status;
 @property (strong, nonatomic) NSString *agreementLinkStr;
+@property (strong, nonatomic) NSString *qrCodeLinkStr;
 @end
