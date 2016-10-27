@@ -7,8 +7,9 @@
 //
 
 #import "BaseTableViewController.h"
+#import "IdentityInfo.h"
 
 @interface IdentityPassedViewController : BaseTableViewController
 @property(nonatomic,strong) NSDictionary *identity_server_CacheDataDic;
-
+@property (strong, nonatomic) IdentityInfo *info;
 @end

@@ -10,16 +10,13 @@
 #import "IdentityAuthenticationModel.h"
 #import "UIImageView+WebCache.h"
 #import "Login.h"
+#import "UITTTAttributedLabel.h"
+#import "EATipView.h"
 
 @interface IdentityPassedViewController ()
-@property (weak, nonatomic) IBOutlet UIImageView *userIconV;
 @property (weak, nonatomic) IBOutlet UILabel *nameL;
 @property (weak, nonatomic) IBOutlet UILabel *identityNumL;
-
-@property (weak, nonatomic) IBOutlet UIView *headerV;
-@property (weak, nonatomic) IBOutlet UILabel *headerL;
-
-@property (strong,nonatomic) IdentityAuthenticationModel *model;
+@property (weak, nonatomic) IBOutlet UITTTAttributedLabel *headerL;
 
 @end
 
@@ -27,25 +24,44 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    CGFloat headerLHeight = [_headerL.text getHeightWithFont:_headerL.font constrainedToSize:CGSizeMake(kScreen_Width - 30, CGFLOAT_MAX)];
-    _headerV.height = 40 + headerLHeight;
-    
-    [_userIconV sd_setImageWithURL:[[Login curLoginUser].avatar urlImageWithCodePathResize:70* 2]];
-    _nameL.text = [Login curLoginUser].name;
-    NSString *displayStr = _model.identity;
+    // Do any additional setup after loading the view.
+    WEAKSELF
+    [_headerL addLinkToStr:@"联系客服" value:nil hasUnderline:NO clickedBlock:^(id value) {
+        [weakSelf goToTalk];
+    }];
+
+    _nameL.text = _info.name;
+    NSString *displayStr = _info.identity;
     if (displayStr.length > 5) {
         displayStr = [displayStr stringByReplacingCharactersInRange:NSMakeRange(3, displayStr.length - 5) withString:@"*********"];
     }
     _identityNumL.text = displayStr;
+    [self.tableView reloadData];
 }
 
-
-- (void)setIdentity_server_CacheDataDic:(NSDictionary *)identity_server_CacheDataDic{
-    _identity_server_CacheDataDic = identity_server_CacheDataDic;
-    _model = _identity_server_CacheDataDic? [NSObject objectOfClass:@"IdentityAuthenticationModel" fromJSON:_identity_server_CacheDataDic]: [IdentityAuthenticationModel new];
+- (void)goToTalk{
+    [[UIActionSheet bk_actionSheetCustomWithTitle:@"是否需要拨打电话" buttonTitles:@[@"拨打电话"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        if (index == 0) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://400-992-1001"]];
+        }
+    }] showInView:self.view];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForHeaderInSection:(NSInteger)section{
-    return 20;
+- (IBAction)goToAggrement:(id)sender {
+    [self goToWebVCWithUrlStr:_info.agreementLinkStr title:@"身份认证授权与承诺书"];
+}
+
+#pragma mark Table
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 10;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    return [UIView new];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return _info.agreementLinkStr.length > 0? 155: 100;
 }
 @end

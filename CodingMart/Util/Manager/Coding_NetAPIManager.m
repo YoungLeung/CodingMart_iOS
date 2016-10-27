@@ -43,6 +43,7 @@
 #import "FreezeRecord.h"
 #import "ProjectIndustry.h"
 #import "RewardApplyCoderDetail.h"
+#import "IdentityInfo.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -713,7 +714,22 @@
         block(data, error);
     }];
 }
-
+- (void)get_IdentityInfoBlock:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/user/info" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject objectOfClass:@"IdentityInfo" fromJSON:data];
+        }
+        block(data, error);
+    }];
+}
+- (void)post_IdentityInfo:(IdentityInfo *)info block:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/user/identity";
+    NSDictionary *params = @{@"name": info.name,
+                             @"identity": info.identity};
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
 #pragma mark MPay
 
 - (void)get_MPayBalanceBlock:(void (^)(NSDictionary *data, NSError *error))block{
