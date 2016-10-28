@@ -126,6 +126,7 @@
     NSInteger status = _curRewardP.basicInfo.status.integerValue;
     return (status == RewardStatusRecruiting ||
             status == RewardStatusDeveloping ||
+            status == RewardStatusMaintain ||
             status == RewardStatusFinished);
 }
 
@@ -180,7 +181,7 @@
         headerHeight = (section == 0? minHeight:
                         section == 1? [_curRewardP needToShowStagePay]? 44: minHeight:
                         section == 2? 10:
-                        section == 3? [_curRewardP isRewardOwner]? 44: minHeight:
+                        section == 3? (![_curRewardP isRewardOwner] && [self isCurRewardStarted])? minHeight: 44:
                         section == 4? 44:
                         44);
         return headerHeight;

@@ -82,7 +82,7 @@
     _applyStatusL.text = [[NSObject applyStatusDict] findKeyFromStrValue:_reward.apply_status.stringValue];
     _numL.text = _reward.status.integerValue == RewardStatusRecruiting? [NSString stringWithFormat:@"%@人报名",_reward.apply_count.stringValue]: nil;
     _editBtn.enabled = (_reward.status.integerValue == RewardStatusRecruiting);
-    _rewardBtn.enabled = (_reward.status.integerValue > RewardStatusRecruiting);
+    _rewardBtn.enabled = (_reward.status.integerValue >= RewardStatusRecruiting);
     _rewardNumL.text = [NSString stringWithFormat:@" No.%@  ", _reward.id.stringValue];
 
 }
