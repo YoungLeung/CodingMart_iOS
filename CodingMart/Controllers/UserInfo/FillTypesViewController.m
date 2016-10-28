@@ -18,6 +18,7 @@
 #import "IdentityStep1ViewController.h"
 #import "IdentityStep2ViewController.h"
 #import "IdentityInfo.h"
+#import "MartSurveyViewController.h"
 
 typedef NS_ENUM(NSInteger, IdentityStatusCode)
 {
@@ -156,9 +157,19 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
             }
             [self.navigationController pushViewController:[SkillsViewController storyboardVC] animated:YES];
         }else if (indexPath.row == 2){
-            CodingMarkTestViewController *vc = [CodingMarkTestViewController storyboardVC];
-            vc.hasPassTheTesting=_curUser.passingSurvey.boolValue;
-            [self.navigationController pushViewController:vc animated:YES];
+            WEAKSELF
+            [NSObject showHUDQueryStr:@"请稍等..."];
+            [[Coding_NetAPIManager sharedManager] get_MartSurvey:^(id data, NSError *error) {
+                [NSObject hideHUDQuery];
+                if (data) {
+                    MartSurveyViewController *vc = [MartSurveyViewController vcInStoryboard:@"UserInfo"];
+                    vc.survey = data;
+                    [weakSelf.navigationController pushViewController:vc animated:YES];
+                }
+            }];
+//            CodingMarkTestViewController *vc = [CodingMarkTestViewController storyboardVC];
+//            vc.hasPassTheTesting=_curUser.passingSurvey.boolValue;
+//            [self.navigationController pushViewController:vc animated:YES];
         }
     }else if (indexPath.section == 1){
 //        if (!self.curUser.fullInfo.boolValue) {

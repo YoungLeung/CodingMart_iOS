@@ -44,6 +44,7 @@
 #import "ProjectIndustry.h"
 #import "RewardApplyCoderDetail.h"
 #import "IdentityInfo.h"
+#import "MartSurvey.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -749,6 +750,25 @@
         block(data, error);
     }];
 }
+- (void)get_MartSurvey:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/app/survey" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject objectOfClass:@"MartSurvey" fromJSON:data[@"data"]];
+        }
+        block(data, error);
+    }];
+}
+- (void)post_MartSurvey:(MartSurvey *)survey block:(void (^)(id data, NSError *error))block{
+    CodingNetAPIClient *client = [[CodingNetAPIClient alloc] initWithBaseURL:[NSURL URLWithString:[NSObject baseURLStr]]];
+    client.requestSerializer = [AFJSONRequestSerializer serializer];
+    [client requestJsonDataWithPath:@"api/app/survey" withParams:[survey toParams] withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject objectOfClass:@"MartSurvey" fromJSON:data[@"data"]];
+        }
+        block(data, error);
+    }];
+}
+
 #pragma mark MPay
 
 - (void)get_MPayBalanceBlock:(void (^)(NSDictionary *data, NSError *error))block{

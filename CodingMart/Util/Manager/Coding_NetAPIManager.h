@@ -16,7 +16,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
     PurposeToPasswordReset
 };
 
-@class Reward, FeedBackInfo, SettingNotificationInfo, VerifiedInfo, FillUserInfo, FillSkills, RewardDetail, JoinInfo, Rewards, SkillPro, SkillRole, MartSkill, RewardPrivate, Activities, MPayOrders, MPayPassword, MPayAccount, MPayAccounts, Withdraw, MartNotifications, FreezeRecords, ProjectIndustry, IdentityInfo;
+@class Reward, FeedBackInfo, SettingNotificationInfo, VerifiedInfo, FillUserInfo, FillSkills, RewardDetail, JoinInfo, Rewards, SkillPro, SkillRole, MartSkill, RewardPrivate, Activities, MPayOrders, MPayPassword, MPayAccount, MPayAccounts, Withdraw, MartNotifications, FreezeRecords, ProjectIndustry, IdentityInfo, MartSurvey;
 
 
 @interface Coding_NetAPIManager : NSObject
@@ -92,6 +92,8 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)get_IndustriesBlock:(void (^)(id data, NSError *error))block;
 - (void)get_IdentityInfoBlock:(void (^)(id data, NSError *error))block;
 - (void)post_IdentityInfo:(IdentityInfo *)info block:(void (^)(id data, NSError *error))block;
+- (void)get_MartSurvey:(void (^)(id data, NSError *error))block;
+- (void)post_MartSurvey:(MartSurvey *)survey block:(void (^)(id data, NSError *error))block;
 #pragma mark MPay
 - (void)get_MPayBalanceBlock:(void (^)(NSDictionary *data, NSError *error))block;
 - (void)get_MPayOrders:(MPayOrders *)orders block:(void (^)(id data, NSError *error))block;

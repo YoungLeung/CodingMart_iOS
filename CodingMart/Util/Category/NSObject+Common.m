@@ -8,7 +8,7 @@
 #define kPath_ImageCache @"ImageCache"
 #define kPath_ResponseCache @"ResponseCache"
 #define kTestKey @"BaseURLIsTest"
-#define kHUDQueryViewTag 101
+#define kHUDQueryViewTag 10086
 
 #import "NSObject+Common.h"
 #import "JDStatusBarNotification.h"
@@ -104,7 +104,7 @@
     titleStr = titleStr.length > 0? titleStr: @"正在获取数据...";
     MBProgressHUD *hud;
     hud = [kKeyWindow viewWithTag:kHUDQueryViewTag];
-    if (hud) {
+    if (hud && [hud isKindOfClass:[MBProgressHUD class]]) {
         [hud show:YES];
     }else{
         hud = [MBProgressHUD showHUDAddedTo:kKeyWindow animated:YES];
