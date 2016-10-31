@@ -137,6 +137,9 @@
             *stop = YES;
         }
     }];
+    if (role_type_name.length <= 0) {//可能情况是：该类型角色已经完成招募了，所以类型重置
+        _curJoinInfo.roleTypeId = nil;
+    }
     return role_type_name;
 }
 
@@ -144,7 +147,7 @@
     if (!role_type) {
         return 0;
     }
-    __block NSUInteger index;
+    __block NSUInteger index = 0;
     [_rewardDetail.reward.roleTypesNotCompleted enumerateObjectsUsingBlock:^(RewardRoleType *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (obj.id.integerValue == role_type.integerValue) {
             index = idx;
