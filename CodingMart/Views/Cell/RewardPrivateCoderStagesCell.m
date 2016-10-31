@@ -30,7 +30,7 @@
 
 - (void)setCurRole:(RewardMetroRole *)curRole{
     _curRole = curRole;
-    _titleL.text = [NSString stringWithFormat:@"%@（%@）", _curRole.role_name, _curRole.role_type];
+    _titleL.text = [NSString stringWithFormat:@"%@（%@）", _curRole.role_name, _curRole.name];
     
     _priceL.text = [NSString stringWithFormat:@"总金额：￥%@", (_curRole.isRewardOwner || _curRole.isStageOwner)? _curRole.total_price.stringValue: @"--"];
     _assistantL.text = [NSString stringWithFormat:@"阶段监理：%@", _curRole.assistant_name];
