@@ -35,6 +35,7 @@
     _myTableView.contentOffset = CGPointMake(0, -[self navBottomY]);
     [_bottomBtn setTitle:_survey.isAnswering? @"提交": @"重新答题" forState:UIControlStateNormal];
     _bottomV.hidden = _bottomBtn.hidden = _survey.isPassed;
+    _myTableView.contentInset = UIEdgeInsetsMake(0, 0, _survey.isPassed? -_bottomV.height: 0, 0);
 }
 
 #pragma mark Table

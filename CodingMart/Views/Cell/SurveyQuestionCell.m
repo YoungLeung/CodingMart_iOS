@@ -79,7 +79,7 @@
         cellHeight += [opt.content getHeightWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(width, CGFLOAT_MAX)];
         cellHeight += 15 * 2 + 10;
     }
-    cellHeight += isAnswering || !question.wrong.boolValue? 10: 45;
+    cellHeight += isAnswering || !question.wrong.boolValue? 30: 65;
     return cellHeight;
 }
 
