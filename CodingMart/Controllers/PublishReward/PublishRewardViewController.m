@@ -278,6 +278,7 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
             [nav pushViewController:publishedVC animated:YES];
         }
     }
+    [EATipView showAllowNotificationTipInView:kKeyWindow];
 }
 
 - (void)changeTabVCList{

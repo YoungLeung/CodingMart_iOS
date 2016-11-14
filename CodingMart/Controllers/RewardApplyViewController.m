@@ -17,6 +17,7 @@
 #import "SkillRole.h"
 #import "SkillPro.h"
 #import "RewardApplyProjectListViewController.h"
+#import "EATipView.h"
 
 @interface RewardApplyViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *role_typeF;
@@ -165,6 +166,7 @@
         if (data) {
             [NSObject showHudTipStr:@"提交成功"];
             [self.navigationController popViewControllerAnimated:YES];
+            [EATipView showAllowNotificationTipInView:kKeyWindow];
         }
     }];
 }

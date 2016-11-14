@@ -179,6 +179,20 @@
     return eaView;
 }
 
++ (void)showAllowNotificationTipInView:(UIView *)view{
+    NSURL *settingURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+    if (![UIDevice isAllowedNotification] && [[UIApplication sharedApplication] canOpenURL:settingURL]) {
+        EATipView *eaView = [EATipView new];
+        eaView.title = @"开启消息推送";
+        eaView.tipStr = @"为了方便您实时跟进项目进度，请开启您的手机消息推送。";
+        [eaView setRightBtnTitle:@"去开启" block:^{
+            [[UIApplication sharedApplication] openURL:settingURL];
+        }];
+        [eaView setLeftBtnTitle:@"取消" block:nil];
+        [eaView showInView:view];
+    }
+}
+
 - (void)dismiss{
     [UIView animateWithDuration:0.3 animations:^{
         _contentView.y = self.height;

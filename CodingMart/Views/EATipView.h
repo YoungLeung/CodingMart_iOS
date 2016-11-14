@@ -17,4 +17,5 @@
 - (void)setRightBtnTitle:(NSString *)title block:(void(^)())block;
 - (void)showInView:(UIView *)view;
 + (instancetype)instancetypeWithTitle:(NSString *)title tipStr:(NSString *)tipStr;
++ (void)showAllowNotificationTipInView:(UIView *)view;
 @end
