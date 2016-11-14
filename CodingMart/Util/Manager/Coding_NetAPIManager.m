@@ -367,8 +367,8 @@
 - (void)post_GenerateOrderWithReward:(Reward *)reward block:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/payment/app/charge";
     NSDictionary *params = @{@"reward_id": reward.id,
-                                    @"price": reward.payMoney,
-                                    @"platform": reward.payType == PayMethodAlipay? @"alipay": reward.payType == PayMethodWeiXin? @"wechat": @"unknown"};
+                             @"price": reward.payMoney,
+                             @"platform": reward.payType == PayMethodAlipay? @"alipay": reward.payType == PayMethodWeiXin? @"wechat": @"unknown"};
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         block(data[@"data"], error);
     }];

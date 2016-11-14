@@ -93,8 +93,8 @@
 }
 - (void)setCurJoinInfo:(JoinInfo *)curJoinInfo{
     _curJoinInfo = curJoinInfo;
+    _curJoinInfo.projectIdArr = _skillProArr.count > 0? [self.skillProArr valueForKey:@"id"]: @[];
     _messageT.text = _curJoinInfo.message;
-    
     [self.tableView reloadData];
 }
 

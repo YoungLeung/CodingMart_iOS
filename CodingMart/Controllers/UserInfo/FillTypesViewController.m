@@ -55,6 +55,7 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
         [MartFunctionTipView showFunctionImages:@[@"function_shenfenrenzheng"]];
         [FunctionTipsManager markTiped:kFunctionTipStr_ShenFenRenZheng];
     }
+//    [MartFunctionTipView showFunctionImages:@[@"guidance_dem_rewards_publish"] onlyOneTime:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
