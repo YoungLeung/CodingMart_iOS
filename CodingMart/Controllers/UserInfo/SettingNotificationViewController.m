@@ -9,6 +9,7 @@
 #import "SettingNotificationViewController.h"
 #import "SettingNotificationInfo.h"
 #import "Coding_NetAPIManager.h"
+#import "EATipView.h"
 
 @interface SettingNotificationViewController ()
 @property (strong, nonatomic) SettingNotificationInfo *settingInfo;
@@ -30,13 +31,11 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    BOOL isAllowedNotification = [UIDevice isAllowedNotification];
+    
+    [EATipView showAllowNotificationTipInView:kKeyWindow];
     _myJoinedSwitch.enabled =
     _myPublishedSwitch.enabled =
-    _freshPublishedSwitch.enabled = isAllowedNotification;
-    if (!isAllowedNotification) {
-        kTipAlert(@"为了显示通知，您需要在\n「设置」->「通知」->「Coding」\n中启用通知才能接收到相应的通知");
-    }
+    _freshPublishedSwitch.enabled = [UIDevice isAllowedNotification];
 }
 
 - (void)setSettingInfo:(SettingNotificationInfo *)settingInfo{
