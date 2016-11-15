@@ -165,6 +165,11 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     //App 角标清零
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    //实名认证 - 微信 - 领签
+    UIViewController *vc = [UIViewController presentingVC];
+    if ([vc respondsToSelector:NSSelectorFromString(@"becomeActiveRefresh")]) {
+        [vc performSelector:NSSelectorFromString(@"becomeActiveRefresh")];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

@@ -11,6 +11,9 @@
 #import "UITTTAttributedLabel.h"
 #import "Coding_NetAPIManager.h"
 #import "EAXibTipView.h"
+#import <UMengSocial/WXApi.h>
+#import <UMengSocial/WXApiObject.h>
+
 
 @interface IdentityStep1ViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *nameF;
@@ -73,20 +76,20 @@
     WEAKSELF
     [NSObject showHUDQueryStr:@"请稍等..."];
     [[Coding_NetAPIManager sharedManager] post_IdentityInfo:_info block:^(id data, NSError *error) {
-        [NSObject hideHUDQuery];
-        if (data) {
-            if (data[@"status"]) {//通过有 status = true，没通过就没有
-                weakSelf.info.status = @"Checking";
-                [weakSelf goToStep2];
-            }else{
-                [NSObject showHudTipStr:data[@"message"]];
-            }
+        if (data && [data[@"result"] integerValue] == 1) {//通过有 result = 1，没通过就没有
+            [[Coding_NetAPIManager sharedManager] get_IdentityInfoBlock:^(id dataI, NSError *errorI) {
+                [NSObject hideHUDQuery];
+                if (dataI) {
+                    weakSelf.info = dataI;
+                    [weakSelf goToStep2];
+                }
+            }];
+        }else if (data && data[@"message"]){//验证失败
+            [NSObject showHudTipStr:data[@"message"]];
+        }else if (error.code == 2001){//未支付
+            [weakSelf showPayTip];
         }else{
-            if (error.code == 2001) {//未支付
-                [weakSelf showPayTip];
-            }else{
-                [NSObject showError:error];
-            }
+            [NSObject showError:error];
         }
     }];
 }
@@ -107,9 +110,38 @@
     [_payTipV dismiss];
 }
 - (IBAction)goToPay:(id)sender {
-    [_payTipV dismiss];
     //ToDo
-    [NSObject showHudTipStr:@"To Do"];
+    if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"weixin://"]]) {
+        [NSObject showHudTipStr:@"您还没有安装「微信」，无法完成支付"];
+        [self.payTipV dismiss];
+    }else{
+        WEAKSELF
+        [NSObject showHUDQueryStr:@"请稍等..."];
+        [[Coding_NetAPIManager sharedManager] post_GenerateIdentityOrderBlock:^(id data, NSError *error) {
+            [NSObject hideHUDQuery];
+            if (data) {
+                [weakSelf.payTipV dismiss];
+                PayReq *req = [PayReq new];
+                req.partnerId = data[@"partnerid"];
+                req.prepayId = data[@"prepayid"];
+                req.nonceStr = data[@"noncestr"];
+                req.timeStamp = [data[@"timestamp"] intValue];
+                req.package = data[@"package"];
+                req.sign = data[@"sign"];
+                [WXApi sendReq:req];
+            }
+        }];
+    }
+}
+
+#pragma mark - handleSucessPay
+- (void)handlePayURL:(NSURL *)url{//微信支付回调
+    NSInteger resultCode = [[url queryParams][@"ret"] intValue];
+    if (resultCode == 0) {//支付成功，再次「提交审核」
+        [self bottomBtnClicked:nil];
+    }else if (resultCode == -1){
+        [NSObject showHudTipStr:@"支付失败"];
+    }
 }
 
 #pragma mark VC

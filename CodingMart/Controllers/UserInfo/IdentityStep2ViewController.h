@@ -11,5 +11,5 @@
 
 @interface IdentityStep2ViewController : BaseTableViewController
 @property (strong, nonatomic) IdentityInfo *info;
-
+- (void)becomeActiveRefresh;
 @end

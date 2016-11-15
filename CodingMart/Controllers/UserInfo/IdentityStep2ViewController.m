@@ -9,6 +9,8 @@
 #import "IdentityStep2ViewController.h"
 #import "UITTTAttributedLabel.h"
 #import "UIImageView+WebCache.h"
+#import "Coding_NetAPIManager.h"
+#import "IdentityPassedViewController.h"
 
 @interface IdentityStep2ViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *codeImageV;
@@ -27,7 +29,27 @@
     [_agreementL addLinkToStr:@"《身份认证授权与承诺书》" value:nil hasUnderline:NO clickedBlock:^(id value) {
         [weakSelf goToAgreement];
     }];
-    [_codeImageV sd_setImageWithURL:[_info.qrCodeLinkStr urlWithCodingPath]];
+    if (_info.qrCodeLinkStr.length > 0) {
+        [_codeImageV sd_setImageWithURL:[NSURL URLWithString:_info.qrCodeLinkStr]];
+    }
+}
+
+- (void)becomeActiveRefresh{
+    WEAKSELF
+    [[Coding_NetAPIManager sharedManager] get_IdentityInfoBlock:^(id data, NSError *error) {
+        if ([[(IdentityInfo *)data status] isEqualToString:@"Checked"]) {
+            weakSelf.info = data;
+            [weakSelf goToPassedVC];
+        }
+    }];
+}
+
+- (void)goToPassedVC{
+    IdentityPassedViewController *vc = [IdentityPassedViewController vcInStoryboard:@"UserInfo"];
+    vc.info = _info;
+    UINavigationController *nav = self.navigationController;
+    [nav popViewControllerAnimated:NO];
+    [nav pushViewController:vc animated:YES];
 }
 
 #pragma mark Table
@@ -51,6 +73,7 @@
         rowH = 400 - 85;//现高度 减去 两个 label 的高度
         rowH += [_tip1L.text getHeightWithFont:_tip1L.font constrainedToSize:CGSizeMake(kScreen_Width - 30, CGFLOAT_MAX)];
         rowH += [_tip2L.text getHeightWithFont:_tip2L.font constrainedToSize:CGSizeMake(kScreen_Width - 30, CGFLOAT_MAX)];
+        rowH = MAX(rowH, kScreen_Height -[self navBottomY] - 130 - 10);
     }
     return rowH;
 }

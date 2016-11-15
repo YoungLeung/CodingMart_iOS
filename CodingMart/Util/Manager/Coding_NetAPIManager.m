@@ -373,6 +373,15 @@
         block(data[@"data"], error);
     }];
 }
+- (void)post_GenerateIdentityOrderBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/payment/app/charge";
+    NSDictionary *params = @{@"price": @5.0,
+                             @"platform": @"wechat",
+                             @"type": @2};
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data[@"data"], error);
+    }];
+}
 - (void)get_Order:(NSString *)orderNo block:(void (^)(id data, NSError *error))block{
     NSString *path = [NSString stringWithFormat:@"api/payment/charge_payed/%@", orderNo];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
@@ -726,15 +735,11 @@
                 block(info, error);
             }else{//后续步骤，需要承诺书链接
                 [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/user/identity/sign" withParams:nil withMethodType:Get andBlock:^(id dataS, NSError *errorS) {
-                    if (dataS[@"documentId"]) {
+                    info.qrCodeLinkStr = dataS[@"signerUriQr"];//签署流程，二维码
+                    if (dataS[@"documentId"]) {//承诺书
                         info.agreementLinkStr = [NSString stringWithFormat:@"/api/user/identity/sign/%@", dataS[@"documentId"]];
                     }
-                    if ([info.status isEqualToString:@"Checked"]) {
-                        block(info, error);
-                    }else{//签署流程，需要二维码
-                        //To Do
-                        block(info, error);
-                    }
+                    block(info, error);
                 }];
             }
         }else{

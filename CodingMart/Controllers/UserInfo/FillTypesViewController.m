@@ -168,27 +168,8 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
                     [weakSelf.navigationController pushViewController:vc animated:YES];
                 }
             }];
-//            CodingMarkTestViewController *vc = [CodingMarkTestViewController storyboardVC];
-//            vc.hasPassTheTesting=_curUser.passingSurvey.boolValue;
-//            [self.navigationController pushViewController:vc animated:YES];
         }
     }else if (indexPath.section == 1){
-//        if (!self.curUser.fullInfo.boolValue) {
-//            [NSObject showHudTipStr:@"请先完善个人信息"];
-//            return;
-//        }else if (!self.curUser.fullSkills.boolValue){
-//            [NSObject showHudTipStr:@"请先完善技能展示"];
-//            return;
-//        }else if (self.identityCode==identity_Authing){
-//            [NSObject showHudTipStr:@"已提交认证，将在工作日48小时内进行审核"];
-//            return;
-//        }
-//        if ([self.identity_server_CacheDataDic[@"status"] integerValue] == 1) {//status == 1 是认证通过
-//            UIViewController *vc = [IdentityViewController vcWithIdetityDict:self.identity_server_CacheDataDic];
-//            [self.navigationController pushViewController:vc animated:YES];
-//        }else{
-//            [NSObject showHudTipStr:@"码士认证已升级，请登录码市网页端进行码士认证"];
-//        }
         WEAKSELF
         [NSObject showHUDQueryStr:@"请稍等..."];
         [[Coding_NetAPIManager sharedManager] get_IdentityInfoBlock:^(id data, NSError *error) {
@@ -207,12 +188,6 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 #pragma mark gotoVC
 - (void)goToIdetityStep:(IdentityInfo *)info{
     NSString *status = info.status;
-    
-    if (![status isEqualToString:@"Checked"]) {
-        [NSObject showHudTipStr:@"码士认证已升级，请登录码市网页端进行码士认证"];
-        return;
-    }
-    
     Class classObj = ([status isEqualToString:@"Checked"]? [IdentityPassedViewController class]:
                       [status isEqualToString:@"Checking"]? [IdentityStep2ViewController class]:
                       [IdentityStep1ViewController class]);
