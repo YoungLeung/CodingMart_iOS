@@ -11,3 +11,7 @@
 @interface RootQuoteViewController : UICollectionViewController
 + (instancetype)storyboardVC;
 @end
+
+@interface QuoteViewLayout : UICollectionViewLayout
+
+@end

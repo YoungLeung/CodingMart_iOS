@@ -277,9 +277,7 @@
     }
     
     // 选择平台窗口
-    _platformView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width - 30, 250)];
-    [_platformView setCenterX:kScreen_CenterX];
-    [_platformView setY:kScreen_Height];
+    _platformView = [[UIView alloc] initWithFrame:CGRectMake(15, kScreen_Height, kScreen_Width - 30, 295)];
     [_platformView setBackgroundColor:[UIColor whiteColor]];
     [_platformView.layer setCornerRadius:2.0f];
     [_platformView setTag:99];
@@ -293,7 +291,9 @@
     [_platformView addSubview:label];
     
     // 分割线
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(15, 45, _platformView.frame.size.width - 30, 1)];
+    CGFloat lineWidth = 1.0 / [UIScreen mainScreen].scale;
+
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(15, 45, _platformView.frame.size.width - 30, lineWidth)];
     [lineView setBackgroundColor:[UIColor colorWithHexString:@"4289DB"]];
     [_platformView addSubview:lineView];
     
@@ -333,7 +333,7 @@
     float viewHeight = CGRectGetHeight(_platformView.frame);
     
     // 底部分割线
-    UIView *bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, viewHeight - 45, _platformView.frame.size.width, 1)];
+    UIView *bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, viewHeight - 45, _platformView.frame.size.width, lineWidth)];
     [bottomLineView setBackgroundColor:[UIColor colorWithHexString:@"CCCCCC"]];
     [_platformView addSubview:bottomLineView];
     
@@ -356,13 +356,12 @@
     [_platformView addSubview:confirmButton];
     
     // 按钮分割线
-    UIView *buttonLine = [[UIView alloc] initWithFrame:CGRectMake(viewWidth/2, viewHeight-44, 1, 44)];
+    UIView *buttonLine = [[UIView alloc] initWithFrame:CGRectMake(viewWidth/2, viewHeight-44, lineWidth, 44)];
     [buttonLine setBackgroundColor:[UIColor colorWithHexString:@"CCCCCC"]];
     [_platformView addSubview:buttonLine];
     
     [UIView animateWithDuration:0.2 animations:^{
-        [_platformView setFrame:CGRectMake(0, 270.0f - 250/2, kScreen_Width - 30, 250)];
-        [_platformView setCenterX:kScreen_CenterX];
+        _platformView.centerY = kScreen_Height / 2;
     }];
 }
 
@@ -380,19 +379,13 @@
     NSMutableArray *tempIDArray = [NSMutableArray array];
     for (int i = 0; i < _menuArray.count; i++) {
         UIButton *button = (UIButton *)[platformView viewWithTag:i+100];
-        if (button.tag == 105 && button.selected) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"选择「其它」类型，将直接进入「发布需求」页面" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-            [alert show];
-            return;
-        } else if (button.selected) {
+        if (button.selected) {
             [tempArray addObject:button.titleLabel.text];
             [tempIDArray addObject:[_allIDArray objectAtIndex:i]];
         }
     }
-    if (![tempIDArray isEqualToArray:@[@"P005"]]) {
-        [tempArray addObject:@"管理后台"];
-        [tempIDArray addObject:@"P006"];
-    }
+    [tempArray addObject:@"管理后台"];
+    [tempIDArray addObject:@"P006"];
 
     _selectedMenuArray = tempArray;
     _menuIDArray = tempIDArray;

@@ -27,7 +27,6 @@
 
 @implementation RootQuoteViewController
 
-static NSString * const reuseIdentifier = @"Cell";
 static NSString * const nextStepReuseIdentifier = @"NextStepCell";
 
 + (instancetype)storyboardVC{
@@ -39,26 +38,32 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
     [super viewDidLoad];
     self.view.backgroundColor = kColorBGDark;
     self.collectionView.backgroundColor = kColorBGDark;
-    _cellImageArray = @[@"price_icon_Web",
-                        @"price_icon_Wechat",
-                        @"price_icon_iOS_APP",
-                        @"price_icon_Android_APP",
-                        @"price_icon_HTML5",
-                        @"price_icon_other",
+    self.collectionView.contentInset = UIEdgeInsetsMake(15, 15, self.rdv_tabBarController.tabBar.height, 15);
+
+    _cellImageArray = @[@"quote_icon_web",
+                        @"quote_icon_wechat",
+                        @"quote_icon_ios",
+                        @"quote_icon_android",
+                        @"quote_icon_front",
+                        @"quote_icon_h5",
+                        @"quote_icon_crawler",
                         ];
     _cellNameArray = @[@"Web 网站",
-                        @"微信公众号",
-                        @"iOS App",
-                        @"Android App",
-                        @"前端项目",
-                        @"其他",
-                        ];
+                       @"微信公众号",
+                       @"iOS App",
+                       @"Android App",
+                       @"前端项目",
+                       @"H5 游戏",
+                       @"爬虫类",
+                       ];
     _menuIDArray = @[@"P001",
                      @"P004",
                      @"P002",
                      @"P003",
                      @"P005",
-                     @"P006",
+//                     @"P006",//管理后台
+                     @"P007",
+                     @"P008",
                      ];
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"我的报价" target:self action:@selector(myPriceList)];
     [self.collectionView registerClass:[NextStepCollectionViewCell class] forCellWithReuseIdentifier:nextStepReuseIdentifier];
@@ -100,19 +105,14 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (section == 0) {
-        return 6;
-    }
-    return 1;
+    return section == 0? 7: 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        ChoosePriceCollectionViewCell *cell = (ChoosePriceCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-        
+        ChoosePriceCollectionViewCell *cell = (ChoosePriceCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:indexPath.row < 5? kCCellIdentifier_ChoosePriceCollectionViewCell_Big: kCCellIdentifier_ChoosePriceCollectionViewCell_Small forIndexPath:indexPath];
         NSInteger index = indexPath.row;
         [cell updateCellWithImageName:_cellImageArray[index] andName:_cellNameArray[index]];
-        
         return cell;
     } else {
         __weak typeof(self)weakSelf = self;
@@ -124,85 +124,36 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
     }
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        float cellWidth = (kScreen_Width / 2)-0.5;
-        float cellHeight = cellWidth * 0.85;
-        if (kDevice_Is_iPhone5) cellHeight = cellWidth * 0.8;
-        return CGSizeMake(cellWidth, cellHeight);
-    } else {
-        float cellWidth = kScreen_Width;
-        float cellHeight = cellWidth/4;
-        return CGSizeMake(cellWidth, cellHeight);
-    }
-}
-
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    ChoosePriceCollectionViewCell *cell = (ChoosePriceCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    [cell setSelected:cell.selected];
-    float count = collectionView.indexPathsForSelectedItems.count;
-    if (indexPath.section == 1) {
-        count--;
-        [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    if (indexPath.section > 0) {
+        [collectionView deselectItemAtIndexPath:indexPath animated:NO];
     }
-    if (count > 0) {
-        [_cell setButtonEnable:YES];
-    } else {
-        [_cell setButtonEnable:NO];
-    }
+    [_cell setButtonEnable:collectionView.indexPathsForSelectedItems.count > 0];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger count = collectionView.indexPathsForSelectedItems.count;
-    if (count == 0) {
-        [_cell setButtonEnable:NO];
-    }
-    if (count == 1) {
-        NSIndexPath *oneIndexPath = [collectionView.indexPathsForVisibleItems lastObject];
-        if (oneIndexPath.section == 1) {
-            [_cell setButtonEnable:NO];
-        }
-    }
-}
-
-#pragma mark <UICollectionViewDelegate>
-
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
+    [_cell setButtonEnable:collectionView.indexPathsForSelectedItems.count > 0];
 }
 
 - (void)nextStep {
     NSArray *array = [NSMutableArray arrayWithArray:self.collectionView.indexPathsForSelectedItems];
     NSMutableArray *selectedArray = [NSMutableArray array];
     NSMutableArray *selectedIDArray = [NSMutableArray array];
-    if (array.count) {
+    if (array.count > 0) {
         for (int i = 0; i < array.count; i++) {
             NSIndexPath *indexPath = [array objectAtIndex:i];
             NSString *name = [_cellNameArray objectAtIndex:indexPath.row];
-            if (![selectedArray containsObject:name]) {
-                [selectedArray addObject:name];
-            }
+            [selectedArray addObject:name];
             [selectedIDArray addObject:[_menuIDArray objectAtIndex:indexPath.row]];
         }
-        if ([selectedArray containsObject:@"其他"]) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"选择「其它」类型，将直接进入「发布需求」页面" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-            [alert show];
-        } else {
-            if (![selectedIDArray isEqualToArray:@[@"P005"]]) {
-                [selectedIDArray addObject:@"P006"];
-                [selectedArray addObject:@"管理后台"];
-            }
-            FunctionalEvaluationViewController *vc = [[FunctionalEvaluationViewController alloc] init];
-            vc.menuArray = _cellNameArray;
-            vc.menuIDArray = selectedIDArray;
-            vc.selectedMenuArray = selectedArray;
-            vc.allIDArray = _menuIDArray;
-            [self.navigationController pushViewController:vc animated:YES];
-        }
+        [selectedIDArray addObject:@"P006"];
+        [selectedArray addObject:@"管理后台"];
+        FunctionalEvaluationViewController *vc = [[FunctionalEvaluationViewController alloc] init];
+        vc.menuArray = _cellNameArray;
+        vc.menuIDArray = selectedIDArray;
+        vc.selectedMenuArray = selectedArray;
+        vc.allIDArray = _menuIDArray;
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
@@ -220,6 +171,82 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
 - (void)myPriceList {
     PriceListViewController *vc = [[PriceListViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+@end
+
+
+@interface QuoteViewLayout ()
+@property (strong, nonatomic) NSMutableArray *attrsArr;
+@end
+
+@implementation QuoteViewLayout
+- (NSMutableArray *)attrsArr{
+    return _attrsArr ?: (_attrsArr = @[].mutableCopy);
+}
+
+- (void)prepareLayout {
+    [super prepareLayout];
+    [self.attrsArr removeAllObjects];
+    NSInteger sectionNum = [self.collectionView numberOfSections];
+    for (int section = 0; section < sectionNum; section++) {
+        NSInteger rowNum = [self.collectionView numberOfItemsInSection:section];
+        for (int row = 0; row < rowNum; row++) {
+            UICollectionViewLayoutAttributes *attrs = [self layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:row inSection:section]];
+            [self.attrsArr addObject:attrs];
+        }
+    }
+}
+
+- (NSArray<UICollectionViewLayoutAttributes *> *)layoutAttributesForElementsInRect:(CGRect)rect{
+    return self.attrsArr;
+}
+
+-(CGSize)collectionViewContentSize{
+    CGFloat contentWidth = kScreen_Width - 30;
+    CGFloat contentHeight = [self p_BigCellHeight] * 3 + 10 * 2 + 15 + 55;
+    return CGSizeMake(contentWidth, contentHeight);
+}
+
+-(UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath{
+    UICollectionViewLayoutAttributes * attrs=[UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
+    if (indexPath.section == 0) {
+        CGFloat cellWidth = [self p_BigCellWidth];
+        CGFloat cellHeight = [self p_BigCellHeight];
+        CGFloat cellX = (indexPath.row % 2 == 0 && indexPath.row < 6)? 0: cellWidth + 10;
+        CGFloat cellY = (indexPath.row / 2) * (cellHeight + 10);
+        if (indexPath.row > 4) {
+            cellHeight = (cellHeight - 10)/ 2;
+        }
+        if (indexPath.row == 6) {
+            cellY -= cellHeight + 10;
+        }
+        attrs.frame = CGRectMake(cellX, cellY, cellWidth, cellHeight);
+    }else{
+        CGFloat cellWidth = kScreen_Width;
+        CGFloat cellHeight = 55;
+        CGFloat cellX = -15;
+        CGFloat cellY = [self p_BigCellHeight] * 3 + 10 * 2 + 15;
+        attrs.frame = CGRectMake(cellX, cellY, cellWidth, cellHeight);
+    }
+    return attrs;
+}
+
+- (CGFloat)p_BigCellWidth{
+    CGFloat cellWidth = (kScreen_Width - 15 * 2 - 10) / 2;
+    return cellWidth;
+}
+
+- (CGFloat)p_BigCellHeight{
+    CGFloat cellHeight = ((kDevice_Is_iPhone4? 568: kScreen_Height)//iPhone4 的时候，用 iPhone5 的高度排版
+                          - 64//顶 - nav
+                          - 50//底 - tab
+                          - 55//底 - 按钮
+//                          - 15//底 - 按钮 - 底部空余
+                          - 15 * 2//顶部底部间距
+                          - 10 * 2//行间距
+                          )/ 3;
+    return cellHeight;
 }
 
 @end

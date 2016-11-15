@@ -21,12 +21,12 @@
     if (self) {
         [self setBackgroundColor:kColorBGDark];
         
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 1)];
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 1.0/ [UIScreen mainScreen].scale)];
         [lineView setBackgroundColor:[UIColor colorWithHexString:@"DDDDDD"]];
         [self addSubview:lineView];
         
         self.nextStepButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.nextStepButton setFrame:CGRectMake(15, 15, kScreen_Width - 30, 44)];
+        [self.nextStepButton setFrame:CGRectMake(15, 5, kScreen_Width - 30, 44)];
         [self.nextStepButton setTitle:@"下一步" forState:UIControlStateNormal];
         [self.nextStepButton.titleLabel setFont:[UIFont systemFontOfSize:17.0f]];
         [self.nextStepButton setTitleColor:[UIColor colorWithHexString:@"ffffff" andAlpha:0.5f] forState:UIControlStateNormal];
