@@ -143,7 +143,7 @@
             [itemView setImage:@"welcome_3" title:@"安全" text:@"专属项目顾问监管，双向协议保障"];
             break;
         default:
-            [itemView setImage:@"welcome_0" title:nil text:@"『 码市是 CODING 旗下的软件众包平台，以云计算技术搭建的云端软件开发平台作为沟通和监管工具，快速连接开发者与需求方，提供专业项目顾问进行项目全过程监控 』"];
+            [itemView setImage:@"welcome_0" title:nil text:@"『码市是 CODING 旗下的一个基于云技术的软件外包服务平台。改变传统软件外包模式，将云端软件开发协作平台 Coding.net 作为沟通和监管工具，通过智能匹配系统快速连接开发者与需求方，提供专业的项目顾问进行全程协助管理。秉承 “让开发更简单” 的理念，提高软件交付的效率，帮助软件开发行业实现高效的资源匹配。』"];
             break;
     }
     return itemView;
@@ -238,9 +238,9 @@
             make.height.mas_equalTo(kScaleFrom_iPhone6_Desgin(20));
         }];
         [_detailTextL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.imageV.mas_bottom).offset(kScreen_Height == 480? -20: kScreen_Width == 320? 0: 10);
-            make.left.equalTo(self).offset(30);
-            make.right.equalTo(self).offset(-30);
+            make.left.equalTo(self).offset(20);
+            make.right.equalTo(self).offset(-20);
+            make.bottom.equalTo(self).offset(-20);
         }];
     }
     return self;

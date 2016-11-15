@@ -52,8 +52,11 @@
 - (void)setReward:(Reward *)reward{
     _reward = reward;
     [_reward prepareToDisplay];
-    
-    [_coverImgV sd_setImageWithURL:[_reward.cover urlImageWithCodePathResizeToView:_coverImgV] placeholderImage:[UIImage imageNamed:@"placeholder_reward_cover_square"]];
+    if (_reward.cover.length > 0) {
+        [_coverImgV sd_setImageWithURL:[_reward.cover urlImageWithCodePathResizeToView:_coverImgV] placeholderImage:[UIImage imageNamed:@"placeholder_reward_cover_square"]];
+    }else{
+        _coverImgV.image = [UIImage imageNamed:@"reward_cover_square"];
+    }
     _titleL.text = _reward.name;
     _typeImgV.image = [UIImage imageNamed:_reward.typeImageName];
     _typeL.text = _reward.typeDisplay;
