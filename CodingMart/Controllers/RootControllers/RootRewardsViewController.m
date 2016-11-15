@@ -82,7 +82,6 @@
 
 - (void)p_setupContent{
     //tab
-    [_tabView addLineUp:NO andDown:YES];
     [RACObserve(self, selectedType) subscribeNext:^(NSString *value) {
         [self.tabBtnType setTitle:value forState:UIControlStateNormal];
     }];
@@ -94,7 +93,7 @@
     }];
     self.selectedTabIndex = NSNotFound;
     //table
-    UIEdgeInsets insets = UIEdgeInsetsMake(CGRectGetHeight(self.tabView.frame), 0, CGRectGetHeight(self.rdv_tabBarController.tabBar.frame), 0);
+    UIEdgeInsets insets = UIEdgeInsetsMake(44, 0, CGRectGetHeight(self.rdv_tabBarController.tabBar.frame), 0);
     _myTableView.contentInset = insets;
     _myTableView.scrollIndicatorInsets = insets;
     _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
