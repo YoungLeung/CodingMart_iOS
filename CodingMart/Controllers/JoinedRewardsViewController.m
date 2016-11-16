@@ -13,12 +13,16 @@
 #import "RewardApplyViewController.h"
 #import "RewardPrivateViewController.h"
 #import "RDVTabBarController.h"
+#import "EaseDropListView.h"
 
 @interface JoinedRewardsViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (strong, nonatomic) NSArray *rewardList;
-
 @property (assign, nonatomic) BOOL isLoading;
+
+@property (assign, nonatomic) NSInteger selectedStatusIndex;
+@property (strong, nonatomic) UIView *navDropBeginV;
+
 @end
 
 @implementation JoinedRewardsViewController
@@ -31,9 +35,59 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"我参与的项目";
+    _selectedStatusIndex = 0;
+    [self setupTitleView];
     _myTableView.rowHeight = [JoinedRewardCell cellHeight];
     [_myTableView eaAddPullToRefreshAction:@selector(refresh) onTarget:self];
+}
+
+- (void)setupTitleView{
+        UIButton *titleViewBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 150, 30)];
+        titleViewBtn.titleLabel.font = [UIFont boldSystemFontOfSize:kNavTitleFontSize];
+        [titleViewBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [titleViewBtn setImage:[UIImage imageNamed:@"nav_icon_down"] forState:UIControlStateNormal];
+        [titleViewBtn setTitle:@"我参与的项目" forState:UIControlStateNormal];
+        [titleViewBtn addTarget:self action:@selector(titleViewBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+        CGFloat titleDiff = titleViewBtn.imageView.width + 2;
+        CGFloat imageDiff = titleViewBtn.titleLabel.width + 2;
+        titleViewBtn.titleEdgeInsets = UIEdgeInsetsMake(0, -titleDiff, 0, titleDiff);
+        titleViewBtn.imageEdgeInsets = UIEdgeInsetsMake(0, imageDiff, 0, -imageDiff);
+        self.navigationItem.titleView = titleViewBtn;
+}
+
+- (void)titleViewBtnClicked{
+    if (!_navDropBeginV) {
+        _navDropBeginV = [UIView new];
+        _navDropBeginV.y = [self navBottomY];
+        [self.view addSubview:_navDropBeginV];
+    }
+    if (_navDropBeginV.easeDropListView.isShowing) {
+        [_navDropBeginV.easeDropListView dismissSendAction:NO];
+    }else{
+        NSArray *statusNameList = @[@"所有状态",
+                                    @"待审核",
+                                    @"审核中",
+                                    @"已通过",
+                                    @"已拒绝",
+                                    @"已取消",
+                                    ];
+        WEAKSELF
+        [_navDropBeginV showDropListWithData:statusNameList selectedIndex:_selectedStatusIndex inView:self.view maxHeight:kScreen_Height - [self navBottomY] - self.rdv_tabBarController.tabBar.height actionBlock:^(EaseDropListView *dropView, BOOL isComfirmed) {
+            if (isComfirmed) {
+                weakSelf.selectedStatusIndex = dropView.selectedIndex;
+            }
+        }];
+    }
+}
+
+- (void)setSelectedStatusIndex:(NSInteger)selectedStatusIndex{
+    if (_selectedStatusIndex != selectedStatusIndex) {
+        _selectedStatusIndex = selectedStatusIndex;
+        self.rewardList = nil;
+        [self.myTableView removeBlankPageView];
+        [self.myTableView reloadData];
+        [self refresh];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -49,7 +103,7 @@
         [self.view beginLoading];
     }
     _isLoading = YES;
-    [[Coding_NetAPIManager sharedManager] get_JoinedRewardListBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] get_JoinedRewardListWithStatus:@(self.selectedStatusIndex - 1) block:^(id data, NSError *error) {
         self.isLoading = NO;
         [self.myTableView.pullRefreshCtrl endRefreshing];
         [self.view endLoading];

@@ -36,7 +36,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 
 #pragma mark Reward
 - (void)get_rewards:(Rewards *)rewards block:(void (^)(id data, NSError *error))block;
-- (void)get_JoinedRewardListBlock:(void (^)(id data, NSError *error))block;
+- (void)get_JoinedRewardListWithStatus:(NSNumber *)status block:(void (^)(id data, NSError *error))block;
 - (void)get_PublishededRewardListBlock:(void (^)(id data, NSError *error))block;
 - (void)post_Reward:(Reward *)reward block:(void (^)(id data, NSError *error))block;
 - (void)post_CancelReward:(Reward *)reward block:(void (^)(id data, NSError *error))block;

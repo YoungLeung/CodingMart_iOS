@@ -177,9 +177,13 @@
         block(rewards, error);
     }];
 }
-- (void)get_JoinedRewardListBlock:(void (^)(id data, NSError *error))block{
+- (void)get_JoinedRewardListWithStatus:(NSNumber *)status block:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/joined";
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"pageSize": @500} withMethodType:Get andBlock:^(id data, NSError *error) {
+    NSMutableDictionary *params = @{@"pageSize": @500}.mutableCopy;
+    if (status && status.integerValue >= 0) {
+        params[@"status"] = status;
+    }
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             data = [NSObject arrayFromJSON:data[@"data"][@"rewards"][@"list"] ofObjects:@"Reward"];
         }
