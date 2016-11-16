@@ -20,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *statusL;
 @property (weak, nonatomic) IBOutlet UILabel *roleTypesL;
 @property (weak, nonatomic) IBOutlet UILabel *numL;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *titleLeadingC;
+@property (weak, nonatomic) IBOutlet UIImageView *highPaidLogoV;
 
 @end
 
@@ -34,13 +36,6 @@
     mask.path = path.CGPath;
     _coverView.layer.mask = mask;
 }
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
 - (void)setCurReward:(Reward *)curReward{
     if (!curReward) {
         return;
@@ -64,6 +59,10 @@
     
     _roleTypesL.text = _curReward.roleTypesDisplay;
     _numL.text = [NSString stringWithFormat:@"%@人报名",_curReward.apply_count.stringValue];
+    
+    BOOL isHighPaid = _curReward.high_paid.integerValue == 2;
+    _titleLeadingC.constant = isHighPaid? 35: 12;
+    _highPaidLogoV.hidden = !isHighPaid;
 }
 
 + (CGFloat)cellHeight{

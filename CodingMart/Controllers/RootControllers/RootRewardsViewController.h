@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface RootRewardsViewController : BaseViewController
-
+@property (assign, nonatomic) BOOL isHighPaid;
 @end

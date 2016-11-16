@@ -15,12 +15,14 @@
 #import "MartIntroduceViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "RewardListCell.h"
+#import "HighPaidAreaCell.h"
 #import "NotificationViewController.h"
 #import "RDVTabBarController.h"
 #import "EaseDropListView.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "Rewards.h"
 #import "SVPullToRefresh.h"
+#import "EATipView.h"
 
 @interface RootRewardsViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) NSArray *typeList, *statusList, *roleTypeList;
@@ -30,6 +32,7 @@
 @property (strong, nonatomic, readonly) NSString *type_status_roleType;
 @property (strong, nonatomic, readonly) NSArray *dataList;
 @property (strong, nonatomic, readonly) Rewards *curRewards;
+@property (strong, nonatomic) Rewards *highPaidRewards;
 
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet UIView *tabView;
@@ -37,7 +40,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *tabBtnStatus;
 @property (weak, nonatomic) IBOutlet UIButton *tabBtnRoleType;
 @property (assign, nonatomic) NSInteger selectedTabIndex;
-@property (strong, nonatomic) UIButton *leftNavBtn, *rightNavBtn;
+@property (strong, nonatomic) UIButton *rightNavBtn;
 
 @end
 
@@ -99,7 +102,7 @@
     _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
     [_myTableView registerNib:[UINib nibWithNibName:kCellIdentifier_RewardListCell bundle:nil] forCellReuseIdentifier:kCellIdentifier_RewardListCell];
-    _myTableView.rowHeight = [RewardListCell cellHeight];
+    [_myTableView registerNib:[UINib nibWithNibName:kCellIdentifier_HighPaidAreaCell bundle:nil] forCellReuseIdentifier:kCellIdentifier_HighPaidAreaCell];
     //        refresh
     [_myTableView eaAddPullToRefreshAction:@selector(refreshData) onTarget:self];
     __weak typeof(self) weakSelf = self;
@@ -123,6 +126,7 @@
     Rewards *curRewards = self.rewardsDict[self.type_status_roleType];
     if (!curRewards) {
         curRewards = [Rewards RewardsWithType:_selectedType status:_selectedStatus roleType:_selectedRoleType];
+        curRewards.isHighPaid = _isHighPaid;
         self.rewardsDict[self.type_status_roleType] = curRewards;
     }
     return curRewards;
@@ -150,6 +154,9 @@
 
 - (void)refreshData{
     [self refreshDataMore:NO];
+    if (!_isHighPaid) {
+        [self refreshHighPaidData];
+    }
 }
 
 - (void)refreshDataMore:(BOOL)loadMore{
@@ -169,6 +176,19 @@
         [weakSelf.myTableView reloadData];
         weakSelf.myTableView.showsInfiniteScrolling = weakSelf.curRewards.canLoadMore;
         [weakSelf configBlankPageHasError:error != nil hasData:self.dataList.count > 0];
+    }];
+}
+
+- (void)refreshHighPaidData{
+    if (!_highPaidRewards) {
+        _highPaidRewards = [Rewards RewardsWithType:_typeList[0] status:_statusList[0] roleType:_roleTypeList[0]];
+    }
+    if (self.highPaidRewards.isLoading) {
+        return;
+    }
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] get_rewards:self.highPaidRewards block:^(id data, NSError *error) {
+        [weakSelf.myTableView reloadData];
     }];
 }
 
@@ -200,24 +220,35 @@
 
 #pragma mark - UnReadTip_NavBtn
 - (void)refreshRightNavBtn{
-    if (![Login isLogin]) {
-        [self.navigationItem setRightBarButtonItem:nil animated:YES];
-        return;
-    }
-    if (!self.navigationItem.rightBarButtonItem) {
-        _rightNavBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-        [_rightNavBtn setImage:[UIImage imageNamed:@"nav_icon_tip"] forState:UIControlStateNormal];
-        [_rightNavBtn addTarget:self action:@selector(goToNotificationVC) forControlEvents:UIControlEventTouchUpInside];
-        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:_rightNavBtn] animated:YES];
-    }
-    __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] get_NotificationUnReadCountBlock:^(id data, NSError *error) {
-        if ([(NSNumber *)data integerValue] > 0) {
-            [weakSelf.rightNavBtn addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(33, 12)];
-        }else{
-            [weakSelf.rightNavBtn removeBadgeTips];
+    if (_isHighPaid) {
+        if (!self.navigationItem.rightBarButtonItem) {
+            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_high_paid"] style:UIBarButtonItemStylePlain target:self action:@selector(showHighPaidTip)];
         }
-    }];
+    }else{
+        if (![Login isLogin]) {
+            self.navigationItem.rightBarButtonItem = nil;
+        }else{
+            if (!self.navigationItem.rightBarButtonItem) {
+                _rightNavBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+                [_rightNavBtn setImage:[UIImage imageNamed:@"nav_icon_tip"] forState:UIControlStateNormal];
+                [_rightNavBtn addTarget:self action:@selector(goToNotificationVC) forControlEvents:UIControlEventTouchUpInside];
+                self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_rightNavBtn];
+            }
+            __weak typeof(self) weakSelf = self;
+            [[Coding_NetAPIManager sharedManager] get_NotificationUnReadCountBlock:^(id data, NSError *error) {
+                if ([(NSNumber *)data integerValue] > 0) {
+                    [weakSelf.rightNavBtn addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(33, 12)];
+                }else{
+                    [weakSelf.rightNavBtn removeBadgeTips];
+                }
+            }];
+        }
+    }
+}
+
+- (void)showHighPaidTip{
+    EATipView *tipV = [EATipView instancetypeWithTitle:@"高回报悬赏专区" tipStr:@"此区域内的项目，多为要求特殊，或要求专业领域技能，或较为冷门，因此项目金额会高于市场价，并仍然有议价空间。"];
+    [tipV showInView:self.view];
 }
 
 #pragma mark - tab_btn
@@ -268,21 +299,65 @@
 
 #pragma mark Table M
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.dataList.count;
+    if (_isHighPaid) {
+        return self.dataList.count;
+    }else{
+        return self.dataList.count > 2? self.dataList.count + 1: self.dataList.count;
+    }
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    RewardListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardListCell forIndexPath:indexPath];
-    cell.curReward = self.dataList[indexPath.row];
-    return cell;
+    if (_isHighPaid) {
+        RewardListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardListCell forIndexPath:indexPath];
+        cell.curReward = self.dataList[indexPath.row];
+        return cell;
+    }else{
+        if (indexPath.row == 2) {
+            HighPaidAreaCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_HighPaidAreaCell forIndexPath:indexPath];
+            cell.dataList = _highPaidRewards.list;
+            WEAKSELF
+            [cell setItemClickedBlock:^(Reward *clickedR) {
+                if (clickedR) {
+                    [weakSelf goToReward:clickedR];
+                }else{
+                    RootRewardsViewController *vc = [RootRewardsViewController vcInStoryboard:@"Root"];
+                    vc.isHighPaid = YES;
+                    [weakSelf.navigationController pushViewController:vc animated:YES];
+                }
+            }];
+            return cell;
+        }else{
+            RewardListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardListCell forIndexPath:indexPath];
+            cell.curReward = self.dataList[indexPath.row > 2? indexPath.row - 1: indexPath.row];
+            return cell;
+        }
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (_isHighPaid) {
+        return [RewardListCell cellHeight];
+    }else{
+        return indexPath.row == 2? [HighPaidAreaCell cellHeight]: [RewardListCell cellHeight];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:12 hasSectionLine:YES];
+    if (_isHighPaid) {
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:12 hasSectionLine:YES];
+    }else{
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:(indexPath.row == 1 || indexPath.row == 2)? 0: 12 hasSectionLine:YES];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self goToReward:self.dataList[indexPath.row]];
+    if (_isHighPaid) {
+        [self goToReward:self.dataList[indexPath.row]];
+    }else{
+        if (indexPath.row != 2) {
+            [self goToReward:self.dataList[indexPath.row > 2? indexPath.row - 1: indexPath.row]];
+        }
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{

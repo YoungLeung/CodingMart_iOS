@@ -50,7 +50,7 @@
     if (!_rightNavBtn) {
         _rightNavBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 22, 22)];
         [_rightNavBtn addTarget:self action:@selector(navBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [_rightNavBtn setImage:[UIImage imageNamed:@"nav_icon_more"] forState:UIControlStateNormal];
+        [_rightNavBtn setImage:[UIImage imageNamed:@"nav_icon_share"] forState:UIControlStateNormal];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightNavBtn];
     }
     if (!_headerV) {

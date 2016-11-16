@@ -62,6 +62,9 @@
     params[@"type"] = [NSObject rewardTypeLongDict][_type];
     params[@"status"] = [NSObject rewardStatusDict][_status];
     params[@"role_type_id"] = [NSObject rewardRoleTypeDict][_roleType];
+    if (_isHighPaid) {
+        params[@"high_paid"] = @2;
+    }
     return params;
 }
 

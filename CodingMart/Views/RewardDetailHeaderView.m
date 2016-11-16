@@ -17,6 +17,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *typeL;
 @property (weak, nonatomic) IBOutlet UILabel *durationL;
 @property (weak, nonatomic) IBOutlet UIImageView *statusImgV;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *nameLeadingC;
+@property (weak, nonatomic) IBOutlet UIImageView *highPiadLogoV;
+@property (weak, nonatomic) IBOutlet UILabel *dealPriceL;
+@property (weak, nonatomic) IBOutlet UIImageView *lineDotV;
 
 @end
 
@@ -24,6 +28,7 @@
 + (instancetype)viewWithReward:(Reward *)reward{
     RewardDetailHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"RewardDetailHeaderView" owner:self options:nil] firstObject];
     [view setWidth:kScreen_Width];
+    view.lineDotV.image = [[UIImage imageNamed:@"line_dot"] resizableImageWithCapInsets:UIEdgeInsetsZero resizingMode:UIImageResizingModeTile];
     view.curReward = reward;
     return view;
 }
@@ -36,12 +41,14 @@
     _nameL.text = _curReward.name;
     _idL.text = [NSString stringWithFormat:@" No.%@  ", _curReward.id.stringValue];
     _roleTypesL.text = _curReward.roleTypesDisplay;
-    UIColor *diffColor = [UIColor colorWithHexString:@"0xF5A623"];
-    _priceL.font = _typeL.font = _durationL.font = [UIFont systemFontOfSize:kDevice_Is_iPhone6 || kDevice_Is_iPhone6Plus? 14: 12];
+    UIColor *diffColor = kColorTextNormal;
     [_priceL setAttrStrWithStr:[NSString stringWithFormat:@"金额：%@", _curReward.format_price] diffColorStr:_curReward.format_price diffColor:diffColor];
     [_typeL setAttrStrWithStr:[NSString stringWithFormat:@"类型：%@", _curReward.typeDisplay] diffColorStr:_curReward.typeDisplay diffColor:diffColor];
     [_durationL setAttrStrWithStr:[NSString stringWithFormat:@"周期：%@ 天", _curReward.duration.stringValue] diffColorStr:_curReward.duration.stringValue diffColor:diffColor];
     _statusImgV.image = [UIImage imageNamed:[NSString stringWithFormat:@"status_%@", _curReward.status.stringValue]];
+    BOOL isHighPaid = _curReward.high_paid.integerValue == 2;
+    _nameLeadingC.constant = isHighPaid? 35: 15;
+    _highPiadLogoV.hidden = _dealPriceL.hidden = !isHighPaid;
 }
 
 @end
