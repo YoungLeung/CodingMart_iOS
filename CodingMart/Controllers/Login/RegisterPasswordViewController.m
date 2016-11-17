@@ -85,6 +85,8 @@
     }
     [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
+            [MobClick event:kUmeng_Event_UserAction label:@"注册成功"];
+            
             [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id dataU, NSError *errorU) {
                 [NSObject hideHUDQuery];
                 [self dismissViewControllerAnimated:YES completion:self.loginSucessBlock];
