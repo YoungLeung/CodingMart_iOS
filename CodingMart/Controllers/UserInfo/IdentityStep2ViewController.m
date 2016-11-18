@@ -11,12 +11,14 @@
 #import "UIImageView+WebCache.h"
 #import "Coding_NetAPIManager.h"
 #import "IdentityPassedViewController.h"
+#import "WechatTipViewController.h"
 
 @interface IdentityStep2ViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *codeImageV;
 @property (weak, nonatomic) IBOutlet UILabel *tip1L;
 @property (weak, nonatomic) IBOutlet UILabel *tip2L;
 @property (weak, nonatomic) IBOutlet UITTTAttributedLabel *agreementL;
+@property (weak, nonatomic) IBOutlet UITTTAttributedLabel *wechatTipL;
 
 @end
 
@@ -28,6 +30,9 @@
     WEAKSELF
     [_agreementL addLinkToStr:@"《身份认证授权与承诺书》" value:nil hasUnderline:NO clickedBlock:^(id value) {
         [weakSelf goToAgreement];
+    }];
+    [_wechatTipL addLinkToStr:@"如何扫描二维码？" value:nil hasUnderline:NO clickedBlock:^(id value) {
+        [weakSelf goToWechatTipVC];
     }];
     if (_info.qrCodeLinkStr.length > 0) {
         [_codeImageV sd_setImageWithURL:[NSURL URLWithString:_info.qrCodeLinkStr]];
@@ -82,5 +87,9 @@
 - (void)goToAgreement{
     [self goToWebVCWithUrlStr:_info.agreementLinkStr title:@"身份认证授权与承诺书"];
 }
-
+- (void)goToWechatTipVC{
+    WechatTipViewController *vc = [WechatTipViewController vcInStoryboard:@"UserInfo"];
+    vc.qrCodeLinkStr = self.info.qrCodeLinkStr;
+    [self.navigationController pushViewController:vc animated:YES];
+}
 @end
