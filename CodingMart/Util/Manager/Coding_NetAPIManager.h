@@ -108,9 +108,12 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)post_GenerateOrderWithRewardId:(NSNumber *)rewardId totalFee:(NSString *)totalFee block:(void (^)(id data, NSError *error))block;
 - (void)get_GenerateOrderWithRewardId:(NSNumber *)rewardId block:(void (^)(id data, NSError *error))block;
 - (void)post_MPayOrderId:(NSString *)orderId password:(NSString *)password block:(void (^)(id data, NSError *error))block;
+- (void)post_MPayOrderIdList:(NSArray *)orderIdList password:(NSString *)password block:(void (^)(id data, NSError *error))block;
 - (void)post_GenerateOrderWithDepositPrice:(NSNumber *)depositPrice methodType:(PayMethodType)methodType block:(void (^)(id data, NSError *error))block;
 - (void)get_MPayOrderStatus:(NSString *)orderId block:(void (^)(id data, NSError *error))block;
 - (void)post_GenerateOrderWithStageId:(NSNumber *)stageId block:(void (^)(id data, NSError *error))block;
+- (void)post_GenerateOrderWithRewardId:(NSNumber *)rewardId roleId:(NSNumber *)roleId block:(void (^)(id data, NSError *error))block;
+
 
 #pragma mark FeedBack
 - (void)post_FeedBack:(FeedBackInfo *)feedBackInfo  block:(void (^)(id data, NSError *error))block;

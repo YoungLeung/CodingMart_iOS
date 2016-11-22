@@ -12,4 +12,14 @@
 - (NSDictionary *)propertyArrayMap{
     return @{@"stages": @"RewardMetroRoleStage"};
 }
+
+- (NSInteger)needToPayStageNum{
+    NSInteger needToPayStageNum = 0;
+    for (RewardMetroRoleStage *curStage in _stages) {
+        if ([curStage needToPay]) {
+            needToPayStageNum++;
+        }
+    }
+    return needToPayStageNum;
+}
 @end

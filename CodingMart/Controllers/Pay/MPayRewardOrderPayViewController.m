@@ -6,6 +6,9 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
+#define kCellIdentifier_MPayLeftMoneyCell_Lack @"MPayLeftMoneyCell_Lack"
+#define kCellIdentifier_MPayLeftMoneyCell_Enough @"MPayLeftMoneyCell_Enough"
+
 #import "MPayRewardOrderPayViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "EATextEditView.h"
@@ -15,14 +18,9 @@
 #import "MPayAccounts.h"
 #import "EATipView.h"
 #import "FillUserInfoViewController.h"
+#import "MPayOrderPayCell.h"
 
 @interface MPayRewardOrderPayViewController ()
-@property (weak, nonatomic) IBOutlet UILabel *orderIdL;
-@property (weak, nonatomic) IBOutlet UILabel *titleL;
-@property (weak, nonatomic) IBOutlet UILabel *totalFeeL;
-@property (weak, nonatomic) IBOutlet UILabel *balanceEnoughL;
-@property (weak, nonatomic) IBOutlet UILabel *balanceLackL;
-
 @property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
 
 @property (strong, nonatomic) NSString *balanceStr;
@@ -34,14 +32,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    _orderIdL.text = _curMPayOrder.orderId;
-    _titleL.text = _curMPayOrder.name;
-    _totalFeeL.text = [NSString stringWithFormat:@"￥ %@", _curMPayOrder.totalFee];
 }
 
 - (void)setBalanceStr:(NSString *)balanceStr{
     _balanceStr = balanceStr;
-    _balanceLackL.text = _balanceEnoughL.text = [NSString stringWithFormat:@"￥ %@", _balanceStr];
+    [self.tableView reloadData];
 }
 
 - (void)setBalanceValue:(NSNumber *)balanceValue{
@@ -64,7 +59,7 @@
 }
 
 - (BOOL)p_isBalanceEnough{
-    return (_balanceValue.floatValue >= _curMPayOrder.totalFee.floatValue);
+    return (_balanceValue.floatValue >= (_curMPayOrders? _curMPayOrders.orderAmount.floatValue: _curMPayOrder.totalFee.floatValue));
 }
 
 - (IBAction)bottomBtnClicked:(id)sender {
@@ -132,45 +127,96 @@
 }
 
 - (void)sendRequestWithPsd:(NSString *)psd{
-    WEAKSELF;
-    [NSObject showHUDQueryStr:@"正在支付..."];
-    [[Coding_NetAPIManager sharedManager] post_MPayOrderId:_curMPayOrder.orderId password:psd block:^(id data, NSError *error) {
-        [NSObject hideHUDQuery];
-        if (data && [(NSNumber *)data boolValue]) {
-            if (weakSelf.paySuccessBlock) {
-                weakSelf.paySuccessBlock(weakSelf.curMPayOrder);
-                [weakSelf.navigationController popViewControllerAnimated:YES];
-            }else{
-                MPayRewardOrderPayResultViewController *vc = [MPayRewardOrderPayResultViewController vcInStoryboard:@"Pay"];
-                vc.curReward = weakSelf.curReward;
-                vc.curMPayOrder = weakSelf.curMPayOrder;
-                [weakSelf.navigationController pushViewController:vc animated:YES];
+    if (_curMPayOrders) {
+        WEAKSELF;
+        [NSObject showHUDQueryStr:@"正在支付..."];
+        [[Coding_NetAPIManager sharedManager] post_MPayOrderIdList:[_curMPayOrders.order valueForKey:@"orderId"] password:psd block:^(id data, NSError *error) {
+            [NSObject hideHUDQuery];
+            if (data && [(NSNumber *)data boolValue]) {
+                if (weakSelf.paySuccessBlock) {
+                    weakSelf.paySuccessBlock(weakSelf.curMPayOrders);
+                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                }else{
+                    MPayRewardOrderPayResultViewController *vc = [MPayRewardOrderPayResultViewController vcInStoryboard:@"Pay"];
+                    vc.curReward = weakSelf.curReward;
+                    vc.curMPayOrders = weakSelf.curMPayOrders;
+                    [weakSelf.navigationController pushViewController:vc animated:YES];
+                }
             }
-        }
-    }];
+        }];
+    }else{
+        WEAKSELF;
+        [NSObject showHUDQueryStr:@"正在支付..."];
+        [[Coding_NetAPIManager sharedManager] post_MPayOrderId:_curMPayOrder.orderId password:psd block:^(id data, NSError *error) {
+            [NSObject hideHUDQuery];
+            if (data && [(NSNumber *)data boolValue]) {
+                if (weakSelf.paySuccessBlock) {
+                    weakSelf.paySuccessBlock(weakSelf.curMPayOrder);
+                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                }else{
+                    MPayRewardOrderPayResultViewController *vc = [MPayRewardOrderPayResultViewController vcInStoryboard:@"Pay"];
+                    vc.curReward = weakSelf.curReward;
+                    vc.curMPayOrder = weakSelf.curMPayOrder;
+                    [weakSelf.navigationController pushViewController:vc animated:YES];
+                }
+            }
+        }];
+    }
 }
 
 #pragma mark Table
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 2;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return section == 0 && _curMPayOrders? _curMPayOrders.order.count: 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 0) {
+        MPayOrder *mPayOrder = _curMPayOrders? _curMPayOrders.order[indexPath.row]: _curMPayOrder;
+        MPayOrderPayCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MPayOrderPayCell forIndexPath:indexPath];
+        cell.curOrder = mPayOrder;
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:15];
+        return cell;
+    }else{
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[self p_isBalanceEnough]? kCellIdentifier_MPayLeftMoneyCell_Enough: kCellIdentifier_MPayLeftMoneyCell_Lack forIndexPath:indexPath];
+        UILabel *balanceL = [cell viewWithTag:200];
+        balanceL.text = [NSString stringWithFormat:@"￥ %@", _balanceStr];
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:15];
+        return cell;
+    }
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
-        if (indexPath.row == 1) {
-            CGFloat contentW = kScreen_Width - 15* 2 - 70 - 10;
-            CGFloat contentH = [_curMPayOrder.name getHeightWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake(contentW, CGFLOAT_MAX)];
-            return MAX(44.0, contentH + 25);
-        }else{
-            return 44.0;
-        }
+        MPayOrder *mPayOrder = _curMPayOrders? _curMPayOrders.order[indexPath.row]: _curMPayOrder;
+        return [MPayOrderPayCell cellHeightWithObj:mPayOrder];
     }else{
-        BOOL isEnough = [self p_isBalanceEnough];
-        if (indexPath.row == 0) {
-            return isEnough? 44.0: 0;
-        }else{
-            return isEnough? 0: 60;
-        }
+        return [self p_isBalanceEnough]? 44: 60;
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return section == 0? 0: 10;
+    if (section == 0 && _curMPayOrders.order.count > 1) {
+        return 44;
+    }else{
+        return section == 0? 0: 10;
+    }
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UIView *headerV = [UIView new];
+    headerV.backgroundColor = self.tableView.backgroundColor;
+    if (section == 0 && _curMPayOrders.order.count > 1) {
+        UILabel *headerL = [UILabel labelWithSystemFontSize:15 textColorHexString:@"0xF5A623"];
+        headerL.text = [NSString stringWithFormat:@"交易总金额 %@ 元", _curMPayOrders.orderAmount];
+        [headerV addSubview:headerL];
+        [headerL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(headerV);
+        }];
+    }
+    return headerV;
 }
 @end

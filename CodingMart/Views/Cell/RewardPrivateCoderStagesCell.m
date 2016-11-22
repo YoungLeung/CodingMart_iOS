@@ -11,7 +11,7 @@
 @interface RewardPrivateCoderStagesCell ()
 @property (weak, nonatomic) IBOutlet UILabel *titleL;
 @property (weak, nonatomic) IBOutlet UILabel *priceL;
-@property (weak, nonatomic) IBOutlet UILabel *assistantL;
+@property (weak, nonatomic) IBOutlet UIButton *payBtn;
 @property (strong, nonatomic) NSMutableArray *stageVList;
 @end
 
@@ -33,7 +33,6 @@
     _titleL.text = [NSString stringWithFormat:@"%@（%@）", _curRole.role_name, _curRole.name];
     
     _priceL.text = [NSString stringWithFormat:@"总金额：￥%@", (_curRole.isRewardOwner || _curRole.isStageOwner)? _curRole.total_price.stringValue: @"--"];
-    _assistantL.text = [NSString stringWithFormat:@"阶段监理：%@", _curRole.assistant_name];
     
     if (!_stageVList) {
         _stageVList = @[].mutableCopy;
@@ -70,6 +69,15 @@
         stageV.frame = CGRectMake(15, curBottom, kScreen_Width - 15* 2, stageHeight);
         [self.contentView addSubview:stageV];
         curBottom += stageHeight;
+    }
+    NSInteger needToPayStageNum = [_curRole needToPayStageNum];
+    [_payBtn setTitle:[_curRole needToPayStageNum] == _curRole.stages.count? @"支付全部阶段": @"支付剩余阶段" forState:UIControlStateNormal];
+    _payBtn.hidden = needToPayStageNum == 0;
+}
+
+- (IBAction)payBtnClicked:(id)sender {
+    if (_payBtnClickedBlock) {
+        _payBtnClickedBlock(_curRole);
     }
 }
 

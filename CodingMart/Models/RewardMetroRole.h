@@ -17,4 +17,6 @@
 @property (assign, nonatomic) BOOL isRewardOwner, isStageOwner;
 
 @property (strong, nonatomic) UIColor *roleColor;
+
+- (NSInteger)needToPayStageNum;
 @end

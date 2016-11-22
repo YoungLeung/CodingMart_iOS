@@ -9,10 +9,12 @@
 #import "BaseTableViewController.h"
 #import "Reward.h"
 #import "MPayOrder.h"
+#import "MPayOrders.h"
 
 @interface MPayRewardOrderPayViewController : BaseTableViewController
 @property (strong, nonatomic) Reward *curReward;
 @property (strong, nonatomic) MPayOrder *curMPayOrder;
-@property (copy, nonatomic) void(^paySuccessBlock)(MPayOrder *curMPayOrder);
+@property (strong, nonatomic) MPayOrders *curMPayOrders;
+@property (copy, nonatomic) void(^paySuccessBlock)(id obj);//「MPayOrder / MPayOrders」
 
 @end

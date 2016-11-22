@@ -10,9 +10,15 @@
 #import "RewardPrivate.h"
 #import "MPayOrder.h"
 
+#import "MPayOrders.h"
+#import "RewardMetroRole.h"
+
 @interface MPayStageOrderGenetateViewController : BaseTableViewController
 @property (strong, nonatomic) RewardPrivate *curRewardP;
 @property (strong, nonatomic) RewardMetroRoleStage *curStage;
 @property (strong, nonatomic) MPayOrder *curMPayOrder;
+
+@property (strong, nonatomic) MPayOrders *curMPayOrders;
+@property (strong, nonatomic) RewardMetroRole *curRole;
 
 @end

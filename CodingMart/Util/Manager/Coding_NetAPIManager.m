@@ -884,6 +884,14 @@
         block(data, error);
     }];
 }
+- (void)post_MPayOrderIdList:(NSArray *)orderIdList password:(NSString *)password block:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/mpay/payment/order/multi";
+    NSDictionary *params = @{@"password": password,
+                             @"orderId": orderIdList};
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
 - (void)post_GenerateOrderWithDepositPrice:(NSNumber *)depositPrice methodType:(PayMethodType)methodType block:(void (^)(id data, NSError *error))block{
     NSDictionary *params = @{@"service": @"App",
                              @"price": depositPrice,
@@ -911,6 +919,19 @@
         block(data, error);
     }];
 }
+
+- (void)post_GenerateOrderWithRewardId:(NSNumber *)rewardId roleId:(NSNumber *)roleId block:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/mpay/stage/multi/order";
+    NSDictionary *params = @{@"rewardId": rewardId,
+                             @"roleId": roleId};
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject objectOfClass:@"MPayOrders" fromJSON:data];
+        }
+        block(data, error);
+    }];
+}
+
 
 #pragma mark FeedBack
 - (void)post_FeedBack:(FeedBackInfo *)feedBackInfo  block:(void (^)(id data, NSError *error))block{

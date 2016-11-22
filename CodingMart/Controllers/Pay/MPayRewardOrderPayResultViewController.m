@@ -21,7 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    _totalFeeL.text = [NSString stringWithFormat:@"￥ %@", _curMPayOrder.totalFee];
+    _totalFeeL.text = [NSString stringWithFormat:@"￥ %@", _curMPayOrders? _curMPayOrders.orderAmount: _curMPayOrder.totalFee];
     _titleL.text = [NSString stringWithFormat:@"「%@」%@", _curReward.id, _curReward.name];
 }
 

@@ -16,6 +16,7 @@
 @property (strong, nonatomic) RewardMetroRole *curRole;
 @property (copy, nonatomic) void(^buttonBlock)(RewardMetroRole *role, RewardMetroRoleStage *stage, RewardCoderStageViewAction actionIndex);
 @property (copy, nonatomic) void(^stageHeaderTappedBlock)(RewardMetroRole *role, RewardMetroRoleStage *stage);
+@property (copy, nonatomic) void(^payBtnClickedBlock)(RewardMetroRole *role);
 
 + (CGFloat)cellHeightWithObj:(id)obj;
 @end

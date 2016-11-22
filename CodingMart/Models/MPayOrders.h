@@ -13,7 +13,7 @@
 @property (strong, nonatomic) NSMutableArray *order;
 @property (strong, nonatomic) Pager *pager;
 @property (strong, nonatomic, readonly) NSDictionary *propertyArrayMap;
-
+@property (strong, nonatomic) NSNumber *orderAmount, *serviceFee, *stageAmount;
 @property (strong, nonatomic) NSArray *typeList, *statusList;
 @property (strong, nonatomic) NSString *time;
 

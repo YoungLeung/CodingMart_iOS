@@ -344,6 +344,9 @@
                     stage.isExpand = !stage.isExpand;
                     [weakSelf.myTableView reloadData];
                 };
+                cell.payBtnClickedBlock = ^(RewardMetroRole *role){
+                    [weakSelf doPayRole:role];
+                };
                 return cell;
             }else{
                 RewardPrivateCoderStagesBlankCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_RewardPrivateCoderStagesBlankCell forIndexPath:indexPath];
@@ -537,6 +540,21 @@
             }
         }];
     }
+}
+
+- (void)doPayRole:(RewardMetroRole *)role{
+    [NSObject showHUDQueryStr:@"请稍等..."];
+    WEAKSELF;
+    [[Coding_NetAPIManager sharedManager] post_GenerateOrderWithRewardId:_curRewardP.basicInfo.id roleId:role.id block:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (data) {
+            MPayStageOrderGenetateViewController *vc = [MPayStageOrderGenetateViewController vcInStoryboard:@"Pay"];
+            vc.curMPayOrders = data;
+            vc.curRewardP = weakSelf.curRewardP;
+            vc.curRole = role;
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        }
+    }];
 }
 
 - (void)submitStage:(RewardMetroRoleStage *)stage withLinkStr:(NSString *)linkStr{

@@ -9,7 +9,7 @@
 #import "RewardMetroRoleStage.h"
 
 @implementation RewardMetroRoleStage
-//    //    statusOrigin - 1
+//    //    statusOrigin : 1
 //    @[@"未启动",
 //      @"开发中",
 //      @"待验收",
@@ -18,7 +18,7 @@
 //      @"已暂停",
 //      @"已中止"]
 
-//    //    payed - 1
+//    //    payed : 1
 //    @[@"未付款",
 //      @"待付款",
 //      @"已付款",
