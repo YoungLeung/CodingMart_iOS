@@ -15,6 +15,7 @@
 @property (strong, nonatomic) UILabel *titleL, *tipL;
 @property (strong, nonatomic) UIButton *leftBtn, *rightBtn, *cancelBtn;
 
+@property (assign, nonatomic, readwrite) BOOL isShowing;
 @end
 
 @implementation EATipView
@@ -164,6 +165,7 @@
     _contentView.frame = CGRectMake(15, view.height, view.width - 30, viewHeight);
     [view addSubview:self];
     
+    self.isShowing = YES;
     [UIView animateWithDuration:0.3 animations:^{
         _bgView.alpha = 0.4;
     }];
@@ -201,6 +203,7 @@
         if ([[self superview] isKindOfClass:[UIScrollView class]]) {
             [(UIScrollView *)[self superview] setScrollEnabled:YES];
         }
+        self.isShowing = NO;
         [self removeFromSuperview];
     }];
 }

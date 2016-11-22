@@ -10,6 +10,7 @@
 
 @interface EATipView : UIView
 @property (strong, nonatomic) NSString *title, *tipStr, *text;
+@property (assign, nonatomic, readonly) BOOL isShowing;
 @property (copy, nonatomic) void(^leftBtnBlock)();
 @property (copy, nonatomic) void(^rightBtnBlock)();
 
@@ -18,4 +19,5 @@
 - (void)showInView:(UIView *)view;
 + (instancetype)instancetypeWithTitle:(NSString *)title tipStr:(NSString *)tipStr;
 + (void)showAllowNotificationTipInView:(UIView *)view;
+- (void)dismiss;
 @end

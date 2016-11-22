@@ -41,7 +41,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *tabBtnRoleType;
 @property (assign, nonatomic) NSInteger selectedTabIndex;
 @property (strong, nonatomic) UIButton *rightNavBtn;
-
+@property (strong, nonatomic) EATipView *tipV;
 @end
 
 @implementation RootRewardsViewController
@@ -247,8 +247,14 @@
 }
 
 - (void)showHighPaidTip{
-    EATipView *tipV = [EATipView instancetypeWithTitle:@"高回报悬赏专区" tipStr:@"此区域内的项目，多为要求特殊，或要求专业领域技能，或较为冷门，因此项目金额会高于市场价，并仍然有议价空间。"];
-    [tipV showInView:self.view];
+    if (!_tipV) {
+        _tipV = [EATipView instancetypeWithTitle:@"高回报悬赏专区" tipStr:@"此区域内的项目，多为要求特殊，或要求专业领域技能，或较为冷门，因此项目金额会高于市场价，并仍然有议价空间。"];
+    }
+    if (_tipV.isShowing) {
+        [_tipV dismiss];
+    }else{
+        [_tipV showInView:self.view];
+    }
 }
 
 #pragma mark - tab_btn
