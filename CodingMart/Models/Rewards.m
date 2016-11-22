@@ -54,7 +54,7 @@
 }
 
 - (NSString *)toPath{
-    return @"api/reward_list";
+    return @"api/reward/list";
 }
 
 - (NSDictionary *)toParams{

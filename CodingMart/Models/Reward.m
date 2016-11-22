@@ -12,6 +12,11 @@
 #import "Login.h"
 #import "FillUserInfo.h"
 
+@interface Reward ()
+@property (strong, nonatomic, readwrite) NSNumber *highPaid, *high_paid, *applyCount, *apply_count;
+@property (strong, nonatomic, readwrite) NSString *formatPriceNoCurrency, *format_price;
+@end
+
 @implementation Reward
 - (instancetype)init
 {
@@ -27,6 +32,18 @@
 - (void)setFormat_content:(NSString *)format_content{
     _format_content = format_content;
     _format_contentMedia = [HtmlMedia htmlMediaWithString:format_content showType:MediaShowTypeAll];
+}
+
+- (NSNumber *)high_paid{
+    return _high_paid ?: _highPaid;
+}
+
+- (NSNumber *)apply_count{
+    return _apply_count ?: _applyCount;
+}
+
+- (NSString *)format_price{
+    return _format_price.length > 0? _format_price: [NSString stringWithFormat:@"￥%@", _formatPriceNoCurrency];
 }
 
 - (NSNumber *)status{
