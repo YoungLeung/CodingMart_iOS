@@ -89,16 +89,16 @@
                              @"ApplyContactRemit": @"+",};
     }
     _titleL.text = _curOrder.title;
-    _feeL.text = [NSString stringWithFormat:@"%@%@", (actionSymbolDict[_curOrder.orderType.description] ?: @"?"), _curOrder.totalFee];
-    _statusL.text = statusNameDict[_curOrder.status.description];
+    _feeL.text = [NSString stringWithFormat:@"%@%@", (actionSymbolDict[_curOrder.orderType] ?: @"?"), _curOrder.totalFee];
+    _statusL.text = statusNameDict[_curOrder.status];
     _timeL.text = [_curOrder.createdAt stringWithFormat:@"yyyy-MM-dd HH:mm"];
 
     NSString *orderTypeName;
-    if ([_curOrder.orderType.description isEqualToString:@"Refund"]){
-        orderTypeName = ([_curOrder.productType.description isEqualToString:@"Reward"]? @"项目订金退款":
-                         [_curOrder.productType.description isEqualToString:@"RewardStage"]? @"项目阶段退款": orderTypeName);
+    if ([_curOrder.orderType isEqualToString:@"Refund"]){
+        orderTypeName = ([_curOrder.productType isEqualToString:@"Reward"]? @"项目订金退款":
+                         [_curOrder.productType isEqualToString:@"RewardStage"]? @"项目阶段退款": orderTypeName);
     }else{
-        orderTypeName = orderTypeNameDict[_curOrder.orderType.description];
+        orderTypeName = orderTypeNameDict[_curOrder.orderType];
     }
     _typeL.text = orderTypeName;
     

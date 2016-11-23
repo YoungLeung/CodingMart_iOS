@@ -73,16 +73,16 @@ static NSDictionary *statusNameDict, *orderTypeNameDict, *actionSymbolDict;
     _order = order;
     
     _titleL.text = _order.title;
-    _feeL.text = [NSString stringWithFormat:@"%@%@", (actionSymbolDict[_order.orderType.description] ?: @"?"), _order.totalFee];
-    NSString *orderTypeName = orderTypeNameDict[_order.orderType.description];
-    if ([_order.orderType.description isEqualToString:@"WithDraw"]) {
+    _feeL.text = [NSString stringWithFormat:@"%@%@", (actionSymbolDict[_order.orderType] ?: @"?"), _order.totalFee];
+    NSString *orderTypeName = orderTypeNameDict[_order.orderType];
+    if ([_order.orderType isEqualToString:@"WithDraw"]) {
         //TODO 这里有个「查看进度」按钮
-    }else if ([_order.orderType.description isEqualToString:@"Refund"]){
-        orderTypeName = ([_order.productType.description isEqualToString:@"Reward"]? @"项目订金退款":
-                         [_order.productType.description isEqualToString:@"RewardStage"]? @"项目阶段退款": orderTypeName);
+    }else if ([_order.orderType isEqualToString:@"Refund"]){
+        orderTypeName = ([_order.productType isEqualToString:@"Reward"]? @"项目订金退款":
+                         [_order.productType isEqualToString:@"RewardStage"]? @"项目阶段退款": orderTypeName);
     }
     _typeL.text = orderTypeName;
-    _statusL.text = statusNameDict[_order.status.description];
+    _statusL.text = statusNameDict[_order.status];
     _timeL.text = [_order.createdAt stringWithFormat:@"yyyy-MM-dd HH:mm"];
 }
 
