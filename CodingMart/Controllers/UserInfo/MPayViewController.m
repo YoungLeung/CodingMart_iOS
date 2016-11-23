@@ -21,6 +21,7 @@
 #import "EATipView.h"
 #import "FillUserInfoViewController.h"
 #import "FreezeRecordViewController.h"
+#import "MPayOrderDetailViewController.h"
 
 @interface MPayViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *totalL;
@@ -269,9 +270,7 @@
 
 #pragma mark scroll
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if (scrollView.contentOffset.y < 0) {
-        _topConstraint.constant = scrollView.contentOffset.y + 64;
-    }
+    _topConstraint.constant = MIN(0, scrollView.contentOffset.y + 64);
     if (!_sectionHeaderV) {
         self.sectionHeaderV.y = MAX([self navBottomY], CGRectGetHeight(_headerV.frame) - scrollView.contentOffset.y);
         [self.view addSubview:self.sectionHeaderV];
@@ -298,6 +297,25 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return [MPayRecordCell cellHeightWithObj:_orders.order[indexPath.row]];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    MPayOrder *order = _orders.order[indexPath.row];
+    if ([order isWithDraw]) {
+        WEAKSELF
+        [NSObject showHUDQueryStr:@"请稍等..."];
+        [[Coding_NetAPIManager sharedManager] get_WithdrawOrder_NO:order.orderId block:^(id data, NSError *error) {
+            [NSObject hideHUDQuery];
+            if (data) {
+                MPayOrderDetailViewController *vc = [MPayOrderDetailViewController vcWithOrder:data];
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            }
+        }];
+    }else{
+        MPayOrderDetailViewController *vc = [MPayOrderDetailViewController vcWithOrder:order];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 @end

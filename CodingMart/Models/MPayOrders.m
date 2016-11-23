@@ -50,7 +50,7 @@ static NSDictionary *timeDict, *typeDict, *statusDict, *typeNewDict;
     if (_typeList.count > 0) {
         if (!typeDict) {
             typeDict = @{@"入账": @[@"Deposit", @"DeveloperPayment", @"ServiceFee", @"EventDeposit"],
-                         @"付款": @[@"RewardPrepayment", @"RewardStagePayment", @"EventPayment"],
+                         @"付款": @[@"RewardPrepayment", @"RewardStagePayment", @"EventPayment", @"SystemDeduct"],
                          @"提现": @[@"WithDraw"],
                          @"其他": @[]};
         }

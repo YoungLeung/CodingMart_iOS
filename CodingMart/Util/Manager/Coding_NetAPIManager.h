@@ -48,6 +48,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)post_GenerateOrderWithReward:(Reward *)reward block:(void (^)(id data, NSError *error))block;
 - (void)post_GenerateIdentityOrderBlock:(void (^)(id data, NSError *error))block;
 - (void)get_Order:(NSString *)orderNo block:(void (^)(id data, NSError *error))block;
+- (void)get_WithdrawOrder_NO:(NSString *)orderNo block:(void (^)(id data, NSError *error))block;
 - (void)get_SimpleStatisticsBlock:(void (^)(id data, NSError *error))block;
 
 - (void)post_SubmitStageDocument:(NSNumber *)stageId linkStr:(NSString *)linkStr block:(void (^)(id data, NSError *error))block;

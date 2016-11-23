@@ -392,6 +392,18 @@
         block(data[@"data"], error);
     }];
 }
+- (void)get_WithdrawOrder_NO:(NSString *)orderNo block:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/mpay/withdraw/%@", orderNo];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            MPayOrder *order = [NSObject objectOfClass:@"MPayOrder" fromJSON:data[@"order"]];
+            order.account = data[@"account"][@"account"];
+            order.accountName = data[@"account"][@"accountName"];
+            data = order;
+        }
+        block(data, error);
+    }];
+}
 - (void)get_SimpleStatisticsBlock:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/rewards-preview";
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {

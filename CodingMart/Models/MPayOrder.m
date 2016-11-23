@@ -12,4 +12,7 @@
 - (NSString *)name{
     return _description_mine.length > 0? _description_mine: _title;
 }
+- (BOOL)isWithDraw{
+    return [self.orderType.description isEqualToString:@"WithDraw"];
+}
 @end
