@@ -287,4 +287,18 @@
     }
 }
 
+#pragma mark Super
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    NSString *curURLStr = request.URL.absoluteString;
+    if (![curURLStr isEqual:self.request.URL.absoluteString]) {
+        if (![curURLStr isEqualToString:@"about:blank"] &&
+            [curURLStr rangeOfString:@"supportbox/index"].location == NSNotFound) {//http://codemart.kf5.com/supportbox/index
+            UIViewController *vc = [UIViewController analyseVCFromLinkStr:request.URL.absoluteString];
+            [self.navigationController pushViewController:vc animated:YES];
+            return NO;
+        }
+    }
+    return YES;
+}
+
 @end
