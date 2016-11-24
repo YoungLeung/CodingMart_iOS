@@ -29,6 +29,7 @@
 - (BOOL)isSameToUser:(User *)user;
 - (BOOL)canJoinReward;
 - (BOOL)isDemandSide;
+- (BOOL)isDeveloperSide;
 
 - (NSString *)toUserInfoPath;
 

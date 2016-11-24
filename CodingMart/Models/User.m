@@ -36,6 +36,10 @@
     return _loginIdentity.integerValue == 2;
 }
 
+- (BOOL)isDeveloperSide{
+    return _loginIdentity.integerValue == 1;
+}
+
 - (NSString *)toUserInfoPath{
     return [NSString stringWithFormat:@"api/user/key/%@", _global_key];
 }

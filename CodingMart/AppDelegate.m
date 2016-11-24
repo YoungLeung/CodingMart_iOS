@@ -21,6 +21,7 @@
 #import <FLEX/FLEXManager.h>
 #import "WelcomeViewController.h"
 #import "MPayDepositViewController.h"
+#import "PublishRewardViewController.h"
 
 @interface AppDelegate ()
 
@@ -150,6 +151,9 @@
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    if ([[UIDevice currentDevice] systemVersion].floatValue >= 9.0) {
+        [self setupShortcutItems];
+    }
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -165,6 +169,10 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     //App 角标清零
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    //更新 ShortcutItems
+    if ([[UIDevice currentDevice] systemVersion].floatValue >= 9.0) {
+        [self setupShortcutItems];
+    }
     //实名认证 - 微信 - 领签
     UIViewController *vc = [UIViewController presentingVC];
     if ([vc respondsToSelector:NSSelectorFromString(@"becomeActiveRefresh")]) {
@@ -234,8 +242,43 @@
     [XGPush handleReceiveNotification:userInfo];
     [UIViewController handleNotificationInfo:userInfo applicationState:[application applicationState]];
 }
+#pragma mark 3D Touch
+- (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void(^)(BOOL succeeded))completionHandler{
+    NSInteger tabIndex = 0;
+    if ([shortcutItem.type isEqualToString:@"shortcut_edit"]) {
+        tabIndex = 2;
+        UINavigationController *nav = [UIViewController presentingVC].navigationController;
+        if (nav) {
+            PublishRewardViewController *vc = [PublishRewardViewController storyboardVCWithReward:nil];
+            [nav pushViewController:vc animated:YES];
+            completionHandler(YES);
+            return;
+        }
+    }else if ([shortcutItem.type isEqualToString:@"shortcut_quote"]){
+        tabIndex = 1;
+    }else if ([shortcutItem.type isEqualToString:@"shortcut_published"]){
+        tabIndex = 2;
+    }else if ([shortcutItem.type isEqualToString:@"shortcut_joined"]){
+        tabIndex = 1;
+    }
+    [UIViewController updateTabVCListWithSelectedIndex:tabIndex];
+    completionHandler(YES);
+}
 
-
-
-
+- (void)setupShortcutItems{
+    NSMutableArray *itemList = @[].mutableCopy;
+    if ([[Login curLoginUser] isDeveloperSide]) {
+        UIApplicationShortcutItem *itemEdit = [[UIApplicationShortcutItem alloc] initWithType:@"shortcut_joined" localizedTitle:@"我参与的" localizedSubtitle:nil icon:[UIApplicationShortcutIcon iconWithTemplateImageName:@"shortcut_list"] userInfo:nil];
+        [itemList addObject:itemEdit];
+    }else{
+        UIApplicationShortcutItem *itemEdit = [[UIApplicationShortcutItem alloc] initWithType:@"shortcut_edit" localizedTitle:@"发布项目" localizedSubtitle:nil icon:[UIApplicationShortcutIcon iconWithTemplateImageName:@"shortcut_edit"] userInfo:nil];
+        [itemList addObject:itemEdit];
+        if ([[Login curLoginUser] isDemandSide]) {
+            UIApplicationShortcutItem *itemPublished = [[UIApplicationShortcutItem alloc] initWithType:@"shortcut_published" localizedTitle:@"我发布的" localizedSubtitle:nil icon:[UIApplicationShortcutIcon iconWithTemplateImageName:@"shortcut_list"] userInfo:nil];
+            UIApplicationShortcutItem *itemQuote = [[UIApplicationShortcutItem alloc] initWithType:@"shortcut_quote" localizedTitle:@"评估报价" localizedSubtitle:nil icon:[UIApplicationShortcutIcon iconWithTemplateImageName:@"shortcut_quote"] userInfo:nil];
+            [itemList addObjectsFromArray:@[itemPublished, itemQuote]];
+        }
+    }
+    [UIApplication sharedApplication].shortcutItems = itemList;
+}
 @end
