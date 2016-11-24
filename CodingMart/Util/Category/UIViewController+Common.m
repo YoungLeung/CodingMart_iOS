@@ -104,8 +104,11 @@
 
 +(void)updateTabVCListWithSelectedIndex:(NSInteger)selectedIndex{
     AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [appDelegate setupTabViewController];
     RootTabViewController *rootVC = (RootTabViewController *)appDelegate.window.rootViewController;
+    if (![rootVC.tabList isEqualToArray:[RootTabViewController curLoginTabList]]) {
+        [appDelegate setupTabViewController];
+        rootVC = (RootTabViewController *)appDelegate.window.rootViewController;
+    }
     selectedIndex = MAX(0, MIN(rootVC.tabList.count - 1, selectedIndex));
     [rootVC setSelectedIndex:selectedIndex];
 }

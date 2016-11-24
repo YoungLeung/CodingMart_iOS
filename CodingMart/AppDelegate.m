@@ -244,24 +244,25 @@
 }
 #pragma mark 3D Touch
 - (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void(^)(BOOL succeeded))completionHandler{
-    NSInteger tabIndex = 0;
     if ([shortcutItem.type isEqualToString:@"shortcut_edit"]) {
-        tabIndex = 2;
+        PublishRewardViewController *vc = [PublishRewardViewController storyboardVCWithReward:nil];
         UINavigationController *nav = [UIViewController presentingVC].navigationController;
         if (nav) {
-            PublishRewardViewController *vc = [PublishRewardViewController storyboardVCWithReward:nil];
             [nav pushViewController:vc animated:YES];
-            completionHandler(YES);
-            return;
+        }else{
+            [UIViewController presentVC:vc dismissBtnTitle:@"关闭"];
         }
-    }else if ([shortcutItem.type isEqualToString:@"shortcut_quote"]){
-        tabIndex = 1;
-    }else if ([shortcutItem.type isEqualToString:@"shortcut_published"]){
-        tabIndex = 2;
-    }else if ([shortcutItem.type isEqualToString:@"shortcut_joined"]){
-        tabIndex = 1;
+    }else{
+        NSInteger tabIndex = 0;
+        if ([shortcutItem.type isEqualToString:@"shortcut_quote"]){
+            tabIndex = 1;
+        }else if ([shortcutItem.type isEqualToString:@"shortcut_published"]){
+            tabIndex = 2;
+        }else if ([shortcutItem.type isEqualToString:@"shortcut_joined"]){
+            tabIndex = 1;
+        }
+        [UIViewController updateTabVCListWithSelectedIndex:tabIndex];
     }
-    [UIViewController updateTabVCListWithSelectedIndex:tabIndex];
     completionHandler(YES);
 }
 

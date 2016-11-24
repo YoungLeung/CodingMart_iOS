@@ -39,7 +39,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self p_setupTabVCList];
+    _tabList = [RootTabViewController curLoginTabList];
     [self p_setupViewControllers];
 }
 
@@ -62,9 +62,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
 
 - (BOOL)checkUpdateTabVCListWithSelectedIndex:(NSInteger)selectedIndex{
     if (![self checkIfIdentityNeedToSet]) {
-        NSArray *preTabList = _tabList;
-        [self p_setupTabVCList];
-        if (![preTabList isEqual:_tabList]) {
+        if (![_tabList isEqualToArray:[RootTabViewController curLoginTabList]]) {
             [UIViewController updateTabVCListWithSelectedIndex:selectedIndex];
             [NSObject showHudTipStr:@"视图已切换"];
             return YES;
@@ -73,8 +71,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
     return NO;
 }
 
-#pragma mark Private_M
-- (void)p_setupTabVCList{
++ (NSArray *)curLoginTabList{
     NSMutableArray *tabList;
     User *me = [Login curLoginUser];
     if (me.loginIdentity.integerValue == 1){//开发者
@@ -104,15 +101,13 @@ typedef NS_ENUM(NSInteger, TabVCType) {
         tabList = @[@(TabVCTypeFind),
                     @(TabVCTypeRewards),
                     @(TabVCTypePublish),
-//                    @(TabVCTypeQuote),
+                    //                    @(TabVCTypeQuote),
                     @(TabVCTypeMe)].mutableCopy;
     }
     if ([me.global_key isEqualToString:@"hahaah"]) {
         [tabList removeObject:@(TabVCTypeQuote)];
     }
-    if (!_tabList || ![tabList isEqual:_tabList]) {
-        _tabList = tabList;
-    }
+    return tabList;
 }
 
 - (UIViewController *)p_navWithTabType:(TabVCType)type{
