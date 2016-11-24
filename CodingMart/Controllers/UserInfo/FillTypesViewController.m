@@ -37,6 +37,10 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 @property (strong, nonatomic) IBOutlet UIView *header1V;
 @property (strong, nonatomic) IBOutlet UIView *header2V;
 @property (strong, nonatomic) IBOutlet UIView *header1TipV;
+@property (weak, nonatomic) IBOutlet UILabel *identityTitleL;
+
+
+
 @property (strong, nonatomic) User *curUser;
 
 @property (assign,nonatomic)IdentityStatusCode identityCode;
@@ -51,10 +55,10 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 - (void)viewDidLoad{
     [super viewDidLoad];
     [self getUserinfo];
-    if ([FunctionTipsManager needToTip:kFunctionTipStr_ShenFenRenZheng]) {
-        [MartFunctionTipView showFunctionImages:@[@"function_shenfenrenzheng"]];
-        [FunctionTipsManager markTiped:kFunctionTipStr_ShenFenRenZheng];
-    }
+//    if ([FunctionTipsManager needToTip:kFunctionTipStr_ShenFenRenZheng]) {
+//        [MartFunctionTipView showFunctionImages:@[@"function_shenfenrenzheng"]];
+//        [FunctionTipsManager markTiped:kFunctionTipStr_ShenFenRenZheng];
+//    }
 //    [MartFunctionTipView showFunctionImages:@[@"guidance_dem_rewards_publish"] onlyOneTime:YES];
 }
 
@@ -66,6 +70,14 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
         [self refresh];
     }
     [self refreshIdCardCheck];
+    //新功能提示
+    if ([FunctionTipsManager needToTip:kFunctionTipStr_MaShiRenZheng]) {
+        CGRect fromFrame = [[_identityTitleL superview] convertRect:_identityTitleL.frame toView:self.tableView];
+        fromFrame.origin.y += 44/ 2;
+        [MartFunctionTipView showText:@"全新自动化认证流程，快捷方便" direction:AMPopTipDirectionDown  bubbleOffset:20 inView:self.tableView fromFrame:fromFrame dismissHandler:^{
+            [FunctionTipsManager markTiped:kFunctionTipStr_MaShiRenZheng];
+        }];
+    }
 }
 
 - (void)refresh{

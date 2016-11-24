@@ -20,7 +20,6 @@
 #import "Rewards.h"
 #import "SVPullToRefresh.h"
 #import "PublishRewardViewController.h"
-#import "MartFunctionTipView.h"
 
 @interface RootFindViewController ()
 @property (strong, nonatomic, readonly) NSArray *dataList;

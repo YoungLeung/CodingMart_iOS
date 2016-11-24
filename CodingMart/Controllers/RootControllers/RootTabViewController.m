@@ -49,6 +49,15 @@ typedef NS_ENUM(NSInteger, TabVCType) {
     if (vcList.count == 1) {
         [self checkIfIdentityNeedToSet];
     }
+    //新功能提示
+    if ([[Login curLoginUser] isDemandSide] && [FunctionTipsManager needToTip:kFunctionTipStr_AddRewardType]) {
+        CGRect fromFrame = CGRectMake(kScreen_Width/4, kScreen_Height - 50, kScreen_Width/4, 50);
+        NSString *text = @"码市估价新增 “H5 游戏”、“爬虫类” 项目类型";
+        CGFloat bubbleOffset = (kScreen_Width - [text getWidthWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(CGFLOAT_MAX, 20)] - 20)/ 2;
+        [MartFunctionTipView showText:text direction:AMPopTipDirectionUp  bubbleOffset:bubbleOffset inView:kKeyWindow fromFrame:fromFrame dismissHandler:^{
+            [FunctionTipsManager markTiped:kFunctionTipStr_AddRewardType];
+        }];
+    }
 }
 
 - (BOOL)checkIfIdentityNeedToSet{
@@ -101,7 +110,6 @@ typedef NS_ENUM(NSInteger, TabVCType) {
         tabList = @[@(TabVCTypeFind),
                     @(TabVCTypeRewards),
                     @(TabVCTypePublish),
-                    //                    @(TabVCTypeQuote),
                     @(TabVCTypeMe)].mutableCopy;
     }
     if ([me.global_key isEqualToString:@"hahaah"]) {

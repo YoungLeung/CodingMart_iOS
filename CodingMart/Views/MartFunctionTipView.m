@@ -93,5 +93,17 @@
 - (void)dismiss{
     [self removeFromSuperview];
 }
-
++ (AMPopTip *)showText:(NSString *)text direction:(AMPopTipDirection)direction bubbleOffset:(CGFloat)bubbleOffset inView:(UIView *)view fromFrame:(CGRect)frame dismissHandler:(void (^)())dismissHandler{
+    AMPopTip *popTip = [AMPopTip popTip];
+    popTip.shouldDismissOnTap = YES;
+    popTip.font = [UIFont systemFontOfSize:14];
+    popTip.radius = 2.0;
+    popTip.arrowSize = CGSizeMake(10, 5);
+    popTip.padding = 10;
+    popTip.dismissHandler = dismissHandler;
+    popTip.popoverColor = [UIColor colorWithHexString:@"0x262728" andAlpha:0.8];
+    popTip.bubbleOffset = bubbleOffset;
+    [popTip showText:text direction:direction maxWidth:kScreen_Width - 30 inView:view fromFrame:frame duration:0];
+    return popTip;
+}
 @end

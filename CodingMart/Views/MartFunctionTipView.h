@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AMPopTip.h"
 
 @interface MartFunctionTipView : UIView
 + (void)showFunctionImages:(NSArray *)imageNames;
 + (void)showFunctionImages:(NSArray *)imageNames onlyOneTime:(BOOL)onlyOneTime;
++ (AMPopTip *)showText:(NSString *)text direction:(AMPopTipDirection)direction bubbleOffset:(CGFloat)bubbleOffset inView:(UIView *)view fromFrame:(CGRect)frame dismissHandler:(void (^)())dismissHandler;
 @end

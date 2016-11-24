@@ -44,6 +44,9 @@ static NSString *kFunctionTipStr_Update = @"isAppUpdate";
 //                           kFunctionTipStr_RenZhengMaShi: isAppUpdate? @(YES): @(NO),
 //                           kFunctionTipStr_ShenFenRenZheng: isAppUpdate? @(YES): @(NO),
 //                           kFunctionTipStr_JieDuanZhiFu: isAppUpdate? @(YES): @(NO),
+                           kFunctionTipStr_AddRewardType: isAppUpdate? @(YES): @(NO),
+                           kFunctionTipStr_MaShiRenZheng: isAppUpdate? @(YES): @(NO),
+
                            } mutableCopy];
             [_tipsDict writeToFile:[self p_cacheFilePath] atomically:YES];
         }

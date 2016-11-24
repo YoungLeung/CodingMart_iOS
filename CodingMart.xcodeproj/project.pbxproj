@@ -60,6 +60,11 @@
 		4E0E6FBA1BFF2ED9009EB20D /* NSURL+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0E6FB91BFF2ED9009EB20D /* NSURL+Common.m */; };
 		4E0FD91D1BC9238E00C552A0 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E0FD91C1BC9238E00C552A0 /* Login.storyboard */; };
 		4E103AC91D4B534B003EDC35 /* MPayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E103AC81D4B534B003EDC35 /* MPayViewController.m */; };
+		4E1095041DE6F11300D4C02A /* AMPopTip+Animation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1094FA1DE6F11300D4C02A /* AMPopTip+Animation.m */; };
+		4E1095051DE6F11300D4C02A /* AMPopTip+Draw.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1094FC1DE6F11300D4C02A /* AMPopTip+Draw.m */; };
+		4E1095061DE6F11300D4C02A /* AMPopTip+Entrance.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1094FE1DE6F11300D4C02A /* AMPopTip+Entrance.m */; };
+		4E1095071DE6F11300D4C02A /* AMPopTip+Exit.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1095001DE6F11300D4C02A /* AMPopTip+Exit.m */; };
+		4E1095081DE6F11300D4C02A /* AMPopTip.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1095021DE6F11300D4C02A /* AMPopTip.m */; };
 		4E1209F81C868E100087BDB3 /* NotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1209F71C868E100087BDB3 /* NotificationViewController.m */; };
 		4E1209FA1C880B250087BDB3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4E1209F91C880B250087BDB3 /* GoogleService-Info.plist */; };
 		4E1209FF1C8836050087BDB3 /* NotificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1209FE1C8836050087BDB3 /* NotificationCell.m */; };
@@ -407,7 +412,7 @@
 		4EFD8EC01BE88CA900E9C284 /* JoinInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EFD8EBF1BE88CA900E9C284 /* JoinInfo.m */; };
 		4EFD8EC31BE8B3BE00E9C284 /* LocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EFD8EC21BE8B3BE00E9C284 /* LocationViewController.m */; };
 		4EFD8EC61BE8B57300E9C284 /* LocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EFD8EC51BE8B57300E9C284 /* LocationCell.m */; };
-		DA0041F20473823B1C241218 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E49C0D61FE756FE44DB24F91 /* libPods.a */; };
+		A0BC6E424DB8BDCEFC0BFEB4 /* libPods-CodingMart.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EFCD7F8C2DE09C4EE6AFF30 /* libPods-CodingMart.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -449,8 +454,6 @@
 		01D0DCB71CF0A0B00047CDE3 /* NextStepCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NextStepCollectionViewCell.m; sourceTree = "<group>"; };
 		01D0DCBC1CF0B5A10047CDE3 /* PayMethodTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayMethodTableViewCell.h; sourceTree = "<group>"; };
 		01D0DCBD1CF0B5A10047CDE3 /* PayMethodTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayMethodTableViewCell.m; sourceTree = "<group>"; };
-		1C93BF0101B5C89312BC4F23 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		2834857B0914BDC18FE6EB27 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		3244520F1C07339300B82985 /* NSString+Verify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Verify.h"; sourceTree = "<group>"; };
 		324452101C07339300B82985 /* NSString+Verify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Verify.m"; sourceTree = "<group>"; };
 		324AB8B01BF1CFE300DFE989 /* CodingMarkTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodingMarkTestViewController.h; sourceTree = "<group>"; };
@@ -515,6 +518,17 @@
 		4E0FD91C1BC9238E00C552A0 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		4E103AC71D4B534B003EDC35 /* MPayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPayViewController.h; sourceTree = "<group>"; };
 		4E103AC81D4B534B003EDC35 /* MPayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPayViewController.m; sourceTree = "<group>"; };
+		4E1094F91DE6F11300D4C02A /* AMPopTip+Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AMPopTip+Animation.h"; sourceTree = "<group>"; };
+		4E1094FA1DE6F11300D4C02A /* AMPopTip+Animation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AMPopTip+Animation.m"; sourceTree = "<group>"; };
+		4E1094FB1DE6F11300D4C02A /* AMPopTip+Draw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AMPopTip+Draw.h"; sourceTree = "<group>"; };
+		4E1094FC1DE6F11300D4C02A /* AMPopTip+Draw.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AMPopTip+Draw.m"; sourceTree = "<group>"; };
+		4E1094FD1DE6F11300D4C02A /* AMPopTip+Entrance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AMPopTip+Entrance.h"; sourceTree = "<group>"; };
+		4E1094FE1DE6F11300D4C02A /* AMPopTip+Entrance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AMPopTip+Entrance.m"; sourceTree = "<group>"; };
+		4E1094FF1DE6F11300D4C02A /* AMPopTip+Exit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AMPopTip+Exit.h"; sourceTree = "<group>"; };
+		4E1095001DE6F11300D4C02A /* AMPopTip+Exit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AMPopTip+Exit.m"; sourceTree = "<group>"; };
+		4E1095011DE6F11300D4C02A /* AMPopTip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMPopTip.h; sourceTree = "<group>"; };
+		4E1095021DE6F11300D4C02A /* AMPopTip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMPopTip.m; sourceTree = "<group>"; };
+		4E1095031DE6F11300D4C02A /* AMPopTipDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMPopTipDefaults.h; sourceTree = "<group>"; };
 		4E1209F61C868E100087BDB3 /* NotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationViewController.h; sourceTree = "<group>"; };
 		4E1209F71C868E100087BDB3 /* NotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationViewController.m; sourceTree = "<group>"; };
 		4E1209F91C880B250087BDB3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -1166,6 +1180,7 @@
 		4EFC8BC01CA1326400532B5E /* NSTimer+Addition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+Addition.m"; sourceTree = "<group>"; };
 		4EFC8BC31CA142FC00532B5E /* NSLayoutConstraintLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSLayoutConstraintLine.h; sourceTree = "<group>"; };
 		4EFC8BC41CA142FC00532B5E /* NSLayoutConstraintLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSLayoutConstraintLine.m; sourceTree = "<group>"; };
+		4EFCD7F8C2DE09C4EE6AFF30 /* libPods-CodingMart.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CodingMart.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EFD8EAF1BE7353800E9C284 /* SettingNotificationInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingNotificationInfo.h; sourceTree = "<group>"; };
 		4EFD8EB01BE7353800E9C284 /* SettingNotificationInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingNotificationInfo.m; sourceTree = "<group>"; };
 		4EFD8EB21BE756BB00E9C284 /* EAMultiSelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAMultiSelectView.h; sourceTree = "<group>"; };
@@ -1182,7 +1197,8 @@
 		4EFD8EC21BE8B3BE00E9C284 /* LocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationViewController.m; sourceTree = "<group>"; };
 		4EFD8EC41BE8B57300E9C284 /* LocationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationCell.h; sourceTree = "<group>"; };
 		4EFD8EC51BE8B57300E9C284 /* LocationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationCell.m; sourceTree = "<group>"; };
-		E49C0D61FE756FE44DB24F91 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		5AA3EAA49495099974D2B38F /* Pods-CodingMart.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CodingMart.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CodingMart/Pods-CodingMart.debug.xcconfig"; sourceTree = "<group>"; };
+		FF0FB6CB1B25F0123643706A /* Pods-CodingMart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CodingMart.release.xcconfig"; path = "Pods/Target Support Files/Pods-CodingMart/Pods-CodingMart.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1200,7 +1216,7 @@
 				4E2693B11BC67F4E00F9E332 /* SystemConfiguration.framework in Frameworks */,
 				4E2693AF1BC67F2000F9E332 /* CFNetwork.framework in Frameworks */,
 				4E2693A91BC67AD000F9E332 /* libXG-SDK.a in Frameworks */,
-				DA0041F20473823B1C241218 /* libPods.a in Frameworks */,
+				A0BC6E424DB8BDCEFC0BFEB4 /* libPods-CodingMart.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1244,6 +1260,15 @@
 				01ACB7DE1D0B362F00D9D97A /* FunctionListViewController.m */,
 			);
 			path = PriceSystem;
+			sourceTree = "<group>";
+		};
+		20BF252822C7CB30ECF6CE61 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5AA3EAA49495099974D2B38F /* Pods-CodingMart.debug.xcconfig */,
+				FF0FB6CB1B25F0123643706A /* Pods-CodingMart.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		326A290B1BF1F7DE0002FE94 /* ZZBWebView */ = {
@@ -1379,6 +1404,24 @@
 				4E9D97681D6C469E00DDB231 /* QuickAccountInfoViewController.m */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		4E1094F81DE6F11300D4C02A /* AMPopTip */ = {
+			isa = PBXGroup;
+			children = (
+				4E1094F91DE6F11300D4C02A /* AMPopTip+Animation.h */,
+				4E1094FA1DE6F11300D4C02A /* AMPopTip+Animation.m */,
+				4E1094FB1DE6F11300D4C02A /* AMPopTip+Draw.h */,
+				4E1094FC1DE6F11300D4C02A /* AMPopTip+Draw.m */,
+				4E1094FD1DE6F11300D4C02A /* AMPopTip+Entrance.h */,
+				4E1094FE1DE6F11300D4C02A /* AMPopTip+Entrance.m */,
+				4E1094FF1DE6F11300D4C02A /* AMPopTip+Exit.h */,
+				4E1095001DE6F11300D4C02A /* AMPopTip+Exit.m */,
+				4E1095011DE6F11300D4C02A /* AMPopTip.h */,
+				4E1095021DE6F11300D4C02A /* AMPopTip.m */,
+				4E1095031DE6F11300D4C02A /* AMPopTipDefaults.h */,
+			);
+			path = AMPopTip;
 			sourceTree = "<group>";
 		};
 		4E120A061C8841190087BDB3 /* NSStringEmojize */ = {
@@ -1745,8 +1788,8 @@
 			children = (
 				4EBDC2871BC645990037EB66 /* CodingMart */,
 				4EBDC2861BC645990037EB66 /* Products */,
-				9094B452E0F81A4EB474AAB3 /* Pods */,
 				763530924587ECA73B4D4A52 /* Frameworks */,
+				20BF252822C7CB30ECF6CE61 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2057,6 +2100,7 @@
 		4EBDC2A41BC64D9A0037EB66 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				4E1094F81DE6F11300D4C02A /* AMPopTip */,
 				4E9D976D1D6EE3D600DDB231 /* JTSImageViewController */,
 				4EB8625F1CA93A77008074D1 /* SVPullToRefresh */,
 				4EFC8BBC1CA1326400532B5E /* AutoSlideScrollView */,
@@ -2466,18 +2510,9 @@
 				4E2693B21BC67F5C00F9E332 /* CoreTelephony.framework */,
 				4E2693B01BC67F4E00F9E332 /* SystemConfiguration.framework */,
 				4E2693AE1BC67F2000F9E332 /* CFNetwork.framework */,
-				E49C0D61FE756FE44DB24F91 /* libPods.a */,
+				4EFCD7F8C2DE09C4EE6AFF30 /* libPods-CodingMart.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		9094B452E0F81A4EB474AAB3 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				2834857B0914BDC18FE6EB27 /* Pods.debug.xcconfig */,
-				1C93BF0101B5C89312BC4F23 /* Pods.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2487,12 +2522,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4EBDC29C1BC645990037EB66 /* Build configuration list for PBXNativeTarget "CodingMart" */;
 			buildPhases = (
-				A4E0B75016CD85ECE7DC090B /* Check Pods Manifest.lock */,
+				690AA067925224B91E645265 /* [CP] Check Pods Manifest.lock */,
 				4EBDC2811BC645990037EB66 /* Sources */,
 				4EBDC2821BC645990037EB66 /* Frameworks */,
 				4EBDC2831BC645990037EB66 /* Resources */,
-				5BE37CCFF7CF11527B18F9D2 /* Copy Pods Resources */,
-				7F1216B113791A9DF4317B9A /* Embed Pods Frameworks */,
+				CB57B518C44EE3C71ED5F4B2 /* [CP] Embed Pods Frameworks */,
+				F28D78846F0D3D4E3F9D92B0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2587,49 +2622,49 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		5BE37CCFF7CF11527B18F9D2 /* Copy Pods Resources */ = {
+		690AA067925224B91E645265 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		7F1216B113791A9DF4317B9A /* Embed Pods Frameworks */ = {
+		CB57B518C44EE3C71ED5F4B2 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CodingMart/Pods-CodingMart-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A4E0B75016CD85ECE7DC090B /* Check Pods Manifest.lock */ = {
+		F28D78846F0D3D4E3F9D92B0 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CodingMart/Pods-CodingMart-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -2728,6 +2763,7 @@
 				4E54B6201D75654B008AC0B9 /* RewardPrivateRolesCell.m in Sources */,
 				4E5371551C57456800479DD3 /* PayMethodItemCell.m in Sources */,
 				01D0DCBE1CF0B5A10047CDE3 /* PayMethodTableViewCell.m in Sources */,
+				4E1095041DE6F11300D4C02A /* AMPopTip+Animation.m in Sources */,
 				4E2693AD1BC67B1300F9E332 /* NSObject+ObjectMap.m in Sources */,
 				4E54B62F1D782D6B008AC0B9 /* FreezeRecords.m in Sources */,
 				4EB6DC711DACCD2400427D90 /* RewardApplyProjectListCell.m in Sources */,
@@ -2758,6 +2794,7 @@
 				4E120A0A1C8841190087BDB3 /* NSString+Emojize.m in Sources */,
 				4E26938D1BC6781E00F9E332 /* YLImageView.m in Sources */,
 				4EB9E6651CC8B42200ABBAFC /* RewardMetroRole.m in Sources */,
+				4E1095081DE6F11300D4C02A /* AMPopTip.m in Sources */,
 				4E26938C1BC6781E00F9E332 /* YLGIFImage.m in Sources */,
 				4EEF56A11C58A0A60074F581 /* UIButton+Query.m in Sources */,
 				4E9D97691D6C469E00DDB231 /* QuickAccountInfoViewController.m in Sources */,
@@ -2815,6 +2852,7 @@
 				01ACB7D91D0B10D200D9D97A /* PriceList.m in Sources */,
 				4E2693841BC676EC00F9E332 /* UIProgressView+AFNetworking.m in Sources */,
 				4E4BF2CE1C1EB66E005B1D90 /* RegisterPasswordViewController.m in Sources */,
+				4E1095071DE6F11300D4C02A /* AMPopTip+Exit.m in Sources */,
 				4EBDC28A1BC645990037EB66 /* main.m in Sources */,
 				4E5BC0A01C817B68002B5111 /* CaseListViewController.m in Sources */,
 				4E4DD8501D5B0E8900BD7A62 /* MPayRewardOrderPayResultViewController.m in Sources */,
@@ -2875,12 +2913,14 @@
 				4E8A61BF1D47552500EFFD50 /* Activities.m in Sources */,
 				4EBDC2C51BC6530E0037EB66 /* UIColor+expanded.m in Sources */,
 				4E7D9E221CBB9A0E00FA5CB5 /* MartSkill.m in Sources */,
+				4E1095051DE6F11300D4C02A /* AMPopTip+Draw.m in Sources */,
 				4EDAE3C01BC78CD400255FE8 /* UIView+WebCacheOperation.m in Sources */,
 				4EB9E66E1CC8B96D00ABBAFC /* RewardApplyCoder.m in Sources */,
 				4E7BEDD91D549A8F000825D2 /* MPayAccounts.m in Sources */,
 				4EFC8BC51CA142FC00532B5E /* NSLayoutConstraintLine.m in Sources */,
 				4E9F5D261C055D61007CCDCC /* MartStartViewManager.m in Sources */,
 				4EDAE4471BC8F21200255FE8 /* ActionSheetCustomPicker.m in Sources */,
+				4E1095061DE6F11300D4C02A /* AMPopTip+Entrance.m in Sources */,
 				4EDAE3B31BC78CD400255FE8 /* SDImageCache.m in Sources */,
 				4E224AFD1BE9F83A00F8475F /* RewardDetail.m in Sources */,
 				4EFD8EB71BE8607E00E9C284 /* VerifiedInfo.m in Sources */,
@@ -3099,7 +3139,7 @@
 		};
 		4EBDC29D1BC645990037EB66 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2834857B0914BDC18FE6EB27 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 5AA3EAA49495099974D2B38F /* Pods-CodingMart.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -3140,7 +3180,7 @@
 		};
 		4EBDC29E1BC645990037EB66 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1C93BF0101B5C89312BC4F23 /* Pods.release.xcconfig */;
+			baseConfigurationReference = FF0FB6CB1B25F0123643706A /* Pods-CodingMart.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

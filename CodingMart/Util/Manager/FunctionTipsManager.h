@@ -20,7 +20,9 @@ static NSString *kFunctionTipStr_MPay = @"MPay";
 static NSString *kFunctionTipStr_RenZhengMaShi = @"RenZhengMaShi";
 static NSString *kFunctionTipStr_ShenFenRenZheng = @"ShenFenRenZheng";
 static NSString *kFunctionTipStr_JieDuanZhiFu = @"JieDuanZhiFu";
-//static NSString *kFunctionTipStr_ = @"";
+//version: 3.0
+static NSString *kFunctionTipStr_AddRewardType = @"AddRewardType";
+static NSString *kFunctionTipStr_MaShiRenZheng = @"MaShiRenZheng";
 //static NSString *kFunctionTipStr_ = @"";
 
 

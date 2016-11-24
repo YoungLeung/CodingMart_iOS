@@ -32,7 +32,6 @@
 #import "MPayRewardOrderGenerateViewController.h"
 #import <BlocksKit/BlocksKit+UIKit.h>
 #import "EATipView.h"
-#import "MartFunctionTipView.h"
 #import "RewardPrivateDespCell.h"
 #import "RewardPrivateExampleCell.h"
 #import "RewardPrivatePlanCell.h"
