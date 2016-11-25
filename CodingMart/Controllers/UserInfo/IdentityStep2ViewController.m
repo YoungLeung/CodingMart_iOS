@@ -34,18 +34,26 @@
     [_wechatTipL addLinkToStr:@"如何扫描二维码？" value:nil hasUnderline:NO clickedBlock:^(id value) {
         [weakSelf goToWechatTipVC];
     }];
+    [self updateQRCodeV];
+    [self.tableView eaAddPullToRefreshAction:@selector(becomeActiveRefresh) onTarget:self];//下拉刷新一下进度
+}
+
+- (void)updateQRCodeV{
     if (_info.qrCodeLinkStr.length > 0) {
         [_codeImageV sd_setImageWithURL:[NSURL URLWithString:_info.qrCodeLinkStr]];
     }
-    [self.tableView eaAddPullToRefreshAction:@selector(becomeActiveRefresh) onTarget:self];//下拉刷新一下进度
 }
 
 - (void)becomeActiveRefresh{
     WEAKSELF
     [[Coding_NetAPIManager sharedManager] get_IdentityInfoBlock:^(id data, NSError *error) {
-        if ([[(IdentityInfo *)data status] isEqualToString:@"Checked"]) {
+        [weakSelf.tableView.pullRefreshCtrl endRefreshing];
+        if (data) {
             weakSelf.info = data;
-            [weakSelf goToPassedVC];
+            [weakSelf updateQRCodeV];
+            if ([[(IdentityInfo *)data status] isEqualToString:@"Checked"]) {
+                [weakSelf goToPassedVC];
+            }
         }
     }];
 }
