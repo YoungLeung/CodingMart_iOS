@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AMPopTip.h"
+#import "AMPopTip.h"//没有用 pod 管理，是因为 pod 上面的版本太低，还没有 bubbleOffset 属性
 
 @interface MartFunctionTipView : UIView
 + (void)showFunctionImages:(NSArray *)imageNames;

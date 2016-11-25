@@ -37,6 +37,7 @@
     if (_info.qrCodeLinkStr.length > 0) {
         [_codeImageV sd_setImageWithURL:[NSURL URLWithString:_info.qrCodeLinkStr]];
     }
+    [self.tableView eaAddPullToRefreshAction:@selector(becomeActiveRefresh) onTarget:self];//下拉刷新一下进度
 }
 
 - (void)becomeActiveRefresh{

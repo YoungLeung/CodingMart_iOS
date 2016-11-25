@@ -76,7 +76,9 @@
     WEAKSELF
     [NSObject showHUDQueryStr:@"请稍等..."];
     [[Coding_NetAPIManager sharedManager] post_IdentityInfo:_info block:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
         if (data && [data[@"result"] integerValue] == 1) {//通过有 result = 1，没通过就没有
+            [NSObject showHUDQueryStr:@"请稍等..."];//再稍等...
             [[Coding_NetAPIManager sharedManager] get_IdentityInfoBlock:^(id dataI, NSError *errorI) {
                 [NSObject hideHUDQuery];
                 if (dataI) {
