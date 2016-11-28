@@ -248,7 +248,7 @@
 
 - (void)showHighPaidTip{
     if (!_tipV) {
-        _tipV = [EATipView instancetypeWithTitle:@"高回报悬赏专区" tipStr:@"此区域内的项目，多为要求特殊，或要求专业领域技能，或较为冷门，因此项目金额会高于市场价，并仍然有议价空间。"];
+        _tipV = [EATipView instancetypeWithTitle:@"高回报项目专区" tipStr:@"此区域内的项目，多为要求特殊，或要求专业领域技能，或较为冷门，因此项目金额会高于市场价，并仍然有议价空间。"];
     }
     if (_tipV.isShowing) {
         [_tipV dismiss];

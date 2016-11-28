@@ -262,7 +262,7 @@
         }else{//去提交
             if (_rewardDetal) {
                 if (_rewardDetal.reward.roleTypesNotCompleted.count <= 0) {
-                    [NSObject showHudTipStr:@"该悬赏所有角色都已招募完毕"];
+                    [NSObject showHudTipStr:@"该项目所有角色都已招募完毕"];
                 }else{
                     RewardApplyViewController *vc = [RewardApplyViewController storyboardVC];
                     vc.rewardDetail = _rewardDetal;

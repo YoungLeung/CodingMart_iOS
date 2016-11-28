@@ -203,7 +203,7 @@
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {//报名角色
             if (_rewardDetail.reward.roleTypesNotCompleted.count <= 0) {
-                [NSObject showHudTipStr:@"该悬赏所有角色都已招募完毕"];
+                [NSObject showHudTipStr:@"该项目所有角色都已招募完毕"];
                 return;
             }
             __weak typeof(self) weakSelf = self;
