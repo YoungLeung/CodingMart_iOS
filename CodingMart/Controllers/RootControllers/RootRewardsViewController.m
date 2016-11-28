@@ -182,6 +182,7 @@
 - (void)refreshHighPaidData{
     if (!_highPaidRewards) {
         _highPaidRewards = [Rewards RewardsWithType:_typeList[0] status:_statusList[0] roleType:_roleTypeList[0]];
+        _highPaidRewards.isHighPaid = YES;
     }
     if (self.highPaidRewards.isLoading) {
         return;

@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *numL;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *titleLeadingC;
 @property (weak, nonatomic) IBOutlet UIImageView *highPaidLogoV;
+@property (weak, nonatomic) IBOutlet UILabel *highPaidL;
 
 @end
 
@@ -63,6 +64,7 @@
     BOOL isHighPaid = _curReward.high_paid.integerValue == 2;
     _titleLeadingC.constant = isHighPaid? 35: 12;
     _highPaidLogoV.hidden = !isHighPaid;
+    _highPaidL.text = isHighPaid? @"可议价": @"";
 }
 
 + (CGFloat)cellHeight{
