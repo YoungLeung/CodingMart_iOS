@@ -32,7 +32,7 @@
     }else if (_curMPayOrders){
         _despL.text = [NSString stringWithFormat:@"项目 %@ 中角色 %@ 的%@款项", _curRewardP.basicInfo.id, _curRole.role_name, [self p_priceTitle]];
         _priceL.text = [NSString stringWithFormat:@"%@ 元", _curMPayOrders.orderAmount];
-        _priceTipL.text = [NSString stringWithFormat:@"包含 %@ 元阶段款 + %.1f%% 平台服务费", _curMPayOrders.stageAmount, _curMPayOrders.serviceFee.floatValue/_curMPayOrders.stageAmount.floatValue];
+        _priceTipL.text = [NSString stringWithFormat:@"包含 %@ 元阶段款 + %.0f%% 平台服务费", _curMPayOrders.stageAmount, 100 *_curMPayOrders.serviceFee.floatValue/_curMPayOrders.stageAmount.floatValue];
     }
 }
 

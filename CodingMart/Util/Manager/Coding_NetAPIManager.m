@@ -939,6 +939,10 @@
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             data = [NSObject objectOfClass:@"MPayOrders" fromJSON:data];
+            if ([(MPayOrders *)data orderAmount].integerValue <= 0) {
+                data = nil;
+                [NSObject showHudTipStr:@"阶段过多，无法一次性支付"];
+            }
         }
         block(data, error);
     }];
