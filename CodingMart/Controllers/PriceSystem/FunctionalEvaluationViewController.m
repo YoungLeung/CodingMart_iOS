@@ -384,8 +384,10 @@
             [tempIDArray addObject:[_allIDArray objectAtIndex:i]];
         }
     }
-    [tempArray addObject:@"管理后台"];
-    [tempIDArray addObject:@"P006"];
+    if ([self p_needServerInList:tempIDArray]) {
+        [tempIDArray addObject:@"P006"];
+        [tempArray addObject:@"管理后台"];
+    }
 
     _selectedMenuArray = tempArray;
     _menuIDArray = tempIDArray;
@@ -393,6 +395,11 @@
     _selectedIndex = 0;
     [self addTopMenu];
     [self generateDefaultShoppingCarData];
+}
+
+- (BOOL)p_needServerInList:(NSArray *)idList{
+    NSSet *idSet = [[NSSet alloc] initWithArray:idList];
+    return ![idSet isSubsetOfSet:[NSSet setWithObjects:@"P007", @"P008", nil]];
 }
 
 + (UIImage *)imageWithColor:(UIColor *)color
@@ -1198,7 +1205,10 @@
             [_bottomMenuView addSubview:_numberLabel];
             [_bottomMenuView addSubview:_calcButton];
             
-            if (_notDefaultItemCount < 5) {
+            if (![self p_needServerInList:_menuIDArray]) {
+                [_bottomMenuLabel setText:nil];
+                [_calcButton setEnabled:YES];
+            }else if (_notDefaultItemCount < 5) {
                 if (_selectedMenuArray.count == 2 &&[_selectedMenuArray containsObject:@"前端项目"]) {
                     [_bottomMenuLabel setText:@"请选择前端项目页面数量"];
                 } else {
@@ -1210,7 +1220,10 @@
         } else {
             [_bubbleView setHidden:NO];
             [_numberLabel setHidden:NO];
-            if (_notDefaultItemCount >= 5 || (_selectedMenuArray.count == 2 &&[_selectedMenuArray containsObject:@"前端项目"])) {
+            if (![self p_needServerInList:_menuIDArray]) {
+                [_bottomMenuLabel setText:nil];
+                [_calcButton setEnabled:YES];
+            }else if (_notDefaultItemCount >= 5 || (_selectedMenuArray.count == 2 &&[_selectedMenuArray containsObject:@"前端项目"])) {
                 [_bottomMenuLabel setText:nil];
                 [_calcButton setEnabled:YES];
                 if ([_webPageNumber isEqual:@0] && [_selectedMenuArray containsObject:@"前端项目"]) {

@@ -146,8 +146,11 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
             [selectedArray addObject:name];
             [selectedIDArray addObject:[_menuIDArray objectAtIndex:indexPath.row]];
         }
-        [selectedIDArray addObject:@"P006"];
-        [selectedArray addObject:@"管理后台"];
+        if ([self p_needServerInList:selectedIDArray]) {
+            [selectedIDArray addObject:@"P006"];
+            [selectedArray addObject:@"管理后台"];
+        }
+        
         FunctionalEvaluationViewController *vc = [[FunctionalEvaluationViewController alloc] init];
         vc.menuArray = _cellNameArray;
         vc.menuIDArray = selectedIDArray;
@@ -155,6 +158,11 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
         vc.allIDArray = _menuIDArray;
         [self.navigationController pushViewController:vc animated:YES];
     }
+}
+
+- (BOOL)p_needServerInList:(NSArray *)idList{
+    NSSet *idSet = [[NSSet alloc] initWithArray:idList];
+    return ![idSet isSubsetOfSet:[NSSet setWithObjects:@"P007", @"P008", nil]];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {

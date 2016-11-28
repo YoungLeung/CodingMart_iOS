@@ -63,8 +63,6 @@
         [_headerV setY:-_headerV.height];
         [self.webView.scrollView.pullRefreshCtrl setY:self.webView.scrollView.pullRefreshCtrl.y - _headerV.height];
     }
-    [self handleRefresh];
-    
     if (![FunctionTipsManager isAppUpdate] && [Login curLoginUser].loginIdentity.integerValue != 2) {//开发者
         [MartFunctionTipView showFunctionImages:@[@"guidance_dev_reward_public"] onlyOneTime:YES];
     }
@@ -72,6 +70,7 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self handleRefresh];
 }
 
 - (void)handleRefresh{
