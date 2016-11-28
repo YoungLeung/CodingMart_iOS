@@ -97,6 +97,7 @@
 }
 
 - (void)showPayTip{
+    [self.view endEditing:YES];
     if (!_payTipV) {
         CGFloat height = 225;
         UILabel *tipL = [_payV viewWithTag:100];
