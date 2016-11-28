@@ -89,7 +89,8 @@
     NSArray *metroStatus = _curRewardP.metro.metroStatus;
     BOOL statusIsCurStatus = [status isEqual:_curRewardP.basicInfo.status];
     
-    if (_curRewardP.basicInfo.status.integerValue == RewardStatusDeveloping &&
+    if (/* DISABLES CODE */ (NO) &&//地铁图去掉阶段划分
+        _curRewardP.basicInfo.status.integerValue == RewardStatusDeveloping &&
         _curRewardP.metro.roles.count > 0 &&
         index > 0 &&
         [metroStatus[index -1] integerValue] == RewardStatusDeveloping) {//项目当前状态是开发中 & 有阶段划分 & 上一个状态是开发中
