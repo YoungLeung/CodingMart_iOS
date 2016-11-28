@@ -135,12 +135,26 @@
         // 三级菜单
         for (FunctionMenu *menu in secondMenuArray) {
             if ([menu.dom_type isEqual:@2]) {
-                // 单选框默认添加第一个
+                // 单选框默认添加第一个(改：有默认就用默认，没有的话才用第一个)
                 NSArray *array = [menu.children componentsSeparatedByString:@","];
-                NSString *str = [array firstObject];
-                if (str.length) {
-                    FunctionMenu *thirdMenu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:str]];
-                    [defalutArray addObject:thirdMenu];
+                FunctionMenu *thirdMenu = nil;
+                for (NSString *str in array) {
+                    if (str.length) {
+                        thirdMenu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:str]];
+                        if ([thirdMenu.is_default isEqual:@1]) {
+                            [defalutArray addObject:thirdMenu];
+                            break;
+                        }else{
+                            thirdMenu = nil;
+                        }
+                    }
+                }
+                if (!thirdMenu) {
+                    NSString *str = [array firstObject];
+                    if (str.length) {
+                        FunctionMenu *thirdMenu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:str]];
+                        [defalutArray addObject:thirdMenu];
+                    }
                 }
             } else {
                 NSArray *array = [menu.children componentsSeparatedByString:@","];
