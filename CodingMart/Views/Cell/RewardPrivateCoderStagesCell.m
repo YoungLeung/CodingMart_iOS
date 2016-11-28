@@ -70,10 +70,9 @@
         [self.contentView addSubview:stageV];
         curBottom += stageHeight;
     }
-//    NSInteger needToPayStageNum = [_curRole needToPayStageNum];
-//    [_payBtn setTitle:[_curRole needToPayStageNum] == _curRole.stages.count? @"支付全部阶段": @"支付剩余阶段" forState:UIControlStateNormal];
-//    _payBtn.hidden = needToPayStageNum == 0;
-    _payBtn.hidden = YES;
+    NSInteger needToPayStageNum = [_curRole needToPayStageNum];
+    [_payBtn setTitle:[_curRole needToPayStageNum] == _curRole.stages.count? @"支付全部阶段": @"支付剩余阶段" forState:UIControlStateNormal];
+    _payBtn.hidden = needToPayStageNum == 0;
 }
 
 - (IBAction)payBtnClicked:(id)sender {

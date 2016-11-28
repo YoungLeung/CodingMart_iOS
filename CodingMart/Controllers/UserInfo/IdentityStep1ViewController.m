@@ -107,7 +107,7 @@
     }
     _payNameL.text = _nameF.text;
     _payIdentityL.text = _identityF.text;
-    [_payTipV showInView:self.view];
+    [_payTipV showInView:kKeyWindow];
 }
 - (IBAction)dismissPayTipV:(id)sender {
     [_payTipV dismiss];
