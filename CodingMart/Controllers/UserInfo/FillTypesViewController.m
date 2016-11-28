@@ -182,6 +182,10 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
             }];
         }
     }else if (indexPath.section == 1){
+        if (!self.curUser.fullInfo.boolValue) {
+            [NSObject showHudTipStr:@"请先完善个人信息"];
+            return;
+        }
         WEAKSELF
         [NSObject showHUDQueryStr:@"请稍等..."];
         [[Coding_NetAPIManager sharedManager] get_IdentityInfoBlock:^(id data, NSError *error) {
