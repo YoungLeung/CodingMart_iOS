@@ -22,6 +22,7 @@
 #import "WelcomeViewController.h"
 #import "MPayDepositViewController.h"
 #import "PublishRewardViewController.h"
+#import "EADeviceToServerLog.h"
 
 @interface AppDelegate ()
 
@@ -62,6 +63,9 @@
 //    启动宣传页
     [[MartStartViewManager makeStartView] show];
     [MartStartViewManager refreshStartModel];
+    
+//    Coding 监控信息
+//    [[EADeviceToServerLog shareManager] start];
     
 //    [[FLEXManager sharedManager] showExplorer];
     return YES;

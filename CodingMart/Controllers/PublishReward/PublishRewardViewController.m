@@ -228,7 +228,7 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
 - (IBAction)budgetTipBtnClicked:(id)sender {
     NSString *tipStr =
     @"合理的项目金额会吸引更多的有经验的开发者参与项目， 从而最大程度地保证项目交付并控制风险。 如果项目金额低于实际研发成本， 即使有开发者合作， 项目很大程度会处于高风险或不可控状态， 结果很大程度上导致开发过程中不断增加费用， 严重延期、项目质量低下、双方纠纷甚至项目烂尾， 从而对您的商业计划、资金造成较大的损失。";
-    EATipView *tipV = [EATipView instancetypeWithTitle:@"关于项目预算" tipStr:tipStr];
+    EATipView *tipV = [EATipView instancetypeWithTitle:@"关于项目金额" tipStr:tipStr];
     [tipV showInView:kKeyWindow];
 }
 - (IBAction)nextStepBtnClicked:(id)sender {
