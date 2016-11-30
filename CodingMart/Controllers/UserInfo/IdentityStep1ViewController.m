@@ -83,7 +83,9 @@
                 [NSObject hideHUDQuery];
                 if (dataI) {
                     weakSelf.info = dataI;
-                    [weakSelf goToStep2];
+                    if (![weakSelf.info.status isEqualToString:@"Rejected"]) {//再拦截一步
+                        [weakSelf goToStep2];
+                    }
                 }
             }];
         }else if (data && data[@"message"]){//验证失败
