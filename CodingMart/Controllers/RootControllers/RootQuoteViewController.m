@@ -249,7 +249,7 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
     CGFloat cellHeight = ((kDevice_Is_iPhone4? 568: kScreen_Height)//iPhone4 的时候，用 iPhone5 的高度排版
                           - 64//顶 - nav
                           - 50//底 - tab
-                          - 55//底 - 按钮
+                          - 60//底 - 按钮
 //                          - 15//底 - 按钮 - 底部空余
                           - 15 * 2//顶部底部间距
                           - 10 * 2//行间距

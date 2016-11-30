@@ -21,6 +21,7 @@
 @property (strong, nonatomic, readonly) NSArray *filesToShow;
 @property (strong, nonatomic, readonly) NSArray *roleApplyList;
 @property (strong, nonatomic) NSDictionary *prd;
+@property (strong, nonatomic) NSNumber *max_multi_pay_size;
 - (void)prepareHandle;
 - (void)dealWithPreRewardP:(RewardPrivate *)rewardP;
 - (BOOL)isRewardOwner;

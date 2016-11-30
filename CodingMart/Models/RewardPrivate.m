@@ -54,6 +54,7 @@
         RewardMetroRole *role = _metro.roles[index];
         role.isRewardOwner = isRewardOwner;
         role.isStageOwner = [role.owner_id isEqual:[Login curLoginUser].id];
+        role.max_multi_pay_size = self.max_multi_pay_size;
 
         role.roleColor = [UIColor colorWithHexString:_metro.roles.count == 1? colorStrList[1]: colorStrList[index % colorStrList.count]];
         for (RewardApplyCoder *coder in _apply.coders) {

@@ -234,12 +234,21 @@
         if (data) {
             NSString *pathP = [NSString stringWithFormat:@"api/reward/%ld/detail", (long)rewardId];
             [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:pathP withParams:nil withMethodType:Get andBlock:^(id dataP, NSError *errorP) {
-                dataP = [NSObject objectOfClass:@"RewardPrivate" fromJSON:dataP[@"data"]];
-                [(Reward *)data prepareToDisplay];
-                [(Reward *)data setManagerName:[(RewardPrivate *)dataP basicInfo].managerName];
-                [(RewardPrivate *)dataP setBasicInfo:data];
-                [(RewardPrivate *)dataP prepareHandle];
-                block(dataP, error);
+                if (dataP) {
+                    dataP = [NSObject objectOfClass:@"RewardPrivate" fromJSON:dataP[@"data"]];
+                    [(Reward *)data prepareToDisplay];
+                    [(Reward *)data setManagerName:[(RewardPrivate *)dataP basicInfo].managerName];
+                    [(RewardPrivate *)dataP setBasicInfo:data];
+                    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/setting" withParams:@{@"code": @"max_multi_pay_size"} withMethodType:Get andBlock:^(id dataS, NSError *errorS) {
+                        if (dataS) {
+                            [(RewardPrivate *)dataP setMax_multi_pay_size:dataS ?: @5];
+                            [(RewardPrivate *)dataP prepareHandle];
+                        }
+                        block(dataP, error);
+                    }];
+                }else{
+                    block(dataP, error);
+                }
             }];
         }else{
             block(nil, error);
