@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HighPaidAreaCell" rowHeight="240" id="KGk-i7-Jjw" customClass="HighPaidAreaCell">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HighPaidAreaCell" rowHeight="225" id="KGk-i7-Jjw" customClass="HighPaidAreaCell">
             <rect key="frame" x="0.0" y="0.0" width="375" height="240"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
@@ -21,13 +21,6 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6BZ-Q8-dtf" customClass="UIButton">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lhm-Yc-Wxh">
-                                <rect key="frame" x="12" y="43" width="363" height="1"/>
-                                <color key="backgroundColor" red="0.8666666666666667" green="0.8666666666666667" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="1" id="LEE-IJ-ATE" customClass="NSLayoutConstraintLine"/>
-                                </constraints>
-                            </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="button_arrow_left" translatesAutoresizingMaskIntoConstraints="NO" id="yqv-wL-gFk">
                                 <rect key="frame" x="348" y="14" width="15" height="15"/>
                                 <constraints>
@@ -48,19 +41,24 @@
                                 <color key="textColor" red="0.13333333333333333" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="查看全部" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lpv-22-8Nx">
+                                <rect key="frame" x="285.5" y="13.5" width="57.5" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="Lhm-Yc-Wxh" secondAttribute="bottom" id="AiB-D8-WiR"/>
+                            <constraint firstItem="lpv-22-8Nx" firstAttribute="centerY" secondItem="CO3-Tt-UGN" secondAttribute="centerY" id="D9b-eS-4jO"/>
                             <constraint firstItem="qPN-ae-PL1" firstAttribute="leading" secondItem="6BZ-Q8-dtf" secondAttribute="leading" constant="12" id="Red-aZ-CFK"/>
                             <constraint firstItem="qPN-ae-PL1" firstAttribute="centerY" secondItem="6BZ-Q8-dtf" secondAttribute="centerY" id="edd-bC-pO3"/>
                             <constraint firstItem="yqv-wL-gFk" firstAttribute="centerY" secondItem="6BZ-Q8-dtf" secondAttribute="centerY" id="gSM-Ko-0dH"/>
                             <constraint firstAttribute="trailing" secondItem="yqv-wL-gFk" secondAttribute="trailing" constant="12" id="hBv-AP-0d2"/>
                             <constraint firstAttribute="height" constant="44" id="k8O-9f-RWJ"/>
-                            <constraint firstItem="Lhm-Yc-Wxh" firstAttribute="leading" secondItem="6BZ-Q8-dtf" secondAttribute="leading" constant="12" id="lNF-ak-gID"/>
-                            <constraint firstAttribute="trailing" secondItem="Lhm-Yc-Wxh" secondAttribute="trailing" id="mhY-y0-to6"/>
                             <constraint firstItem="CO3-Tt-UGN" firstAttribute="centerY" secondItem="6BZ-Q8-dtf" secondAttribute="centerY" id="ovI-XE-Dpb"/>
                             <constraint firstItem="CO3-Tt-UGN" firstAttribute="leading" secondItem="qPN-ae-PL1" secondAttribute="trailing" constant="10" id="pRp-Od-JUO"/>
+                            <constraint firstItem="yqv-wL-gFk" firstAttribute="leading" secondItem="lpv-22-8Nx" secondAttribute="trailing" constant="5" id="t6L-zB-lG6"/>
                         </constraints>
                         <connections>
                             <action selector="areaBtnClicked:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="8UD-Py-Yar"/>
@@ -73,7 +71,7 @@
                             <size key="itemSize" width="150" height="172"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="12" minY="12" maxX="12" maxY="12"/>
+                            <inset key="sectionInset" minX="12" minY="5" maxX="12" maxY="12"/>
                         </collectionViewFlowLayout>
                     </collectionView>
                 </subviews>

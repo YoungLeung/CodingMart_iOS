@@ -12,6 +12,7 @@
 #import "Coding_NetAPIManager.h"
 #import "IdentityPassedViewController.h"
 #import "WechatTipViewController.h"
+#import <BlocksKit/UIView+BlocksKit.h>
 
 @interface IdentityStep2ViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *codeImageV;
@@ -34,6 +35,9 @@
     [_wechatTipL addLinkToStr:@"如何扫描二维码？" value:nil hasUnderline:NO clickedBlock:^(id value) {
         [weakSelf goToWechatTipVC];
     }];
+    [_codeImageV bk_whenTapped:^{
+        [weakSelf showSaveImageTip];
+    }];
     [self updateQRCodeV];
     [self.tableView eaAddPullToRefreshAction:@selector(becomeActiveRefresh) onTarget:self];//下拉刷新一下进度
 }
@@ -42,6 +46,28 @@
     if (_info.qrCodeLinkStr.length > 0) {
         [_codeImageV sd_setImageWithURL:[NSURL URLWithString:_info.qrCodeLinkStr]];
     }
+}
+
+- (void)showSaveImageTip{
+    if (_codeImageV.image) {
+        WEAKSELF
+        UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"是否保存二维码到相册？" buttonTitles:@[@"保存"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            if (index == 0) {
+                [weakSelf saveQRImage];
+            }
+        }];
+        [actionSheet showInView:self.view];
+    }
+}
+
+- (void)saveQRImage{
+    if (_codeImageV.image) {
+        UIImageWriteToSavedPhotosAlbum(_codeImageV.image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+    }
+}
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
+    [NSObject showHudTipStr:error? @"保存失败": @"已保存到相册"];
 }
 
 - (void)becomeActiveRefresh{
