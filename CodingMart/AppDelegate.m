@@ -23,6 +23,7 @@
 #import "MPayDepositViewController.h"
 #import "PublishRewardViewController.h"
 #import "EADeviceToServerLog.h"
+#import "AFNetworkReachabilityManager.h"
 
 @interface AppDelegate ()
 
@@ -63,7 +64,9 @@
 //    启动宣传页
     [[MartStartViewManager makeStartView] show];
     [MartStartViewManager refreshStartModel];
-    
+//    监控网络情况
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+
 //    [[FLEXManager sharedManager] showExplorer];
     return YES;
 }

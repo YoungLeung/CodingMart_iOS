@@ -7,6 +7,7 @@
 //
 
 //MinIntervalDutation 单位（秒）
+#define kEALogKey_PostServerPath @"https://tracker.coding.net/v1"
 #define kEALogKey_MinIntervalDutation (60 * 30)
 #define kEALogKey_LogFileName @"deviceLog"
 #define kEALogKey_LastTimeLogDate @"ealastTimeLogDate"
@@ -23,6 +24,7 @@
 #import "LDNetGetAddress.h"
 #import "Login.h"
 #import "AFNetworkReachabilityManager.h"
+#import "NSData+gzip.h"
 
 @interface EADeviceToServerLog ()
 @property (strong, nonatomic) NSMutableDictionary *logDict;
@@ -123,10 +125,12 @@
     _isRunning = YES;
     NSString *logStr = [self p_readLog];
     if (logStr.length > 0) {
-        NSURL *url = [NSURL URLWithString:@"http://192.168.0.121/"];
+        NSURL *url = [NSURL URLWithString:kEALogKey_PostServerPath];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         request.HTTPMethod = @"POST";
-        request.HTTPBody = [logStr dataUsingEncoding:NSUTF8StringEncoding];
+        request.HTTPBody = [self p_gzipStr:logStr];
+        [request setValue:@"text/plain" forHTTPHeaderField:@"Content-Type"];
+        [request setValue:@"gzip" forHTTPHeaderField:@"Content-Encoding"];
         __weak typeof(self) weakSelf = self;
         NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
             [weakSelf handlePostToServerSuccess:!error];
@@ -135,6 +139,12 @@
     }else{
         _isRunning = NO;
     }
+}
+
+- (NSData *)p_gzipStr:(NSString *)string{
+    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    data = [NSData gzipData:data];
+    return data;
 }
 
 - (void)handlePostToServerSuccess:(BOOL)isSuccess{
@@ -199,14 +209,13 @@
     }
     NSData *logData = [NSJSONSerialization dataWithJSONObject:_logDict options:NSJSONWritingPrettyPrinted error:nil];
     NSString *logStr = [[NSString alloc] initWithData:logData encoding:NSUTF8StringEncoding];
-    if (logStr.length > 0) {
-        logStr = [NSString stringWithFormat:@"\n\n%@\n\n--------------------------------------------------", logStr];
-    }else{
+    if (logStr.length <= 0) {
         return;
     }
     NSString *logFilePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject stringByAppendingFormat:@"/%@", kEALogKey_LogFileName];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if ([fileManager fileExistsAtPath:logFilePath]) {
+        logStr = [NSString stringWithFormat:@"\n--------------------------------------------------\n%@", logStr];
         NSFileHandle *fileHandle = [NSFileHandle fileHandleForUpdatingAtPath:logFilePath];
         [fileHandle seekToEndOfFile];
         [fileHandle writeData:[logStr dataUsingEncoding:NSUTF8StringEncoding]];

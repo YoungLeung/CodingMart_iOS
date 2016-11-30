@@ -177,6 +177,8 @@
 		4E54B62F1D782D6B008AC0B9 /* FreezeRecords.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E54B62E1D782D6B008AC0B9 /* FreezeRecords.m */; };
 		4E54B6321D782D78008AC0B9 /* FreezeRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E54B6311D782D78008AC0B9 /* FreezeRecord.m */; };
 		4E54B6351D7830FC008AC0B9 /* FreezeRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E54B6341D7830FC008AC0B9 /* FreezeRecordViewController.m */; };
+		4E55E4741DEEDB7100FE7BE6 /* NSData+gzip.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E55E4731DEEDB7100FE7BE6 /* NSData+gzip.m */; };
+		4E55E4761DEEDBB600FE7BE6 /* libbz2.1.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E55E4751DEEDBB600FE7BE6 /* libbz2.1.0.tbd */; };
 		4E564E971DE5685200E799C9 /* MPayOrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E564E961DE5685200E799C9 /* MPayOrderDetailViewController.m */; };
 		4E5B1D681CA2753E0050B7DB /* UIScrollView+RefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B1D671CA2753E0050B7DB /* UIScrollView+RefreshControl.m */; };
 		4E5B1D6E1CA4DFB40050B7DB /* PublishRewardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B1D6D1CA4DFB40050B7DB /* PublishRewardViewController.m */; };
@@ -769,6 +771,9 @@
 		4E54B6311D782D78008AC0B9 /* FreezeRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FreezeRecord.m; sourceTree = "<group>"; };
 		4E54B6331D7830FC008AC0B9 /* FreezeRecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreezeRecordViewController.h; sourceTree = "<group>"; };
 		4E54B6341D7830FC008AC0B9 /* FreezeRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FreezeRecordViewController.m; sourceTree = "<group>"; };
+		4E55E4721DEEDB7100FE7BE6 /* NSData+gzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+gzip.h"; sourceTree = "<group>"; };
+		4E55E4731DEEDB7100FE7BE6 /* NSData+gzip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+gzip.m"; sourceTree = "<group>"; };
+		4E55E4751DEEDBB600FE7BE6 /* libbz2.1.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.1.0.tbd; path = usr/lib/libbz2.1.0.tbd; sourceTree = SDKROOT; };
 		4E564E951DE5685200E799C9 /* MPayOrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPayOrderDetailViewController.h; sourceTree = "<group>"; };
 		4E564E961DE5685200E799C9 /* MPayOrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPayOrderDetailViewController.m; sourceTree = "<group>"; };
 		4E5B1D661CA2753E0050B7DB /* UIScrollView+RefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+RefreshControl.h"; sourceTree = "<group>"; };
@@ -1253,6 +1258,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E55E4761DEEDBB600FE7BE6 /* libbz2.1.0.tbd in Frameworks */,
 				4EAB78691DEE67080073EE1C /* ObjectiveGit.framework in Frameworks */,
 				4EAB785D1DED63660073EE1C /* libresolv.9.tbd in Frameworks */,
 				4EEF56A81C58D7C20074F581 /* CoreMotion.framework in Frameworks */,
@@ -1829,6 +1835,8 @@
 				4EAB78291DED51C70073EE1C /* EADeviceToServerLog.m */,
 				4EAB785E1DED642F0073EE1C /* EANetTraceRoute.h */,
 				4EAB785F1DED642F0073EE1C /* EANetTraceRoute.m */,
+				4E55E4721DEEDB7100FE7BE6 /* NSData+gzip.h */,
+				4E55E4731DEEDB7100FE7BE6 /* NSData+gzip.m */,
 			);
 			path = EADeviceToServerLog;
 			sourceTree = "<group>";
@@ -2587,6 +2595,7 @@
 		763530924587ECA73B4D4A52 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4E55E4751DEEDBB600FE7BE6 /* libbz2.1.0.tbd */,
 				4EAB78681DEE67080073EE1C /* ObjectiveGit.framework */,
 				4EAB785C1DED63630073EE1C /* libresolv.9.tbd */,
 				4EEF56A71C58D7C20074F581 /* CoreMotion.framework */,
@@ -3084,6 +3093,7 @@
 				32AB93B01BFF1F21007DF39C /* ExamCardView.m in Sources */,
 				4EDAE3BF1BC78CD400255FE8 /* UIImageView+WebCache.m in Sources */,
 				4EDC727D1CD0A83800C8C824 /* UILabel+Common.m in Sources */,
+				4E55E4741DEEDB7100FE7BE6 /* NSData+gzip.m in Sources */,
 				4EBDC2C91BC657910037EB66 /* NSString+Common.m in Sources */,
 				4E1209F81C868E100087BDB3 /* NotificationViewController.m in Sources */,
 				4E54B6291D76C24A008AC0B9 /* MPayStageOrderGenetateViewController.m in Sources */,
