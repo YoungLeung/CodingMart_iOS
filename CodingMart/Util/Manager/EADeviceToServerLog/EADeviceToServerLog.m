@@ -20,6 +20,7 @@
 #import <ObjectiveGit/ObjectiveGit.h>//https://github.com/libgit2/objective-git
 #import "EADeviceToServerLog.h"
 #import "EANetTraceRoute.h"
+#import "LDNetGetAddress.h"
 #import "Login.h"
 #import "AFNetworkReachabilityManager.h"
 
@@ -237,6 +238,7 @@
     NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSString *dataStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         dictLocalIP[@"log"] = dataStr;
+        dictLocalIP[@"dns"] = [LDNetGetAddress outPutDNSServers];
         dictLocalIP[kEALogKey_FinishTime] = [weakSelf p_curTime];
         if (error) {
             block(nil);
