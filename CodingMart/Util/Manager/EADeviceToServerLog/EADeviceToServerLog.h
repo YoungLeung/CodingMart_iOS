@@ -10,5 +10,5 @@
 
 @interface EADeviceToServerLog : NSObject
 + (instancetype)shareManager;
-- (void)start;
+- (void)tryToStart;
 @end

@@ -260,6 +260,8 @@
 		4EAB785B1DED628A0073EE1C /* LDSimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAB78531DED628A0073EE1C /* LDSimplePing.m */; };
 		4EAB785D1DED63660073EE1C /* libresolv.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EAB785C1DED63630073EE1C /* libresolv.9.tbd */; };
 		4EAB78601DED642F0073EE1C /* EANetTraceRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAB785F1DED642F0073EE1C /* EANetTraceRoute.m */; };
+		4EAB78691DEE67080073EE1C /* ObjectiveGit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EAB78681DEE67080073EE1C /* ObjectiveGit.framework */; };
+		4EAB786D1DEE6A520073EE1C /* ObjectiveGit.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4EAB786C1DEE6A520073EE1C /* ObjectiveGit.framework.dSYM */; };
 		4EB52F321C7AB2AA00B5EBEA /* TwoFactorAuthCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB52F311C7AB2AA00B5EBEA /* TwoFactorAuthCodeViewController.m */; };
 		4EB52F351C7AB7AE00B5EBEA /* TwoFactorCloseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB52F341C7AB7AE00B5EBEA /* TwoFactorCloseViewController.m */; };
 		4EB64DCF1D2E407000AF2EA5 /* SettingWorkEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB64DCE1D2E407000AF2EA5 /* SettingWorkEmailViewController.m */; };
@@ -424,6 +426,19 @@
 		4EFD8EC61BE8B57300E9C284 /* LocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EFD8EC51BE8B57300E9C284 /* LocationCell.m */; };
 		A0BC6E424DB8BDCEFC0BFEB4 /* libPods-CodingMart.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EFCD7F8C2DE09C4EE6AFF30 /* libPods-CodingMart.a */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4EAB786B1DEE69F50073EE1C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				4EAB786D1DEE6A520073EE1C /* ObjectiveGit.framework.dSYM in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		011BF9171CF5DE2B0068B465 /* FunctionalEvaluationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionalEvaluationViewController.h; sourceTree = "<group>"; };
@@ -919,6 +934,8 @@
 		4EAB785C1DED63630073EE1C /* libresolv.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.9.tbd; path = usr/lib/libresolv.9.tbd; sourceTree = SDKROOT; };
 		4EAB785E1DED642F0073EE1C /* EANetTraceRoute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EANetTraceRoute.h; sourceTree = "<group>"; };
 		4EAB785F1DED642F0073EE1C /* EANetTraceRoute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EANetTraceRoute.m; sourceTree = "<group>"; };
+		4EAB78681DEE67080073EE1C /* ObjectiveGit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectiveGit.framework; path = Carthage/Build/iOS/ObjectiveGit.framework; sourceTree = "<group>"; };
+		4EAB786C1DEE6A520073EE1C /* ObjectiveGit.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = ObjectiveGit.framework.dSYM; path = Carthage/Build/iOS/ObjectiveGit.framework.dSYM; sourceTree = "<group>"; };
 		4EB52F301C7AB2AA00B5EBEA /* TwoFactorAuthCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwoFactorAuthCodeViewController.h; sourceTree = "<group>"; };
 		4EB52F311C7AB2AA00B5EBEA /* TwoFactorAuthCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwoFactorAuthCodeViewController.m; sourceTree = "<group>"; };
 		4EB52F331C7AB7AE00B5EBEA /* TwoFactorCloseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwoFactorCloseViewController.h; sourceTree = "<group>"; };
@@ -1236,6 +1253,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EAB78691DEE67080073EE1C /* ObjectiveGit.framework in Frameworks */,
 				4EAB785D1DED63660073EE1C /* libresolv.9.tbd in Frameworks */,
 				4EEF56A81C58D7C20074F581 /* CoreMotion.framework in Frameworks */,
 				32F2F2B51BFC769700DC600D /* QuickLook.framework in Frameworks */,
@@ -1852,6 +1870,7 @@
 		4EBDC27C1BC645990037EB66 = {
 			isa = PBXGroup;
 			children = (
+				4EAB786C1DEE6A520073EE1C /* ObjectiveGit.framework.dSYM */,
 				4EBDC2871BC645990037EB66 /* CodingMart */,
 				4EBDC2861BC645990037EB66 /* Products */,
 				763530924587ECA73B4D4A52 /* Frameworks */,
@@ -2568,6 +2587,7 @@
 		763530924587ECA73B4D4A52 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4EAB78681DEE67080073EE1C /* ObjectiveGit.framework */,
 				4EAB785C1DED63630073EE1C /* libresolv.9.tbd */,
 				4EEF56A71C58D7C20074F581 /* CoreMotion.framework */,
 				32F2F2B41BFC769700DC600D /* QuickLook.framework */,
@@ -2595,6 +2615,8 @@
 				4EBDC2831BC645990037EB66 /* Resources */,
 				CB57B518C44EE3C71ED5F4B2 /* [CP] Embed Pods Frameworks */,
 				F28D78846F0D3D4E3F9D92B0 /* [CP] Copy Pods Resources */,
+				4EAB786A1DEE69700073EE1C /* ShellScript */,
+				4EAB786B1DEE69F50073EE1C /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -2689,6 +2711,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		4EAB786A1DEE69700073EE1C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
 		690AA067925224B91E645265 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3226,6 +3262,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/CodingMart/Vendor/AlipaySDK",
+					"$(SRCROOT)/Carthage/Build/iOS",
 				);
 				GCC_PREFIX_HEADER = "CodingMart/CodingMart-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -3241,9 +3278,10 @@
 					"\"${PODS_ROOT}/Headers/Public/TPKeyboardAvoiding\"",
 					"\"${PODS_ROOT}/Headers/Public/TTTAttributedLabel\"",
 					"\"${PODS_ROOT}/Headers/Public/UMengSocial\"",
+					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
 				);
 				INFOPLIST_FILE = CodingMart/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3268,6 +3306,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/CodingMart/Vendor/AlipaySDK",
+					"$(SRCROOT)/Carthage/Build/iOS",
 				);
 				GCC_PREFIX_HEADER = "CodingMart/CodingMart-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -3283,9 +3322,10 @@
 					"\"${PODS_ROOT}/Headers/Public/TPKeyboardAvoiding\"",
 					"\"${PODS_ROOT}/Headers/Public/TTTAttributedLabel\"",
 					"\"${PODS_ROOT}/Headers/Public/UMengSocial\"",
+					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
 				);
 				INFOPLIST_FILE = CodingMart/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

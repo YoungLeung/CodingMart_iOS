@@ -64,9 +64,6 @@
     [[MartStartViewManager makeStartView] show];
     [MartStartViewManager refreshStartModel];
     
-//    Coding 监控信息
-//    [[EADeviceToServerLog shareManager] start];
-    
 //    [[FLEXManager sharedManager] showExplorer];
     return YES;
 }
@@ -177,6 +174,8 @@
     if ([[UIDevice currentDevice] systemVersion].floatValue >= 9.0) {
         [self setupShortcutItems];
     }
+    //    Coding 监控信息
+    [[EADeviceToServerLog shareManager] tryToStart];
     //实名认证 - 微信 - 领签
     UIViewController *vc = [UIViewController presentingVC];
     if ([vc respondsToSelector:NSSelectorFromString(@"becomeActiveRefresh")]) {

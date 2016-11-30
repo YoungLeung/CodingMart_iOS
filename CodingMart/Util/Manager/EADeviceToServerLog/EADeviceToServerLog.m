@@ -6,6 +6,10 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
+//MinIntervalDutation 单位（秒）
+#define kEALogKey_MinIntervalDutation (60 * 30)
+#define kEALogKey_LogFileName @"deviceLog"
+#define kEALogKey_LastTimeLogDate @"ealastTimeLogDate"
 #define kEALogKey_StartTime @"startTime"
 #define kEALogKey_FinishTime @"finishTime"
 #define kEALogKey_Error @"error"
@@ -13,13 +17,16 @@
 #import <netdb.h>
 #import <sys/socket.h>
 #import <arpa/inet.h>
+#import <ObjectiveGit/ObjectiveGit.h>//https://github.com/libgit2/objective-git
 #import "EADeviceToServerLog.h"
 #import "EANetTraceRoute.h"
 #import "Login.h"
+#import "AFNetworkReachabilityManager.h"
 
 @interface EADeviceToServerLog ()
 @property (strong, nonatomic) NSMutableDictionary *logDict;
 @property (strong, nonatomic) NSArray *hostStrList, *portList;
+@property (assign, nonatomic) BOOL isRunning;
 @end
 
 @implementation EADeviceToServerLog
@@ -52,6 +59,7 @@
     }else{
         [_logDict removeAllObjects];
     }
+    _logDict[kEALogKey_StartTime] = [self p_curTime];
 //    添加 App 信息
     _logDict[@"userAgent"] = [NSObject userAgent];
     _logDict[@"globalKey"] = [Login curLoginUser].global_key;
@@ -73,29 +81,150 @@
     return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 }
 
-- (void)start{
-    [self postOnce];
+- (void)p_updateLogDate{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:[NSDate date] forKey:kEALogKey_LastTimeLogDate];
+    [defaults synchronize];
 }
 
-- (void)postOnce{
+- (NSDate *)p_lastTimeLogDate{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return [defaults objectForKey:kEALogKey_LastTimeLogDate];
+}
+
+- (BOOL)p_canStartLog{
+    if (_isRunning) {
+        return NO;
+    }
+    NSDate *lastTimeLogDate = [self p_lastTimeLogDate];
+    if (!lastTimeLogDate) {
+        return YES;
+    }else{
+        return [[NSDate date] timeIntervalSinceDate:lastTimeLogDate] > kEALogKey_MinIntervalDutation;
+    }
+}
+
+- (void)tryToStart{
+    if ([self p_canStartLog]) {
+        [self startLog];
+    }else{
+        [self tryToPostToServer];
+    }
+}
+
+- (void)tryToPostToServer{
+    if (![AFNetworkReachabilityManager sharedManager].isReachableViaWiFi) {
+        return;
+    }
+    if (_isRunning) {
+        return;
+    }
+    _isRunning = YES;
+    NSString *logStr = [self p_readLog];
+    if (logStr.length > 0) {
+        NSURL *url = [NSURL URLWithString:@"http://192.168.0.121/"];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+        request.HTTPMethod = @"POST";
+        request.HTTPBody = [logStr dataUsingEncoding:NSUTF8StringEncoding];
+        __weak typeof(self) weakSelf = self;
+        NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            [weakSelf handlePostToServerSuccess:!error];
+        }];
+        [task resume];
+    }else{
+        _isRunning = NO;
+    }
+}
+
+- (void)handlePostToServerSuccess:(BOOL)isSuccess{
+    _isRunning = NO;
+    if (isSuccess) {
+        NSString *logFilePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject stringByAppendingFormat:@"/%@", kEALogKey_LogFileName];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        if ([fileManager fileExistsAtPath:logFilePath]) {
+            [fileManager removeItemAtPath:logFilePath error:nil];
+        }
+    }
+}
+
+- (void)startLog{
+    if (_isRunning) {
+        return;
+    }
+    _isRunning = YES;
     [self p_resetLog];
     __weak typeof(self) weakSelf = self;
     [self getLocalIPBlock:^(NSDictionary *dictLocalIP) {
-        [weakSelf p_addLog:dictLocalIP];
-        [weakSelf getHostIPsBlock:^(NSDictionary *dictHostIPs) {
-            [weakSelf p_addLog:dictHostIPs];
-            [weakSelf getHostPortsBlock:^(NSDictionary *dictHostPorts) {
-                [weakSelf p_addLog:dictHostPorts];
-                [weakSelf getHostMtrsBlock:^(NSDictionary *dictHostMtrs) {
-                    [weakSelf p_addLog:dictHostMtrs];
-                    [weakSelf getGitsBlock:^(NSDictionary *dictGits) {
-                        [weakSelf p_addLog:dictGits];
-                        NSLog(@"%@", [weakSelf p_dictionaryToJson:weakSelf.logDict]);
+        if (!dictLocalIP) {//第一步获取 ip 不能完成的话，默认原因为连不上外网，取消截下来的监控步骤
+            [weakSelf handleCancel];
+        }else{
+            [weakSelf p_addLog:dictLocalIP];
+            [weakSelf getHostIPsBlock:^(NSDictionary *dictHostIPs) {
+                [weakSelf p_addLog:dictHostIPs];
+                [weakSelf getHostPortsBlock:^(NSDictionary *dictHostPorts) {
+                    [weakSelf p_addLog:dictHostPorts];
+                    [weakSelf getHostMtrsBlock:^(NSDictionary *dictHostMtrs) {
+                        [weakSelf p_addLog:dictHostMtrs];
+                        [weakSelf getGitsBlock:^(NSDictionary *dictGits) {
+                            [weakSelf p_addLog:dictGits];
+                            [weakSelf handleFinish];
+                        }];
                     }];
                 }];
             }];
-        }];
+        }
     }];
+}
+
+- (void)handleFinish{
+    _isRunning = NO;
+    _logDict[kEALogKey_FinishTime] = [self p_curTime];
+    _logDict[@"logDuration"] = [NSString stringWithFormat:@"%ldms", ([_logDict[kEALogKey_FinishTime] longValue] - [_logDict[kEALogKey_StartTime] longValue])] ;
+    //写文件
+    [self p_writeLog];
+    [self p_resetLog];
+    [self tryToPostToServer];
+}
+
+
+- (void)handleCancel{
+    _isRunning = NO;
+    [self p_resetLog];
+}
+
+- (void)p_writeLog{
+    if (!_logDict) {
+        return;
+    }
+    NSData *logData = [NSJSONSerialization dataWithJSONObject:_logDict options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *logStr = [[NSString alloc] initWithData:logData encoding:NSUTF8StringEncoding];
+    if (logStr.length > 0) {
+        logStr = [NSString stringWithFormat:@"\n\n%@\n\n--------------------------------------------------", logStr];
+    }else{
+        return;
+    }
+    NSString *logFilePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject stringByAppendingFormat:@"/%@", kEALogKey_LogFileName];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if ([fileManager fileExistsAtPath:logFilePath]) {
+        NSFileHandle *fileHandle = [NSFileHandle fileHandleForUpdatingAtPath:logFilePath];
+        [fileHandle seekToEndOfFile];
+        [fileHandle writeData:[logStr dataUsingEncoding:NSUTF8StringEncoding]];
+        [fileHandle closeFile];
+    }else{
+        [logStr writeToFile:logFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    }
+    [self p_updateLogDate];
+}
+
+- (NSString *)p_readLog{
+    NSString *logFilePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject stringByAppendingFormat:@"/%@", kEALogKey_LogFileName];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if ([fileManager fileExistsAtPath:logFilePath]) {
+        NSString *logStr = [[NSString alloc] initWithContentsOfFile:logFilePath encoding:NSUTF8StringEncoding error:nil];
+        return logStr;
+    }else{
+        return nil;
+    }
 }
 
 - (void)getLocalIPBlock:(void(^)(NSDictionary *dictLocalIP))block{
@@ -104,14 +233,17 @@
     request.HTTPMethod = @"GET";
     [request setValue:@"curl/7.41.0" forHTTPHeaderField:@"User-Agent"];
     NSMutableDictionary *dictLocalIP = @{kEALogKey_StartTime: [self p_curTime]}.mutableCopy;
+    __weak typeof(self) weakSelf = self;
     NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSString *dataStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         dictLocalIP[@"log"] = dataStr;
-        dictLocalIP[kEALogKey_FinishTime] = [self p_curTime];
+        dictLocalIP[kEALogKey_FinishTime] = [weakSelf p_curTime];
         if (error) {
-            dictLocalIP[kEALogKey_Error] = error.description;
+            block(nil);
+            dictLocalIP[kEALogKey_Error] = error.description;//
+        }else{
+            block(@{@"localIp": dictLocalIP});
         }
-        block(@{@"localIp": dictLocalIP});
     }];
     [task resume];
 }
@@ -237,9 +369,28 @@
 }
 
 - (void)getGitsBlock:(void(^)(NSDictionary *dictGits))block{
+    NSURL *repoURL = [NSURL URLWithString:@"https://git.coding.net/coding/test-point.git"];
     
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSURL *appDocsDir = [fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask].lastObject;
+    NSURL *localURL = [NSURL URLWithString:repoURL.lastPathComponent relativeToURL:appDocsDir];
+    if ([fileManager fileExistsAtPath:localURL.path isDirectory:nil]) {//已经存在的话，就先删掉
+        [fileManager removeItemAtURL:localURL error:nil];
+    }
     
-    block(nil);
+    NSMutableDictionary *dictGits = @{kEALogKey_StartTime: [self p_curTime]}.mutableCopy;
+    dictGits[@"url"] = repoURL.absoluteString;
+    NSError* error = nil;
+    GTRepository *repo = [GTRepository cloneFromURL:repoURL toWorkingDirectory:localURL options:@{GTRepositoryCloneOptionsCheckout: @NO} error:&error transferProgressBlock:^(const git_transfer_progress *progress, BOOL *stop) {
+        DebugLog(@"received_objects_count: %d", progress->received_objects)
+    } checkoutProgressBlock:^(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps) {//{Checkout: @NO}，所以这里不会执行
+        DebugLog(@"checkout_progress:%.2f", (float)completedSteps/totalSteps);
+    }];
+    
+    dictGits[kEALogKey_FinishTime] = [self p_curTime];
+    dictGits[@"result"] = repo? @YES: @NO;
+    dictGits[kEALogKey_Error] = error;
+    block(@{@"git": dictGits});
 }
 
 @end
