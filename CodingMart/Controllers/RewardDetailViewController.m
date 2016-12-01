@@ -66,15 +66,20 @@
     if (![FunctionTipsManager isAppUpdate] && [Login curLoginUser].loginIdentity.integerValue != 2) {//开发者
         [MartFunctionTipView showFunctionImages:@[@"guidance_dev_reward_public"] onlyOneTime:YES];
     }
+    [self handleRefresh];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self handleRefresh];
+    [self refreshReward];
 }
 
 - (void)handleRefresh{
     [super handleRefresh];
+    [self refreshReward];
+}
+
+- (void)refreshReward{
     __weak typeof(self) weakSelf = self;
     void (^queryDetailBlock)() = ^(){
         [[Coding_NetAPIManager sharedManager] get_RewardDetailWithId:_curReward.id.integerValue block:^(id data, NSError *error) {//获取详细数据
@@ -94,6 +99,7 @@
         queryDetailBlock();
     }
 }
+
 - (void)refreshNativeView{
     _headerV.curReward = _rewardDetal.reward;
     UIEdgeInsets contentInset = self.webView.scrollView.contentInset;
