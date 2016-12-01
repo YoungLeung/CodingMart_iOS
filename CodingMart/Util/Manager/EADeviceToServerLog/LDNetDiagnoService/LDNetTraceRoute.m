@@ -180,7 +180,7 @@
                     }
                     
                     if (try == 0) {
-                        [traceTTLLog appendFormat:@"%@\t\t", hostAddress];
+                        [traceTTLLog appendFormat:@"%@\t", hostAddress];
                     }
                     [traceTTLLog appendFormat:@"%0.2fms\t", (float)delta / 1000];
                 }

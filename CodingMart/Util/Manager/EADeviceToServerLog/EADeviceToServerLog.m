@@ -13,7 +13,7 @@
 #define kEALogKey_LastTimeLogDate @"ealastTimeLogDate"
 #define kEALogKey_StartTime @"startTime"
 #define kEALogKey_FinishTime @"finishTime"
-#define kEALogKey_Error @"error"
+#define kEALogKey_LogInfo @"log"
 
 #import <netdb.h>
 #import <sys/socket.h>
@@ -250,8 +250,7 @@
         dictLocalIP[@"dns"] = [LDNetGetAddress outPutDNSServers];
         dictLocalIP[kEALogKey_FinishTime] = [weakSelf p_curTime];
         if (error) {
-            block(nil);
-            dictLocalIP[kEALogKey_Error] = error.description;//
+            block(nil);//需要中断监控
         }else{
             block(@{@"localIp": dictLocalIP});
         }
@@ -281,9 +280,6 @@
     dictHostIP[@"host"] = hostStr;
     dictHostIP[@"ip"] = [self p_getIPWithHostName:hostStr];
     dictHostIP[kEALogKey_FinishTime] = [self p_curTime];
-    if (!dictHostIP[@"ip"]) {
-        dictHostIP[kEALogKey_Error] = @"域名 ip 解析失败";
-    }
     block(dictHostIP);
 }
 
@@ -320,9 +316,6 @@
     dictHostPort[@"port"] = port;
     NSString *errorStr = nil;
     dictHostPort[@"result"] = @([self p_canLinkToHost:hostStr port:port errorStr:&errorStr]);
-    if (errorStr) {
-        dictHostPort[kEALogKey_Error] = errorStr;
-    }
     dictHostPort[kEALogKey_FinishTime] = [self p_curTime];
     block(dictHostPort);
 }
@@ -355,7 +348,7 @@
 - (void)getHostMtrsBlock:(void(^)(NSDictionary *dictHostMtrs))block{
     static NSMutableArray *dictHostMtrList;
     if (dictHostMtrList.count == _hostStrList.count){
-        block(@{@"hostMtr": dictHostMtrList});
+        block(@{@"mtr": dictHostMtrList});
         dictHostMtrList = nil;
     }else{
         if (!dictHostMtrList) {
@@ -373,7 +366,7 @@
     NSMutableDictionary *dictHostMtr = @{kEALogKey_StartTime: [self p_curTime]}.mutableCopy;
     dictHostMtr[@"host"] = hostStr;
     [EANetTraceRoute getTraceRouteOfHost:hostStr block:^(NSArray *traceRouteList) {
-        dictHostMtr[@"mtr"] = traceRouteList;
+        dictHostMtr[@"pings"] = traceRouteList;
         dictHostMtr[kEALogKey_FinishTime] = [self p_curTime];
         block(dictHostMtr);
     }];
@@ -400,7 +393,7 @@
     
     dictGits[kEALogKey_FinishTime] = [self p_curTime];
     dictGits[@"result"] = repo? @YES: @NO;
-    dictGits[kEALogKey_Error] = error;
+    dictGits[kEALogKey_LogInfo] = error.description ?: @"";
     block(@{@"git": dictGits});
 }
 
