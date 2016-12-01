@@ -53,16 +53,16 @@
     [_qqNumF.rac_textSignal subscribeNext:^(NSString *newText){
         weakSelf.userInfo.qq= newText;
     }];
-    RAC(self, submitBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, userInfo.name),
-                                                              RACObserve(self, userInfo.qq),
-                                                              RACObserve(self, userInfo.province),
-                                                              RACObserve(self, userInfo.city),
-                                                              RACObserve(self, userInfo.district),
-                                                              RACObserve(self, userInfo.free_time),
-                                                              RACObserve(self, userInfo.acceptNewRewardAllNotification),
-                                                              ] reduce:^id{
-                                                                  return @([weakSelf.userInfo canPost:weakSelf.originalUserInfo]);
-                                                              }];
+//    RAC(self, submitBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, userInfo.name),
+//                                                              RACObserve(self, userInfo.qq),
+//                                                              RACObserve(self, userInfo.province),
+//                                                              RACObserve(self, userInfo.city),
+//                                                              RACObserve(self, userInfo.district),
+//                                                              RACObserve(self, userInfo.free_time),
+//                                                              RACObserve(self, userInfo.acceptNewRewardAllNotification),
+//                                                              ] reduce:^id{
+//                                                                  return @([weakSelf.userInfo canPost:weakSelf.originalUserInfo]);
+//                                                              }];
 
 }
 
@@ -75,8 +75,8 @@
     [self.view beginLoading];
     [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id data, NSError *error) {
         [self.view endLoading];
-        self.userInfo = data[@"data"][@"info"]? [NSObject objectOfClass:@"FillUserInfo" fromJSON:data[@"data"][@"info"]]: [FillUserInfo new];
         self.originalUserInfo = data[@"data"][@"info"]? [NSObject objectOfClass:@"FillUserInfo" fromJSON:data[@"data"][@"info"]]: [FillUserInfo new];
+        self.userInfo = data[@"data"][@"info"]? [NSObject objectOfClass:@"FillUserInfo" fromJSON:data[@"data"][@"info"]]: [FillUserInfo new];
     }];
 }
 
