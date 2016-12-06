@@ -346,14 +346,19 @@
 }
 
 - (void)getHostMtrsBlock:(void(^)(NSDictionary *dictHostMtrs))block{
+    NSString *dnsStr = [self.logDict[@"localIp"][@"dns"] firstObject];
+    if (dnsStr.length > 0 && [dnsStr componentsSeparatedByString:@":"].count != 4) {//不是 ipv4 的暂时不处理
+        block(nil);
+        return;
+    }
     static NSMutableArray *dictHostMtrList;
+    if (!dictHostMtrList) {
+        dictHostMtrList = @[].mutableCopy;
+    }
     if (dictHostMtrList.count == _hostStrList.count){
         block(@{@"mtr": dictHostMtrList});
         dictHostMtrList = nil;
     }else{
-        if (!dictHostMtrList) {
-            dictHostMtrList = @[].mutableCopy;
-        }
         __weak typeof(self) weakSelf = self;
         [self getHost:_hostStrList[dictHostMtrList.count] mtrBlock:^(NSDictionary *dictHostMtr) {
             [dictHostMtrList addObject:dictHostMtr];
