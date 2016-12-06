@@ -39,7 +39,7 @@
 + (BOOL)deleteResponseCacheForPath:(NSString *)requestPath;
 + (BOOL)deleteResponseCache;
 + (NSUInteger)getResponseCacheSize;
-
++ (NSError *)localSymbolError;
 #pragma mark NetError
 -(id)handleResponse:(id)responseJSON;
 -(id)handleResponse:(id)responseJSON autoShowError:(BOOL)autoShowError;

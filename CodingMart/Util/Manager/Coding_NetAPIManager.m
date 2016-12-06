@@ -183,7 +183,7 @@
     if (status && status.integerValue >= 0) {
         params[@"status"] = status;
     }
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get autoShowError:YES needLocalFirst:YES andBlock:^(id data, NSError *error) {
         if (data) {
             data = [NSObject arrayFromJSON:data[@"data"][@"rewards"][@"list"] ofObjects:@"Reward"];
         }
@@ -192,7 +192,7 @@
 }
 - (void)get_PublishededRewardListBlock:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/published";
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"pageSize": @500} withMethodType:Get andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"pageSize": @500} withMethodType:Get autoShowError:YES needLocalFirst:YES andBlock:^(id data, NSError *error) {
         if (data) {
             data = [NSObject arrayFromJSON:data[@"data"][@"rewards"][@"list"] ofObjects:@"Reward"];
         }
@@ -1026,7 +1026,7 @@
 
 - (void)get_priceList:(void (^)(id data, NSError *error))block {
     NSString *path = @"api/quote/list";
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get autoShowError:YES needLocalFirst:YES andBlock:^(id data, NSError *error) {
         data = [NSArray arrayFromJSON:data[@"data"] ofObjects:@"PriceList"];
         block(data, error);
     }];

@@ -67,12 +67,31 @@ static dispatch_once_t onceToken_Coding;
                  withMethodType:(NetworkMethod)method
                   autoShowError:(BOOL)autoShowError
                        andBlock:(void (^)(id data, NSError *error))block{
+    [self requestJsonDataWithPath:aPath withParams:params withMethodType:method autoShowError:autoShowError needLocalFirst:NO andBlock:block];
+}
+- (void)requestJsonDataWithPath:(NSString *)aPath
+                     withParams:(NSDictionary*)params
+                 withMethodType:(NetworkMethod)method
+                  autoShowError:(BOOL)autoShowError
+                 needLocalFirst:(BOOL)needLocalFirst
+                       andBlock:(void (^)(id data, NSError *error))block{
     if (!aPath || aPath.length <= 0) {
         return;
     }
-    //log请求数据
+//    log请求数据
     DebugLog(@"\n===========request===========\n%@\n%@:\n%@", kNetworkMethodName[method], aPath, params);
+//    处理本地缓存 block 先
     aPath = [aPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    if (needLocalFirst && method == Get) {
+        NSMutableString *localPath = aPath.mutableCopy;
+        if (params) {
+            [localPath appendString:params.description];
+        }
+        id localObject = [NSObject loadResponseWithPath:localPath];
+        if (localObject) {
+            block(localObject, [NSObject localSymbolError]);//data、error 共存，标识下 block 的缓存性质
+        }
+    }
 //    发起请求
     switch (method) {
         case Get:{

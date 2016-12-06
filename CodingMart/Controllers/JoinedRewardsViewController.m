@@ -104,14 +104,16 @@
     }
     _isLoading = YES;
     [[Coding_NetAPIManager sharedManager] get_JoinedRewardListWithStatus:@(self.selectedStatusIndex - 1) block:^(id data, NSError *error) {
-        self.isLoading = NO;
-        [self.myTableView.pullRefreshCtrl endRefreshing];
         [self.view endLoading];
         if (data) {
             self.rewardList = data;
             [self.myTableView reloadData];
         }
-        [self configBlankPageHasError:error != nil hasData:self.rewardList.count > 0];
+        if (!(data && error)) {
+            self.isLoading = NO;
+            [self.myTableView.pullRefreshCtrl endRefreshing];
+            [self configBlankPageHasError:error != nil hasData:self.rewardList.count > 0];
+        }
     }];
 }
 

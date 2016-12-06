@@ -273,6 +273,10 @@
     return size;
 }
 
++ (NSError *)localSymbolError{
+    return [NSError errorWithDomain:@"LocalSymbol" code:10086 userInfo:@{NSLocalizedDescriptionKey: @"这只是一个本地缓存的标识而已"}];
+}
+
 + (BOOL) deleteCacheWithPath:(NSString *)cachePath{
     NSString *dirPath = [self pathInCacheDirectory:cachePath];
     BOOL isDir = NO;

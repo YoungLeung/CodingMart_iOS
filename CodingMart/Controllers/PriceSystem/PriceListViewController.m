@@ -43,13 +43,21 @@
     }
     __weak typeof(self)weakSelf = self;
     [[Coding_NetAPIManager sharedManager] get_priceList:^(id data, NSError *error) {
-        _isLoading = NO;
         [weakSelf.tableView setHidden:NO];
-        if (!error) {
+        if (data && error) {
             weakSelf.dataList = data;
-            [weakSelf.tableView.pullRefreshCtrl endRefreshing];
             [weakSelf.tableView reloadData];
             [weakSelf.view endLoading];
+
+        }else{
+            _isLoading = NO;
+            if (!error) {
+                weakSelf.dataList = data;
+                [weakSelf.tableView.pullRefreshCtrl endRefreshing];
+                [weakSelf.tableView reloadData];
+                [weakSelf.view endLoading];
+            }
+
         }
     }];
 }
