@@ -25,7 +25,7 @@
     _curOrder = curOrder;
     _orderIdL.text = _curOrder.orderId;
     _titleL.text = _curOrder.name;
-    _totalFeeL.text = [NSString stringWithFormat:@"￥ %@", _curOrder.totalFee];
+    _totalFeeL.text = [NSString stringWithFormat:@"￥%@", _curOrder.totalFee];
 }
 
 + (CGFloat)cellHeightWithObj:(id)obj{
@@ -34,7 +34,8 @@
         MPayOrder *mPayOrder = (MPayOrder *)obj;
         CGFloat contentW = kScreen_Width - 15* 2 - 70 - 10;
         CGFloat contentH = [mPayOrder.name getHeightWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake(contentW, CGFLOAT_MAX)];
-        cellHeight += (115 - 18) + contentH;
+        contentH = MAX(contentH, 20);
+        cellHeight += (44 * 3 - 20) + contentH;
     }
     return cellHeight;
 }

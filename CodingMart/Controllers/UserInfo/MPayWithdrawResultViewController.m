@@ -30,7 +30,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    _totalFeeL.text = [NSString stringWithFormat:@"￥ %@", _withdraw.order.totalFee];
+    _totalFeeL.text = [NSString stringWithFormat:@"￥%@", _withdraw.order.totalFee];
     _accountL.text = [NSString stringWithFormat:@"%@（%@）", _withdraw.account.account, _withdraw.account.accountName];
     
     _createdAtL.text = [_withdraw.order.createdAt stringWithFormat:@"yyyy-MM-dd HH:mm"];

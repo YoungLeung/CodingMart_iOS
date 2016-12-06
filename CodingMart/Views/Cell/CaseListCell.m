@@ -129,7 +129,7 @@
     
     [_logoV sd_setImageWithURL:[NSURL URLWithString:_info.logo]];
     _nameL.text = [NSString stringWithFormat:@"%@ %@", _info.title, _info.type];
-    _amountL.attributedText = [self p_attrStrWithTitle:@"金额" value:[NSString stringWithFormat:@"￥ %@", _info.amount]];
+    _amountL.attributedText = [self p_attrStrWithTitle:@"金额" value:[NSString stringWithFormat:@"￥%@", _info.amount]];
     _termL.attributedText = [self p_attrStrWithTitle:@"项目时间" value:[NSString stringWithFormat:@"%@ 天", _info.duration]];
     _characterL.attributedText = [self p_attrStrWithTitle:@"参与角色" value:_info.character];
 }

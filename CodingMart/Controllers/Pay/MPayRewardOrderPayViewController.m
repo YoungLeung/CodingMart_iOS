@@ -22,6 +22,8 @@
 
 @interface MPayRewardOrderPayViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
+@property (weak, nonatomic) IBOutlet UITableView *myTableView;
+@property (weak, nonatomic) IBOutlet UILabel *totalPriceL;
 
 @property (strong, nonatomic) NSString *balanceStr;
 @property (strong, nonatomic) NSNumber *balanceValue;
@@ -32,11 +34,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.myTableView.backgroundColor = kColorBGDark;
+    self.totalPriceL.text = [NSString stringWithFormat:@"￥%@", _curMPayOrders? _curMPayOrders.orderAmount: _curMPayOrder.totalFee];
 }
 
 - (void)setBalanceStr:(NSString *)balanceStr{
     _balanceStr = balanceStr;
-    [self.tableView reloadData];
+    [self.myTableView reloadData];
 }
 
 - (void)setBalanceValue:(NSNumber *)balanceValue{
@@ -54,7 +58,7 @@
     [[Coding_NetAPIManager sharedManager] get_MPayBalanceBlock:^(NSDictionary *data, NSError *error) {
         weakSelf.balanceStr = data[@"balance"];
         weakSelf.balanceValue = data[@"balanceValue"];
-        [weakSelf.tableView reloadData];
+        [weakSelf.myTableView reloadData];
     }];
 }
 
@@ -166,16 +170,16 @@
 
 #pragma mark Table
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 2;
+    return _curMPayOrders? _curMPayOrders.order.count + 1: 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return section == 0 && _curMPayOrders? _curMPayOrders.order.count: 1;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0) {
-        MPayOrder *mPayOrder = _curMPayOrders? _curMPayOrders.order[indexPath.row]: _curMPayOrder;
+    if (indexPath.section == 0 || indexPath.section < _curMPayOrders.order.count) {
+        MPayOrder *mPayOrder = _curMPayOrders? _curMPayOrders.order[indexPath.section]: _curMPayOrder;
         MPayOrderPayCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MPayOrderPayCell forIndexPath:indexPath];
         cell.curOrder = mPayOrder;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:15];
@@ -183,15 +187,15 @@
     }else{
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[self p_isBalanceEnough]? kCellIdentifier_MPayLeftMoneyCell_Enough: kCellIdentifier_MPayLeftMoneyCell_Lack forIndexPath:indexPath];
         UILabel *balanceL = [cell viewWithTag:200];
-        balanceL.text = [NSString stringWithFormat:@"￥ %@", _balanceStr];
+        balanceL.text = [NSString stringWithFormat:@"￥%@", _balanceStr];
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:15];
         return cell;
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0) {
-        MPayOrder *mPayOrder = _curMPayOrders? _curMPayOrders.order[indexPath.row]: _curMPayOrder;
+    if (indexPath.section == 0 || indexPath.section < _curMPayOrders.order.count) {
+        MPayOrder *mPayOrder = _curMPayOrders? _curMPayOrders.order[indexPath.section]: _curMPayOrder;
         return [MPayOrderPayCell cellHeightWithObj:mPayOrder];
     }else{
         return [self p_isBalanceEnough]? 44: 60;
@@ -199,24 +203,21 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (section == 0 && _curMPayOrders.order.count > 1) {
-        return 44;
-    }else{
-        return section == 0? 0: 10;
-    }
+    return (section == 0? 1.0/[UIScreen mainScreen].scale:
+            section < _curMPayOrders.order.count? 10:
+            20);
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *headerV = [UIView new];
-    headerV.backgroundColor = self.tableView.backgroundColor;
-    if (section == 0 && _curMPayOrders.order.count > 1) {
-        UILabel *headerL = [UILabel labelWithSystemFontSize:15 textColorHexString:@"0xF5A623"];
-        headerL.text = [NSString stringWithFormat:@"交易总金额 %@ 元", _curMPayOrders.orderAmount];
-        [headerV addSubview:headerL];
-        [headerL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(headerV);
-        }];
-    }
+//    if (section == 0 && _curMPayOrders.order.count > 1) {
+//        UILabel *headerL = [UILabel labelWithSystemFontSize:15 textColorHexString:@"0xF5A623"];
+//        headerL.text = [NSString stringWithFormat:@"交易总金额 %@ 元", _curMPayOrders.orderAmount];
+//        [headerV addSubview:headerL];
+//        [headerL mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.center.equalTo(headerV);
+//        }];
+//    }
     return headerV;
 }
 @end

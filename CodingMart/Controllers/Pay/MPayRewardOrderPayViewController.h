@@ -11,7 +11,7 @@
 #import "MPayOrder.h"
 #import "MPayOrders.h"
 
-@interface MPayRewardOrderPayViewController : BaseTableViewController
+@interface MPayRewardOrderPayViewController : BaseViewController
 @property (strong, nonatomic) Reward *curReward;
 @property (strong, nonatomic) MPayOrder *curMPayOrder;
 @property (strong, nonatomic) MPayOrders *curMPayOrders;
