@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *acceptBtn;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *rejectBtnTrailing;
 @property (weak, nonatomic) IBOutlet UIView *topView;
+@property (weak, nonatomic) IBOutlet UIImageView *coderIdentityIcon;
 
 @end
 
@@ -67,6 +68,10 @@
     _rejectBtn.hidden = !(_curCoder.loginUserIsOwner.boolValue && _curCoder.status.integerValue < JoinStatusFailed && !_curCoder.hasPayedStage.boolValue);//拒绝之前，都可以拒绝 && 没有支付过
     _acceptBtn.hidden = !(_curCoder.loginUserIsOwner.boolValue && _curCoder.status.integerValue < JoinStatusSucessed);//接受之前，都可以接受
     _rejectBtnTrailing.constant = _acceptBtn.hidden? 15: 100;
+    
+    _coderIdentityIcon.image = [UIImage imageNamed:(_curCoder.excellent.boolValue? @"coder_icon_excellent":
+                                                    _curCoder.auth.boolValue? @"coder_icon_auth": @"")];
+    
 }
 
 + (CGFloat)cellHeightWithObj:(id)obj{
