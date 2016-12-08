@@ -25,9 +25,24 @@
     self.title = _roleApply.roleType.name;
 }
 
+- (void)sortCoderAndReloadData{
+    NSMutableArray *coders = _roleApply.coders.mutableCopy;
+    [coders sortUsingComparator:^NSComparisonResult(RewardApplyCoder *obj1, RewardApplyCoder *obj2) {
+        NSInteger weight1;
+        NSInteger weight2;
+        NSInteger status1 = obj1.status.integerValue;
+        NSInteger status2 = obj2.status.integerValue;
+        weight1 = (status1 == JoinStatusSucessed ? 100: 0) + (status1 == JoinStatusFailed || status1 == JoinStatusCanceled ? -100: 0) + (obj1.excellent.boolValue? 10: 0) + (obj1.auth.boolValue? 1: 0);
+        weight2 = (status2 == JoinStatusSucessed ? 100: 0) + (status2 == JoinStatusFailed || status2 == JoinStatusCanceled ? -100: 0) + (obj2.excellent.boolValue? 10: 0) + (obj2.auth.boolValue? 1: 0);
+        return weight1 < weight2;
+    }];
+    _roleApply.coders = coders;
+    [self.tableView reloadData];
+}
+
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.tableView reloadData];
+    [self sortCoderAndReloadData];
 }
 
 #pragma mark Table
@@ -78,7 +93,7 @@
         [NSObject hideHUDQuery];
         if (data) {
             curCoder.status = @(JoinStatusFailed);
-            [weakSelf.tableView reloadData];
+            [weakSelf sortCoderAndReloadData];
         }
     }];
 }
