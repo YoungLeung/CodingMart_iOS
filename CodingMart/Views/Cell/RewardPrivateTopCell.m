@@ -48,7 +48,7 @@
     _durationL.text = [NSString stringWithFormat:@"%@ 天", curR.duration];
     static NSArray *service_type_list;
     if (service_type_list.count <= 0) {
-        service_type_list = @[@"软件开发", @"产品原型", @"UI 设计"];
+        service_type_list = @[@"软件开发", @"产品原型", @"UI 设计", @"整体方案"];
     }
     if (service_type_list.count > curR.service_type.integerValue) {
         _serviceTypeL.text = service_type_list[curR.service_type.integerValue];
