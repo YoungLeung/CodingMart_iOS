@@ -107,7 +107,6 @@
     [_shoppingCarDefaultDict removeAllObjects];
     
     NSMutableArray *carIDArray = [NSMutableArray arrayWithArray:_menuIDArray];
-    [carIDArray removeObject:@"P006"];
     for (int i = 0; i < carIDArray.count; i++) {
         NSMutableDictionary *allMenuDict = [_data objectForKey:@"quotations"];
         NSMutableArray *firstMenuArray = [NSMutableArray array];
@@ -161,6 +160,9 @@
                 for (NSString *str in array) {
                     if (str.length) {
                         FunctionMenu *thirdMenu = [NSObject objectOfClass:@"FunctionMenu" fromJSON:[allMenuDict objectForKey:str]];
+                        if ([thirdMenu.title isEqualToString:@"主内容增删改查"]) {
+                            NSLog(@"zhuazhu");
+                        }
                         if ([thirdMenu.is_default isEqual:@1]) {
                             [defalutArray addObject:thirdMenu];
                         }

@@ -171,22 +171,23 @@
                                                         <constraint firstAttribute="width" constant="25" id="ApU-sV-IG7"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="未认证" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5JQ-sL-Ue4">
-                                                    <rect key="frame" x="521" y="13" width="46" height="18"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" red="0.96078431372549022" green="0.65098039215686276" blue="0.13725490196078433" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coder_icon_auth_25" translatesAutoresizingMaskIntoConstraints="NO" id="Psz-dR-nhB">
+                                                    <rect key="frame" x="537" y="9.5" width="25" height="25"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="25" id="s3A-VW-4mq"/>
+                                                        <constraint firstAttribute="width" constant="25" id="uc7-TU-B8o"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="63E-du-v23" firstAttribute="centerY" secondItem="eTf-Wx-NL3" secondAttribute="centerY" id="Gwa-ZV-P5o"/>
+                                                <constraint firstItem="Psz-dR-nhB" firstAttribute="centerY" secondItem="L0h-cC-ZJE" secondAttribute="centerY" id="LFc-Pu-15p"/>
+                                                <constraint firstAttribute="trailing" secondItem="Psz-dR-nhB" secondAttribute="trailing" constant="5" id="M9T-eq-01x"/>
                                                 <constraint firstItem="63E-du-v23" firstAttribute="centerY" secondItem="L0h-cC-ZJE" secondAttribute="centerY" id="QoD-f4-WW6"/>
-                                                <constraint firstAttribute="trailing" secondItem="5JQ-sL-Ue4" secondAttribute="trailing" id="Ugh-6n-Y3y"/>
                                                 <constraint firstItem="63E-du-v23" firstAttribute="leading" secondItem="eTf-Wx-NL3" secondAttribute="trailing" constant="15" id="dG2-VX-jDU"/>
                                                 <constraint firstItem="eTf-Wx-NL3" firstAttribute="leading" secondItem="L0h-cC-ZJE" secondAttribute="leadingMargin" constant="12" id="gZ1-QR-n6m"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="63E-du-v23" secondAttribute="trailing" id="jRS-gy-CaJ"/>
                                                 <constraint firstItem="63E-du-v23" firstAttribute="centerY" secondItem="L0h-cC-ZJE" secondAttribute="centerY" id="tL8-dB-auD"/>
-                                                <constraint firstItem="5JQ-sL-Ue4" firstAttribute="centerY" secondItem="L0h-cC-ZJE" secondAttribute="centerY" id="vZz-i1-bjp"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -310,7 +311,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="1000"/>
                     <connections>
-                        <outlet property="developerPassL" destination="5JQ-sL-Ue4" id="lHk-E5-zDh"/>
+                        <outlet property="developerProgressV" destination="Psz-dR-nhB" id="Vgp-mz-amW"/>
                         <outlet property="fillUserInfoBtn" destination="1r1-hv-hy8" id="Ewx-DO-wGF"/>
                         <outlet property="footerBtn" destination="ZiD-Xo-AtC" id="Y70-as-3Au"/>
                         <outlet property="headerBGV" destination="BrE-pF-xhC" id="GDf-Fs-Obe"/>
@@ -9820,6 +9821,7 @@ Coding 码市团队</string>
         <image name="button_userinfo_mpay_in" width="22" height="22"/>
         <image name="button_userinfo_mpay_out" width="22" height="22"/>
         <image name="closeEx" width="12" height="12"/>
+        <image name="coder_icon_auth_25" width="25" height="25"/>
         <image name="demo_0" width="140" height="105"/>
         <image name="demo_1" width="140" height="106"/>
         <image name="demo_2" width="140" height="105"/>

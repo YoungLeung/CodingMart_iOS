@@ -36,7 +36,8 @@
 @property (weak, nonatomic) IBOutlet UIView *tableHeaderView;
 @property (strong, nonatomic) UIButton *rightNavBtn;
 @property (weak, nonatomic) IBOutlet UIButton *footerBtn;
-@property (weak, nonatomic) IBOutlet UILabel *developerPassL;
+@property (weak, nonatomic) IBOutlet UIImageView *developerProgressV;
+
 @property (weak, nonatomic) IBOutlet UIImageView *userInfoIconV;
 @property (weak, nonatomic) IBOutlet UILabel *userInfoL;
 
@@ -106,7 +107,7 @@
     BOOL isDeveloper = _curUser.loginIdentity.integerValue == 1;
     [_userInfoIconV setImage:[UIImage imageNamed:isDeveloper? @"icon_userinfo_ certify": @"icon_userinfo_ info"]];
     _userInfoL.text = isDeveloper? @"成为认证码士": @"个人信息";
-    _developerPassL.hidden = ![Login isLogin] || [_curUser isDemandSide] || [_curUser canJoinReward];
+    _developerProgressV.image = [self p_developerProgressImage];
     [_fillUserInfoBtn setTitle:_curUser.name forState:UIControlStateNormal];
     [_user_iconV sd_setImageWithURL:[_curUser.avatar urlWithCodingPath] placeholderImage:[UIImage imageNamed:@"placeholder_user"]];
     [_footerBtn setTitle:isDeveloper? @"切换至需求方模式": @"切换至开发者模式" forState:UIControlStateNormal];
@@ -114,7 +115,14 @@
     [self.tableView reloadData];
 }
 
-
+- (UIImage *)p_developerProgressImage{
+    UIImage *image = nil;
+    if ([Login isLogin] && [_curUser isDeveloperSide]) {
+        image = [UIImage imageNamed:(_curUser.identityChecked.boolValue? @"coder_icon_auth_25": nil)];
+        ;
+    }
+    return image;
+}
 
 #pragma mark - refresh
 
@@ -206,12 +214,6 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];
-    if (indexPath.section == 1 && ![_curUser isDemandSide]) {
-        if ([FunctionTipsManager needToTip:kFunctionTipStr_RenZhengMaShi]) {
-            [cell.contentView addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(kScreen_Width - 15 - 20, 22)];
-            _developerPassL.hidden = YES;
-        }
-    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -219,12 +221,6 @@
     if (indexPath.section == 1) {
         if (![_curUser isDemandSide]) {
             [MobClick event:kUmeng_Event_UserAction label:@"个人中心_成为认证码士"];
-            if ([FunctionTipsManager needToTip:kFunctionTipStr_RenZhengMaShi]) {
-                [FunctionTipsManager markTiped:kFunctionTipStr_RenZhengMaShi];
-                UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-                [cell.contentView removeBadgeTips];
-                _developerPassL.hidden = ![Login isLogin] || [_curUser isDemandSide] || [_curUser canJoinReward];
-            }
             FillTypesViewController *vc = [FillTypesViewController storyboardVC];
             [self.navigationController pushViewController:vc animated:YES];
         }else{
