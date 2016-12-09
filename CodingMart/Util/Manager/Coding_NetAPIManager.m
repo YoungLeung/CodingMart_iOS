@@ -1050,7 +1050,7 @@
 - (void)get_priceH5Data:(NSDictionary *)params block:(void (^)(id data, NSError *error))block {
     NSNumber *listID = [params objectForKey:@"listID"];
     NSString *path = [NSString stringWithFormat:@"api/quote/%@", listID];
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
         data = data[@"data"];
         block(data, error);
     }];

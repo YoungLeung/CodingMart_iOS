@@ -117,41 +117,7 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 
         <!--替换数据-->
         <script>
-            window.data = [{
-  "platform": "Web 网站",
-  "category": [{
-    "name": "基本分类",
-    "module": [{
-      "name": "注册登录",
-      "function": ["邮箱", "手机", "密码找回"]
-    }, {
-      "name": "第三方登录",
-      "function": ["微信", "QQ", "微博"]
-    }]
-  }]
-}, {
-  "platform": "前端项目",
-  "category": [{
-    "name": "基本分类",
-    "module": [{
-      "name": "注册登录",
-      "function": ["邮箱", "手机", "密码找回"]
-    }, {
-      "name": "桌面端分辨率支持（宽度）",
-      "function": ["微信", "QQ", "微博", "微信", "QQ", "微博"]
-    }]
-  }, {
-    "name": "其他",
-    "module": [{
-      "name": "UI 设计（单选）",
-      "function": ["普通设计"]
-    }]
-  }, {
-    "name": "页面数量",
-    "count": "10"
-  }]
-}]
-;
+            window.data = ${webview_content};
         </script>
 
         <script id="template" type="text/template">
