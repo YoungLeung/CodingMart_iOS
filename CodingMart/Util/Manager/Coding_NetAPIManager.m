@@ -529,7 +529,7 @@
 
 #pragma mark Case
 - (void)get_CaseListWithType:(NSString *)type block:(void (^)(id data, NSError *error))block{
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/cases" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/cases" withParams:@{@"v": @2} withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data[@"data"]) {
             data = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"CaseInfo"];
             if (type.length > 0) {
