@@ -391,7 +391,7 @@
     dictGits[@"url"] = repoURL.absoluteString;
     NSError* error = nil;
     GTRepository *repo = [GTRepository cloneFromURL:repoURL toWorkingDirectory:localURL options:@{GTRepositoryCloneOptionsCheckout: @NO} error:&error transferProgressBlock:^(const git_transfer_progress *progress, BOOL *stop) {
-        DebugLog(@"received_objects_count: %d", progress->received_objects)
+        DebugLog(@"received_objects_count: %d", progress->received_objects);
     } checkoutProgressBlock:^(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps) {//{Checkout: @NO}，所以这里不会执行
         DebugLog(@"checkout_progress:%.2f", (float)completedSteps/totalSteps);
     }];
