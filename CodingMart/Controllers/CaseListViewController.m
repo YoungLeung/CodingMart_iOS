@@ -28,7 +28,7 @@
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.title = @"码市案例";
     _typeTitleList = @[@"全部", @"网站", @"APP", @"微信开发", @"HTML5"];
-    _typeValueList = @[@"", @"1", @"5", @"2", @"3"];
+    _typeValueList = @[@"", @"1", @"5", @"2", @"3"];//「网站 - 1」这里是个特殊处理，在其他地方正常使用「网站 - 0」
     _casesDict = [NSMutableDictionary new];
     
     CGFloat segment_height = 44.0;
