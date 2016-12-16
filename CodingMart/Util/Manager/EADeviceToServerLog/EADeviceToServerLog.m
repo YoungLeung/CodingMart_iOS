@@ -347,7 +347,7 @@
 
 - (void)getHostMtrsBlock:(void(^)(NSDictionary *dictHostMtrs))block{
     NSString *dnsStr = [self.logDict[@"localIp"][@"dns"] firstObject];
-    if (dnsStr.length > 0 && [dnsStr componentsSeparatedByString:@":"].count != 4) {//不是 ipv4 的暂时不处理
+    if (dnsStr.length > 0 && [dnsStr componentsSeparatedByString:@"."].count != 4) {//不是 ipv4 的暂时不处理
         block(nil);
         return;
     }
