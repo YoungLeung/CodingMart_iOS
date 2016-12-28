@@ -1008,7 +1008,7 @@
 }
 
 - (void)post_calcPrice:(NSDictionary *)params block:(void (^)(id data, NSError *error))block {
-    NSString *path = @"api/quote/calculate";
+    NSString *path = [Login isLogin]? @"api/quote/pre-save": @"api/quote/calculate";//已登录用户，计算报价的时候，预保存 | 未登录用户用之前流程计算
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
         data = data[@"data"];
         CalcResult *result = [NSObject objectOfClass:@"CalcResult" fromJSON:data];
