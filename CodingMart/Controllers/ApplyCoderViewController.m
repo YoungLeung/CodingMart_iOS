@@ -318,18 +318,18 @@
 }
 
 - (IBAction)rejectBtnClicked:(id)sender {
-    EATipView *tipV = [EATipView instancetypeWithTitle:@"拒绝合作" tipStr:@"拒绝与此位开发者合作？"];
+        EATipView *tipV = [EATipView instancetypeWithTitle:@"拒绝合作" tipStr:@"拒绝与此位开发者合作？"];
     [tipV setLeftBtnTitle:@"取消" block:nil];
     WEAKSELF
     [tipV setRightBtnTitle:@"确定" block:^{
-        [weakSelf doRejectCoder:weakSelf.curCoder];
+        [weakSelf doRejectCoder:weakSelf.curCoder reasonIndex:-1];
     }];
     [tipV showInView:self.view];
 }
-- (void)doRejectCoder:(RewardApplyCoder *)curCoder{
+- (void)doRejectCoder:(RewardApplyCoder *)curCoder reasonIndex:(NSInteger)reasonIndex{
     [NSObject showHUDQueryStr:@"请稍等..."];
     WEAKSELF
-    [[Coding_NetAPIManager sharedManager] post_RejectApply:curCoder.apply_id block:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] post_RejectApply:curCoder.apply_id rejectResonIndex:reasonIndex block:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data) {
             curCoder.status = @(JoinStatusFailed);

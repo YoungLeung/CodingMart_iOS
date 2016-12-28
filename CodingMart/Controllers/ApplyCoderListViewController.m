@@ -78,18 +78,36 @@
 
 #pragma mark Action
 - (void)rejectCoderClicked:(RewardApplyCoder *)curCoder{
+//    NSArray *reasonTitleList = @[@"胜任项目的理由描述不完整或不符合要求",
+//                                 @"工作经验或项目经验不足",
+//                                 @"较少的时间兼职",
+//                                 @"对项目金额、项目周期或交付物无法达成共识",
+//                                 @"已有合适人选",
+//                                 @"其它"];
+//    NSDictionary *reasonDict = @{@"胜任项目的理由描述不完整或不符合要求": @0,
+//                                 @"较少的时间兼职": @1,
+//                                 @"工作经验不足或描述不完整": @2,
+//                                 @"项目经验不足或描述不完整": @3,
+//                                 @"工作年限不足或描述不清晰": @4,
+//                                 @"已有合适人选": @5,
+//                                 @"与需求方的特殊要求（如地域限制等）不符": @6,
+//                                 @"个人信息描述不符合要求": @7,
+//                                 @"其它": @8,
+//                                 @"对项目金额、项目周期或交付物无法达成共识": @9,
+//                                 @"该招募角色已取消": @10};
+
     EATipView *tipV = [EATipView instancetypeWithTitle:@"拒绝合作" tipStr:@"拒绝与此位开发者合作？"];
     [tipV setLeftBtnTitle:@"取消" block:nil];
     WEAKSELF
     [tipV setRightBtnTitle:@"确定" block:^{
-        [weakSelf doRejectCoder:curCoder];
+        [weakSelf doRejectCoder:curCoder reasonIndex:-1];
     }];
     [tipV showInView:self.view];
 }
-- (void)doRejectCoder:(RewardApplyCoder *)curCoder{
+- (void)doRejectCoder:(RewardApplyCoder *)curCoder reasonIndex:(NSUInteger)reasonIndex{
     [NSObject showHUDQueryStr:@"请稍等..."];
     WEAKSELF
-    [[Coding_NetAPIManager sharedManager] post_RejectApply:curCoder.apply_id block:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] post_RejectApply:curCoder.apply_id rejectResonIndex:reasonIndex block:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data) {
             curCoder.status = @(JoinStatusFailed);

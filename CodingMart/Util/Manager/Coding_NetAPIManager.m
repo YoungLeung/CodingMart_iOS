@@ -492,9 +492,10 @@
         block(data, error);
     }];
 }
-- (void)post_RejectApply:(NSNumber *)applyId block:(void (^)(id data, NSError *error))block{
+- (void)post_RejectApply:(NSNumber *)applyId rejectResonIndex:(NSInteger)rejectResonIndex block:(void (^)(id data, NSError *error))block{
     NSString *path = [NSString stringWithFormat:@"api/apply/%@/reject", applyId];
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
+    NSDictionary *params = rejectResonIndex > 0? @{@"reason": @(rejectResonIndex)}: nil;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         block(data, error);
     }];
 }
