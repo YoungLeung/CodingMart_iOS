@@ -118,7 +118,8 @@
 - (UIImage *)p_developerProgressImage{
     UIImage *image = nil;
     if ([Login isLogin] && [_curUser isDeveloperSide]) {
-        image = [UIImage imageNamed:(_curUser.identityChecked.boolValue? @"coder_icon_auth_25": nil)];
+        image = [UIImage imageNamed:(_curUser.info.excellentDeveloper.boolValue? @"coder_icon_excellent_25":
+                                     _curUser.identityChecked.boolValue? @"coder_icon_auth_25": nil)];
         ;
     }
     return image;
@@ -129,7 +130,11 @@
 - (void)refreshData{
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id data, NSError *error) {
-        weakSelf.curUser = data? data: [Login curLoginUser];
+        [[Coding_NetAPIManager sharedManager] get_IdentityInfoBlock:^(id dataI, NSError *errorI) {
+            User *curUser = data? data: [Login curLoginUser];
+            curUser.info = dataI;
+            weakSelf.curUser = curUser;
+        }];
     }];
     
     [self refreshUnReadNotification];

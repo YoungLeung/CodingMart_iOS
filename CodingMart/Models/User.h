@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "IdentityInfo.h"
 
 @interface User : NSObject
 @property (readwrite, nonatomic, strong) NSString *avatar, *name, *global_key, *path, *slogan, *company, *tags_str, *tags, *location, *job_str, *job, *email, *birthday, *pinyinName, *phone_country_code;
@@ -19,7 +20,7 @@
 @property (strong, nonatomic) NSNumber *fullInfo;//是否完善个人资料
 @property (strong, nonatomic) NSNumber *fullSkills;//是否完善个人技能
 @property (strong, nonatomic) NSNumber *identityChecked;//是否完善个人 identity
-
+@property (strong, nonatomic) IdentityInfo *info;//需要请求 get_IdentityInfoBlock 方法才能拿到
 
 @property (readwrite, nonatomic, strong) NSDate *created_at, *last_logined_at, *last_activity_at, *updated_at;
 

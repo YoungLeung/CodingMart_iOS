@@ -14,7 +14,7 @@
 //Checked: 4,
 
 @interface IdentityInfo : NSObject
-@property (strong, nonatomic) NSNumber *userId;
+@property (strong, nonatomic) NSNumber *userId, *excellentDeveloper;
 @property (strong, nonatomic) NSString *name, *identity, *email, *status;
 @property (strong, nonatomic) NSString *agreementLinkStr;
 @property (strong, nonatomic) NSString *qrCodeLinkStr;
