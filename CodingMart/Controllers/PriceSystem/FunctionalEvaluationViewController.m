@@ -767,7 +767,6 @@
     if (!_shoppingCarTableView) {
         // 背景
         _bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kScreen_Height - 44)];
-        [_bgView setBackgroundColor:[UIColor colorWithHexString:@"000000" andAlpha:0.4]];
         UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideShoppingCar)];
         [_bgView addGestureRecognizer:tgr];
         [kKeyWindow addSubview:_bgView];
@@ -830,13 +829,16 @@
         // 隐藏
         [UIView animateWithDuration:0.2 animations:^{
             [_shoppingCarBgView setY:kScreen_Height];
+            [_bgView setBackgroundColor:[UIColor colorWithHexString:@"0x000000" andAlpha:0.0]];
+        } completion:^(BOOL finished) {
+            [_bgView setHidden:YES];
         }];
-        [_bgView setHidden:YES];
     } else {
         // 显示
         [_bgView setHidden:NO];
         [UIView animateWithDuration:0.2 animations:^{
             [_shoppingCarBgView setY:kScreen_Height - _shoppingCarBgView.height - 44];
+            [_bgView setBackgroundColor:[UIColor colorWithHexString:@"0x000000" andAlpha:0.4]];
         }];
     }
 }
@@ -845,8 +847,10 @@
     // 隐藏
     [UIView animateWithDuration:0.2 animations:^{
         [_shoppingCarBgView setY:kScreen_Height];
+        [_bgView setBackgroundColor:[UIColor colorWithHexString:@"0x000000" andAlpha:0.0]];
+    } completion:^(BOOL finished) {
+        [_bgView setHidden:YES];
     }];
-    [_bgView setHidden:YES];
 }
 
 #pragma mark - UITableViewDelagate
