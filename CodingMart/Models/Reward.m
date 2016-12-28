@@ -137,6 +137,7 @@
     if ([_id isKindOfClass:[NSNumber class]]) {
         params[@"id"] = _id;
     }
+//    params[@"price"] = @(5611);
     return params;
 }
 
