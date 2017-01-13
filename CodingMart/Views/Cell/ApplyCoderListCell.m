@@ -69,8 +69,7 @@
     _acceptBtn.hidden = !(_curCoder.loginUserIsOwner.boolValue && _curCoder.status.integerValue < JoinStatusSucessed);//接受之前，都可以接受
     _rejectBtnTrailing.constant = _acceptBtn.hidden? 15: 100;
     
-    _coderIdentityIcon.image = [UIImage imageNamed:(_curCoder.excellent.boolValue? @"coder_icon_excellent":
-                                                    _curCoder.auth.boolValue? @"coder_icon_auth": @"")];
+    _coderIdentityIcon.image = [UIImage imageNamed:(_curCoder.excellent.boolValue? @"coder_icon_excellent": nil)];
     
 }
 

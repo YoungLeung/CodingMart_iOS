@@ -118,8 +118,7 @@
 - (UIImage *)p_developerProgressImage{
     UIImage *image = nil;
     if ([Login isLogin] && [_curUser isDeveloperSide]) {
-        image = [UIImage imageNamed:(_curUser.info.excellentDeveloper.boolValue? @"coder_icon_excellent_25":
-                                     _curUser.identityChecked.boolValue? @"coder_icon_auth_25": nil)];
+        image = [UIImage imageNamed:(_curUser.info.excellentDeveloper.boolValue? @"coder_icon_excellent_25": nil)];
         ;
     }
     return image;
