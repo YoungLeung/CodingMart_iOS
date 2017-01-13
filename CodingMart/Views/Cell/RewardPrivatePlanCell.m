@@ -23,8 +23,8 @@
     _planL.text = _rewardP.basicInfo.developPlan;
     _planTitleL.hidden = _planL.hidden = _rewardP.basicInfo.developPlan.length <= 0;
     
-    _durationL.text = [NSString stringWithFormat:@"%@ 天", _rewardP.basicInfo.duration];
-    _warrantyL.text = [NSString stringWithFormat:@"%@ 天", _rewardP.basicInfo.warranty];
+    _durationL.text = _rewardP.basicInfo.duration.integerValue > 0? [NSString stringWithFormat:@"%@ 天", _rewardP.basicInfo.duration]: @"待商议";
+    _warrantyL.text = _rewardP.basicInfo.warranty.integerValue > 0? [NSString stringWithFormat:@"%@ 天", _rewardP.basicInfo.warranty]: @"待商议";
 }
 
 + (CGFloat)cellHeightWithObj:(id)obj{

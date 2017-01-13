@@ -33,7 +33,7 @@
 - (void)setRewardP:(RewardPrivate *)rewardP{
     _rewardP = rewardP;
     _descriptionL.text = _rewardP.basicInfo.format_contentMedia.contentDisplay;
-    _durationL.text = [NSString stringWithFormat:@"%@ 天", _rewardP.basicInfo.duration.stringValue];
+    _durationL.text = _rewardP.basicInfo.duration.integerValue > 0? [NSString stringWithFormat:@"%@ 天", _rewardP.basicInfo.duration]: @"待商议";
     
     NSString *sampleStr = _rewardP.basicInfo.first_sample;
     if (_rewardP.basicInfo.second_sample.length > 0) {
