@@ -11,8 +11,11 @@
 #import "EATextEditView.h"
 #import "MPayWithdrawResultViewController.h"
 #import "MPayPasswordByPhoneViewController.h"
+#import "UITTTAttributedLabel.h"
 
 @interface MPayWithdrawViewController ()
+@property (weak, nonatomic) IBOutlet UITTTAttributedLabel *tipL;
+
 @property (weak, nonatomic) IBOutlet UILabel *accountL;
 @property (weak, nonatomic) IBOutlet UITextField *priceF;
 @property (weak, nonatomic) IBOutlet UITextField *descriptionF;
@@ -24,6 +27,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    WEAKSELF;
+    [_tipL addLinkToStr:@"《码市开发宝服务协议》" value:nil hasUnderline:NO clickedBlock:^(id value) {
+        [weakSelf goToWebVCWithUrlStr:@"https://dn-coding-net-public-file.qbox.me/fcc25988-7a53-4254-a3bb-0dc9f5f02e2c.pdf" title:value];
+    }];
     _accountL.text = [NSString stringWithFormat:@"%@（%@）", _account.account, _account.name];
     [self refreshMaxPrice];
 }
