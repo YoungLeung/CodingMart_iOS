@@ -437,10 +437,16 @@
                 vc.roleApply = roleApply;
                 [self.navigationController pushViewController:vc animated:YES];
             }else if (roleApply.coders.count > 0){
-                ApplyCoderListViewController *vc = [ApplyCoderListViewController vcInStoryboard:@"Independence"];
-                vc.curRewardP = _curRewardP;
-                vc.roleApply = roleApply;
-                [self.navigationController pushViewController:vc animated:YES];
+                [NSObject showHudTipStr:@"请稍等..."];
+                WEAKSELF
+                [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/setting" withParams:@{@"code": @"mart_enterprise_gk"} withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
+                    [NSObject hideHUDQuery];
+                    ApplyCoderListViewController *vc = [ApplyCoderListViewController vcInStoryboard:@"Independence"];
+                    vc.curRewardP = weakSelf.curRewardP;
+                    vc.roleApply = roleApply;
+                    vc.mart_enterprise_gk = data;
+                    [weakSelf.navigationController pushViewController:vc animated:YES];
+                }];
             }else{
                 [NSObject showHudTipStr:@"暂时还没有码士报名该角色"];
             }
@@ -458,7 +464,6 @@
         _curRewardP.basicInfo.cancelReason = _cancelReasonList[indexPath.row];
     }
 }
-
 
 #pragma mark - btn
 

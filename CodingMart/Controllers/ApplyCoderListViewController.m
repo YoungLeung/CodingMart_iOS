@@ -25,6 +25,10 @@
     self.title = _roleApply.roleType.name;
 }
 
+- (NSString *)mart_enterprise_gk{
+    return _mart_enterprise_gk ?: @"";
+}
+
 - (void)sortCoderAndReloadData{
     NSMutableArray *coders = _roleApply.coders.mutableCopy;
     [coders sortUsingComparator:^NSComparisonResult(RewardApplyCoder *obj1, RewardApplyCoder *obj2) {
@@ -32,8 +36,18 @@
         NSInteger weight2;
         NSInteger status1 = obj1.status.integerValue;
         NSInteger status2 = obj2.status.integerValue;
-        weight1 = (status1 == JoinStatusSucessed ? 100: 0) + (status1 == JoinStatusFailed || status1 == JoinStatusCanceled ? -100: 0) + (obj1.excellent.boolValue? 10: 0) + (obj1.auth.boolValue? 1: 0);
-        weight2 = (status2 == JoinStatusSucessed ? 100: 0) + (status2 == JoinStatusFailed || status2 == JoinStatusCanceled ? -100: 0) + (obj2.excellent.boolValue? 10: 0) + (obj2.auth.boolValue? 1: 0);
+        BOOL isMartEnterprise1 = [obj1.global_key isEqualToString:self.mart_enterprise_gk];
+        BOOL isMartEnterprise2 = [obj2.global_key isEqualToString:self.mart_enterprise_gk];
+        
+        weight1 = (1000 * (status1 == JoinStatusSucessed? 1: (status1 == JoinStatusFailed || status1 == JoinStatusCanceled) ? -1: 0) +
+                   100 * (isMartEnterprise1? 1: 0) +
+                   10 * (obj1.excellent.boolValue? 1: 0) +
+                   1 * (obj1.auth.boolValue? 1: 0));
+        
+        weight2 = (1000 * (status2 == JoinStatusSucessed? 1: (status2 == JoinStatusFailed || status2 == JoinStatusCanceled) ? -1: 0) +
+                   100 * (isMartEnterprise2? 1: 0) +
+                   10 * (obj2.excellent.boolValue? 1: 0) +
+                   1 * (obj2.auth.boolValue? 1: 0));
         return weight1 < weight2;
     }];
     _roleApply.coders = coders;

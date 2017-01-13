@@ -12,4 +12,5 @@
 @interface ApplyCoderListViewController : BaseTableViewController
 @property (strong, nonatomic) RewardPrivate *curRewardP;
 @property (strong, nonatomic) RewardPrivateRoleApply *roleApply;
+@property (strong, nonatomic) NSString *mart_enterprise_gk;
 @end
