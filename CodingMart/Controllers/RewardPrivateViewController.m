@@ -437,7 +437,7 @@
                 vc.roleApply = roleApply;
                 [self.navigationController pushViewController:vc animated:YES];
             }else if (roleApply.coders.count > 0){
-                [NSObject showHudTipStr:@"请稍等..."];
+                [NSObject showHUDQueryStr:@"请稍等..."];
                 WEAKSELF
                 [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/setting" withParams:@{@"code": @"mart_enterprise_gk"} withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
                     [NSObject hideHUDQuery];

@@ -45,7 +45,7 @@
     _typeL.text = curR.typeDisplay;
 
     _ownerNameL.text = curR.owner.name;
-    _durationL.text = [NSString stringWithFormat:@"%@ 天", curR.duration];
+    _durationL.text = curR.duration.integerValue > 0? [NSString stringWithFormat:@"%@ 天", curR.duration]: @"周期待商议";
     static NSArray *service_type_list;
     if (service_type_list.count <= 0) {
         service_type_list = @[@"软件开发", @"产品原型", @"UI 设计", @"整体方案"];
