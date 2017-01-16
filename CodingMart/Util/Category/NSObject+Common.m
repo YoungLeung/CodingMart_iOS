@@ -59,13 +59,15 @@
 }
 + (void)showHudTipStr:(NSString *)tipStr{
     if (tipStr && tipStr.length > 0) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:kKeyWindow animated:YES];
-        hud.mode = MBProgressHUDModeText;
-        hud.detailsLabelFont = [UIFont boldSystemFontOfSize:15.0];
-        hud.detailsLabelText = tipStr;
-        hud.margin = 10.f;
-        hud.removeFromSuperViewOnHide = YES;
-        [hud hide:YES afterDelay:1.0];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:kKeyWindow animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.detailsLabelFont = [UIFont boldSystemFontOfSize:15.0];
+            hud.detailsLabelText = tipStr;
+            hud.margin = 10.f;
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:1.0];
+        });
     }
 }
 + (void)showStatusBarQueryStr:(NSString *)tipStr{

@@ -32,17 +32,20 @@
 
 - (IBAction)acceptNewRewardAllNotificationSwitchValueChanged:(UISwitch *)sender {
     self.userInfo.acceptNewRewardAllNotification = @(sender.on);
-    [self goToUpdateUserInfo];
+    [self goToUpdateUserInfoFreeTime];
 }
 
 - (IBAction)roleBtnClicked:(id)sender {
-    WEAKSELF;
-    NSInteger initialRow = _userInfo.reward_role? _userInfo.reward_role.integerValue: 0;
-    [ActionSheetStringPicker showPickerWithTitle:nil rows:@[[FillUserInfo reward_role_display_list]] initialSelection:@[@(initialRow)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
-        weakSelf.userInfo.reward_role = selectedIndex.firstObject;
-        weakSelf.rewardRoleF.text = [weakSelf.userInfo reward_role_display];
-        [weakSelf goToUpdateUserInfo];
-    } cancelBlock:nil origin:kKeyWindow];
+    if (_updateUserInfoRoleBlock) {
+        _updateUserInfoRoleBlock();
+    }
+//    WEAKSELF;
+//    NSInteger initialRow = _userInfo.reward_role? _userInfo.reward_role.integerValue: 0;
+//    [ActionSheetStringPicker showPickerWithTitle:nil rows:@[[FillUserInfo reward_role_display_list]] initialSelection:@[@(initialRow)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
+//        weakSelf.userInfo.reward_role = selectedIndex.firstObject;
+//        weakSelf.rewardRoleF.text = [weakSelf.userInfo reward_role_display];
+//        [weakSelf goToUpdateUserInfoFreeTime];
+//    } cancelBlock:nil origin:kKeyWindow];
 }
 
 - (IBAction)timeBtnClicked:(id)sender {
@@ -51,13 +54,13 @@
     [ActionSheetStringPicker showPickerWithTitle:nil rows:@[[FillUserInfo free_time_display_list]] initialSelection:@[@(initialRow)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
         weakSelf.userInfo.free_time = selectedIndex.firstObject;
         weakSelf.freeTimeF.text = [weakSelf.userInfo free_time_display];
-        [weakSelf goToUpdateUserInfo];
+        [weakSelf goToUpdateUserInfoFreeTime];
     } cancelBlock:nil origin:kKeyWindow];
 }
 
-- (void)goToUpdateUserInfo{
-    if (_updateUserInfoBlock) {
-        _updateUserInfoBlock(_userInfo);
+- (void)goToUpdateUserInfoFreeTime{
+    if (_updateUserInfoFreeTimeBlock) {
+        _updateUserInfoFreeTimeBlock(_userInfo);
     }
 }
 

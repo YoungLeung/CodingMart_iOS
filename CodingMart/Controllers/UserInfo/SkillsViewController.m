@@ -15,6 +15,7 @@
 #import "SkillProCell.h"
 #import "EASingleSelectView.h"
 #import "SkillUserInfoCell.h"
+#import "UpdateUserInfoRoleViewController.h"
 
 @interface SkillsViewController ()
 @property (strong, nonatomic) IBOutlet UIView *firstSectionH;
@@ -152,8 +153,11 @@
     }else{
         SkillUserInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_SkillUserInfoCell forIndexPath:indexPath];
         cell.userInfo = _userInfo;
-        cell.updateUserInfoBlock = ^(FillUserInfo *userInfo){
-            [weakSelf updateUserInfo:userInfo];
+        cell.updateUserInfoFreeTimeBlock = ^(FillUserInfo *userInfo){
+            [weakSelf updateUserInfoFreeTime:userInfo];
+        };
+        cell.updateUserInfoRoleBlock = ^(){
+            [weakSelf goToUpdateUserInfoRole];
         };
         return cell;
     }
@@ -172,10 +176,10 @@
 }
 
 #pragma mark UserInfo
-- (void)updateUserInfo:(FillUserInfo *)userInfo{
+- (void)updateUserInfoFreeTime:(FillUserInfo *)userInfo{
     WEAKSELF;
     [NSObject showHUDQueryStr:@"正在保存..."];
-    [[Coding_NetAPIManager sharedManager] post_FillDeveloperInfo:userInfo block:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] post_FillDeveloperInfoFreeTime:userInfo block:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data) {
             weakSelf.userInfo = userInfo;
@@ -221,6 +225,12 @@
 - (void)goToPro:(SkillPro *)pro{
     FillProjectSkillViewController *vc = [FillProjectSkillViewController storyboardVC];
     vc.pro = pro;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)goToUpdateUserInfoRole{
+    UpdateUserInfoRoleViewController *vc = [UpdateUserInfoRoleViewController vcInStoryboard:@"UserInfo"];
+    vc.userInfo = _userInfo;
     [self.navigationController pushViewController:vc animated:YES];
 }
 @end

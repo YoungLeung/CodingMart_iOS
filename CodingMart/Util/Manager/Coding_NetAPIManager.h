@@ -78,7 +78,8 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)get_VerifyInfoBlock:(void (^)(id data, NSError *error))block;
 - (void)get_FillUserInfoBlock:(void (^)(id data, NSError *error))block;
 - (void)post_FillUserInfo:(FillUserInfo *)info block:(void (^)(id data, NSError *error))block;
-- (void)post_FillDeveloperInfo:(FillUserInfo *)info block:(void (^)(id data, NSError *error))block;
+- (void)post_FillDeveloperInfoRole:(NSNumber *)reward_role block:(void (^)(id data, NSError *error))block;
+- (void)post_FillDeveloperInfoFreeTime:(FillUserInfo *)info block:(void (^)(id data, NSError *error))block;
 - (void)get_LocationListWithParams:(NSDictionary *)params block:(void (^)(id data, NSError *error))block;
 - (void)post_UserInfoVerifyCodeWithMobile:(NSString *)mobile phoneCountryCode:(NSString *)phoneCountryCode block:(void (^)(id data, NSError *error))block;
 - (void)get_SettingNotificationInfoBlock:(void (^)(id data, NSError *error))block;

@@ -29,7 +29,12 @@
             || (self.global_key && user.global_key && [self.global_key isEqualToString:user.global_key]));
 }
 - (BOOL)canJoinReward{
-    return (![self isSameToUser:[User userTourist]] && self.status.boolValue && self.fullInfo.boolValue && self.fullSkills.boolValue && self.passingSurvey.boolValue);
+    return (![self isSameToUser:[User userTourist]] &&
+            self.status.boolValue &&
+            self.fullInfo.boolValue &&
+            self.fullSkills.boolValue &&
+            self.passingSurvey.boolValue &&
+            self.identityChecked.boolValue);
 }
 
 - (BOOL)isDemandSide{

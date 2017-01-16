@@ -13,6 +13,7 @@
 
 @interface SkillUserInfoCell : UITableViewCell
 @property (strong, nonatomic) FillUserInfo *userInfo;
-@property (copy, nonatomic) void(^updateUserInfoBlock)(FillUserInfo *userInfo);
+@property (copy, nonatomic) void(^updateUserInfoFreeTimeBlock)(FillUserInfo *userInfo);
+@property (copy, nonatomic) void(^updateUserInfoRoleBlock)();
 + (CGFloat)cellHeightWithObj:(id)obj;
 @end
