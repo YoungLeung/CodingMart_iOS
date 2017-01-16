@@ -20,7 +20,7 @@
 @property (strong, nonatomic) UITextField *nameTextField;
 @property (strong, nonatomic) UITextView *descContent;
 @property (strong, nonatomic) NSNumber *listID;
-@property (strong, nonatomic) id list;
+@property (strong, nonatomic) CalcResult *list;
 
 @end
 
@@ -333,14 +333,12 @@
         return;
     }
     NSDictionary *parameter = [NSDictionary dictionaryWithObjectsAndKeys:
-                               _parameter, @"codes",
-                               _webPageNumber, @"webPageCount",
                                _nameTextField.text, @"name",
                                _descContent.text, @"description",
                                nil];
-    
+    NSString *path = [NSString stringWithFormat:@"api/quote/%@/update-pre-save", _list.id];
     __weak typeof(self)weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] post_savePrice:parameter block:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] post_savePrice:parameter path:path block:^(id data, NSError *error) {
         if (!error) {
             weakSelf.listID = data;
             [weakSelf dismissSaveView];
@@ -357,7 +355,7 @@
 
 - (void)toFunctionList {
     FunctionListViewController *vc = [[FunctionListViewController alloc] init];
-    vc.list = (id)self.list;
+    vc.list = self.list;
     vc.listID = self.listID;
     vc.h5String = self.h5String;
     [self.navigationController pushViewController:vc animated:YES];

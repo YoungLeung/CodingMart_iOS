@@ -10,5 +10,5 @@
 
 @interface CalcResult : NSObject
 @property (strong, nonatomic) NSString *fromPrice, *toPrice;
-@property (strong, nonatomic) NSNumber *fromTerm, *toTerm, *platformCount, *webPageCount, *moduleCount, *status;
+@property (strong, nonatomic) NSNumber *fromTerm, *toTerm, *platformCount, *webPageCount, *moduleCount, *status, *id;
 @end

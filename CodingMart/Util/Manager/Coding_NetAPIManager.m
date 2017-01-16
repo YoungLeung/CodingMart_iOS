@@ -1036,8 +1036,7 @@
     }];
 }
 
-- (void)post_savePrice:(NSDictionary *)params block:(void (^)(id data, NSError *error))block {
-    NSString *path = @"api/quote/save";
+- (void)post_savePrice:(NSDictionary *)params path:(NSString *)path block:(void (^)(id data, NSError *error))block {
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
         data = data[@"data"];
         block(data, error);
