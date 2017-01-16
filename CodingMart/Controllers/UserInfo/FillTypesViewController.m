@@ -35,7 +35,6 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 @property (weak, nonatomic) IBOutlet UIImageView *statusCheckV;
 @property (weak, nonatomic) IBOutlet UILabel *identityStatusLabel;
 @property (strong, nonatomic) IBOutlet UIView *header1V;
-@property (strong, nonatomic) IBOutlet UIView *header2V;
 @property (strong, nonatomic) IBOutlet UIView *header1TipV;
 @property (weak, nonatomic) IBOutlet UILabel *identityTitleL;
 
@@ -137,22 +136,14 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
     BOOL needTip =(_curUser.fullInfo.boolValue &&
                    !_curUser.fullSkills.boolValue &&
                    _curUser.passingSurvey.boolValue);
-    if (section == 0){
-        return needTip? 80: 40;
-    }else{
-        return 40;
-    }
+    return needTip? 80: 40;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     BOOL needTip =(_curUser.fullInfo.boolValue &&
                    !_curUser.fullSkills.boolValue &&
                    _curUser.passingSurvey.boolValue);
-    if (section == 0){
-        return needTip? _header1TipV: _header1V;
-    }else{
-        return _header2V;
-    }
+    return needTip? _header1TipV: _header1V;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
@@ -162,7 +153,7 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 0) {
+    if (indexPath.row < 3) {
         if (indexPath.row == 1) {
             if (!self.curUser.fullInfo.boolValue) {
                 [NSObject showHudTipStr:@"请先完善个人信息"];
@@ -181,7 +172,7 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
                 }
             }];
         }
-    }else if (indexPath.section == 1){
+    }else if (indexPath.row == 3){
         if (!self.curUser.fullInfo.boolValue) {
             [NSObject showHudTipStr:@"请先完善个人信息"];
             return;
