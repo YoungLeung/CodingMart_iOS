@@ -44,7 +44,11 @@
     UIColor *diffColor = kColorTextNormal;
     [_priceL setAttrStrWithStr:[NSString stringWithFormat:@"金额：%@", _curReward.format_price] diffColorStr:_curReward.format_price diffColor:diffColor];
     [_typeL setAttrStrWithStr:[NSString stringWithFormat:@"类型：%@", _curReward.typeDisplay] diffColorStr:_curReward.typeDisplay diffColor:diffColor];
-    [_durationL setAttrStrWithStr:[NSString stringWithFormat:@"周期：%@ 天", _curReward.duration.stringValue] diffColorStr:_curReward.duration.stringValue diffColor:diffColor];
+    if (_curReward.duration.integerValue > 0) {
+        [_durationL setAttrStrWithStr:[NSString stringWithFormat:@"周期：%@ 天", _curReward.duration.stringValue] diffColorStr:_curReward.duration.stringValue diffColor:diffColor];
+    }else{
+        [_durationL setAttrStrWithStr:[NSString stringWithFormat:@"周期：%@", @"待商议"] diffColorStr:@"待商议" diffColor:diffColor];
+    }
     _statusImgV.image = [UIImage imageNamed:[NSString stringWithFormat:@"status_%@", _curReward.status.stringValue]];
     BOOL isHighPaid = _curReward.high_paid.integerValue == 2;
     _nameLeadingC.constant = isHighPaid? 35: 15;
