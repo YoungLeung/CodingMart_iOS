@@ -16,6 +16,7 @@
 #import "RDVTabBarController.h"
 #import "RootTabViewController.h"
 #import "AppDelegate.h"
+#import "PublishRewardViewController.h"
 
 @implementation UIViewController (Common)
 + (UIViewController *)presentingVC{
@@ -81,6 +82,7 @@
     NSString *rewardRegexStr = @"/project/([0-9]+)$";
     NSString *rewardPrivateRegexStr = @"/user/p/([0-9]+)$";
     NSString *userInfoRegexStr = @"/user/info$";
+    NSString *publishRegexStr = @"/publish$";
     if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:rewardRegexStr]).count > 0){
         NSString *reward_id = matchedCaptures[1];
         resultVC = [RewardDetailViewController vcWithRewardId:reward_id.integerValue];
@@ -89,6 +91,8 @@
         resultVC = [RewardPrivateViewController vcWithRewardId:reward_id.integerValue];
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:userInfoRegexStr]).count > 0){
         resultVC = [FillTypesViewController storyboardVC];
+    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:publishRegexStr]).count > 0){
+        resultVC = [PublishRewardViewController storyboardVCWithReward:nil];
     }else{
         resultVC = [[MartWebViewController alloc] initWithUrlStr:linkStr];
     }
@@ -119,9 +123,11 @@
 }
 
 - (void)goToWebVCWithUrlStr:(NSString *)curUrlStr title:(NSString *)titleStr{
-    MartWebViewController *vc = [[MartWebViewController alloc] initWithUrlStr:curUrlStr];
+    UIViewController *vc = [UIViewController analyseVCFromLinkStr:curUrlStr];
     if (vc) {
-        vc.titleStr = titleStr;
+        if ([vc isKindOfClass:[MartWebViewController class]]) {
+            [(MartWebViewController *)vc setTitleStr:titleStr];
+        }
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
