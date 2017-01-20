@@ -104,7 +104,7 @@
     __weak typeof(self) weakSelf = self;
     void (^successCallback)(void) = ^(void){
         //如果变成需要注册状态
-        if(![XGPush isUnRegisterStatus] && [Login isLogin]){
+        if([XGPush isUnRegisterStatus] && [Login isLogin]){
             [weakSelf registerPush];
         }
     };
@@ -230,7 +230,6 @@
         UIUserNotificationSettings *userSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge|UIUserNotificationTypeSound|UIUserNotificationTypeAlert
                                                                                      categories:[NSSet setWithObject:categorys]];
         [[UIApplication sharedApplication] registerUserNotificationSettings:userSettings];
-        [[UIApplication sharedApplication] registerForRemoteNotifications];
 #endif
     }
 }
@@ -248,6 +247,16 @@
     [XGPush handleReceiveNotification:userInfo];
     [UIViewController handleNotificationInfo:userInfo applicationState:[application applicationState]];
 }
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
+    DebugLog(@"%@", error);
+}
+
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings{
+    DebugLog(@"%@", notificationSettings);
+    [application registerForRemoteNotifications];
+}
+
 #pragma mark 3D Touch
 - (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void(^)(BOOL succeeded))completionHandler{
     if ([shortcutItem.type isEqualToString:@"shortcut_edit"]) {
