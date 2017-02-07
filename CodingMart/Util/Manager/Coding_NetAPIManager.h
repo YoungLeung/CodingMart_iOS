@@ -53,7 +53,6 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 
 - (void)post_SubmitStageDocument:(NSNumber *)stageId linkStr:(NSString *)linkStr block:(void (^)(id data, NSError *error))block;
 - (void)post_CancelStageDocument:(NSNumber *)stageId block:(void (^)(id data, NSError *error))block;
-- (void)post_AcceptStageDocument:(NSNumber *)stageId block:(void (^)(id data, NSError *error))block;
 - (void)post_AcceptStageDocument:(NSNumber *)stageId password:(NSString *)password block:(void (^)(id data, NSError *error))block;
 - (void)post_RejectStageDocument:(NSNumber *)stageId linkStr:(NSString *)linkStr block:(void (^)(id data, NSError *error))block;
 

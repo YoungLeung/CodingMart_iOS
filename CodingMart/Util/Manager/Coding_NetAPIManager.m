@@ -442,17 +442,6 @@
     }];
 }
 
-- (void)post_AcceptStageDocument:(NSNumber *)stageId block:(void (^)(id data, NSError *error))block{
-    if (!stageId) {
-        block(nil, nil);
-        return;
-    }
-    NSString *path = @"api/stage/check";
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"stageId": stageId} withMethodType:Post andBlock:^(id data, NSError *error) {
-        block(data, error);
-    }];
-}
-
 - (void)post_AcceptStageDocument:(NSNumber *)stageId password:(NSString *)password block:(void (^)(id data, NSError *error))block{
     NSString *path = [NSString stringWithFormat:@"api/mpay/stage/%@/acceptance", stageId];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"password": password} withMethodType:Post andBlock:^(id data, NSError *error) {

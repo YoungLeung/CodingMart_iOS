@@ -505,26 +505,16 @@
     }else if (actionIndex == RewardCoderStageViewActionCancel){
         [self cancelStage:stage];
     }else if (actionIndex == RewardCoderStageViewActionPass){
-        
-        if (_curRewardP.basicInfo.mpay.boolValue) {
-            WEAKSELF;
-            EATextEditView *psdView = [EATextEditView instancetypeWithTitle:@"确认该阶段验收通过？" tipStr:@"请输入交易密码" andConfirmBlock:^(NSString *text) {
-                [weakSelf passStage:stage withPsd:[text sha1Str]];
-            }];
-            psdView.isForPassword = YES;
-            psdView.forgetPasswordBlock = ^(){
-                MPayPasswordByPhoneViewController *vc = [MPayPasswordByPhoneViewController vcInStoryboard:@"UserInfo"];
-                [weakSelf.navigationController pushViewController:vc animated:YES];
-            };
-            [psdView showInView:self.view];
-        }else{
-            NSString *tipStr = [NSString stringWithFormat:@"确认验收「%@」阶段后，码市会将该阶段的款项打给当前阶段负责人", stage.stage_no];
-            [[UIActionSheet bk_actionSheetCustomWithTitle:tipStr buttonTitles:@[@"确定验收"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-                if (index == 0) {
-                    [self passStage:stage];
-                }
-            }] showInView:self.view];
-        }
+        WEAKSELF;
+        EATextEditView *psdView = [EATextEditView instancetypeWithTitle:@"确认该阶段验收通过？" tipStr:@"请输入交易密码" andConfirmBlock:^(NSString *text) {
+            [weakSelf passStage:stage withPsd:[text sha1Str]];
+        }];
+        psdView.isForPassword = YES;
+        psdView.forgetPasswordBlock = ^(){
+            MPayPasswordByPhoneViewController *vc = [MPayPasswordByPhoneViewController vcInStoryboard:@"UserInfo"];
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        };
+        [psdView showInView:self.view];
     }else if (actionIndex == RewardCoderStageViewActionReject){
         WEAKSELF;
         [[EATextEditView instancetypeWithTitle:@"提交修改意见" tipStr:@"修改意见链接（该链接地址必须存在 Coding 项目中）" andConfirmBlock:^(NSString *text) {
@@ -585,17 +575,6 @@
     }];
 }
 
-- (void)passStage:(RewardMetroRoleStage *)stage{
-    WEAKSELF;
-    [NSObject showHUDQueryStr:@"正在验收..."];
-    [[Coding_NetAPIManager sharedManager] post_AcceptStageDocument:stage.id block:^(id data, NSError *error) {
-        [NSObject hideHUDQuery];
-        if (data) {
-            [NSObject showHudTipStr:@"验收成功"];
-            [weakSelf handleRefresh];
-        }
-    }];
-}
 
 - (void)passStage:(RewardMetroRoleStage *)stage withPsd:(NSString *)psd{
     WEAKSELF;
