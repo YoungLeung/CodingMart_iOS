@@ -26,6 +26,8 @@
 		01D0DCB21CEF76730047CDE3 /* ChoosePriceCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D0DCB11CEF76730047CDE3 /* ChoosePriceCollectionViewCell.m */; };
 		01D0DCB81CF0A0B00047CDE3 /* NextStepCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D0DCB71CF0A0B00047CDE3 /* NextStepCollectionViewCell.m */; };
 		01D0DCBE1CF0B5A10047CDE3 /* PayMethodTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D0DCBD1CF0B5A10047CDE3 /* PayMethodTableViewCell.m */; };
+		2ABB13591E5196520023E9B2 /* MessageMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABB13581E5196520023E9B2 /* MessageMainViewController.m */; };
+		2ABB135D1E5198B30023E9B2 /* Message.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2ABB135C1E5198B30023E9B2 /* Message.storyboard */; };
 		324452111C07339300B82985 /* NSString+Verify.m in Sources */ = {isa = PBXBuildFile; fileRef = 324452101C07339300B82985 /* NSString+Verify.m */; };
 		324AB8B21BF1CFE300DFE989 /* CodingMarkTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 324AB8B11BF1CFE300DFE989 /* CodingMarkTestViewController.m */; };
 		326A29111BF1F7DE0002FE94 /* ZZBWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 326A290F1BF1F7DE0002FE94 /* ZZBWebView.m */; };
@@ -482,6 +484,9 @@
 		01D0DCB71CF0A0B00047CDE3 /* NextStepCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NextStepCollectionViewCell.m; sourceTree = "<group>"; };
 		01D0DCBC1CF0B5A10047CDE3 /* PayMethodTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayMethodTableViewCell.h; sourceTree = "<group>"; };
 		01D0DCBD1CF0B5A10047CDE3 /* PayMethodTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayMethodTableViewCell.m; sourceTree = "<group>"; };
+		2ABB13571E5196520023E9B2 /* MessageMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageMainViewController.h; sourceTree = "<group>"; };
+		2ABB13581E5196520023E9B2 /* MessageMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageMainViewController.m; sourceTree = "<group>"; };
+		2ABB135C1E5198B30023E9B2 /* Message.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Message.storyboard; sourceTree = "<group>"; };
 		3244520F1C07339300B82985 /* NSString+Verify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Verify.h"; sourceTree = "<group>"; };
 		324452101C07339300B82985 /* NSString+Verify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Verify.m"; sourceTree = "<group>"; };
 		324AB8B01BF1CFE300DFE989 /* CodingMarkTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodingMarkTestViewController.h; sourceTree = "<group>"; };
@@ -1329,6 +1334,16 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		2ABB13511E5194950023E9B2 /* MessageViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				2ABB13571E5196520023E9B2 /* MessageMainViewController.h */,
+				2ABB13581E5196520023E9B2 /* MessageMainViewController.m */,
+				2ABB135C1E5198B30023E9B2 /* Message.storyboard */,
+			);
+			name = MessageViewControllers;
+			sourceTree = "<group>";
+		};
 		326A290B1BF1F7DE0002FE94 /* ZZBWebView */ = {
 			isa = PBXGroup;
 			children = (
@@ -2122,6 +2137,7 @@
 		4EBDC2A11BC64D7D0037EB66 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				2ABB13511E5194950023E9B2 /* MessageViewControllers */,
 				4E224B051BEA117A00F8475F /* Independence.storyboard */,
 				4EBDC2A21BC64D7D0037EB66 /* BaseViewControllers */,
 				4E7F6F061C9C1CBC0059C7B0 /* RootControllers */,
@@ -2712,6 +2728,7 @@
 				4E1209FA1C880B250087BDB3 /* GoogleService-Info.plist in Resources */,
 				4EDAE3E81BC7BCB000255FE8 /* SVWebViewControllerActivityChrome@2x.png in Resources */,
 				4E83AE801CF43A5C006BA3BB /* RewardDetailHeaderView.xib in Resources */,
+				2ABB135D1E5198B30023E9B2 /* Message.storyboard in Resources */,
 				32F2F2B11BFC4BA100DC600D /* bgImage_HL@2x.png in Resources */,
 				4EDAE3E11BC7BCB000255FE8 /* SVWebViewController.strings in Resources */,
 				4EDAE3EC1BC7BCB000255FE8 /* SVWebViewControllerActivitySafari-iPad.png in Resources */,
@@ -2894,6 +2911,7 @@
 				4E7F6F0E1C9C1CFA0059C7B0 /* RDVTabBar.m in Sources */,
 				4EAB78591DED628A0073EE1C /* LDNetTimer.m in Sources */,
 				4E62EEFA1DE434AB006A438E /* MPayOrderPayCell.m in Sources */,
+				2ABB13591E5196520023E9B2 /* MessageMainViewController.m in Sources */,
 				4EFD8EC01BE88CA900E9C284 /* JoinInfo.m in Sources */,
 				4E9D97631D6C3B2000DDB231 /* RootQuoteViewController.m in Sources */,
 				324452111C07339300B82985 /* NSString+Verify.m in Sources */,

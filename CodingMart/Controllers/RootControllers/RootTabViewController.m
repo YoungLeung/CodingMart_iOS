@@ -19,6 +19,7 @@
 #import "SetIdentityViewController.h"
 #import "AppDelegate.h"
 #import "PublishRewardViewController.h"
+#import "MessageMainViewController.h"
 
 typedef NS_ENUM(NSInteger, TabVCType) {
     TabVCTypeFind = 0,
@@ -146,9 +147,9 @@ typedef NS_ENUM(NSInteger, TabVCType) {
             vc = [UserInfoViewController vcInStoryboard:@"UserInfo"];
             break;
 
-//        case TabVCTypeMessage:
-//            vc = [UserInfoViewController vcInStoryboard:@"UserInfo"];
-//            break;
+        case TabVCTypeMessage:
+            vc = [MessageMainViewController vcInStoryboard:@"Message"];
+            break;
     }
     return [[BaseNavigationController alloc] initWithRootViewController:vc];
 }
