@@ -27,6 +27,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
     TabVCTypeMyJoined,
     TabVCTypeMyPublished,
     TabVCTypePublish,
+    TabVCTypeMessage,
     TabVCTypeMe
 };
 
@@ -87,23 +88,25 @@ typedef NS_ENUM(NSInteger, TabVCType) {
         if (me.joinedCount.integerValue > 0) {
             tabList = @[@(TabVCTypeRewards),
                     @(TabVCTypeMyJoined),
+                    @(TabVCTypeMessage),
                     @(TabVCTypeMe)].mutableCopy;
         } else {
             tabList = @[@(TabVCTypeFind),
                     @(TabVCTypeRewards),
+                    @(TabVCTypeMessage),
                     @(TabVCTypeMe)].mutableCopy;
         }
     } else if (me.loginIdentity.integerValue == 2) {//需求方
         if (me.publishedCount.integerValue > 0) {
             tabList = @[@(TabVCTypeFind),
-                    @(TabVCTypeQuote),
                     @(TabVCTypeMyPublished),
+                    @(TabVCTypeMessage),
                     @(TabVCTypeMe)].mutableCopy;
 
         } else {
             tabList = @[@(TabVCTypeFind),
-                    @(TabVCTypeQuote),
                     @(TabVCTypePublish),
+                    @(TabVCTypeMessage),
                     @(TabVCTypeMe)].mutableCopy;
         }
     } else {
@@ -142,6 +145,10 @@ typedef NS_ENUM(NSInteger, TabVCType) {
         case TabVCTypeMe:
             vc = [UserInfoViewController vcInStoryboard:@"UserInfo"];
             break;
+
+//        case TabVCTypeMessage:
+//            vc = [UserInfoViewController vcInStoryboard:@"UserInfo"];
+//            break;
     }
     return [[BaseNavigationController alloc] initWithRootViewController:vc];
 }
@@ -154,6 +161,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
                 @"tab_price",
                 @"tab_joined_published",
                 @"tab_joined_published",
+                @"tab_publish",
                 @"tab_publish",
                 @"tab_user",];
     }
@@ -169,6 +177,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
                 @"我参与的",
                 @"我发布的",
                 @"发布",
+                @"消息",
                 @"个人中心",];
     }
     return list[type];
