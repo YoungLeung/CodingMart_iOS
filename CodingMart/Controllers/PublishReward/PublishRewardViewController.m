@@ -27,7 +27,7 @@
 
 @interface PublishRewardViewController ()
 @property (strong, nonatomic) Reward *rewardToBePublished;
-@property (strong, nonatomic) NSArray *typeList, *budgetList;
+@property (strong, nonatomic) NSArray *typeList;
 
 @property (weak, nonatomic) IBOutlet UITextField *typeL;
 @property (weak, nonatomic) IBOutlet UITextField *budgetL;
@@ -68,11 +68,7 @@
                   @"HTML5 应用",
                   @"咨询",
                   @"其他"];
-    _budgetList = @[@"2万以下",
-                    @"2-5万",
-                    @"5-10万",
-                    @"10万以上"];
-    
+
     if (!_rewardToBePublished) {
         _rewardToBePublished = [Reward rewardToBePublished];
     }
@@ -86,13 +82,14 @@
         weakSelf.typeL.text = type? [[NSObject rewardTypeLongDict] findKeyFromStrValue:type.stringValue]: @"";
     }];
     [RACObserve(self, rewardToBePublished.budget) subscribeNext:^(NSNumber *budget) {
-        weakSelf.budgetL.text = budget? weakSelf.budgetList[budget.integerValue% 10]: @"";
+        weakSelf.budgetL.text = budget.stringValue;
     }];
     [RACObserve(self, rewardToBePublished.industryName) subscribeNext:^(NSString *value) {
         weakSelf.industryNameL.text = value;
     }];
     
     _nameF.text = _rewardToBePublished.name;
+    _budgetL.text = _rewardToBePublished.price.stringValue;
     _descriptionTextView.text = _rewardToBePublished.description_mine;
     _contact_nameF.text = _rewardToBePublished.contact_name;
     _contact_emailF.text = _rewardToBePublished.contact_email;
@@ -106,6 +103,14 @@
         self.fd_interactivePopDisabled = newText.length > 0;
         weakSelf.rewardToBePublished.description_mine = newText;
     }];
+
+    [_budgetL.rac_textSignal subscribeNext:^(NSString *newText){
+        self.fd_interactivePopDisabled = newText.length > 0;
+        NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+        f.numberStyle = NSNumberFormatterDecimalStyle;
+        weakSelf.rewardToBePublished.price = [f numberFromString:newText];
+    }];
+
     [_contact_nameF.rac_textSignal subscribeNext:^(NSString *newText){
         weakSelf.rewardToBePublished.contact_name = newText;
     }];
@@ -122,15 +127,16 @@
     [_agreementL addLinkToStr:@"《码市用户权责条款》" value:nil hasUnderline:NO clickedBlock:^(id value) {
         [weakSelf goToPublishAgreement];
     }];
-    [_budgetTipL addLinkToStr:@"码市自助评估系统" value:nil hasUnderline:NO clickedBlock:^(id value) {
+    [_budgetTipL addLinkToStr:@"去评估" value:nil hasUnderline:NO clickedBlock:^(id value) {
         RootQuoteViewController *vc = [RootQuoteViewController storyboardVC];
         [self.navigationController pushViewController:vc animated:YES];
     }];
-    RAC(self, fd_interactivePopDisabled) = [RACSignal combineLatest:@[_nameF.rac_textSignal, _descriptionTextView.rac_textSignal] reduce:^id(NSString *name, NSString *description){
-        return @(name.length > 0 || description.length > 0);
+    RAC(self, fd_interactivePopDisabled) = [RACSignal combineLatest:@[_nameF.rac_textSignal,
+            _descriptionTextView.rac_textSignal, _budgetL.rac_textSignal] reduce:^id(NSString *name, NSString *description, NSString *budget){
+        return @(name.length > 0 || description.length > 0 || budget.length > 0);
     }];
     RAC(self, nextStepBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, rewardToBePublished.type),
-                                                                RACObserve(self, rewardToBePublished.budget),
+                                                                RACObserve(self, rewardToBePublished.price),
                                                                 RACObserve(self, rewardToBePublished.industry),
                                                                 RACObserve(self, rewardToBePublished.name),
                                                                 RACObserve(self, rewardToBePublished.description_mine),
@@ -139,7 +145,7 @@
                                                                 RACObserve(self, rewardToBePublished.contact_mobile),
                                                                 RACObserve(self, rewardToBePublished.contact_mobile_code)]
                                                        reduce:^id(NSNumber *type,
-                                                                  NSNumber *budget,
+                                                                  NSNumber *price,
                                                                   NSString *industry,
                                                                   NSString *name,
                                                                   NSString *description_mine,
@@ -147,7 +153,7 @@
                                                                   NSString *contact_email,
                                                                   NSString *contact_mobile,
                                                                   NSString *contact_mobile_code){
-                                                           return @(type && budget && industry.length > 0 && name.length > 0 && description_mine.length > 0 && contact_name.length > 0 && contact_email.length > 0 &&
+                                                           return @(type && price && industry.length > 0 && name.length > 0 && description_mine.length > 0 && contact_name.length > 0 && contact_email.length > 0 &&
                                                                     (!_isPhoneNeeded || (contact_mobile.length > 0 && contact_mobile_code.length > 0)));
                                                        }];
 }
@@ -225,16 +231,16 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
     EATipView *tipV = [EATipView instancetypeWithTitle:@"项目描述范例" tipStr:tipStr];
     [tipV showInView:kKeyWindow];
 }
-- (IBAction)budgetTipBtnClicked:(id)sender {
-    NSString *tipStr =
-    @"合理的项目金额会吸引更多的有经验的开发者参与项目， 从而最大程度地保证项目交付并控制风险。 如果项目金额低于实际研发成本， 即使有开发者合作， 项目很大程度会处于高风险或不可控状态， 结果很大程度上导致开发过程中不断增加费用， 严重延期、项目质量低下、双方纠纷甚至项目烂尾， 从而对您的商业计划、资金造成较大的损失。";
-    EATipView *tipV = [EATipView instancetypeWithTitle:@"关于项目金额" tipStr:tipStr];
-    [tipV showInView:kKeyWindow];
-}
+
 - (IBAction)nextStepBtnClicked:(id)sender {
     if ([Login isLogin]) {
         NSString *typeStr = [[NSObject rewardTypeLongDict] findKeyFromStrValue:_rewardToBePublished.type.stringValue];
-        NSString *budgetStr = _budgetList[_rewardToBePublished.budget.integerValue% 10];
+        NSString *budgetStr = _rewardToBePublished.price.stringValue;
+        if (_rewardToBePublished.price.intValue < 1000) {
+            [NSObject showHudTipStr:@"项目金额不能低于 1000"];
+            return;
+        }
+
         [MobClick event:kUmeng_Event_UserAction label:[NSString stringWithFormat:@"发布需求_%@_%@_点击提交", typeStr, budgetStr]];
         [NSObject showHUDQueryStr:@"正在发布需求..."];
         [[Coding_NetAPIManager sharedManager] post_Reward:_rewardToBePublished block:^(id data, NSError *error) {
@@ -333,7 +339,7 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
-    if (indexPath.row == 0 || (indexPath.section == 1 && indexPath.row == 1)) {
+    if (indexPath.row == 0 || indexPath.row == 3 || (indexPath.section == 1 && indexPath.row == 1)) {
         cell.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15);
     }else{
         cell.separatorInset = UIEdgeInsetsMake(0, kScreen_Width, 0, 0);
@@ -342,7 +348,7 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 0 && [@[@2, @3] containsObject:@(indexPath.row)]) {
+    if (indexPath.section == 0 && [@[@2] containsObject:@(indexPath.row)]) {
         NSArray *list;
         NSInteger curRow = 0;
         if (indexPath.row == 2) {
@@ -352,9 +358,9 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
                 curRow = [list indexOfObject:key];
                 curRow = curRow != NSNotFound? curRow: 0;
             }
-        }else if (indexPath.row == 3){
-            list = _budgetList;
-            curRow = _rewardToBePublished.budget? _rewardToBePublished.budget.integerValue% 10: 0;
+//        }else if (indexPath.row == 3){
+//            list = _budgetList;
+//            curRow = _rewardToBePublished.budget? _rewardToBePublished.budget.integerValue% 10: 0;
         }
         __weak typeof(self) weakSelf = self;
         [ActionSheetStringPicker showPickerWithTitle:nil rows:@[list] initialSelection:@[@(curRow)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
