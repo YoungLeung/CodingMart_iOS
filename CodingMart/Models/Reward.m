@@ -124,6 +124,7 @@
     NSMutableDictionary *params = @{}.mutableCopy;
     params[@"type"] = _type.integerValue > 10? @(_type.integerValue / 10): _type;
     params[@"price"] = _price;
+    params[@"testService"] = _testService.stringValue;
     params[@"name"] = _name;
     params[@"description"] = _description_mine;
     params[@"contact_name"] = _contact_name;

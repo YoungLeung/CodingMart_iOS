@@ -36,7 +36,7 @@ typedef NS_ENUM(NSInteger, PayMethodType) {
 
 @interface Reward : NSObject
 //List
-@property (strong, nonatomic) NSNumber *id, *type, *status, *progress, *price, *duration, *warranty, *reward_status, *apply_status, *balance, *price_with_fee, *version, *mpay, *visitCount, *service_type, *service_fee, *service_fee_percent;
+@property (strong, nonatomic) NSNumber *id, *type, *status, *progress, *price, *testService, *duration, *warranty, *reward_status, *apply_status, *balance, *price_with_fee, *version, *mpay, *visitCount, *service_type, *service_fee, *service_fee_percent;
 @property (strong, nonatomic) NSNumber *need_pay_prepayment;
 @property (strong, nonatomic) NSString *format_balance, *format_content, *plain_content, *format_price_with_fee, *format_first_sample, *format_second_sample, *developPlan, *rewardDemand, *industry, *industryName;
 @property (strong, nonatomic) MartFile *first_attach_file, *second_attach_file, *require_doc_file;

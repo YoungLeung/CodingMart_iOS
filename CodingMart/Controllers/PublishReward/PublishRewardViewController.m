@@ -24,6 +24,8 @@
 #import "QuickLoginViewController.h"
 #import "ProjectIndustryListViewController.h"
 #import "RootQuoteViewController.h"
+#include "MartWebViewController.h"
+#include "UIViewController+Common.h"
 
 @interface PublishRewardViewController ()
 @property (strong, nonatomic) Reward *rewardToBePublished;
@@ -44,6 +46,8 @@
 
 @property (weak, nonatomic) IBOutlet UITTTAttributedLabel *agreementL;
 @property (weak, nonatomic) IBOutlet UITTTAttributedLabel *budgetTipL;
+@property (weak, nonatomic) IBOutlet UITTTAttributedLabel *testServiceTipL;
+@property (weak, nonatomic) IBOutlet UIButton *testServiceButton;
 
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *nextStepBtn;
 @property (weak, nonatomic) IBOutlet UILabel *countryCodeL;
@@ -87,14 +91,15 @@
     [RACObserve(self, rewardToBePublished.industryName) subscribeNext:^(NSString *value) {
         weakSelf.industryNameL.text = value;
     }];
-    
+
     _nameF.text = _rewardToBePublished.name;
     _budgetL.text = _rewardToBePublished.price.stringValue;
     _descriptionTextView.text = _rewardToBePublished.description_mine;
     _contact_nameF.text = _rewardToBePublished.contact_name;
     _contact_emailF.text = _rewardToBePublished.contact_email;
     _contact_mobileF.text = _rewardToBePublished.contact_mobile;
-    
+    [self updateCheckBox];
+
     [_nameF.rac_textSignal subscribeNext:^(NSString *newText){
         self.fd_interactivePopDisabled = newText.length > 0;
         weakSelf.rewardToBePublished.name = newText;
@@ -131,6 +136,11 @@
         RootQuoteViewController *vc = [RootQuoteViewController storyboardVC];
         [self.navigationController pushViewController:vc animated:YES];
     }];
+
+    [_testServiceTipL addLinkToStr:@"了解码市测试服务" value:nil hasUnderline:NO clickedBlock:^(id value) {
+        [self goToWebVCWithUrlStr:@"/services/testing" title:@"码市测试服务介绍"];
+    }];
+
     RAC(self, fd_interactivePopDisabled) = [RACSignal combineLatest:@[_nameF.rac_textSignal,
             _descriptionTextView.rac_textSignal, _budgetL.rac_textSignal] reduce:^id(NSString *name, NSString *description, NSString *budget){
         return @(name.length > 0 || description.length > 0 || budget.length > 0);
@@ -199,6 +209,21 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (IBAction)testServiceTextClicked:(UIButton *)sender {
+    [self testServiceClicked:sender];
+}
+
+- (IBAction)testServiceClicked:(UIButton *)sender {
+    BOOL test = _rewardToBePublished.testService.boolValue;
+    _rewardToBePublished.testService = [NSNumber numberWithBool:!test];
+    [self updateCheckBox];
+}
+
+- (void)updateCheckBox {
+    [self.testServiceButton setImage:[UIImage imageNamed:(_rewardToBePublished.testService.boolValue ?
+        @"checkbox_checked": @"checkbox_check")] forState:UIControlStateNormal];
+}
+
 - (IBAction)codeBtnClicked:(PhoneCodeButton *)sender {
     if (![_rewardToBePublished.contact_mobile isPhoneNo]) {
         [NSObject showHudTipStr:@"手机号码格式错误"];
@@ -261,7 +286,7 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
     }
 }
 
-- (void)publishSucessed{    
+- (void)publishSucessed{
     if (![_rewardToBePublished.id isKindOfClass:[NSNumber class]]) {
         [Reward deleteCurDraft];
     }
@@ -330,7 +355,7 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSInteger rowNum;
     if (section == 0) {
-        rowNum = 5;
+        rowNum = 6;
     }else{
         rowNum = _isPhoneNeeded? 4: 2;
     }
