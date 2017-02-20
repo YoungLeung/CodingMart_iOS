@@ -63,7 +63,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
 }
 
 - (BOOL)checkIfIdentityNeedToSet {
-    BOOL needToSet = [Login isLogin] && [Login curLoginUser].loginIdentity.integerValue == 0;
+    BOOL needToSet = [Login isLogin] && [Login curLoginUser].loginIdentity.integerValue == 0 && ![[Login curLoginUser] isEnterpriseSide];
     if (needToSet) {
         SetIdentityViewController *vc = [SetIdentityViewController storyboardVC];
         [[(UINavigationController *) self.selectedViewController viewControllers].firstObject presentViewController:vc animated:YES completion:nil];
@@ -85,31 +85,30 @@ typedef NS_ENUM(NSInteger, TabVCType) {
 + (NSArray *)curLoginTabList {
     NSMutableArray *tabList;
     User *me = [Login curLoginUser];
-    if (me.loginIdentity.integerValue == 1) {//开发者
-        if (me.joinedCount.integerValue > 0) {
-            tabList = @[@(TabVCTypeRewards),
-                    @(TabVCTypeMyJoined),
-                    @(TabVCTypeMessage),
-                    @(TabVCTypeMe)].mutableCopy;
-        } else {
-            tabList = @[@(TabVCTypeFind),
-                    @(TabVCTypeRewards),
-                    @(TabVCTypeMessage),
-                    @(TabVCTypeMe)].mutableCopy;
-        }
-    } else if (me.loginIdentity.integerValue == 2) {//需求方
+    if (me.isEnterpriseSide) {//需求方
         if (me.publishedCount.integerValue > 0) {
             tabList = @[@(TabVCTypeFind),
+                    @(TabVCTypeQuote),
                     @(TabVCTypeMyPublished),
-                    @(TabVCTypeMessage),
                     @(TabVCTypeMe)].mutableCopy;
 
         } else {
             tabList = @[@(TabVCTypeFind),
+                    @(TabVCTypeQuote),
                     @(TabVCTypePublish),
-                    @(TabVCTypeMessage),
                     @(TabVCTypeMe)].mutableCopy;
         }
+    } else if (me.loginIdentity.integerValue == 1) {//开发者
+        if (me.joinedCount.integerValue > 0) {
+            tabList = @[@(TabVCTypeRewards),
+                    @(TabVCTypeMyJoined),
+                    @(TabVCTypeMe)].mutableCopy;
+        } else {
+            tabList = @[@(TabVCTypeFind),
+                    @(TabVCTypeRewards),
+                    @(TabVCTypeMe)].mutableCopy;
+        }
+
     } else {
         tabList = @[@(TabVCTypeFind),
                 @(TabVCTypeRewards),

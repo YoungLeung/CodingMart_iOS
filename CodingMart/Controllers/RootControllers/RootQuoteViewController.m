@@ -80,7 +80,7 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
     [super viewDidAppear:animated];
     //更新 tab 视图，放在这里
     if ([Login isLogin]) {
-        if ([Login curLoginUser].loginIdentity.integerValue != 2) {
+        if (![Login curLoginUser].isDemandSide) {
             [self changeTabVCList];
         }else {
             [(RootTabViewController *)self.rdv_tabBarController checkUpdateTabVCListWithSelectedIndex:1];

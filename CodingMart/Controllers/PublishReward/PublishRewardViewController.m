@@ -290,7 +290,7 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
     if (![_rewardToBePublished.id isKindOfClass:[NSNumber class]]) {
         [Reward deleteCurDraft];
     }
-    if ([Login curLoginUser].loginIdentity.integerValue != 2) {
+    if (![Login curLoginUser].isDemandSide) {
         [self changeTabVCList];
     }else if (![(RootTabViewController *)self.rdv_tabBarController checkUpdateTabVCListWithSelectedIndex:2]){
         __block UIViewController *vc;

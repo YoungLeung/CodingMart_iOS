@@ -7,6 +7,7 @@
 //
 
 #import "User.h"
+#import "FillUserInfo.h"
 
 @implementation User
 + (User *)userWithGlobalKey:(NSString *)global_key{
@@ -33,11 +34,23 @@
 }
 
 - (BOOL)isDemandSide{
+    if ([FillUserInfo infoCached].isEnterpriseDemand) {
+        return YES;
+    }
+
     return _loginIdentity.integerValue == 2;
 }
 
 - (BOOL)isDeveloperSide{
+    if ([FillUserInfo infoCached].isEnterpriseDemand) {
+        return NO;
+    }
+
     return _loginIdentity.integerValue == 1;
+}
+
+- (BOOL)isEnterpriseSide {
+    return [FillUserInfo infoCached].isEnterpriseDemand;
 }
 
 - (NSString *)toUserInfoPath{

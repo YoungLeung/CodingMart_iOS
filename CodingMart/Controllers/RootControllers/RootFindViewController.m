@@ -93,9 +93,9 @@
     _curRewards = [Rewards RewardsWithType:@"所有类型" status:@"招募中" roleType:@"所有角色"];
     
     [self refreshData];
-    if (![FunctionTipsManager isAppUpdate] && [Login curLoginUser].loginIdentity.integerValue != 1) {
+    if (![FunctionTipsManager isAppUpdate] && ![Login curLoginUser].isDeveloperSide) {
         NSArray *guidances;
-        if ([Login curLoginUser].loginIdentity.integerValue == 2) {
+        if ([Login curLoginUser].isDemandSide) {
             guidances = @[@"guidance_dem_home_0",
                           @"guidance_dem_home_1",
                           @"guidance_dem_home_2"];

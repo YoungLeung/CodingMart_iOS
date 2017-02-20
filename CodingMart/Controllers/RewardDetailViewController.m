@@ -63,7 +63,7 @@
         [_headerV setY:-_headerV.height];
         [self.webView.scrollView.pullRefreshCtrl setY:self.webView.scrollView.pullRefreshCtrl.y - _headerV.height];
     }
-    if (![FunctionTipsManager isAppUpdate] && [Login curLoginUser].loginIdentity.integerValue != 2) {//开发者
+    if (![FunctionTipsManager isAppUpdate] && ![Login curLoginUser].isDemandSide) {//开发者才显示
         [MartFunctionTipView showFunctionImages:@[@"guidance_dev_reward_public"] onlyOneTime:YES];
     }
     [self handleRefresh];

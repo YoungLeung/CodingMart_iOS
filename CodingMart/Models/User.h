@@ -31,6 +31,7 @@
 - (BOOL)canJoinReward;
 - (BOOL)isDemandSide;
 - (BOOL)isDeveloperSide;
+- (BOOL)isEnterpriseSide;
 
 - (NSString *)toUserInfoPath;
 
