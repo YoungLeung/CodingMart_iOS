@@ -39,6 +39,7 @@
 #import "MPayAccounts.h"
 #import "Withdraw.h"
 #import "MartNotifications.h"
+#import "MPayOrderMapper.h"
 #import "FreezeRecords.h"
 #import "FreezeRecord.h"
 #import "ProjectIndustry.h"
@@ -987,6 +988,16 @@
         block(data, error);
     }];
 
+}
+
+- (void)get_MPayOrderMapper:(void (^)(id data, NSError *error))block {
+    NSString *path = @"api/mpay/const/order/mapper";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject objectOfClass:@"MPayOrderMapper" fromJSON:data[@"data"]];
+        }
+        block(data, error);
+    }];
 }
 
 - (void)post_GenerateOrderWithStageId:(NSNumber *)stageId block:(void (^)(id data, NSError *error))block {
