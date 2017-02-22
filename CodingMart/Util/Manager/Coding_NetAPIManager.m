@@ -994,6 +994,7 @@
     NSString *path = @"api/mpay/const/order/mapper";
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
+            [MPayOrderMapper setCached:data[@"data"]];
             data = [NSObject objectOfClass:@"MPayOrderMapper" fromJSON:data[@"data"]];
         }
         block(data, error);

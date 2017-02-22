@@ -14,4 +14,7 @@
 @property (strong, nonatomic) NSArray *timeOptions;
 @property (strong, nonatomic, readonly) NSDictionary *propertyArrayMap;
 
++ (MPayOrderMapper *)getCached;
++ (void)setCached:(NSDictionary *) dict;
+
 @end

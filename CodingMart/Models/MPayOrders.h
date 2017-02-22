@@ -9,13 +9,15 @@
 #import "MPayOrder.h"
 #import "Pager.h"
 
+@class MPayOrderMapperTime;
+
 @interface MPayOrders : NSObject
 @property (strong, nonatomic) NSMutableArray *order;
 @property (strong, nonatomic) Pager *pager;
 @property (strong, nonatomic, readonly) NSDictionary *propertyArrayMap;
 @property (strong, nonatomic) NSNumber *orderAmount, *serviceFee, *stageAmount;
 @property (strong, nonatomic) NSArray *typeList, *statusList;
-@property (strong, nonatomic) NSString *time;
+@property (strong, nonatomic) MPayOrderMapperTime *time;
 
 @property (assign, nonatomic) BOOL canLoadMore, willLoadMore, isLoading;
 

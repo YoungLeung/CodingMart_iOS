@@ -20,7 +20,7 @@
 
 @implementation MPayRecordCell
 
-static NSDictionary *statusNameDict, *orderTypeNameDict, *actionSymbolDict;
+static NSDictionary *statusNameDict;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -36,45 +36,11 @@ static NSDictionary *statusNameDict, *orderTypeNameDict, *actionSymbolDict;
                            @"Cancel": @"已取消",};
         
     }
-    if (!orderTypeNameDict) {
-        orderTypeNameDict = @{@"UnknownOType": @"未知",
-                              @"Deposit": @"充值",
-                              @"WithDraw": @"提现",
-                              @"RewardPrepayment": @"项目预付款",
-                              @"RewardStagePayment": @"项目阶段付款",
-                              @"DeveloperPayment": @"项目阶段收款",
-                              @"ServiceFee": @"服务费",
-                              @"Refund": @"退款",
-                              @"EventPayment": @"活动出账",
-                              @"EventDeposit": @"活动入账",
-                              @"SystemDeduct": @"系统扣款",
-                              @"SystemRemit": @"系统打款",
-                              @"ApplyContactDeduct": @"查看开发者联系信息",
-                              @"ApplyContactRemit": @"查看开发者联系信息",};
-
-    }
-    if (!actionSymbolDict) {
-        actionSymbolDict = @{@"UnknownOType": @"?",
-                             @"Deposit": @"+",
-                             @"WithDraw": @"-",
-                             @"RewardPrepayment": @"-",
-                             @"RewardStagePayment": @"-",
-                             @"DeveloperPayment": @"+",
-                             @"ServiceFee": @"+",
-                             @"Refund": @"+",
-                             @"EventPayment": @"-",
-                             @"EventDeposit": @"+",
-                             @"ApplyContact": @"-",
-                             @"SystemDeduct": @"-",
-                             @"SystemRemit": @"+",
-                             @"ApplyContactDeduct": @"-",
-                             @"ApplyContactRemit": @"+",};
-    }
     _order = order;
     
     _titleL.text = _order.title;
-    _feeL.text = [NSString stringWithFormat:@"%@%@", (actionSymbolDict[_order.orderType] ?: @"?"), _order.totalFee];
-    NSString *orderTypeName = orderTypeNameDict[_order.orderType];
+    _feeL.text = [NSString stringWithFormat:@"%@%@", _order.symbol, _order.totalFee];
+    NSString *orderTypeName = _order.tradeType;
     if ([_order.orderType isEqualToString:@"WithDraw"]) {
         //TODO 这里有个「查看进度」按钮
     }else if ([_order.orderType isEqualToString:@"Refund"]){

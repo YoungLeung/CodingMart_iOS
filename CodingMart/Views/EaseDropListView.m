@@ -12,6 +12,7 @@
 
 #import "EaseDropListView.h"
 #import <BlocksKit/BlocksKit+UIKit.h>
+#import "MPayOrderMapper.h"
 
 @interface EaseDropListView ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) UIView *bgView;
@@ -101,7 +102,19 @@
     }
     cell.accessoryType = selected? UITableViewCellAccessoryCheckmark: UITableViewCellAccessoryNone;
     cell.textLabel.textColor = selected? kColorBrandBlue: kColorTextLight66;
-    cell.titleStr = self.dataList[indexPath.row];
+    NSObject *rowData = self.dataList[indexPath.row];
+    NSString *title = nil;
+    if ([rowData isKindOfClass:[NSString class]]) {
+        title = (NSString *) rowData;
+        if (self.helpDictionary) {
+            title = self.helpDictionary[title];
+        }
+    }else if ([rowData isKindOfClass:[MPayOrderMapperTime class]]) {
+        title = [(MPayOrderMapperTime *)rowData text];
+    } else if ([rowData isKindOfClass:[MPayOrderMapperTrade class]]) {
+        title = [(MPayOrderMapperTrade *)rowData title];
+    }
+    cell.titleStr = title;
     return cell;
 }
 
@@ -221,13 +234,16 @@
     self.easeDropListView.actionBlock = block;
     [self.easeDropListView showInView:view underTheView:self maxHeight:maxHeight];
 }
-- (void)showDropListMutiple:(BOOL)isMutiple withData:(NSArray *)dataList selectedDataList:(NSArray *)selectedDataList inView:(UIView *)view maxHeight:(CGFloat)maxHeight actionBlock:(void(^)(EaseDropListView *dropView, BOOL isComfirmed))block{
+- (void)showDropListMutiple:(BOOL)isMutiple withData:(NSArray *)dataList selectedDataList:(NSArray *)selectedDataList inView:(UIView *)view maxHeight:(CGFloat)maxHeight helpDictionary:(NSDictionary *)helpDictionary actionBlock:(void(^)(EaseDropListView *dropView, BOOL isComfirmed))block{
     if (!self.easeDropListView) {
         EaseDropListView *dropView = [EaseDropListView new];
         self.easeDropListView = dropView;
     }
+
     self.easeDropListView.isMutiple = isMutiple;
     self.easeDropListView.dataList = dataList;
+    self.easeDropListView.helpDictionary = helpDictionary;
+
     if (!isMutiple) {
         if (selectedDataList.count > 0) {
             self.easeDropListView.selectedIndex = [dataList indexOfObject:selectedDataList.firstObject];

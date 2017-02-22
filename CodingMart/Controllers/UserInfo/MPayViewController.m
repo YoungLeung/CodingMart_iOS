@@ -22,6 +22,7 @@
 #import "FillUserInfoViewController.h"
 #import "FreezeRecordViewController.h"
 #import "MPayOrderDetailViewController.h"
+#import "MPayOrderMapper.h"
 
 @interface MPayViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *totalL;
@@ -35,6 +36,7 @@
 @property (strong, nonatomic) UIView *sectionHeaderV;
 @property (assign, nonatomic) NSInteger selectedTabIndex;
 @property (strong, nonatomic) NSArray *timeList, *typeList, *statusList;
+@property (strong, nonatomic) NSDictionary *statusDictionary;
 
 @property (strong, nonatomic) MPayOrders *orders;
 @end
@@ -45,9 +47,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.selectedTabIndex = NSNotFound;
-    _timeList = @[@"全部", @"一周内", @"三周内", @"一个月内", @"三个月内", @"半年内",];
-    _typeList = @[@"入账", @"付款", @"提现", @"其他",];
-    _statusList = @[@"处理中", @"已完成", @"已取消", @"已失败",];
+
+    MPayOrderMapper *mapper = [MPayOrderMapper getCached];
+    _timeList = mapper.timeOptions;
+    _typeList = mapper.tradeOptions;
+    _statusList = mapper.status.allKeys;
+    _statusDictionary = mapper.status;
+
     _orders = [MPayOrders new];
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"设置交易密码" target:self action:@selector(navBtnClicked)];
     UIColor *whiteColor = [UIColor whiteColor];
@@ -233,11 +239,16 @@
     }else{
         self.selectedTabIndex = tag;
         NSArray *list = tag == 0? _timeList: tag == 1? _typeList: _statusList;
+        NSDictionary *helpDictionary = nil;
+        if (list == _statusList) {
+            helpDictionary = _statusDictionary;
+        }
         NSArray *selectedList = tag == 0? @[_orders.time ?: _timeList[0]]: tag == 1? _orders.typeList: _orders.statusList;
         CGFloat maxHeight = kScreen_Height - [self navBottomY] - self.sectionHeaderV.height;
         WEAKSELF;
         [self.myTableView bringSubviewToFront:self.sectionHeaderV];
-        [self.sectionHeaderV showDropListMutiple:(tag != 0) withData:list selectedDataList:selectedList inView:self.view maxHeight:maxHeight actionBlock:^(EaseDropListView *dropView, BOOL isComfirmed) {
+        [self.sectionHeaderV showDropListMutiple:(tag != 0) withData:list selectedDataList:selectedList
+                                          inView:self.view maxHeight:maxHeight helpDictionary:helpDictionary actionBlock:^(EaseDropListView *dropView, BOOL isComfirmed) {
             if (isComfirmed) {
                 if (tag == 0) {
                     weakSelf.orders.time = dropView.dataList[dropView.selectedIndex];

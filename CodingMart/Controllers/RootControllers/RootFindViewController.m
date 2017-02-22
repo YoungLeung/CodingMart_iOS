@@ -140,6 +140,7 @@
 
 - (void)refreshData {
     [self refreshBanner];
+    [self refreshOrderMapper];
     [self refreshStatisticsData];
     [self refreshDataList];
 }
@@ -194,6 +195,10 @@
             weakSelf.myBannersView.curBannerList = data;
         }
     }];
+}
+
+- (void)refreshOrderMapper {
+    [[Coding_NetAPIManager sharedManager] get_MPayOrderMapper:^(id data, NSError *error) {}];
 }
 
 - (void)goToBanner:(MartBanner *)tapedBanner {
