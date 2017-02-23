@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -296,6 +296,9 @@
                                                 <constraint firstAttribute="trailingMargin" secondItem="vVT-27-iqY" secondAttribute="trailing" id="ybT-Ha-30L"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" notEnabled="YES"/>
+                                        </accessibility>
                                         <connections>
                                             <segue destination="bUp-Xv-CJK" kind="show" id="eG8-YL-32v"/>
                                         </connections>
@@ -6133,6 +6136,27 @@ Coding 码市团队</string>
                                                         <action selector="depositBtnClicked:" destination="C70-vC-AQt" eventType="touchUpInside" id="n1b-Oe-vr5"/>
                                                     </connections>
                                                 </view>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9cA-rT-VJB" customClass="UIButton">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="button_userinfo_mpay_in" translatesAutoresizingMaskIntoConstraints="NO" id="ehh-AL-Eyl">
+                                                            <rect key="frame" x="15" y="10" width="22" height="22"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="充值" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9tW-0c-liY">
+                                                            <rect key="frame" x="44" y="6" width="50" height="30"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                            <color key="textColor" red="0.26274509800000001" green="0.2901960784" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <connections>
+                                                        <action selector="depositBtnClicked:" destination="C70-vC-AQt" eventType="touchDown" id="ilI-2q-eWp"/>
+                                                    </connections>
+                                                </view>
                                             </subviews>
                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
@@ -6170,6 +6194,7 @@ Coding 码市团队</string>
                                         <constraint firstItem="sul-jW-Wxs" firstAttribute="top" secondItem="ogK-ps-fZe" secondAttribute="top" id="GaI-Xv-jJk"/>
                                         <constraint firstItem="rgp-LD-ikC" firstAttribute="leading" secondItem="ogK-ps-fZe" secondAttribute="leading" id="Pm2-pv-O9M"/>
                                         <constraint firstAttribute="trailing" secondItem="c0S-AR-fwd" secondAttribute="trailing" id="Tzs-oV-HFD"/>
+                                        <constraint firstItem="c0S-AR-fwd" firstAttribute="top" secondItem="sul-jW-Wxs" secondAttribute="bottom" priority="900" id="ab4-tR-97N"/>
                                         <constraint firstItem="rgp-LD-ikC" firstAttribute="top" secondItem="sul-jW-Wxs" secondAttribute="bottom" id="cP4-Ek-eXe"/>
                                         <constraint firstItem="c0S-AR-fwd" firstAttribute="top" secondItem="rgp-LD-ikC" secondAttribute="bottom" id="fzG-B8-jsX"/>
                                         <constraint firstAttribute="bottom" secondItem="c0S-AR-fwd" secondAttribute="bottom" constant="40" id="gTj-xH-vQh"/>
@@ -6256,6 +6281,9 @@ Coding 码市团队</string>
                     <size key="freeformSize" width="600" height="800"/>
                     <connections>
                         <outlet property="balanceL" destination="07c-Fk-a0j" id="vKl-Wz-laI"/>
+                        <outlet property="bottomV" destination="c0S-AR-fwd" id="XdO-8I-iTn"/>
+                        <outlet property="bottonConstraintHeader" destination="fzG-B8-jsX" id="nM2-s5-g4d"/>
+                        <outlet property="enterpriseDeposit" destination="9cA-rT-VJB" id="Kq2-5C-v6h"/>
                         <outlet property="freezeL" destination="QOD-bp-SNY" id="ndL-3Y-Lds"/>
                         <outlet property="headerLightV" destination="rgp-LD-ikC" id="DNd-6r-Fad"/>
                         <outlet property="headerV" destination="ogK-ps-fZe" id="vjq-p1-ip6"/>
@@ -6266,7 +6294,7 @@ Coding 码市团队</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cXn-j2-Jog" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1829" y="2489"/>
+            <point key="canvasLocation" x="-1830.4000000000001" y="2488.1559220389809"/>
         </scene>
         <!--充值-->
         <scene sceneID="sC9-CW-QWh">
@@ -9814,6 +9842,23 @@ Coding 码市团队</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fsa-Gv-QpH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2690" y="1841"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="tPD-TU-xqz">
+            <objects>
+                <viewController id="flQ-u2-STh" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="pf5-IQ-Axe"/>
+                        <viewControllerLayoutGuide type="bottom" id="rsv-Ud-LZs"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Bwg-r1-7IZ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KPg-CS-H1Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
     <resources>

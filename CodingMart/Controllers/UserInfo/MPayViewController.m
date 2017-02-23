@@ -23,6 +23,7 @@
 #import "FreezeRecordViewController.h"
 #import "MPayOrderDetailViewController.h"
 #import "MPayOrderMapper.h"
+#import "Login.h"
 
 @interface MPayViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *totalL;
@@ -32,6 +33,9 @@
 @property (weak, nonatomic) IBOutlet UIView *headerLightV;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *topConstraint;
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
+@property (weak, nonatomic) IBOutlet UIView *enterpriseDeposit;
+@property (weak, nonatomic) IBOutlet UIView *bottomV;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottonConstraintHeader;
 
 @property (strong, nonatomic) UIView *sectionHeaderV;
 @property (assign, nonatomic) NSInteger selectedTabIndex;
@@ -45,7 +49,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+
+    User *user = [Login curLoginUser];
+    if (user.isEnterpriseSide) {
+        _headerLightV.hidden = TRUE;
+
+        CGRect newFrame = _headerV.frame;
+        newFrame.size.height -= 60;
+        [_headerV setFrame:newFrame];
+
+        _bottonConstraintHeader.priority = 700;
+    } else {
+        _enterpriseDeposit.hidden = TRUE;
+    }
+
     self.selectedTabIndex = NSNotFound;
 
     MPayOrderMapper *mapper = [MPayOrderMapper getCached];
@@ -63,6 +80,7 @@
     [_myTableView addInfiniteScrollingWithActionHandler:^{
         [weakSelf refreshOrdersMore:YES];
     }];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated{
