@@ -21,6 +21,7 @@
 #import "SVPullToRefresh.h"
 #import "MPayOrderMapper.h"
 #import "PublishRewardViewController.h"
+#import "IdentityViewController.h"
 
 @interface RootFindViewController ()
 @property(strong, nonatomic, readonly) NSArray *dataList;
@@ -265,6 +266,12 @@
 }
 
 - (void)goToMartIntroduce {
+    if (1 == 1) {
+        IdentityViewController *vc = [IdentityViewController vcWithIdetityDict:nil];
+        [self.navigationController pushViewController:vc animated:YES];
+        return;
+    }
+
     MartIntroduceViewController *vc = [MartIntroduceViewController new];
     [self.navigationController pushViewController:vc animated:YES];
 }
