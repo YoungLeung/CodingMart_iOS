@@ -22,6 +22,7 @@
 #import "MPayOrderMapper.h"
 #import "PublishRewardViewController.h"
 #import "IdentityViewController.h"
+#import "IdentityResultViewController.h"
 
 @interface RootFindViewController ()
 @property(strong, nonatomic, readonly) NSArray *dataList;
@@ -277,6 +278,16 @@
 }
 
 - (void)goToCaseListVC {
+    if (1 == 1) {
+        [[Coding_NetAPIManager sharedManager] get_EnterpriseAuthentication:^(id data, NSError *error) {
+            if (data) {
+                UIViewController *vc = [IdentityResultViewController vcInStoryboard:data];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+        }];
+        return;
+    }
+
     CaseListViewController *vc = [CaseListViewController new];
     [self.navigationController pushViewController:vc animated:YES];
 }

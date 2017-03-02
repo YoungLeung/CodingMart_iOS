@@ -77,7 +77,7 @@
 
 - (void)showImageWithFront {
     JTSImageInfo *imageInfo = [JTSImageInfo new];
-    imageInfo.imageURL = _attachment.url;
+    imageInfo.imageURL = [_attachment.url urlWithCodingPath];
     UIImageView *imageV = _frontImageV;
     imageInfo.referenceRect = imageV.frame;
     imageInfo.referenceView = imageV.superview;
@@ -193,7 +193,7 @@
     [[CodingNetAPIClient sharedJsonClient] uploadImage:image path:@"api/upload" name:name successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
         HUD.hidden = YES;
 
-        weakSelf.attachment = [NSObject objectOfClass:@"EnterpriseAttachment" fromJSON:responseObject[@"data"]];
+        _attachment = [NSObject objectOfClass:@"EnterpriseAttachment" fromJSON:responseObject[@"data"]];
         if (_attachment != nil) {
             weakSelf.frontImageV.hidden = NO;
             weakSelf.frontImageV.image = image;
