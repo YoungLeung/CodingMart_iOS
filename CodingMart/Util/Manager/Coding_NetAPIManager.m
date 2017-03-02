@@ -46,6 +46,7 @@
 #import "RewardApplyCoderDetail.h"
 #import "IdentityInfo.h"
 #import "MartSurvey.h"
+#import "EnterpriseCertificate.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -361,6 +362,27 @@
 - (void)post_Authentication:(NSDictionary *)params block:(void (^)(id data, NSError *error))block {
     NSString *path = [NSString stringWithFormat:@"/api/identity"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+
+#pragma mark Enterprise
+- (void)post_EnterpriseAuthentication:(NSDictionary *)params block:(void (^)(id data, NSError *error))block {
+    NSString *path = [NSString stringWithFormat:@"/api/enterprise/certificate"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject objectOfClass:@"EnterpriseCertificate" fromJSON:data];
+        }
+        block(data, error);
+    }];
+}
+
+- (void)get_EnterpriseAuthentication:(void (^)(id data, NSError *error))block {
+    NSString *path = [NSString stringWithFormat:@"/api/enterprise/certificate"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject objectOfClass:@"EnterpriseCertificate" fromJSON:data];
+        }
         block(data, error);
     }];
 }
