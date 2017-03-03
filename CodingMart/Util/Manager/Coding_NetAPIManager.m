@@ -387,6 +387,14 @@
     }];
 }
 
+- (void)get_InvoiceAmout:(void (^)(id data, NSError *error))block {
+    NSString *path = @"api/enterprise/invoice/amount";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        block(data[@"data"], error);
+    }];
+}
+
+
 - (void)get_AppInfo:(void (^)(id data, NSError *error))block {
     NSString *path = [NSString stringWithFormat:@"/api/app/info"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {

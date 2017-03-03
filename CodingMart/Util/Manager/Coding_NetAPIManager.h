@@ -119,6 +119,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 #pragma mark Enterprise
 - (void)post_EnterpriseAuthentication:(NSDictionary *)params block:(void (^)(id data, NSError *error))block;
 - (void)get_EnterpriseAuthentication:(void (^)(id data, NSError *error))block;
+- (void)get_InvoiceAmout:(void (^)(id data, NSError *error))block;
 
 #pragma mark FeedBack
 - (void)post_FeedBack:(FeedBackInfo *)feedBackInfo  block:(void (^)(id data, NSError *error))block;

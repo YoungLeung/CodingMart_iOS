@@ -25,6 +25,7 @@
 #import "HelpCenterViewController.h"
 #import "MPayViewController.h"
 #import "EATipView.h"
+#import "InvoiceAmoutViewController.h"
 
 @interface UserInfoViewController () <UIScrollViewDelegate>
 @property(weak, nonatomic) IBOutlet UIImageView *user_iconV;
@@ -218,6 +219,15 @@
         num = ![Login isLogin] ? 0 : 1;
     } else if (section == 1) {
         num = ![Login isLogin] ? 0 : 1;
+        if (![Login isLogin]) {
+            num = 0;
+        } else {
+            if ([[Login curLoginUser] isEnterpriseSide]) {
+                num = 2;
+            } else {
+                num = 1;
+            }
+        }
     } else {
         num = 3;
     }
@@ -236,9 +246,19 @@
             FillTypesViewController *vc = [FillTypesViewController storyboardVC];
             [self.navigationController pushViewController:vc animated:YES];
         } else {
-            [MobClick event:kUmeng_Event_UserAction label:@"个人中心_个人信息"];
-            FillUserInfoViewController *vc = [FillUserInfoViewController vcInStoryboard:@"UserInfo"];
-            [self.navigationController pushViewController:vc animated:YES];
+
+            if ([_curUser isEnterpriseSide]) {
+                if (indexPath.row == 0) {
+
+                } else if (indexPath.row == 1) {
+                    UIViewController *vc = [InvoiceAmoutViewController vcWithIdetityDict];
+                    [self.navigationController pushViewController:vc animated:YES];
+                }
+            } else {
+                [MobClick event:kUmeng_Event_UserAction label:@"个人中心_个人信息"];
+                FillUserInfoViewController *vc = [FillUserInfoViewController vcInStoryboard:@"UserInfo"];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
         }
     } else if (indexPath.section == 2) {
         NSString *labelStr = indexPath.row == 0 ? @"个人中心_帮助与反馈" : indexPath.row == 1 ? @"个人中心_设置" : @"个人中心_关于码市";
