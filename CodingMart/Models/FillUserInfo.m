@@ -135,6 +135,7 @@
         [defaults synchronize];
     }
 }
+
 + (FillUserInfo *)infoCached{
     if ([Login isLogin]) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -144,6 +145,18 @@
         return nil;
     }
 }
+
+
++ (NSDictionary *)dataCached{
+    if ([Login isLogin]) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSDictionary *data = [defaults objectForKey:[self p_cacheKey]];
+        return data[@"data"][@"info"];
+    }else{
+        return nil;
+    }
+}
+
 + (NSString *)p_cacheKey{
     return [NSString stringWithFormat:@"%@_UserInfo_Key", [Login curLoginUser].global_key];
 }

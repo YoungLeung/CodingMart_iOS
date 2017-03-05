@@ -10,6 +10,7 @@
 #import "UIImageView+WebCache.h"
 #import "JTSImageInfo.h"
 #import "JTSImageViewController.h"
+#import "BlocksKit+UIKit.h"
 
 @interface IdentityResultViewController ()
 @property(weak, nonatomic) IBOutlet UIImageView *resultIcon;
@@ -17,10 +18,10 @@
 @property(weak, nonatomic) IBOutlet UITTTAttributedLabel *resultContent;
 
 @property(weak, nonatomic) IBOutlet UILabel *enterpriseName;
-@property (weak, nonatomic) IBOutlet UIImageView *passedFlag;
+@property(weak, nonatomic) IBOutlet UIImageView *passedFlag;
 
-@property (weak, nonatomic) IBOutlet UILabel *idCard;
-@property (weak, nonatomic) IBOutlet UIImageView *businessLicenceImage;
+@property(weak, nonatomic) IBOutlet UILabel *idCard;
+@property(weak, nonatomic) IBOutlet UIImageView *businessLicenceImage;
 
 @property(strong, nonatomic) EnterpriseCertificate *certificate;
 @end
@@ -66,9 +67,21 @@
     _enterpriseName.text = _certificate.legalRepresentative;
     _idCard.text = _certificate.businessLicenceNo;
 
+    float width = kScreen_Width * 0.46;
+    CGSize titleSize = [_resultContent.text boundingRectWithSize:CGSizeMake(width, MAXFLOAT)
+                                                         options:NSStringDrawingUsesLineFragmentOrigin
+                                                      attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:14.0f]}
+                                                         context:nil].size;
+
+
+
     WEAKSELF
     [_resultContent addLinkToStr:@"联系客服" value:nil hasUnderline:NO clickedBlock:^(id value) {
         [weakSelf goToTalk];
+    }];
+
+    [_businessLicenceImage bk_whenTapped:^{
+        [weakSelf clickLicenceImage];
     }];
 
     _businessLicenceImage.hidden = NO;
@@ -90,6 +103,10 @@
 }
 
 - (IBAction)businessLicenceClicked:(UIButton *)sender {
+    [self clickLicenceImage];
+}
+
+- (void)clickLicenceImage {
     JTSImageInfo *imageInfo = [JTSImageInfo new];
     imageInfo.imageURL = [_certificate.attachment.url urlWithCodingPath];
     UIImageView *imageV = _businessLicenceImage;

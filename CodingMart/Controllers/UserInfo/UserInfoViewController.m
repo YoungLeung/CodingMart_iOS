@@ -26,6 +26,7 @@
 #import "MPayViewController.h"
 #import "EATipView.h"
 #import "InvoiceAmoutViewController.h"
+#import "EnterpriseMainViewController.h"
 
 @interface UserInfoViewController () <UIScrollViewDelegate>
 @property(weak, nonatomic) IBOutlet UIImageView *user_iconV;
@@ -249,7 +250,8 @@
 
             if ([_curUser isEnterpriseSide]) {
                 if (indexPath.row == 0) {
-
+                    UIViewController *vc = [[EnterpriseMainViewController class] vcInStoryboard:@"UserInfo"];
+                    [self.navigationController pushViewController:vc animated:YES];
                 } else if (indexPath.row == 1) {
                     UIViewController *vc = [InvoiceAmoutViewController vcWithIdetityDict];
                     [self.navigationController pushViewController:vc animated:YES];

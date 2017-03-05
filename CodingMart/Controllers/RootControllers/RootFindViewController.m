@@ -267,27 +267,11 @@
 }
 
 - (void)goToMartIntroduce {
-    if (1 == 1) {
-        IdentityViewController *vc = [IdentityViewController vcWithIdetityDict:nil];
-        [self.navigationController pushViewController:vc animated:YES];
-        return;
-    }
-
     MartIntroduceViewController *vc = [MartIntroduceViewController new];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)goToCaseListVC {
-    if (1 == 1) {
-        [[Coding_NetAPIManager sharedManager] get_EnterpriseAuthentication:^(id data, NSError *error) {
-            if (data) {
-                UIViewController *vc = [IdentityResultViewController vcInStoryboard:data];
-                [self.navigationController pushViewController:vc animated:YES];
-            }
-        }];
-        return;
-    }
-
     CaseListViewController *vc = [CaseListViewController new];
     [self.navigationController pushViewController:vc animated:YES];
 }

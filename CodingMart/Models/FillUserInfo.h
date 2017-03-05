@@ -27,4 +27,5 @@
 
 + (void)cacheInfoData:(NSDictionary *)dict;
 + (FillUserInfo *)infoCached;
++ (NSDictionary *)dataCached;
 @end

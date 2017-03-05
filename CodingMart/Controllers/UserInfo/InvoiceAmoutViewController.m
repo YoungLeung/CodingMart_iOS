@@ -7,6 +7,7 @@
 #import "Coding_NetAPIManager.h"
 #import "UIViewController+Common.h"
 #import "UITTTAttributedLabel.h"
+#import "FillUserInfo.h"
 
 @interface InvoiceAmoutViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *amount;
