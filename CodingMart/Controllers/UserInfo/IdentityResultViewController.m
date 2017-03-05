@@ -75,10 +75,6 @@
     [_businessLicenceImage sd_setImageWithURL:[_certificate.attachment.url urlWithCodingPath]];
 }
 
-- (void)goToTalk{
-    [self goToWebVCWithUrlStr:@"https://codemart.kf5.com/supportbox/index" title:@"客户支持服务平台"];
-}
-
 - (void)setEnterprise:(EnterpriseCertificate *)certificate {
     _certificate = certificate;
 }

@@ -5,9 +5,12 @@
 
 #import "InvoiceAmoutViewController.h"
 #import "Coding_NetAPIManager.h"
+#import "UIViewController+Common.h"
+#import "UITTTAttributedLabel.h"
 
 @interface InvoiceAmoutViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *amount;
+@property (weak, nonatomic) IBOutlet UITTTAttributedLabel *bottomTip;
 
 @end
 
@@ -20,6 +23,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    WEAKSELF
+    [_bottomTip addLinkToStr:@"联系客服" value:nil hasUnderline:NO clickedBlock:^(id value) {
+        [weakSelf goToTalk];
+    }];
     
     [[Coding_NetAPIManager sharedManager] get_InvoiceAmout:^(id data, NSError *error) {
         _amount.text = ((NSNumber *) data).stringValue;

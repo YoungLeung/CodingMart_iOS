@@ -18,6 +18,7 @@
 
 - (void)dismissModalViewControllerAnimatedYes;
 - (void)goToWebVCWithUrlStr:(NSString *)curUrlStr title:(NSString *)titleStr;
+- (void)goToTalk;
 
 #pragma mark - UI related
 + (id)vcInStoryboard:(NSString *)storyboardName;

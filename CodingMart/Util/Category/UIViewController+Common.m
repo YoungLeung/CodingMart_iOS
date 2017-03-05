@@ -126,6 +126,10 @@
     }
 }
 
+- (void)goToTalk{
+    [self goToWebVCWithUrlStr:@"https://codemart.kf5.com/supportbox/index" title:@"客户支持服务平台"];
+}
+
 #pragma mark - UI related
 + (id)vcInStoryboard:(NSString *)storyboardName{
     return [self vcInStoryboard:storyboardName withIdentifier:NSStringFromClass([self class])];
