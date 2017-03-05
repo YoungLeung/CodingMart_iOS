@@ -16,6 +16,7 @@
 @property(weak, nonatomic) IBOutlet UIImageView *resultIcon;
 @property(weak, nonatomic) IBOutlet UILabel *resultTitle;
 @property(weak, nonatomic) IBOutlet UITTTAttributedLabel *resultContent;
+@property (weak, nonatomic) IBOutlet UIView *headL;
 
 @property(weak, nonatomic) IBOutlet UILabel *enterpriseName;
 @property(weak, nonatomic) IBOutlet UIImageView *passedFlag;
@@ -67,13 +68,15 @@
     _enterpriseName.text = _certificate.legalRepresentative;
     _idCard.text = _certificate.businessLicenceNo;
 
-    float width = kScreen_Width * 0.46;
+    CGRect frame = _headL.frame;
+    float width = frame.size.width;
     CGSize titleSize = [_resultContent.text boundingRectWithSize:CGSizeMake(width, MAXFLOAT)
                                                          options:NSStringDrawingUsesLineFragmentOrigin
                                                       attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:14.0f]}
                                                          context:nil].size;
 
-
+    frame.size.height += titleSize.height - 33.5;
+    _headL.frame = frame;
 
     WEAKSELF
     [_resultContent addLinkToStr:@"联系客服" value:nil hasUnderline:NO clickedBlock:^(id value) {
@@ -114,8 +117,8 @@
     imageInfo.referenceView = imageV.superview;
     JTSImageViewController *imageViewer = [[JTSImageViewController alloc] initWithImageInfo:imageInfo mode:JTSImageViewControllerMode_Image backgroundStyle:JTSImageViewControllerBackgroundOption_None];
     WEAKSELF;
-    imageViewer.deleteBlock = nil;
-    imageViewer.optionsDelegate = self;
+//    imageViewer.deleteBlock = nil;
+//    imageViewer.optionsDelegate = self;
     [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
 }
 
