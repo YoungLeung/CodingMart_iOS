@@ -34,6 +34,7 @@
 @property(weak, nonatomic) IBOutlet NSLayoutConstraint *headerBGVTop;
 
 
+@property (weak, nonatomic) IBOutlet UILabel *mpayL;
 @property(weak, nonatomic) IBOutlet UIButton *fillUserInfoBtn;
 @property(weak, nonatomic) IBOutlet UIView *tableHeaderView;
 @property(strong, nonatomic) UIButton *rightNavBtn;
@@ -111,7 +112,15 @@
     [self setupNavBarBtn];
     BOOL isDeveloper = _curUser.loginIdentity.integerValue == 1;
     [_userInfoIconV setImage:[UIImage imageNamed:isDeveloper ? @"icon_userinfo_ certify" : @"icon_userinfo_ info"]];
-    _userInfoL.text = isDeveloper ? @"成为认证码士" : @"个人信息";
+    if ([Login isLogin]) {
+        if ([_curUser isEnterpriseSide]) {
+            _userInfoL.text = @"成为认证企业";
+            _mpayL.text = @"企业开发宝";
+        } else {
+            _userInfoL.text = isDeveloper ? @"成为认证码士" : @"个人信息";
+            _mpayL.text = @"我的开发宝";
+        }
+    }
     _developerProgressV.image = [self p_developerProgressImage];
     [_fillUserInfoBtn setTitle:_curUser.name forState:UIControlStateNormal];
     [_user_iconV sd_setImageWithURL:[_curUser.avatar urlWithCodingPath] placeholderImage:[UIImage imageNamed:@"placeholder_user"]];
@@ -122,8 +131,12 @@
 
 - (UIImage *)p_developerProgressImage {
     UIImage *image = nil;
-    if ([Login isLogin] && [_curUser isDeveloperSide]) {
-        image = [UIImage imageNamed:(_curUser.info.excellentDeveloper.boolValue ? @"coder_icon_excellent_25" : nil)];;
+    if ([Login isLogin]) {
+        if ([_curUser isDeveloperSide]) {
+            image = [UIImage imageNamed:(_curUser.info.excellentDeveloper.boolValue ? @"coder_icon_excellent_25" : nil)];;
+        } else if ([_curUser isEnterpriseSide]) {
+            image = [UIImage imageNamed:([_curUser.info.status isEqualToString:@"Checked"] ? @"ic_enterprise_passed" : nil)];;
+        }
     }
     return image;
 }

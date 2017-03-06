@@ -11,7 +11,7 @@
 @interface FillUserInfo : NSObject<NSCopying>
 
 @property (strong, nonatomic) NSString *name, *email, *mobile, *code, *qq;
-@property (strong, nonatomic) NSNumber *province, *enterpriseCertificate, *city, *district, *free_time, *acceptNewRewardAllNotification, *reward_role, *phone_validation, *email_validation;
+@property (strong, nonatomic) NSNumber *province, *enterpriseCertificate, *accountType, *city, *district, *free_time, *acceptNewRewardAllNotification, *reward_role, *phone_validation, *email_validation;
 @property (strong, nonatomic) NSString *province_name, *city_name, *district_name, *phoneCountryCode, *country;
 + (NSArray *)free_time_display_list;
 - (NSString *)free_time_display;

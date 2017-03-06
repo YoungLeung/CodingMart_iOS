@@ -125,7 +125,7 @@
 }
 
 - (BOOL)isEnterpriseDemand {
-    return _enterpriseCertificate.boolValue;
+    return _accountType.intValue == 2;
 }
 
 + (void)cacheInfoData:(NSDictionary *)dict{

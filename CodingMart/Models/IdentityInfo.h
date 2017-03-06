@@ -18,4 +18,7 @@
 @property (strong, nonatomic) NSString *name, *identity, *email, *status;
 @property (strong, nonatomic) NSString *agreementLinkStr;
 @property (strong, nonatomic) NSString *qrCodeLinkStr;
+
+// enterpriseDemander  企业需求方
+@property (strong, nonatomic) NSString *accountType;
 @end
