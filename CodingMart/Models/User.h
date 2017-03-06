@@ -32,6 +32,7 @@
 - (BOOL)isDemandSide;
 - (BOOL)isDeveloperSide;
 - (BOOL)isEnterpriseSide;
+- (BOOL)isPassedEnterpriseIdentity;
 
 - (NSString *)toUserInfoPath;
 

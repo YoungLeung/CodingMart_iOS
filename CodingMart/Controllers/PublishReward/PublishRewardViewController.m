@@ -26,10 +26,14 @@
 #import "RootQuoteViewController.h"
 #include "MartWebViewController.h"
 #include "UIViewController+Common.h"
+#import "EnterpriseMainViewController.h"
 
 @interface PublishRewardViewController ()
 @property (strong, nonatomic) Reward *rewardToBePublished;
 @property (strong, nonatomic) NSArray *typeList;
+
+@property (weak, nonatomic) IBOutlet UITTTAttributedLabel *topWarnL;
+@property (weak, nonatomic) IBOutlet UIView *topV;
 
 @property (weak, nonatomic) IBOutlet UITextField *typeL;
 @property (weak, nonatomic) IBOutlet UITextField *budgetL;
@@ -78,6 +82,37 @@
     }
     _isPhoneNeeded = [Login isLogin];
     [self setupRAC];
+
+    [self bindHeaderUI];
+}
+
+- (void)bindHeaderUI{
+    _topV.hidden = YES;
+    [self setTopVHeigh:0];
+
+    if ([Login isLogin]) {
+        User *user = [Login curLoginUser];
+        if ([user isEnterpriseSide] && ![user isPassedEnterpriseIdentity]) {
+            _topV.hidden = NO;
+            [self setTopVHeigh:35];
+            WEAKSELF
+            [_topWarnL addLinkToStr:@"去认证" value:nil hasUnderline:NO clickedBlock:^(id value) {
+                [weakSelf goToEnterpriseMain];
+            }];
+            return;
+        }
+    }
+}
+
+- (void)setTopVHeigh:(CGFloat) heigh{
+    CGRect frame = _topV.frame;
+    frame.size.height = heigh;
+    _topV.frame = frame;
+}
+
+- (void)goToEnterpriseMain{
+    UIViewController *vc = [[EnterpriseMainViewController class] vcInStoryboard:@"UserInfo"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)setupRAC{
@@ -259,6 +294,11 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
 
 - (IBAction)nextStepBtnClicked:(id)sender {
     if ([Login isLogin]) {
+        if (!_topV.hidden) {
+            [self.tableView setContentOffset:CGPointZero animated:YES];
+            return;
+        }
+
         NSString *typeStr = [[NSObject rewardTypeLongDict] findKeyFromStrValue:_rewardToBePublished.type.stringValue];
         NSString *budgetStr = _rewardToBePublished.price.stringValue;
         if (_rewardToBePublished.price.intValue < 1000) {

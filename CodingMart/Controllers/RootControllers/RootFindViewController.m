@@ -267,13 +267,6 @@
 }
 
 - (void)goToMartIntroduce {
-    // todo delete
-    if (1 == 1) {
-        IdentityViewController *vc = [IdentityViewController vcWithIdetityDict:nil];
-        [self.navigationController pushViewController:vc animated:YES];
-        return;
-    }
-
     MartIntroduceViewController *vc = [MartIntroduceViewController new];
     [self.navigationController pushViewController:vc animated:YES];
 }

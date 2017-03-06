@@ -128,6 +128,10 @@
     return _accountType.intValue == 2;
 }
 
+- (BOOL)isPassedEnterpriseIdentity{
+    return _enterpriseCertificate.boolValue;
+}
+
 + (void)cacheInfoData:(NSDictionary *)dict{
     if ([dict isKindOfClass:[NSDictionary class]]) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

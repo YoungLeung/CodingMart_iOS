@@ -24,6 +24,7 @@
 - (BOOL)canPost:(FillUserInfo *)originalObj;
 - (BOOL)isSameTo:(FillUserInfo *)obj;
 - (BOOL)isEnterpriseDemand;
+- (BOOL)isPassedEnterpriseIdentity;
 
 + (void)cacheInfoData:(NSDictionary *)dict;
 + (FillUserInfo *)infoCached;

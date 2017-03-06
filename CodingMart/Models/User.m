@@ -53,6 +53,10 @@
     return [FillUserInfo infoCached].isEnterpriseDemand;
 }
 
+- (BOOL)isPassedEnterpriseIdentity{
+    return [[FillUserInfo infoCached] isPassedEnterpriseIdentity];
+}
+
 - (NSString *)toUserInfoPath{
     return [NSString stringWithFormat:@"api/user/key/%@", _global_key];
 }
