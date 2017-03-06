@@ -48,12 +48,8 @@
     }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 1.0/[UIScreen mainScreen].scale;
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    cell.separatorInset = UIEdgeInsetsMake(0, 20, 0, 0);
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];
 }
 
 - (void)bindUI {
