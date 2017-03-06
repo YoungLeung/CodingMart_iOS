@@ -9,6 +9,7 @@
 #import "UIViewController+Common.h"
 #import "UIImageView+WebCache.h"
 #import "JTSImageInfo.h"
+#import "IdentityViewController.h"
 #import "JTSImageViewController.h"
 #import "BlocksKit+UIKit.h"
 
@@ -23,6 +24,7 @@
 
 @property(weak, nonatomic) IBOutlet UILabel *idCard;
 @property(weak, nonatomic) IBOutlet UIImageView *businessLicenceImage;
+@property (weak, nonatomic) IBOutlet UIView *bottomV;
 
 @property(strong, nonatomic) EnterpriseCertificate *certificate;
 @end
@@ -55,6 +57,7 @@
         _resultTitle.text = @"认证未通过！";
         _resultContent.text = [NSString stringWithFormat:@"很遗憾，您的企业认证失败。\n原因：%@。\n请重新提交认证，如有疑问请 联系客服", _certificate.rejectReason];
 //        sendButton.setVisibility(View.VISIBLE);
+        _bottomV.hidden = NO;
         _passedFlag.hidden = YES;
 
     } else { // "successful":
@@ -120,6 +123,12 @@
 //    imageViewer.deleteBlock = nil;
 //    imageViewer.optionsDelegate = self;
     [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
+}
+
+- (IBAction)clickReidentity:(UIButton *)sender {
+    UINavigationController *navigation = self.navigationController;
+    [navigation popViewControllerAnimated:NO];
+    [navigation pushViewController:[IdentityViewController vcWithIdetityDict:nil] animated:YES];
 }
 
 @end

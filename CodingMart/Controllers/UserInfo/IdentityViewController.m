@@ -18,6 +18,8 @@
 #import "Coding_NetAPIManager.h"
 #import <MBProgressHUD.h>
 #import "EnterpriseAttachment.h""
+#import "EnterpriseCertificate.h"
+#import "IdentityResultViewController.h"
 
 @interface IdentityViewController () <JTSImageViewControllerOptionsDelegate>
 @property(weak, nonatomic) IBOutlet UIView *headerV;
@@ -124,7 +126,10 @@
     [[Coding_NetAPIManager sharedManager] post_EnterpriseAuthentication:params block:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data) {
-            [NSObject showHudTipStr:@"码市认证提交成功"];
+            EnterpriseCertificate *certificate = (EnterpriseCertificate *) data;
+            UIViewController *vc = [IdentityResultViewController vcInStoryboard:certificate];
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+
             [weakSelf.navigationController popViewControllerAnimated:YES];
         }
     }];

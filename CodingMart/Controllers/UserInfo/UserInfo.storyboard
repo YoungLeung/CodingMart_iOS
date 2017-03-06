@@ -171,11 +171,11 @@
                                                         <constraint firstAttribute="width" constant="25" id="ApU-sV-IG7"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coder_icon_excellent_25" translatesAutoresizingMaskIntoConstraints="NO" id="Psz-dR-nhB">
-                                                    <rect key="frame" x="537" y="9.5" width="25" height="25"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="right" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coder_icon_excellent_25" translatesAutoresizingMaskIntoConstraints="NO" id="Psz-dR-nhB">
+                                                    <rect key="frame" x="492" y="9.5" width="70" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="25" id="s3A-VW-4mq"/>
-                                                        <constraint firstAttribute="width" constant="25" id="uc7-TU-B8o"/>
+                                                        <constraint firstAttribute="width" constant="70" id="uc7-TU-B8o"/>
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
@@ -4610,10 +4610,10 @@
             </objects>
             <point key="canvasLocation" x="770" y="-299"/>
         </scene>
-        <!--码市认证-->
+        <!--企业认证-->
         <scene sceneID="vqj-AH-BOP">
             <objects>
-                <tableViewController storyboardIdentifier="IdentityViewController" title="码市认证" id="Itx-aR-Qzd" customClass="IdentityViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="IdentityViewController" title="企业认证" id="Itx-aR-Qzd" customClass="IdentityViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="9Gf-91-sqa" customClass="TPKeyboardAvoidingTableView">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="1200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -4648,7 +4648,7 @@
                             </constraints>
                         </view>
                         <view key="tableFooterView" contentMode="scaleToFill" id="CrR-bY-mkw">
-                            <rect key="frame" x="0.0" y="690" width="375" height="150"/>
+                            <rect key="frame" x="0.0" y="690" width="375" height="80"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lW6-i3-dWf" customClass="TableViewFooterButton">
@@ -5224,6 +5224,29 @@
                                 <constraint firstAttribute="trailing" secondItem="R3n-6k-AQW" secondAttribute="trailing" id="wgJ-yw-acs"/>
                             </constraints>
                         </view>
+                        <view key="tableFooterView" hidden="YES" contentMode="scaleToFill" id="mly-1P-qJ9">
+                            <rect key="frame" x="0.0" y="393" width="375" height="80"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ntk-xd-HKm" customClass="TableViewFooterButton">
+                                    <rect key="frame" x="15" y="15" width="345" height="44"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="44" id="bUk-B7-LHa"/>
+                                    </constraints>
+                                    <state key="normal" title="重新认证"/>
+                                    <connections>
+                                        <action selector="bottomBtnClicked:" destination="Itx-aR-Qzd" eventType="touchUpInside" id="Ycr-H7-MaC"/>
+                                        <action selector="clickReidentity:" destination="arr-S1-r0X" eventType="touchUpInside" id="ykS-14-Sh5"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstItem="ntk-xd-HKm" firstAttribute="top" secondItem="mly-1P-qJ9" secondAttribute="top" constant="15" id="6aC-Eb-ze4"/>
+                                <constraint firstAttribute="trailing" secondItem="ntk-xd-HKm" secondAttribute="trailing" constant="15" id="hCC-l6-vPI"/>
+                                <constraint firstItem="ntk-xd-HKm" firstAttribute="leading" secondItem="mly-1P-qJ9" secondAttribute="leading" constant="15" id="y8w-1i-aaQ"/>
+                            </constraints>
+                        </view>
                         <sections>
                             <tableViewSection headerTitle="1" id="HDa-Ei-0sR">
                                 <cells>
@@ -5311,6 +5334,7 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="bottomV" destination="mly-1P-qJ9" id="tWm-kP-cl5"/>
                         <outlet property="businessLicenceImage" destination="OGF-Xr-vdJ" id="4Fd-3D-FmK"/>
                         <outlet property="enterpriseName" destination="4jE-IM-qgt" id="zaG-Ie-8Jc"/>
                         <outlet property="headL" destination="jNM-GY-K56" id="Cr7-a2-ztT"/>

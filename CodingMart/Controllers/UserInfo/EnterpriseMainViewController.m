@@ -35,7 +35,7 @@
             [self.navigationController pushViewController:vc animated:YES];
         } else if (indexPath.row == 1) {
             [[Coding_NetAPIManager sharedManager] get_EnterpriseAuthentication:^(id data, NSError *error) {
-                IdentityViewController *vc;
+                UIViewController *vc;
                 if (data) {
                     EnterpriseCertificate *certificate = (EnterpriseCertificate *) data;
                     vc = [IdentityResultViewController vcInStoryboard:certificate];
