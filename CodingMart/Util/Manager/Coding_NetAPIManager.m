@@ -466,6 +466,7 @@
             MPayOrder *order = [NSObject objectOfClass:@"MPayOrder" fromJSON:data[@"order"]];
             order.account = data[@"account"][@"account"];
             order.accountName = data[@"account"][@"accountName"];
+            order.invoiceNo = data[@"invoice"][@"invoiceNo"];
             data = order;
         }
         block(data, error);

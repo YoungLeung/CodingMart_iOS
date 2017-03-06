@@ -337,7 +337,11 @@
         [[Coding_NetAPIManager sharedManager] get_WithdrawOrder_NO:order.orderId block:^(id data, NSError *error) {
             [NSObject hideHUDQuery];
             if (data) {
-                MPayOrderDetailViewController *vc = [MPayOrderDetailViewController vcWithOrder:data];
+                MPayOrder *detail = data;
+                order.account = detail.account;
+                order.accountName = detail.accountName;
+                order.invoiceNo = detail.invoiceNo;
+                MPayOrderDetailViewController *vc = [MPayOrderDetailViewController vcWithOrder:order];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
             }
         }];
