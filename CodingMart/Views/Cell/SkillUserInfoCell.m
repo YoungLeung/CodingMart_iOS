@@ -37,9 +37,11 @@
 
 - (IBAction)roleBtnClicked:(id)sender {
     WEAKSELF;
-    NSInteger initialRow = _userInfo.reward_role? _userInfo.reward_role.integerValue: 0;
+    NSInteger initialRow = _userInfo.reward_role? _userInfo.reward_role.integerValue - 1: 0;
     [ActionSheetStringPicker showPickerWithTitle:nil rows:@[[FillUserInfo reward_role_display_list]] initialSelection:@[@(initialRow)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
-        weakSelf.userInfo.reward_role = selectedIndex.firstObject;
+        NSNumber *picked = selectedIndex.firstObject;
+        picked = @(picked.intValue + 1);
+        weakSelf.userInfo.reward_role = picked;
         weakSelf.rewardRoleF.text = [weakSelf.userInfo reward_role_display];
         [weakSelf goToUpdateUserInfo];
     } cancelBlock:nil origin:kKeyWindow];

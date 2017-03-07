@@ -34,6 +34,7 @@
     if (_reward_role) {
         NSArray *list = [FillUserInfo reward_role_display_list];
         NSInteger index = _reward_role.integerValue;
+        index -= 1;
         if (index >= 0 && index < list.count) {
             return list[index];
         }
