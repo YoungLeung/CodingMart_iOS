@@ -26,6 +26,7 @@
 #import "Login.h"
 
 @interface MPayViewController ()<UITableViewDataSource, UITableViewDelegate>
+@property (weak, nonatomic) IBOutlet UIView *topWarnV;
 @property (weak, nonatomic) IBOutlet UILabel *totalL;
 @property (weak, nonatomic) IBOutlet UILabel *balanceL;
 @property (weak, nonatomic) IBOutlet UILabel *freezeL;
@@ -36,6 +37,8 @@
 @property (weak, nonatomic) IBOutlet UIView *enterpriseDeposit;
 @property (weak, nonatomic) IBOutlet UIView *bottomV;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottonConstraintHeader;
+@property (weak, nonatomic) IBOutlet UIImageView *withdrawI;
+@property (weak, nonatomic) IBOutlet UILabel *withdrawL;
 
 @property (strong, nonatomic) UIView *sectionHeaderV;
 @property (assign, nonatomic) NSInteger selectedTabIndex;
@@ -81,6 +84,11 @@
         [weakSelf refreshOrdersMore:YES];
     }];
 
+
+    if ([FillUserInfo infoCached].reward_role.intValue == 2) {
+        _withdrawI.image = [UIImage imageNamed:@"button_userinfo_mpay_out_disable@3x"];
+        _withdrawL.textColor = [UIColor colorWithHexString:@"0xFFADBBCB"];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -161,6 +169,10 @@
 #pragma mark vc
 
 - (IBAction)withdrawBtnClicked:(id)sender {
+    if ([FillUserInfo infoCached].reward_role.intValue == 2) {
+        _topWarnV.hidden = FALSE;
+        return;
+    }
 //    提现
     WEAKSELF;
     [NSObject showHUDQueryStr:@"请稍等..."];
