@@ -295,7 +295,8 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
 - (IBAction)nextStepBtnClicked:(id)sender {
     if ([Login isLogin]) {
         if (!_topV.hidden) {
-            [self.tableView setContentOffset:CGPointZero animated:YES];
+            CGPoint point = CGPointMake(0, -20 - 40);
+            [self.tableView setContentOffset:point animated:YES];
             return;
         }
 
@@ -385,7 +386,7 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return section == 0? 20: 44;
+    return section == 0 ? 20 : 44;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
