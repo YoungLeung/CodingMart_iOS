@@ -367,6 +367,7 @@
 }
 
 #pragma mark Enterprise
+
 - (void)post_EnterpriseAuthentication:(NSDictionary *)params block:(void (^)(id data, NSError *error))block {
     NSString *path = [NSString stringWithFormat:@"/api/enterprise/certificate"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
@@ -687,6 +688,25 @@
     params[@"acceptNewRewardAllNotification"] = info.acceptNewRewardAllNotification.boolValue ? @"true" : @"false";
     params[@"freeTime"] = info.free_time;
     params[@"rewardRole"] = info.reward_role;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+
+- (void)post_FillDeveloperInfoRole:(NSNumber *)reward_role block:(void (^)(id data, NSError *error))block {
+    NSString *path = @"api/user/reward-role";
+    NSMutableDictionary *params = @{}.mutableCopy;
+    params[@"rewardRole"] = reward_role;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+
+- (void)post_FillDeveloperInfoFreeTime:(FillUserInfo *)info block:(void (^)(id data, NSError *error))block {
+    NSString *path = @"api/user/free-time";
+    NSMutableDictionary *params = @{}.mutableCopy;
+    params[@"acceptNewRewardAllNotification"] = info.acceptNewRewardAllNotification.boolValue ? @"true" : @"false";
+    params[@"freeTime"] = info.free_time;
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         block(data, error);
     }];
@@ -1161,3 +1181,4 @@
 }
 
 @end
+
