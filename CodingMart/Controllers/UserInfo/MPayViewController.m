@@ -86,7 +86,7 @@
 
 
     if ([FillUserInfo infoCached].reward_role.intValue == 2) {
-        _withdrawI.image = [UIImage imageNamed:@"button_userinfo_mpay_out_disable@3x"];
+        _withdrawI.image = [UIImage imageNamed:@"button_userinfo_mpay_out_disable"];
         _withdrawL.textColor = [UIColor colorWithHexString:@"0xFFADBBCB"];
     }
 }
