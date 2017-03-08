@@ -34,6 +34,7 @@
     if (_reward_role) {
         NSArray *list = [FillUserInfo reward_role_display_list];
         NSInteger index = _reward_role.integerValue;
+        index -= 1;
         if (index >= 0 && index < list.count) {
             return list[index];
         }
@@ -124,6 +125,14 @@
     );
 }
 
+- (BOOL)isEnterpriseDemand {
+    return _accountType.intValue == 2;
+}
+
+- (BOOL)isPassedEnterpriseIdentity{
+    return _enterpriseCertificate.boolValue;
+}
+
 + (void)cacheInfoData:(NSDictionary *)dict{
     if ([dict isKindOfClass:[NSDictionary class]]) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -131,6 +140,7 @@
         [defaults synchronize];
     }
 }
+
 + (FillUserInfo *)infoCached{
     if ([Login isLogin]) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -140,6 +150,18 @@
         return nil;
     }
 }
+
+
++ (NSDictionary *)dataCached{
+    if ([Login isLogin]) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSDictionary *data = [defaults objectForKey:[self p_cacheKey]];
+        return data[@"data"][@"info"];
+    }else{
+        return nil;
+    }
+}
+
 + (NSString *)p_cacheKey{
     return [NSString stringWithFormat:@"%@_UserInfo_Key", [Login curLoginUser].global_key];
 }

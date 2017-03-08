@@ -114,7 +114,12 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)get_MPayOrderStatus:(NSString *)orderId block:(void (^)(id data, NSError *error))block;
 - (void)post_GenerateOrderWithStageId:(NSNumber *)stageId block:(void (^)(id data, NSError *error))block;
 - (void)post_GenerateOrderWithRewardId:(NSNumber *)rewardId roleId:(NSNumber *)roleId block:(void (^)(id data, NSError *error))block;
+- (void)get_MPayOrderMapper:(void (^)(id data, NSError *error))block;
 
+#pragma mark Enterprise
+- (void)post_EnterpriseAuthentication:(NSDictionary *)params block:(void (^)(id data, NSError *error))block;
+- (void)get_EnterpriseAuthentication:(void (^)(id data, NSError *error))block;
+- (void)get_InvoiceAmout:(void (^)(id data, NSError *error))block;
 
 #pragma mark FeedBack
 - (void)post_FeedBack:(FeedBackInfo *)feedBackInfo  block:(void (^)(id data, NSError *error))block;

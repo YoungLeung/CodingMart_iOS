@@ -32,6 +32,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *p2_timeL;
 @property (weak, nonatomic) IBOutlet UILabel *p2_titleL;
 @property (weak, nonatomic) IBOutlet UILabel *aliCountL;
+@property (weak, nonatomic) IBOutlet UILabel *typeCountL;
 
 @end
 
@@ -45,7 +46,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    static NSDictionary *statusNameDict, *orderTypeNameDict, *actionSymbolDict;
+    static NSDictionary *statusNameDict;
     if (!statusNameDict) {
         statusNameDict = @{@"UnknownStatus": @"未知状态",
                            @"Pending": @"正在处理",
@@ -54,42 +55,9 @@
                            @"Cancel": @"已取消",};
         
     }
-    if (!orderTypeNameDict) {
-        orderTypeNameDict = @{@"UnknownOType": @"未知",
-                              @"Deposit": @"充值",
-                              @"WithDraw": @"提现",
-                              @"RewardPrepayment": @"项目预付款",
-                              @"RewardStagePayment": @"项目阶段付款",
-                              @"DeveloperPayment": @"项目阶段收款",
-                              @"ServiceFee": @"服务费",
-                              @"Refund": @"退款",
-                              @"EventPayment": @"活动出账",
-                              @"EventDeposit": @"活动入账",
-                              @"SystemDeduct": @"系统扣款",
-                              @"SystemRemit": @"系统打款",
-                              @"ApplyContactDeduct": @"查看开发者联系信息",
-                              @"ApplyContactRemit": @"查看开发者联系信息",};
-        
-    }
-    if (!actionSymbolDict) {
-        actionSymbolDict = @{@"UnknownOType": @"?",
-                             @"Deposit": @"+",
-                             @"WithDraw": @"-",
-                             @"RewardPrepayment": @"-",
-                             @"RewardStagePayment": @"-",
-                             @"DeveloperPayment": @"+",
-                             @"ServiceFee": @"+",
-                             @"Refund": @"+",
-                             @"EventPayment": @"-",
-                             @"EventDeposit": @"+",
-                             @"ApplyContact": @"-",
-                             @"SystemDeduct": @"-",
-                             @"SystemRemit": @"+",
-                             @"ApplyContactDeduct": @"-",
-                             @"ApplyContactRemit": @"+",};
-    }
+
     _titleL.text = _curOrder.title;
-    _feeL.text = [NSString stringWithFormat:@"%@%@", (actionSymbolDict[_curOrder.orderType] ?: @"?"), _curOrder.totalFee];
+    _feeL.text = [NSString stringWithFormat:@"%@%@", _curOrder.symbol, _curOrder.totalFee];
     _statusL.text = statusNameDict[_curOrder.status];
     _timeL.text = [_curOrder.createdAt stringWithFormat:@"yyyy-MM-dd HH:mm"];
 
@@ -98,12 +66,21 @@
         orderTypeName = ([_curOrder.productType isEqualToString:@"Reward"]? @"项目订金退款":
                          [_curOrder.productType isEqualToString:@"RewardStage"]? @"项目阶段退款": orderTypeName);
     }else{
-        orderTypeName = orderTypeNameDict[_curOrder.orderType];
+        orderTypeName = _curOrder.tradeType;
     }
     _typeL.text = orderTypeName;
-    
-    if ([orderTypeName isEqualToString:@"提现"]) {
-        _aliCountL.text = [NSString stringWithFormat:@"%@(%@)", _curOrder.account, _curOrder.accountName];
+
+    if ([_curOrder isWithDraw] && ![_curOrder.productType isEqualToString:@"SystemFinance"]) {
+        if (_curOrder.account) {
+            _typeCountL.text = @"支付宝账号";
+            _aliCountL.text = [NSString stringWithFormat:@"%@(%@)", _curOrder.account, _curOrder.accountName];
+        } else if (_curOrder.invoiceNo){
+            _typeCountL.text = @"发票编号";
+            _aliCountL.text = _curOrder.invoiceNo;
+        } else {
+            _typeCountL.text = @"";
+            _aliCountL.text = @"";
+        }
         _p0_timeL.text = _p1_timeL.text = [_curOrder.createdAt stringWithFormat:@"yyyy-MM-dd HH:mm"];
         _p2_timeL.text = _curOrder.updatedAt? [_curOrder.updatedAt stringWithFormat:@"yyyy-MM-dd HH:mm"]: @"";
         

@@ -132,6 +132,10 @@ typedef struct {
 - (void)setDeleteBlock:(void (^)(JTSImageViewController *))deleteBlock{
     _deleteBlock = deleteBlock;
 //    UIButton *deleteBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+    if (!deleteBlock) {
+        return;
+    }
+
     UIButton *deleteBtn = [UIButton new];
     [deleteBtn setImage:[UIImage imageNamed:@"nav_icon_delete"] forState:UIControlStateNormal];
     WEAKSELF;

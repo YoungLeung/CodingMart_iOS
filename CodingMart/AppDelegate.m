@@ -24,6 +24,8 @@
 #import "PublishRewardViewController.h"
 #import "EADeviceToServerLog.h"
 #import "AFNetworkReachabilityManager.h"
+#import "Coding_NetAPIManager.h"
+#import "FillUserInfo.h"
 
 @interface AppDelegate ()
 

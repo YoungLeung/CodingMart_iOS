@@ -39,15 +39,6 @@
     [self.tableView reloadData];
 }
 
-- (void)goToTalk{
-    [self goToWebVCWithUrlStr:@"https://codemart.kf5.com/supportbox/index" title:@"客户支持服务平台"];
-//    [[UIActionSheet bk_actionSheetCustomWithTitle:@"是否需要拨打电话" buttonTitles:@[@"拨打电话"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-//        if (index == 0) {
-//            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://400-992-1001"]];
-//        }
-//    }] showInView:self.view];
-}
-
 - (IBAction)goToAggrement:(id)sender {
     [self goToWebVCWithUrlStr:_info.agreementLinkStr title:@"身份认证授权与承诺书"];
 }
