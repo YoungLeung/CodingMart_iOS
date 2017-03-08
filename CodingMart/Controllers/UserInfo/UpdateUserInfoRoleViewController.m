@@ -10,7 +10,7 @@
 #import "Coding_NetAPIManager.h"
 
 @interface UpdateUserInfoRoleViewController ()
-@property (assign, nonatomic) NSUInteger selectedIndex;
+@property (assign, nonatomic) NSUInteger selectedIndex; // 之前是 0， 1，现在服务端改成了 1，2
 @end
 
 @implementation UpdateUserInfoRoleViewController
@@ -23,16 +23,16 @@
 
 - (void)setUserInfo:(FillUserInfo *)userInfo{
     _userInfo = userInfo;
-    _selectedIndex = _userInfo.reward_role.integerValue;
+    _selectedIndex = _userInfo.reward_role.integerValue - 1;
 }
 
 - (void)navBtnClicked{
     WEAKSELF;
     [NSObject showHUDQueryStr:@"正在保存..."];
-    [[Coding_NetAPIManager sharedManager] post_FillDeveloperInfoRole:@(_selectedIndex) block:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] post_FillDeveloperInfoRole:@(_selectedIndex + 1) block:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data) {
-            weakSelf.userInfo.reward_role = @(weakSelf.selectedIndex);
+            weakSelf.userInfo.reward_role = @(weakSelf.selectedIndex + 1);
             [weakSelf.navigationController popViewControllerAnimated:YES];
             [NSObject showHudTipStr:@"保存成功"];
         }
