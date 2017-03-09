@@ -219,7 +219,7 @@
         }else{
             if ([self isCurRewardStarted]) {
                 headerV = [self p_headerViewWithStr:(section == 3 && [_curRewardP isRewardOwner]? @"开发者报名列表":
-                                                     section == 4? _curRewardP.basicInfo.managerName.length > 0? [NSString stringWithFormat:@"阶段列表 | 项目顾问：%@", _curRewardP.basicInfo.managerName]: @"阶段列表":
+                                                     section == 4? @"阶段列表":
                                                      section == 5? @"需求文档":
                                                      nil)];
             }else{
