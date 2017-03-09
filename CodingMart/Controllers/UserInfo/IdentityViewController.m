@@ -106,7 +106,7 @@
         tipStr = @"请填写公司名";
     } else if (_identity.length <= 0) {
         tipStr = @"请填写企业执照编号";
-    } else if (_attachment != nil) {
+    } else if (_attachment == nil) {
         tipStr = @"请上传营业执照扫描件";
     }
 
@@ -118,19 +118,20 @@
     [NSObject showHUDQueryStr:@"正在提交企业认证..."];
 
     NSMutableDictionary *params = @{}.mutableCopy;
-    params[@"legalRepresentative", _name];
-    params[@"businessLicenceNo", _identity];
-    params[@"businessLicenceImg", _attachment.id.stringValue];
+    params[@"legalRepresentative"] = _name;
+    params[@"businessLicenceNo"] = _identity;
+    params[@"businessLicenceImg"] = _attachment.id.stringValue;
 
     WEAKSELF
     [[Coding_NetAPIManager sharedManager] post_EnterpriseAuthentication:params block:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data) {
             EnterpriseCertificate *certificate = (EnterpriseCertificate *) data;
-            UIViewController *vc = [IdentityResultViewController vcInStoryboard:certificate];
-            [weakSelf.navigationController pushViewController:vc animated:YES];
 
-            [weakSelf.navigationController popViewControllerAnimated:YES];
+            UINavigationController *navigation = weakSelf.navigationController;
+            [navigation popViewControllerAnimated:NO];
+            UIViewController *vc = [IdentityResultViewController vcInStoryboard:certificate];
+            [navigation pushViewController:vc animated:NO];
         }
     }];
 }

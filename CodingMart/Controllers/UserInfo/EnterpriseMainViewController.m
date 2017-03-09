@@ -21,7 +21,10 @@
     [super viewDidLoad];
 
     [self bindUI];
+}
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     WEAKSELF
     [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id data, NSError *error) {
         [weakSelf bindUI];
@@ -34,6 +37,12 @@
             FillUserInfoViewController *vc = [FillUserInfoViewController vcInStoryboard:@"UserInfo"];
             [self.navigationController pushViewController:vc animated:YES];
         } else if (indexPath.row == 1) {
+            NSNumber *baseInfo = [FillUserInfo dataCached][@"info_complete"];
+            if (!baseInfo.boolValue) {
+                [NSObject showHudTipStr:@"请先完善账户信息！"];
+                return;
+            }
+
             [[Coding_NetAPIManager sharedManager] get_EnterpriseAuthentication:^(id data, NSError *error) {
                 UIViewController *vc;
                 if (data) {

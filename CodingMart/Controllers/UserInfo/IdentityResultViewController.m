@@ -128,7 +128,7 @@
 - (IBAction)clickReidentity:(UIButton *)sender {
     UINavigationController *navigation = self.navigationController;
     [navigation popViewControllerAnimated:NO];
-    [navigation pushViewController:[IdentityViewController vcWithIdetityDict:nil] animated:YES];
+    [navigation pushViewController:[IdentityViewController vcWithIdetityDict:nil] animated:NO];
 }
 
 @end
