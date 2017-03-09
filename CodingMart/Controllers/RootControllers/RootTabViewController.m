@@ -85,7 +85,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
 + (NSArray *)curLoginTabList {
     NSMutableArray *tabList;
     User *me = [Login curLoginUser];
-    if (me.isEnterpriseSide) {//需求方
+    if (me.loginIdentity.integerValue == 2 || me.isEnterpriseSide) {//需求方
         if (me.publishedCount.integerValue > 0) {
             tabList = @[@(TabVCTypeFind),
                     @(TabVCTypeQuote),
