@@ -171,7 +171,7 @@
                                                         <constraint firstAttribute="width" constant="25" id="ApU-sV-IG7"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="right" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coder_icon_excellent_25" translatesAutoresizingMaskIntoConstraints="NO" id="Psz-dR-nhB">
+                                                <imageView userInteractionEnabled="NO" contentMode="right" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coder_icon_excellent" translatesAutoresizingMaskIntoConstraints="NO" id="Psz-dR-nhB">
                                                     <rect key="frame" x="492" y="9.5" width="70" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="25" id="s3A-VW-4mq"/>
@@ -214,7 +214,7 @@
                                                         <constraint firstAttribute="width" constant="25" id="t6y-qQ-QNZ"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coder_icon_excellent_25" translatesAutoresizingMaskIntoConstraints="NO" id="rkx-Ya-0lX">
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rkx-Ya-0lX">
                                                     <rect key="frame" x="537" y="9.5" width="25" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="25" id="1WX-fV-GNp"/>
@@ -4127,7 +4127,6 @@
                                 <action selector="addRoleBtnClicked:" destination="l6z-Yg-IBi" eventType="touchUpInside" id="hrQ-Ry-zXG"/>
                             </connections>
                         </button>
-
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e15-RI-llo">
                             <rect key="frame" x="235" y="55" width="70" height="30"/>
                             <constraints>
@@ -4217,7 +4216,7 @@
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="（至少两个）" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b89-gT-77G">
-                            <rect key="frame" x="84" y="2.5" width="80" height="16"/>
+                            <rect key="frame" x="84" y="3" width="80" height="16"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <color key="textColor" red="0.96470588235294119" green="0.65098039215686276" blue="0.13725490196078433" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -4229,12 +4228,11 @@
                         <constraint firstItem="cCQ-rV-y1J" firstAttribute="leading" secondItem="cU5-2m-MFO" secondAttribute="leading" id="VZ9-G7-NeO"/>
                         <constraint firstItem="cU5-2m-MFO" firstAttribute="leading" secondItem="tAG-dp-mPo" secondAttribute="leading" constant="15" id="dSa-5Q-b3g"/>
                         <constraint firstAttribute="trailing" secondItem="rCf-2T-mGy" secondAttribute="trailing" constant="15" id="k0M-rA-41I"/>
+                        <constraint firstItem="b89-gT-77G" firstAttribute="leading" secondItem="cU5-2m-MFO" secondAttribute="trailing" id="lVW-UT-fGb"/>
                         <constraint firstItem="rCf-2T-mGy" firstAttribute="centerY" secondItem="cU5-2m-MFO" secondAttribute="centerY" id="oep-18-HG3"/>
                         <constraint firstItem="cU5-2m-MFO" firstAttribute="top" secondItem="tAG-dp-mPo" secondAttribute="top" id="q5T-Ku-Ei0"/>
                         <constraint firstItem="cCQ-rV-y1J" firstAttribute="top" secondItem="cU5-2m-MFO" secondAttribute="bottom" constant="15" id="rDu-QU-1wU"/>
-
-                         <constraint firstItem="b89-gT-77G" firstAttribute="leading" secondItem="cU5-2m-MFO" secondAttribute="trailing" id="lVW-UT-fGb"/>
-                      <constraint firstItem="b89-gT-77G" firstAttribute="centerY" secondItem="cU5-2m-MFO" secondAttribute="centerY" id="uTp-kD-qA9"/>
+                        <constraint firstItem="b89-gT-77G" firstAttribute="centerY" secondItem="cU5-2m-MFO" secondAttribute="centerY" id="uTp-kD-qA9"/>
                     </constraints>
                 </view>
             </objects>
@@ -9068,7 +9066,7 @@ Coding 码市团队</string>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="wI6-2y-dyZ">
-                                        <rect key="frame" x="0.0" y="203" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="167" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wI6-2y-dyZ" id="rBI-po-0kl">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -10308,7 +10306,7 @@ Coding 码市团队</string>
         <image name="button_userinfo_mpay_in" width="22" height="22"/>
         <image name="button_userinfo_mpay_out" width="22" height="22"/>
         <image name="closeEx" width="12" height="12"/>
-        <image name="coder_icon_excellent_25" width="25" height="25"/>
+        <image name="coder_icon_excellent" width="22" height="22"/>
         <image name="demo_0" width="140" height="105"/>
         <image name="demo_1" width="140" height="106"/>
         <image name="demo_2" width="140" height="105"/>

@@ -37,7 +37,14 @@
     _coderName.text = _curCoder.name;
     _timeL.text = [NSString stringWithFormat:@"报名时间：%@",  _curCoder.createdAt.length > 2? [_curCoder.createdAt substringToIndex:_curCoder.createdAt.length - 2]: @"--"];
     _statusV.image = [UIImage imageNamed:[NSString stringWithFormat:@"icon_apply_status_%@", _curCoder.status]];
-    _coderIdentityIcon.image = [UIImage imageNamed:(_curCoder.excellent.boolValue? @"coder_icon_excellent": nil)];
+
+    NSString *iconName = nil;
+    if (_curCoder.excellent.boolValue) {
+        iconName = @"coder_icon_excellent";
+    } else if (_curCoder.identityStatus.boolValue) {
+        iconName = @"identity_passed";
+    }
+    _coderIdentityIcon.image = [UIImage imageNamed:iconName];
 }
 
 + (CGFloat)cellHeight{

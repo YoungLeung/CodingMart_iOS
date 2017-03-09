@@ -133,7 +133,13 @@
     UIImage *image = nil;
     if ([Login isLogin]) {
         if ([_curUser isDeveloperSide]) {
-            image = [UIImage imageNamed:(_curUser.info.excellentDeveloper.boolValue ? @"coder_icon_excellent_25" : nil)];;
+            NSString *imageName = nil;
+            if (_curUser.info.excellentDeveloper.boolValue) {
+                imageName = @"coder_icon_excellent";
+            } else if (_curUser.identityChecked.boolValue) {
+                imageName = @"identity_passed";
+            }
+            image = [UIImage imageNamed:imageName];;
         } else if ([_curUser isEnterpriseSide]) {
             image = [UIImage imageNamed:([_curUser.info.status isEqualToString:@"Checked"] ? @"ic_enterprise_passed" : nil)];;
         }
@@ -260,7 +266,6 @@
             FillTypesViewController *vc = [FillTypesViewController storyboardVC];
             [self.navigationController pushViewController:vc animated:YES];
         } else {
-
             if ([_curUser isEnterpriseSide]) {
                 if (indexPath.row == 0) {
                     UIViewController *vc = [[EnterpriseMainViewController class] vcInStoryboard:@"UserInfo"];

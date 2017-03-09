@@ -68,9 +68,14 @@
     _rejectBtn.hidden = !(_curCoder.loginUserIsOwner.boolValue && _curCoder.status.integerValue < JoinStatusFailed && !_curCoder.hasPayedStage.boolValue);//拒绝之前，都可以拒绝 && 没有支付过
     _acceptBtn.hidden = !(_curCoder.loginUserIsOwner.boolValue && _curCoder.status.integerValue < JoinStatusSucessed);//接受之前，都可以接受
     _rejectBtnTrailing.constant = _acceptBtn.hidden? 15: 100;
-    
-    _coderIdentityIcon.image = [UIImage imageNamed:(_curCoder.excellent.boolValue? @"coder_icon_excellent": nil)];
-    
+    NSString *iconName = nil;
+    if (_curCoder.excellent.boolValue) {
+        iconName = @"coder_icon_excellent";
+    } else if (_curCoder.identityStatus.boolValue) {
+        iconName = @"identity_passed";
+    }
+    _coderIdentityIcon.image = [UIImage imageNamed:iconName];
+
 }
 
 + (CGFloat)cellHeightWithObj:(id)obj{
