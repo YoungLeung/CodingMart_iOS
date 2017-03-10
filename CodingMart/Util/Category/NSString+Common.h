@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NSString+Emojize.h"
+#import "HtmlMedia.h"
 
 @interface NSString (Common)
 

@@ -38,7 +38,8 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
     [super viewDidLoad];
     self.view.backgroundColor = kColorBGDark;
     self.collectionView.backgroundColor = kColorBGDark;
-    self.collectionView.contentInset = UIEdgeInsetsMake(15, 15, self.rdv_tabBarController.tabBar.height, 15);
+//    self.collectionView.contentInset = UIEdgeInsetsMake(15, 15, self.rdv_tabBarController.tabBar.height, 15);
+    self.collectionView.contentInset = UIEdgeInsetsMake(15, 15, 0, 15);
 
     _cellImageArray = @[@"quote_icon_web",
                         @"quote_icon_wechat",
@@ -248,9 +249,9 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
 - (CGFloat)p_BigCellHeight{
     CGFloat cellHeight = ((kDevice_Is_iPhone4? 568: kScreen_Height)//iPhone4 的时候，用 iPhone5 的高度排版
                           - 64//顶 - nav
-                          - 50//底 - tab
+//                          - 50//底 - tab
                           - 60//底 - 按钮
-//                          - 15//底 - 按钮 - 底部空余
+                          - 15//底 - 按钮 - 底部空余
                           - 15 * 2//顶部底部间距
                           - 10 * 2//行间距
                           )/ 3;

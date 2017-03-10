@@ -19,7 +19,7 @@
 #import "SetIdentityViewController.h"
 #import "AppDelegate.h"
 #import "PublishRewardViewController.h"
-#import "MessageMainViewController.h"
+#import "RootMessageViewController.h"
 
 typedef NS_ENUM(NSInteger, TabVCType) {
     TabVCTypeFind = 0,
@@ -88,32 +88,34 @@ typedef NS_ENUM(NSInteger, TabVCType) {
     if (me.loginIdentity.integerValue == 2 || me.isEnterpriseSide) {//需求方
         if (me.publishedCount.integerValue > 0) {
             tabList = @[@(TabVCTypeFind),
-                    @(TabVCTypeQuote),
-                    @(TabVCTypeMyPublished),
-                    @(TabVCTypeMe)].mutableCopy;
-
+                        @(TabVCTypeMyPublished),
+                        @(TabVCTypeMessage),
+                        @(TabVCTypeMe)].mutableCopy;
+            
         } else {
             tabList = @[@(TabVCTypeFind),
-                    @(TabVCTypeQuote),
-                    @(TabVCTypePublish),
-                    @(TabVCTypeMe)].mutableCopy;
+                        @(TabVCTypePublish),
+                        @(TabVCTypeMessage),
+                        @(TabVCTypeMe)].mutableCopy;
         }
     } else if (me.loginIdentity.integerValue == 1) {//开发者
         if (me.joinedCount.integerValue > 0) {
             tabList = @[@(TabVCTypeRewards),
-                    @(TabVCTypeMyJoined),
-                    @(TabVCTypeMe)].mutableCopy;
+                        @(TabVCTypeMyJoined),
+                        @(TabVCTypeMessage),
+                        @(TabVCTypeMe)].mutableCopy;
         } else {
             tabList = @[@(TabVCTypeFind),
-                    @(TabVCTypeRewards),
-                    @(TabVCTypeMe)].mutableCopy;
+                        @(TabVCTypeRewards),
+                        @(TabVCTypeMessage),
+                        @(TabVCTypeMe)].mutableCopy;
         }
-
+        
     } else {
         tabList = @[@(TabVCTypeFind),
-                @(TabVCTypeRewards),
-                @(TabVCTypePublish),
-                @(TabVCTypeMe)].mutableCopy;
+                    @(TabVCTypeRewards),
+                    @(TabVCTypePublish),
+                    @(TabVCTypeMe)].mutableCopy;
     }
     if ([me.global_key isEqualToString:@"hahaah"]) {
         [tabList removeObject:@(TabVCTypeQuote)];
@@ -147,7 +149,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
             break;
 
         case TabVCTypeMessage:
-            vc = [MessageMainViewController vcInStoryboard:@"Message"];
+            vc = [RootMessageViewController vcInStoryboard:@"Message"];
             break;
     }
     return [[BaseNavigationController alloc] initWithRootViewController:vc];
@@ -162,7 +164,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
                 @"tab_joined_published",
                 @"tab_joined_published",
                 @"tab_publish",
-                @"tab_publish",
+                @"tab_message",
                 @"tab_user",];
     }
     return list[type];

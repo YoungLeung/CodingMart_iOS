@@ -101,7 +101,7 @@
     UIView *badgeView = [[UIView alloc]init];
     badgeView.tag = kTagBadgePointView;
     badgeView.layer.cornerRadius = pointRadius;
-    badgeView.backgroundColor = [UIColor colorWithHexString:@"0xF5A623"];
+    badgeView.backgroundColor = kColorBadgeBack;
     badgeView.frame = CGRectMake(0, 0, 2 * pointRadius, 2 * pointRadius);
     badgeView.center = point;
     [self addSubview:badgeView];

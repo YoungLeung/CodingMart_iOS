@@ -23,6 +23,7 @@
 #import "PublishRewardViewController.h"
 #import "IdentityViewController.h"
 #import "IdentityResultViewController.h"
+#import "RootQuoteViewController.h"
 
 @interface RootFindViewController ()
 @property(strong, nonatomic, readonly) NSArray *dataList;
@@ -74,8 +75,10 @@
         [weakSelf goToWebVCWithUrlStr:@"/reviews/developers" title:@"码士说"];
     }];
     [self.headerIconCall bk_whenTapped:^{
-        [MobClick event:kUmeng_Event_UserAction label:@"首页_联系我们"];
-        [weakSelf contactUs];
+//        [MobClick event:kUmeng_Event_UserAction label:@"首页_联系我们"];
+//        [weakSelf contactUs];
+        [MobClick event:kUmeng_Event_UserAction label:@"首页_自助估价"];
+        [weakSelf goToQuote];
     }];
 
     [self.headerDataContainerV addLineUp:YES andDown:YES];
@@ -282,5 +285,9 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)goToQuote{
+    RootQuoteViewController *vc = [RootQuoteViewController storyboardVC];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 @end

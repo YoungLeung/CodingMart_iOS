@@ -1,5 +1,5 @@
 //
-//  MessageMainViewController.h
+//  RootMessageViewController.h
 //  CodingMart
 //
 //  Created by chao chen on 2017/2/13.
@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 
-@interface MessageMainViewController : BaseViewController
+@interface RootMessageViewController : BaseViewController
 
 + (instancetype)storyboardVC;
 
