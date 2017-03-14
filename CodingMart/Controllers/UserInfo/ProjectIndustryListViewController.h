@@ -6,11 +6,11 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 #import "SkillPro.h"
 #import "Reward.h"
 
-@interface ProjectIndustryListViewController : BaseTableViewController
+@interface ProjectIndustryListViewController : EABaseTableViewController
 @property (strong, nonatomic) SkillPro *skillPro;
 @property (strong, nonatomic) Reward *curReward;
 @end

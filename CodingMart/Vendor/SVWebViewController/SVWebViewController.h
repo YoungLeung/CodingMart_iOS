@@ -6,9 +6,9 @@
 //
 //  https://github.com/samvermette/SVWebViewController
 
-#import "BaseViewController.h"
+#import "EABaseViewController.h"
 
-@interface SVWebViewController : BaseViewController
+@interface SVWebViewController : EABaseViewController
 
 - (instancetype)initWithAddress:(NSString*)urlString;
 - (instancetype)initWithURL:(NSURL*)URL;

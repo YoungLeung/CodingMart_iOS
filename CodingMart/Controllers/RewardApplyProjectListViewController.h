@@ -6,11 +6,11 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 #import "SkillPro.h"
 #import "JoinInfo.h"
 
-@interface RewardApplyProjectListViewController : BaseTableViewController
+@interface RewardApplyProjectListViewController : EABaseTableViewController
 @property (strong, nonatomic) NSArray *skillProArr;
 @property (strong, nonatomic) JoinInfo *curJoinInfo;
 

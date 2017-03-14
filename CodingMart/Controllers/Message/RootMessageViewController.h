@@ -6,9 +6,9 @@
 //  Copyright © 2017年 net.coding. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "EABaseViewController.h"
 
-@interface RootMessageViewController : BaseViewController
+@interface RootMessageViewController : EABaseViewController
 
 + (instancetype)storyboardVC;
 

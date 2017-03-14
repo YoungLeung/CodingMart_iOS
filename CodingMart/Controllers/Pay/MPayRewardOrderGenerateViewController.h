@@ -6,10 +6,10 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 #import "Reward.h"
 
-@interface MPayRewardOrderGenerateViewController : BaseTableViewController
+@interface MPayRewardOrderGenerateViewController : EABaseTableViewController
 @property (strong, nonatomic) Reward *curReward;
 
 @end

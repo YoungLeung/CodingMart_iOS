@@ -6,9 +6,9 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 
-@interface CountryCodeListViewController : BaseTableViewController
+@interface CountryCodeListViewController : EABaseTableViewController
 @property (copy, nonatomic) void(^selectedBlock)(NSDictionary *countryCodeDict);//country, country_code, iso_code
 
 

@@ -6,10 +6,10 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 #import "User.h"
 
-@interface SettingEmailViewController : BaseTableViewController
+@interface SettingEmailViewController : EABaseTableViewController
 @property (strong, nonatomic) User *codingUser;
 
 @end

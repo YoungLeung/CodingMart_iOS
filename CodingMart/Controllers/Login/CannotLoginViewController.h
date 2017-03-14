@@ -6,8 +6,8 @@
 //  Copyright © 2015年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 
-@interface CannotLoginViewController : BaseTableViewController
+@interface CannotLoginViewController : EABaseTableViewController
 @property (strong, nonatomic) NSString *userStr;
 @end

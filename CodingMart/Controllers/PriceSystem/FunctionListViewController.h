@@ -6,10 +6,10 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "EABaseViewController.h"
 #import "CalcResult.h"
 
-@interface FunctionListViewController : BaseViewController
+@interface FunctionListViewController : EABaseViewController
 
 @property (strong, nonatomic) CalcResult *list;
 @property (strong, nonatomic) NSNumber *listID;

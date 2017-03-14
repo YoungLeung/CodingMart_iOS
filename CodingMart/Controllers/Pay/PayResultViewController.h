@@ -6,9 +6,9 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 
-@interface PayResultViewController : BaseTableViewController
+@interface PayResultViewController : EABaseTableViewController
 @property (strong, nonatomic) NSDictionary *orderDict;
 + (instancetype)storyboardVC;
 @end

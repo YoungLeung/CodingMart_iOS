@@ -6,9 +6,9 @@
 //  Copyright © 2015年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 #import "CannotLoginViewController.h"
 
-@interface PasswordEmailViewController : BaseTableViewController
+@interface PasswordEmailViewController : EABaseTableViewController
 @property (strong, nonatomic) NSString *email;
 @end

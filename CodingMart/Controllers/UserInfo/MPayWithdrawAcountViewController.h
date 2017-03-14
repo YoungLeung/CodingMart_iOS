@@ -6,9 +6,9 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 #import "MPayAccount.h"
 
-@interface MPayWithdrawAcountViewController : BaseTableViewController
+@interface MPayWithdrawAcountViewController : EABaseTableViewController
 @property (strong, nonatomic) MPayAccount *account;
 @end

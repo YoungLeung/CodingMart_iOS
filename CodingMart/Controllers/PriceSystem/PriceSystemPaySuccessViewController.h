@@ -6,9 +6,9 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "EABaseViewController.h"
 
-@interface PriceSystemPaySuccessViewController : BaseViewController
+@interface PriceSystemPaySuccessViewController : EABaseViewController
 
 @property (assign, nonatomic) NSInteger type;
 

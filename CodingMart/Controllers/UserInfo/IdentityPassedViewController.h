@@ -6,10 +6,10 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 #import "IdentityInfo.h"
 
-@interface IdentityPassedViewController : BaseTableViewController
+@interface IdentityPassedViewController : EABaseTableViewController
 @property(nonatomic,strong) NSDictionary *identity_server_CacheDataDic;
 @property (strong, nonatomic) IdentityInfo *info;
 @end

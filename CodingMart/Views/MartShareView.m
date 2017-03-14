@@ -281,7 +281,7 @@
         [[UMSocialControllerService defaultControllerService] setSocialUIDelegate:self];
         UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:snsName];
         if (snsPlatform) {
-            snsPlatform.snsClickHandler([BaseViewController presentingVC],[UMSocialControllerService defaultControllerService],YES);
+            snsPlatform.snsClickHandler([EABaseViewController presentingVC],[UMSocialControllerService defaultControllerService],YES);
         }
     }
 }

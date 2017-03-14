@@ -1,18 +1,18 @@
 //
-//  BaseTableViewController.m
+//  EABaseTableViewController.m
 //  CodingMart
 //
 //  Created by Ease on 15/10/10.
 //  Copyright © 2015年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 
-@interface BaseTableViewController ()
+@interface EABaseTableViewController ()
 
 @end
 
-@implementation BaseTableViewController
+@implementation EABaseTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

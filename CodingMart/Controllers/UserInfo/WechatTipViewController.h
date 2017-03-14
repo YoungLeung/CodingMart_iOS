@@ -6,8 +6,8 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "EABaseViewController.h"
 
-@interface WechatTipViewController : BaseViewController
+@interface WechatTipViewController : EABaseViewController
 @property (strong, nonatomic) NSString *qrCodeLinkStr;
 @end

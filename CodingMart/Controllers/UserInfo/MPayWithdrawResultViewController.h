@@ -6,9 +6,9 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "EABaseViewController.h"
 #import "Withdraw.h"
 
-@interface MPayWithdrawResultViewController : BaseViewController
+@interface MPayWithdrawResultViewController : EABaseViewController
 + (instancetype)vcWithWithdraw:(Withdraw *)withdraw;
 @end

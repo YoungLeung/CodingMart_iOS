@@ -6,9 +6,9 @@
 //  Copyright © 2015年 net.coding. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "EABaseViewController.h"
 
-@interface LoginViewController : BaseViewController
+@interface LoginViewController : EABaseViewController
 
 + (instancetype)storyboardVCWithUserStr:(NSString *)userStr;
 

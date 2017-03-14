@@ -6,10 +6,10 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "EABaseViewController.h"
 #import "MPayOrder.h"
 
-@interface MPayOrderDetailViewController : BaseViewController
+@interface MPayOrderDetailViewController : EABaseViewController
 @property (strong, nonatomic) MPayOrder *curOrder;
 
 + (instancetype)vcWithOrder:(MPayOrder *)order;

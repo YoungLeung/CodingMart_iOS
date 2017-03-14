@@ -6,9 +6,9 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "EABaseViewController.h"
 
-@interface WelcomeViewController : BaseViewController
+@interface WelcomeViewController : EABaseViewController
 
 @end
 

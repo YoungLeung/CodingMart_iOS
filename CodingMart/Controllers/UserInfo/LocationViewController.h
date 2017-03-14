@@ -6,9 +6,9 @@
 //  Copyright © 2015年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 
-@interface LocationViewController : BaseTableViewController
+@interface LocationViewController : EABaseTableViewController
 @property (strong, nonatomic) NSMutableArray *selectedList;
 
 @property (strong, nonatomic) NSArray *originalSelectedList;

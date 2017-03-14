@@ -1,5 +1,5 @@
 //
-//  BaseTableViewController.h
+//  EABaseTableViewController.h
 //  CodingMart
 //
 //  Created by Ease on 15/10/10.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BaseTableViewController : UITableViewController
+@interface EABaseTableViewController : UITableViewController
 
 @end

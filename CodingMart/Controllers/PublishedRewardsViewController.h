@@ -6,8 +6,8 @@
 //  Copyright © 2015年 net.coding. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "EABaseViewController.h"
 
-@interface PublishedRewardsViewController : BaseViewController
+@interface PublishedRewardsViewController : EABaseViewController
 + (instancetype)storyboardVC;
 @end

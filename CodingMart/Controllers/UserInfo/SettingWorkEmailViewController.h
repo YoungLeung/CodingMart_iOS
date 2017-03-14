@@ -6,10 +6,10 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 #import "FillUserInfo.h"
 
-@interface SettingWorkEmailViewController : BaseTableViewController
+@interface SettingWorkEmailViewController : EABaseTableViewController
 @property (strong, nonatomic) FillUserInfo *userInfo;
 @property (copy, nonatomic) void(^complateBlock)(NSString *email);
 

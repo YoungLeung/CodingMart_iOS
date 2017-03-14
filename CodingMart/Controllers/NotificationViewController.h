@@ -6,8 +6,8 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 
-@interface NotificationViewController : BaseTableViewController
+@interface NotificationViewController : EABaseTableViewController
 + (instancetype)storyboardVC;
 @end

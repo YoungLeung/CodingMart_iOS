@@ -6,9 +6,9 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 #import "IdentityInfo.h"
-@interface IdentityStep1ViewController : BaseTableViewController
+@interface IdentityStep1ViewController : EABaseTableViewController
 @property (strong, nonatomic) IdentityInfo *info;
 
 @end

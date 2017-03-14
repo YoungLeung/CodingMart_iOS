@@ -6,10 +6,10 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 #import "SkillPro.h"
 
-@interface FillProjectSkillViewController : BaseTableViewController
+@interface FillProjectSkillViewController : EABaseTableViewController
 @property (strong, nonatomic) SkillPro *pro;
 + (instancetype)storyboardVC;
 @end

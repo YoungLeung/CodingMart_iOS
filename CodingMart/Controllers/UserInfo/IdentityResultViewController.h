@@ -4,10 +4,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 #import "EnterpriseCertificate.h"
 
-@interface IdentityResultViewController : BaseTableViewController
+@interface IdentityResultViewController : EABaseTableViewController
 
 + (id)vcInStoryboard:(EnterpriseCertificate *)certificate;
 

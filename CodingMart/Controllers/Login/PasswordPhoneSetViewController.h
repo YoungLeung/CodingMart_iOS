@@ -6,10 +6,10 @@
 //  Copyright © 2015年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 #import "CannotLoginViewController.h"
 
-@interface PasswordPhoneSetViewController : BaseTableViewController
+@interface PasswordPhoneSetViewController : EABaseTableViewController
 @property (strong, nonatomic) NSString *phone, *code;
 
 @end

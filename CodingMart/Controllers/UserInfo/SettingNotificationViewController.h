@@ -6,8 +6,8 @@
 //  Copyright © 2015年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 
-@interface SettingNotificationViewController : BaseTableViewController
+@interface SettingNotificationViewController : EABaseTableViewController
 
 @end

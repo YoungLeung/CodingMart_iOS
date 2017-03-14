@@ -6,9 +6,9 @@
 //  Copyright © 2015年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 
-@interface FillTypesViewController : BaseTableViewController
+@interface FillTypesViewController : EABaseTableViewController
 + (instancetype)storyboardVC;
 
 @end

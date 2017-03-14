@@ -6,9 +6,9 @@
 //  Copyright © 2015年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 
-@interface RegisterPhoneViewController : BaseTableViewController
+@interface RegisterPhoneViewController : EABaseTableViewController
 @property (strong, nonatomic) NSString *mobile;
 @property (copy, nonatomic) void (^loginSucessBlock)();
 

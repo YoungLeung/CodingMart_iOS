@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CodingMarkServerWebViewController : BaseViewController
+@interface CodingMarkServerWebViewController : EABaseViewController
 
 @end

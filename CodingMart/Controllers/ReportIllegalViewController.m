@@ -90,8 +90,8 @@
     ReportIllegalViewController *vc = [[ReportIllegalViewController alloc] init];
     vc.illegalContent = illegalContent;
     vc.type = type;
-    UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
-    [[BaseViewController presentingVC] presentViewController:nav animated:YES completion:nil];
+    UINavigationController *nav = [[EABaseNavigationController alloc] initWithRootViewController:vc];
+    [[EABaseViewController presentingVC] presentViewController:nav animated:YES completion:nil];
 }
 
 

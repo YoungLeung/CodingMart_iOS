@@ -6,9 +6,9 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "EABaseViewController.h"
 
-@interface CalcPriceViewController : BaseViewController
+@interface CalcPriceViewController : EABaseViewController
 
 @property (strong, nonatomic) NSString *parameter, *h5String;
 @property (strong, nonatomic) NSNumber *webPageNumber;

@@ -6,10 +6,10 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "EABaseViewController.h"
 #import "Reward.h"
 
-@interface RewardPrivateViewController : BaseViewController
+@interface RewardPrivateViewController : EABaseViewController
 + (instancetype)vcWithReward:(Reward *)reward;
 + (instancetype)vcWithRewardId:(NSUInteger)rewardId;
 @end

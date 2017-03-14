@@ -50,7 +50,7 @@
         return;
     }
     title = title.length > 0? title: @"关闭";
-    UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:viewController];
+    UINavigationController *nav = [[EABaseNavigationController alloc] initWithRootViewController:viewController];
     viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:viewController action:@selector(dismissModalViewControllerAnimatedYes)];
     [[self presentingVC] presentViewController:nav animated:YES completion:nil];
 }

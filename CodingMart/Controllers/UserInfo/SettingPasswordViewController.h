@@ -6,11 +6,11 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 #import "User.h"
 
 
-@interface SettingPasswordViewController : BaseTableViewController
+@interface SettingPasswordViewController : EABaseTableViewController
 @property (strong, nonatomic) User *codingUser;
 
 @end

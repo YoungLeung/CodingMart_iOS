@@ -6,12 +6,12 @@
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "EABaseViewController.h"
 #import "CodingNetAPIClient.h"
 
 
 
-@interface ReportIllegalViewController : BaseViewController
+@interface ReportIllegalViewController : EABaseViewController
 
 @property (strong, nonatomic) NSString *illegalContent;
 @property (nonatomic, assign) IllegalContentType type;

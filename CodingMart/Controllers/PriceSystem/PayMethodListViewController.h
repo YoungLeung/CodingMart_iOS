@@ -6,11 +6,11 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 
 typedef void(^SelectPayMethodBlock)(NSInteger payMethod);
 
-@interface PayMethodListViewController : BaseTableViewController
+@interface PayMethodListViewController : EABaseTableViewController
 
 @property (assign, nonatomic) NSInteger selectedPayment;
 @property (copy, nonatomic) SelectPayMethodBlock selectPayMethodBlock;

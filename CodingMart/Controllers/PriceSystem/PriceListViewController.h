@@ -6,9 +6,9 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 
-@interface PriceListViewController : BaseTableViewController
+@interface PriceListViewController : EABaseTableViewController
 
 @property (strong, nonatomic) NSString *h5String;
 

@@ -6,9 +6,9 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 #import "Activities.h"
 
-@interface RewardActivitiesViewController : BaseTableViewController
+@interface RewardActivitiesViewController : EABaseTableViewController
 + (instancetype)vcWithActivities:(Activities *)activities;
 @end

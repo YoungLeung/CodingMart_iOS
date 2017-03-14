@@ -6,9 +6,9 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 
-@interface TwoFactorAuthCodeViewController : BaseTableViewController
+@interface TwoFactorAuthCodeViewController : EABaseTableViewController
 @property (copy, nonatomic) void (^loginSucessBlock)();
 
 @end

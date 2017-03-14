@@ -6,10 +6,10 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 #import "SkillRole.h"
 
-@interface FillRoleSkillViewController : BaseTableViewController
+@interface FillRoleSkillViewController : EABaseTableViewController
 @property (strong, nonatomic) SkillRole *role;
 + (instancetype)storyboardVC;
 @end

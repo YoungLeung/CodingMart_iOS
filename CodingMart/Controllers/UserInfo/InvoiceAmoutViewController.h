@@ -6,7 +6,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface InvoiceAmoutViewController : BaseViewController
+@interface InvoiceAmoutViewController : EABaseViewController
 
 + (id)vcWithIdetityDict;
 

@@ -6,9 +6,9 @@
 //  Copyright © 2015年 net.coding. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "EABaseViewController.h"
 
-@interface MartWebViewController : BaseViewController
+@interface MartWebViewController : EABaseViewController
 @property (strong, nonatomic) NSString *titleStr;
 @property (strong, nonatomic) NSString *curUrlStr;
 

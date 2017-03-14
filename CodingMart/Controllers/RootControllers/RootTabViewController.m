@@ -152,7 +152,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
             vc = [RootMessageViewController vcInStoryboard:@"Message"];
             break;
     }
-    return [[BaseNavigationController alloc] initWithRootViewController:vc];
+    return [[EABaseNavigationController alloc] initWithRootViewController:vc];
 }
 
 - (NSString *)p_tabImageNameWithTabType:(TabVCType)type {

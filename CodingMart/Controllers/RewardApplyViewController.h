@@ -6,10 +6,10 @@
 //  Copyright © 2015年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 #import "RewardDetail.h"
 
-@interface RewardApplyViewController : BaseTableViewController
+@interface RewardApplyViewController : EABaseTableViewController
 @property (strong, nonatomic) RewardDetail *rewardDetail;
 + (instancetype)storyboardVC;
 @end

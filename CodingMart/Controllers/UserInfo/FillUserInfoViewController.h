@@ -6,8 +6,8 @@
 //  Copyright © 2015年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 #import "FillUserInfo.h"
 
-@interface FillUserInfoViewController : BaseTableViewController
+@interface FillUserInfoViewController : EABaseTableViewController
 @end

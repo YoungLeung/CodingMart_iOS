@@ -6,10 +6,10 @@
 //  Copyright © 2015年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 #import "Reward.h"
 
-@interface PublishRewardStep1ViewController : BaseTableViewController
+@interface PublishRewardStep1ViewController : EABaseTableViewController
 @property (strong, nonatomic) Reward *rewardToBePublished;
 
 + (instancetype)storyboardVC;

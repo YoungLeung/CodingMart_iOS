@@ -6,14 +6,14 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 #import "RewardPrivate.h"
 #import "MPayOrder.h"
 
 #import "MPayOrders.h"
 #import "RewardMetroRole.h"
 
-@interface MPayStageOrderGenetateViewController : BaseTableViewController
+@interface MPayStageOrderGenetateViewController : EABaseTableViewController
 @property (strong, nonatomic) RewardPrivate *curRewardP;
 @property (strong, nonatomic) RewardMetroRoleStage *curStage;
 @property (strong, nonatomic) MPayOrder *curMPayOrder;

@@ -6,10 +6,10 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 #import "RewardPrivate.h"
 
-@interface ApplyCoderListViewController : BaseTableViewController
+@interface ApplyCoderListViewController : EABaseTableViewController
 @property (strong, nonatomic) RewardPrivate *curRewardP;
 @property (strong, nonatomic) RewardPrivateRoleApply *roleApply;
 @property (strong, nonatomic) NSString *mart_enterprise_gk;

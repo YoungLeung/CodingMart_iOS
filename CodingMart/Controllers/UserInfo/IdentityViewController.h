@@ -6,9 +6,9 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 
-@interface IdentityViewController : BaseTableViewController
+@interface IdentityViewController : EABaseTableViewController
 @property(nonatomic,strong) NSDictionary *identity_server_CacheDataDic;
 + (id)vcWithIdetityDict:(NSDictionary *)identity_server_CacheDataDic;
 @end

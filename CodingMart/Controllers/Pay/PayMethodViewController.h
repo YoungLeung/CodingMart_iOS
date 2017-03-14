@@ -6,10 +6,10 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "EABaseViewController.h"
 #import "Reward.h"
 
-@interface PayMethodViewController : BaseViewController
+@interface PayMethodViewController : EABaseViewController
 @property (strong, nonatomic) Reward *curReward;
 - (void)handlePayURL:(NSURL *)url;
 

@@ -6,8 +6,8 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 
-@interface TwoFactorCloseViewController : BaseTableViewController
+@interface TwoFactorCloseViewController : EABaseTableViewController
 
 @end

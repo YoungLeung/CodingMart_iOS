@@ -6,14 +6,14 @@
 //  Copyright © 2015年 net.coding. All rights reserved.
 //
 
-#import "BaseNavigationController.h"
+#import "EABaseNavigationController.h"
 #import <FDFullscreenPopGesture/UINavigationController+FDFullscreenPopGesture.h>
 
-@interface BaseNavigationController ()
+@interface EABaseNavigationController ()
 
 @end
 
-@implementation BaseNavigationController
+@implementation EABaseNavigationController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

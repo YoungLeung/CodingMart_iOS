@@ -6,10 +6,10 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 #import "MPayPassword.h"
 
-@interface MPayPasswordByOldPsdViewController : BaseTableViewController
+@interface MPayPasswordByOldPsdViewController : EABaseTableViewController
 @property (strong, nonatomic) MPayPassword *psd;
 
 @end

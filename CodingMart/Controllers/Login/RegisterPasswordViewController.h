@@ -6,9 +6,9 @@
 //  Copyright © 2015年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 
-@interface RegisterPasswordViewController : BaseTableViewController
+@interface RegisterPasswordViewController : EABaseTableViewController
 @property (strong, nonatomic) NSString *phone, *code, *global_key;
 @property (strong, nonatomic) NSDictionary *countryCodeDict;
 

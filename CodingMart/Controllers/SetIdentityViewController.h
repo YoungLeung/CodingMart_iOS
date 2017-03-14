@@ -6,8 +6,8 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "EABaseViewController.h"
 
-@interface SetIdentityViewController : BaseViewController
+@interface SetIdentityViewController : EABaseViewController
 + (instancetype)storyboardVC;
 @end

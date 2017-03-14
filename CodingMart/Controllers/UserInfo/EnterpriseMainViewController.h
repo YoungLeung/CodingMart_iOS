@@ -4,8 +4,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 
 
-@interface EnterpriseMainViewController : BaseTableViewController
+@interface EnterpriseMainViewController : EABaseTableViewController
 @end

@@ -6,9 +6,9 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "EABaseTableViewController.h"
 
-@interface QuickLoginViewController : BaseTableViewController
+@interface QuickLoginViewController : EABaseTableViewController
 + (instancetype)storyboardVCWithPhone:(NSString *)phone;
 @property (copy, nonatomic) void (^loginSucessBlock)();
 
