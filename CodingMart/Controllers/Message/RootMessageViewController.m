@@ -8,16 +8,18 @@
 
 #import "RootMessageViewController.h"
 #import "Coding_NetAPIManager.h"
-//#import "PrivateMessages.h"
 #import "ConversationCell.h"
-//#import "ConversationViewController.h"
+#import "ConversationViewController.h"
 #import "ToMessageCell.h"
 #import "SVPullToRefresh.h"
 #import "NotificationViewController.h"
 
+#import "Coding_NetAPIManager.h"
+#import "Login.h"
+
 @interface RootMessageViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *myTableView;
-
+@property (strong, nonatomic) NSArray *conversationList;
 @end
 
 @implementation RootMessageViewController
@@ -51,71 +53,63 @@
         tableView;
     });
     [_myTableView eaAddPullToRefreshAction:@selector(refresh) onTarget:self];
-    __weak typeof(self) weakSelf = self;
-    [_myTableView addInfiniteScrollingWithActionHandler:^{
-        [weakSelf refreshMore];
-    }];
-    
-    [self.myTableView eaTriggerPullToRefresh];
-    [self.myTableView setContentOffset:CGPointMake(0, -44)];
+//    __weak typeof(self) weakSelf = self;
+//    [_myTableView addInfiniteScrollingWithActionHandler:^{
+//        [weakSelf refreshMore];
+//    }];
+//    _myTableView.showsInfiniteScrolling = NO;
+}
+
+- (void)tabBarItemClicked{
+    CGFloat contentOffsetY_Top = -[self navBottomY];
+    if (_myTableView.contentOffset.y > contentOffsetY_Top) {
+        [_myTableView setContentOffset:CGPointMake(0, contentOffsetY_Top) animated:YES];
+    }else if (!_myTableView.pullRefreshCtrl.isRefreshing){
+        [_myTableView eaTriggerPullToRefresh];
+        [self refresh];
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     [self refresh];
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self refresh];
+#pragma mark Data
+
+- (void)loginTimChat{
+    WEAKSELF;
+    [[Coding_NetAPIManager sharedManager] get_LoginTimChatBlock:^(NSString *errorMsg) {
+        if (errorMsg.length > 0) {
+            [weakSelf.myTableView.pullRefreshCtrl endRefreshing];
+        }else{
+            [weakSelf refresh];
+        }
+    }];
 }
 
 - (void)refresh{
-//    __weak typeof(self) weakSelf = self;
-//    [[Coding_NetAPIManager sharedManager] request_UnReadNotificationsWithBlock:^(id data, NSError *error) {
-//        if (data) {
-//            weakSelf.notificationDict = [NSMutableDictionary dictionaryWithDictionary:data];
-//            [weakSelf.myTableView reloadData];
-//            [weakSelf.myTableView configBlankPage:EaseBlankPageTypeMessageList hasData:(weakSelf.myPriMsgs.list.count > 0) hasError:(error != nil) offsetY:(3 * [ToMessageCell cellHeight]) reloadButtonBlock:^(id sender) {
-//                [weakSelf refresh];
-//            }];
-//        }
-//    }];
-//    [[UnReadManager shareManager] updateUnRead];
-//    
-//    if (_myPriMsgs.isLoading) {
-//        return;
-//    }
-//    _myPriMsgs.willLoadMore = NO;
-//    [self sendRequest_PrivateMessages];
-}
-
-- (void)refreshMore{
-//    if (_myPriMsgs.isLoading || !_myPriMsgs.canLoadMore) {
-//        return;
-//    }
-//    _myPriMsgs.willLoadMore = YES;
-//    [self sendRequest_PrivateMessages];
-}
-
-- (void)sendRequest_PrivateMessages{
-//    __weak typeof(self) weakSelf = self;
-//    [[Coding_NetAPIManager sharedManager] request_PrivateMessages:_myPriMsgs andBlock:^(id data, NSError *error) {
-//        [weakSelf.refreshControl endRefreshing];
-//        [weakSelf.myTableView.infiniteScrollingView stopAnimating];
-//        if (data) {
-//            [weakSelf.myPriMsgs configWithObj:data];
-//            [weakSelf.myTableView reloadData];
-//            weakSelf.myTableView.showsInfiniteScrolling = weakSelf.myPriMsgs.canLoadMore;
-//            [weakSelf.myTableView configBlankPage:EaseBlankPageTypeMessageList hasData:(weakSelf.myPriMsgs.list.count > 0) hasError:(error != nil) offsetY:(3 * [ToMessageCell cellHeight]) reloadButtonBlock:^(id sender) {
-//                [weakSelf refresh];
-//            }];
-//        }
-//    }];
+    if ([TIMManager sharedInstance].getLoginStatus != TIM_STATUS_LOGINED) {//登录并刷新对话列表
+        [_myTableView triggerPullToRefresh];
+        [self loginTimChat];
+    }else{//刷新未读通知
+        WEAKSELF;
+        [[Coding_NetAPIManager sharedManager] get_EAConversationListBlock:^(id data, NSError *error) {
+            [weakSelf.myTableView.pullRefreshCtrl endRefreshing];
+            if (data) {
+                weakSelf.conversationList = data;
+                [weakSelf.myTableView reloadData];
+            }
+        }];
+    }
 }
 
 #pragma mark Table M
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSInteger row = 2;
-//    if (_myPriMsgs.list) {
-//        row += [_myPriMsgs.list count];
-//    }
+    if (_conversationList) {
+        row += [_conversationList count];
+    }
     return row;
 }
 
@@ -133,8 +127,8 @@
         return cell;
     }else{
         ConversationCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Conversation forIndexPath:indexPath];
-//        PrivateMessage *msg = [_myPriMsgs.list objectAtIndex:indexPath.row-3];
-//        cell.curPriMsg = msg;
+        EAConversation *conversation = _conversationList[indexPath.row - 2];
+        cell.curConversation = conversation;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:75 hasSectionLine:NO];
         return cell;
     }
@@ -142,7 +136,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat cellHeight;
-    if (indexPath.row < 3) {
+    if (indexPath.row < 2) {
         cellHeight = [ToMessageCell cellHeight];
     }else{
         cellHeight = [ConversationCell cellHeight];
@@ -155,19 +149,11 @@
     if (indexPath.row < 2) {
         NotificationViewController *vc = [NotificationViewController storyboardVC];
         [self.navigationController pushViewController:vc animated:YES];
-
-//        TipsViewController *vc = [[TipsViewController alloc] init];
-//        vc.myCodingTips = [CodingTips codingTipsWithType:indexPath.row];
-//        [self.navigationController pushViewController:vc animated:YES];
     }else{
-//        PrivateMessage *curMsg = [_myPriMsgs.list objectAtIndex:indexPath.row-3];
-//        ConversationViewController *vc = [[ConversationViewController alloc] init];
-//        User *curFriend = curMsg.friend;
-//        
-//        vc.myPriMsgs = [PrivateMessages priMsgsWithUser:curFriend];
-//        [self.navigationController pushViewController:vc animated:YES];
+        ConversationViewController *vc = [ConversationViewController vcInStoryboard:@"Message"];
+        vc.eaConversation = _conversationList[indexPath.row - 2];
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
-
 
 @end

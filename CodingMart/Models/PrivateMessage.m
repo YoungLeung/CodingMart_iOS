@@ -15,7 +15,7 @@
     self = [super init];
     if (self) {
         _sendStatus = PrivateMessageStatusSendSucess;
-        _id = @(-1);
+//        _id = @(-1);
     }
     return self;
 }
@@ -51,41 +51,41 @@
 }
 + (instancetype)privateMessageWithObj:(id)obj andFriend:(User *)curFriend{
     PrivateMessage *nextMsg = [[PrivateMessage alloc] init];
-    nextMsg.sender = [Login curLoginUser];
-    nextMsg.friend = curFriend;
-    nextMsg.sendStatus = PrivateMessageStatusSending;
-    nextMsg.created_at = [NSDate date];
-    
-    if ([obj isKindOfClass:[NSString class]]) {
-        nextMsg.content = obj;
-        nextMsg.extra = @"";
-    }else if ([obj isKindOfClass:[UIImage class]]){
-        nextMsg.nextImg = obj;
-        nextMsg.content = @"";
-        nextMsg.extra = @"";
-//    }else if ([obj isKindOfClass:[VoiceMedia class]]){
-//        nextMsg.voiceMedia = obj;
+//    nextMsg.sender = [Login curLoginUser];
+//    nextMsg.friend = curFriend;
+//    nextMsg.sendStatus = PrivateMessageStatusSending;
+//    nextMsg.created_at = [NSDate date];
+//    
+//    if ([obj isKindOfClass:[NSString class]]) {
+//        nextMsg.content = obj;
 //        nextMsg.extra = @"";
-    }else if ([obj isKindOfClass:[PrivateMessage class]]){
-        PrivateMessage *originalMsg = (PrivateMessage *)obj;
-        NSMutableString *content = [[NSMutableString alloc] initWithString:originalMsg.content];
-        NSMutableString *extra = [[NSMutableString alloc] init];
-        if (originalMsg.htmlMedia.mediaItems && originalMsg.htmlMedia.mediaItems.count > 0) {
-            for (HtmlMediaItem *item in originalMsg.htmlMedia.mediaItems) {
-                if (item.type == HtmlMediaItemType_Image) {
-                    if (extra.length > 0) {
-                        [extra appendFormat:@",%@", item.src];
-                    }else{
-                        [extra appendString:item.src];
-                    }
-                }else if (item.type == HtmlMediaItemType_EmotionMonkey){
-                    [content appendFormat:@" :%@: ", item.title];
-                }
-            }
-        }
-        nextMsg.content = content;
-        nextMsg.extra = extra;
-    }
+//    }else if ([obj isKindOfClass:[UIImage class]]){
+//        nextMsg.nextImg = obj;
+//        nextMsg.content = @"";
+//        nextMsg.extra = @"";
+////    }else if ([obj isKindOfClass:[VoiceMedia class]]){
+////        nextMsg.voiceMedia = obj;
+////        nextMsg.extra = @"";
+//    }else if ([obj isKindOfClass:[PrivateMessage class]]){
+//        PrivateMessage *originalMsg = (PrivateMessage *)obj;
+//        NSMutableString *content = [[NSMutableString alloc] initWithString:originalMsg.content];
+//        NSMutableString *extra = [[NSMutableString alloc] init];
+//        if (originalMsg.htmlMedia.mediaItems && originalMsg.htmlMedia.mediaItems.count > 0) {
+//            for (HtmlMediaItem *item in originalMsg.htmlMedia.mediaItems) {
+//                if (item.type == HtmlMediaItemType_Image) {
+//                    if (extra.length > 0) {
+//                        [extra appendFormat:@",%@", item.src];
+//                    }else{
+//                        [extra appendString:item.src];
+//                    }
+//                }else if (item.type == HtmlMediaItemType_EmotionMonkey){
+//                    [content appendFormat:@" :%@: ", item.title];
+//                }
+//            }
+//        }
+//        nextMsg.content = content;
+//        nextMsg.extra = extra;
+//    }
     
     return nextMsg;
 };
@@ -95,13 +95,14 @@
 }
 - (NSDictionary *)toSendParams{
     return @{@"content" : _content? [_content aliasedString]: @"",
-             @"extra" : _extra? _extra: @"",
+//             @"extra" : _extra? _extra: @"",
              @"receiver_global_key" : _friend.global_key};
 }
 
 
 - (NSString *)toDeletePath{
-    return [NSString stringWithFormat:@"api/message/%ld", _id.longValue];
+    return @"";
+//    return [NSString stringWithFormat:@"api/message/%ld", _id.longValue];
 }
 
 @end

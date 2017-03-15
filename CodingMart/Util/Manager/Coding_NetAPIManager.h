@@ -33,7 +33,8 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)post_Close2FAGeneratePhoneCode:(NSString *)phone block:(void (^)(id data, NSError *error))block;
 - (void)post_Close2FAWithPhone:(NSString *)phone code:(NSString *)code block:(void (^)(id data, NSError *error))block;
 - (void)post_LoginIdentity:(NSNumber *)loginIdentity andBlock:(void (^)(id data, NSError *error))block;
-
+- (void)get_LoginTimChatBlock:(void (^)(NSString *errorMsg))block;
+- (void)get_EAConversationListBlock:(void (^)(id data, NSError *error))block;
 #pragma mark Reward
 - (void)get_rewards:(Rewards *)rewards block:(void (^)(id data, NSError *error))block;
 - (void)get_JoinedRewardListWithStatus:(NSNumber *)status block:(void (^)(id data, NSError *error))block;

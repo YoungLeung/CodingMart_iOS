@@ -10,6 +10,7 @@
 #define kBlankPageImageNotification @"blankpage_image_notification"
 #define kBlankPageImageRewardList @"blankpage_image_reward_list"
 #define kBlankPageImagePublishJoin @"blankpage_image_reward_publish_jion"
+#define kBlankPageImageMessage @"blankpage_image_notification"
 
 #import <UIKit/UIKit.h>
 

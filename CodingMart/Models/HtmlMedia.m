@@ -69,12 +69,16 @@
         item.code = [element.text trimWhitespace];
     }else if ([element.tagName isEqualToString:@"a"]) {
         NSDictionary *attributes = element.attributes;
-        NSString *element_Class = [attributes objectForKey:@"class"];
+        NSString *element_Class = [attributes objectForKey:@"class"] ?: [element.parent.attributes objectForKey:@"class"];
         if ([element_Class isEqualToString:@"at-someone"]) {
             //@了某个人
             item = [HtmlMediaItem htmlMediaItemWithType:HtmlMediaItemType_ATUser];
             item.href = [attributes objectForKey:@"href"];
             item.name = element.text? element.text: @"";
+        }else if ([element_Class isEqualToString:@"chat-file"]){//码市 - 文件类型 - 当做链接处理
+            item = [HtmlMediaItem htmlMediaItemWithType:HtmlMediaItemType_AutoLink];
+            item.href = [attributes objectForKey:@"href"];
+            item.linkStr = [attributes objectForKey:@"title"];
         }else if ([element_Class hasPrefix:@"bubble-markdown-image-link"]){
             //图片
             item = [HtmlMediaItem htmlMediaItemWithType:HtmlMediaItemType_Image];

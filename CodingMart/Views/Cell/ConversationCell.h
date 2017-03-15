@@ -8,10 +8,8 @@
 #define kCellIdentifier_Conversation @"ConversationCell"
 
 #import <UIKit/UIKit.h>
-#import "PrivateMessage.h"
 
 @interface ConversationCell : UITableViewCell
-@property (strong, nonatomic) PrivateMessage *curPriMsg;
-
+@property (strong, nonatomic) EAConversation *curConversation;
 + (CGFloat)cellHeight;
 @end

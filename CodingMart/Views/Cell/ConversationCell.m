@@ -52,37 +52,17 @@
     return self;
 }
 
-- (void)layoutSubviews{
-    [super layoutSubviews];
-    if (!_curPriMsg) {
+- (void)setCurConversation:(EAConversation *)curConversation{
+    _curConversation = curConversation;
+    if (!_curConversation) {
         return;
     }
-    [_userIconView sd_setImageWithURL:[_curPriMsg.friend.avatar urlImageWithCodePathResizeToView:_userIconView] placeholderImage:[UIImage imageNamed:@"placeholder_user"]];
-    
-    
-    _name.text = _curPriMsg.friend.name;
-    _time.text = [_curPriMsg.created_at stringDisplay_MMdd];
-    _msg.textColor = kColorTextLight99;
-    NSMutableString *textMsg = [[NSMutableString alloc] initWithString:_curPriMsg.content];
-    if (_curPriMsg.hasMedia) {
-        [textMsg appendString:@"[图片]"];
-    }
-    if ([_curPriMsg isVoice]) {
-        [textMsg setString:@"[语音]"];
-        if (_curPriMsg.played.intValue == 0) {
-            _msg.textColor = kColorBrandBlue;
-        }
-    }
-    _msg.text = textMsg;
-    
-    NSString *badgeTip = @"";
-    if (_curPriMsg.unreadCount && _curPriMsg.unreadCount.integerValue > 0) {
-        if (_curPriMsg.unreadCount.integerValue > 99) {
-            badgeTip = @"99+";
-        }else{
-            badgeTip = _curPriMsg.unreadCount.stringValue;
-        }
-    }
+    [_userIconView sd_setImageWithURL:[_curConversation.icon urlImageWithCodePathResize:2 * 50] placeholderImage:[UIImage imageNamed:@"placeholder_user"]];
+    _name.text = _curConversation.nick;
+    _msg.text = [_curConversation isTribe]? _curConversation.contact.desc: _curConversation.lastMsg.content;
+    _time.text = [_curConversation.lastMsg.timMsg.timestamp stringDisplay_MMdd];
+    NSInteger unReadNum = [_curConversation.timCon getUnReadMessageNum];
+    NSString *badgeTip = unReadNum > 99? @"99+": unReadNum > 0? [NSString stringWithFormat:@"%@", @(unReadNum)]: @"";
     [self.contentView addBadgeTip:badgeTip withCenterPosition:CGPointMake(kScreen_Width-25, CGRectGetMaxY(_time.frame) +10)];
 }
 
