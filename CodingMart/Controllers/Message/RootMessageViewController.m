@@ -69,6 +69,17 @@
     [self refresh];
 }
 
+- (void)configBlankPageHasError:(BOOL)hasError hasData:(BOOL)hasData{
+    __weak typeof(self) weakSelf = self;
+    if (hasData) {
+        [self.view removeBlankPageView];
+    }else if (hasError){//不处理，用户自己下拉刷新
+    }else{
+        [self.view configBlankPageImage:kBlankPageImageMessage tipStr:@"这里还没有消息"];
+    }
+    [self.view setBlankOffsetY:2 * [ToMessageCell cellHeight]];
+}
+
 #pragma mark onNewMessage
 - (void)onNewMessage:(NSArray<TIMMessage *> *)msgs{
     NSArray *receiverList = [_conversationList valueForKey:@"uid"];
@@ -111,6 +122,7 @@
                 weakSelf.conversationList = data;
                 [weakSelf.myTableView reloadData];
             }
+            [weakSelf configBlankPageHasError:(error != nil) hasData:(weakSelf.conversationList.count > 0)];
         }];
     }
 }

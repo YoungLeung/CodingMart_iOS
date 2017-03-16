@@ -51,6 +51,10 @@ static char BlankPageViewKey;
     [blankPageView setupImage:imageName tipStr:tipStr buttonTitle:buttonTitle buttonBlock:block];
 }
 
+- (void)setBlankOffsetY:(CGFloat)offsetY{
+    self.blankPageView.y = offsetY;
+}
+
 - (UIView *)blankPageContainer{
     UIView *blankPageContainer = self;
     for (UIView *aView in [self subviews]) {

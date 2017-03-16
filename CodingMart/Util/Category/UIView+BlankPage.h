@@ -14,28 +14,6 @@
 
 #import <UIKit/UIKit.h>
 
-
-typedef NS_ENUM(NSInteger, EaseBlankPageType)
-{
-    EaseBlankPageTypeView = 0,
-    EaseBlankPageTypeActivity,
-    EaseBlankPageTypeTask,
-    EaseBlankPageTypeTopic,
-    EaseBlankPageTypeTweet,
-    EaseBlankPageTypeTweetOther,
-    EaseBlankPageTypeProject,
-    EaseBlankPageTypeProjectOther,
-    EaseBlankPageTypeFileDleted,
-    EaseBlankPageTypeFolderDleted,
-    EaseBlankPageTypePrivateMsg,
-    EaseBlankPageTypeMyWatchedTopic,
-    EaseBlankPageTypeMyJoinedTopic,
-    EaseBlankPageTypeOthersWatchedTopic,
-    EaseBlankPageTypeOthersJoinedTopic,
-    EaseBlankPageTypeFileTypeCannotSupport,
-    EaseBlankPageTypeViewTips,
-};
-
 @class EaseBlankPageView;
 
 @interface UIView (BlankPage)
@@ -46,7 +24,7 @@ typedef NS_ENUM(NSInteger, EaseBlankPageType)
 - (void)configBlankPageImage:(NSString *)imageName tipStr:(NSString *)tipStr;
 - (void)configBlankPageErrorBlock:(void(^)(id sender))block;
 - (void)configBlankPageImage:(NSString *)imageName tipStr:(NSString *)tipStr buttonTitle:(NSString *)buttonTitle buttonBlock:(void(^)(id sender))block;
-
+- (void)setBlankOffsetY:(CGFloat)offsetY;//config 完了之后再设置
 @end
 
 @interface EaseBlankPageView : UIView
