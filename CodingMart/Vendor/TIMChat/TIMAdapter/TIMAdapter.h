@@ -19,5 +19,7 @@
 #import "EAChatMessage.h"
 
 #import "TIMMessage+EA.h"
+#import "TIMManager+EA.h"
+
 
 #endif /* TIMAdapter_h */

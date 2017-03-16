@@ -192,30 +192,6 @@
     }];
 }
 
-- (void)get_LoginTimChatBlock:(void (^)(NSString *errorMsg))block{
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/im/user" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
-        if (error) {
-            block(error.localizedDescription);
-            return ;
-        }
-        NSDictionary *user = [data[@"user"] firstObject];
-        NSString *userSig = user[@"identifier"];
-        
-        TIMLoginParam *loginParam = [TIMLoginParam new];
-        loginParam.accountType = kTimAccountType;
-        loginParam.sdkAppId = kTimAppidAt3rd.intValue;
-        loginParam.appidAt3rd = kTimAppidAt3rd;
-        loginParam.identifier = [Login curLoginUser].global_key;
-        loginParam.userSig = userSig;
-        [[TIMManager sharedInstance] login:loginParam succ:^(){
-            block(nil);
-        } fail:^(int code, NSString *msg) {
-            [NSObject showHudTipStr:msg];
-            block(msg);
-        }];
-    }];
-}
-
 - (void)get_EAConversationListBlock:(void (^)(id data, NSError *error))block{
     NSArray *timConList = [[TIMManager sharedInstance] getConversationList];
     if (timConList.count <= 0) {

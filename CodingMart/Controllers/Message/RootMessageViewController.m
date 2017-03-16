@@ -100,7 +100,7 @@
 #pragma mark Data
 - (void)loginTimChat{
     WEAKSELF;
-    [[Coding_NetAPIManager sharedManager] get_LoginTimChatBlock:^(NSString *errorMsg) {
+    [TIMManager loginBlock:^(NSString *errorMsg) {
         if (errorMsg.length > 0) {
             [weakSelf.myTableView.pullRefreshCtrl endRefreshing];
         }else{
@@ -110,7 +110,7 @@
 }
 
 - (void)refresh{
-    if ([TIMManager sharedInstance].getLoginStatus != TIM_STATUS_LOGINED) {//登录并刷新对话列表
+    if ([TIMManager sharedInstance].getLoginStatus == TIM_STATUS_LOGOUT) {//登录并刷新对话列表
         [_myTableView eaTriggerPullToRefresh];
         [self loginTimChat];
     }else{//刷新未读通知

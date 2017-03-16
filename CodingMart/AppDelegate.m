@@ -55,16 +55,15 @@
 //    支付
     [WXApi registerApp:kSocial_WX_ID withDescription:@"Coding 码市"];
 //    腾讯 IM
-    TIMManager *timManager = [TIMManager sharedInstance];
-    [timManager disableCrashReport];
-    [timManager setMessageListener:[TIMMessageListenerImp new]];
-    [timManager setUserStatusListener:[TIMUserStatusListenerImp new]];
-    [timManager initSdk:kTimAppidAt3rd.integerValue];
+    [TIMManager setupConfig];
     
 //    makeKeyAndVisible
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     if ([Login isLogin]) {
         [self setupTabViewController];
+        [TIMManager loginBlock:^(NSString *errorMsg) {
+            DebugLog(@"TimChat 登录：%@", errorMsg);
+        }];
     }else{
         [self setupWelcomeViewController];
     }

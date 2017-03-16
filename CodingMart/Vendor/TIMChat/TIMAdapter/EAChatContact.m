@@ -22,6 +22,18 @@
     return contact;
 }
 
++ (instancetype)contactWithReward:(Reward *)reward{
+    EAChatContact *contact = [self new];
+    contact.icon = reward.cover;
+    contact.nick = [NSString stringWithFormat:@"%@【%@】", reward.id, reward.name];
+//    contact.uid = reward.global_key;
+    contact.isTribe = @(YES);
+    contact.objectId = reward.id;
+    //    contact.type =
+    
+    return contact;
+}
+
 - (User *)toUser{
     User *user = [User new];
     user.avatar = _icon.copy;

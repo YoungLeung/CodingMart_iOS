@@ -79,6 +79,12 @@ static User *curLoginUser;
 + (void)doLogin:(NSDictionary *)loginData{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:[NSNumber numberWithBool:YES] forKey:kLoginStatus];
+    
+    if ([TIMManager sharedInstance].getLoginStatus == TIM_STATUS_LOGOUT) {
+        [TIMManager loginBlock:^(NSString *errorMsg) {
+            DebugLog(@"TimChat 登录：%@", errorMsg);
+        }];
+    }
 
     if (loginData) {
         [defaults setObject:loginData forKey:kLoginUserDict];
