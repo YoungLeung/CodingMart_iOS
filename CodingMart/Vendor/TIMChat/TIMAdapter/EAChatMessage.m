@@ -12,7 +12,7 @@
 @interface EAChatMessage ()
 @property (nonatomic, strong, readwrite) User *sender;
 @property (nonatomic, strong, readwrite) NSDate *created_at;
-@property (assign, nonatomic, readwrite) EAChatMessageSendStatus sendStatus;
+//@property (assign, nonatomic, readwrite) EAChatMessageSendStatus sendStatus;
 @end
 
 @implementation EAChatMessage
@@ -20,25 +20,25 @@
 + (instancetype)eaMessageWithObj:(id)obj{
     EAChatMessage *eaMsg = [EAChatMessage new];
 
-    TIMMessage *timMsg = [TIMMessage new];
-    TIMOfflinePushInfo *pushInfo = [TIMOfflinePushInfo new];
-    TIMCustomElem *customE = [TIMCustomElem new];
-
     if ([obj isKindOfClass:[NSString class]]) {
-        TIMTextElem *elem = [TIMTextElem new];
-        elem.text = obj;
-        [timMsg addElem:elem];
-        
+        TIMMessage *timMsg = [TIMMessage new];
+//        文本 Elem
+        TIMCustomElem *customE = [TIMCustomElem new];
+        customE.data = [(NSString *)obj dataUsingEncoding:NSUTF8StringEncoding];
         [timMsg addElem:customE];
-        eaMsg.timMsg = timMsg;
+//        推送描述
+        TIMOfflinePushInfo *pushInfo = [TIMOfflinePushInfo new];
         pushInfo.desc = obj;
+        [timMsg setOfflinePushInfo:pushInfo];
+
+        eaMsg.timMsg = timMsg;
     }else if ([obj isKindOfClass:[UIImage class]]){
+//        需要先上传图片，然后才能赋值 timMsg
         eaMsg.nextImg = obj;
         eaMsg.content = @"";
-        pushInfo.desc = @"[图片]";
     }
-
-    [timMsg setOfflinePushInfo:pushInfo];
+    eaMsg.sendStatus = EAChatMessageSendStatusIng;
+    eaMsg.sender = [Login curLoginUser];
     return eaMsg;
 }
 
@@ -54,17 +54,18 @@
             _content = _htmlMedia.contentDisplay;
         }
     }
+    _sendStatus = [EAChatMessage sendStatusFromTimStatus:timMsg.status];//新建的 TimMsg 的状态是 TIM_MSG_STATUS_SENDING
 }
 
 - (NSDate *)created_at{
     return _timMsg.timestamp;
 }
 
-- (EAChatMessageSendStatus)sendStatus{
-    return (_timMsg.status == TIM_MSG_STATUS_SEND_SUCC? EAChatMessageSendStatusSucess:
-            _timMsg.status == TIM_MSG_STATUS_SENDING? EAChatMessageSendStatusIng:
-            _timMsg.status == TIM_MSG_STATUS_SEND_FAIL? EAChatMessageSendStatusFail:
-            EAChatMessageSendStatusSucess);
++ (EAChatMessageSendStatus)sendStatusFromTimStatus:(TIMMessageStatus)status{
+    return (status == TIM_MSG_STATUS_SEND_SUCC? EAChatMessageSendStatusSucess:
+            status == TIM_MSG_STATUS_SENDING? EAChatMessageSendStatusIng:
+            status == TIM_MSG_STATUS_SEND_FAIL? EAChatMessageSendStatusFail:
+            EAChatMessageSendStatusSucess);//找不到状态，就算是成功好了
 }
 
 - (instancetype)configWithEACon:(EAConversation *)eaCon{

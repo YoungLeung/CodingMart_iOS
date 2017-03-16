@@ -246,6 +246,17 @@
         }
     }];
 }
+
+- (void)get_MemberOfConversation:(NSNumber *)objectId block:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/im/contact/%@/members", objectId];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject arrayFromJSON:data[@"contact"] ofObjects:@"EAChatContact"];
+        }
+        block(data, error);
+    }];
+}
+
 #pragma mark Reward
 
 - (void)get_rewards:(Rewards *)rewards block:(void (^)(id data, NSError *error))block {

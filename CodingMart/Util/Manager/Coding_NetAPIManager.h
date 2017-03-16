@@ -35,6 +35,8 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)post_LoginIdentity:(NSNumber *)loginIdentity andBlock:(void (^)(id data, NSError *error))block;
 - (void)get_LoginTimChatBlock:(void (^)(NSString *errorMsg))block;
 - (void)get_EAConversationListBlock:(void (^)(id data, NSError *error))block;
+- (void)get_MemberOfConversation:(NSNumber *)objectId block:(void (^)(id data, NSError *error))block;
+
 #pragma mark Reward
 - (void)get_rewards:(Rewards *)rewards block:(void (^)(id data, NSError *error))block;
 - (void)get_JoinedRewardListWithStatus:(NSNumber *)status block:(void (^)(id data, NSError *error))block;

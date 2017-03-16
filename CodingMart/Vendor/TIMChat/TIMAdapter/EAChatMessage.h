@@ -24,7 +24,7 @@ typedef NS_ENUM(NSInteger, EAChatMessageSendStatus) {
 
 @property (nonatomic, strong, readonly) User *sender;
 @property (nonatomic, strong, readonly) NSDate *created_at;
-@property (assign, nonatomic, readonly) EAChatMessageSendStatus sendStatus;
+@property (assign, nonatomic) EAChatMessageSendStatus sendStatus;
 
 @property (strong, nonatomic) UIImage *nextImg;
 

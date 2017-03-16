@@ -288,17 +288,11 @@
 }
 
 - (void)sendEAChatMessageWithMsg:(EAChatMessage *)nextMsg{
-//    [_eaConversation sendNewMessage:nextMsg];
-//    [self dataChangedWithError:NO scrollToBottom:YES animated:YES];
-//    
-//    __weak typeof(self) weakSelf = self;
-//    [[Coding_NetAPIManager sharedManager] request_SendEAChatMessage:nextMsg andBlock:^(id data, NSError *error) {
-//        if (data) {
-//            [weakSelf.eaConversation sendSuccessMessage:data andOldMessage:nextMsg];
-//        }
-//        [weakSelf dataChangedWithError:NO scrollToBottom:YES animated:YES];
-//    } progerssBlock:^(CGFloat progressValue) {
-//    }];
+    __weak typeof(self) weakSelf = self;
+    [_eaConversation post_SendMessage:nextMsg andBlock:^(id data, NSString *errorMsg) {
+        [weakSelf dataChangedWithError:NO scrollToBottom:YES animated:YES];
+    }];
+    [self dataChangedWithError:NO scrollToBottom:YES animated:YES];
 }
 - (void)deleteEAChatMessageWithMsg:(EAChatMessage *)curMsg{
 //    __weak typeof(self) weakSelf = self;

@@ -27,4 +27,6 @@
 - (EAChatContact *)getContactWithUid:(NSString *)uid;
 - (void)configWithPushList:(NSArray<TIMMessage *> *)msgs;
 - (void)get_EAMessageListBlock:(void (^)(id data, NSString *errorMsg))block;
+
+- (void)post_SendMessage:(EAChatMessage *)eaMsg andBlock:(void (^)(id data, NSString *errorMsg))block;
 @end

@@ -10,6 +10,21 @@
 
 @implementation TIMMessage (EA)
 
++ (instancetype)timMsgWithImageDict:(NSDictionary *)dict{
+    TIMMessage *timMsg = [TIMMessage new];
+    //        文本 Elem
+    TIMCustomElem *customE = [TIMCustomElem new];
+    NSString *contentStr = [NSString stringWithFormat:@"<img class:\"chat-image\" src=\"%@\"/>", dict[@"data"][@"url"]];
+    customE.data = [contentStr dataUsingEncoding:NSUTF8StringEncoding];
+    [timMsg addElem:customE];
+    //        推送描述
+    TIMOfflinePushInfo *pushInfo = [TIMOfflinePushInfo new];
+    pushInfo.desc = @"[图片]";
+    [timMsg setOfflinePushInfo:pushInfo];
+    
+    return timMsg;
+}
+
 - (EAChatMessage *)toEAMsg{
     EAChatMessage *eaMsg = [EAChatMessage new];
     eaMsg.timMsg = self;

@@ -11,6 +11,8 @@
 
 @interface TIMMessage (EA)
 
++ (instancetype)timMsgWithImageDict:(NSDictionary *)dict;
+
 - (EAChatMessage *)toEAMsg;
 
 @end
