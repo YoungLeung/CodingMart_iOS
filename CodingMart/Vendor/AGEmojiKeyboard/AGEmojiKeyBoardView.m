@@ -109,7 +109,7 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
 - (instancetype)initWithFrame:(CGRect)frame dataSource:(id<AGEmojiKeyboardViewDataSource>)dataSource  showBigEmotion:(BOOL)showBigEmotion{
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = kColorNavBG;
+        self.backgroundColor = kColorBGLight;
         // initialize category
         _dataSource = dataSource;
         self.category = [self categoryNameAtIndex:self.defaultSelectedCategory];
@@ -432,7 +432,7 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
 - (instancetype)initWithFrame:(CGRect)frame selectedImages:(NSArray *)selectedImages unSelectedImages:(NSArray *)unSelectedImages{
     self = [super initWithFrame:frame];
     if (self) {
-        [self addLineUp:YES andDown:NO andColor:kColorDDD];
+        [self addLineUp:YES andDown:NO andColor:kColorTextLightDD];
         self.selectedImages = selectedImages;
         self.unSelectedImages = unSelectedImages;
         self.numOfTabs = selectedImages.count;
@@ -453,7 +453,7 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
             UIButton *tabButton = self.tabButtons[i];
             if (i==selectedIndex) {
                 [tabButton setImage:self.selectedImages[i] forState:UIControlStateNormal];
-                [tabButton setBackgroundColor:kColorNavBG];
+                [tabButton setBackgroundColor:kColorBGLight];
             }else{
                 [tabButton setImage:self.unSelectedImages[i] forState:UIControlStateNormal];
                 [tabButton setBackgroundColor:[UIColor clearColor]];
@@ -465,7 +465,7 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
 - (UIButton *)tabButtonWithIndex:(NSInteger)index{
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(_buttonWidth *index, 0, _buttonWidth, CGRectGetHeight(self.frame))];
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(_buttonWidth-0.5, 0, 0.5, CGRectGetHeight(self.frame))];
-    lineView.backgroundColor = kColorDDD;
+    lineView.backgroundColor = kColorTextLightDD;
     [button addSubview:lineView];
     [button addTarget:self action:@selector(tabButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     return button;
@@ -483,7 +483,7 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
 }
 - (void)configSendButton{
     self.sendButton = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.frame) -self.buttonWidth, 0, self.buttonWidth, CGRectGetHeight(self.frame))];
-    [self.sendButton setBackgroundColor:kColorBrandGreen];
+    [self.sendButton setBackgroundColor:kColorBrandBlue];
     self.sendButton.titleLabel.font = [UIFont systemFontOfSize:17];
     [self.sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.sendButton setTitle:@"发送" forState:UIControlStateNormal];

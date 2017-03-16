@@ -28,7 +28,7 @@
         self.clipsToBounds = YES;
 		// 图片
 		_imageView = [[YLImageView alloc] init];
-        _imageView.backgroundColor = kColorTableBG;
+        _imageView.backgroundColor = [UIColor whiteColor];
 		_imageView.contentMode = UIViewContentModeScaleAspectFit;
 		[self addSubview:_imageView];
         

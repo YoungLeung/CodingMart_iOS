@@ -47,6 +47,7 @@
     if (self) {
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.backgroundColor = [UIColor clearColor];
         _preMediaViewHeight = 0;
 
         if (!_userIconView) {
@@ -116,7 +117,7 @@
             _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, (kMessageCell_TimeHeight- 20)/2, kScreen_Width-2*kPaddingLeftWidth, 20)];
             _timeLabel.backgroundColor = [UIColor clearColor];
             _timeLabel.font = [UIFont systemFontOfSize:12];
-            _timeLabel.textColor = kColor999;
+            _timeLabel.textColor = kColorTextLight99;
             _timeLabel.textAlignment = NSTextAlignmentCenter;
             [self.contentView addSubview:_timeLabel];
         }
