@@ -8,13 +8,9 @@
 
 #import "ConversationViewController.h"
 #import "QBImagePickerController.h"
+#import "ConversationContactsViewController.h"
 #import "UIMessageInputView.h"
-
-//#import "Coding_NetAPIManager.h"
 #import "MessageCell.h"
-//#import "UserInfoViewController.h"
-//#import "QBImagePickerController.h"
-//#import "UsersViewController.h"
 #import "Helper.h"
 
 @interface ConversationViewController ()<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, QBImagePickerControllerDelegate, UIMessageInputViewDelegate>
@@ -56,6 +52,10 @@
     
     _myMsgInputView.toUser = _eaConversation.contact.toUser;
     [self refreshLoadMore:NO];
+    
+    if (_eaConversation.isTribe) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_more"] style:UIBarButtonItemStylePlain target:self action:@selector(navBtnClicked)];
+    }
 }
 
 
@@ -74,6 +74,14 @@
     }
     [self.myTableView reloadData];
 }
+
+- (void)navBtnClicked{
+    ConversationContactsViewController *vc = [ConversationContactsViewController vcInStoryboard:@"Message"];
+    vc.eaConversation = _eaConversation;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark Blank & Error Page
 
 - (void)dataChangedWithError:(BOOL)hasError scrollToBottom:(BOOL)scrollToBottom animated:(BOOL)animated{
     [self.myTableView reloadData];

@@ -48,5 +48,65 @@
             </objects>
             <point key="canvasLocation" x="-1097" y="-161"/>
         </scene>
+        <!--Conversation Contacts View Controller-->
+        <scene sceneID="bU8-uy-f55">
+            <objects>
+                <tableViewController storyboardIdentifier="ConversationContactsViewController" id="Tqo-nx-Jve" customClass="ConversationContactsViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="QtK-3S-tDQ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="RBA-Cj-Jd1">
+                            <rect key="frame" x="0.0" y="88" width="375" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EAConversationContactCell" rowHeight="60" id="2XL-o6-aM9" customClass="EAConversationContactCell">
+                                <rect key="frame" x="0.0" y="28" width="375" height="60"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2XL-o6-aM9" id="NU3-Rq-rdC">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="59"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="J63-m1-98p">
+                                            <rect key="frame" x="15" y="9" width="40" height="40"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="40" id="1wc-RV-Pbq"/>
+                                                <constraint firstAttribute="width" constant="40" id="kE1-ds-d6N"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UP2-Xl-f1y">
+                                            <rect key="frame" x="70" y="20" width="290" height="18"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" red="0.19607843137254902" green="0.22745098039215686" blue="0.27058823529411763" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="UP2-Xl-f1y" secondAttribute="trailing" constant="15" id="D1y-0O-mpc"/>
+                                        <constraint firstItem="UP2-Xl-f1y" firstAttribute="centerY" secondItem="J63-m1-98p" secondAttribute="centerY" id="GQw-Ph-B0l"/>
+                                        <constraint firstItem="UP2-Xl-f1y" firstAttribute="leading" secondItem="J63-m1-98p" secondAttribute="trailing" constant="15" id="MRm-HC-DAp"/>
+                                        <constraint firstItem="J63-m1-98p" firstAttribute="centerY" secondItem="NU3-Rq-rdC" secondAttribute="centerY" id="pi4-iq-MFs"/>
+                                        <constraint firstItem="J63-m1-98p" firstAttribute="leading" secondItem="NU3-Rq-rdC" secondAttribute="leading" constant="15" id="ucX-kQ-f5H"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="iconV" destination="J63-m1-98p" id="nNY-6w-XXy"/>
+                                    <outlet property="nameL" destination="UP2-Xl-f1y" id="amL-kx-QsZ"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Tqo-nx-Jve" id="xEx-RO-ATv"/>
+                            <outlet property="delegate" destination="Tqo-nx-Jve" id="w0W-EO-4DV"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="G5w-49-LGD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-370.39999999999998" y="-166.8665667166417"/>
+        </scene>
     </scenes>
 </document>

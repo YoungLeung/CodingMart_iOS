@@ -57,7 +57,7 @@
     if (!_curConversation) {
         return;
     }
-    [_userIconView sd_setImageWithURL:[_curConversation.icon urlImageWithCodePathResize:2 * 50] placeholderImage:[UIImage imageNamed:@"placeholder_user"]];
+    [_userIconView sd_setImageWithURL:[_curConversation.icon urlImageWithCodePathResize:2 * 50] placeholderImage:[UIImage imageNamed:_curConversation.isTribe? @"messageGroup": @"placeholder_user"]];
     _name.text = _curConversation.nick;
     _msg.text = [_curConversation isTribe]? _curConversation.contact.desc: _curConversation.lastMsg.content;
     _time.text = [_curConversation.lastMsg.timMsg.timestamp stringDisplay_MMdd];

@@ -31,8 +31,12 @@
 - (void)setNotification:(MartNotification *)notification{
     _notification = notification;
     BOOL hasRead = _notification.status.boolValue;
-    _contentMainL.textColor = [UIColor colorWithHexString:hasRead? @"0x999999": @"0x222222"];
-    _contentResonL.textColor = [UIColor colorWithHexString:hasRead? @"0x999999": @"0x666666"];
+    
+    _contentMainL.textColor = [UIColor colorWithHexString:@"0x222222"];
+    _contentResonL.textColor = [UIColor colorWithHexString:@"0x666666"];
+
+//    _contentMainL.textColor = [UIColor colorWithHexString:hasRead? @"0x999999": @"0x222222"];
+//    _contentResonL.textColor = [UIColor colorWithHexString:hasRead? @"0x999999": @"0x666666"];
     _contentMainL.text = _notification.contentMain;
     _contentResonL.text = _notification.contentReason;
     _timeL.text = [_notification.created_at stringWithFormat:@"yyyy-MM-dd HH:mm"];

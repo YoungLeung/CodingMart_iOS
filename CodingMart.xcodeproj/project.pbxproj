@@ -357,6 +357,8 @@
 		4EC411C31E78EBD000709238 /* UICustomCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC411C21E78EBD000709238 /* UICustomCollectionView.m */; };
 		4EC411C61E78ED9900709238 /* ImageSizeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC411C51E78ED9900709238 /* ImageSizeManager.m */; };
 		4EC411CA1E79123F00709238 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC411C91E79123F00709238 /* Helper.m */; };
+		4EC411CD1E7A560900709238 /* ConversationContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC411CC1E7A560900709238 /* ConversationContactsViewController.m */; };
+		4EC411D01E7A5A0F00709238 /* EAConversationContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC411CF1E7A5A0F00709238 /* EAConversationContactCell.m */; };
 		4ECC649F1DDBFF6D00A1B029 /* HighPaidAreaCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECC649D1DDBFF6D00A1B029 /* HighPaidAreaCell.m */; };
 		4ECC64A01DDBFF6D00A1B029 /* HighPaidAreaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4ECC649E1DDBFF6D00A1B029 /* HighPaidAreaCell.xib */; };
 		4ECC64A41DDC2F5900A1B029 /* HighPaidAreaCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECC64A21DDC2F5900A1B029 /* HighPaidAreaCCell.m */; };
@@ -1183,6 +1185,10 @@
 		4EC411C51E78ED9900709238 /* ImageSizeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageSizeManager.m; sourceTree = "<group>"; };
 		4EC411C81E79123F00709238 /* Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helper.h; sourceTree = "<group>"; };
 		4EC411C91E79123F00709238 /* Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helper.m; sourceTree = "<group>"; };
+		4EC411CB1E7A560900709238 /* ConversationContactsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationContactsViewController.h; sourceTree = "<group>"; };
+		4EC411CC1E7A560900709238 /* ConversationContactsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationContactsViewController.m; sourceTree = "<group>"; };
+		4EC411CE1E7A5A0F00709238 /* EAConversationContactCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAConversationContactCell.h; sourceTree = "<group>"; };
+		4EC411CF1E7A5A0F00709238 /* EAConversationContactCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAConversationContactCell.m; sourceTree = "<group>"; };
 		4ECC649C1DDBFF6D00A1B029 /* HighPaidAreaCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HighPaidAreaCell.h; sourceTree = "<group>"; };
 		4ECC649D1DDBFF6D00A1B029 /* HighPaidAreaCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HighPaidAreaCell.m; sourceTree = "<group>"; };
 		4ECC649E1DDBFF6D00A1B029 /* HighPaidAreaCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HighPaidAreaCell.xib; sourceTree = "<group>"; };
@@ -1948,6 +1954,8 @@
 				4EC411981E78E9A500709238 /* MessageCell.m */,
 				4EC411BE1E78EBB500709238 /* MessageMediaItemCCell.h */,
 				4EC411BF1E78EBB500709238 /* MessageMediaItemCCell.m */,
+				4EC411CE1E7A5A0F00709238 /* EAConversationContactCell.h */,
+				4EC411CF1E7A5A0F00709238 /* EAConversationContactCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -2943,6 +2951,8 @@
 				4EF73C9D1E72490900C28A01 /* RootMessageViewController.m */,
 				4EC411511E78D8BD00709238 /* ConversationViewController.h */,
 				4EC411521E78D8BD00709238 /* ConversationViewController.m */,
+				4EC411CB1E7A560900709238 /* ConversationContactsViewController.h */,
+				4EC411CC1E7A560900709238 /* ConversationContactsViewController.m */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -3460,6 +3470,7 @@
 				4EC411AF1E78EA8A00709238 /* MJPhoto.m in Sources */,
 				4EDAE3B31BC78CD400255FE8 /* SDImageCache.m in Sources */,
 				4E224AFD1BE9F83A00F8475F /* RewardDetail.m in Sources */,
+				4EC411D01E7A5A0F00709238 /* EAConversationContactCell.m in Sources */,
 				4EFD8EB71BE8607E00E9C284 /* VerifiedInfo.m in Sources */,
 				4ECEF9E91D1A720C002A27D3 /* SettingViewController.m in Sources */,
 				4E4AC09B1C4E0DE4009B1726 /* HelpCenterViewController.m in Sources */,
@@ -3562,6 +3573,7 @@
 				4E9D977C1D6EE3D600DDB231 /* JTSImageViewController.m in Sources */,
 				4E120A131C8FFFE70087BDB3 /* MartIntroduceViewController.m in Sources */,
 				32DC68A81BF1F56B00295BBD /* CodingMarkServerWebViewController.m in Sources */,
+				4EC411CD1E7A560900709238 /* ConversationContactsViewController.m in Sources */,
 				4EDAE4301BC8B8C900255FE8 /* PublishRewardStep2ViewController.m in Sources */,
 				4ECEF9F21D1A727A002A27D3 /* SettingPhoneViewController.m in Sources */,
 				4EDFFFF81BCA8573007DF702 /* FeedBackInfo.m in Sources */,
