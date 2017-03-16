@@ -46,11 +46,12 @@
     self.textLabel.frame = CGRectMake(75, ([ToMessageCell cellHeight]-30)/2, (kScreen_Width - 120), 30);
     NSString *badgeTip = @"";
     if (_unreadCount && _unreadCount.integerValue > 0) {
-        if (_unreadCount.integerValue > 99) {
-            badgeTip = @"99+";
-        }else{
-            badgeTip = _unreadCount.stringValue;
-        }
+//        if (_unreadCount.integerValue > 99) {
+//            badgeTip = @"99+";
+//        }else{
+//            badgeTip = _unreadCount.stringValue;
+//        }
+        badgeTip = kBadgeTipStr;
         self.accessoryType = UITableViewCellAccessoryNone;
     }else{
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
