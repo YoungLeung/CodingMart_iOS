@@ -20,12 +20,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = [NSString stringWithFormat:@"群成员（%@）", _eaConversation.contactList? @(_eaConversation.contactList.count): @"..."];
-    
+    [self configTitle];
     [self.tableView eaAddPullToRefreshAction:@selector(refresh) onTarget:self];
     if (!_eaConversation.contactList) {
         [self refresh];
     }
+}
+
+- (void)configTitle{
+    self.title = [NSString stringWithFormat:@"群成员（%@）", _eaConversation.contactList? @(_eaConversation.contactList.count): @"..."];
 }
 
 - (void)refresh{
@@ -38,6 +41,7 @@
         [weakSelf.tableView.pullRefreshCtrl endRefreshing];
         if (data) {
             weakSelf.eaConversation.contactList = data;
+            [weakSelf configTitle];
             [weakSelf.tableView reloadData];
         }
     }];
