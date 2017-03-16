@@ -20,6 +20,7 @@
 #import "Coding_NetAPIManager.h"
 #import "RewardPrivateViewController.h"
 #import "MPayRewardOrderPayViewController.h"
+#import "ConversationViewController.h"
 
 @interface ApplyCoderViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) RewardApplyCoder *curCoder;
@@ -87,7 +88,7 @@
 
 #pragma mark Table
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 5;
+    return 6;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -97,7 +98,8 @@
     return (section == 0? 1:
             section == 1? 3:
             section == 2? _curCoder.mobile.length > 0? 3: 1:
-            section == 3? _curCoderDetail.roles.count:
+            section == 3? 1:
+            section == 4? _curCoderDetail.roles.count:
             _curCoderDetail.projects.count);
 }
 
@@ -106,16 +108,17 @@
     return (section == 0? minHeight:
             section == 1? 10:
             section == 2? 10:
-            section == 3? _curCoderDetail.roles.count > 0? 35: minHeight:
+            section == 3? 10:
+            section == 4? _curCoderDetail.roles.count > 0? 35: minHeight:
             _curCoderDetail.projects.count > 0? 35: minHeight);
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *headerV = [UIView new];
     NSString *headerStr = nil;
-    if (section == 3 && _curCoderDetail.roles.count > 0) {
+    if (section == 4 && _curCoderDetail.roles.count > 0) {
         headerStr = @"能胜任的角色类型";
-    }else if (section == 4 && _curCoderDetail.projects.count > 0){
+    }else if (section == 5 && _curCoderDetail.projects.count > 0){
         headerStr = @"项目经验";
     }
     if (headerStr.length > 0) {
@@ -132,17 +135,17 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return section == 2? (_curCoderDetail.roles.count + _curCoderDetail.projects.count) > 0? 25: 10: 1.0/ [UIScreen mainScreen].scale;
+    return section == 3? (_curCoderDetail.roles.count + _curCoderDetail.projects.count) > 0? 25: 10: 1.0/ [UIScreen mainScreen].scale;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     UIView *footerV = [UIView new];
-    if (section == 2 && (_curCoderDetail.roles.count + _curCoderDetail.projects.count) > 0) {
+    if (section == 3 && (_curCoderDetail.roles.count + _curCoderDetail.projects.count) > 0) {
         UIView *whiteV = [[UIView alloc] initWithFrame:CGRectMake(0, 10, kScreen_Width, 15)];
         whiteV.backgroundColor = [UIColor whiteColor];
         [whiteV addLineUp:YES andDown:NO];
         [footerV addSubview:whiteV];
-    }else if (section == 3 && _curCoderDetail.projects.count > 0){
+    }else if (section == 4 && _curCoderDetail.projects.count > 0){
         footerV.backgroundColor = [UIColor whiteColor];
     }
     return footerV;
@@ -168,13 +171,15 @@
     }else if (indexPath.section == 2){
         if (_curCoder.mobile.length <= 0) {//没有查看权限
             CoderTitleButtonCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_CoderTitleButtonCell forIndexPath:indexPath];
-            cell.titleL.text = @"联系方式";
-            if (![cell.button bk_hasEventHandlersForControlEvents:UIControlEventTouchUpInside]) {
-                WEAKSELF
-                [cell.button bk_addEventHandler:^(id sender) {
-                    [weakSelf checkContactInfoClicked];
-                } forControlEvents:UIControlEventTouchUpInside];
+            if ([cell.button bk_hasEventHandlersForControlEvents:UIControlEventTouchUpInside]) {
+                [cell.button bk_removeEventHandlersForControlEvents:UIControlEventTouchUpInside];
             }
+            cell.titleL.text = @"联系方式";
+            [cell.button setTitle:@"点击查看" forState:UIControlStateNormal];
+            WEAKSELF
+            [cell.button bk_addEventHandler:^(id sender) {
+                [weakSelf checkContactInfoClicked];
+            } forControlEvents:UIControlEventTouchUpInside];
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:15];
             return cell;
         }else{
@@ -190,6 +195,19 @@
             return cell;
         }
     }else if (indexPath.section == 3){
+        CoderTitleButtonCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_CoderTitleButtonCell forIndexPath:indexPath];
+        if ([cell.button bk_hasEventHandlersForControlEvents:UIControlEventTouchUpInside]) {
+            [cell.button bk_removeEventHandlersForControlEvents:UIControlEventTouchUpInside];
+        }
+        cell.titleL.text = @"聊天";
+        [cell.button setTitle:@"开始对话" forState:UIControlStateNormal];
+        WEAKSELF
+        [cell.button bk_addEventHandler:^(id sender) {
+            [weakSelf beginConversationClicked];
+        } forControlEvents:UIControlEventTouchUpInside];
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:15];
+        return cell;
+    }else if (indexPath.section == 4){
         SkillRole *role = _curCoderDetail.roles[indexPath.row];
         SkillRoleCell *cell = [tableView dequeueReusableCellWithIdentifier:role.role.data.length > 0? kCellIdentifier_SkillRoleCellDeveloper: kCellIdentifier_SkillRoleCell];
         cell.role = role;
@@ -237,6 +255,8 @@
             height = [MartTitleValueCell cellHeightWithStr:str];
         }
     }else if (indexPath.section == 3){
+        height = [CoderTitleButtonCell cellHeight];
+    }else if (indexPath.section == 4){
         height = [SkillRoleCell cellHeightWithObj:_curCoderDetail.roles[indexPath.row]];
     }else{
         height = [SkillProCell cellHeightWithObj:_curCoderDetail.projects[indexPath.row]];
@@ -265,6 +285,12 @@
             [weakSelf checkContactInfoTip:data];
         }
     }];
+}
+
+- (void)beginConversationClicked{
+    EAChatContact *curContact = [EAChatContact contactWithRewardApplyCoder:_curCoder objectId:_curRewardP.basicInfo.id];
+    ConversationViewController *vc = [ConversationViewController vcWithEAContact:curContact];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)checkContactInfoTip:(NSDictionary *)dict{

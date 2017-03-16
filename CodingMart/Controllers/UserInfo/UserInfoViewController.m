@@ -37,7 +37,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *mpayL;
 @property(weak, nonatomic) IBOutlet UIButton *fillUserInfoBtn;
 @property(weak, nonatomic) IBOutlet UIView *tableHeaderView;
-@property(strong, nonatomic) UIButton *rightNavBtn;
 @property(weak, nonatomic) IBOutlet UIButton *footerBtn;
 @property(weak, nonatomic) IBOutlet UIImageView *developerProgressV;
 
@@ -109,7 +108,6 @@
 }
 
 - (void)refreshUI {
-    [self setupNavBarBtn];
     BOOL isDeveloper = _curUser.loginIdentity.integerValue == 1;
     [_userInfoIconV setImage:[UIImage imageNamed:isDeveloper ? @"icon_userinfo_ certify" : @"icon_userinfo_ info"]];
     if ([Login isLogin]) {
@@ -160,42 +158,6 @@
             }];
         }];
     }];
-
-    [self refreshUnReadNotification];
-}
-
-- (void)refreshUnReadNotification {
-    if (![Login isLogin]) {
-        return;
-    }
-    __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] get_NotificationUnReadCountBlock:^(id data, NSError *error) {
-        if ([(NSNumber *) data integerValue] > 0) {
-            [weakSelf.rightNavBtn addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(33, 12)];
-        } else {
-            [weakSelf.rightNavBtn removeBadgeTips];
-        }
-    }];
-}
-
-#pragma mark Right_Nav
-
-- (void)setupNavBarBtn {
-    if ([Login isLogin]) {
-        if (!self.navigationItem.rightBarButtonItem) {
-            _rightNavBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-            [_rightNavBtn setImage:[UIImage imageNamed:@"nav_icon_tip"] forState:UIControlStateNormal];
-            [_rightNavBtn addTarget:self action:@selector(rightNavBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-            [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:_rightNavBtn] animated:YES];
-        }
-    } else {
-        [self.navigationItem setRightBarButtonItem:nil animated:YES];
-    }
-}
-
-- (void)rightNavBtnClicked {
-    NotificationViewController *vc = [NotificationViewController storyboardVC];
-    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark Btn

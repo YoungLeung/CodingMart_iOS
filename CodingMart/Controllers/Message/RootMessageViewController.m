@@ -70,7 +70,6 @@
 }
 
 - (void)configBlankPageHasError:(BOOL)hasError hasData:(BOOL)hasData{
-    __weak typeof(self) weakSelf = self;
     if (hasData) {
         [self.view removeBlankPageView];
     }else if (hasError){//不处理，用户自己下拉刷新
@@ -127,6 +126,20 @@
     }
 }
 
+- (void)refreshUnReadNotification {
+    if (![Login isLogin]) {
+        return;
+    }
+//    __weak typeof(self) weakSelf = self;
+//    [[Coding_NetAPIManager sharedManager] get_NotificationUnReadCountBlock:^(id data, NSError *error) {
+//        if ([(NSNumber *) data integerValue] > 0) {
+//            [weakSelf.rightNavBtn addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(33, 12)];
+//        } else {
+//            [weakSelf.rightNavBtn removeBadgeTips];
+//        }
+//    }];
+}
+
 #pragma mark Table M
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSInteger row = 2;
@@ -178,5 +191,30 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
+
+//-----------------------------------Editing
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return @"删除会话";
+}
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    return (indexPath.row >= 2);
+}
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView setEditing:NO animated:YES];
+    EAConversation *eaCon = _conversationList[indexPath.row - 2];
+    
+    if ([[TIMManager sharedInstance] deleteConversation:eaCon.isTribe? TIM_GROUP: TIM_C2C receiver:eaCon.uid]) {
+        NSMutableArray *conversationList = self.conversationList.mutableCopy;
+        [conversationList removeObject:eaCon];
+        self.conversationList = conversationList.copy;
+        [self.myTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+
+//        空白页需要更新
+        [self configBlankPageHasError:NO hasData:(self.conversationList.count > 0)];
+    }else{
+        [NSObject showHudTipStr:@"删除失败！"];
+    }
+}
+
 
 @end

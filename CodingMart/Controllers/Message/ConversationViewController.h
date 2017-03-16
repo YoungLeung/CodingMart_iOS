@@ -10,5 +10,5 @@
 
 @interface ConversationViewController : EABaseViewController
 @property (strong, nonatomic) EAConversation *eaConversation;
-
++ (instancetype)vcWithEAContact:(EAChatContact *)eaContact;
 @end

@@ -10,6 +10,18 @@
 
 @implementation EAChatContact
 
++ (instancetype)contactWithRewardApplyCoder:(RewardApplyCoder *)coder objectId:(NSNumber *)objectId{
+    EAChatContact *contact = [self new];
+    contact.icon = coder.avatar;
+    contact.nick = coder.name;
+    contact.uid = coder.global_key;
+    contact.isTribe = @(NO);
+    contact.objectId = objectId;
+//    contact.type =
+    
+    return contact;
+}
+
 - (User *)toUser{
     User *user = [User new];
     user.avatar = _icon.copy;

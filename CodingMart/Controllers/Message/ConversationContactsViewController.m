@@ -70,12 +70,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     EAChatContact *curContact = _eaConversation.contactList[indexPath.row];
-    TIMConversation *timCon = [[TIMManager sharedInstance] getConversation:TIM_C2C receiver:curContact.uid];
-    EAConversation *eaCon = [EAConversation eaConWithTimCon:timCon];
-    eaCon.contact = curContact;
-    
-    ConversationViewController *vc = [ConversationViewController vcInStoryboard:@"Message"];
-    vc.eaConversation = eaCon;
+    ConversationViewController *vc = [ConversationViewController vcWithEAContact:curContact];
     [self.navigationController pushViewController:vc animated:YES];
 }
 @end

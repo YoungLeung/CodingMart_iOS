@@ -66,6 +66,10 @@ static int kMessageListPageSize = 15;
     return [_contactList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"uid = %@", uid]].firstObject;
 }
 
+- (NSString *)nick{
+    return _nick ?: [_timCon getReceiver];
+}
+
 #pragma mark Data Handle
 
 - (void)configWithPushList:(NSArray<TIMMessage *> *)msgs{

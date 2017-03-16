@@ -22,6 +22,16 @@
 
 @implementation ConversationViewController
 
++ (instancetype)vcWithEAContact:(EAChatContact *)eaContact{
+    TIMConversation *timCon = [[TIMManager sharedInstance] getConversation:TIM_C2C receiver:eaContact.uid];
+    EAConversation *eaCon = [EAConversation eaConWithTimCon:timCon];
+    eaCon.contact = eaContact;
+    
+    ConversationViewController *vc = [ConversationViewController vcInStoryboard:@"Message"];
+    vc.eaConversation = eaCon;
+    return vc;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

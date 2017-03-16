@@ -226,24 +226,7 @@
             self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_high_paid"] style:UIBarButtonItemStylePlain target:self action:@selector(showHighPaidTip)];
         }
     }else{
-        if (![Login isLogin]) {
-            self.navigationItem.rightBarButtonItem = nil;
-        }else{
-            if (!self.navigationItem.rightBarButtonItem) {
-                _rightNavBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-                [_rightNavBtn setImage:[UIImage imageNamed:@"nav_icon_tip"] forState:UIControlStateNormal];
-                [_rightNavBtn addTarget:self action:@selector(goToNotificationVC) forControlEvents:UIControlEventTouchUpInside];
-                self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_rightNavBtn];
-            }
-            __weak typeof(self) weakSelf = self;
-            [[Coding_NetAPIManager sharedManager] get_NotificationUnReadCountBlock:^(id data, NSError *error) {
-                if ([(NSNumber *)data integerValue] > 0) {
-                    [weakSelf.rightNavBtn addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(33, 12)];
-                }else{
-                    [weakSelf.rightNavBtn removeBadgeTips];
-                }
-            }];
-        }
+        self.navigationItem.rightBarButtonItem = nil;
     }
 }
 
