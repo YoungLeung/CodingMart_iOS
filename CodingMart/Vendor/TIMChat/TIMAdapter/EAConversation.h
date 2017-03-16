@@ -25,5 +25,6 @@
 
 + (instancetype)eaConWithTimCon:(TIMConversation *)timCon;
 - (EAChatContact *)getContactWithUid:(NSString *)uid;
+- (void)configWithPushList:(NSArray<TIMMessage *> *)msgs;
 - (void)get_EAMessageListBlock:(void (^)(id data, NSString *errorMsg))block;
 @end

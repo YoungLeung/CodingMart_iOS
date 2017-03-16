@@ -8,7 +8,7 @@
 
 #import "EAConversation.h"
 
-static int kMessageListPageSize = 20;
+static int kMessageListPageSize = 5;
 
 @interface EAConversation ()
 @property (strong, nonatomic, readwrite) NSString *uid, *nick, *icon;
@@ -63,6 +63,18 @@ static int kMessageListPageSize = 20;
     return [_contactList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"uid = %@", uid]].firstObject;
 }
 
+- (void)configWithPushList:(NSArray<TIMMessage *> *)msgs{
+    NSMutableArray *eaMsgList = @[].mutableCopy;
+    for (TIMMessage *msg in msgs) {
+        [eaMsgList addObject:[[msg toEAMsg] configWithEACon:self]];
+    }
+    if (_dataList.count > 0) {
+        [eaMsgList addObjectsFromArray:_dataList];
+    }
+    _dataList = eaMsgList.copy;
+    [self.timCon setReadMessage:msgs.firstObject];//标记已读
+}
+
 - (void)get_EAMessageListBlock:(void (^)(id data, NSString *errorMsg))block{
     if (!_timCon) {
         block(nil, nil);
@@ -85,9 +97,6 @@ static int kMessageListPageSize = 20;
     NSMutableArray *eaMsgList = _dataList.mutableCopy ?: @[].mutableCopy;
     for (TIMMessage *msg in msgs) {
         [eaMsgList addObject:[[msg toEAMsg] configWithEACon:self]];
-    }
-    if (_dataList.count > 0) {
-        [eaMsgList addObjectsFromArray:_dataList];
     }
     _dataList = eaMsgList.copy;
 }

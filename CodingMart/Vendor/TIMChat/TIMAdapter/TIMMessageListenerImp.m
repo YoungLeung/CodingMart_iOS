@@ -8,6 +8,10 @@
 
 #import "TIMMessageListenerImp.h"
 
+//onNewMessage
+#import "RootMessageViewController.h"
+#import "ConversationViewController.h"
+
 @interface TIMMessageListenerImp ()
 
 @end
@@ -16,6 +20,10 @@
 
 - (void)onNewMessage:(NSArray *)msgs{
     DebugLog(@"NewMessages: %@", msgs);
+    UIViewController *vc = [UIViewController presentingVC];
+    if ([vc respondsToSelector:@selector(onNewMessage:)]) {
+        [vc performSelector:@selector(onNewMessage:) withObject:msgs];
+    }
 }
 
 @end

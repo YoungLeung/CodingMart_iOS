@@ -16,10 +16,6 @@
 //#import "QBImagePickerController.h"
 //#import "UsersViewController.h"
 #import "Helper.h"
-//#import "WebViewController.h"
-//#import "NSTimer+Common.h"
-//#import "AudioManager.h"
-
 
 @interface ConversationViewController ()<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, QBImagePickerControllerDelegate, UIMessageInputViewDelegate>
 @property (nonatomic, strong) UITableView *myTableView;
@@ -68,8 +64,6 @@
     if (_myMsgInputView) {
         [_myMsgInputView prepareToDismiss];
     }
-//    [self stopPolling];
-//    [[AudioManager shared] stopAll];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -79,7 +73,6 @@
         [_myMsgInputView prepareToShow];
     }
     [self.myTableView reloadData];
-//    [self startPolling];
 }
 
 - (void)dataChangedWithError:(BOOL)hasError scrollToBottom:(BOOL)scrollToBottom animated:(BOOL)animated{
@@ -114,6 +107,22 @@
 //    }];
 //}
 
+#pragma mark onNewMessage
+- (void)onNewMessage:(NSArray<TIMMessage *> *)msgs{
+    NSString *curReceiver = _eaConversation.timCon.getReceiver;
+    NSMutableArray *msgsOfCurConversation = @[].mutableCopy;
+    for (TIMMessage *msg in msgs) {
+        NSString *uid = msg.getConversation.getReceiver;
+        if ([uid isEqualToString:curReceiver]) {
+            [msgsOfCurConversation addObject:msg];
+        }
+    }
+    if (msgsOfCurConversation.count > 0) {
+        [self.eaConversation configWithPushList:msgsOfCurConversation];
+        [self dataChangedWithError:NO scrollToBottom:YES animated:YES];
+    }
+}
+
 #pragma mark UIMessageInputViewDelegate
 - (void)messageInputView:(UIMessageInputView *)inputView sendText:(NSString *)text{
     [self sendEAChatMessage:text];
@@ -122,13 +131,6 @@
 - (void)messageInputView:(UIMessageInputView *)inputView sendBigEmotion:(NSString *)emotionName{
     [self sendEAChatMessage:emotionName];
 }
-
-//- (void)messageInputView:(UIMessageInputView *)inputView sendVoice:(NSString *)file duration:(NSTimeInterval)duration {
-//    VoiceMedia *vm = [[VoiceMedia alloc] init];
-//    vm.file = file;
-//    vm.duration = duration;
-//    [self sendEAChatMessage:vm];
-//}
 
 - (void)messageInputView:(UIMessageInputView *)inputView addIndexClicked:(NSInteger)index{
     [self inputViewAddIndex:index];

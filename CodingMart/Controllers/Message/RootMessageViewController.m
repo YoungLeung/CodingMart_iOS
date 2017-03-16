@@ -11,7 +11,6 @@
 #import "ConversationCell.h"
 #import "ConversationViewController.h"
 #import "ToMessageCell.h"
-#import "SVPullToRefresh.h"
 #import "NotificationViewController.h"
 
 #import "Coding_NetAPIManager.h"
@@ -53,11 +52,6 @@
         tableView;
     });
     [_myTableView eaAddPullToRefreshAction:@selector(refresh) onTarget:self];
-//    __weak typeof(self) weakSelf = self;
-//    [_myTableView addInfiniteScrollingWithActionHandler:^{
-//        [weakSelf refreshMore];
-//    }];
-//    _myTableView.showsInfiniteScrolling = NO;
 }
 
 - (void)tabBarItemClicked{
@@ -75,8 +69,25 @@
     [self refresh];
 }
 
-#pragma mark Data
+#pragma mark onNewMessage
+- (void)onNewMessage:(NSArray<TIMMessage *> *)msgs{
+    NSArray *receiverList = [_conversationList valueForKey:@"uid"];
+    BOOL needToRefreshConversationList = NO;
+    for (TIMMessage *msg in msgs) {
+        NSString *uid = msg.getConversation.getReceiver;
+        if (![receiverList containsObject:uid]) {
+            needToRefreshConversationList = YES;
+            break;
+        }
+    }
+    if (needToRefreshConversationList) {
+        [self refresh];
+    }else{
+        [self.myTableView reloadData];
+    }
+}
 
+#pragma mark Data
 - (void)loginTimChat{
     WEAKSELF;
     [[Coding_NetAPIManager sharedManager] get_LoginTimChatBlock:^(NSString *errorMsg) {
@@ -90,7 +101,7 @@
 
 - (void)refresh{
     if ([TIMManager sharedInstance].getLoginStatus != TIM_STATUS_LOGINED) {//登录并刷新对话列表
-        [_myTableView triggerPullToRefresh];
+        [_myTableView eaTriggerPullToRefresh];
         [self loginTimChat];
     }else{//刷新未读通知
         WEAKSELF;
