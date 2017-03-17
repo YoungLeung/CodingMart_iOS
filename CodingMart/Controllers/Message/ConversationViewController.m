@@ -64,7 +64,7 @@
     [self refreshLoadMore:NO];
     
     if (_eaConversation.isTribe) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_more"] style:UIBarButtonItemStylePlain target:self action:@selector(navBtnClicked)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_group"] style:UIBarButtonItemStylePlain target:self action:@selector(navBtnClicked)];
     }
 }
 

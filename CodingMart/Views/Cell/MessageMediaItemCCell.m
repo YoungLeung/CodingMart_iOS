@@ -32,7 +32,7 @@
         _imgView.contentMode = UIViewContentModeScaleAspectFill;
         _imgView.clipsToBounds = YES;
         _imgView.layer.masksToBounds = YES;
-        _imgView.layer.cornerRadius = 6.0;
+        _imgView.layer.cornerRadius = 3.0;
         
 //        [_imgView doBorderWidth:0.5 color:nil cornerRadius:5.0];
         [self.contentView addSubview:_imgView];

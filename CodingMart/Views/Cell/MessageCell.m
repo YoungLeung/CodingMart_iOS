@@ -8,7 +8,7 @@
 
 #define kMessageCell_FontContent [UIFont systemFontOfSize:15]
 #define kMessageCell_PadingWidth 20.0
-#define kMessageCell_PadingHeight 11.0
+#define kMessageCell_PadingHeight 10.0
 #define kMessageCell_ContentWidth (kScreen_Width*0.6)
 #define kMessageCell_TimeHeight 40.0
 #define kMessageCell_UserIconWith 40.0
@@ -180,7 +180,8 @@
         bgImg = nil;
     }else{
         bgImg = [UIImage imageNamed:isMyMsg? @"messageRight_bg_img": @"messageLeft_bg_img"];
-        bgImg = [bgImg resizableImageWithCapInsets:UIEdgeInsetsMake(18, 30, bgImg.size.height - 19, bgImg.size.width - 31)];
+        UIEdgeInsets capInsets = UIEdgeInsetsMake(5, bgImg.size.width/2, bgImg.size.height - 5, bgImg.size.width/2);
+        bgImg = [bgImg resizableImageWithCapInsets:capInsets];
     }
     
     __weak typeof(self) weakSelf = self;

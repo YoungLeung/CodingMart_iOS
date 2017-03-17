@@ -16,6 +16,6 @@
 @property (strong, nonatomic) NSNumber *isTribe, *type, *objectId;
 
 + (instancetype)contactWithRewardApplyCoder:(RewardApplyCoder *)coder objectId:(NSNumber *)objectId;//objectId 可以缺省
-+ (instancetype)contactWithReward:(Reward *)reward;
++ (void)get_ContactWithRewardId:(NSNumber *)rewardId block:(void (^)(id data, NSError *error))block;
 - (User *)toUser;
 @end

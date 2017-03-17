@@ -7,6 +7,7 @@
 //
 
 #import "EAChatContact.h"
+#import "Coding_NetAPIManager.h"
 
 @implementation EAChatContact
 
@@ -22,16 +23,16 @@
     return contact;
 }
 
-+ (instancetype)contactWithReward:(Reward *)reward{
-    EAChatContact *contact = [self new];
-    contact.icon = reward.cover;
-    contact.nick = [NSString stringWithFormat:@"%@【%@】", reward.id, reward.name];
-//    contact.uid = reward.global_key;
-    contact.isTribe = @(YES);
-    contact.objectId = reward.id;
-    //    contact.type =
-    
-    return contact;
++ (void)get_ContactWithRewardId:(NSNumber *)rewardId block:(void (^)(id data, NSError *error))block{
+    if (![rewardId isKindOfClass:[NSNumber class]]) {
+        return ;
+    }
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/im/contact/user" withParams:@{@"project": rewardId} withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject objectOfClass:@"EAChatContact" fromJSON:data[@"ImContactResult"][@"contact"]];
+        }
+        block(data, error);
+    }];
 }
 
 - (User *)toUser{
