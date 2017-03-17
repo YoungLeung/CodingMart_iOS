@@ -205,7 +205,7 @@
 }
 
 - (void)configSendStatus{
-    CGPoint statusCenter = CGPointMake(CGRectGetMinX(_bgImgView.frame) -20, CGRectGetMinY(_bgImgView.frame)+ 15);
+    CGPoint statusCenter = CGPointMake(CGRectGetMinX(_bgImgView.frame) -10, CGRectGetMinY(_bgImgView.frame)+ 15);
     if (_curPriMsg.sendStatus == EAChatMessageSendStatusSucess) {
         if (_sendingStatus) {
             [_sendingStatus stopAnimating];
