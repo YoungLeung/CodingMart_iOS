@@ -126,11 +126,15 @@ static int kMessageListPageSize = 15;
     }
 }
 
-- (void)post_SendMessage:(EAChatMessage *)eaMsg andBlock:(void (^)(id data, NSString *errorMsg))block{
-//    更新数据
-    NSMutableArray *eaMsgList = _dataList.mutableCopy ?: @[].mutableCopy;
-    [eaMsgList insertObject:eaMsg atIndex:0];
-    _dataList = eaMsgList.copy;
+- (void)post_SendMessage:(EAChatMessage *)eaMsg isReSend:(BOOL)isReSend andBlock:(void (^)(id data, NSString *errorMsg))block{
+    //    更新数据
+    if (isReSend) {
+        eaMsg.sendStatus = EAChatMessageSendStatusIng;
+    }else{
+        NSMutableArray *eaMsgList = _dataList.mutableCopy ?: @[].mutableCopy;
+        [eaMsgList insertObject:eaMsg atIndex:0];
+        _dataList = eaMsgList.copy;
+    }
 //    发送消息的 block
     __weak typeof(self) weakSelf = self;
     void (^timSendBlock)() = ^(){

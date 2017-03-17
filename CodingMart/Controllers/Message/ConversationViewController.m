@@ -272,7 +272,7 @@
     [self.myMsgInputView isAndResignFirstResponder];
     UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"重新发送" buttonTitles:@[@"发送"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
         if (index == 0 && toResendMsg) {
-            [weakSelf sendEAChatMessageWithMsg:toResendMsg];
+            [weakSelf sendEAChatMessageWithMsg:toResendMsg isReSend:YES];
             
         }
     }];
@@ -302,17 +302,19 @@
 
 - (void)sendEAChatMessage:(id)obj{
     EAChatMessage *nextMsg = [EAChatMessage eaMessageWithObj:obj];
-    [self sendEAChatMessageWithMsg:nextMsg];
+    [self sendEAChatMessageWithMsg:nextMsg isReSend:NO];
 }
 
-- (void)sendEAChatMessageWithMsg:(EAChatMessage *)nextMsg{
+- (void)sendEAChatMessageWithMsg:(EAChatMessage *)nextMsg isReSend:(BOOL)isReSend{
     __weak typeof(self) weakSelf = self;
-    [_eaConversation post_SendMessage:nextMsg andBlock:^(id data, NSString *errorMsg) {
+    [_eaConversation post_SendMessage:nextMsg isReSend:isReSend andBlock:^(id data, NSString *errorMsg) {
         [weakSelf dataChangedWithError:NO scrollToBottom:YES animated:YES];
     }];
     [self dataChangedWithError:NO scrollToBottom:YES animated:YES];
 }
 - (void)deleteEAChatMessageWithMsg:(EAChatMessage *)curMsg{
+//    [curMsg.timMsg remove];
+    
 //    __weak typeof(self) weakSelf = self;
 //    if (curMsg.sendStatus == EAChatMessageStatusSendFail) {
 //        [_eaConversation deleteMessage:curMsg];
