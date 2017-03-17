@@ -77,7 +77,7 @@
     }else{
         [self.view configBlankPageImage:kBlankPageImageMessage tipStr:@"这里还没有消息"];
     }
-    [self.view setBlankOffsetY:2 * [ToMessageCell cellHeight]];
+    [self.view setBlankOffsetY:1 * [ToMessageCell cellHeight]];
 }
 
 #pragma mark onNewMessage
