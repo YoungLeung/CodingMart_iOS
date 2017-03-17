@@ -17,6 +17,8 @@
         // Initialization code
         self.textLabel.font = [UIFont systemFontOfSize:17];
         self.textLabel.textColor = kColorText22;
+//        self.contentView.clipsToBounds = YES;
+        self.clipsToBounds = YES;
     }
     return self;
 }
@@ -27,7 +29,7 @@
     switch (_type) {
         case ToMessageTypeSystem:
             imageName = @"messageSystem";
-            titleStr = @"@系统通知";
+            titleStr = @"系统通知";
             break;
         case ToMessageTypeReward:
             imageName = @"messageReward";

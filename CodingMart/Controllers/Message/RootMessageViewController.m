@@ -165,7 +165,8 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat cellHeight;
     if (indexPath.row < 2) {
-        cellHeight = [ToMessageCell cellHeight];
+//        cellHeight = [ToMessageCell cellHeight];
+        cellHeight = indexPath.row == 0? [ToMessageCell cellHeight]: 0;
     }else{
         cellHeight = [ConversationCell cellHeight];
     }
