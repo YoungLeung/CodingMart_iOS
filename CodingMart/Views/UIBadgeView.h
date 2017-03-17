@@ -7,6 +7,7 @@
 //
 
 #define  kBadgeTipStr @"badgeTip"
+#define  kBadgeTipMinWidth 6.0
 
 #import <UIKit/UIKit.h>
 

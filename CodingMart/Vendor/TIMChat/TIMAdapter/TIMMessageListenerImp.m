@@ -11,6 +11,7 @@
 //onNewMessage
 #import "RootMessageViewController.h"
 #import "ConversationViewController.h"
+#import "UnReadManager.h"
 
 @interface TIMMessageListenerImp ()
 
@@ -23,6 +24,9 @@
     UIViewController *vc = [UIViewController presentingVC];
     if ([vc respondsToSelector:@selector(onNewMessage:)]) {
         [vc performSelector:@selector(onNewMessage:) withObject:msgs];
+    }
+    if (![vc isKindOfClass:[ConversationViewController class]]) {
+        [UnReadManager updateUnReadWidthQuery:NO block:nil];
     }
 }
 

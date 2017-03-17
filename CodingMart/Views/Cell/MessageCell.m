@@ -22,6 +22,7 @@
 #import "Login.h"
 #import "Coding_NetAPIManager.h"
 #import "UITTTAttributedLabel.h"
+#import "MartWebViewController.h"
 
 @interface MessageCell ()<TTTAttributedLabelDelegate>
 @property (strong, nonatomic) EAChatMessage *curPriMsg, *prePriMsg;
@@ -293,15 +294,13 @@
 #pragma mark TTTAttributedLabelDelegate
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithTransitInformation:(NSDictionary *)components{
     HtmlMediaItem *clickedItem = [components objectForKey:@"value"];
-    [self analyseLinkStr:clickedItem.href];
-}
-
-- (void)analyseLinkStr:(NSString *)linkStr{
-    if (linkStr.length <= 0) {
-        return;
+    if (clickedItem.href.length > 0) {
+        UIViewController *vc = [UIViewController analyseVCFromLinkStr:clickedItem.href];
+        if ([vc isKindOfClass:[MartWebViewController class]]) {
+            [(MartWebViewController *)vc setTitleStr:label.text];
+        }
+        [[UIViewController presentingVC].navigationController pushViewController:vc animated:YES];
     }
-    UIViewController *vc = [UIViewController analyseVCFromLinkStr:linkStr];
-    [[UIViewController presentingVC].navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark Collection M

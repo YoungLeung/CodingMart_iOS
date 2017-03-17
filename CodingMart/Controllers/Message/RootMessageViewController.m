@@ -15,6 +15,7 @@
 
 #import "Coding_NetAPIManager.h"
 #import "Login.h"
+#import "UnReadManager.h"
 
 @interface RootMessageViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *myTableView;
@@ -110,10 +111,12 @@
 }
 
 - (void)refresh{
-    if ([TIMManager sharedInstance].getLoginStatus == TIM_STATUS_LOGOUT) {//登录并刷新对话列表
+    if ([TIMManager sharedInstance].getLoginStatus == TIM_STATUS_LOGOUT) {
+        //登录
         [_myTableView eaTriggerPullToRefresh];
         [self loginTimChat];
-    }else{//刷新未读通知
+    }else{
+        //刷新对话列表
         WEAKSELF;
         [[Coding_NetAPIManager sharedManager] get_EAConversationListBlock:^(id data, NSError *error) {
             [weakSelf.myTableView.pullRefreshCtrl endRefreshing];
@@ -123,21 +126,11 @@
             }
             [weakSelf configBlankPageHasError:(error != nil) hasData:(weakSelf.conversationList.count > 0)];
         }];
+        //刷新未读通知
+        [UnReadManager updateUnReadWidthQuery:YES block:^{
+            [weakSelf.myTableView reloadData];
+        }];
     }
-}
-
-- (void)refreshUnReadNotification {
-    if (![Login isLogin]) {
-        return;
-    }
-//    __weak typeof(self) weakSelf = self;
-//    [[Coding_NetAPIManager sharedManager] get_NotificationUnReadCountBlock:^(id data, NSError *error) {
-//        if ([(NSNumber *) data integerValue] > 0) {
-//            [weakSelf.rightNavBtn addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(33, 12)];
-//        } else {
-//            [weakSelf.rightNavBtn removeBadgeTips];
-//        }
-//    }];
 }
 
 #pragma mark Table M
@@ -153,11 +146,10 @@
     if (indexPath.row < 2) {
         ToMessageCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ToMessage forIndexPath:indexPath];
         cell.type = indexPath.row;
-        cell.unreadCount = @(rand() % 3);
         if (indexPath.row == 0) {
-            
+            cell.unreadCount = [UnReadManager shareManager].systemUnreadNum;
         }else{
-            
+            cell.unreadCount = [UnReadManager shareManager].rewardUnreadNum;
         }
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:75 hasSectionLine:NO];
         return cell;

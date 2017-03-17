@@ -20,6 +20,8 @@
 #import "AppDelegate.h"
 #import "PublishRewardViewController.h"
 #import "RootMessageViewController.h"
+#import "UnReadManager.h"
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 typedef NS_ENUM(NSInteger, TabVCType) {
     TabVCTypeFind = 0,
@@ -214,6 +216,16 @@ typedef NS_ENUM(NSInteger, TabVCType) {
         [item setTitle:[tabTitles objectAtIndex:index]];
     }
     self.delegate = self;
+    
+    for (UINavigationController *nav in viewControllers) {
+        UIViewController *vc = nav.viewControllers.firstObject;
+        if ([vc isKindOfClass:[RootMessageViewController class]]) {
+            RAC(vc, rdv_tabBarItem.badgeValue) = [RACSignal combineLatest:@[RACObserve([UnReadManager shareManager], hasMessageToTip)]
+                                                                   reduce:^id(NSNumber *hasMessageToTip){
+                                                                       return hasMessageToTip.boolValue? kBadgeTipStr : @"";
+                                                                   }];
+        }
+    }
 }
 
 #pragma mark RDVTabBarControllerDelegate

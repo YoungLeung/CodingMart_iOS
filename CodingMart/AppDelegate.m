@@ -26,6 +26,7 @@
 #import "AFNetworkReachabilityManager.h"
 #import "Coding_NetAPIManager.h"
 #import "FillUserInfo.h"
+#import "UnReadManager.h"
 
 @interface AppDelegate ()
 
@@ -165,6 +166,7 @@
     if ([[UIDevice currentDevice] systemVersion].floatValue >= 9.0) {
         [self setupShortcutItems];
     }
+    [UnReadManager updateUnReadWidthQuery:NO block:nil];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -191,6 +193,7 @@
     if ([vc respondsToSelector:NSSelectorFromString(@"becomeActiveRefresh")]) {
         [vc performSelector:NSSelectorFromString(@"becomeActiveRefresh")];
     }
+    [UnReadManager updateUnReadWidthQuery:YES block:nil];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

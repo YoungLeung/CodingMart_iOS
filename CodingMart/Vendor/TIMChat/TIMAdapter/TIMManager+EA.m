@@ -9,8 +9,10 @@
 #import "TIMManager+EA.h"
 #import "CodingNetAPIClient.h"
 #import "Login.h"
+#import "UnReadManager.h"
 
 @implementation TIMManager (EA)
+
 + (void)setupConfig{
     TIMManager *timManager = [TIMManager sharedInstance];
     [timManager disableCrashReport];
@@ -18,6 +20,7 @@
     [timManager setUserStatusListener:[TIMUserStatusListenerImp new]];
     [timManager initSdk:kTimAppidAt3rd.intValue];
 }
+
 + (void)loginBlock:(void (^)(NSString *errorMsg))block{
     if ([TIMManager sharedInstance].getLoginStatus == TIM_STATUS_LOGINING) {
         return;
@@ -37,6 +40,7 @@
         loginParam.identifier = [Login curLoginUser].global_key;
         loginParam.userSig = userSig;
         [[TIMManager sharedInstance] login:loginParam succ:^(){
+            [UnReadManager updateUnReadWidthQuery:NO block:nil];//登录之后，刷新未读数据
             block(nil);
         } fail:^(int code, NSString *msg) {
             [NSObject showHudTipStr:msg];
@@ -53,4 +57,14 @@
     }];
 }
 
++ (NSUInteger)unreadMessageNum{
+    if ([TIMManager sharedInstance].getLoginStatus != TIM_STATUS_LOGINED) {
+        return 0;
+    }
+    NSUInteger unreadMessageNum = 0;
+    for (TIMConversation *timCon in [[TIMManager sharedInstance] getConversationList]) {
+        unreadMessageNum += [timCon getUnReadMessageNum];
+    }
+    return unreadMessageNum;
+}
 @end

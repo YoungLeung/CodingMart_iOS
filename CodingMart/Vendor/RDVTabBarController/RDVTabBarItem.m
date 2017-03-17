@@ -159,7 +159,7 @@
             badgeSize = CGSizeMake(badgeSize.height, badgeSize.height);
         }
         if ([_badgeValue isEqualToString:kBadgeTipStr]) {
-            badgeSize = CGSizeMake(4, 4);
+            badgeSize = CGSizeMake(kBadgeTipMinWidth, kBadgeTipMinWidth);
         }
         
         CGRect badgeBackgroundFrame = CGRectMake(roundf(frameSize.width / 2 + (image.size.width / 2) * 0.9) +
@@ -170,7 +170,7 @@
         CGRect badgeBackgroundPaddingFrame = CGRectMake(badgeBackgroundFrame.origin.x-padding, badgeBackgroundFrame.origin.y-padding, badgeBackgroundFrame.size.width +2*padding, badgeBackgroundFrame.size.height +2*padding);
         
         if ([self badgeBackgroundColor]) {
-            CGContextSetFillColorWithColor(context, [[UIColor whiteColor] CGColor]);
+            CGContextSetFillColorWithColor(context, kColorBadgePadding.CGColor);
             if (badgeSize.width > badgeSize.height) {//外白色描边
                 CGFloat circleWith = badgeBackgroundPaddingFrame.size.height;
                 CGFloat totalWidth = badgeBackgroundPaddingFrame.size.width;

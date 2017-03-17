@@ -59,8 +59,8 @@
     }
     [_userIconView sd_setImageWithURL:[_curConversation.icon urlImageWithCodePathResize:2 * 50] placeholderImage:[UIImage imageNamed:_curConversation.isTribe? @"messageGroup": @"placeholder_user"]];
     _name.text = _curConversation.nick;
-//    _msg.text = [_curConversation isTribe]? _curConversation.contact.desc: [_curConversation.lastMsg hasMedia]? @"[图片]": _curConversation.lastMsg.content;
-    _msg.text = [_curConversation.lastMsg hasMedia]? @"[图片]": _curConversation.lastMsg.content;
+    _msg.text = [_curConversation isTribe]? _curConversation.contact.desc: [_curConversation.lastMsg hasMedia]? @"[图片]": _curConversation.lastMsg.content;
+//    _msg.text = [_curConversation.lastMsg hasMedia]? @"[图片]": _curConversation.lastMsg.content;
     _time.text = [_curConversation.lastMsg.timMsg.timestamp stringDisplay_MMdd];
     NSInteger unReadNum = [_curConversation.timCon getUnReadMessageNum];
     NSString *badgeTip = unReadNum > 99? @"99+": unReadNum > 0? [NSString stringWithFormat:@"%@", @(unReadNum)]: @"";

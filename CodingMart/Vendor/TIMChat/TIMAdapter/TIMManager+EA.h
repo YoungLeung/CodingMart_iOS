@@ -12,4 +12,5 @@
 + (void)setupConfig;
 + (void)loginBlock:(void (^)(NSString *errorMsg))block;
 + (void)logoutBlock:(void (^)(NSString *errorMsg))block;
++ (NSUInteger)unreadMessageNum;
 @end
