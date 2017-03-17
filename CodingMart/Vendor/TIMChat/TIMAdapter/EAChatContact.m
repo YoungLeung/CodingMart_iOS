@@ -29,7 +29,7 @@
     }
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/im/contact/user" withParams:@{@"project": rewardId} withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
-            data = [NSObject objectOfClass:@"EAChatContact" fromJSON:data[@"ImContactResult"][@"contact"]];
+            data = [NSObject objectOfClass:@"EAChatContact" fromJSON:[data[@"contact"] firstObject]];
         }
         block(data, error);
     }];
