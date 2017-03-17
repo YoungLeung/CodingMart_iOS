@@ -79,18 +79,18 @@ static User *curLoginUser;
 + (void)doLogin:(NSDictionary *)loginData{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:[NSNumber numberWithBool:YES] forKey:kLoginStatus];
-    
-    if ([TIMManager sharedInstance].getLoginStatus == TIM_STATUS_LOGOUT) {
-        [TIMManager loginBlock:^(NSString *errorMsg) {
-            DebugLog(@"TimChat 登录：%@", errorMsg);
-        }];
-    }
 
     if (loginData) {
         [defaults setObject:loginData forKey:kLoginUserDict];
         curLoginUser = [NSObject objectOfClass:@"User" fromJSON:loginData];
         [Login setXGAccountWithCurUser];
         [self saveLoginData:loginData];
+        
+        if ([TIMManager sharedInstance].getLoginStatus == TIM_STATUS_LOGOUT) {
+            [TIMManager loginBlock:^(NSString *errorMsg) {
+                DebugLog(@"TimChat 登录：%@", errorMsg);
+            }];
+        }
     }else{
         [defaults removeObjectForKey:kLoginUserDict];
         curLoginUser = [User userTourist];
@@ -184,6 +184,12 @@ static User *curLoginUser;
     }];
     
     [Login setXGAccountWithCurUser];
+    
+    if ([TIMManager sharedInstance].getLoginStatus == TIM_STATUS_LOGINED) {
+        [TIMManager logoutBlock:^(NSString *errorMsg) {
+            DebugLog(@"TimChat 登出：%@", errorMsg);
+        }];
+    }
 }
 
 + (void)setPreUserEmail:(NSString *)emailStr{

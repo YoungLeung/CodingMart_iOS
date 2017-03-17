@@ -11,4 +11,5 @@
 @interface TIMManager (EA)
 + (void)setupConfig;
 + (void)loginBlock:(void (^)(NSString *errorMsg))block;
++ (void)logoutBlock:(void (^)(NSString *errorMsg))block;
 @end

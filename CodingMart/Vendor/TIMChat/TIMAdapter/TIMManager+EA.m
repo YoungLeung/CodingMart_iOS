@@ -45,4 +45,12 @@
     }];
 }
 
++ (void)logoutBlock:(void (^)(NSString *errorMsg))block{
+    [[TIMManager sharedInstance] logout:^{
+        block(nil);
+    } fail:^(int code, NSString *msg) {
+        block(msg);
+    }];
+}
+
 @end
