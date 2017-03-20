@@ -196,7 +196,7 @@
     [tableView setEditing:NO animated:YES];
     EAConversation *eaCon = _conversationList[indexPath.row - 2];
     
-    if ([[TIMManager sharedInstance] deleteConversation:eaCon.isTribe? TIM_GROUP: TIM_C2C receiver:eaCon.uid]) {
+    if ([[TIMManager sharedInstance] deleteConversation:eaCon.timCon? eaCon.timCon.getType: eaCon.isTribe? TIM_GROUP: TIM_C2C receiver:eaCon.uid]) {
         NSMutableArray *conversationList = self.conversationList.mutableCopy;
         [conversationList removeObject:eaCon];
         self.conversationList = conversationList.copy;

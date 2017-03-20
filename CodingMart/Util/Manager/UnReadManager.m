@@ -38,8 +38,10 @@
 }
 
 - (NSNumber *)totalUnreadNum{
-    NSInteger totalUnreadNum = _systemUnreadNum.integerValue + _rewardUnreadNum.integerValue + [TIMManager unreadMessageNum];
-    [UIApplication sharedApplication].applicationIconBadgeNumber = totalUnreadNum;
+    NSUInteger unreadMessageNum = [TIMManager unreadMessageNum];
+//    NSInteger totalUnreadNum = _systemUnreadNum.integerValue + _rewardUnreadNum.integerValue + [TIMManager unreadMessageNum];
+    NSInteger totalUnreadNum = _systemUnreadNum.integerValue + unreadMessageNum;
+    [UIApplication sharedApplication].applicationIconBadgeNumber = unreadMessageNum;
     return @(totalUnreadNum);
 }
 
