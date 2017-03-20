@@ -17,6 +17,7 @@
 @property (strong, nonatomic) void(^rePublishBtnBlock)(Reward *reward);
 @property (strong, nonatomic) void(^goToPrivateRewardBlock)(Reward *reward);
 @property (strong, nonatomic) void(^goToPublicRewardBlock)(Reward *reward);
+@property (strong, nonatomic) void(^goToRewardConversationBlock)(Reward *reward);
 
 + (CGFloat)cellHeightWithTip:(BOOL)hasTip;
 

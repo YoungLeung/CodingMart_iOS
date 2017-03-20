@@ -14,6 +14,7 @@
 #import "RewardPrivateViewController.h"
 #import "RDVTabBarController.h"
 #import "EaseDropListView.h"
+#import "ConversationViewController.h"
 
 @interface JoinedRewardsViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
@@ -163,6 +164,9 @@
     cell.goToPublicRewardBlock =  ^(Reward *reward){
         [weakSelf goToPublicReward:reward];
     };
+    cell.goToRewardConversationBlock = ^(Reward *reward){
+        [weakSelf goToRewardConversation:reward];
+    };
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
     return cell;
 }
@@ -196,5 +200,17 @@
     }
     RewardDetailViewController *vc = [RewardDetailViewController vcWithReward:reward];
     [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)goToRewardConversation:(Reward *)reward{
+    [NSObject showHUDQueryStr:@"请稍等..."];
+    __weak typeof(self) weakSelf = self;
+    [EAChatContact get_ContactWithRewardId:reward.id block:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (data) {
+            [weakSelf.navigationController pushViewController:[ConversationViewController vcWithEAContact:data] animated:YES];
+        }else{
+            [NSObject showError:error];
+        }
+    }];
 }
 @end

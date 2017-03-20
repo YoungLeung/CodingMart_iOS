@@ -23,7 +23,7 @@
 @implementation ConversationViewController
 
 + (instancetype)vcWithEAContact:(EAChatContact *)eaContact{
-    TIMConversation *timCon = [[TIMManager sharedInstance] getConversation:TIM_C2C receiver:eaContact.uid];
+    TIMConversation *timCon = [[TIMManager sharedInstance] getConversation:eaContact.isTribe.boolValue? TIM_GROUP: TIM_C2C receiver:eaContact.uid];
     EAConversation *eaCon = [EAConversation eaConWithTimCon:timCon];
     eaCon.contact = eaContact;
     

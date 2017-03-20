@@ -62,6 +62,7 @@ typedef NS_ENUM(NSInteger, PayMethodType) {
 
 - (BOOL)needToPay;
 - (BOOL)hasPaidSome;
+- (BOOL)hasConversation;
 
 - (void)prepareToDisplay;
 - (NSDictionary *)toPostParams;

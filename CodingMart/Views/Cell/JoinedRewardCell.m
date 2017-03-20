@@ -113,4 +113,10 @@
     }
 }
 
+- (IBAction)conversationBtnClicked:(id)sender {
+    if (_goToRewardConversationBlock) {
+        _goToRewardConversationBlock(_reward);
+    }
+}
+
 @end

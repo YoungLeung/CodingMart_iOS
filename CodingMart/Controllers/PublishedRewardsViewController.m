@@ -15,6 +15,7 @@
 #import "PayMethodViewController.h"
 #import "PublishRewardViewController.h"
 #import "MPayRewardOrderGenerateViewController.h"
+#import "ConversationViewController.h"
 
 @interface PublishedRewardsViewController ()<UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
@@ -130,6 +131,19 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
+
+- (void)goToRewardConversation:(Reward *)reward{
+    [NSObject showHUDQueryStr:@"请稍等..."];
+    __weak typeof(self) weakSelf = self;
+    [EAChatContact get_ContactWithRewardId:reward.id block:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (data) {
+            [weakSelf.navigationController pushViewController:[ConversationViewController vcWithEAContact:data] animated:YES];
+        }else{
+            [NSObject showError:error];
+        }
+    }];
+}
 #pragma mark Table M
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     cell.separatorInset = UIEdgeInsetsMake(0, 15, 0, 0);//默认左边空 15
@@ -162,6 +176,9 @@
     };
     cell.rePublishBtnBlock = ^(Reward *reward){
         [weakSelf goToPublish:reward];
+    };
+    cell.goToRewardConversationBlock = ^(Reward *reward){
+        [weakSelf goToRewardConversation:reward];
     };
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
     return cell;

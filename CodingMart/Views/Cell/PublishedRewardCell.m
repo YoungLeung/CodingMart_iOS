@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *allPaidV;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *priceBottomConstraint;
 @property (weak, nonatomic) IBOutlet UIButton *payBtn;
+@property (weak, nonatomic) IBOutlet UIButton *conversationBtn;
 
 @property (weak, nonatomic) IBOutlet UILabel *priceL;
 
@@ -94,6 +95,7 @@
     _priceBottomConstraint.constant = _reward.roleTypesDisplay.length > 0? 0: -20;
     
     [_payBtn setTitle:_reward.mpay.boolValue? @"支付订金":@"立即付款" forState:UIControlStateNormal];
+    _conversationBtn.hidden = ![_reward hasConversation];
 }
 
 - (NSAttributedString *)p_payTipStr{
@@ -118,6 +120,13 @@
         _goToPrivateRewardBlock(_reward);
     }
 }
+
+- (IBAction)conversationBtnClicked:(id)sender {
+    if (_goToRewardConversationBlock) {
+        _goToRewardConversationBlock(_reward);
+    }
+}
+
 + (CGFloat)cellHeightWithTip:(BOOL)hasTip{
     return hasTip? 205: 170;
 }

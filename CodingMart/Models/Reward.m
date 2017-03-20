@@ -70,6 +70,13 @@
 - (BOOL)hasPaidSome{
     return (_price_with_fee.floatValue - _balance.floatValue > 0);
 }
+- (BOOL)hasConversation{
+    return (_status.integerValue == RewardStatusPassed ||
+            _status.integerValue == RewardStatusRecruiting ||
+            _status.integerValue == RewardStatusDeveloping ||
+            _status.integerValue == RewardStatusFinished ||
+            _status.integerValue == RewardStatusMaintain);
+}
 - (void)prepareToDisplay{
     if (_typeDisplay) {//已经有数据了，就不需要再 prepare 了
         return;
