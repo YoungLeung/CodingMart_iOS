@@ -140,10 +140,10 @@
             [itemView setImage:@"welcome_2" title:@"省心" text:@"全云端开发工具，过程全透明"];
             break;
         case 3:
-            [itemView setImage:@"welcome_3" title:@"安全" text:@"专属项目顾问监管，双向协议保障"];
+            [itemView setImage:@"welcome_3" title:@"安全" text:@"双向协议保障，在线交付验收"];
             break;
         default:
-            [itemView setImage:@"welcome_0" title:nil text:@"『码市是 CODING 旗下的一个基于云技术的软件外包服务平台。改变传统软件外包模式，将云端软件开发协作平台 Coding.net 作为沟通和监管工具，通过智能匹配系统快速连接开发者与需求方，提供专业的项目顾问进行全程协助管理。秉承 “让开发更简单” 的理念，提高软件交付的效率，帮助软件开发行业实现高效的资源匹配。』"];
+            [itemView setImage:@"welcome_0" title:nil text:@"『码市是 CODING 旗下的一个基于云技术的软件外包服务平台。改变传统软件外包模式，将云端软件开发协作平台 Coding.net 作为沟通和监管工具，通过智能匹配系统快速连接开发者与需求方，提供平台外包、码市直营全程管理交付、找人等服务。秉承 “让开发更简单” 的理念，提高软件交付的效率，帮助软件开发行业实现高效的资源匹配。』"];
             break;
     }
     return itemView;
