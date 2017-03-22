@@ -14,7 +14,7 @@
     TIMMessage *timMsg = [TIMMessage new];
     //        文本 Elem
     TIMCustomElem *customE = [TIMCustomElem new];
-    NSString *contentStr = [NSString stringWithFormat:@"<img class:\"chat-image\" src=\"%@\"/>", dict[@"data"][@"url"]];
+    NSString *contentStr = [NSString stringWithFormat:@"<img class=\"chat-image\" src=\"%@\"/>", dict[@"data"][@"url"]];
     customE.data = [contentStr dataUsingEncoding:NSUTF8StringEncoding];
     [timMsg addElem:customE];
     //        推送描述
