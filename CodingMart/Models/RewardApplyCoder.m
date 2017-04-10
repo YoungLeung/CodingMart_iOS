@@ -22,7 +22,7 @@
 }
 
 - (NSString *)reward_roleDisplay{
-    return _reward_role.integerValue == 0? @"独立开发者": @"开发者团队";
+    return _reward_role.integerValue == 1? @"独立开发者": @"开发者团队";
 }
 
 - (NSNumber *)auth{
