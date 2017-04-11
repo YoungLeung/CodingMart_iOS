@@ -295,15 +295,18 @@
 #pragma mark Super
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     NSString *curURLStr = request.URL.absoluteString;
-    if (![curURLStr isEqual:self.request.URL.absoluteString]) {
-        if (![curURLStr isEqualToString:@"about:blank"] &&
-            [curURLStr rangeOfString:@"supportbox/index"].location == NSNotFound) {//http://codemart.kf5.com/supportbox/index
-            UIViewController *vc = [UIViewController analyseVCFromLinkStr:request.URL.absoluteString];
-            [self.navigationController pushViewController:vc animated:YES];
-            return NO;
+    BOOL shouldStartLoad = ([curURLStr isEqual:self.request.URL.absoluteString] ||
+                            [curURLStr isEqualToString:@"about:blank"]);
+    if (!shouldStartLoad) {
+        if ([curURLStr rangeOfString:@"codemart.kf5.com"].location != NSNotFound && [request.URL.queryParams[@"name"] length] <= 0) {//码市顾问相关页面的加载，没 name 表示没有展开对话
+            shouldStartLoad = YES;
         }
     }
-    return YES;
+    if (!shouldStartLoad) {
+        UIViewController *vc = [UIViewController analyseVCFromLinkStr:request.URL.absoluteString];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    return shouldStartLoad;
 }
 
 @end
