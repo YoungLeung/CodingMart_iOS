@@ -63,6 +63,7 @@
     if ([Login isLogin]) {
         [self setupTabViewController];
         [TIMManager loginBlock:^(NSString *errorMsg) {
+            [self registerPush];
             DebugLog(@"TimChat 登录：%@", errorMsg);
         }];
     }else{
@@ -105,6 +106,8 @@
 }
 
 - (void)registerRemoteNotification{
+    [self registerPush];
+    
     //    信鸽推送
     [XGPush startApp:kXGPush_Id appKey:kXGPush_Key];
     [Login setXGAccountWithCurUser];
@@ -172,6 +175,15 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    
+    NSUInteger unreadMessageNum = [TIMManager unreadMessageNum];
+    TIMBackgroundParam  *param = [TIMBackgroundParam new];
+    [param setC2cUnread:(int)unreadMessageNum];
+    [[TIMManager sharedInstance] doBackground:param succ:^() {
+        DebugLog(@"doBackgroud Succ");
+    } fail:^(int code, NSString * err) {
+        DebugLog(@"Fail: %d->%@", code, err);
+    }];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -194,6 +206,8 @@
         [vc performSelector:NSSelectorFromString(@"becomeActiveRefresh")];
     }
     [UnReadManager updateUnReadWidthQuery:YES block:nil];
+    
+    [[TIMManager sharedInstance] doForeground];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -249,6 +263,19 @@
 {
     NSString * deviceTokenStr = [XGPush registerDevice:deviceToken];
     NSLog(@"deviceTokenStr : %@", deviceTokenStr);
+    
+    TIMTokenParam *param = [TIMTokenParam new];
+#if DEBUG
+    param.busiId = kTimAppPushId_Debug;
+#else
+    param.busiId = kTimAppPushId;
+#endif
+    [param setToken:deviceToken];
+    [[TIMManager sharedInstance] setToken:param succ:^{
+        NSLog(@"-----> 上传token成功 ");
+    } fail:^(int code, NSString *msg) {
+        NSLog(@"-----> 上传token失败 ");
+    }];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
