@@ -61,12 +61,19 @@
         //App 角标清零
         [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 
-        //弹出临时会话
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            DebugLog(@"handleNotificationInfo : %@", userInfo);
-            NSString *param_url = [userInfo objectForKey:@"param_url"];
-            [self presentLinkStr:param_url];
-        });
+        if ([userInfo[@"ext"] hasSuffix:@"MSG"]) {
+            if ([kKeyWindow.rootViewController isKindOfClass:[RootTabViewController class]]) {
+                RootTabViewController *vc = (RootTabViewController *)kKeyWindow.rootViewController;
+                vc.selectedIndex = 2;
+            }
+        }else if ([userInfo[@"param_url"] length] > 0){
+            //弹出临时会话
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                DebugLog(@"handleNotificationInfo : %@", userInfo);
+                NSString *param_url = [userInfo objectForKey:@"param_url"];
+                [self presentLinkStr:param_url];
+            });
+        }
     }else if (applicationState == UIApplicationStateActive){
         
     }
