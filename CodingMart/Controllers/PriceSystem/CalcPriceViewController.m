@@ -128,11 +128,9 @@
 - (void)updateView:(CalcResult *)result {
     self.list = result;
     [_priceLabel setText:[NSString stringWithFormat:@"¥ %@ - %@  元", result.fromPrice, result.toPrice]];
-    NSMutableDictionary *fontDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                     NSFontAttributeName, [UIFont systemFontOfSize:14.0f],
-                                     NSForegroundColorAttributeName, [UIColor colorWithHexString:@"999999"],
-                                     nil];
-    
+    NSDictionary *fontDict = @{NSFontAttributeName: [UIFont systemFontOfSize:14.0f],
+                               NSForegroundColorAttributeName: [UIColor colorWithHexString:@"999999"],
+                               };
     NSString *moduleCountString = [NSString stringWithFormat:@"%@", result.moduleCount];
     NSString *fromTermString = [NSString stringWithFormat:@"%@", result.fromTerm];
     NSString *toTermString = [NSString stringWithFormat:@"%@", result.toTerm];
