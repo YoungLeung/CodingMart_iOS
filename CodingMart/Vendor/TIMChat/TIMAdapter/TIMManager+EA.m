@@ -10,6 +10,7 @@
 #import "CodingNetAPIClient.h"
 #import "Login.h"
 #import "UnReadManager.h"
+#import "AppDelegate.h"
 
 @implementation TIMManager (EA)
 
@@ -40,6 +41,7 @@
         loginParam.identifier = [Login curLoginUser].global_key;
         loginParam.userSig = userSig;
         [[TIMManager sharedInstance] login:loginParam succ:^(){
+            [(AppDelegate *)[UIApplication sharedApplication].delegate registerPush];
             [UnReadManager updateUnReadWidthQuery:NO block:nil];//登录之后，刷新未读数据
             block(nil);
         } fail:^(int code, NSString *msg) {

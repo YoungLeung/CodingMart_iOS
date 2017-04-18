@@ -62,10 +62,6 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     if ([Login isLogin]) {
         [self setupTabViewController];
-        [TIMManager loginBlock:^(NSString *errorMsg) {
-            [self registerPush];
-            DebugLog(@"TimChat 登录：%@", errorMsg);
-        }];
     }else{
         [self setupWelcomeViewController];
     }
@@ -78,8 +74,15 @@
 //    推送跳转
     if ([Login isLogin]) {
         NSDictionary *remoteNotification = [launchOptions valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-        if (remoteNotification) {
-            [UIViewController handleNotificationInfo:remoteNotification applicationState:UIApplicationStateInactive];
+        if ([remoteNotification[@"ext"] hasSuffix:@"MSG"]) {
+            if ([kKeyWindow.rootViewController isKindOfClass:[RootTabViewController class]]) {
+                RootTabViewController *vc = (RootTabViewController *)kKeyWindow.rootViewController;
+                vc.selectedIndex = 2;
+            }
+        }else{
+            [TIMManager loginBlock:^(NSString *errorMsg) {
+                DebugLog(@"TimChat 登录：%@", errorMsg);
+            }];
         }
     }
 
