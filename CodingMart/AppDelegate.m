@@ -75,6 +75,13 @@
     [MartStartViewManager refreshStartModel];
 //    监控网络情况
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+//    推送跳转
+    if ([Login isLogin]) {
+        NSDictionary *remoteNotification = [launchOptions valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        if (remoteNotification) {
+            [UIViewController handleNotificationInfo:remoteNotification applicationState:UIApplicationStateInactive];
+        }
+    }
 
 //    [[FLEXManager sharedManager] showExplorer];
     return YES;
