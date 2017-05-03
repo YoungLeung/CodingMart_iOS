@@ -6,6 +6,8 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
+//废弃的 VC
+
 #import "SettingPhoneViewController.h"
 #import "PhoneCodeButton.h"
 #import "Coding_NetAPIManager.h"
@@ -30,8 +32,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    _phoneCountryCodeL.text = _codingUser.phone_country_code.length > 0? _codingUser.phone_country_code: @"+86";
-    _phoneF.text = _codingUser.phone;
+    _phoneCountryCodeL.text = _curUser.countryCode.length > 0? _curUser.countryCode: @"+86";
+    _phoneF.text = _curUser.phone;
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -40,17 +42,22 @@
 
 
 - (void)refresh2FA{
-    __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] get_is2FAOpenBlock:^(BOOL is2FAOpen, NSError *error) {
-        if (!error) {
-            if (is2FAOpen != weakSelf.is2FAOpen) {
-                weakSelf.two_factor_codeF.text = nil;
-            }
-            weakSelf.is2FAOpen = is2FAOpen;
-            weakSelf.two_factor_codeF.placeholder = is2FAOpen? @"输入两步验证码": @"输入密码";
-            weakSelf.two_factor_codeF.secureTextEntry = !is2FAOpen;
-        }
-    }];
+    BOOL is2FAOpen = NO;
+    self.is2FAOpen = is2FAOpen;
+    self.two_factor_codeF.placeholder = is2FAOpen? @"输入两步验证码": @"输入密码";
+    self.two_factor_codeF.secureTextEntry = !is2FAOpen;
+
+//    __weak typeof(self) weakSelf = self;
+//    [[Coding_NetAPIManager sharedManager] get_is2FAOpenBlock:^(BOOL is2FAOpen, NSError *error) {
+//        if (!error) {
+//            if (is2FAOpen != weakSelf.is2FAOpen) {
+//                weakSelf.two_factor_codeF.text = nil;
+//            }
+//            weakSelf.is2FAOpen = is2FAOpen;
+//            weakSelf.two_factor_codeF.placeholder = is2FAOpen? @"输入两步验证码": @"输入密码";
+//            weakSelf.two_factor_codeF.secureTextEntry = !is2FAOpen;
+//        }
+//    }];
 }
 
 - (IBAction)phoneCountryCodeBtnClicked:(id)sender {

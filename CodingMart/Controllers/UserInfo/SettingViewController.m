@@ -35,6 +35,16 @@
     return 1.0/[UIScreen mainScreen].scale;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    CGFloat cellHeight;
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        cellHeight = 0;
+    }else{
+        cellHeight = 44;
+    }
+    return cellHeight;
+}
+
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:15];
 }

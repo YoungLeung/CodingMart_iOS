@@ -36,10 +36,9 @@
 }
 
 - (User *)toUser{
-    User *user = [User new];
+    User *user = [User userWithGlobalKey:_uid];
     user.avatar = _icon.copy;
     user.name = _nick.copy;
-    user.global_key = _uid.copy;
     return user;
 }
 

@@ -28,13 +28,13 @@
 }
 
 - (IBAction)footerBtnClicked:(id)sender {    
-    [NSObject showHUDQueryStr:@"正在登录..."];
-    [[Coding_NetAPIManager sharedManager] post_LoginWith2FA:_optCodeF.text andBlock:^(id data, NSError *error) {
-        [NSObject hideHUDQuery];
-        if (data) {
-            [self dismissViewControllerAnimated:YES completion:self.loginSucessBlock];
-        }
-    }];
+//    [NSObject showHUDQueryStr:@"正在登录..."];
+//    [[Coding_NetAPIManager sharedManager] post_LoginWith2FA:_optCodeF.text andBlock:^(id data, NSError *error) {
+//        [NSObject hideHUDQuery];
+//        if (data) {
+//            [self dismissViewControllerAnimated:YES completion:self.loginSucessBlock];
+//        }
+//    }];
 }
 
 @end

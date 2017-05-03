@@ -23,15 +23,15 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 + (instancetype)sharedManager;
 #pragma mark Login
 - (void)get_CurrentUserBlock:(void (^)(id data, NSError *error))block;
-- (void)get_CodingCurrentUserBlock:(void (^)(id data, NSError *error))block;
+//- (void)get_CodingCurrentUserBlock:(void (^)(id data, NSError *error))block;
 
-- (void)get_CheckGK:(NSString *)golbal_key block:(void (^)(id data, NSError *error))block;
+- (void)get_CheckGK:(NSString *)golbal_key block:(void (^)(NSNumber *isExist, NSError *error))block;
 - (void)get_LoginCaptchaIsNeededBlock:(void (^)(id data, NSError *error))block;
 - (void)get_RegisterCaptchaIsNeededBlock:(void (^)(id data, NSError *error))block;
 - (void)post_LoginWithUserStr:(NSString *)userStr password:(NSString *)password captcha:(NSString *)captcha block:(void (^)(id data, NSError *error))block;
-- (void)post_LoginWith2FA:(NSString *)otpCode andBlock:(void (^)(id data, NSError *error))block;
-- (void)post_Close2FAGeneratePhoneCode:(NSString *)phone block:(void (^)(id data, NSError *error))block;
-- (void)post_Close2FAWithPhone:(NSString *)phone code:(NSString *)code block:(void (^)(id data, NSError *error))block;
+//- (void)post_LoginWith2FA:(NSString *)otpCode andBlock:(void (^)(id data, NSError *error))block;
+//- (void)post_Close2FAGeneratePhoneCode:(NSString *)phone block:(void (^)(id data, NSError *error))block;
+//- (void)post_Close2FAWithPhone:(NSString *)phone code:(NSString *)code block:(void (^)(id data, NSError *error))block;
 - (void)post_LoginIdentity:(NSNumber *)loginIdentity andBlock:(void (^)(id data, NSError *error))block;
 - (void)get_EAConversationListBlock:(void (^)(id data, NSError *error))block;
 - (void)get_MemberOfConversation:(NSNumber *)objectId block:(void (^)(id data, NSError *error))block;
@@ -135,7 +135,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 #pragma mark Other
 - (void)get_StartModelBlock:(void (^)(id data, NSError *error))block;
 - (void)get_BannerListBlock:(void (^)(id data, NSError *error))block;
-- (void)get_is2FAOpenBlock:(void (^)(BOOL is2FAOpen, NSError *error))block;
+//- (void)get_is2FAOpenBlock:(void (^)(BOOL is2FAOpen, NSError *error))block;
 
 
 #pragma mark 自主评估系统

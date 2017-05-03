@@ -65,8 +65,12 @@
         [NSObject showHudTipStr:@"请填写手机号码"];
         return;
     }
+    NSString *path = @"api/account/verification-code";
+    NSDictionary *params = @{@"phone": _mobileF.text,
+                             @"countryCode": @"+86",
+                             @"isoCode": @"cn"};
     _verify_codeBtn.enabled = NO;
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/account/password/forget" withParams:@{@"account": _mobileF.text} withMethodType:Post andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             [NSObject showHudTipStr:@"验证码发送成功"];
             [self.verify_codeBtn startUpTimer];
@@ -76,17 +80,20 @@
     }];
 }
 - (IBAction)footerBtnClicked:(id)sender {
-    [NSObject showHUDQueryStr:@"正在校验验证码..."];
-    NSString *path = @"api/account/phone/code/check";
-    NSDictionary *params = @{@"phone": _mobileF.text,
-                             @"code": _verify_codeF.text,
-                             @"type": @"reset"};
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-        [NSObject hideHUDQuery];
-        if (data) {
-            [self performSegueWithIdentifier:NSStringFromClass([PasswordPhoneSetViewController class]) sender:self];
-        }
-    }];
+//    [NSObject showHUDQueryStr:@"正在校验验证码..."];
+//    NSString *path = @"api/account/phone/code/check";
+//    NSDictionary *params = @{@"phone": _mobileF.text,
+//                             @"code": _verify_codeF.text,
+//                             @"type": @"reset"};
+//    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+//        [NSObject hideHUDQuery];
+//        if (data) {
+//            [self performSegueWithIdentifier:NSStringFromClass([PasswordPhoneSetViewController class]) sender:self];
+//        }
+//    }];
+    
+//    easeeeeeeeee todo
+    [self performSegueWithIdentifier:NSStringFromClass([PasswordPhoneSetViewController class]) sender:self];
 }
 
 #pragma mark - Navigation

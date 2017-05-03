@@ -10,6 +10,7 @@
 
 #import "UIImageView+WebCache.h"
 #import <BlocksKit/BlocksKit+UIKit.h>
+#import "Coding_NetAPIManager.h"
 
 @implementation MartCaptchaCell
 
@@ -38,9 +39,19 @@
         return;
     }
     [_activityIndicator startAnimating];
-    [_imgV sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/api/getCaptcha", [NSObject codingURLStr]]] placeholderImage:nil options:(SDWebImageRetryFailed | SDWebImageRefreshCached | SDWebImageHandleCookies) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        [_activityIndicator stopAnimating];
+    __weak typeof(self) weakSelf = self;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/captcha" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        [weakSelf.activityIndicator stopAnimating];
+        if ([data isKindOfClass:[NSDictionary class]] && data[@"image"]) {
+            NSString *imageStr = data[@"image"];
+            NSData *imageData = [[NSData alloc] initWithBase64EncodedString:[imageStr componentsSeparatedByString:@","].lastObject options:0];
+            weakSelf.imgV.image = [UIImage imageWithData:imageData];
+        }
     }];
+    
+//    [_imgV sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/api/getCaptcha", [NSObject codingURLStr]]] placeholderImage:nil options:(SDWebImageRetryFailed | SDWebImageRefreshCached | SDWebImageHandleCookies) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//        [_activityIndicator stopAnimating];
+//    }];
 }
 
 @end

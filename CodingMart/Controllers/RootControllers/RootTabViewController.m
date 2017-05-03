@@ -88,7 +88,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
     NSMutableArray *tabList;
     User *me = [Login curLoginUser];
     if (me.loginIdentity.integerValue == 2 || me.isEnterpriseSide) {//需求方
-        if (me.publishedCount.integerValue > 0) {
+        if (me.counter.published.integerValue > 0) {
             tabList = @[@(TabVCTypeFind),
                         @(TabVCTypeMyPublished),
                         @(TabVCTypeMessage),
@@ -101,7 +101,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
                         @(TabVCTypeMe)].mutableCopy;
         }
     } else if (me.loginIdentity.integerValue == 1) {//开发者
-        if (me.joinedCount.integerValue > 0) {
+        if (me.counter.joined.integerValue > 0) {
             tabList = @[@(TabVCTypeRewards),
                         @(TabVCTypeMyJoined),
                         @(TabVCTypeMessage),

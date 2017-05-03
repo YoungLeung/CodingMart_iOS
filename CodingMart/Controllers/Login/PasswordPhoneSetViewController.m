@@ -15,10 +15,13 @@
 @interface PasswordPhoneSetViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *passwordF;
 @property (weak, nonatomic) IBOutlet UITextField *confirm_passwordF;
+@property (weak, nonatomic) IBOutlet MartCaptchaCell *captchaCell;
 
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *footerBtn;
 
-@property (strong, nonatomic) NSString *password, *confirm_password;
+@property (assign, nonatomic) BOOL captchaNeeded;
+
+//@property (strong, nonatomic) NSString *password, *confirm_password;
 @end
 
 @implementation PasswordPhoneSetViewController
@@ -29,9 +32,28 @@
     self.title = @"重置密码";
     [_footerBtn setTitle:@"重置密码" forState:UIControlStateNormal];
 
-    RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[self.passwordF.rac_textSignal, self.confirm_passwordF.rac_textSignal] reduce:^id(NSString *password, NSString *confirm_password){
-        return @(password.length > 0 && confirm_password.length > 0);
+    RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[self.passwordF.rac_textSignal, self.confirm_passwordF.rac_textSignal, self.captchaCell.textF.rac_textSignal, RACObserve(self, captchaNeeded)] reduce:^id(NSString *password, NSString *confirm_password, NSString *captcha, NSNumber *captchaNeeded){
+        return @(password.length > 0 && confirm_password.length > 0 && (!captchaNeeded || captcha.length > 0));
     }];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self refreshCaptchaNeeded];
+}
+
+- (void)refreshCaptchaNeeded{
+    [[Coding_NetAPIManager sharedManager] get_LoginCaptchaIsNeededBlock:^(id data, NSError *error) {
+        if (data) {
+            NSNumber *captchaNeededResult = (NSNumber *)data;
+            self.captchaNeeded = captchaNeededResult.boolValue;
+            [self.tableView reloadData];
+        }
+    }];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return _captchaNeeded? 3: 2;
 }
 
 #pragma mark - Button
@@ -41,12 +63,18 @@
         [NSObject showHudTipStr:@"两次输入密码不一致"];
         return;
     }
-    NSMutableDictionary *params = @{@"account": _phone,
+    NSString *path = @"api/password";
+    NSMutableDictionary *params = @{@"phone": _phone,
                                     @"password": [_passwordF.text sha1Str],
-                                    @"confirm": [_confirm_passwordF.text sha1Str],
-                                    @"code": _code}.mutableCopy;
+                                    @"rePassword": [_confirm_passwordF.text sha1Str],
+                                    @"verificationCode": _code,
+                                    @"countryCode": @"+86",
+                                    @"isoCode": @"cn"}.mutableCopy;
+    if (_captchaNeeded) {
+        params[@"captcha"] = _captchaCell.textF.text;
+    }
     [NSObject showHUDQueryStr:@"正在设置密码..."];
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/account/password/reset" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data) {
             [NSObject showHudTipStr:@"密码设置成功"];

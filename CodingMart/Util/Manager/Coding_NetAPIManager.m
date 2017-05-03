@@ -61,10 +61,9 @@
 #pragma mark Login
 
 - (void)get_CurrentUserBlock:(void (^)(id data, NSError *error))block {
-    NSString *path = @"api/current_user";
+    NSString *path = @"api/user/current";
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
-            data = data[@"data"];
             User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:data];
             if (curLoginUser) {
                 [Login doLogin:data];
@@ -76,57 +75,65 @@
     }];
 }
 
-- (void)get_CodingCurrentUserBlock:(void (^)(id data, NSError *error))block {
-    NSString *path = @"api/current_user";
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
-        if (data) {
-            data = data[@"data"];
-            User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:data];
-            block(curLoginUser, nil);
-        } else {
-            block(nil, error);
-        }
-    }];
-}
+//- (void)get_CodingCurrentUserBlock:(void (^)(id data, NSError *error))block {
+//    NSString *path = @"api/current_user";
+//    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+//        if (data) {
+//            data = data[@"data"];
+//            User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:data];
+//            block(curLoginUser, nil);
+//        } else {
+//            block(nil, error);
+//        }
+//    }];
+//}
 
-- (void)get_CheckGK:(NSString *)golbal_key block:(void (^)(id data, NSError *error))block {
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/user/check" withParams:@{@"key": golbal_key} withMethodType:Get andBlock:^(id data, NSError *error) {
+- (void)get_CheckGK:(NSString *)golbal_key block:(void (^)(NSNumber *isExist, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/account/%@", golbal_key];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         block(data, error);
     }];
 }
 
 - (void)get_LoginCaptchaIsNeededBlock:(void (^)(id data, NSError *error))block {
-    NSString *path = @"api/captcha/login";
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
-        if (data) {
-            data = data[@"data"];
-        }
-        block(data, error);
+    
+    NSString *path = @"api/account/captcha";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        block(data? @YES: @NO, error);
     }];
+    
+    
+//    
+//    NSString *path = @"api/captcha/login";
+//    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+//        if (data) {
+//            data = data[@"data"];
+//        }
+//        block(data, error);
+//    }];
 }
 
 - (void)get_RegisterCaptchaIsNeededBlock:(void (^)(id data, NSError *error))block {
-    NSString *path = @"api/captcha/register";
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
-        if (data) {
-            data = data[@"data"];
-        }
-        block(data, error);
-    }];
+    [self get_LoginCaptchaIsNeededBlock:block];
+//    NSString *path = @"api/captcha/register";
+//    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+//        if (data) {
+//            data = data[@"data"];
+//        }
+//        block(data, error);
+//    }];
 }
 
 - (void)post_LoginWithUserStr:(NSString *)userStr password:(NSString *)password captcha:(NSString *)captcha block:(void (^)(id data, NSError *error))block {
-    NSString *path = @"api/v2/account/login";
+    NSString *path = @"api/login";
     NSMutableDictionary *params = @{@"account": userStr,
-            @"password": [password sha1Str],
-            @"remember_me": @"true"}.mutableCopy;
+                                    @"password": [password sha1Str],
+                                    @"remember": @YES}.mutableCopy;
     if (captcha.length > 0) {
-        params[@"j_captcha"] = captcha;
+        params[@"captcha"] = captcha;
     }
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
-        data = data[@"data"];
-        User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:data];
-        if (curLoginUser) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
+        if (data) {
             [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id dataUserinfo, NSError *errorUserinfo) {
                 if (dataUserinfo) {
                     [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id dataUser, NSError *errorUser) {
@@ -137,42 +144,86 @@
                 }
             }];
         } else {
-            block(curLoginUser, error);
+            block(data, error);
         }
     }];
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+//    NSString *path = @"api/v2/account/login";
+//    NSMutableDictionary *params = @{@"account": userStr,
+//            @"password": [password sha1Str],
+//            @"remember_me": @"true"}.mutableCopy;
+//    if (captcha.length > 0) {
+//        params[@"j_captcha"] = captcha;
+//    }
+//    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
+//        data = data[@"data"];
+//        User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:data];
+//        if (curLoginUser) {
+//            [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id dataUserinfo, NSError *errorUserinfo) {
+//                if (dataUserinfo) {
+//                    [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id dataUser, NSError *errorUser) {
+//                        block(dataUser, errorUser);
+//                    }];
+//                } else {
+//                    block(dataUserinfo, errorUserinfo);
+//                }
+//            }];
+//        } else {
+//            block(curLoginUser, error);
+//        }
+//    }];
 }
 
-- (void)post_LoginWith2FA:(NSString *)otpCode andBlock:(void (^)(id data, NSError *error))block {
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/check_two_factor_auth_code" withParams:@{@"code": otpCode} withMethodType:Post andBlock:^(id data, NSError *error) {
-        data = data[@"data"];
-        User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:data];
-        if (curLoginUser) {
-            [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id dataUserinfo, NSError *errorUserinfo) {
-                if (dataUserinfo) {
-                    [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id dataUser, NSError *errorUser) {
-                        block(dataUser, errorUser);
-                    }];
-                } else {
-                    block(dataUserinfo, errorUserinfo);
-                }
-            }];
-        } else {
-            block(curLoginUser, error);
-        }
-    }];
-}
+//- (void)post_LoginWith2FA:(NSString *)otpCode andBlock:(void (^)(id data, NSError *error))block {
+//    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/check_two_factor_auth_code" withParams:@{@"code": otpCode} withMethodType:Post andBlock:^(id data, NSError *error) {
+//        data = data[@"data"];
+//        User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:data];
+//        if (curLoginUser) {
+//            [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id dataUserinfo, NSError *errorUserinfo) {
+//                if (dataUserinfo) {
+//                    [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id dataUser, NSError *errorUser) {
+//                        block(dataUser, errorUser);
+//                    }];
+//                } else {
+//                    block(dataUserinfo, errorUserinfo);
+//                }
+//            }];
+//        } else {
+//            block(curLoginUser, error);
+//        }
+//    }];
+//}
 
-- (void)post_Close2FAGeneratePhoneCode:(NSString *)phone block:(void (^)(id data, NSError *error))block {
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/twofa/close/code" withParams:@{@"phone": phone, @"from": @"mart"} withMethodType:Post andBlock:^(id data, NSError *error) {
-        block(data, error);
-    }];
-}
+//- (void)post_Close2FAGeneratePhoneCode:(NSString *)phone block:(void (^)(id data, NSError *error))block {
+//    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/twofa/close/code" withParams:@{@"phone": phone, @"from": @"mart"} withMethodType:Post andBlock:^(id data, NSError *error) {
+//        block(data, error);
+//    }];
+//}
 
-- (void)post_Close2FAWithPhone:(NSString *)phone code:(NSString *)code block:(void (^)(id data, NSError *error))block {
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/twofa/close" withParams:@{@"phone": phone, @"code": code} withMethodType:Post andBlock:^(id data, NSError *error) {
-        block(data, error);
-    }];
-}
+//- (void)post_Close2FAWithPhone:(NSString *)phone code:(NSString *)code block:(void (^)(id data, NSError *error))block {
+//    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/twofa/close" withParams:@{@"phone": phone, @"code": code} withMethodType:Post andBlock:^(id data, NSError *error) {
+//        block(data, error);
+//    }];
+//}
 
 - (void)post_LoginIdentity:(NSNumber *)loginIdentity andBlock:(void (^)(id data, NSError *error))block {
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/app/login-identity" withParams:@{@"loginIdentity": loginIdentity.stringValue} withMethodType:Post andBlock:^(id data, NSError *error) {
@@ -1205,11 +1256,11 @@
     }];
 }
 
-- (void)get_is2FAOpenBlock:(void (^)(BOOL is2FAOpen, NSError *error))block {
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/user/2fa/method" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
-        block([data[@"data"] isEqualToString:@"totp"], error);
-    }];
-}
+//- (void)get_is2FAOpenBlock:(void (^)(BOOL is2FAOpen, NSError *error))block {
+//    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/user/2fa/method" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+//        block([data[@"data"] isEqualToString:@"totp"], error);
+//    }];
+//}
 
 - (void)get_priceH5Data:(NSDictionary *)params block:(void (^)(id data, NSError *error))block {
     NSNumber *listID = [params objectForKey:@"listID"];

@@ -6,6 +6,8 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
+//废弃的 VC
+
 #import "SettingAccountViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "Login.h"
@@ -15,7 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *gkL;
 @property (weak, nonatomic) IBOutlet UILabel *emailL;
 @property (weak, nonatomic) IBOutlet UILabel *phoneL;
-@property (strong, nonatomic) User *codingUser;
+@property (strong, nonatomic) User *curUser;
 @end
 
 @implementation SettingAccountViewController
@@ -30,25 +32,26 @@
     [self refresh];
 }
 
-- (void)setCodingUser:(User *)codingUser{
-    _codingUser = codingUser;
-    _gkL.text = _codingUser.global_key;
-    _emailL.text = (_codingUser.email.length <= 0? @"未绑定":
-                    _codingUser.email_validation.boolValue ? _codingUser.email:
-                    [NSString stringWithFormat:@"%@ 未激活", _codingUser.email]);
-    _phoneL.text = _codingUser.phone.length > 0? _codingUser.phone: @"未绑定";
+- (void)setCurUser:(User *)curUser{
+    _curUser = curUser;
+    _gkL.text = _curUser.global_key;
+    _emailL.text = (_curUser.email.length <= 0? @"未绑定":
+                    _curUser.emailValidation.boolValue ? _curUser.email:
+                    [NSString stringWithFormat:@"%@ 未激活", _curUser.email]);
+    _phoneL.text = _curUser.phone.length > 0? _curUser.phone: @"未绑定";
 }
 
 - (void)refresh{
-    [[Coding_NetAPIManager sharedManager] get_CodingCurrentUserBlock:^(id data, NSError *error) {
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id data, NSError *error) {
         if (data) {
-            self.codingUser = data;
+            weakSelf.curUser = data;
         }
     }];
 }
 
 - (void)sendActivateEmail{
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/account/register/email/send" withParams:@{@"email": _codingUser.email} withMethodType:Post andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/account/register/email/send" withParams:@{@"email": _curUser.email} withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             if ([(NSNumber *)data[@"data"] boolValue]) {
                 [NSObject showHudTipStr:@"邮件已发送"];
@@ -83,7 +86,7 @@
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
     if (indexPath.section == 1 && indexPath.row == 0) {
-        if (!_codingUser.email_validation.boolValue && _codingUser.email.length > 0) {
+        if (!_curUser.emailValidation.boolValue && _curUser.email.length > 0) {
             UIAlertView *alertView = [UIAlertView bk_alertViewWithTitle:@"激活邮箱" message:@"该邮箱尚未激活，请尽快去邮箱查收邮件并激活账号。如果在收件箱中没有看到，请留意一下垃圾邮件箱子（T_T）"];
             [alertView bk_setCancelButtonWithTitle:@"取消" handler:nil];
             [alertView bk_addButtonWithTitle:@"重发激活邮件" handler:nil];
@@ -96,11 +99,11 @@
             return NO;
         }
     }
-    return _codingUser != nil;
+    return _curUser != nil;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    [segue.destinationViewController setValue:_codingUser forKey:@"codingUser"];
+    [segue.destinationViewController setValue:_curUser forKey:@"curUser"];
 }
 
 @end

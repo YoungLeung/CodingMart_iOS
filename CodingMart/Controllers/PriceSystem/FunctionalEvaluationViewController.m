@@ -20,7 +20,7 @@
 #import "PublishRewardViewController.h"
 #import <FDFullscreenPopGesture/UINavigationController+FDFullscreenPopGesture.h>
 #import "Login.h"
-#import "QuickLoginViewController.h"
+#import "LoginViewController.h"
 
 @interface FunctionalEvaluationViewController () <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 
@@ -1274,7 +1274,7 @@
 - (void)calcPrice {
     if (![Login isLogin]) {
         WEAKSELF;
-        QuickLoginViewController *vc = [QuickLoginViewController storyboardVCWithPhone:nil];
+        LoginViewController *vc = [LoginViewController storyboardVCWithUserStr:nil];
         vc.loginSucessBlock = ^(){
             [weakSelf calcPrice];
         };

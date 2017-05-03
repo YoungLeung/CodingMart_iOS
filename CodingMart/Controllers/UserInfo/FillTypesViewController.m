@@ -116,10 +116,10 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 - (void)setCurUser:(User *)curUser{
     _curUser = curUser;
     [self.tableView reloadData];
-    _userinfoCheckV.image = [UIImage imageNamed:_curUser.fullInfo.boolValue? @"fill_checked": @"fill_unchecked"];
-    _skillsCheckV.image = [UIImage imageNamed:_curUser.fullSkills.boolValue? @"fill_checked": @"fill_unchecked"];
-    _testingCheckV.image = [UIImage imageNamed:_curUser.passingSurvey.boolValue? @"fill_checked": @"fill_unchecked"];
-    _statusCheckV.image = [UIImage imageNamed:_curUser.identityChecked.boolValue? @"fill_checked": @"fill_unchecked"];
+    _userinfoCheckV.image = [UIImage imageNamed:_curUser.infoComplete.boolValue? @"fill_checked": @"fill_unchecked"];
+    _skillsCheckV.image = [UIImage imageNamed:_curUser.skillComplete.boolValue? @"fill_checked": @"fill_unchecked"];
+    _testingCheckV.image = [UIImage imageNamed:_curUser.surveyComplete.boolValue? @"fill_checked": @"fill_unchecked"];
+    _statusCheckV.image = [UIImage imageNamed:_curUser.identityPassed.boolValue? @"fill_checked": @"fill_unchecked"];
 }
 
 -(void)getUserinfo{
@@ -133,16 +133,16 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 
 #pragma mark Table M
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    BOOL needTip =(_curUser.fullInfo.boolValue &&
-                   !_curUser.fullSkills.boolValue &&
-                   _curUser.passingSurvey.boolValue);
+    BOOL needTip =(_curUser.infoComplete.boolValue &&
+                   !_curUser.skillComplete.boolValue &&
+                   _curUser.surveyComplete.boolValue);
     return needTip? 80: 40;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    BOOL needTip =(_curUser.fullInfo.boolValue &&
-                   !_curUser.fullSkills.boolValue &&
-                   _curUser.passingSurvey.boolValue);
+    BOOL needTip =(_curUser.infoComplete.boolValue &&
+                   !_curUser.skillComplete.boolValue &&
+                   _curUser.surveyComplete.boolValue);
     return needTip? _header1TipV: _header1V;
 }
 
@@ -155,7 +155,7 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row < 3) {
         if (indexPath.row == 1) {
-            if (!self.curUser.fullInfo.boolValue) {
+            if (!self.curUser.infoComplete.boolValue) {
                 [NSObject showHudTipStr:@"请先完善个人信息"];
                 return;
             }
@@ -173,7 +173,7 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
             }];
         }
     }else if (indexPath.row == 3){
-        if (!self.curUser.fullInfo.boolValue) {
+        if (!self.curUser.infoComplete.boolValue) {
             [NSObject showHudTipStr:@"请先完善个人信息"];
             return;
         }

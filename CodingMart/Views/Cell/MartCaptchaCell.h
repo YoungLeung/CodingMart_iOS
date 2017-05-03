@@ -15,4 +15,5 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imgV;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
+- (void)refreshImgData;
 @end

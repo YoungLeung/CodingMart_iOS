@@ -10,6 +10,6 @@
 #import "User.h"
 
 @interface SettingPasswordMethodViewController : EABaseTableViewController
-@property (strong, nonatomic) User *codingUser;
+@property (strong, nonatomic) User *curUser;
 
 @end

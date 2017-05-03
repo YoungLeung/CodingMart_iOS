@@ -6,6 +6,8 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
+//废弃的 VC
+
 #import "QuickAccountInfoViewController.h"
 #import "TableViewFooterButton.h"
 #import "UITTTAttributedLabel.h"

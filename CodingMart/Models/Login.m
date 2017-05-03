@@ -57,23 +57,19 @@ static User *curLoginUser;
 }
 
 + (BOOL)isLogin{
-    __block BOOL hasSid = NO;
+    __block BOOL hasMid = NO;
     NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
     [cookies enumerateObjectsUsingBlock:^(NSHTTPCookie *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([obj.name isEqualToString:@"sid"]) {
-            hasSid = YES;
+        if ([obj.name isEqualToString:@"mid"]) {
+            hasMid = YES;
             *stop = YES;
         }
     }];
-    if (!hasSid) {
+    if (!hasMid) {
         return NO;
     }
     NSNumber *loginStatus = [[NSUserDefaults standardUserDefaults] objectForKey:kLoginStatus];
-    if (loginStatus.boolValue) {
-        return YES;
-    }else{
-        return NO;
-    }
+    return loginStatus.boolValue;
 }
 
 + (void)doLogin:(NSDictionary *)loginData{
@@ -178,11 +174,10 @@ static User *curLoginUser;
     //删掉 coding 的 cookie
     NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
     [cookies enumerateObjectsUsingBlock:^(NSHTTPCookie *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([obj.name isEqualToString:@"sid"]) {
+        if ([obj.name isEqualToString:@"mid"]) {
             [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:obj];
         }
     }];
-    
     [Login setXGAccountWithCurUser];
     
     if ([TIMManager sharedInstance].getLoginStatus == TIM_STATUS_LOGINED) {

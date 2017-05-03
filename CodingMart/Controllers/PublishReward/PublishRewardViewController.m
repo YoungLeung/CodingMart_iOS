@@ -21,7 +21,7 @@
 #import "PublishedRewardsViewController.h"
 #import "CountryCodeListViewController.h"
 #import "EATipView.h"
-#import "QuickLoginViewController.h"
+#import "LoginViewController.h"
 #import "ProjectIndustryListViewController.h"
 #import "RootQuoteViewController.h"
 #include "MartWebViewController.h"
@@ -317,7 +317,7 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
         }];
     }else{
         WEAKSELF;
-        QuickLoginViewController *vc = [QuickLoginViewController storyboardVCWithPhone:_rewardToBePublished.contact_mobile];
+        LoginViewController *vc = [LoginViewController storyboardVCWithUserStr:_rewardToBePublished.contact_mobile];
         vc.loginSucessBlock = ^(){
             User *curUser = [Login curLoginUser];
             weakSelf.rewardToBePublished.contact_mobile = curUser.phone;

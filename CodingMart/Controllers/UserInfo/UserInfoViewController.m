@@ -134,7 +134,7 @@
             NSString *imageName = nil;
             if (_curUser.info.excellentDeveloper.boolValue) {
                 imageName = @"coder_icon_excellent";
-            } else if (_curUser.identityChecked.boolValue) {
+            } else if (_curUser.identityPassed.boolValue) {
                 imageName = @"identity_passed";
             }
             image = [UIImage imageNamed:imageName];;
@@ -255,7 +255,7 @@
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
     if (indexPath.section == 0) {//开发宝，待更
-        if (_curUser.fullInfo.boolValue) {
+        if (_curUser.infoComplete.boolValue) {
             return YES;
         } else {
             //提示框

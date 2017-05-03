@@ -40,7 +40,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row == 1) {
         CannotLoginViewController *vc = [CannotLoginViewController vcInStoryboard:@"Login"];
-        vc.userStr = _codingUser.email ?: _codingUser.email;
+        vc.userStr = _curUser.email ?: _curUser.email;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

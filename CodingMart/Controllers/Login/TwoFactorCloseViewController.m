@@ -59,24 +59,24 @@
         return;
     }
     _verify_codeBtn.enabled = NO;
-    [[Coding_NetAPIManager sharedManager] post_Close2FAGeneratePhoneCode:_mobileF.text block:^(id data, NSError *error) {
-        if (data) {
-            [NSObject showHudTipStr:@"验证码发送成功"];
-            [self.verify_codeBtn startUpTimer];
-        }else{
-            self.verify_codeBtn.enabled = YES;
-        }
-    }];
+//    [[Coding_NetAPIManager sharedManager] post_Close2FAGeneratePhoneCode:_mobileF.text block:^(id data, NSError *error) {
+//        if (data) {
+//            [NSObject showHudTipStr:@"验证码发送成功"];
+//            [self.verify_codeBtn startUpTimer];
+//        }else{
+//            self.verify_codeBtn.enabled = YES;
+//        }
+//    }];
 }
 - (IBAction)footerBtnClicked:(id)sender {
     [NSObject showHUDQueryStr:@"正在关闭两步验证..."];
-    [[Coding_NetAPIManager sharedManager] post_Close2FAWithPhone:_mobileF.text code:_verify_codeF.text block:^(id data, NSError *error) {
-        [NSObject hideHUDQuery];
-        if (data) {
-            [NSObject showHudTipStr:@"两步验证已关闭"];
-            [self.navigationController popToRootViewControllerAnimated:YES];
-        }
-    }];
+//    [[Coding_NetAPIManager sharedManager] post_Close2FAWithPhone:_mobileF.text code:_verify_codeF.text block:^(id data, NSError *error) {
+//        [NSObject hideHUDQuery];
+//        if (data) {
+//            [NSObject showHudTipStr:@"两步验证已关闭"];
+//            [self.navigationController popToRootViewControllerAnimated:YES];
+//        }
+//    }];
 }
 
 @end

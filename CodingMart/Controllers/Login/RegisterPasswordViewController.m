@@ -71,19 +71,23 @@
         return;
     }
     [NSObject showHUDQueryStr:@"正在注册..."];
-    NSString *path = @"api/v2/account/register";
+    NSString *path = @"api/register";
     NSMutableDictionary *params = @{@"channel": kRegisterChannel,
-                                    @"global_key": _global_key,
+                                    @"username": _global_key,
                                     @"phone": _phone,
-                                    @"code": _code,
+                                    @"verificationCode": _code,
+                                    @"countryCode": [NSString stringWithFormat:@"+%@", _countryCodeDict[@"country_code"]],
+                                    @"isoCode": _countryCodeDict[@"iso_code"],
                                     @"password": [_passwordF.text sha1Str],
-                                    @"confirm": [_confirm_passwordF.text sha1Str],
-                                    @"phoneCountryCode": [NSString stringWithFormat:@"+%@", _countryCodeDict[@"country_code"]],
-                                    @"country": _countryCodeDict[@"iso_code"]}.mutableCopy;
+                                    @"rePassword": [_confirm_passwordF.text sha1Str],
+                                    @"protocol": @"true",
+                                    @"step": @3,
+                                    @"accountType": @"DEVELOPER",
+                                    }.mutableCopy;
     if (_captchaNeeded) {
-        params[@"j_captcha"] = _captchaCell.textF.text;
+        params[@"captcha"] = _captchaCell.textF.text;
     }
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             [MobClick event:kUmeng_Event_UserAction label:@"注册成功"];
             

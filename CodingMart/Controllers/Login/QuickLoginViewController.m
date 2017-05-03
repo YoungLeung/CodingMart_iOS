@@ -6,6 +6,8 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
+//废弃的 VC
+
 #import "QuickLoginViewController.h"
 #import "PhoneCodeButton.h"
 #import "TableViewFooterButton.h"
