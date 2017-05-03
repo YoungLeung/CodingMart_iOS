@@ -80,20 +80,18 @@
     }];
 }
 - (IBAction)footerBtnClicked:(id)sender {
-//    [NSObject showHUDQueryStr:@"正在校验验证码..."];
-//    NSString *path = @"api/account/phone/code/check";
-//    NSDictionary *params = @{@"phone": _mobileF.text,
-//                             @"code": _verify_codeF.text,
-//                             @"type": @"reset"};
-//    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-//        [NSObject hideHUDQuery];
-//        if (data) {
-//            [self performSegueWithIdentifier:NSStringFromClass([PasswordPhoneSetViewController class]) sender:self];
-//        }
-//    }];
-    
-//    easeeeeeeeee todo
-    [self performSegueWithIdentifier:NSStringFromClass([PasswordPhoneSetViewController class]) sender:self];
+    [NSObject showHUDQueryStr:@"正在校验验证码..."];
+    NSString *path = @"api/account/verification-code/validate";
+    NSDictionary *params = @{@"phone": _mobileF.text,
+                             @"verificationCode": _verify_codeF.text,
+                             @"countryCode": @"+86",
+                             @"action": @"PASSWORD"};
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (data) {
+            [self performSegueWithIdentifier:NSStringFromClass([PasswordPhoneSetViewController class]) sender:self];
+        }
+    }];
 }
 
 #pragma mark - Navigation

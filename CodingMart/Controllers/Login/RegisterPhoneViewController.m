@@ -103,22 +103,17 @@
     [[Coding_NetAPIManager sharedManager] get_CheckGK:_global_keyF.text block:^(NSNumber *isExist, NSError *error0) {
         if (isExist) {
             if (!isExist.boolValue) {
-                [NSObject hideHUDQuery];
-                [weakSelf performSegueWithIdentifier:NSStringFromClass([RegisterPasswordViewController class]) sender:self];
-                
-//    easeeeeeeeee todo
-
-//                NSString *path = @"api/account/phone/code/check";
-//                NSDictionary *params = @{@"phone": weakSelf.mobileF.text,
-//                                         @"code": weakSelf.verify_codeF.text,
-//                                         @"phoneCountryCode": [NSString stringWithFormat:@"+%@", weakSelf.countryCodeDict[@"country_code"]],
-//                                         @"type": @"register"};
-//                [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-//                    [NSObject hideHUDQuery];
-//                    if (data) {
-//                        [weakSelf performSegueWithIdentifier:NSStringFromClass([RegisterPasswordViewController class]) sender:self];
-//                    }
-//                }];
+                NSString *path = @"api/account/verification-code/validate";
+                NSDictionary *params = @{@"phone": weakSelf.mobileF.text,
+                                         @"verificationCode": weakSelf.verify_codeF.text,
+                                         @"countryCode": [NSString stringWithFormat:@"+%@", weakSelf.countryCodeDict[@"country_code"]],
+                                         @"action": @"REGISTER"};
+                [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+                    [NSObject hideHUDQuery];
+                    if (data) {
+                        [weakSelf performSegueWithIdentifier:NSStringFromClass([RegisterPasswordViewController class]) sender:self];
+                    }
+                }];
             }else{
                 [NSObject hideHUDQuery];
                 [NSObject showHudTipStr:@"用户名已存在"];
