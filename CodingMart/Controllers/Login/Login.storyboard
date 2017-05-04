@@ -200,11 +200,13 @@
                         <segue destination="XHW-b7-D8e" kind="show" identifier="RegisterPhoneViewController" id="dYQ-a4-Wcv"/>
                         <segue destination="ePw-mY-Xfd" kind="show" identifier="CannotLoginViewController" id="7uf-G5-VT1"/>
                         <segue destination="IYb-Lx-usp" kind="show" identifier="TwoFactorAuthCodeViewController" id="fTA-hX-jSV"/>
+                        <segue destination="jlo-zB-AO9" kind="show" identifier="PasswordEmailViewController" id="dcB-VL-lvX"/>
+                        <segue destination="fCF-RO-2Ds" kind="show" identifier="PasswordPhoneViewController" id="YgM-SU-4yI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pbe-lP-HoC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2889" y="887"/>
+            <point key="canvasLocation" x="-3892" y="660"/>
         </scene>
         <!--注册-->
         <scene sceneID="H3Z-gf-2kg">
@@ -438,37 +440,36 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="手机号" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="708-9J-psm">
-                                                    <rect key="frame" x="15" y="11" width="345" height="20"/>
+                                                    <rect key="frame" x="61" y="11" width="299" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="cLn-iB-4d6"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                 </textField>
-                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+86" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6uh-Zy-h6p">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+86" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6uh-Zy-h6p">
                                                     <rect key="frame" x="15" y="11" width="29" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.25882352939999997" green="0.53725490200000003" blue="0.85882352939999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lyg-PR-HT5">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lyg-PR-HT5">
                                                     <rect key="frame" x="52" y="11" width="1" height="20"/>
                                                     <color key="backgroundColor" red="0.86666666670000003" green="0.86666666670000003" blue="0.86666666670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="1" id="5kA-ja-bYZ" customClass="NSLayoutConstraintLine"/>
                                                     </constraints>
                                                 </view>
-                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iKd-AT-OXl">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iKd-AT-OXl">
                                                     <rect key="frame" x="0.0" y="0.0" width="52" height="43"/>
                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <connections>
-                                                        <action selector="countryCodeBtnClicked:" destination="XHW-b7-D8e" eventType="touchUpInside" id="GPh-fS-nPj"/>
                                                         <action selector="countryCodeBtnClicked:" destination="fCF-RO-2Ds" eventType="touchUpInside" id="ae4-KP-j0O"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="708-9J-psm" firstAttribute="leading" secondItem="JR1-L7-gPz" secondAttribute="leadingMargin" constant="7" id="1Ak-9s-te4"/>
+                                                <constraint firstItem="708-9J-psm" firstAttribute="leading" secondItem="Lyg-PR-HT5" secondAttribute="trailing" constant="8" id="3L7-tC-0Ol"/>
                                                 <constraint firstItem="iKd-AT-OXl" firstAttribute="top" secondItem="JR1-L7-gPz" secondAttribute="top" id="5zS-zb-dFN"/>
                                                 <constraint firstItem="708-9J-psm" firstAttribute="leading" secondItem="Lyg-PR-HT5" secondAttribute="trailing" constant="8" id="69g-tz-dT5"/>
                                                 <constraint firstAttribute="bottom" secondItem="iKd-AT-OXl" secondAttribute="bottom" id="8Pr-Qd-eln"/>
@@ -908,7 +909,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hFo-LG-fUG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2705" y="176"/>
+            <point key="canvasLocation" x="-2959" y="-175"/>
         </scene>
         <!--注册-->
         <scene sceneID="isz-oG-M4v">
@@ -1656,4 +1657,8 @@
             <point key="canvasLocation" x="-1506" y="2300"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="YgM-SU-4yI"/>
+        <segue reference="dcB-VL-lvX"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -67,7 +67,7 @@
     }
     NSString *path = @"api/account/verification-code";
     NSDictionary *params = @{@"phone": _mobileF.text,
-                             @"countryCode": @"+86",
+                             @"countryCode": [NSString stringWithFormat:@"+%@", _countryCodeDict[@"country_code"]],
                              @"isoCode": @"cn"};
     _verify_codeBtn.enabled = NO;
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
@@ -84,7 +84,7 @@
     NSString *path = @"api/account/verification-code/validate";
     NSDictionary *params = @{@"phone": _mobileF.text,
                              @"verificationCode": _verify_codeF.text,
-                             @"countryCode": @"+86",
+                             @"countryCode": [NSString stringWithFormat:@"+%@", _countryCodeDict[@"country_code"]],
                              @"action": @"PASSWORD"};
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         [NSObject hideHUDQuery];

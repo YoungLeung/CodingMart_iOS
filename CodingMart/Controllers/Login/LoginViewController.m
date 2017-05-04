@@ -9,6 +9,8 @@
 #import "LoginViewController.h"
 #import "RegisterPhoneViewController.h"
 #import "CannotLoginViewController.h"
+#import "PasswordEmailViewController.h"
+#import "PasswordPhoneViewController.h"
 #import "TwoFactorAuthCodeViewController.h"
 #import "MartTextFieldCell.h"
 #import "MartCaptchaCell.h"
@@ -124,7 +126,15 @@
 
 - (IBAction)cannotLoginBtnClicked:(id)sender {
     [MobClick event:kUmeng_Event_UserAction label:@"登录_找回密码"];
-    [self performSegueWithIdentifier:NSStringFromClass([CannotLoginViewController class]) sender:nil];
+    __weak typeof(self) weakSelf = self;
+    [[UIActionSheet bk_actionSheetCustomWithTitle:@"请选择找回密码的方式" buttonTitles:@[@"通过手机号找回", @"通过邮箱找回"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        if (index == 0) {
+            [weakSelf performSegueWithIdentifier:NSStringFromClass([PasswordPhoneViewController class]) sender:nil];
+        }else if (index == 1){
+            [weakSelf performSegueWithIdentifier:NSStringFromClass([PasswordEmailViewController class]) sender:nil];
+        }
+    }] showInView:self.view];
+//    [self performSegueWithIdentifier:NSStringFromClass([CannotLoginViewController class]) sender:nil];
 }
 
 - (void)registerLTaped{
@@ -148,6 +158,12 @@
         }
     }else if ([segue.destinationViewController isKindOfClass:[TwoFactorAuthCodeViewController class]]){
         [(TwoFactorAuthCodeViewController *)segue.destinationViewController setLoginSucessBlock:_loginSucessBlock];
+    }else if ([segue.destinationViewController isKindOfClass:[PasswordEmailViewController class]]) {
+        PasswordEmailViewController *vc = (PasswordEmailViewController *)segue.destinationViewController;
+        vc.email = [_userStr isEmail]? _userStr: nil;
+    }else if ([segue.destinationViewController isKindOfClass:[PasswordPhoneViewController class]]){
+        PasswordPhoneViewController *vc = (PasswordPhoneViewController *)segue.destinationViewController;
+        vc.phone = [_userStr isPhoneNo]? _userStr: nil;
     }
 }
 
