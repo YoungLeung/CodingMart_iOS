@@ -9,6 +9,7 @@
 #import "EABaseTableViewController.h"
 
 @interface RegisterPhoneViewController : EABaseTableViewController
+@property (strong, nonatomic) NSString *accountType, *demandType;
 @property (strong, nonatomic) NSString *mobile;
 @property (copy, nonatomic) void (^loginSucessBlock)();
 

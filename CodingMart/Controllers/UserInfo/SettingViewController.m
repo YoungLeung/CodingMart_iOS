@@ -36,11 +36,9 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    CGFloat cellHeight;
+    CGFloat cellHeight = 50.f;
     if (indexPath.section == 0 && indexPath.row == 0) {
         cellHeight = 0;
-    }else{
-        cellHeight = 44;
     }
     return cellHeight;
 }

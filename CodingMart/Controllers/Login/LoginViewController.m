@@ -12,6 +12,7 @@
 #import "PasswordEmailViewController.h"
 #import "PasswordPhoneViewController.h"
 #import "TwoFactorAuthCodeViewController.h"
+#import "RegisterAccountTypeViewController.h"
 #import "MartTextFieldCell.h"
 #import "MartCaptchaCell.h"
 #import "TableViewFooterButton.h"
@@ -139,7 +140,8 @@
 
 - (void)registerLTaped{
     [MobClick event:kUmeng_Event_UserAction label:@"登录_去注册"];
-    [self performSegueWithIdentifier:NSStringFromClass([RegisterPhoneViewController class]) sender:self];
+    [self performSegueWithIdentifier:NSStringFromClass([RegisterAccountTypeViewController class]) sender:self];
+//    [self performSegueWithIdentifier:NSStringFromClass([RegisterPhoneViewController class]) sender:self];
 }
 
 #pragma mark - Navigation
@@ -147,6 +149,12 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.destinationViewController isKindOfClass:[RegisterPhoneViewController class]]) {
         RegisterPhoneViewController *vc = (RegisterPhoneViewController *)segue.destinationViewController;
+        vc.loginSucessBlock = _loginSucessBlock;
+        if ([_userStr isPhoneNo]) {
+            vc.mobile = _userStr;
+        }
+    }else if ([segue.destinationViewController isKindOfClass:[RegisterAccountTypeViewController class]]){
+        RegisterAccountTypeViewController *vc = (RegisterAccountTypeViewController *)segue.destinationViewController;
         vc.loginSucessBlock = _loginSucessBlock;
         if ([_userStr isPhoneNo]) {
             vc.mobile = _userStr;

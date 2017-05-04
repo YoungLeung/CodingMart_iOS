@@ -20,14 +20,14 @@
 @property (weak, nonatomic) IBOutlet UITextField *mobileF;
 @property (weak, nonatomic) IBOutlet UITextField *verify_codeF;
 @property (weak, nonatomic) IBOutlet UITextField *global_keyF;
+@property (weak, nonatomic) IBOutlet UITextField *nameF;
+
 @property (weak, nonatomic) IBOutlet PhoneCodeButton *verify_codeBtn;
 
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *footerBtn;
 
 @property (weak, nonatomic) IBOutlet UILabel *countryCodeL;
 @property (strong, nonatomic) NSDictionary *countryCodeDict;
-
-@property (strong, nonatomic) UILabel *loginL;
 
 @end
 
@@ -40,28 +40,47 @@
                              @"country_code": @"86",
                              @"iso_code": @"cn"};
     _mobileF.text = _mobile;
-    RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[self.mobileF.rac_textSignal, self.verify_codeF.rac_textSignal, self.global_keyF.rac_textSignal] reduce:^id(NSString *mobile, NSString *verify_code, NSString *global_key){
-        return @(mobile.length > 0 && verify_code.length > 0 && global_key.length > 0);
+    RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[self.mobileF.rac_textSignal, self.verify_codeF.rac_textSignal, self.global_keyF.rac_textSignal, self.nameF.rac_textSignal] reduce:^id(NSString *mobile, NSString *verify_code, NSString *global_key, NSString *name){
+        return @(mobile.length > 0 && verify_code.length > 0 && global_key.length > 0 && (![self p_isENTERPRISE] || name.length > 0));
     }];
     
-    if (!_loginL) {
-        _loginL = [UILabel new];
-        _loginL.userInteractionEnabled = YES;
-        _loginL.textColor = [UIColor colorWithHexString:@"0x999999"];
-        _loginL.font = [UIFont systemFontOfSize:15];
-        _loginL.textAlignment = NSTextAlignmentCenter;
-        _loginL.frame = CGRectMake(0, kScreen_Height - self.navBottomY - 60, kScreen_Width, 30);
-        [self.view addSubview:_loginL];
+    [self setupLoginL];
+}
+
+- (void)setupLoginL{
+    if (kDevice_Is_iPhone4) {
+        return;
     }
-    [_loginL setAttrStrWithStr:@"已有码市帐号，立即登录" diffColorStr:@"立即登录" diffColor:kColorBrandBlue];
-    [_loginL bk_whenTapped:^{
-        [self.navigationController popViewControllerAnimated:YES];
+    UILabel *loginL = [UILabel new];
+    loginL.userInteractionEnabled = YES;
+    loginL.textColor = [UIColor colorWithHexString:@"0x999999"];
+    loginL.font = [UIFont systemFontOfSize:15];
+    loginL.textAlignment = NSTextAlignmentCenter;
+    loginL.frame = CGRectMake(0, kScreen_Height - self.navBottomY - 60, kScreen_Width, 30);
+    [self.view addSubview:loginL];
+    [loginL setAttrStrWithStr:@"已有码市帐号，立即登录" diffColorStr:@"立即登录" diffColor:kColorBrandBlue];
+    [loginL bk_whenTapped:^{
+        [self.navigationController popToRootViewControllerAnimated:YES];
     }];
 }
 
 - (void)setCountryCodeDict:(NSDictionary *)countryCodeDict{
     _countryCodeDict = countryCodeDict;
     _countryCodeL.text = [NSString stringWithFormat:@"+%@", _countryCodeDict[@"country_code"]];
+}
+
+- (BOOL)p_isENTERPRISE{
+    return [_demandType isEqualToString:@"ENTERPRISE"];
+}
+
+#pragma mark Table
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    CGFloat cellHeight = 50.f;
+    if (indexPath.row == 0 && ![self p_isENTERPRISE]) {
+        cellHeight = 0;
+    }
+    return cellHeight;
 }
 
 #pragma mark - Button
@@ -135,10 +154,13 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.destinationViewController isKindOfClass:[RegisterPasswordViewController class]]) {
         RegisterPasswordViewController *vc = (RegisterPasswordViewController *)segue.destinationViewController;
+        vc.accountType = _accountType;
+        vc.demandType = _demandType;
         vc.countryCodeDict = _countryCodeDict;
         vc.phone = _mobileF.text;
         vc.code = _verify_codeF.text;
         vc.global_key = _global_keyF.text;
+        vc.name = [self p_isENTERPRISE]? _nameF.text: nil;
         vc.loginSucessBlock = _loginSucessBlock;
     }
 }

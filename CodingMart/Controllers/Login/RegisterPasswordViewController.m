@@ -81,11 +81,16 @@
                                     @"password": [_passwordF.text sha1Str],
                                     @"rePassword": [_confirm_passwordF.text sha1Str],
                                     @"protocol": @"true",
-                                    @"step": @3,
-                                    @"accountType": @"DEVELOPER",
+                                    @"accountType": _accountType ?: @"DEVELOPER",
                                     }.mutableCopy;
     if (_captchaNeeded) {
         params[@"captcha"] = _captchaCell.textF.text;
+    }
+    if (_demandType.length > 0) {
+        params[@"demandType"] = _demandType;
+    }
+    if (_name.length > 0) {
+        params[@"name"] = _name;
     }
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
