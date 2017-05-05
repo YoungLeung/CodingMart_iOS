@@ -130,7 +130,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)get_CodingExamTesting:(void (^)(id data, NSError *error))block;
 - (void)post_CodingExamTesting:(NSDictionary *)params block:(void (^)(id data, NSError *error))block;
 - (void)post_Authentication:(NSDictionary *)params block:(void (^)(id data, NSError *error))block;
-- (void)get_AppInfo:(void (^)(id data, NSError *error))block;
+//- (void)get_AppInfo:(void (^)(id data, NSError *error))block;
 
 #pragma mark Other
 - (void)get_StartModelBlock:(void (^)(id data, NSError *error))block;

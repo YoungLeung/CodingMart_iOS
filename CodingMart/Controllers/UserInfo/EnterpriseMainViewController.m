@@ -49,7 +49,7 @@
                     EnterpriseCertificate *certificate = (EnterpriseCertificate *) data;
                     vc = [IdentityResultViewController vcInStoryboard:certificate];
                 } else {
-                    vc = [IdentityViewController vcWithIdetityDict:nil];
+                    vc = [IdentityViewController vcInStoryboard:@"UserInfo"];
                 }
                 [self.navigationController pushViewController:vc animated:YES];
             }];

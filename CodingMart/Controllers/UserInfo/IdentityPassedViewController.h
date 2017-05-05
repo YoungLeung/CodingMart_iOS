@@ -10,6 +10,6 @@
 #import "IdentityInfo.h"
 
 @interface IdentityPassedViewController : EABaseTableViewController
-@property(nonatomic,strong) NSDictionary *identity_server_CacheDataDic;
+//@property(nonatomic,strong) NSDictionary *identity_server_CacheDataDic;
 @property (strong, nonatomic) IdentityInfo *info;
 @end

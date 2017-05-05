@@ -7,7 +7,6 @@
 //
 
 #import "IdentityPassedViewController.h"
-#import "IdentityAuthenticationModel.h"
 #import "UIImageView+WebCache.h"
 #import "Login.h"
 #import "UITTTAttributedLabel.h"

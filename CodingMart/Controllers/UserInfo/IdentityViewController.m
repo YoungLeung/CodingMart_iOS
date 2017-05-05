@@ -9,7 +9,6 @@
 #import "IdentityViewController.h"
 #import "IdentityPassedViewController.h"
 #import "UITTTAttributedLabel.h"
-#import "IdentityAuthenticationModel.h"
 #import "UIImageView+WebCache.h"
 #import <BlocksKit/BlocksKit+UIKit.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
@@ -17,7 +16,7 @@
 #import "JTSImageViewController.h"
 #import "Coding_NetAPIManager.h"
 #import <MBProgressHUD.h>
-#import "EnterpriseAttachment.h""
+#import "EnterpriseAttachment.h"
 #import "EnterpriseCertificate.h"
 #import "IdentityResultViewController.h"
 
@@ -34,8 +33,6 @@
 @property(strong, nonatomic) IBOutlet UIView *demoV;
 @property(strong, nonatomic) EAXibTipView *demoTipV;
 
-//@property (strong,nonatomic) IdentityAuthenticationModel *model, *originalModel;
-
 @property(strong, nonatomic) EnterpriseAttachment *attachment;
 @property(strong, nonatomic) NSString *name;
 @property(strong, nonatomic) NSString *identity;
@@ -44,12 +41,12 @@
 
 @implementation IdentityViewController
 
-+ (id)vcWithIdetityDict:(NSDictionary *)identity_server_CacheDataDic {
-    Class classObj = [identity_server_CacheDataDic[@"status"] integerValue] == 1 ? [IdentityPassedViewController class] : [IdentityViewController class];//status == 1 是认证通过
-    UIViewController *vc = [classObj vcInStoryboard:@"UserInfo"];
-    [vc setValue:identity_server_CacheDataDic forKey:@"identity_server_CacheDataDic"];
-    return vc;
-}
+//+ (id)vcWithIdetityDict:(NSDictionary *)identity_server_CacheDataDic {
+//    Class classObj = [identity_server_CacheDataDic[@"status"] integerValue] == 1 ? [IdentityPassedViewController class] : [IdentityViewController class];//status == 1 是认证通过
+//    UIViewController *vc = [classObj vcInStoryboard:@"UserInfo"];
+//    [vc setValue:identity_server_CacheDataDic forKey:@"identity_server_CacheDataDic"];
+//    return vc;
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

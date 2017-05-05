@@ -119,7 +119,7 @@
     imageInfo.referenceRect = imageV.frame;
     imageInfo.referenceView = imageV.superview;
     JTSImageViewController *imageViewer = [[JTSImageViewController alloc] initWithImageInfo:imageInfo mode:JTSImageViewControllerMode_Image backgroundStyle:JTSImageViewControllerBackgroundOption_None];
-    WEAKSELF;
+//    WEAKSELF;
 //    imageViewer.deleteBlock = nil;
 //    imageViewer.optionsDelegate = self;
     [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
@@ -128,7 +128,7 @@
 - (IBAction)clickReidentity:(UIButton *)sender {
     UINavigationController *navigation = self.navigationController;
     [navigation popViewControllerAnimated:NO];
-    [navigation pushViewController:[IdentityViewController vcWithIdetityDict:nil] animated:NO];
+    [navigation pushViewController:[IdentityViewController vcInStoryboard:@"UserInfo"] animated:NO];
 }
 
 @end

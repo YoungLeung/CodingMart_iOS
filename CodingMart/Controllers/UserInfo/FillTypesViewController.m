@@ -10,7 +10,7 @@
 #import "FillUserInfoViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "Login.h"
-#import "IdentityAuthenticationModel.h"
+//#import "IdentityAuthenticationModel.h"
 #import "CodingMarkTestViewController.h"
 #import "SkillsViewController.h"
 #import "IdentityViewController.h"
@@ -42,8 +42,8 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 
 @property (strong, nonatomic) User *curUser;
 
-@property (assign,nonatomic)IdentityStatusCode identityCode;
-@property (strong,nonatomic)NSDictionary *identity_server_CacheDataDic;
+//@property (assign,nonatomic)IdentityStatusCode identityCode;
+//@property (strong,nonatomic)NSDictionary *identity_server_CacheDataDic;
 @end
 
 @implementation FillTypesViewController
@@ -53,7 +53,7 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 }
 - (void)viewDidLoad{
     [super viewDidLoad];
-    [self getUserinfo];
+//    [self getUserinfo];
 //    if ([FunctionTipsManager needToTip:kFunctionTipStr_ShenFenRenZheng]) {
 //        [MartFunctionTipView showFunctionImages:@[@"function_shenfenrenzheng"]];
 //        [FunctionTipsManager markTiped:kFunctionTipStr_ShenFenRenZheng];
@@ -68,7 +68,7 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
     }else{
         [self refresh];
     }
-    [self refreshIdCardCheck];
+//    [self refreshIdCardCheck];
     //新功能提示
     if ([FunctionTipsManager needToTip:kFunctionTipStr_MaShiRenZheng]) {
         CGRect fromFrame = [[_identityTitleL superview] convertRect:_identityTitleL.frame toView:self.tableView];
@@ -87,31 +87,31 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
     }];
 }
 
--(void)refreshIdCardCheck{
-    WEAKSELF
-    [[Coding_NetAPIManager sharedManager]get_AppInfo:^(id data, NSError *error){
-        if (data){
-            NSDictionary *dataDic =data[@"data"];
-            NSInteger status=[dataDic[@"status"] integerValue];
-            weakSelf.identityCode=status;
-            weakSelf.identity_server_CacheDataDic=data[@"data"];
-            if (weakSelf.identityCode==identity_Authfaild){
-                weakSelf.statusCheckV.hidden=YES;
-                weakSelf.identityStatusLabel.hidden=NO;
-                weakSelf.identityStatusLabel.textColor=[UIColor colorWithHexString:@"FF4B80"];
-                weakSelf.identityStatusLabel.text=@"认证失败";
-            }else if(weakSelf.identityCode==identity_Authing){
-                weakSelf.statusCheckV.hidden=YES;
-                weakSelf.identityStatusLabel.hidden=NO;
-                weakSelf.identityStatusLabel.textColor=[UIColor colorWithHexString:@"F5A623"];
-                weakSelf.identityStatusLabel.text=@"认证中";
-            }else{
-                weakSelf.statusCheckV.hidden=NO;
-                weakSelf.identityStatusLabel.hidden=YES;
-            }
-        }
-    }];
-}
+//-(void)refreshIdCardCheck{
+//    WEAKSELF
+//    [[Coding_NetAPIManager sharedManager]get_AppInfo:^(id data, NSError *error){
+//        if (data){
+//            NSDictionary *dataDic =data[@"data"];
+//            NSInteger status=[dataDic[@"status"] integerValue];
+//            weakSelf.identityCode=status;
+//            weakSelf.identity_server_CacheDataDic=data[@"data"];
+//            if (weakSelf.identityCode==identity_Authfaild){
+//                weakSelf.statusCheckV.hidden=YES;
+//                weakSelf.identityStatusLabel.hidden=NO;
+//                weakSelf.identityStatusLabel.textColor=[UIColor colorWithHexString:@"FF4B80"];
+//                weakSelf.identityStatusLabel.text=@"认证失败";
+//            }else if(weakSelf.identityCode==identity_Authing){
+//                weakSelf.statusCheckV.hidden=YES;
+//                weakSelf.identityStatusLabel.hidden=NO;
+//                weakSelf.identityStatusLabel.textColor=[UIColor colorWithHexString:@"F5A623"];
+//                weakSelf.identityStatusLabel.text=@"认证中";
+//            }else{
+//                weakSelf.statusCheckV.hidden=NO;
+//                weakSelf.identityStatusLabel.hidden=YES;
+//            }
+//        }
+//    }];
+//}
 
 - (void)setCurUser:(User *)curUser{
     _curUser = curUser;
@@ -120,16 +120,32 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
     _skillsCheckV.image = [UIImage imageNamed:_curUser.skillComplete.boolValue? @"fill_checked": @"fill_unchecked"];
     _testingCheckV.image = [UIImage imageNamed:_curUser.surveyComplete.boolValue? @"fill_checked": @"fill_unchecked"];
     _statusCheckV.image = [UIImage imageNamed:_curUser.identityPassed.boolValue? @"fill_checked": @"fill_unchecked"];
+    
+    EAIdentityStatus identityStatus = _curUser.identityStatus.enum_identityStatus;
+    if (identityStatus == EAIdentityStatus_REJECTED){
+        self.statusCheckV.hidden=YES;
+        self.identityStatusLabel.hidden=NO;
+        self.identityStatusLabel.textColor=[UIColor colorWithHexString:@"FF4B80"];
+        self.identityStatusLabel.text=@"认证失败";
+    }else if(identityStatus == EAIdentityStatus_CHECKING){
+        self.statusCheckV.hidden=YES;
+        self.identityStatusLabel.hidden=NO;
+        self.identityStatusLabel.textColor=[UIColor colorWithHexString:@"F5A623"];
+        self.identityStatusLabel.text=@"认证中";
+    }else{
+        self.statusCheckV.hidden=NO;
+        self.identityStatusLabel.hidden=YES;
+    }
 }
 
--(void)getUserinfo{
-    [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id data, NSError *error){
-        FillUserInfo *userInfo = data[@"data"][@"info"]? [NSObject objectOfClass:@"FillUserInfo" fromJSON:data[@"data"][@"info"]]: [FillUserInfo new];
-        if (userInfo.name){
-            [IdentityAuthenticationModel cacheUserName:userInfo.name];
-        }
-    }];
-}
+//-(void)getUserinfo{
+//    [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id data, NSError *error){
+//        FillUserInfo *userInfo = data[@"data"][@"info"]? [NSObject objectOfClass:@"FillUserInfo" fromJSON:data[@"data"][@"info"]]: [FillUserInfo new];
+//        if (userInfo.name){
+//            [IdentityAuthenticationModel cacheUserName:userInfo.name];
+//        }
+//    }];
+//}
 
 #pragma mark Table M
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{

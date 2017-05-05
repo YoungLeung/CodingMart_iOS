@@ -9,6 +9,6 @@
 #import "EABaseTableViewController.h"
 
 @interface IdentityViewController : EABaseTableViewController
-@property(nonatomic,strong) NSDictionary *identity_server_CacheDataDic;
-+ (id)vcWithIdetityDict:(NSDictionary *)identity_server_CacheDataDic;
+//@property(nonatomic,strong) NSDictionary *identity_server_CacheDataDic;
+//+ (id)vcWithIdetityDict:(NSDictionary *)identity_server_CacheDataDic;
 @end
