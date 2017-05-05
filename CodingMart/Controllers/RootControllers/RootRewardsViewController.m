@@ -232,7 +232,7 @@
 
 - (void)showHighPaidTip{
     if (!_tipV) {
-        _tipV = [EATipView instancetypeWithTitle:@"高回报项目专区" tipStr:@"此区域内的项目，多为要求特殊，或要求专业领域技能，或较为冷门，因此项目金额会高于市场价，并仍然有议价空间。"];
+        _tipV = [EATipView instancetypeWithTitle:@"码市直营项目专区" tipStr:@"码市直营作为服务商，直接面向需求方提供标准、稳定与有保障的软件开发服务。码市直营期待与优质开发者进行高效合作，共同完成项目交付，实现共赢。"];
     }
     if (_tipV.isShowing) {
         [_tipV dismiss];

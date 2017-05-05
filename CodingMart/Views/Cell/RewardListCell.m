@@ -64,7 +64,7 @@
     BOOL isHighPaid = _curReward.high_paid.integerValue == 2;
     _titleLeadingC.constant = isHighPaid? 35: 12;
     _highPaidLogoV.hidden = !isHighPaid;
-    _highPaidL.text = isHighPaid? @"可议价": @"";
+    _highPaidL.text = isHighPaid? @"直营": @"";
 }
 
 + (CGFloat)cellHeight{
