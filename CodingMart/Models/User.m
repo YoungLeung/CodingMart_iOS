@@ -50,7 +50,7 @@
 }
 - (BOOL)canJoinReward{
     return (![self isSameToUser:[User userTourist]] &&
-            self.status.boolValue &&
+            self.status.enum_status == EAStatus_ACTIVATED &&
             self.infoComplete.boolValue &&
             self.skillComplete.boolValue &&
             self.surveyComplete.boolValue &&
