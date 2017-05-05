@@ -31,6 +31,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = [_accountType isEqualToString:@"DEVELOPER"]? @"注册开发者": [_demandType isEqualToString:@"ENTERPRISE"]? @"注册企业需求方": @"注册个人需求方";
+
     __weak typeof(self) weakSelf = self;
     [_footerL addLinkToStr:@"《码市用户服务协议》" value:nil hasUnderline:YES clickedBlock:^(id value) {
         [weakSelf goToServiceTerms];

@@ -28,7 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"忘记密码";
+    self.title = @"邮箱重置密码";
     _headerL.text = @"为了重置密码，我们将发邮件到您的邮箱";
     [_footerBtn setTitle:@"发送重置密码邮件" forState:UIControlStateNormal];
     _emailF.text = _email;

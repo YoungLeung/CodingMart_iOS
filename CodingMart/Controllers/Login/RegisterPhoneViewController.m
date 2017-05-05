@@ -36,6 +36,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = [_accountType isEqualToString:@"DEVELOPER"]? @"注册开发者": [_demandType isEqualToString:@"ENTERPRISE"]? @"注册企业需求方": @"注册个人需求方";
+    
     self.countryCodeDict = @{@"country": @"China",
                              @"country_code": @"86",
                              @"iso_code": @"cn"};

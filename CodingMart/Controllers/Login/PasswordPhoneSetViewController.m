@@ -29,8 +29,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"重置密码";
-    [_footerBtn setTitle:@"重置密码" forState:UIControlStateNormal];
+    self.title = @"手机号重置密码";
+    [_footerBtn setTitle:@"设置新密码" forState:UIControlStateNormal];
 
     RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[self.passwordF.rac_textSignal, self.confirm_passwordF.rac_textSignal, self.captchaCell.textF.rac_textSignal, RACObserve(self, captchaNeeded)] reduce:^id(NSString *password, NSString *confirm_password, NSString *captcha, NSNumber *captchaNeeded){
         return @(password.length > 0 && confirm_password.length > 0 && (!captchaNeeded || captcha.length > 0));

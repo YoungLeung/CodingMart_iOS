@@ -34,7 +34,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"忘记密码";
+    self.title = @"手机号重置密码";
     _headerL.text = @"为了重置密码，请先验证您的注册手机";
     self.countryCodeDict = @{@"country": @"China",
                              @"country_code": @"86",
