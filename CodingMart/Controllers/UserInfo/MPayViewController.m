@@ -85,7 +85,7 @@
     }];
 
 
-    if ([FillUserInfo infoCached].reward_role.intValue == 2) {
+    if ([FillUserInfo infoFromLogin].reward_role.intValue == 2) {
         _withdrawI.image = [UIImage imageNamed:@"button_userinfo_mpay_out_disable"];
         _withdrawL.textColor = [UIColor colorWithHexString:@"0xFFADBBCB"];
     }
@@ -169,7 +169,7 @@
 #pragma mark vc
 
 - (IBAction)withdrawBtnClicked:(id)sender {
-    if ([FillUserInfo infoCached].reward_role.intValue == 2) {
+    if ([FillUserInfo infoFromLogin].reward_role.intValue == 2) {
         _topWarnV.hidden = FALSE;
         return;
     }

@@ -67,36 +67,36 @@
 - (NSDictionary *)toParams{
     NSMutableDictionary *params = @{}.mutableCopy;
     params[@"name"] = _name;
-    params[@"email"] = _email;
-    params[@"mobile"] = _mobile;
-    params[@"code"] = _code;
+//    params[@"email"] = _email;
+//    params[@"mobile"] = _mobile;
+//    params[@"code"] = _code;
     params[@"qq"] = _qq;
     params[@"province"] = _province;
     params[@"city"] = _city;
     params[@"district"] = _district;
-    params[@"acceptNewRewardAllNotification"] = _acceptNewRewardAllNotification.boolValue? @"true": @"false";
-    params[@"free_time"] = _free_time;
-    params[@"phoneCountryCode"] = _phoneCountryCode;
-    params[@"country"] = _country;
-    params[@"reward_role"] = _reward_role;
+//    params[@"acceptNewRewardAllNotification"] = _acceptNewRewardAllNotification.boolValue? @"true": @"false";
+//    params[@"free_time"] = _free_time;
+//    params[@"phoneCountryCode"] = _phoneCountryCode;
+//    params[@"country"] = _country;
+//    params[@"reward_role"] = _reward_role;
     return params;
 }
 
-- (id)copyWithZone:(nullable NSZone *)zone{
-    FillUserInfo *copy = [[[self class] allocWithZone:zone] init];
-    copy->_name = [_name copy];
-    copy->_email = [_email copy];
-    copy->_mobile = [_mobile copy];
-    copy->_code = [_code copy];
-    copy->_qq = [_qq copy];
-    copy->_province = [_province copy];
-    copy->_city = [_city copy];
-    copy->_district = [_district copy];
-    copy->_province_name = [_province_name copy];
-    copy->_city_name = [_city_name copy];
-    copy->_district_name = [_district_name copy];
-    return copy;
-}
+//- (id)copyWithZone:(nullable NSZone *)zone{
+//    FillUserInfo *copy = [[[self class] allocWithZone:zone] init];
+//    copy->_name = [_name copy];
+//    copy->_email = [_email copy];
+//    copy->_mobile = [_mobile copy];
+//    copy->_code = [_code copy];
+//    copy->_qq = [_qq copy];
+//    copy->_province = [_province copy];
+//    copy->_city = [_city copy];
+//    copy->_district = [_district copy];
+//    copy->_province_name = [_province_name copy];
+//    copy->_city_name = [_city_name copy];
+//    copy->_district_name = [_district_name copy];
+//    return copy;
+//}
 - (BOOL)canPost:(FillUserInfo *)originalObj{
     BOOL canPost = ![self isSameTo:originalObj];
     if (canPost) {
@@ -118,49 +118,77 @@
      [NSObject isSameNum:_province to:obj.province] &&
      [NSObject isSameNum:_city to:obj.city] &&
      [NSObject isSameNum:_district to:obj.district] &&
-     [NSObject isSameNum:_free_time to:obj.free_time] &&
-     [NSObject isSameNum:_reward_role to:obj.reward_role] &&
-     [NSObject isSameNum:_acceptNewRewardAllNotification to:obj.acceptNewRewardAllNotification] &&
+//     [NSObject isSameNum:_free_time to:obj.free_time] &&
+//     [NSObject isSameNum:_reward_role to:obj.reward_role] &&
+//     [NSObject isSameNum:_acceptNewRewardAllNotification to:obj.acceptNewRewardAllNotification] &&
      [NSObject isSameStr:_country to:obj.country]
     );
 }
 
-- (BOOL)isEnterpriseDemand {
-    return _accountType.intValue == 2;
-}
+//- (BOOL)isEnterpriseDemand {
+//    return _accountType.intValue == 2;
+//}
 
-- (BOOL)isPassedEnterpriseIdentity{
-    return _enterpriseCertificate.boolValue;
-}
+//- (BOOL)isPassedEnterpriseIdentity{
+//    return _enterpriseCertificate.boolValue;
+//}
 
-+ (void)cacheInfoData:(NSDictionary *)dict{
-    if ([dict isKindOfClass:[NSDictionary class]]) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:dict forKey:[self p_cacheKey]];
-        [defaults synchronize];
-    }
-}
-
-+ (FillUserInfo *)infoCached{
-    if ([Login isLogin]) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSDictionary *data = [defaults objectForKey:[self p_cacheKey]];
-        return data[@"data"][@"info"]? [NSObject objectOfClass:@"FillUserInfo" fromJSON:data[@"data"][@"info"]]: nil;
-    }else{
++ (FillUserInfo *)infoFromLogin{
+    if (![Login isLogin]) {
         return nil;
     }
+    User *loginUser = [Login curLoginUser];
+    FillUserInfo *info = [FillUserInfo new];
+    info.name = loginUser.name;
+    info.email = loginUser.email;
+    info.mobile = loginUser.phone;
+    info.qq = loginUser.qq;
+    info.province = loginUser.province.id;
+    info.city = loginUser.city.id;
+    info.district = loginUser.district.id;
+    info.province_name = loginUser.province.name;
+    info.city_name = loginUser.city.name;
+    info.district_name = loginUser.district.name;
+    info.phoneCountryCode = loginUser.countryCode;
+    info.country = loginUser.isoCode;
+    info.reward_role = @(loginUser.developerType.enum_developerType);
+    info.phone_validation = loginUser.phoneValidation;
+    info.email_validation = loginUser.emailValidation;
+    info.enterpriseCertificate = @(loginUser.isPassedEnterpriseIdentity);
+    info.free_time = @(loginUser.freeTime.enum_freeTime);
+    info.acceptNewRewardAllNotification = loginUser.acceptNewRewardAllNotification;
+    
+    return info;
 }
 
-
-+ (NSDictionary *)dataCached{
-    if ([Login isLogin]) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSDictionary *data = [defaults objectForKey:[self p_cacheKey]];
-        return data[@"data"][@"info"];
-    }else{
-        return nil;
-    }
-}
+//+ (void)cacheInfoData:(NSDictionary *)dict{
+//    if ([dict isKindOfClass:[NSDictionary class]]) {
+//        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//        [defaults setObject:dict forKey:[self p_cacheKey]];
+//        [defaults synchronize];
+//    }
+//}
+//
+//+ (FillUserInfo *)infoCached{
+//    if ([Login isLogin]) {
+//        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//        NSDictionary *data = [defaults objectForKey:[self p_cacheKey]];
+//        return data[@"data"][@"info"]? [NSObject objectOfClass:@"FillUserInfo" fromJSON:data[@"data"][@"info"]]: nil;
+//    }else{
+//        return nil;
+//    }
+//}
+//
+//
+//+ (NSDictionary *)dataCached{
+//    if ([Login isLogin]) {
+//        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//        NSDictionary *data = [defaults objectForKey:[self p_cacheKey]];
+//        return data[@"data"][@"info"];
+//    }else{
+//        return nil;
+//    }
+//}
 
 + (NSString *)p_cacheKey{
     return [NSString stringWithFormat:@"%@_UserInfo_Key", [Login curLoginUser].global_key];

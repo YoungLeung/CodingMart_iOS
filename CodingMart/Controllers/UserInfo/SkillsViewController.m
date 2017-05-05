@@ -25,7 +25,7 @@
 
 @property (strong, nonatomic) MartSkill *skill;
 @property (strong, nonatomic) FillUserInfo *userInfo;
-@property (strong, nonatomic) NSDictionary *userInfoData;
+//@property (strong, nonatomic) NSDictionary *userInfoData;
 @end
 
 @implementation SkillsViewController
@@ -51,10 +51,10 @@
     [self.tableView reloadData];
 }
 
-- (void)setUserInfoData:(NSDictionary *)userInfoData{
-    _userInfoData = userInfoData;
-    self.userInfo = userInfoData[@"data"][@"info"]? [NSObject objectOfClass:@"FillUserInfo" fromJSON:userInfoData[@"data"][@"info"]]: nil;
-}
+//- (void)setUserInfoData:(NSDictionary *)userInfoData{
+//    _userInfoData = userInfoData;
+//    self.userInfo = userInfoData[@"data"][@"info"]? [NSObject objectOfClass:@"FillUserInfo" fromJSON:userInfoData[@"data"][@"info"]]: nil;
+//}
 
 - (void)setUserInfo:(FillUserInfo *)userInfo{
     _userInfo = userInfo;
@@ -69,13 +69,18 @@
     [[Coding_NetAPIManager sharedManager] get_SkillBlock:^(id data, NSError *error) {
         if (data) {
             weakSelf.skill = data;
-            [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id dataU, NSError *errorU) {
+            [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id dataU, NSError *errorU) {
                 [weakSelf.tableView endLoading];
                 [weakSelf.tableView.pullRefreshCtrl endRefreshing];
-                if (dataU) {
-                    weakSelf.userInfoData = dataU;
-                }
+                weakSelf.userInfo = [FillUserInfo infoFromLogin];
             }];
+//            [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id dataU, NSError *errorU) {
+//                [weakSelf.tableView endLoading];
+//                [weakSelf.tableView.pullRefreshCtrl endRefreshing];
+//                if (dataU) {
+//                    weakSelf.userInfoData = dataU;
+//                }
+//            }];
         }else{
             [weakSelf.tableView endLoading];
             [weakSelf.tableView.pullRefreshCtrl endRefreshing];
@@ -185,7 +190,8 @@
             weakSelf.userInfo = userInfo;
             [NSObject showHudTipStr:@"保存成功"];
         }else{
-            weakSelf.userInfoData = weakSelf.userInfoData;//更新 userInfo，reload Table
+            weakSelf.userInfo = [FillUserInfo infoFromLogin];
+//            weakSelf.userInfoData = weakSelf.userInfoData;//更新 userInfo，reload Table
         }
     }];
 }

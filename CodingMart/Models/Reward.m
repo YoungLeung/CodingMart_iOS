@@ -122,10 +122,9 @@
     }
     if ([Login isLogin]) {
         User *curUser = [Login curLoginUser];
-        FillUserInfo *curInfo = [FillUserInfo infoCached];
-        rewardToBePublished.contact_name = rewardToBePublished.contact_name ?: curInfo.name ?: curUser.name;
-        rewardToBePublished.contact_mobile = rewardToBePublished.contact_mobile ?: curInfo.mobile ?: curUser.phone;
-        rewardToBePublished.contact_email = rewardToBePublished.contact_email ?: curInfo.email ?: curUser.email;
+        rewardToBePublished.contact_name = rewardToBePublished.contact_name ?: curUser.name;
+        rewardToBePublished.contact_mobile = rewardToBePublished.contact_mobile ?: curUser.phone;
+        rewardToBePublished.contact_email = rewardToBePublished.contact_email ?: curUser.email;
     }
     rewardToBePublished.country = rewardToBePublished.country ?: @"cn";
     rewardToBePublished.phoneCountryCode = rewardToBePublished.phoneCountryCode ?: @"+86";

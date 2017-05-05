@@ -77,7 +77,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)post_markNotification:(NSNumber *)notificationID block:(void (^)(id data, NSError *error))block;
 #pragma mark Setting
 - (void)get_VerifyInfoBlock:(void (^)(id data, NSError *error))block;
-- (void)get_FillUserInfoBlock:(void (^)(id data, NSError *error))block;
+//- (void)get_FillUserInfoBlock:(void (^)(id data, NSError *error))block;
 - (void)post_FillUserInfo:(FillUserInfo *)info block:(void (^)(id data, NSError *error))block;
 - (void)post_FillDeveloperInfoRole:(NSNumber *)reward_role block:(void (^)(id data, NSError *error))block;
 - (void)post_FillDeveloperInfoFreeTime:(FillUserInfo *)info block:(void (^)(id data, NSError *error))block;

@@ -71,14 +71,18 @@
 }
 
 - (void)refresh{
-    self.userInfo = nil;
-    [self.view beginLoading];
-    [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id data, NSError *error) {
-        [self.view endLoading];
-        self.originalUserInfo = data[@"data"][@"info"]? [NSObject objectOfClass:@"FillUserInfo" fromJSON:data[@"data"][@"info"]]: [FillUserInfo new];
-        self.userInfo = data[@"data"][@"info"]? [NSObject objectOfClass:@"FillUserInfo" fromJSON:data[@"data"][@"info"]]: [FillUserInfo new];
-    }];
+//    self.userInfo = nil;
+//    [self.view beginLoading];
+//    [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id data, NSError *error) {
+//        [self.view endLoading];
+//        self.originalUserInfo = data[@"data"][@"info"]? [NSObject objectOfClass:@"FillUserInfo" fromJSON:data[@"data"][@"info"]]: [FillUserInfo new];
+//        self.userInfo = data[@"data"][@"info"]? [NSObject objectOfClass:@"FillUserInfo" fromJSON:data[@"data"][@"info"]]: [FillUserInfo new];
+//    }];
+
+    self.originalUserInfo = [FillUserInfo infoFromLogin];
+    self.userInfo = [FillUserInfo infoFromLogin];
 }
+
 
 - (void)setUserInfo:(FillUserInfo *)userInfo{
     _userInfo = userInfo;
@@ -120,9 +124,6 @@
 
 #pragma mark Btn
 - (IBAction)submitBtnClicked:(id)sender {
-    if ([_userInfo.mobile isEqualToString:_originalUserInfo.mobile]) {
-        _userInfo.code = nil;
-    }
     [NSObject showHUDQueryStr:@"正在保存个人信息..."];
     [[Coding_NetAPIManager sharedManager] post_FillUserInfo:_userInfo block:^(id data, NSError *error) {
         [NSObject hideHUDQuery];

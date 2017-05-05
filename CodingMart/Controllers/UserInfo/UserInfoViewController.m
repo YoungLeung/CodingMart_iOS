@@ -150,7 +150,7 @@
 
 - (void)refreshData {
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id data, NSError *e) {
+//    [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id data, NSError *e) {
         [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id data, NSError *error) {
             [[Coding_NetAPIManager sharedManager] get_IdentityInfoBlock:^(id dataI, NSError *errorI) {
                 User *curUser = data ? data : [Login curLoginUser];
@@ -158,7 +158,7 @@
                 weakSelf.curUser = curUser;
             }];
         }];
-    }];
+//    }];
 }
 
 #pragma mark Btn

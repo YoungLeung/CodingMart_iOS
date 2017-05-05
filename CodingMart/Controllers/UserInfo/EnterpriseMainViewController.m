@@ -9,6 +9,7 @@
 #import "EnterpriseCertificate.h"
 #import "IdentityViewController.h"
 #import "IdentityResultViewController.h"
+#import "Login.h"
 
 @interface EnterpriseMainViewController ()
 @property(weak, nonatomic) IBOutlet UIImageView *baseInfoCheck;
@@ -25,10 +26,14 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    WEAKSELF
-    [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id data, NSError *error) {
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id data, NSError *error) {
         [weakSelf bindUI];
     }];
+//    WEAKSELF
+//    [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id data, NSError *error) {
+//        [weakSelf bindUI];
+//    }];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -37,7 +42,7 @@
             FillUserInfoViewController *vc = [FillUserInfoViewController vcInStoryboard:@"UserInfo"];
             [self.navigationController pushViewController:vc animated:YES];
         } else if (indexPath.row == 1) {
-            NSNumber *baseInfo = [FillUserInfo dataCached][@"info_complete"];
+            NSNumber *baseInfo = [Login curLoginUser].infoComplete;
             if (!baseInfo.boolValue) {
                 [NSObject showHudTipStr:@"请先完善账户信息！"];
                 return;
@@ -62,11 +67,9 @@
 }
 
 - (void)bindUI {
-    NSDictionary *info = [FillUserInfo dataCached];
-    NSNumber *baseInfo = info[@"info_complete"];
-    NSNumber *ceritificate = info[@"enterpriseCertificate"];
-    _baseInfoCheck.image = [UIImage imageNamed:baseInfo.boolValue? @"fill_checked": @"fill_unchecked"];
-    _enterpriseInfoCheck.image = [UIImage imageNamed:ceritificate.boolValue? @"fill_checked": @"fill_unchecked"];
+    User *loginUser = [Login curLoginUser];
+    _baseInfoCheck.image = [UIImage imageNamed:loginUser.infoComplete.boolValue? @"fill_checked": @"fill_unchecked"];
+    _enterpriseInfoCheck.image = [UIImage imageNamed:loginUser.identityPassed.boolValue? @"fill_checked": @"fill_unchecked"];
 
 }
 

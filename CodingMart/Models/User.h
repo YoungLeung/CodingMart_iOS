@@ -13,7 +13,7 @@
 
 @interface User : NSObject
 
-@property (strong, nonatomic) NSNumber *id, *phoneValidation, *emailValidation, *excellent, *evaluation, *infoComplete, *skillComplete, *surveyComplete, *identityPassed, *developerTypeComplete, *contractComplete, *soloDeveloper, *teamDeveloper, *enterpriseDemand;
+@property (strong, nonatomic) NSNumber *id, *phoneValidation, *emailValidation, *excellent, *evaluation, *infoComplete, *skillComplete, *surveyComplete, *identityPassed, *developerTypeComplete, *contractComplete, *soloDeveloper, *teamDeveloper, *enterpriseDemand, *acceptNewRewardAllNotification;
 @property (strong, nonatomic) NSString *username, *avatar, *phone, *email, *identity, *qq, *wechat, *countryCode, *isoCode, *registerIp, *loginIp, *lastLoginIp, *lastActiveIp, *name, *description_mine, *invitationcode, *roleNames, *skillNames, *goodAts, *abilities;
 @property (strong, nonatomic) NSDate *registerAt, *loginAt, *lastLoginAt, *lastActiveAt;
 @property (strong, nonatomic) User *developerManager;
