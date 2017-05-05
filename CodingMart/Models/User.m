@@ -58,27 +58,33 @@
 }
 
 - (BOOL)isDemandSide{
-    if ([FillUserInfo infoCached].isEnterpriseDemand) {
-        return YES;
-    }
-
-    return self.loginIdentity.integerValue == 2;
+    return _accountType.enum_accountType == EAAccountType_DEMAND;
+    
+//    if ([FillUserInfo infoCached].isEnterpriseDemand) {
+//        return YES;
+//    }
+//    return self.loginIdentity.integerValue == 2;
 }
 
 - (BOOL)isDeveloperSide{
-    if ([FillUserInfo infoCached].isEnterpriseDemand) {
-        return NO;
-    }
-
-    return self.loginIdentity.integerValue == 1;
+    return _accountType.enum_accountType == EAAccountType_DEVELOPER;
+    
+//    if ([FillUserInfo infoCached].isEnterpriseDemand) {
+//        return NO;
+//    }
+//    return self.loginIdentity.integerValue == 1;
 }
 
 - (BOOL)isEnterpriseSide {
-    return [FillUserInfo infoCached].isEnterpriseDemand;
+    return (_accountType.enum_accountType == EAAccountType_DEMAND && _demandType.enum_demandType == EADemandType_ENTERPRISE);
+    
+//    return [FillUserInfo infoCached].isEnterpriseDemand;
 }
 
 - (BOOL)isPassedEnterpriseIdentity{
-    return [[FillUserInfo infoCached] isPassedEnterpriseIdentity];
+    return (_accountType.enum_accountType == EAAccountType_DEMAND && _demandType.enum_demandType == EADemandType_ENTERPRISE && _identityPassed.boolValue);
+
+//    return [[FillUserInfo infoCached] isPassedEnterpriseIdentity];
 }
 
 - (NSString *)toUserInfoPath{
@@ -118,8 +124,5 @@
     }
     return tipStr;
 }
-
-
-
 
 @end

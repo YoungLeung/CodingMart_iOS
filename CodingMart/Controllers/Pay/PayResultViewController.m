@@ -6,6 +6,8 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
+//半废弃状态（mpay）
+
 #import "PayResultViewController.h"
 #import "RewardPrivateViewController.h"
 #import "MartWebViewController.h"

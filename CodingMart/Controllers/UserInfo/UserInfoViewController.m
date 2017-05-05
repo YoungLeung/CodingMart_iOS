@@ -122,8 +122,9 @@
     _developerProgressV.image = [self p_developerProgressImage];
     [_fillUserInfoBtn setTitle:_curUser.name forState:UIControlStateNormal];
     [_user_iconV sd_setImageWithURL:[_curUser.avatar urlWithCodingPath] placeholderImage:[UIImage imageNamed:@"placeholder_user"]];
-    [_footerBtn setTitle:isDeveloper ? @"切换至需求方模式" : @"切换至开发者模式" forState:UIControlStateNormal];
-    _footerBtn.hidden = ![Login isLogin] || [_curUser isEnterpriseSide];
+//    [_footerBtn setTitle:isDeveloper ? @"切换至需求方模式" : @"切换至开发者模式" forState:UIControlStateNormal];
+//    _footerBtn.hidden = ![Login isLogin] || [_curUser isEnterpriseSide];
+    _footerBtn.hidden = YES;
     [self.tableView reloadData];
 }
 

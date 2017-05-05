@@ -68,7 +68,8 @@
                  _need_pay_prepayment.boolValue));
 }
 - (BOOL)hasPaidSome{
-    return (_price_with_fee.floatValue - _balance.floatValue > 0);
+//    return (_price_with_fee.floatValue - _balance.floatValue > 0);
+    return NO;//支付流程改了
 }
 - (BOOL)hasConversation{
     return (_status.integerValue == RewardStatusPassed ||

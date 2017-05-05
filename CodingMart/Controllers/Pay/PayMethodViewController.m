@@ -6,6 +6,8 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
+//半废弃状态（mpay）
+
 #import "PayMethodViewController.h"
 #import <TPKeyboardAvoiding/TPKeyboardAvoidingTableView.h>
 #import "Coding_NetAPIManager.h"

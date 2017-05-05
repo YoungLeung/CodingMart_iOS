@@ -89,7 +89,8 @@
     if (textHexStrList.count > _reward.status.integerValue) {
         _statusL.textColor = [UIColor colorWithHexString:textHexStrList[_reward.status.integerValue]];
     }
-    _allPaidV.hidden = !(_reward.balance.floatValue == 0 && _reward.price.floatValue > 0);
+//    _allPaidV.hidden = !(_reward.balance.floatValue == 0 && _reward.price.floatValue > 0);
+    _allPaidV.hidden = YES;//支付流程改了
     _rewardNumL.text = [NSString stringWithFormat:@" No.%@ ", _reward.id.stringValue];
     _numL.text = [NSString stringWithFormat:@"%@人报名，%@人浏览",_reward.apply_count, _reward.visitCount];
     _priceBottomConstraint.constant = _reward.roleTypesDisplay.length > 0? 0: -20;
@@ -100,8 +101,10 @@
 
 - (NSAttributedString *)p_payTipStr{
     NSString *tipStr = [NSString stringWithFormat:@"温馨提示：还剩 %@ 未支付，请尽快支付！", _reward.format_balance];
-    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:tipStr];;
-    [attrStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"0xF5A623"] range:[tipStr rangeOfString:_reward.format_balance]];
+    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:tipStr];
+    if (_reward.format_balance && [tipStr rangeOfString:_reward.format_balance].location != NSNotFound) {
+        [attrStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"0xF5A623"] range:[tipStr rangeOfString:_reward.format_balance]];
+    }
     return attrStr;
 }
 - (IBAction)rePublishBtnClicked:(id)sender {

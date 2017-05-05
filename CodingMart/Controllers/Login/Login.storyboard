@@ -6,6 +6,7 @@
     <dependencies>
         <deployment version="2048" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -253,8 +254,8 @@
                                 <constraints>
                                     <constraint firstItem="p8d-hQ-mfa" firstAttribute="leading" secondItem="C7h-Ba-r7d" secondAttribute="trailing" constant="20" id="HIV-bL-4nB"/>
                                     <constraint firstItem="p8d-hQ-mfa" firstAttribute="top" secondItem="C7h-Ba-r7d" secondAttribute="top" constant="5" id="UrV-es-Si2"/>
-                                    <constraint firstAttribute="height" constant="160" id="b7k-DX-Qg7"/>
                                     <constraint firstItem="ooj-PW-Ymg" firstAttribute="leading" secondItem="p8d-hQ-mfa" secondAttribute="leading" id="bEj-cW-K9U"/>
+                                    <constraint firstAttribute="width" secondItem="Wkh-Zd-B6n" secondAttribute="height" multiplier="69:32" id="c16-uz-hC0"/>
                                     <constraint firstItem="C7h-Ba-r7d" firstAttribute="leading" secondItem="Wkh-Zd-B6n" secondAttribute="leading" constant="32" id="cux-0A-trB"/>
                                     <constraint firstItem="C7h-Ba-r7d" firstAttribute="centerY" secondItem="Wkh-Zd-B6n" secondAttribute="centerY" id="hC6-5L-mrv"/>
                                     <constraint firstItem="ooj-PW-Ymg" firstAttribute="top" secondItem="p8d-hQ-mfa" secondAttribute="bottom" constant="10" id="vQf-z2-F3i"/>
@@ -304,7 +305,7 @@
                                     <constraint firstItem="tuz-8V-OYv" firstAttribute="centerY" secondItem="eaO-0E-8s2" secondAttribute="centerY" id="AZ8-u6-9SQ"/>
                                     <constraint firstAttribute="trailing" secondItem="leT-Lx-owE" secondAttribute="trailing" constant="15" id="RSY-3A-dSP"/>
                                     <constraint firstItem="cME-27-v7X" firstAttribute="leading" secondItem="tuz-8V-OYv" secondAttribute="trailing" constant="20" id="UDv-KH-8e8"/>
-                                    <constraint firstAttribute="height" constant="160" id="UX2-Co-bQZ"/>
+                                    <constraint firstAttribute="width" secondItem="eaO-0E-8s2" secondAttribute="height" multiplier="69:32" id="dzS-79-59G"/>
                                     <constraint firstItem="leT-Lx-owE" firstAttribute="leading" secondItem="cME-27-v7X" secondAttribute="leading" id="o6o-Aw-smE"/>
                                     <constraint firstItem="tuz-8V-OYv" firstAttribute="leading" secondItem="eaO-0E-8s2" secondAttribute="leading" constant="32" id="vxw-TU-oHy"/>
                                 </constraints>
@@ -383,8 +384,8 @@
                                     <constraint firstItem="HHe-C1-10P" firstAttribute="top" secondItem="IfF-4Q-a5N" secondAttribute="bottom" constant="10" id="ASQ-W3-nKc"/>
                                     <constraint firstItem="7PS-SY-JZv" firstAttribute="centerY" secondItem="duB-Rr-ylb" secondAttribute="centerY" id="K7g-ym-UP0"/>
                                     <constraint firstItem="7PS-SY-JZv" firstAttribute="leading" secondItem="duB-Rr-ylb" secondAttribute="leading" constant="32" id="PLU-bt-47p"/>
-                                    <constraint firstAttribute="height" constant="160" id="bhR-RN-aao"/>
                                     <constraint firstItem="IfF-4Q-a5N" firstAttribute="top" secondItem="7PS-SY-JZv" secondAttribute="top" constant="5" id="fO9-kb-DLK"/>
+                                    <constraint firstAttribute="width" secondItem="duB-Rr-ylb" secondAttribute="height" multiplier="69:32" id="hwp-mg-yVg"/>
                                     <constraint firstAttribute="trailing" secondItem="HHe-C1-10P" secondAttribute="trailing" constant="15" id="rSN-Ys-eHe"/>
                                     <constraint firstItem="HHe-C1-10P" firstAttribute="leading" secondItem="IfF-4Q-a5N" secondAttribute="leading" id="tme-Wu-xhW"/>
                                 </constraints>
@@ -431,8 +432,8 @@
                                     <constraint firstItem="PRF-f2-gFg" firstAttribute="leading" secondItem="p0q-GH-A0R" secondAttribute="leading" id="I8V-H7-JLm"/>
                                     <constraint firstAttribute="trailing" secondItem="PRF-f2-gFg" secondAttribute="trailing" constant="15" id="LlN-Gh-tdy"/>
                                     <constraint firstItem="xeh-L8-TRL" firstAttribute="centerY" secondItem="4nZ-gx-ZBC" secondAttribute="centerY" id="TIx-UI-HDN"/>
-                                    <constraint firstAttribute="height" constant="160" id="U9k-Az-8Sj"/>
                                     <constraint firstItem="p0q-GH-A0R" firstAttribute="top" secondItem="xeh-L8-TRL" secondAttribute="top" constant="5" id="Uxc-FF-pg7"/>
+                                    <constraint firstAttribute="width" secondItem="4nZ-gx-ZBC" secondAttribute="height" multiplier="69:32" id="fov-fo-g4d"/>
                                     <constraint firstItem="p0q-GH-A0R" firstAttribute="leading" secondItem="xeh-L8-TRL" secondAttribute="trailing" constant="20" id="g00-zh-tdb"/>
                                     <constraint firstItem="PRF-f2-gFg" firstAttribute="top" secondItem="p0q-GH-A0R" secondAttribute="bottom" constant="10" id="lLR-Rc-u3q"/>
                                 </constraints>
@@ -469,7 +470,7 @@
         <scene sceneID="H3Z-gf-2kg">
             <objects>
                 <tableViewController storyboardIdentifier="RegisterPhoneViewController" title="注册" id="XHW-b7-D8e" customClass="RegisterPhoneViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="ts4-r9-pKI" customClass="TPKeyboardAvoidingTableView">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="ts4-r9-pKI" customClass="TPKeyboardAvoidingTableView">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1945,8 +1946,8 @@
         <image name="register_type_developer" width="66" height="66"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="YgM-SU-4yI"/>
+        <segue reference="dcB-VL-lvX"/>
         <segue reference="of1-m7-JP3"/>
-        <segue reference="205-FB-r9B"/>
-        <segue reference="zEc-go-bV5"/>
     </inferredMetricsTieBreakers>
 </document>
