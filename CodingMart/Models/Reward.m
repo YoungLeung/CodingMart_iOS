@@ -55,6 +55,10 @@
 - (NSString *)payMoney{
     return _payMoney ?: _balance.stringValue;
 }
+- (BOOL)isNewPhase{
+//    _phaseType
+    return NO;
+}
 - (BOOL)needToPay{
         return ((_balance.floatValue > 0 &&
                 !_mpay.boolValue &&

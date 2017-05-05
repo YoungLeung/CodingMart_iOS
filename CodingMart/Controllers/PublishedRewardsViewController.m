@@ -105,6 +105,10 @@
 }
 
 - (void)goToPrivateReward:(Reward *)reward{
+    if (reward.isNewPhase) {
+        [NSObject showHudTipStr:@"App 暂不支持，请前往网页版查看"];
+        return;
+    }
     RewardPrivateViewController *vc = [RewardPrivateViewController vcWithReward:reward];
     [self.navigationController pushViewController:vc animated:YES];
 }

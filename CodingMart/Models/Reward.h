@@ -50,6 +50,9 @@ typedef NS_ENUM(NSInteger, PayMethodType) {
 @property (strong, nonatomic, readonly) NSNumber *highPaid, *high_paid, *applyCount, *apply_count;
 @property (strong, nonatomic, readonly) NSString *formatPriceNoCurrency, *format_price;
 
+@property (strong, nonatomic) NSString *phaseType;
+@property (assign, nonatomic, readonly) BOOL isNewPhase;
+
 //Do Publish
 @property (strong, nonatomic) NSNumber *budget, *require_clear, *need_pm;
 @property (strong, nonatomic) NSString *name, *description_mine, *contact_name, *contact_email, *contact_mobile, *first_sample, *second_sample, *first_file, *second_file, *require_doc, *survey_extra, *contact_mobile_code, *recommend, *country, *phoneCountryCode;
