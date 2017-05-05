@@ -90,4 +90,17 @@
     return enumNum.integerValue;
 }
 
+- (EAPhaseType)enum_phaseType{
+    static NSDictionary *enumDict;
+    if (!enumDict) {
+        enumDict = @{
+                     @"UNKNOWN_PHASE_TYPE": @0,
+                     @"STAGE": @1,
+                     @"PHASE": @2,
+                     };
+    }
+    NSNumber *enumNum = enumDict[self];
+    return enumNum.integerValue;
+}
+
 @end

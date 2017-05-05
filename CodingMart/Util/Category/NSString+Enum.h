@@ -47,6 +47,12 @@ typedef NS_ENUM(NSInteger, EADemandType) {
     
 };
 
+typedef NS_ENUM(NSInteger, EAPhaseType) {
+    EAPhaseType_UNKNOWN_PHASE_TYPE,
+    EAPhaseType_STAGE,//多角色阶段划分，旧的
+    EAPhaseType_PHASE,//单角色阶段划分，新的
+};
+
 @interface NSString (Enum)
 
 - (EAStatus)enum_status;
@@ -55,5 +61,5 @@ typedef NS_ENUM(NSInteger, EADemandType) {
 - (EAAccountType)enum_accountType;
 - (EADeveloperType)enum_developerType;
 - (EADemandType)enum_demandType;
-
+- (EAPhaseType)enum_phaseType;
 @end

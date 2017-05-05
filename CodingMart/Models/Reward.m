@@ -56,8 +56,7 @@
     return _payMoney ?: _balance.stringValue;
 }
 - (BOOL)isNewPhase{
-//    _phaseType
-    return NO;
+    return (_phaseType.enum_phaseType == EAPhaseType_PHASE);
 }
 - (BOOL)needToPay{
         return ((_balance.floatValue > 0 &&
