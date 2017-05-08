@@ -949,7 +949,8 @@
     [self get_CurrentUserBlock:^(id data, NSError *error) {
         if (data) {
             IdentityInfo *info = [IdentityInfo infoFromLogin];
-            if ([@[@"Unchecked", @"Rejected"] containsObject:info.status]) {
+            if (info.status.enum_identityStatus == EAIdentityStatus_UNCHECKED ||
+                info.status.enum_identityStatus == EAIdentityStatus_REJECTED) {
                 block(info, error);
             } else {//后续步骤，需要承诺书链接
                 [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/user/identity/sign" withParams:nil withMethodType:Get andBlock:^(id dataS, NSError *errorS) {

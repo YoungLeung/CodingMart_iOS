@@ -210,9 +210,9 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 
 #pragma mark gotoVC
 - (void)goToIdetityStep:(IdentityInfo *)info{
-    NSString *status = info.status;
-    Class classObj = ([status isEqualToString:@"Checked"]? [IdentityPassedViewController class]:
-                      [status isEqualToString:@"Checking"]? [IdentityStep2ViewController class]:
+    EAIdentityStatus identityStatus = info.status.enum_identityStatus;
+    Class classObj = (identityStatus == EAIdentityStatus_CHECKED? [IdentityPassedViewController class]:
+                      identityStatus == EAIdentityStatus_CHECKING? [IdentityStep2ViewController class]:
                       [IdentityStep1ViewController class]);
     UIViewController *vc = [classObj vcInStoryboard:@"UserInfo"];
     [vc setValue:info forKey:@"info"];

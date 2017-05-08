@@ -140,7 +140,7 @@
             }
             image = [UIImage imageNamed:imageName];;
         } else if ([_curUser isEnterpriseSide]) {
-            image = [UIImage imageNamed:([_curUser.info.status isEqualToString:@"Checked"] ? @"ic_enterprise_passed" : nil)];;
+            image = [UIImage imageNamed:(_curUser.info.status.enum_identityStatus == EAIdentityStatus_CHECKED ? @"ic_enterprise_passed" : nil)];;
         }
     }
     return image;

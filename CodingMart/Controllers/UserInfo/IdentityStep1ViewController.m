@@ -83,13 +83,14 @@
                 [NSObject hideHUDQuery];
                 if (dataI) {
                     weakSelf.info = dataI;
-                    if (![weakSelf.info.status isEqualToString:@"Rejected"]) {//再拦截一步
+                    if (weakSelf.info.status.enum_identityStatus != EAIdentityStatus_REJECTED) {//再拦截一步
                         [weakSelf goToStep2];
                     }
                 }
             }];
         }else if (data && data[@"message"]){//验证失败
-            [NSObject showHudTipStr:data[@"message"]];
+            [NSObject showHudTipStr:@"验证失败！姓名或身份证号输入有误。"];
+//            [NSObject showHudTipStr:data[@"message"]];//这个 message 字段，表示的不是具体错误信息，弃用
         }else if (error.code == 2001){//未支付
             [weakSelf showPayTip];
         }else{
@@ -116,10 +117,10 @@
 }
 - (IBAction)goToPay:(id)sender {
     //ToDo
-    if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"weixin://"]]) {
-        [NSObject showHudTipStr:@"您还没有安装「微信」，无法完成支付"];
-        [self.payTipV dismiss];
-    }else{
+//    if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"weixin://"]]) {
+//        [NSObject showHudTipStr:@"您还没有安装「微信」，无法完成支付"];
+//        [self.payTipV dismiss];
+//    }else{
         WEAKSELF
         [NSObject showHUDQueryStr:@"请稍等..."];
         [[Coding_NetAPIManager sharedManager] post_GenerateIdentityOrderBlock:^(id data, NSError *error) {
@@ -136,7 +137,7 @@
                 [WXApi sendReq:req];
             }
         }];
-    }
+//    }
 }
 
 #pragma mark - handleSucessPay
