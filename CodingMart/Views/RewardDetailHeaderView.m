@@ -50,7 +50,7 @@
         [_durationL setAttrStrWithStr:[NSString stringWithFormat:@"周期：%@", @"待商议"] diffColorStr:@"待商议" diffColor:diffColor];
     }
     _statusImgV.image = [UIImage imageNamed:[NSString stringWithFormat:@"status_%@", _curReward.status.stringValue]];
-    BOOL isHighPaid = _curReward.high_paid.integerValue == 2;
+    BOOL isHighPaid = _curReward.high_paid.integerValue == 1;
     _nameLeadingC.constant = isHighPaid? 35: 15;
     _highPiadLogoV.hidden = _dealPriceL.hidden = !isHighPaid;
 }

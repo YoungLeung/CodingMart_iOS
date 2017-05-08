@@ -61,7 +61,7 @@
     _roleTypesL.text = _curReward.roleTypesDisplay;
     _numL.text = [NSString stringWithFormat:@"%@人报名",_curReward.apply_count.stringValue];
     
-    BOOL isHighPaid = _curReward.high_paid.integerValue == 2;
+    BOOL isHighPaid = _curReward.high_paid.integerValue == 1;
     _titleLeadingC.constant = isHighPaid? 35: 12;
     _highPaidLogoV.hidden = !isHighPaid;
     _highPaidL.text = isHighPaid? @"直营": @"";
