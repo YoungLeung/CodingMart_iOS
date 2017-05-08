@@ -51,15 +51,15 @@
 }
 
 - (void)sendActivateEmail{
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/account/register/email/send" withParams:@{@"email": _curUser.email} withMethodType:Post andBlock:^(id data, NSError *error) {
-        if (data) {
-            if ([(NSNumber *)data[@"data"] boolValue]) {
-                [NSObject showHudTipStr:@"邮件已发送"];
-            }else{
-                [NSObject showHudTipStr:@"发送失败"];
-            }
-        }
-    }];
+//    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/account/register/email/send" withParams:@{@"email": _curUser.email} withMethodType:Post andBlock:^(id data, NSError *error) {
+//        if (data) {
+//            if ([(NSNumber *)data[@"data"] boolValue]) {
+//                [NSObject showHudTipStr:@"邮件已发送"];
+//            }else{
+//                [NSObject showHudTipStr:@"发送失败"];
+//            }
+//        }
+//    }];
 }
 
 #pragma mark Table

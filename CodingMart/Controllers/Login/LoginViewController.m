@@ -195,16 +195,17 @@
     
     UIAlertAction *cancelA = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     UIAlertAction *confirmA = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-        [NSObject changeBaseURLStr:alertCtrl.textFields[0].text codingURLStr:alertCtrl.textFields[1].text];
+        [NSObject changeBaseURLStr:alertCtrl.textFields[0].text codingURLStr:nil];
+//        [NSObject changeBaseURLStr:alertCtrl.textFields[0].text codingURLStr:alertCtrl.textFields[1].text];
     }];
     [alertCtrl addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
         textField.placeholder = @"码市服务器地址";
         textField.text = [NSObject baseURLStr];
     }];
-    [alertCtrl addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-        textField.placeholder = @"Coding 服务器地址";
-        textField.text = [NSObject codingURLStr];
-    }];
+//    [alertCtrl addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+//        textField.placeholder = @"Coding 服务器地址";
+//        textField.text = [NSObject codingURLStr];
+//    }];
     [alertCtrl addAction:cancelA];
     [alertCtrl addAction:confirmA];
     [self presentViewController:alertCtrl animated:YES completion:nil];

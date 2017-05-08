@@ -69,35 +69,35 @@
 #pragma mark Button
 
 - (IBAction)footerBtnClicked:(id)sender {
-    if (![_passwordF.text isEqualToString:_confirm_passwordF.text]) {
-        [NSObject showHudTipStr:@"两次输入密码不一致"];
-        return;
-    }
-    [NSObject showHUDQueryStr:@"正在注册..."];
-    NSString *path = @"api/v2/account/register";
-    NSMutableDictionary *params = @{@"channel": kRegisterChannel,
-                                    @"global_key": _global_keyF.text,
-                                    @"phone": _phone,
-                                    @"code": _verify_code,
-                                    @"password": [_passwordF.text sha1Str],
-                                    @"confirm": [_confirm_passwordF.text sha1Str],
-                                    @"phoneCountryCode": [NSString stringWithFormat:@"+%@", _countryCodeDict[@"country_code"]],
-                                    @"country": _countryCodeDict[@"iso_code"],
-                                    @"from": @"mart"}.mutableCopy;
-    if (_captchaNeeded) {
-        params[@"j_captcha"] = _captchaCell.textF.text;
-    }
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-        if (data) {
-            [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id dataU, NSError *errorU) {
-                [NSObject hideHUDQuery];
-                [self dismissViewControllerAnimated:YES completion:self.loginSucessBlock];
-            }];
-        }else{
-            [NSObject hideHUDQuery];
-            [self refreshCaptchaNeeded];
-        }
-    }];
+//    if (![_passwordF.text isEqualToString:_confirm_passwordF.text]) {
+//        [NSObject showHudTipStr:@"两次输入密码不一致"];
+//        return;
+//    }
+//    [NSObject showHUDQueryStr:@"正在注册..."];
+//    NSString *path = @"api/v2/account/register";
+//    NSMutableDictionary *params = @{@"channel": kRegisterChannel,
+//                                    @"global_key": _global_keyF.text,
+//                                    @"phone": _phone,
+//                                    @"code": _verify_code,
+//                                    @"password": [_passwordF.text sha1Str],
+//                                    @"confirm": [_confirm_passwordF.text sha1Str],
+//                                    @"phoneCountryCode": [NSString stringWithFormat:@"+%@", _countryCodeDict[@"country_code"]],
+//                                    @"country": _countryCodeDict[@"iso_code"],
+//                                    @"from": @"mart"}.mutableCopy;
+//    if (_captchaNeeded) {
+//        params[@"j_captcha"] = _captchaCell.textF.text;
+//    }
+//    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+//        if (data) {
+//            [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id dataU, NSError *errorU) {
+//                [NSObject hideHUDQuery];
+//                [self dismissViewControllerAnimated:YES completion:self.loginSucessBlock];
+//            }];
+//        }else{
+//            [NSObject hideHUDQuery];
+//            [self refreshCaptchaNeeded];
+//        }
+//    }];
 }
 
 #pragma mark goTo

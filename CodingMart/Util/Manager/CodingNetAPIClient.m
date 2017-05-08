@@ -16,8 +16,8 @@
 static CodingNetAPIClient *_sharedClient = nil;
 static dispatch_once_t onceToken;
 
-static CodingNetAPIClient *_codingClient = nil;
-static dispatch_once_t onceToken_Coding;
+//static CodingNetAPIClient *_codingClient = nil;
+//static dispatch_once_t onceToken_Coding;
 
 + (CodingNetAPIClient *)sharedJsonClient {
     dispatch_once(&onceToken, ^{
@@ -25,15 +25,15 @@ static dispatch_once_t onceToken_Coding;
     });
     return _sharedClient;
 }
-+ (id)codingJsonClient{
-    dispatch_once(&onceToken_Coding, ^{
-        _codingClient = [[CodingNetAPIClient alloc] initWithBaseURL:[NSURL URLWithString:self.codingURLStr]];
-    });
-    return _codingClient;
-}
+//+ (id)codingJsonClient{
+//    dispatch_once(&onceToken_Coding, ^{
+//        _codingClient = [[CodingNetAPIClient alloc] initWithBaseURL:[NSURL URLWithString:self.codingURLStr]];
+//    });
+//    return _codingClient;
+//}
 + (void)changeJsonClient{
     _sharedClient = [[CodingNetAPIClient alloc] initWithBaseURL:[NSURL URLWithString:self.baseURLStr]];
-    _codingClient = [[CodingNetAPIClient alloc] initWithBaseURL:[NSURL URLWithString:self.codingURLStr]];
+//    _codingClient = [[CodingNetAPIClient alloc] initWithBaseURL:[NSURL URLWithString:self.codingURLStr]];
 }
 
 - (id)initWithBaseURL:(NSURL *)url {

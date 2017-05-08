@@ -70,51 +70,51 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (IBAction)codeBtnClicked:(PhoneCodeButton *)sender {
-    if (![_phoneF.text isPhoneNo]) {
-        [NSObject showHudTipStr:@"手机号码格式有误"];
-        return;
-    }
-    sender.enabled = NO;
-    NSString *path = @"api/account/phone/change/code";
-    NSDictionary *params = @{@"phone": _phoneF.text,
-                             @"phoneCountryCode": _phoneCountryCodeL.text};
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-        if (data) {
-            [NSObject showHudTipStr:@"验证码发送成功"];
-            [sender startUpTimer];
-        }else{
-            [sender invalidateTimer];
-        }
-    }];
+//    if (![_phoneF.text isPhoneNo]) {
+//        [NSObject showHudTipStr:@"手机号码格式有误"];
+//        return;
+//    }
+//    sender.enabled = NO;
+//    NSString *path = @"api/account/phone/change/code";
+//    NSDictionary *params = @{@"phone": _phoneF.text,
+//                             @"phoneCountryCode": _phoneCountryCodeL.text};
+//    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+//        if (data) {
+//            [NSObject showHudTipStr:@"验证码发送成功"];
+//            [sender startUpTimer];
+//        }else{
+//            [sender invalidateTimer];
+//        }
+//    }];
 }
 
 - (IBAction)footerBtnClicked:(id)sender {
-    NSString *tipStr;
-    if (![_phoneF.text isPhoneNo]) {
-        tipStr = @"手机号码格式有误";
-    }else if (_codeF.text.length <= 0){
-        tipStr = @"请填写手机验证码";
-    }else if (_two_factor_codeF.text.length <= 0){
-        tipStr = !_is2FAOpen? @"请填写密码": @"请填写两步验证码";
-    }
-    if (tipStr.length > 0) {
-        [NSObject showHudTipStr:tipStr];
-        return;
-    }
-    [MobClick event:kUmeng_Event_UserAction label:@"设置_账号设置_设置手机"];
-    NSMutableDictionary *params = @{@"phone": _phoneF.text,
-                                    @"code": _codeF.text,
-                                    @"phoneCountryCode": _phoneCountryCodeL.text,
-                                    @"two_factor_code": !_is2FAOpen? [_two_factor_codeF.text sha1Str]: _two_factor_codeF.text}.mutableCopy;
-    __weak typeof(self) weakSelf = self;
-    [NSObject showHUDQueryStr:@"正在保存..."];
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/account/phone/change" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-        [NSObject hideHUDQuery];
-        if (data) {
-            [NSObject showHudTipStr:@"手机号码绑定成功"];
-            [weakSelf.navigationController popViewControllerAnimated:YES];
-        }
-    }];
+//    NSString *tipStr;
+//    if (![_phoneF.text isPhoneNo]) {
+//        tipStr = @"手机号码格式有误";
+//    }else if (_codeF.text.length <= 0){
+//        tipStr = @"请填写手机验证码";
+//    }else if (_two_factor_codeF.text.length <= 0){
+//        tipStr = !_is2FAOpen? @"请填写密码": @"请填写两步验证码";
+//    }
+//    if (tipStr.length > 0) {
+//        [NSObject showHudTipStr:tipStr];
+//        return;
+//    }
+//    [MobClick event:kUmeng_Event_UserAction label:@"设置_账号设置_设置手机"];
+//    NSMutableDictionary *params = @{@"phone": _phoneF.text,
+//                                    @"code": _codeF.text,
+//                                    @"phoneCountryCode": _phoneCountryCodeL.text,
+//                                    @"two_factor_code": !_is2FAOpen? [_two_factor_codeF.text sha1Str]: _two_factor_codeF.text}.mutableCopy;
+//    __weak typeof(self) weakSelf = self;
+//    [NSObject showHUDQueryStr:@"正在保存..."];
+//    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/account/phone/change" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+//        [NSObject hideHUDQuery];
+//        if (data) {
+//            [NSObject showHudTipStr:@"手机号码绑定成功"];
+//            [weakSelf.navigationController popViewControllerAnimated:YES];
+//        }
+//    }];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{

@@ -60,12 +60,12 @@
 #pragma mark - Button
 
 - (void)checkIsPhoneNotRegister:(void (^)(NSNumber *isPhoneNotRegister))block{
-    NSString *path = @"api/account/check/phone";
-    NSDictionary *params = @{@"phone": _mobileF.text,
-                             @"isoCode": _countryCodeDict[@"iso_code"]};
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
-        block([data isKindOfClass:[NSDictionary class]]? data[@"data"]: nil);
-    }];
+//    NSString *path = @"api/account/check/phone";
+//    NSDictionary *params = @{@"phone": _mobileF.text,
+//                             @"isoCode": _countryCodeDict[@"iso_code"]};
+//    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
+//        block([data isKindOfClass:[NSDictionary class]]? data[@"data"]: nil);
+//    }];
 }
 
 - (IBAction)countryCodeBtnClicked:(id)sender {
@@ -101,14 +101,14 @@
                              @"from": @"mart"};
     _verify_codeBtn.enabled = NO;
     WEAKSELF;
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-        if (data) {
-            [NSObject showHudTipStr:@"验证码发送成功"];
-            [weakSelf.verify_codeBtn startUpTimer];
-        }else{
-            weakSelf.verify_codeBtn.enabled = YES;
-        }
-    }];
+//    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+//        if (data) {
+//            [NSObject showHudTipStr:@"验证码发送成功"];
+//            [weakSelf.verify_codeBtn startUpTimer];
+//        }else{
+//            weakSelf.verify_codeBtn.enabled = YES;
+//        }
+//    }];
 }
 
 - (IBAction)footerBtnClicked:(id)sender {
@@ -128,39 +128,39 @@
 }
 
 - (void)doCheckVerfyCode{
-    NSString *path = @"api/account/register/check-verify-code";
-    NSDictionary *params = @{@"phone": _mobileF.text,
-                             @"verifyCode": _verify_codeF.text,
-                             @"phoneCountryCode": [NSString stringWithFormat:@"+%@", _countryCodeDict[@"country_code"]],
-                             @"from": @"mart"};
-    [NSObject showHUDQueryStr:@"请稍等..."];
-    WEAKSELF;
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-        [NSObject hideHUDQuery];
-        if (data) {
-            [weakSelf goToAccountInfoVC];
-        }
-    }];
+//    NSString *path = @"api/account/register/check-verify-code";
+//    NSDictionary *params = @{@"phone": _mobileF.text,
+//                             @"verifyCode": _verify_codeF.text,
+//                             @"phoneCountryCode": [NSString stringWithFormat:@"+%@", _countryCodeDict[@"country_code"]],
+//                             @"from": @"mart"};
+//    [NSObject showHUDQueryStr:@"请稍等..."];
+//    WEAKSELF;
+//    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+//        [NSObject hideHUDQuery];
+//        if (data) {
+//            [weakSelf goToAccountInfoVC];
+//        }
+//    }];
 }
 
 - (void)doLogin{
-    NSString *path = @"api/account/mobile/login";
-    NSDictionary *params = @{@"mobile": _mobileF.text,
-                             @"verifyCode": _verify_codeF.text,
-                             @"phoneCountryCode": [NSString stringWithFormat:@"+%@", _countryCodeDict[@"country_code"]],
-                             @"rememberMe": @"true"};
-    [NSObject showHUDQueryStr:@"请稍等..."];
-    WEAKSELF;
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-        if (data) {
-            [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id dataU, NSError *errorU) {
-                [NSObject hideHUDQuery];
-                [weakSelf dismissViewControllerAnimated:YES completion:self.loginSucessBlock];
-            }];
-        }else{
-            [NSObject hideHUDQuery];
-        }
-    }];
+//    NSString *path = @"api/account/mobile/login";
+//    NSDictionary *params = @{@"mobile": _mobileF.text,
+//                             @"verifyCode": _verify_codeF.text,
+//                             @"phoneCountryCode": [NSString stringWithFormat:@"+%@", _countryCodeDict[@"country_code"]],
+//                             @"rememberMe": @"true"};
+//    [NSObject showHUDQueryStr:@"请稍等..."];
+//    WEAKSELF;
+//    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+//        if (data) {
+//            [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id dataU, NSError *errorU) {
+//                [NSObject hideHUDQuery];
+//                [weakSelf dismissViewControllerAnimated:YES completion:self.loginSucessBlock];
+//            }];
+//        }else{
+//            [NSObject hideHUDQuery];
+//        }
+//    }];
 }
 
 #pragma mark goTo

@@ -64,31 +64,31 @@
 }
 
 - (IBAction)footerBtnClicked:(id)sender {
-    NSString *tipStr;
-    if (![_emailF.text isEmail]) {
-        tipStr = @"邮箱格式有误";
-    }else if (_two_factor_codeF.text.length <= 0){
-        tipStr = !_is2FAOpen? @"请填写密码": @"请填写两步验证码";
-    }else if (_j_captchaF.text.length <= 0){
-        tipStr = @"请填写验证码";
-    }
-    if (tipStr.length > 0) {
-        [NSObject showHudTipStr:tipStr];
-        return;
-    }
-    [MobClick event:kUmeng_Event_UserAction label:@"设置_账号设置_设置邮箱"];
-    NSDictionary *params = @{@"email": _emailF.text,
-                             @"j_captcha": _j_captchaF.text,
-                             @"two_factor_code": !_is2FAOpen? [_two_factor_codeF.text sha1Str]: _two_factor_codeF.text};
-    __weak typeof(self) weakSelf = self;
-    [NSObject showHUDQueryStr:@"正在保存..."];
-    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/account/email/change/send" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-        [NSObject hideHUDQuery];
-        if (data) {
-            [NSObject showHudTipStr:@"发送验证邮件成功"];
-            [weakSelf.navigationController popViewControllerAnimated:YES];
-        }
-    }];
+//    NSString *tipStr;
+//    if (![_emailF.text isEmail]) {
+//        tipStr = @"邮箱格式有误";
+//    }else if (_two_factor_codeF.text.length <= 0){
+//        tipStr = !_is2FAOpen? @"请填写密码": @"请填写两步验证码";
+//    }else if (_j_captchaF.text.length <= 0){
+//        tipStr = @"请填写验证码";
+//    }
+//    if (tipStr.length > 0) {
+//        [NSObject showHudTipStr:tipStr];
+//        return;
+//    }
+//    [MobClick event:kUmeng_Event_UserAction label:@"设置_账号设置_设置邮箱"];
+//    NSDictionary *params = @{@"email": _emailF.text,
+//                             @"j_captcha": _j_captchaF.text,
+//                             @"two_factor_code": !_is2FAOpen? [_two_factor_codeF.text sha1Str]: _two_factor_codeF.text};
+//    __weak typeof(self) weakSelf = self;
+//    [NSObject showHUDQueryStr:@"正在保存..."];
+//    [[CodingNetAPIClient codingJsonClient] requestJsonDataWithPath:@"api/account/email/change/send" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+//        [NSObject hideHUDQuery];
+//        if (data) {
+//            [NSObject showHudTipStr:@"发送验证邮件成功"];
+//            [weakSelf.navigationController popViewControllerAnimated:YES];
+//        }
+//    }];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
