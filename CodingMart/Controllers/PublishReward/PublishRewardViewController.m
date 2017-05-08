@@ -331,9 +331,27 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
     if (![_rewardToBePublished.id isKindOfClass:[NSNumber class]]) {
         [Reward deleteCurDraft];
     }
-    if (![Login curLoginUser].isDemandSide) {
-        [self changeTabVCList];
-    }else if (![(RootTabViewController *)self.rdv_tabBarController checkUpdateTabVCListWithSelectedIndex:2]){
+//    if (![Login curLoginUser].isDemandSide) {
+//        [self changeTabVCList];
+//    }else if (![(RootTabViewController *)self.rdv_tabBarController checkUpdateTabVCListWithSelectedIndex:2]){
+//        __block UIViewController *vc;
+//        [self.navigationController.childViewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//            if ([obj isKindOfClass:[PublishedRewardsViewController class]]) {
+//                vc = obj;
+//                *stop = YES;
+//            }
+//        }];
+//        if (vc) {
+//            [self.navigationController popToViewController:vc animated:YES];
+//        }else{
+//            UINavigationController *nav = self.navigationController;
+//            [nav popToRootViewControllerAnimated:NO];
+//            PublishedRewardsViewController *publishedVC = [PublishedRewardsViewController storyboardVC];
+//            [nav pushViewController:publishedVC animated:YES];
+//        }
+//    }
+    
+    if (![(RootTabViewController *)self.rdv_tabBarController checkUpdateTabVCListWithSelectedIndex:2]){
         __block UIViewController *vc;
         [self.navigationController.childViewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if ([obj isKindOfClass:[PublishedRewardsViewController class]]) {
@@ -353,15 +371,15 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
     [EATipView showAllowNotificationTipInView:kKeyWindow];
 }
 
-- (void)changeTabVCList{
-    [NSObject showHUDQueryStr:@"正在切换视图..."];
-    [[Coding_NetAPIManager sharedManager] post_LoginIdentity:@2 andBlock:^(id data, NSError *error) {
-        [NSObject hideHUDQuery];
-        if (data) {
-            [UIViewController updateTabVCListWithSelectedIndex:2];
-        }
-    }];
-}
+//- (void)changeTabVCList{
+//    [NSObject showHUDQueryStr:@"正在切换视图..."];
+//    [[Coding_NetAPIManager sharedManager] post_LoginIdentity:@2 andBlock:^(id data, NSError *error) {
+//        [NSObject hideHUDQuery];
+//        if (data) {
+//            [UIViewController updateTabVCListWithSelectedIndex:2];
+//        }
+//    }];
+//}
 
 #pragma mark Table
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{

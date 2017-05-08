@@ -6,6 +6,8 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
+//废弃的 VC
+
 #import "SetIdentityViewController.h"
 #import "Login.h"
 #import "Coding_NetAPIManager.h"
@@ -58,19 +60,19 @@
     self.loginIdentity = @1;
 }
 - (IBAction)doneBtnClicked:(id)sender {
-    if ([[Login curLoginUser].loginIdentity isEqual:self.loginIdentity]) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-        return;
-    }
-    [NSObject showHUDQueryStr:@"正在设置..."];
-    [[Coding_NetAPIManager sharedManager] post_LoginIdentity:self.loginIdentity andBlock:^(id data, NSError *error) {
-        [NSObject hideHUDQuery];
-        if (data) {
-            [self dismissViewControllerAnimated:YES completion:^{
-                [UIViewController updateTabVCListWithSelectedIndex:0];
-            }];
-        }
-    }];
+//    if ([[Login curLoginUser].loginIdentity isEqual:self.loginIdentity]) {
+//        [self dismissViewControllerAnimated:YES completion:nil];
+//        return;
+//    }
+//    [NSObject showHUDQueryStr:@"正在设置..."];
+//    [[Coding_NetAPIManager sharedManager] post_LoginIdentity:self.loginIdentity andBlock:^(id data, NSError *error) {
+//        [NSObject hideHUDQuery];
+//        if (data) {
+//            [self dismissViewControllerAnimated:YES completion:^{
+//                [UIViewController updateTabVCListWithSelectedIndex:0];
+//            }];
+//        }
+//    }];
 }
 - (IBAction)cancelBtnClicked:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];

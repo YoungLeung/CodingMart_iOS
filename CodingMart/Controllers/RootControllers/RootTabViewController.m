@@ -65,12 +65,14 @@ typedef NS_ENUM(NSInteger, TabVCType) {
 }
 
 - (BOOL)checkIfIdentityNeedToSet {
-    BOOL needToSet = [Login isLogin] && [Login curLoginUser].loginIdentity.integerValue == 0 && ![[Login curLoginUser] isEnterpriseSide];
-    if (needToSet) {
-        SetIdentityViewController *vc = [SetIdentityViewController storyboardVC];
-        [[(UINavigationController *) self.selectedViewController viewControllers].firstObject presentViewController:vc animated:YES completion:nil];
-    }
-    return needToSet;
+    return NO;
+    
+//    BOOL needToSet = [Login isLogin] && [Login curLoginUser].loginIdentity.integerValue == 0 && ![[Login curLoginUser] isEnterpriseSide];
+//    if (needToSet) {
+//        SetIdentityViewController *vc = [SetIdentityViewController storyboardVC];
+//        [[(UINavigationController *) self.selectedViewController viewControllers].firstObject presentViewController:vc animated:YES completion:nil];
+//    }
+//    return needToSet;
 }
 
 - (BOOL)checkUpdateTabVCListWithSelectedIndex:(NSInteger)selectedIndex {

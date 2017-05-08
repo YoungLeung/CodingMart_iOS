@@ -320,10 +320,10 @@
             }
         }
         if (user_not_login) {
-//            if ([Login isLogin]) {//已登录的状态要抹掉
-//                [Login doLogout];
-//                [UIViewController updateTabVCListWithSelectedIndex:NSIntegerMax];
-//            }
+            if ([Login isLogin]) {//已登录的状态要抹掉
+                [Login doLogout];
+                [UIViewController updateTabVCListWithSelectedIndex:NSIntegerMax];
+            }
         }
         if (autoShowError) {
             [NSObject showError:error];

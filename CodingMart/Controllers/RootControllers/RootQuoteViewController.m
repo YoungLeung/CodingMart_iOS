@@ -81,23 +81,23 @@ static NSString * const nextStepReuseIdentifier = @"NextStepCell";
     [super viewDidAppear:animated];
     //更新 tab 视图，放在这里
     if ([Login isLogin]) {
-        if (![Login curLoginUser].isDemandSide) {
-            [self changeTabVCList];
-        }else {
+//        if (![Login curLoginUser].isDemandSide) {
+//            [self changeTabVCList];
+//        }else {
             [(RootTabViewController *)self.rdv_tabBarController checkUpdateTabVCListWithSelectedIndex:1];
-        }
+//        }
     }
 }
 
-- (void)changeTabVCList{
-    [NSObject showHUDQueryStr:@"正在切换视图..."];
-    [[Coding_NetAPIManager sharedManager] post_LoginIdentity:@2 andBlock:^(id data, NSError *error) {
-        [NSObject hideHUDQuery];
-        if (data) {
-            [UIViewController updateTabVCListWithSelectedIndex:1];
-        }
-    }];
-}
+//- (void)changeTabVCList{
+//    [NSObject showHUDQueryStr:@"正在切换视图..."];
+//    [[Coding_NetAPIManager sharedManager] post_LoginIdentity:@2 andBlock:^(id data, NSError *error) {
+//        [NSObject hideHUDQuery];
+//        if (data) {
+//            [UIViewController updateTabVCListWithSelectedIndex:1];
+//        }
+//    }];
+//}
 
 #pragma mark <UICollectionViewDataSource>
 

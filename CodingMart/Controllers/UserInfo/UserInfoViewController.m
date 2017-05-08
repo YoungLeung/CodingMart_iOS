@@ -164,14 +164,14 @@
 #pragma mark Btn
 
 - (IBAction)footerBtnClicked:(id)sender {
-    [MobClick event:kUmeng_Event_UserAction label:[_curUser isDemandSide] ? @"切换至开发者模式" : @"切换至需求方模式"];
-    [NSObject showHUDQueryStr:@"正在切换视图..."];
-    [[Coding_NetAPIManager sharedManager] post_LoginIdentity:[[Login curLoginUser] isDemandSide] ? @1 : @2 andBlock:^(id data, NSError *error) {
-        [NSObject hideHUDQuery];
-        if (data) {
-            [UIViewController updateTabVCListWithSelectedIndex:NSIntegerMax];
-        }
-    }];
+//    [MobClick event:kUmeng_Event_UserAction label:[_curUser isDemandSide] ? @"切换至开发者模式" : @"切换至需求方模式"];
+//    [NSObject showHUDQueryStr:@"正在切换视图..."];
+//    [[Coding_NetAPIManager sharedManager] post_LoginIdentity:[[Login curLoginUser] isDemandSide] ? @1 : @2 andBlock:^(id data, NSError *error) {
+//        [NSObject hideHUDQuery];
+//        if (data) {
+//            [UIViewController updateTabVCListWithSelectedIndex:NSIntegerMax];
+//        }
+//    }];
 }
 
 #pragma mark Table M

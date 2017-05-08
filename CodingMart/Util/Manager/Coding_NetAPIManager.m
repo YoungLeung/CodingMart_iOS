@@ -70,6 +70,9 @@
             }
             block(curLoginUser, nil);
         } else {
+            if (!error) {
+                [Login doLogout];
+            }
             block(nil, error);
         }
     }];
@@ -225,23 +228,23 @@
 //    }];
 //}
 
-- (void)post_LoginIdentity:(NSNumber *)loginIdentity andBlock:(void (^)(id data, NSError *error))block {
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/app/login-identity" withParams:@{@"loginIdentity": loginIdentity.stringValue} withMethodType:Post andBlock:^(id data, NSError *error) {
-        if (data) {
-//            [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id dataUserinfo, NSError *errorUserinfo) {
-//                if (dataUserinfo) {
-                    [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id dataUser, NSError *errorUser) {
-                        block(dataUser, errorUser);
-                    }];
-//                } else {
-//                    block(nil, errorUserinfo);
-//                }
-//            }];
-        } else {
-            block(nil, error);
-        }
-    }];
-}
+//- (void)post_LoginIdentity:(NSNumber *)loginIdentity andBlock:(void (^)(id data, NSError *error))block {
+//    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/app/login-identity" withParams:@{@"loginIdentity": loginIdentity.stringValue} withMethodType:Post andBlock:^(id data, NSError *error) {
+//        if (data) {
+////            [[Coding_NetAPIManager sharedManager] get_FillUserInfoBlock:^(id dataUserinfo, NSError *errorUserinfo) {
+////                if (dataUserinfo) {
+//                    [[Coding_NetAPIManager sharedManager] get_CurrentUserBlock:^(id dataUser, NSError *errorUser) {
+//                        block(dataUser, errorUser);
+//                    }];
+////                } else {
+////                    block(nil, errorUserinfo);
+////                }
+////            }];
+//        } else {
+//            block(nil, error);
+//        }
+//    }];
+//}
 
 - (void)get_EAConversationListBlock:(void (^)(id data, NSError *error))block{
     NSArray *timConList = [[TIMManager sharedInstance] getConversationList];
@@ -943,9 +946,9 @@
 }
 
 - (void)get_IdentityInfoBlock:(void (^)(id data, NSError *error))block {
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/user/info" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+    [self get_CurrentUserBlock:^(id data, NSError *error) {
         if (data) {
-            IdentityInfo *info = [NSObject objectOfClass:@"IdentityInfo" fromJSON:data];
+            IdentityInfo *info = [IdentityInfo infoFromLogin];
             if ([@[@"Unchecked", @"Rejected"] containsObject:info.status]) {
                 block(info, error);
             } else {//后续步骤，需要承诺书链接
@@ -957,10 +960,30 @@
                     block(info, error);
                 }];
             }
-        } else {
-            block(data, error);
+        }else{
+            block(nil, error);
         }
     }];
+    
+    
+//    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/user/info" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+//        if (data) {
+//            IdentityInfo *info = [NSObject objectOfClass:@"IdentityInfo" fromJSON:data];
+//            if ([@[@"Unchecked", @"Rejected"] containsObject:info.status]) {
+//                block(info, error);
+//            } else {//后续步骤，需要承诺书链接
+//                [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/user/identity/sign" withParams:nil withMethodType:Get andBlock:^(id dataS, NSError *errorS) {
+//                    info.qrCodeLinkStr = dataS[@"signerUriQr"];//签署流程，二维码
+//                    if (dataS[@"documentId"]) {//承诺书
+//                        info.agreementLinkStr = [NSString stringWithFormat:@"/api/user/identity/sign/%@", dataS[@"documentId"]];
+//                    }
+//                    block(info, error);
+//                }];
+//            }
+//        } else {
+//            block(data, error);
+//        }
+//    }];
 }
 
 - (void)post_IdentityInfo:(IdentityInfo *)info block:(void (^)(id data, NSError *error))block {

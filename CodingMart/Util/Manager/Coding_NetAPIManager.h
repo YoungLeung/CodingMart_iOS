@@ -32,7 +32,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 //- (void)post_LoginWith2FA:(NSString *)otpCode andBlock:(void (^)(id data, NSError *error))block;
 //- (void)post_Close2FAGeneratePhoneCode:(NSString *)phone block:(void (^)(id data, NSError *error))block;
 //- (void)post_Close2FAWithPhone:(NSString *)phone code:(NSString *)code block:(void (^)(id data, NSError *error))block;
-- (void)post_LoginIdentity:(NSNumber *)loginIdentity andBlock:(void (^)(id data, NSError *error))block;
+//- (void)post_LoginIdentity:(NSNumber *)loginIdentity andBlock:(void (^)(id data, NSError *error))block;
 - (void)get_EAConversationListBlock:(void (^)(id data, NSError *error))block;
 - (void)get_MemberOfConversation:(NSNumber *)objectId block:(void (^)(id data, NSError *error))block;
 
