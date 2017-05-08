@@ -33,7 +33,7 @@
     [_footerBtn setTitle:@"发送重置密码邮件" forState:UIControlStateNormal];
     _emailF.text = _email;
     RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[self.emailF.rac_textSignal, self.captchaCell.textF.rac_textSignal, RACObserve(self, captchaNeeded)] reduce:^id(NSString *email, NSString *captcha, NSNumber *captchaNeeded){
-        return @(email.length > 0 && (!captchaNeeded || captcha.length > 0));
+        return @(email.length > 0 && (!captchaNeeded.boolValue || captcha.length > 0));
     }];
 }
 

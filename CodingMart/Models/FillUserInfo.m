@@ -42,12 +42,16 @@
     return nil;
 }
 
-- (void)setAcceptNewRewardAllNotification:(NSNumber *)acceptNewRewardAllNotification{
-    if ([acceptNewRewardAllNotification isKindOfClass:[NSString class]]) {
-        _acceptNewRewardAllNotification = @([(NSString *)acceptNewRewardAllNotification isEqualToString:@"true"]);
-    }else{
-        _acceptNewRewardAllNotification = acceptNewRewardAllNotification;
-    }
+//- (void)setAcceptNewRewardAllNotification:(NSNumber *)acceptNewRewardAllNotification{
+//    if ([acceptNewRewardAllNotification isKindOfClass:[NSString class]]) {
+//        _acceptNewRewardAllNotification = @([(NSString *)acceptNewRewardAllNotification isEqualToString:@"true"]);
+//    }else{
+//        _acceptNewRewardAllNotification = acceptNewRewardAllNotification;
+//    }
+//}
+
+- (NSNumber *)acceptNewRewardAllNotification{
+    return _acceptNewRewardAllNotification ?: [Login curLoginUser].acceptNewRewardAllNotification;
 }
 
 - (NSString *)phoneCountryCode{
@@ -103,7 +107,7 @@
         canPost = _name.length > 0 &&
         _email.length > 0 &&//是必填项了
         _mobile.length > 0 &&
-        (!_acceptNewRewardAllNotification.boolValue || _free_time) &&
+        (!self.acceptNewRewardAllNotification.boolValue || _free_time) &&
         _province;//省、市、区 有一个就好
         //&& _city && _district;
     }

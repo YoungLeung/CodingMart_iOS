@@ -31,6 +31,9 @@
     NSString *timeStr =  _finish_time_numerical ?: _endedAt;
     return timeStr.length >= 10? [NSDate dateFromString:[timeStr substringToIndex:10] withFormat:@"yyyy-MM-dd"]: nil;
 }
+- (NSString *)link{
+    return _link ?: _showUrl;
+}
 - (NSMutableArray<MartFile *> *)files{
     return _files ?: _attaches;
 }

@@ -768,7 +768,7 @@
     NSString *path = @"api/userinfo";
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:[info toParams] withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
-            data = [NSObject objectOfClass:@"FillUserInfo" fromJSON:data[@"data"]];
+            data = [NSObject objectOfClass:@"User" fromJSON:data];
         }
         block(data, error);
     }];
@@ -826,7 +826,7 @@
 - (void)get_SettingNotificationInfoBlock:(void (^)(id data, NSError *error))block {
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/app/setting/notification" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
-            data = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"SettingNotificationInfo"];
+            data = [NSObject objectOfClass:@"SettingNotificationInfo" fromJSON:data[@"data"]];
         }
         block(data, error);
     }];
