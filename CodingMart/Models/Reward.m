@@ -134,7 +134,7 @@
     NSMutableDictionary *params = @{}.mutableCopy;
     params[@"type"] = _type.integerValue > 10? @(_type.integerValue / 10): _type;
     params[@"price"] = _price;
-    params[@"testService"] = _testService.stringValue;
+    params[@"testService"] = _testService ?: @(NO);
     params[@"name"] = _name;
     params[@"description"] = _description_mine;
     params[@"contact_name"] = _contact_name;
@@ -145,6 +145,7 @@
     params[@"country"] = _country;
     params[@"phoneCountryCode"] = _phoneCountryCode;
     params[@"industry"] = _industry;
+    params[@"industryName"] = _industryName;
     if ([_id isKindOfClass:[NSNumber class]]) {
         params[@"id"] = _id;
     }

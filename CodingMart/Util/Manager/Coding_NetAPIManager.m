@@ -255,9 +255,11 @@
     NSMutableArray *uidList = @[].mutableCopy;
     NSMutableArray<EAConversation *> *eaConList = @[].mutableCopy;
     [timConList enumerateObjectsUsingBlock:^(TIMConversation *obj, NSUInteger idx, BOOL *stop) {
-        EAConversation *eaCon = [EAConversation eaConWithTimCon:obj];
-        [uidList addObject:eaCon.uid];
-        [eaConList addObject:eaCon];
+        if (obj.getType != TIM_SYSTEM) {//系统消息，不要
+            EAConversation *eaCon = [EAConversation eaConWithTimCon:obj];
+            [uidList addObject:eaCon.uid];
+            [eaConList addObject:eaCon];
+        }
     }];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/im/contacts" withParams:@{@"uid": uidList} withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
