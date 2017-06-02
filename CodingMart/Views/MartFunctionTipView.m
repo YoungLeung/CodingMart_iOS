@@ -45,6 +45,8 @@
 }
 
 + (void)showFunctionImages:(NSArray *)imageNames{
+    return; //功能提示的图片，都不显示了
+    
     if (kScreen_Height == 480) {//iPhone 4 的尺寸，忽略
         return;
     }
