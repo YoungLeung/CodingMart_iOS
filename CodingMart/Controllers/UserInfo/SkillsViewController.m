@@ -121,12 +121,12 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 1.0/[UIScreen mainScreen].scale;
+    return section <= 1? 1.0/[UIScreen mainScreen].scale: 15;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     UIView *view = [UIView new];
-    view.backgroundColor = [UIColor whiteColor];
+    view.backgroundColor = section <= 1? [UIColor whiteColor]: [UIColor clearColor];
     return view;
 }
 
@@ -161,9 +161,9 @@
         cell.updateUserInfoFreeTimeBlock = ^(FillUserInfo *userInfo){
             [weakSelf updateUserInfoFreeTime:userInfo];
         };
-        cell.updateUserInfoRoleBlock = ^(){
-            [weakSelf goToUpdateUserInfoRole];
-        };
+//        cell.updateUserInfoRoleBlock = ^(){
+//            [weakSelf goToUpdateUserInfoRole];
+//        };
         return cell;
     }
 }
@@ -234,9 +234,9 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)goToUpdateUserInfoRole{
-    UpdateUserInfoRoleViewController *vc = [UpdateUserInfoRoleViewController vcInStoryboard:@"UserInfo"];
-    vc.userInfo = _userInfo;
-    [self.navigationController pushViewController:vc animated:YES];
-}
+//- (void)goToUpdateUserInfoRole{
+//    UpdateUserInfoRoleViewController *vc = [UpdateUserInfoRoleViewController vcInStoryboard:@"UserInfo"];
+//    vc.userInfo = _userInfo;
+//    [self.navigationController pushViewController:vc animated:YES];
+//}
 @end

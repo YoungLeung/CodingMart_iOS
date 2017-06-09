@@ -115,9 +115,11 @@
 }
 + (Reward *)rewardToBePublished{
     Reward *rewardToBePublished;
-    rewardToBePublished = [Reward objectOfClass:@"Reward" fromJSON:[NSObject loadResponseWithPath:kRewardDraftPath]]
-    ;
-    if (!rewardToBePublished) {
+    NSDictionary *dict = [NSObject loadResponseWithPath:kRewardDraftPath];
+    if (dict) {
+        rewardToBePublished = [Reward objectOfClass:@"Reward" fromJSON:dict];
+        rewardToBePublished.contact_email = dict[@"contactEmail"];
+    }else{
         rewardToBePublished = [Reward new];
     }
     if ([Login isLogin]) {

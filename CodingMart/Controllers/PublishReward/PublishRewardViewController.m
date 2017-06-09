@@ -50,8 +50,6 @@
 
 @property (weak, nonatomic) IBOutlet UITTTAttributedLabel *agreementL;
 @property (weak, nonatomic) IBOutlet UITTTAttributedLabel *budgetTipL;
-@property (weak, nonatomic) IBOutlet UITTTAttributedLabel *testServiceTipL;
-@property (weak, nonatomic) IBOutlet UIButton *testServiceButton;
 
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *nextStepBtn;
 @property (weak, nonatomic) IBOutlet UILabel *countryCodeL;
@@ -133,7 +131,6 @@
     _contact_nameF.text = _rewardToBePublished.contact_name;
     _contact_emailF.text = _rewardToBePublished.contact_email;
     _contact_mobileF.text = _rewardToBePublished.contact_mobile;
-    [self updateCheckBox];
 
     [_nameF.rac_textSignal subscribeNext:^(NSString *newText){
         self.fd_interactivePopDisabled = newText.length > 0;
@@ -170,10 +167,6 @@
     [_budgetTipL addLinkToStr:@"去评估" value:nil hasUnderline:NO clickedBlock:^(id value) {
         RootQuoteViewController *vc = [RootQuoteViewController storyboardVC];
         [self.navigationController pushViewController:vc animated:YES];
-    }];
-
-    [_testServiceTipL addLinkToStr:@"了解码市测试服务" value:nil hasUnderline:NO clickedBlock:^(id value) {
-        [self goToWebVCWithUrlStr:@"/services/testing" title:@"码市测试服务介绍"];
     }];
 
     RAC(self, fd_interactivePopDisabled) = [RACSignal combineLatest:@[_nameF.rac_textSignal,
@@ -242,21 +235,6 @@
         weakSelf.countryCodeL.text = weakSelf.rewardToBePublished.phoneCountryCode;
     };
     [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (IBAction)testServiceTextClicked:(UIButton *)sender {
-    [self testServiceClicked:sender];
-}
-
-- (IBAction)testServiceClicked:(UIButton *)sender {
-    BOOL test = _rewardToBePublished.testService.boolValue;
-    _rewardToBePublished.testService = [NSNumber numberWithBool:!test];
-    [self updateCheckBox];
-}
-
-- (void)updateCheckBox {
-    [self.testServiceButton setImage:[UIImage imageNamed:(_rewardToBePublished.testService.boolValue ?
-        @"checkbox_checked": @"checkbox_check")] forState:UIControlStateNormal];
 }
 
 - (IBAction)codeBtnClicked:(PhoneCodeButton *)sender {
@@ -414,7 +392,7 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSInteger rowNum;
     if (section == 0) {
-        rowNum = 6;
+        rowNum = 5;
     }else{
         rowNum = _isPhoneNeeded? 4: 2;
     }

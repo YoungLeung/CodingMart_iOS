@@ -35,18 +35,18 @@
     [self goToUpdateUserInfoFreeTime];
 }
 
-- (IBAction)roleBtnClicked:(id)sender {
-    if (_updateUserInfoRoleBlock) {
-        _updateUserInfoRoleBlock();
-    }
-//    WEAKSELF;
-//    NSInteger initialRow = _userInfo.reward_role? _userInfo.reward_role.integerValue: 0;
-//    [ActionSheetStringPicker showPickerWithTitle:nil rows:@[[FillUserInfo reward_role_display_list]] initialSelection:@[@(initialRow)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
-//        weakSelf.userInfo.reward_role = selectedIndex.firstObject;
-//        weakSelf.rewardRoleF.text = [weakSelf.userInfo reward_role_display];
-//        [weakSelf goToUpdateUserInfoFreeTime];
-//    } cancelBlock:nil origin:kKeyWindow];
-}
+//- (IBAction)roleBtnClicked:(id)sender {
+//    if (_updateUserInfoRoleBlock) {
+//        _updateUserInfoRoleBlock();
+//    }
+////    WEAKSELF;
+////    NSInteger initialRow = _userInfo.reward_role? _userInfo.reward_role.integerValue: 0;
+////    [ActionSheetStringPicker showPickerWithTitle:nil rows:@[[FillUserInfo reward_role_display_list]] initialSelection:@[@(initialRow)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
+////        weakSelf.userInfo.reward_role = selectedIndex.firstObject;
+////        weakSelf.rewardRoleF.text = [weakSelf.userInfo reward_role_display];
+////        [weakSelf goToUpdateUserInfoFreeTime];
+////    } cancelBlock:nil origin:kKeyWindow];
+//}
 
 - (IBAction)timeBtnClicked:(id)sender {
     WEAKSELF;
@@ -68,7 +68,7 @@
     CGFloat cellHeight = 0;
     if ([obj isKindOfClass:[FillUserInfo class]]) {
         FillUserInfo *info = obj;
-        cellHeight = info.acceptNewRewardAllNotification.boolValue? 270: 175;
+        cellHeight = info.acceptNewRewardAllNotification.boolValue? 175: 80;
     }
     return cellHeight;
 }
