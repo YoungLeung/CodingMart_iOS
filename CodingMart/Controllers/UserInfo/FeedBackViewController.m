@@ -6,6 +6,8 @@
 //  Copyright © 2015年 net.coding. All rights reserved.
 //
 
+#define kTypeButtonTag_Start 1000
+
 #import "FeedBackViewController.h"
 #import "FeedBackInfo.h"
 #import "TableViewFooterButton.h"
@@ -14,16 +16,19 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "UIViewController+BackButtonHandler.h"
 #import "UIImageView+WebCache.h"
+#import "FeedBackTypeButton.h"
 
 @interface FeedBackViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *nameF;
-@property (weak, nonatomic) IBOutlet UITextField *phoneF;
+@property (weak, nonatomic) IBOutlet UITextField *gkF;
 @property (weak, nonatomic) IBOutlet UITextField *emailF;
 @property (weak, nonatomic) IBOutlet UITextView *contentF;
 @property (weak, nonatomic) IBOutlet UITextField *j_captchaF;
 @property (weak, nonatomic) IBOutlet UIView *j_captchaBgView;
 @property (weak, nonatomic) IBOutlet UIImageView *j_captchaImgV;
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *submitBtn;
+@property (strong, nonatomic) IBOutletCollection(FeedBackTypeButton) NSArray *typeButtonList;
+
 
 @property (strong, nonatomic) FeedBackInfo *feedBackInfo;
 @end
@@ -39,28 +44,31 @@
     [_contentF doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0xDDDDDD"] cornerRadius:1];
     _contentF.textContainerInset = UIEdgeInsetsMake(10, 8, 10, 8);
     [_j_captchaF doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0xDDDDDD"] cornerRadius:1];
-
+    for (FeedBackTypeButton *typeBtn in _typeButtonList) {
+        [typeBtn setTitle:[[self typeDisplayList] objectAtIndex:typeBtn.tag - kTypeButtonTag_Start] forState:UIControlStateNormal];
+        typeBtn.checked = NO;
+    }
 
     __weak typeof(self) weakSelf = self;
     [_j_captchaBgView bk_whenTapped:^{
         [weakSelf refreshCaptchaImage];
     }];
-    RAC(self.submitBtn, enabled) = [RACSignal combineLatest:@[_nameF.rac_textSignal,
-                                                              _phoneF.rac_textSignal,
-                                                              _emailF.rac_textSignal,
-                                                              _contentF.rac_textSignal,
-                                                              _j_captchaF.rac_textSignal,
-                                                              ]
-                                                     reduce:^id(NSString *name,
-                                                                NSString *phone,
-                                                                NSString *email,
-                                                                NSString *content,
-                                                                NSString *j_captcha
-                                                                ){
-                                                         BOOL enabled = YES;
-                                                         enabled = (name.length > 0 && phone.length > 0 && email.length > 0 && content.length > 0 && j_captcha.length > 0);
-                                                         return @(enabled);
-                                                     }];
+//    RAC(self.submitBtn, enabled) = [RACSignal combineLatest:@[_nameF.rac_textSignal,
+//                                                              _gkF.rac_textSignal,
+//                                                              _emailF.rac_textSignal,
+//                                                              _contentF.rac_textSignal,
+//                                                              _j_captchaF.rac_textSignal,
+//                                                              ]
+//                                                     reduce:^id(NSString *name,
+//                                                                NSString *phone,
+//                                                                NSString *email,
+//                                                                NSString *content,
+//                                                                NSString *j_captcha
+//                                                                ){
+//                                                         BOOL enabled = YES;
+//                                                         enabled = (name.length > 0 && phone.length > 0 && email.length > 0 && content.length > 0 && j_captcha.length > 0);
+//                                                         return @(enabled);
+//                                                     }];
     
     [self refreshCaptchaImage];
 }
@@ -68,11 +76,10 @@
 - (void)setFeedBackInfo:(FeedBackInfo *)feedBackInfo{
     _feedBackInfo = feedBackInfo;
     _nameF.text = _feedBackInfo.name;
-    _phoneF.text = _feedBackInfo.phone;
+    _gkF.text = _feedBackInfo.global_key ?: _feedBackInfo.phone ?: _feedBackInfo.email;
     _emailF.text = _feedBackInfo.email;
     _contentF.text = _feedBackInfo.content;
     _j_captchaF.text = _feedBackInfo.j_captcha;
-    
 }
 #pragma mark Navigation
 - (BOOL)navigationShouldPopOnBackButton{
@@ -90,12 +97,51 @@
 }
 
 #pragma mark Btn
+- (NSArray *)typeValueList{
+    NSArray *list;
+    if (!list) {
+        list = @[@"SUGGESTION",
+                 @"COMPLAINT",
+                 @"PROJECT",
+                 @"BUG",
+                 @"OTHER",
+                 ];
+    }
+    return list;
+}
+
+- (NSArray *)typeDisplayList{
+    NSArray *list;
+    if (!list) {
+        list = @[@"意见与建议",
+                 @"投诉",
+                 @"项目纠纷",
+                 @"BUG 反馈",
+                 @"其他",
+                 ];
+    }
+    return list;
+}
+
+- (IBAction)typeButtonClicked:(FeedBackTypeButton *)sender {
+    sender.checked = !sender.checked;
+}
+
 - (IBAction)submitBtnClicked:(id)sender {
     _feedBackInfo.name = _nameF.text;
-    _feedBackInfo.phone = _phoneF.text;
+    _feedBackInfo.global_key = _gkF.text;
     _feedBackInfo.email = _emailF.text;
     _feedBackInfo.content = _contentF.text;
     _feedBackInfo.j_captcha = _j_captchaF.text;
+    
+    NSMutableArray *typeList = @[].mutableCopy;
+    for (FeedBackTypeButton *typeBtn in _typeButtonList) {
+        if (typeBtn.checked) {
+            [typeList addObject:[[self typeValueList] objectAtIndex:typeBtn.tag - kTypeButtonTag_Start]];
+        }
+    }
+    _feedBackInfo.typeList = typeList.copy;
+    
     NSString *tipStr = [_feedBackInfo hasErrorTip];
     if (tipStr.length > 0) {
         [NSObject showHudTipStr:tipStr];
@@ -114,8 +160,14 @@
     }];
 }
 - (void)refreshCaptchaImage{
-    NSString *captcha_path = [NSString stringWithFormat:@"%@/api/captcha", [NSObject baseURLStr]];
-    [_j_captchaImgV sd_setImageWithURL:[NSURL URLWithString:captcha_path] placeholderImage:nil options:(SDWebImageRetryFailed | SDWebImageRefreshCached | SDWebImageHandleCookies) completed:nil];
+    __weak typeof(self) weakSelf = self;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/feedback/captcha" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if ([data isKindOfClass:[NSDictionary class]] && data[@"image"]) {
+            NSString *imageStr = data[@"image"];
+            NSData *imageData = [[NSData alloc] initWithBase64EncodedString:[imageStr componentsSeparatedByString:@","].lastObject options:0];
+            weakSelf.j_captchaImgV.image = [UIImage imageWithData:imageData];
+        }
+    }];
 }
 #pragma mark Table M
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
