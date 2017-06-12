@@ -5761,6 +5761,8 @@
                         <outlet property="j_captchaF" destination="9u0-zp-4Ly" id="Qu0-TV-89O"/>
                         <outlet property="j_captchaImgV" destination="DOJ-8V-X2g" id="jzF-nF-BfW"/>
                         <outlet property="nameF" destination="wCr-kY-lWz" id="sRi-Ve-oxd"/>
+                        <outlet property="secH1" destination="4ME-2U-FKl" id="c1V-V5-j7v"/>
+                        <outlet property="secH2" destination="ahA-bE-aYZ" id="AbE-iz-YAS"/>
                         <outlet property="submitBtn" destination="dso-Ll-jDZ" id="fhQ-P5-OwT"/>
                         <outletCollection property="typeButtonList" destination="CnF-at-1jI" id="9tR-XR-b95"/>
                         <outletCollection property="typeButtonList" destination="JTn-kk-cx2" id="NWX-O3-egT"/>
@@ -5770,6 +5772,60 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UVh-Vs-3wi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="4ME-2U-FKl">
+                    <rect key="frame" x="0.0" y="0.0" width="339" height="85"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="问题描述" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JWF-Bu-efQ">
+                            <rect key="frame" x="15" y="25" width="70" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="L6Z-SW-7Q1">
+                            <rect key="frame" x="15" y="56" width="309" height="18"/>
+                            <string key="text">描述您遇到的问题，码市会尽快定位原因
+</string>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="L6Z-SW-7Q1" firstAttribute="top" secondItem="JWF-Bu-efQ" secondAttribute="bottom" constant="10" id="42I-95-xO2"/>
+                        <constraint firstItem="JWF-Bu-efQ" firstAttribute="top" secondItem="4ME-2U-FKl" secondAttribute="top" constant="25" id="LLd-kr-GvP"/>
+                        <constraint firstItem="L6Z-SW-7Q1" firstAttribute="leading" secondItem="4ME-2U-FKl" secondAttribute="leading" constant="15" id="QCa-OU-36D"/>
+                        <constraint firstItem="JWF-Bu-efQ" firstAttribute="leading" secondItem="4ME-2U-FKl" secondAttribute="leading" constant="15" id="eSb-Pk-vr4"/>
+                        <constraint firstAttribute="trailing" secondItem="L6Z-SW-7Q1" secondAttribute="trailing" constant="15" id="pOi-cz-b2Z"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" id="ahA-bE-aYZ">
+                    <rect key="frame" x="0.0" y="0.0" width="339" height="85"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="联系信息" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cTq-ZX-csR">
+                            <rect key="frame" x="15" y="25" width="70" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="码市顾问将会在 1-2 个工作日与您联系" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="7zA-0w-DfU">
+                            <rect key="frame" x="15" y="56" width="309" height="18"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="cTq-ZX-csR" firstAttribute="top" secondItem="ahA-bE-aYZ" secondAttribute="top" constant="25" id="8ja-Ya-RqS"/>
+                        <constraint firstAttribute="trailing" secondItem="7zA-0w-DfU" secondAttribute="trailing" constant="15" id="KH4-9V-FCZ"/>
+                        <constraint firstItem="7zA-0w-DfU" firstAttribute="leading" secondItem="ahA-bE-aYZ" secondAttribute="leading" constant="15" id="MHV-bC-C22"/>
+                        <constraint firstItem="7zA-0w-DfU" firstAttribute="top" secondItem="cTq-ZX-csR" secondAttribute="bottom" constant="10" id="WY7-s8-zaN"/>
+                        <constraint firstItem="cTq-ZX-csR" firstAttribute="leading" secondItem="ahA-bE-aYZ" secondAttribute="leading" constant="15" id="ttL-4l-9mc"/>
+                    </constraints>
+                </view>
             </objects>
             <point key="canvasLocation" x="-1764" y="1213.9430284857572"/>
         </scene>

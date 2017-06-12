@@ -28,6 +28,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *j_captchaImgV;
 @property (weak, nonatomic) IBOutlet TableViewFooterButton *submitBtn;
 @property (strong, nonatomic) IBOutletCollection(FeedBackTypeButton) NSArray *typeButtonList;
+@property (strong, nonatomic) IBOutlet UIView *secH1;
+@property (strong, nonatomic) IBOutlet UIView *secH2;
 
 
 @property (strong, nonatomic) FeedBackInfo *feedBackInfo;
@@ -153,7 +155,8 @@
         [NSObject hideHUDQuery];
         if (data) {
             [self.navigationController popViewControllerAnimated:YES];
-            [NSObject showHudTipStr:@"反馈成功"];
+            [UIAlertView bk_showAlertViewWithTitle:@"提交成功" message:@"非常感谢您的反馈！码市顾问将会在 1 - 2 个工日内与你联系" cancelButtonTitle:nil otherButtonTitles:@[@"确定"] handler:nil];
+//            [NSObject showHudTipStr:@"反馈成功"];
         }else{
             [self refreshCaptchaImage];
         }
@@ -171,22 +174,14 @@
 }
 #pragma mark Table M
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView *headerV;
-    if (section > 0) {
-        headerV = [UIView new];
-    }
-    return headerV;
+    return section == 0? _secH1: _secH2;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    CGFloat sectionH = 0;
-    if (section > 0) {
-        sectionH = 10;
-    }
-    return sectionH;
+    return 85;
 }
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
-    if (indexPath.row == 3) {
+    if (indexPath.section == 0 && indexPath.row == 1) {
         cell.separatorInset = UIEdgeInsetsMake(0, kScreen_Width, 0, 0);//隐藏掉它
     }else{
         cell.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15);//隐藏掉它
