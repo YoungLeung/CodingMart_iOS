@@ -83,12 +83,16 @@
 }
 
 - (IBAction)bottomBtnClicked:(id)sender {
-    WEAKSELF;
-    [NSObject showHUDQueryStr:@"请稍等..."];
-    [[Coding_NetAPIManager sharedManager] get_MPayAccountsBlock:^(MPayAccounts *data, NSError *error) {
-        [NSObject hideHUDQuery];
-        [weakSelf dealWithMPayAccounts:data];
-    }];
+    if (self.payMethod == 0) {//开发宝
+        WEAKSELF;
+        [NSObject showHUDQueryStr:@"请稍等..."];
+        [[Coding_NetAPIManager sharedManager] get_MPayAccountsBlock:^(MPayAccounts *data, NSError *error) {
+            [NSObject hideHUDQuery];
+            [weakSelf dealWithMPayAccounts:data];
+        }];
+    }else{
+        [self goToPay];
+    }
 }
 - (IBAction)depositBtnClicked:(id)sender {
     [self goToDepositVC];
