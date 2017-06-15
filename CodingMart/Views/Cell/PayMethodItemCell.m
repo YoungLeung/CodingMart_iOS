@@ -26,6 +26,6 @@
 }
 
 + (CGFloat)cellHeight{
-    return 60.0;
+    return 44.0;
 }
 @end

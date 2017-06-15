@@ -19,14 +19,22 @@
 #import "EATipView.h"
 #import "FillUserInfoViewController.h"
 #import "MPayOrderPayCell.h"
+#import <UMengSocial/WXApi.h>
+#import <UMengSocial/WXApiObject.h>
+#import <AlipaySDK/AlipaySDK.h>
+
 
 @interface MPayRewardOrderPayViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
+@property (weak, nonatomic) IBOutlet UIButton *depositBtn;
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet UILabel *totalPriceL;
 
 @property (strong, nonatomic) NSString *balanceStr;
 @property (strong, nonatomic) NSNumber *balanceValue;
+
+@property (assign, nonatomic) NSInteger payMethod;//0 mart, 1 alipay, 2 wechat
+@property (strong, nonatomic) NSDictionary *payDict;
 @end
 
 @implementation MPayRewardOrderPayViewController
@@ -35,7 +43,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.myTableView.backgroundColor = kColorBGDark;
-    self.totalPriceL.text = [NSString stringWithFormat:@"￥%@", _curMPayOrders? _curMPayOrders.orderAmount: _curMPayOrder.totalFee];
+    self.totalPriceL.text = [NSString stringWithFormat:@"交易总金额 %@ 元", _curMPayOrders? _curMPayOrders.orderAmount: _curMPayOrder.totalFee];
+    self.payMethod = 0;
 }
 
 - (void)setBalanceStr:(NSString *)balanceStr{
@@ -45,7 +54,14 @@
 
 - (void)setBalanceValue:(NSNumber *)balanceValue{
     _balanceValue = balanceValue;
-    [_bottomBtn setTitle:[self p_isBalanceEnough]? @"确认支付": @"充值开发宝" forState:UIControlStateNormal];
+    _bottomBtn.enabled = [self p_isBalanceEnough] || self.payMethod != 0;
+    _depositBtn.hidden = [self p_isBalanceEnough];
+}
+
+- (void)setPayMethod:(NSInteger)payMethod{
+    _payMethod = payMethod;
+    _bottomBtn.enabled = [self p_isBalanceEnough] || self.payMethod != 0;
+    [self.myTableView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -67,16 +83,15 @@
 }
 
 - (IBAction)bottomBtnClicked:(id)sender {
-    if ([self p_isBalanceEnough]) {
-        WEAKSELF;
-        [NSObject showHUDQueryStr:@"请稍等..."];
-        [[Coding_NetAPIManager sharedManager] get_MPayAccountsBlock:^(MPayAccounts *data, NSError *error) {
-            [NSObject hideHUDQuery];
-            [weakSelf dealWithMPayAccounts:data];
-        }];
-    }else{
-        [self goToDepositVC];
-    }
+    WEAKSELF;
+    [NSObject showHUDQueryStr:@"请稍等..."];
+    [[Coding_NetAPIManager sharedManager] get_MPayAccountsBlock:^(MPayAccounts *data, NSError *error) {
+        [NSObject hideHUDQuery];
+        [weakSelf dealWithMPayAccounts:data];
+    }];
+}
+- (IBAction)depositBtnClicked:(id)sender {
+    [self goToDepositVC];
 }
 
 - (void)dealWithMPayAccounts:(MPayAccounts *)accounts{
@@ -118,16 +133,54 @@
 }
 
 - (void)goToPay{
-    WEAKSELF;
-    EATextEditView *psdView = [EATextEditView instancetypeWithTitle:@"请输入交易密码" tipStr:@"请输入交易密码" andConfirmBlock:^(NSString *text) {
-        [weakSelf sendRequestWithPsd:[text sha1Str]];
+    if (self.payMethod == 0) {//开发宝
+        WEAKSELF;
+        EATextEditView *psdView = [EATextEditView instancetypeWithTitle:@"请输入交易密码" tipStr:@"请输入交易密码" andConfirmBlock:^(NSString *text) {
+            [weakSelf sendRequestWithPsd:[text sha1Str]];
+        }];
+        psdView.isForPassword = YES;
+        psdView.forgetPasswordBlock = ^(){
+            MPayPasswordByPhoneViewController *vc = [MPayPasswordByPhoneViewController vcInStoryboard:@"UserInfo"];
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        };
+        [psdView showInView:self.view];
+    }else{
+        if (self.payMethod == 2 && ![self p_canOpenWeiXin]){
+            [NSObject showHudTipStr:@"您还没有安装「微信」"];
+            return;
+        }
+        __weak typeof(self) weakSelf = self;
+        [[Coding_NetAPIManager sharedManager] post_GenerateOrderWithDepositPrice:_curMPayOrders? _curMPayOrders.orderAmount: @(_curMPayOrder.totalFee.floatValue) orderIdList:_curMPayOrders? [_curMPayOrders.order valueForKey:@"orderId"]: @[_curMPayOrder.orderId] methodType:self.payMethod block:^(id data, NSError *error) {
+            if (data) {
+                weakSelf.payDict = data;
+                if (self.payMethod == 1) {
+                    [weakSelf aliPay];
+                }else if (self.payMethod == 2){
+                    [weakSelf weixinPay];
+                }
+            }
+        }];
+    }
+}
+
+- (void)weixinPay{
+    PayReq *req = [PayReq new];
+    NSDictionary *resultDict = _payDict[@"weixinAppResult"];
+    
+    req.partnerId = resultDict[@"partnerId"];
+    req.prepayId = resultDict[@"prepayId"];
+    req.nonceStr = resultDict[@"nonceStr"];
+    req.timeStamp = [resultDict[@"timestamp"] intValue];
+    req.package = resultDict[@"package"];
+    req.sign = resultDict[@"sign"];
+    [WXApi sendReq:req];
+}
+
+- (void)aliPay{
+    __weak typeof(self) weakSelf = self;
+    [[AlipaySDK defaultService] payOrder:_payDict[@"alipayAppResult"][@"order"] fromScheme:kAppScheme callback:^(NSDictionary *resultDic) {
+        [weakSelf handleAliResult:resultDic];
     }];
-    psdView.isForPassword = YES;
-    psdView.forgetPasswordBlock = ^(){
-        MPayPasswordByPhoneViewController *vc = [MPayPasswordByPhoneViewController vcInStoryboard:@"UserInfo"];
-        [weakSelf.navigationController pushViewController:vc animated:YES];
-    };
-    [psdView showInView:self.view];
 }
 
 - (void)sendRequestWithPsd:(NSString *)psd{
@@ -137,15 +190,7 @@
         [[Coding_NetAPIManager sharedManager] post_MPayOrderIdList:[_curMPayOrders.order valueForKey:@"orderId"] password:psd block:^(id data, NSError *error) {
             [NSObject hideHUDQuery];
             if (data && [(NSNumber *)data boolValue]) {
-                if (weakSelf.paySuccessBlock) {
-                    weakSelf.paySuccessBlock(weakSelf.curMPayOrders);
-                    [weakSelf.navigationController popViewControllerAnimated:YES];
-                }else{
-                    MPayRewardOrderPayResultViewController *vc = [MPayRewardOrderPayResultViewController vcInStoryboard:@"Pay"];
-                    vc.curReward = weakSelf.curReward;
-                    vc.curMPayOrders = weakSelf.curMPayOrders;
-                    [weakSelf.navigationController pushViewController:vc animated:YES];
-                }
+                [weakSelf paySucess];
             }
         }];
     }else{
@@ -154,70 +199,136 @@
         [[Coding_NetAPIManager sharedManager] post_MPayOrderId:_curMPayOrder.orderId password:psd block:^(id data, NSError *error) {
             [NSObject hideHUDQuery];
             if (data && [(NSNumber *)data boolValue]) {
-                if (weakSelf.paySuccessBlock) {
-                    weakSelf.paySuccessBlock(weakSelf.curMPayOrder);
-                    [weakSelf.navigationController popViewControllerAnimated:YES];
-                }else{
-                    MPayRewardOrderPayResultViewController *vc = [MPayRewardOrderPayResultViewController vcInStoryboard:@"Pay"];
-                    vc.curReward = weakSelf.curReward;
-                    vc.curMPayOrder = weakSelf.curMPayOrder;
-                    [weakSelf.navigationController pushViewController:vc animated:YES];
-                }
+                [weakSelf paySucess];
             }
         }];
     }
 }
 
+#pragma mark - handleSucessPay
+- (void)handlePayURL:(NSURL *)url{
+    if (_payMethod == 1) {
+        __weak typeof(self) weakSelf = self;
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+            [weakSelf handleAliResult:resultDic];
+        }];
+    }else if (_payMethod == 2){
+        NSInteger resultCode = [[url queryParams][@"ret"] intValue];
+        if (resultCode == 0) {
+            [self paySucess];
+        }else if (resultCode == -1){
+            [NSObject showHudTipStr:@"支付失败"];
+        }
+    }
+}
+
+- (void)handleAliResult:(NSDictionary *)resultDic{
+    if ([resultDic[@"resultStatus"] integerValue] == 9000) {
+        [self paySucess];
+    }else{
+        NSString *tipStr = resultDic[@"memo"];
+        [NSObject showHudTipStr:tipStr.length > 0? tipStr: @"支付失败"];
+    }
+}
+
+- (void)paySucess{
+    if (self.paySuccessBlock) {
+        self.paySuccessBlock(self.curMPayOrders ?: self.curMPayOrder);
+    }else{
+        MPayRewardOrderPayResultViewController *vc = [MPayRewardOrderPayResultViewController vcInStoryboard:@"Pay"];
+        vc.curReward = self.curReward;
+        vc.curMPayOrders = self.curMPayOrders;
+        vc.curMPayOrder = self.curMPayOrder;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
+- (void)goToSucessVC:(NSDictionary *)orderDict{
+    kTipAlert(@"支付成功");
+    
+    if (self.navigationController.topViewController == self) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
+#pragma mark - app url
+- (BOOL)p_canOpenWeiXin{
+    return [self p_canOpen:@"weixin://"];
+}
+
+- (BOOL)p_canOpenAlipay{
+    return [self p_canOpen:@"alipay://"];
+}
+
+- (BOOL)p_canOpen:(NSString*)url{
+    return [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:url]];
+}
+
 #pragma mark Table
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return _curMPayOrders? _curMPayOrders.order.count + 1: 2;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 1;
+    if (section == 0) {
+        return MAX(1, _curMPayOrders.order.count) + 1;
+    }else{
+        return 3;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0 || indexPath.section < _curMPayOrders.order.count) {
-        MPayOrder *mPayOrder = _curMPayOrders? _curMPayOrders.order[indexPath.section]: _curMPayOrder;
-        MPayOrderPayCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MPayOrderPayCell forIndexPath:indexPath];
-        cell.curOrder = mPayOrder;
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:15];
-        return cell;
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MPayHeaderCell" forIndexPath:indexPath];
+            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:15];
+            return cell;
+        }else{
+            MPayOrder *mPayOrder = _curMPayOrders? _curMPayOrders.order[indexPath.row - 1]: _curMPayOrder;
+            MPayOrderPayCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MPayOrderPayCell forIndexPath:indexPath];
+            cell.curOrder = mPayOrder;
+            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:15];
+            return cell;
+        }
     }else{
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[self p_isBalanceEnough]? kCellIdentifier_MPayLeftMoneyCell_Enough: kCellIdentifier_MPayLeftMoneyCell_Lack forIndexPath:indexPath];
-        UILabel *balanceL = [cell viewWithTag:200];
-        balanceL.text = [NSString stringWithFormat:@"￥%@", _balanceStr];
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:15];
+        NSString *cellIdentifier = (indexPath.row == 0? @"MPayTypeMartCell":
+                                    indexPath.row == 1? @"MPayTypeAliCell":
+                                    @"MPayTypeWXCell");
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+        UIImageView *checkV = [cell viewWithTag:202];
+        checkV.image = [UIImage imageNamed:self.payMethod == indexPath.row? @"pay_checked": @"pay_unchecked"];
+        if (indexPath.row == 0) {
+            UILabel *balanceL = [cell viewWithTag:200];
+            balanceL.text = [NSString stringWithFormat:@"￥%@", _balanceStr];
+            UILabel *tipL = [cell viewWithTag:201];
+            tipL.hidden = [self p_isBalanceEnough];
+        }
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
         return cell;
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0 || indexPath.section < _curMPayOrders.order.count) {
-        MPayOrder *mPayOrder = _curMPayOrders? _curMPayOrders.order[indexPath.section]: _curMPayOrder;
-        return [MPayOrderPayCell cellHeightWithObj:mPayOrder];
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            return 44.0;
+        }else{
+            MPayOrder *mPayOrder = _curMPayOrders? _curMPayOrders.order[indexPath.section]: _curMPayOrder;
+            return [MPayOrderPayCell cellHeightWithObj:mPayOrder];
+        }
     }else{
-        return [self p_isBalanceEnough]? 44: 60;
+        return indexPath.row == 0? 62: 44;
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return (section == 0? 1.0/[UIScreen mainScreen].scale:
-            section < _curMPayOrders.order.count? 10:
-            20);
+    return 15;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView *headerV = [UIView new];
-//    if (section == 0 && _curMPayOrders.order.count > 1) {
-//        UILabel *headerL = [UILabel labelWithSystemFontSize:15 textColorHexString:@"0xF5A623"];
-//        headerL.text = [NSString stringWithFormat:@"交易总金额 %@ 元", _curMPayOrders.orderAmount];
-//        [headerV addSubview:headerL];
-//        [headerL mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.center.equalTo(headerV);
-//        }];
-//    }
-    return headerV;
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    if (indexPath.section == 1) {
+        self.payMethod = indexPath.row;
+    }
 }
 @end

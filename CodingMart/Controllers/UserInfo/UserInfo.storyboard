@@ -6780,14 +6780,15 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pay_method_ali" translatesAutoresizingMaskIntoConstraints="NO" id="vYZ-29-dkv">
-                                                    <rect key="frame" x="15" y="10" width="40" height="40"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="small_pay_method_ali" translatesAutoresizingMaskIntoConstraints="NO" id="vYZ-29-dkv">
+                                                    <rect key="frame" x="15" y="20" width="20" height="20"/>
                                                     <constraints>
+                                                        <constraint firstAttribute="width" constant="20" id="2bM-4T-Yv4"/>
                                                         <constraint firstAttribute="width" secondItem="vYZ-29-dkv" secondAttribute="height" id="kPM-sG-Par"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="支付宝支付" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E7k-qz-MER">
-                                                    <rect key="frame" x="70" y="21" width="76.5" height="18"/>
+                                                    <rect key="frame" x="50" y="21" width="76.5" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -6801,12 +6802,11 @@
                                                 </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="vYZ-29-dkv" firstAttribute="top" secondItem="8yy-sH-vs7" secondAttribute="topMargin" constant="2" id="4O5-rJ-uvx"/>
                                                 <constraint firstItem="vYZ-29-dkv" firstAttribute="leading" secondItem="8yy-sH-vs7" secondAttribute="leadingMargin" constant="7" id="5Vr-Ui-Y6D"/>
                                                 <constraint firstItem="E7k-qz-MER" firstAttribute="leading" secondItem="vYZ-29-dkv" secondAttribute="trailing" constant="15" id="HAm-a3-ABi"/>
                                                 <constraint firstItem="E7k-qz-MER" firstAttribute="centerY" secondItem="vYZ-29-dkv" secondAttribute="centerY" id="OTr-vC-YS6"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="vYZ-29-dkv" secondAttribute="bottom" constant="2" id="Phf-WU-qHd"/>
                                                 <constraint firstItem="KYQ-a8-SP7" firstAttribute="centerY" secondItem="vYZ-29-dkv" secondAttribute="centerY" id="UL0-VX-2c8"/>
+                                                <constraint firstItem="vYZ-29-dkv" firstAttribute="centerY" secondItem="8yy-sH-vs7" secondAttribute="centerY" id="bUZ-YB-2IE"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="KYQ-a8-SP7" secondAttribute="trailing" constant="7" id="za3-80-Io3"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -6818,14 +6818,15 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pay_method_wx" translatesAutoresizingMaskIntoConstraints="NO" id="Ahe-O6-ICm">
-                                                    <rect key="frame" x="15" y="10" width="40" height="40"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="small_pay_method_wx" translatesAutoresizingMaskIntoConstraints="NO" id="Ahe-O6-ICm">
+                                                    <rect key="frame" x="15" y="20" width="20" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="Ahe-O6-ICm" secondAttribute="height" id="GCx-JK-Xqc"/>
+                                                        <constraint firstAttribute="width" constant="20" id="HG6-et-X4g"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="微信支付" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wOT-hD-I4l">
-                                                    <rect key="frame" x="70" y="21" width="61.5" height="18"/>
+                                                    <rect key="frame" x="50" y="21" width="61.5" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -6840,12 +6841,11 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Ahe-O6-ICm" firstAttribute="leading" secondItem="4nE-nh-ymU" secondAttribute="leadingMargin" constant="7" id="9Xh-BK-qTd"/>
+                                                <constraint firstItem="Ahe-O6-ICm" firstAttribute="centerY" secondItem="4nE-nh-ymU" secondAttribute="centerY" id="Cfg-Ju-Ml6"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="q1G-kg-uBh" secondAttribute="trailing" constant="7" id="Lnt-Qy-Z83"/>
                                                 <constraint firstItem="wOT-hD-I4l" firstAttribute="leading" secondItem="Ahe-O6-ICm" secondAttribute="trailing" constant="15" id="Mrr-0Q-8qc"/>
                                                 <constraint firstItem="q1G-kg-uBh" firstAttribute="centerY" secondItem="Ahe-O6-ICm" secondAttribute="centerY" id="QFU-70-cVD"/>
-                                                <constraint firstItem="Ahe-O6-ICm" firstAttribute="top" secondItem="4nE-nh-ymU" secondAttribute="topMargin" constant="2" id="lIa-uT-O3G"/>
                                                 <constraint firstItem="wOT-hD-I4l" firstAttribute="centerY" secondItem="Ahe-O6-ICm" secondAttribute="centerY" id="ma2-yL-NY0"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="Ahe-O6-ICm" secondAttribute="bottom" constant="2" id="ooa-e0-XfC"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -6857,13 +6857,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pay_method_bank" translatesAutoresizingMaskIntoConstraints="NO" id="7zc-me-ggd">
-                                                    <rect key="frame" x="15" y="10" width="40" height="40"/>
+                                                    <rect key="frame" x="15" y="20" width="20" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="7zc-me-ggd" secondAttribute="height" id="0dm-Di-lW5"/>
+                                                        <constraint firstAttribute="width" constant="20" id="wSB-B2-EjI"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="银行转账" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y8O-AA-mZ4">
-                                                    <rect key="frame" x="70" y="21" width="61.5" height="18"/>
+                                                    <rect key="frame" x="50" y="21" width="61.5" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -6880,8 +6881,7 @@
                                                 <constraint firstItem="y8O-AA-mZ4" firstAttribute="leading" secondItem="7zc-me-ggd" secondAttribute="trailing" constant="15" id="5jL-1v-60x"/>
                                                 <constraint firstItem="y8O-AA-mZ4" firstAttribute="centerY" secondItem="7zc-me-ggd" secondAttribute="centerY" id="BUZ-JV-FSC"/>
                                                 <constraint firstItem="7zc-me-ggd" firstAttribute="leading" secondItem="f1G-FB-L1j" secondAttribute="leadingMargin" constant="7" id="Puc-iO-Iqp"/>
-                                                <constraint firstItem="7zc-me-ggd" firstAttribute="top" secondItem="f1G-FB-L1j" secondAttribute="topMargin" constant="2" id="XhK-3i-ei3"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="7zc-me-ggd" secondAttribute="bottom" constant="2" id="h12-pN-hQt"/>
+                                                <constraint firstItem="7zc-me-ggd" firstAttribute="centerY" secondItem="f1G-FB-L1j" secondAttribute="centerY" id="WEm-1M-7lj"/>
                                                 <constraint firstItem="iJO-j7-gmi" firstAttribute="centerY" secondItem="7zc-me-ggd" secondAttribute="centerY" id="ldj-dP-lN4"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="iJO-j7-gmi" secondAttribute="trailing" constant="7" id="xvF-o5-EQa"/>
                                             </constraints>
@@ -7566,7 +7566,7 @@
                                         <color key="textColor" red="0.96078431372549022" green="0.65098039215686276" blue="0.13725490196078433" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="account@gmail.com（姓名）" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k8g-mc-LsP">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="account@gmail.com（姓名）" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="k8g-mc-LsP">
                                         <rect key="frame" x="111" y="143.5" width="214" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -8715,10 +8715,10 @@ Coding 码市团队</string>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5kp-dX-iXI">
-                            <rect key="frame" x="15" y="146" width="320" height="84"/>
+                            <rect key="frame" x="15" y="146" width="320" height="67"/>
                             <string key="text">温馨提示：
-1、点击“微信支付”将会收取5元认证费，认证失败费用不会退还，请确认身份信息。
-2、每个身份证号码只能绑定一个账户，一经绑定，无法修改</string>
+1、请注意:身份认证需要支付 5 元/次的费用
+2、认证失败费用不会退还，请填写正确的身份信息</string>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
@@ -8728,7 +8728,7 @@ Coding 码市团队</string>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="lT0-FF-uhd"/>
                             </constraints>
-                            <state key="normal" title="微信支付"/>
+                            <state key="normal" title="去支付"/>
                             <connections>
                                 <action selector="goToPay:" destination="6g4-Au-LAu" eventType="touchUpInside" id="atq-Df-M4x"/>
                             </connections>
@@ -10432,7 +10432,6 @@ Coding 码市团队</string>
         <image name="logo_mart_about" width="80" height="80"/>
         <image name="pay_method_ali" width="40" height="40"/>
         <image name="pay_method_bank" width="44" height="34"/>
-        <image name="pay_method_wx" width="40" height="40"/>
         <image name="pay_unchecked" width="16" height="16"/>
         <image name="placeholder_user" width="75" height="75"/>
         <image name="price_pay_success" width="45" height="45"/>
@@ -10442,6 +10441,8 @@ Coding 码市团队</string>
         <image name="skill_add_role_small" width="12" height="12"/>
         <image name="skill_date" width="17" height="17"/>
         <image name="skill_edit" width="12" height="12"/>
+        <image name="small_pay_method_ali" width="20" height="20"/>
+        <image name="small_pay_method_wx" width="20" height="20"/>
         <image name="wechat_tip1" width="200" height="356"/>
         <image name="wechat_tip2" width="200" height="357"/>
         <image name="withdraw_apply_d" width="40" height="40"/>

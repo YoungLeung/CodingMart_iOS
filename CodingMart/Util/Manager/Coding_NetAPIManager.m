@@ -549,6 +549,16 @@
         block(data[@"data"], error);
     }];
 }
+    
+- (void)post_GenerateIdentityMartOrder:(NSDictionary *)params block:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/user/identity" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject objectOfClass:@"MPayOrder" fromJSON:data];
+        }
+        block(data, error);
+    }];
+}
+
 
 - (void)get_Order:(NSString *)orderNo block:(void (^)(id data, NSError *error))block {
     NSString *path = [NSString stringWithFormat:@"api/payment/charge_payed/%@", orderNo];
@@ -556,7 +566,7 @@
         block(data[@"data"], error);
     }];
 }
-
+    
 - (void)get_WithdrawOrder_NO:(NSString *)orderNo block:(void (^)(id data, NSError *error))block {
     NSString *path = [NSString stringWithFormat:@"api/mpay/withdraw/%@", orderNo];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
@@ -967,26 +977,6 @@
             block(nil, error);
         }
     }];
-    
-    
-//    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/user/info" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
-//        if (data) {
-//            IdentityInfo *info = [NSObject objectOfClass:@"IdentityInfo" fromJSON:data];
-//            if ([@[@"Unchecked", @"Rejected"] containsObject:info.status]) {
-//                block(info, error);
-//            } else {//后续步骤，需要承诺书链接
-//                [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/user/identity/sign" withParams:nil withMethodType:Get andBlock:^(id dataS, NSError *errorS) {
-//                    info.qrCodeLinkStr = dataS[@"signerUriQr"];//签署流程，二维码
-//                    if (dataS[@"documentId"]) {//承诺书
-//                        info.agreementLinkStr = [NSString stringWithFormat:@"/api/user/identity/sign/%@", dataS[@"documentId"]];
-//                    }
-//                    block(info, error);
-//                }];
-//            }
-//        } else {
-//            block(data, error);
-//        }
-//    }];
 }
 
 - (void)post_IdentityInfo:(IdentityInfo *)info block:(void (^)(id data, NSError *error))block {
@@ -1146,6 +1136,17 @@
             @"price": depositPrice,
             @"platform": methodType == PayMethodAlipay ? @"Alipay" : methodType == PayMethodWeiXin ? @"Weixin" : @"Bank"};
 
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/mpay/deposit" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
+}
+
+- (void)post_GenerateOrderWithDepositPrice:(NSNumber *)depositPrice orderIdList:(NSArray *)orderIdList methodType:(NSInteger)methodType block:(void (^)(id data, NSError *error))block{//methodType: 1 alipay, 2 wechat
+    NSDictionary *params = @{
+                             @"service": @"App",
+                             @"price": depositPrice,
+                             @"platform": methodType == 1? @"Alipay": methodType == 2? @"Weixin": @"Other",
+                             @"payments": orderIdList};
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/mpay/deposit" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         block(data, error);
     }];

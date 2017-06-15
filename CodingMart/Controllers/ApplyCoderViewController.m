@@ -338,6 +338,7 @@
     vc.curMPayOrder = order;
     WEAKSELF
     vc.paySuccessBlock = ^(MPayOrder *curMPayOrder){
+        [weakSelf.navigationController popToViewController:weakSelf animated:YES];
         [weakSelf sendContactRequest];
     };
     [self.navigationController pushViewController:vc animated:YES];

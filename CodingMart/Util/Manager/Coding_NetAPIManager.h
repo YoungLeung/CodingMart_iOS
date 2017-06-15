@@ -49,6 +49,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)post_CancelJoinReward:(NSNumber *)reward_id block:(void (^)(id data, NSError *error))block;
 - (void)post_GenerateOrderWithReward:(Reward *)reward block:(void (^)(id data, NSError *error))block;
 - (void)post_GenerateIdentityOrderBlock:(void (^)(id data, NSError *error))block;
+- (void)post_GenerateIdentityMartOrder:(NSDictionary *)params block:(void (^)(id data, NSError *error))block;
 - (void)get_Order:(NSString *)orderNo block:(void (^)(id data, NSError *error))block;
 - (void)get_WithdrawOrder_NO:(NSString *)orderNo block:(void (^)(id data, NSError *error))block;
 - (void)get_SimpleStatisticsBlock:(void (^)(id data, NSError *error))block;
@@ -113,6 +114,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)post_MPayOrderId:(NSString *)orderId password:(NSString *)password block:(void (^)(id data, NSError *error))block;
 - (void)post_MPayOrderIdList:(NSArray *)orderIdList password:(NSString *)password block:(void (^)(id data, NSError *error))block;
 - (void)post_GenerateOrderWithDepositPrice:(NSNumber *)depositPrice methodType:(PayMethodType)methodType block:(void (^)(id data, NSError *error))block;
+- (void)post_GenerateOrderWithDepositPrice:(NSNumber *)depositPrice orderIdList:(NSArray *)orderIdList methodType:(NSInteger)methodType block:(void (^)(id data, NSError *error))block;//methodType: 1 alipay, 2 wechat
 - (void)get_MPayOrderStatus:(NSString *)orderId block:(void (^)(id data, NSError *error))block;
 - (void)post_GenerateOrderWithStageId:(NSNumber *)stageId block:(void (^)(id data, NSError *error))block;
 - (void)post_GenerateOrderWithRewardId:(NSNumber *)rewardId roleId:(NSNumber *)roleId block:(void (^)(id data, NSError *error))block;

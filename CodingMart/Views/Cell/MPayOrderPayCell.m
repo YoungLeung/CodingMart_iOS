@@ -34,8 +34,8 @@
         MPayOrder *mPayOrder = (MPayOrder *)obj;
         CGFloat contentW = kScreen_Width - 15* 2 - 70 - 10;
         CGFloat contentH = [mPayOrder.name getHeightWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake(contentW, CGFLOAT_MAX)];
-        contentH = MAX(contentH, 20);
-        cellHeight += (44 * 3 - 20) + contentH;
+        contentH = MAX(contentH, 18);
+        cellHeight += 100 + (contentH - 18);
     }
     return cellHeight;
 }

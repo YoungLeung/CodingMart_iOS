@@ -167,7 +167,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:(indexPath.section == 0 && indexPath.row == 0? 0: 15) hasSectionLine:indexPath.section != 2];
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:(indexPath.section == 0 && indexPath.row == 0? 0: indexPath.section == 1? 50: 15) hasSectionLine:indexPath.section != 2];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
