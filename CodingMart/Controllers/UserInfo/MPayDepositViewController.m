@@ -214,7 +214,7 @@
 }
 
 - (void)goToSucessVC:(NSDictionary *)orderDict{
-    kTipAlert(@"支付成功");
+    kTipAlert(@"充值成功");
     
     if (self.navigationController.topViewController == self) {
         [self.navigationController popViewControllerAnimated:YES];

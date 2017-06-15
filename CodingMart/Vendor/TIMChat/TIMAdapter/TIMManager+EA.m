@@ -45,7 +45,7 @@
             [UnReadManager updateUnReadWidthQuery:NO block:nil];//登录之后，刷新未读数据
             block(nil);
         } fail:^(int code, NSString *msg) {
-            [NSObject showHudTipStr:msg];
+//            [NSObject showHudTipStr:msg];
             block(msg);
         }];
     }];
