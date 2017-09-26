@@ -32,6 +32,8 @@
 @property(weak, nonatomic) IBOutlet UIImageView *user_iconV;
 @property(weak, nonatomic) IBOutlet UIImageView *headerBGV;
 @property(weak, nonatomic) IBOutlet NSLayoutConstraint *headerBGVTop;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *nameBottomCon;
+@property (weak, nonatomic) IBOutlet UIImageView *depositV;
 
 
 @property (weak, nonatomic) IBOutlet UILabel *mpayL;
@@ -61,8 +63,6 @@
     UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, 49, 0);
     self.tableView.contentInset = self.tableView.scrollIndicatorInsets = insets;
 
-    _tableHeaderView.height = (450.0 / 750 * kScreen_Width - [self navBottomY]);
-    self.tableView.tableHeaderView = _tableHeaderView;
     _user_iconV.layer.masksToBounds = YES;
     _user_iconV.layer.cornerRadius = 150.0 / 750 * kScreen_Width / 2;
 
@@ -84,6 +84,8 @@
             }
         }
     }
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_icon_tip"] style:UIBarButtonItemStylePlain target:self action:@selector(goToNotification)];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -125,6 +127,13 @@
 //    [_footerBtn setTitle:isDeveloper ? @"切换至需求方模式" : @"切换至开发者模式" forState:UIControlStateNormal];
 //    _footerBtn.hidden = ![Login isLogin] || [_curUser isEnterpriseSide];
     _footerBtn.hidden = YES;
+    
+//    deposit
+    BOOL deposit = _curUser.deposit.boolValue;
+    _tableHeaderView.height = (450.0 / 750 * kScreen_Width - [self navBottomY] + (deposit? 60: 0));
+    _nameBottomCon.constant = deposit? 60: 30;
+    _depositV.hidden = !deposit;
+
     [self.tableView reloadData];
 }
 
@@ -181,7 +190,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    CGFloat height;
+    CGFloat height = 0;
     if (section == 0) {
         height = 0;
     } else if (section == 1) {
@@ -304,5 +313,10 @@
         [self refreshData];
     };
     [UIViewController presentVC:vc dismissBtnTitle:@"取消"];
+}
+
+- (void)goToNotification{
+    NotificationViewController *vc = [NotificationViewController storyboardVC];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 @end

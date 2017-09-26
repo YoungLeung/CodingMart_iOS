@@ -37,8 +37,8 @@
     [_bottomL addLinkToStr:@"《身份认证授权与承诺书》" value:nil hasUnderline:NO clickedBlock:^(id value) {
         [weakSelf goToAgreement];
     }];
-    _nameF.text = _info.name;
-    _identityF.text = _info.identity;
+//    _nameF.text = _info.name;
+//    _identityF.text = _info.identity;
 }
 
 #pragma mark Table

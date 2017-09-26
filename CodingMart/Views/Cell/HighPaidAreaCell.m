@@ -35,7 +35,8 @@
 }
 
 + (CGFloat)cellHeight{
-    return 245;
+    return 0;
+//    return 245;
 }
 
 #pragma UICollectionView

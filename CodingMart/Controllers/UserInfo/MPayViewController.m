@@ -169,10 +169,10 @@
 #pragma mark vc
 
 - (IBAction)withdrawBtnClicked:(id)sender {
-    if ([FillUserInfo infoFromLogin].reward_role.intValue == 2) {
-        _topWarnV.hidden = FALSE;
-        return;
-    }
+//    if ([FillUserInfo infoFromLogin].reward_role.intValue == 2) {
+//        _topWarnV.hidden = FALSE;
+//        return;
+//    }
 //    提现
     WEAKSELF;
     [NSObject showHUDQueryStr:@"请稍等..."];

@@ -93,25 +93,25 @@ typedef NS_ENUM(NSInteger, TabVCType) {
         if (me.counter.published.integerValue > 0) {
             tabList = @[@(TabVCTypeFind),
                         @(TabVCTypeMyPublished),
-                        @(TabVCTypeMessage),
+//                        @(TabVCTypeMessage),
                         @(TabVCTypeMe)].mutableCopy;
             
         } else {
             tabList = @[@(TabVCTypeFind),
                         @(TabVCTypePublish),
-                        @(TabVCTypeMessage),
+//                        @(TabVCTypeMessage),
                         @(TabVCTypeMe)].mutableCopy;
         }
     } else if (me.loginIdentity.integerValue == 1) {//开发者
         if (me.counter.joined.integerValue > 0) {
             tabList = @[@(TabVCTypeRewards),
                         @(TabVCTypeMyJoined),
-                        @(TabVCTypeMessage),
+//                        @(TabVCTypeMessage),
                         @(TabVCTypeMe)].mutableCopy;
         } else {
             tabList = @[@(TabVCTypeFind),
                         @(TabVCTypeRewards),
-                        @(TabVCTypeMessage),
+//                        @(TabVCTypeMessage),
                         @(TabVCTypeMe)].mutableCopy;
         }
         

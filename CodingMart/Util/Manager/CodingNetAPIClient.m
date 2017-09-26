@@ -78,6 +78,16 @@ static dispatch_once_t onceToken;
     if (!aPath || aPath.length <= 0) {
         return;
     }
+    //CSRF - 跨站请求伪造
+    NSHTTPCookie *_CSRF = nil;
+    for (NSHTTPCookie *tempC in [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]) {
+        if ([tempC.name isEqualToString:@"XSRF-TOKEN"]) {
+            _CSRF = tempC;
+        }
+    }
+    if (_CSRF) {
+        [self.requestSerializer setValue:_CSRF.value forHTTPHeaderField:@"X-XSRF-TOKEN"];
+    }
 //    log请求数据
     DebugLog(@"\n===========request===========\n%@\n%@:\n%@", kNetworkMethodName[method], aPath, params);
 //    处理本地缓存 block 先
