@@ -1464,6 +1464,7 @@
 		B180A9621EBACFD100FF9C3B /* RegisterDemandTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterDemandTypeViewController.m; sourceTree = "<group>"; };
 		B180A9661EBB199D00FF9C3B /* EARegisterTypeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EARegisterTypeButton.h; sourceTree = "<group>"; };
 		B180A9671EBB199D00FF9C3B /* EARegisterTypeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EARegisterTypeButton.m; sourceTree = "<group>"; };
+		B1B2BDB11F79E76B00645EAD /* net_route.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = net_route.h; sourceTree = "<group>"; };
 		B1E77EE81EEE484300354D01 /* FeedBackTypeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedBackTypeButton.h; sourceTree = "<group>"; };
 		B1E77EE91EEE484300354D01 /* FeedBackTypeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedBackTypeButton.m; sourceTree = "<group>"; };
 		FF0FB6CB1B25F0123643706A /* Pods-CodingMart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CodingMart.release.xcconfig"; path = "Pods/Target Support Files/Pods-CodingMart/Pods-CodingMart.release.xcconfig"; sourceTree = "<group>"; };
@@ -2101,6 +2102,7 @@
 				4EAB78521DED628A0073EE1C /* LDSimplePing.h */,
 				4EAB78531DED628A0073EE1C /* LDSimplePing.m */,
 				4EAB78541DED628A0073EE1C /* Route.h */,
+				B1B2BDB11F79E76B00645EAD /* net_route.h */,
 			);
 			path = LDNetDiagnoService;
 			sourceTree = "<group>";
@@ -3155,7 +3157,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		4EAB786A1DEE69700073EE1C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -3199,7 +3201,7 @@
 		};
 		F28D78846F0D3D4E3F9D92B0 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -3207,7 +3209,7 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CodingMart/Pods-CodingMart-resources.sh\"\n";
 			showEnvVarsInLog = 0;
