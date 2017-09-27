@@ -53,6 +53,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)get_Order:(NSString *)orderNo block:(void (^)(id data, NSError *error))block;
 - (void)get_WithdrawOrder_NO:(NSString *)orderNo block:(void (^)(id data, NSError *error))block;
 - (void)get_SimpleStatisticsBlock:(void (^)(id data, NSError *error))block;
+- (void)get_roleTypesBlock:(void (^)(NSArray<RewardRoleType *> *list, NSError *error))block;
 
 - (void)post_SubmitStageDocument:(NSNumber *)stageId linkStr:(NSString *)linkStr block:(void (^)(id data, NSError *error))block;
 - (void)post_CancelStageDocument:(NSNumber *)stageId block:(void (^)(id data, NSError *error))block;
@@ -109,6 +110,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)get_MPayAccountBlock:(void (^)(MPayAccount *data, NSError *error))block;
 - (void)post_MPayAccount:(MPayAccount *)account block:(void (^)(id data, NSError *error))block;
 - (void)post_WithdrawMPayAccount:(MPayAccount *)account block:(void (^)(id data, NSError *error))block;
+- (void)post_GenerateOrderWithRewardId:(NSNumber *)rewardId block:(void (^)(id data, NSError *error))block;
 - (void)post_GenerateOrderWithRewardId:(NSNumber *)rewardId totalFee:(NSString *)totalFee block:(void (^)(id data, NSError *error))block;
 - (void)get_GenerateOrderWithRewardId:(NSNumber *)rewardId block:(void (^)(id data, NSError *error))block;
 - (void)post_MPayOrderId:(NSString *)orderId password:(NSString *)password block:(void (^)(id data, NSError *error))block;

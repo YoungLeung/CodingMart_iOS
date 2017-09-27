@@ -142,6 +142,10 @@
     _tipStr = tipStr;
     _tipL.text = _tipStr;
 }
+- (void)setAttrStr:(NSAttributedString *)attrStr{
+    _attrStr = attrStr;
+    _tipL.attributedText = _attrStr;
+}
 - (void)setLeftBtnTitle:(NSString *)title block:(void(^)())block{
     [_leftBtn setTitle:title forState:UIControlStateNormal];
     _leftBtnBlock = block;
@@ -158,7 +162,9 @@
     self.frame = view.bounds;
     _bgView.alpha = 0.0;
     
-    CGFloat viewHeight = 44 + 25 + [_tipStr getHeightWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(view.width - 60, CGFLOAT_MAX)] + 25 + 44;
+//    CGFloat tipHeight = [_tipStr getHeightWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(view.width - 60, CGFLOAT_MAX)];
+    CGFloat tipHeight = [_tipL sizeThatFits:CGSizeMake(view.width - 60, CGFLOAT_MAX)].height;
+    CGFloat viewHeight = 44 + 25 + tipHeight + 25 + 44;
     BOOL hideBottom = _leftBtn.titleLabel.text.length <= 0 && _rightBtn.titleLabel.text.length <= 0;
     _leftBtn.hidden = _rightBtn.hidden = _bottomLineV.hidden = _splitLineV.hidden = hideBottom;
     viewHeight -= hideBottom? 45: 0;
@@ -180,6 +186,14 @@
     eaView.tipStr = tipStr;
     return eaView;
 }
+
++ (instancetype)instancetypeWithTitle:(NSString *)title attrStr:(NSAttributedString *)attrStr{
+    EATipView *eaView = [EATipView new];
+    eaView.title = title;
+    eaView.attrStr = attrStr;
+    return eaView;
+}
+
 
 + (void)showAllowNotificationTipInView:(UIView *)view{
     NSURL *settingURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];

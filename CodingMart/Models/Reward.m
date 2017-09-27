@@ -58,6 +58,14 @@
 - (BOOL)isNewPhase{
     return (_phaseType.enum_phaseType == EAPhaseType_PHASE);
 }
+- (BOOL)isDeveloperTeam{
+    RewardRoleType *curT = _roleTypes.firstObject ?: _roles.firstObject;
+    return curT? curT.isTeam: NO;
+}
+- (BOOL)isDeveloperPersonal{
+    RewardRoleType *curT = _roleTypes.firstObject ?: _roles.firstObject;
+    return curT? !curT.isTeam: NO;
+}
 - (BOOL)needToPay{
         return ((_balance.floatValue > 0 &&
                 !_mpay.boolValue &&
@@ -103,7 +111,7 @@
     if (!curReward) {
         return NO;
     }
-    return [NSObject saveResponseData:[curReward toPostParams] toPath:kRewardDraftPath];
+    return [NSObject saveResponseData:[curReward toSaveParams] toPath:kRewardDraftPath];
 }
 + (BOOL)deleteCurDraft{
     return [NSObject deleteResponseCacheForPath:kRewardDraftPath];
@@ -118,10 +126,10 @@
     NSDictionary *dict = [NSObject loadResponseWithPath:kRewardDraftPath];
     if (dict) {
         rewardToBePublished = [Reward objectOfClass:@"Reward" fromJSON:dict];
-        rewardToBePublished.contact_email = dict[@"contactEmail"];
     }else{
         rewardToBePublished = [Reward new];
     }
+    rewardToBePublished.need_pay_prepayment = @(YES);
     if ([Login isLogin]) {
         User *curUser = [Login curLoginUser];
         rewardToBePublished.contact_name = rewardToBePublished.contact_name ?: curUser.name;
@@ -132,26 +140,52 @@
     rewardToBePublished.phoneCountryCode = rewardToBePublished.phoneCountryCode ?: @"+86";
     return rewardToBePublished;
 }
+- (NSDictionary *)toSaveParams{
+    NSMutableDictionary *params = [self objectDictionary].mutableCopy;
+    params[@"highPaid"] = params[@"high_paid"] = params[@"applyCount"] = params[@"apply_count"] = params[@"formatPriceNoCurrency"] = params[@"format_price"] = params[@"isNewPhase"] = params[@"isDeveloperTeam"] = params[@"isDeveloperPersonal"] = params[@"roleTypesNotCompleted"] = params[@"propertyArrayMap"] = nil;
+    if (_roleTypes.count > 0) {
+        params[@"roleTypes"] = @[[(RewardRoleType *)_roleTypes.firstObject objectDictionary]];
+    }
+    return params;
+}
 - (NSDictionary *)toPostParams{
     NSMutableDictionary *params = @{}.mutableCopy;
-    params[@"type"] = _type.integerValue > 10? @(_type.integerValue / 10): _type;
-    params[@"price"] = _price;
-    params[@"testService"] = _testService ?: @(NO);
-    params[@"name"] = _name;
-    params[@"description"] = _description_mine;
-    params[@"contact_name"] = _contact_name;
-    params[@"contactEmail"] = _contact_email;
-    params[@"contact_mobile"] = _contact_mobile;
-    params[@"contact_mobile_code"] = _contact_mobile_code;
-    params[@"survey_extra"] = _survey_extra;
-    params[@"country"] = _country;
-    params[@"phoneCountryCode"] = _phoneCountryCode;
-    params[@"industry"] = _industry;
-    params[@"industryName"] = _industryName;
     if ([_id isKindOfClass:[NSNumber class]]) {
         params[@"id"] = _id;
     }
-//    params[@"price"] = @(5611);
+    
+    NSNumber *realType = _type.integerValue > 10? @(_type.integerValue / 10): _type;
+    NSDictionary *typeDict = @{@0: @"WEB",
+                               @2: @"WECHAT",
+                               @3: @"HTML5",
+                               @4: @"OTHER",
+                               @5: @"APP",
+                               @6: @"CONSULT",
+                               @7: @"WEAPP",
+                               };
+    NSString *typeStr = typeDict[realType];
+    params[@"type"] = typeStr;
+
+    params[@"developerType"] = self.isDeveloperTeam? @"TEAM": self.isDeveloperPersonal? @"PERSONAL": nil;
+    params[@"developerRole"] = [(RewardRoleType *)_roleTypes.firstObject id];
+
+    params[@"name"] = _name;
+    params[@"industry"] = _industry;
+    params[@"price"] = _price;
+    params[@"bargain"] = _bargain;
+    params[@"duration"] = _duration;
+    params[@"description"] = _description_mine;
+    params[@"rewardDemand"] = _rewardDemand;
+    
+    params[@"contactName"] = _contact_name;
+    params[@"contactEmail"] = _contact_email;
+    params[@"countryCode"] = _phoneCountryCode;
+    params[@"isoCode"] = _country;
+    params[@"contactMobile"] = _contact_mobile;
+    params[@"verifyCode"] = _contact_mobile_code;
+    params[@"agree"] = @(YES);
+//    params[@"testService"] = _testService ?: @(NO);
+//    params[@"survey_extra"] = _survey_extra;
     return params;
 }
 

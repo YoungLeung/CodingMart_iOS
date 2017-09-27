@@ -13,4 +13,9 @@
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSNumber *typeId, *totalPrice;
 @property (strong, nonatomic) NSNumber *completed;
+
+@property (assign, nonatomic) BOOL isTeam;
+
++ (instancetype)teamRoleType;
+
 @end

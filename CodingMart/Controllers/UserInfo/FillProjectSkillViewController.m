@@ -210,8 +210,8 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row == 1) {//项目类型
         NSArray *list = @[@"Web 网站",
-                          @"移动应用 APP",
-                          @"微信开发",
+                          @"APP 开发",
+                          @"微信公众号",
                           @"HTML5 应用",
                           @"其他"];
         NSInteger curRow = 0;

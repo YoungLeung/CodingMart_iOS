@@ -328,9 +328,12 @@
 }
 
 - (void)post_Reward:(Reward *)reward block:(void (^)(id data, NSError *error))block {
-    NSString *path = @"api/reward2";
+    NSString *path = @"api/project";
     NSDictionary *params = [reward toPostParams];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            reward.id = data[@"id"];
+        }
         block(data, error);
     }];
 }
@@ -585,6 +588,14 @@
     NSString *path = @"api/rewards-preview";
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         block(data[@"data"], error);
+    }];
+}
+
+- (void)get_roleTypesBlock:(void (^)(NSArray<RewardRoleType *> *list, NSError *error))block{
+    NSString *path = @"api/reward/role/types";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        NSArray *list = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"RewardRoleType"];
+        block(list, error);
     }];
 }
 
@@ -1093,6 +1104,15 @@
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/mpay/withdraw" withParams:[account toWithdrawParams] withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             data = [NSObject objectOfClass:@"Withdraw" fromJSON:data];
+        }
+        block(data, error);
+    }];
+}
+
+- (void)post_GenerateOrderWithRewardId:(NSNumber *)rewardId block:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[NSString stringWithFormat:@"api/project/publish/payment/%@", rewardId] withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject objectOfClass:@"MPayOrder" fromJSON:data];
         }
         block(data, error);
     }];

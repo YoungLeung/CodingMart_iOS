@@ -96,7 +96,8 @@
     _priceBottomConstraint.constant = _reward.roleTypesDisplay.length > 0? 0: -20;
     
     [_payBtn setTitle:_reward.mpay.boolValue? @"支付订金":@"立即付款" forState:UIControlStateNormal];
-    _conversationBtn.hidden = ![_reward hasConversation];
+    _conversationBtn.hidden = YES;
+//    _conversationBtn.hidden = ![_reward hasConversation];
 }
 
 - (NSAttributedString *)p_payTipStr{

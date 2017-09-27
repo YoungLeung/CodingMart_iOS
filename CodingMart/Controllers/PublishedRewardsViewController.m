@@ -16,6 +16,7 @@
 #import "PublishRewardViewController.h"
 #import "MPayRewardOrderGenerateViewController.h"
 #import "ConversationViewController.h"
+#import "MPayRewardOrderPayViewController.h"
 
 @interface PublishedRewardsViewController ()<UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
@@ -125,15 +126,26 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)goToPayReward:(Reward *)reward{
-    if (reward.mpay.boolValue) {
-        MPayRewardOrderGenerateViewController *vc = [MPayRewardOrderGenerateViewController vcInStoryboard:@"Pay"];
-        vc.curReward = reward;
-        [self.navigationController pushViewController:vc animated:YES];
-    }else{
-        PayMethodViewController *vc = [PayMethodViewController storyboardVC];
-        vc.curReward = reward;
-        [self.navigationController pushViewController:vc animated:YES];
-    }
+    [NSObject showHUDQueryStr:@"生成订单..."];
+    WEAKSELF;
+    [[Coding_NetAPIManager sharedManager] post_GenerateOrderWithRewardId:reward.id block:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (data) {
+            MPayRewardOrderPayViewController *vc = [MPayRewardOrderPayViewController vcInStoryboard:@"Pay"];
+            vc.curMPayOrder = data;
+            vc.curReward = reward;
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        }
+    }];
+//    if (reward.mpay.boolValue) {
+//        MPayRewardOrderGenerateViewController *vc = [MPayRewardOrderGenerateViewController vcInStoryboard:@"Pay"];
+//        vc.curReward = reward;
+//        [self.navigationController pushViewController:vc animated:YES];
+//    }else{
+//        PayMethodViewController *vc = [PayMethodViewController storyboardVC];
+//        vc.curReward = reward;
+//        [self.navigationController pushViewController:vc animated:YES];
+//    }
 }
 
 - (void)goToRewardConversation:(Reward *)reward{
