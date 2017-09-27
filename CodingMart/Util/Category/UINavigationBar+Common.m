@@ -10,10 +10,10 @@
 
 @implementation UINavigationBar (Common)
 - (void)setupBrandStyle{
-    self.translucent = YES;
+    self.translucent = NO;
     [self setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
     [self setShadowImage:nil];
-    self.barTintColor = kColorBarTint;
+    self.barTintColor = kColorBrandBlue;
     [self p_hideBorderInView:self];
 }
 - (void)setupClearBGStyle{
