@@ -35,7 +35,8 @@
 }
 
 - (NSNumber *)high_paid{
-    return _high_paid ?: _highPaid;
+    return @0;
+//    return _high_paid ?: _highPaid;
 }
 
 - (NSNumber *)apply_count{
