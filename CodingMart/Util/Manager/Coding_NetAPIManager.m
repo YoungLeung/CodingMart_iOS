@@ -47,6 +47,7 @@
 #import "IdentityInfo.h"
 #import "MartSurvey.h"
 #import "EnterpriseCertificate.h"
+#import "CodingSetting.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -1244,6 +1245,23 @@
         block(data, error);
     }];
 }
+
+- (void)get_SettingBlock:(void (^)(CodingSetting *data, NSError *error))block{
+    NSString *path = @"api/settings";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        CodingSetting *setting = nil;
+        if (!error) {
+            NSArray<NSDictionary *> *settingList = data[@"setting"];
+            NSMutableDictionary *settingDict = [NSMutableDictionary new];
+            [settingList enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                settingDict[obj[@"code"]] = obj[@"value"];
+            }];
+            setting = [NSObject objectOfClass:@"CodingSetting" fromJSON:settingDict];
+        }
+        block(setting, error);
+    }];
+}
+
 
 #pragma mark 自主评估系统
 

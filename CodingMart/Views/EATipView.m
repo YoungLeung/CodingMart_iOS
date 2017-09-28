@@ -30,13 +30,13 @@
         }];
         _contentView = [UIView new];
         _contentView.backgroundColor = [UIColor colorWithHexString:@"0xFFFFFF"];
-        _contentView.layer.cornerRadius = 2.0;
+        _contentView.layer.cornerRadius = 8.0;
         [self addSubview:_contentView];
-        CGFloat barOrTitleHeight = 44.0;
+        CGFloat barOrTitleHeight = 49.0;
         _topLineV = [UIView new];
         _bottomLineV = [UIView new];
         _splitLineV = [UIView new];
-        _topLineV.backgroundColor = [UIColor colorWithHexString:@"0x4289DB"];
+        _topLineV.backgroundColor = [UIColor colorWithHexString:@"0xE0E6ED"];
         _bottomLineV.backgroundColor = [UIColor colorWithHexString:@"0xCCCCCC"];
         _splitLineV.backgroundColor = [UIColor colorWithHexString:@"0xCCCCCC"];
         [_contentView addSubview:_topLineV];
@@ -44,8 +44,8 @@
         [_contentView addSubview:_splitLineV];
         [_topLineV mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(_contentView).offset(barOrTitleHeight);
-            make.left.equalTo(_contentView).offset(15);
-            make.right.equalTo(_contentView).offset(-15);
+            make.left.equalTo(_contentView);
+            make.right.equalTo(_contentView);
             make.height.mas_equalTo(0.5);
         }];
         [_bottomLineV mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -60,14 +60,14 @@
             make.width.mas_equalTo(0.5);
         }];
         _titleL = [UILabel new];
-        _titleL.font = [UIFont systemFontOfSize:15];
-        _titleL.textColor = [UIColor blackColor];
+        _titleL.font = [UIFont systemFontOfSize:18];
+        _titleL.textColor = [UIColor colorWithHexString:@"0x273444"];
         [_contentView addSubview:_titleL];
         [_titleL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.bottom.equalTo(_topLineV);
-            make.top.equalTo(_contentView);
+            make.left.equalTo(_topLineV).offset(15);
+            make.bottom.equalTo(_topLineV);
+            make.top.equalTo(_contentView).offset(5);
         }];
-        
         
         _cancelBtn = [UIButton new];
         [_cancelBtn setImage:[UIImage imageNamed:@"button_cancel"] forState:UIControlStateNormal];
@@ -81,12 +81,13 @@
         
         _tipL = [UILabel new];
         _tipL.font = [UIFont systemFontOfSize:14];
-        _tipL.textColor = [UIColor colorWithHexString:@"0x222222"];
+        _tipL.textColor = [UIColor colorWithHexString:@"0x1F2D3D"];
         _tipL.numberOfLines = 0;
         [_contentView addSubview:_tipL];
         [_tipL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.equalTo(_topLineV);
-            make.top.equalTo(_topLineV).offset(25);
+            make.left.equalTo(_topLineV).offset(15);
+            make.right.equalTo(_topLineV).offset(-15);
+            make.top.equalTo(_topLineV).offset(15);
         }];
         
         _leftBtn = [UIButton new];
@@ -164,7 +165,7 @@
     
 //    CGFloat tipHeight = [_tipStr getHeightWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(view.width - 60, CGFLOAT_MAX)];
     CGFloat tipHeight = [_tipL sizeThatFits:CGSizeMake(view.width - 60, CGFLOAT_MAX)].height;
-    CGFloat viewHeight = 44 + 25 + tipHeight + 25 + 44;
+    CGFloat viewHeight = 49 + 25 + tipHeight + 25 + 44;
     BOOL hideBottom = _leftBtn.titleLabel.text.length <= 0 && _rightBtn.titleLabel.text.length <= 0;
     _leftBtn.hidden = _rightBtn.hidden = _bottomLineV.hidden = _splitLineV.hidden = hideBottom;
     viewHeight -= hideBottom? 45: 0;
@@ -181,10 +182,15 @@
 }
 
 + (instancetype)instancetypeWithTitle:(NSString *)title tipStr:(NSString *)tipStr{
-    EATipView *eaView = [EATipView new];
-    eaView.title = title;
-    eaView.tipStr = tipStr;
-    return eaView;
+//    EATipView *eaView = [EATipView new];
+//    eaView.title = title;
+//    eaView.tipStr = tipStr;
+//    return eaView;
+    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:tipStr];
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    [paragraphStyle setLineSpacing:5.0];
+    [attrStr addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [tipStr length])];
+    return [EATipView instancetypeWithTitle:title attrStr:attrStr];
 }
 
 + (instancetype)instancetypeWithTitle:(NSString *)title attrStr:(NSAttributedString *)attrStr{

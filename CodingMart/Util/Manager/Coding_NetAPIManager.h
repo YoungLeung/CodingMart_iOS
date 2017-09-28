@@ -16,7 +16,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
     PurposeToPasswordReset
 };
 
-@class Reward, FeedBackInfo, SettingNotificationInfo, VerifiedInfo, FillUserInfo, FillSkills, RewardDetail, JoinInfo, Rewards, SkillPro, SkillRole, MartSkill, RewardPrivate, Activities, MPayOrders, MPayPassword, MPayAccount, MPayAccounts, Withdraw, MartNotifications, FreezeRecords, ProjectIndustry, IdentityInfo, MartSurvey;
+@class Reward, FeedBackInfo, SettingNotificationInfo, VerifiedInfo, FillUserInfo, FillSkills, RewardDetail, JoinInfo, Rewards, SkillPro, SkillRole, MartSkill, RewardPrivate, Activities, MPayOrders, MPayPassword, MPayAccount, MPayAccounts, Withdraw, MartNotifications, FreezeRecords, ProjectIndustry, IdentityInfo, MartSurvey, CodingSetting;
 
 
 @interface Coding_NetAPIManager : NSObject
@@ -140,6 +140,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)get_StartModelBlock:(void (^)(id data, NSError *error))block;
 - (void)get_BannerListBlock:(void (^)(id data, NSError *error))block;
 //- (void)get_is2FAOpenBlock:(void (^)(BOOL is2FAOpen, NSError *error))block;
+- (void)get_SettingBlock:(void (^)(CodingSetting *data, NSError *error))block;
 
 
 #pragma mark 自主评估系统

@@ -28,6 +28,7 @@
 #include "UIViewController+Common.h"
 #import "EnterpriseMainViewController.h"
 #import "MPayRewardOrderPayViewController.h"
+#import "CodingSetting.h"
 
 @interface PublishRewardViewController ()
 @property (strong, nonatomic) Reward *rewardToBePublished;
@@ -63,9 +64,16 @@
 @property (weak, nonatomic) IBOutlet UITextField *durationF;
 @property (weak, nonatomic) IBOutlet UIPlaceHolderTextView *rewardDemandTextView;
 
+@property (weak, nonatomic) IBOutlet UILabel *priceL;
+@property (weak, nonatomic) IBOutlet UILabel *payTipL;
+@property (weak, nonatomic) IBOutlet UILabel *promoteL;
+@property (weak, nonatomic) IBOutlet UIView *promoteV;
+
+
 @property (assign, nonatomic) BOOL isPhoneNeeded, isRewardNew;
 
 @property (strong, nonatomic) NSArray<RewardRoleType *> *roleTypes;
+@property (strong, nonatomic) CodingSetting *setting;
 @end
 
 @implementation PublishRewardViewController
@@ -85,15 +93,40 @@
                   @"小程序",
                   @"HTML5 应用",
                   @"其他"];
-
+    
     if (!_rewardToBePublished) {
         _rewardToBePublished = [Reward rewardToBePublished];
         _isRewardNew = YES;
     }
     _isPhoneNeeded = [Login isLogin];
-    [self setupRAC];
-
     [self bindHeaderUI];
+    self.tableView.tableFooterView.hidden = YES;
+    [self refresh];
+}
+
+- (void)refresh{
+    [self.view beginLoading];
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] get_SettingBlock:^(CodingSetting *data, NSError *error) {
+        [weakSelf.view endLoading];
+        if (!error) {
+            [self.view removeBlankPageView];
+            weakSelf.setting = data;
+        }else{
+            [self.view configBlankPageErrorBlock:^(id sender) {
+                [weakSelf refresh];
+            }];
+        }
+    }];
+}
+
+- (void)setSetting:(CodingSetting *)setting{
+    _setting = setting;
+    self.tableView.tableFooterView.hidden = (_setting == nil);
+    [self.tableView reloadData];
+    if (_setting) {
+        [self setupRAC];
+    }
 }
 
 - (void)bindHeaderUI{
@@ -194,12 +227,21 @@
     [_agreementL addLinkToStr:@"《码市用户权责条款》" value:nil hasUnderline:NO clickedBlock:^(id value) {
         [weakSelf goToPublishAgreement];
     }];
-    [_budgetTipL addLinkToStr:@"去评估" value:nil hasUnderline:NO clickedBlock:^(id value) {
-        RootQuoteViewController *vc = [RootQuoteViewController storyboardVC];
+    [_budgetTipL addLinkToStr:@"操作文档" value:nil hasUnderline:NO clickedBlock:^(id value) {
+        MartWebViewController *vc = [[MartWebViewController alloc] initWithUrlStr:@"/help/question/16"];
         [self.navigationController pushViewController:vc animated:YES];
     }];
     
-    [self.nextStepBtn setTitle:_rewardToBePublished.need_pay_prepayment.boolValue? @"付款并发布": @"提交" forState:UIControlStateNormal];
+    [self.nextStepBtn setTitle:_rewardToBePublished.need_pay_prepayment.boolValue? _setting.project_publish_payment.floatValue > .1? @"付款并发布": @"发布": @"提交" forState:UIControlStateNormal];
+    _priceL.text = [NSString stringWithFormat:@"￥%.1f", _setting.project_publish_payment.floatValue];
+    _promoteL.text = _setting.project_publish_payment_color;
+    _promoteV.hidden = _promoteL.text.length == 0;
+    if (_setting.project_publish_payment_deadline) {
+        NSString *tipStr = [NSString stringWithFormat:@"%@%@", _setting.project_publish_payment_tip, _setting.project_publish_payment_deadline];
+        [_payTipL setAttrStrWithStr:tipStr diffColorStr:_setting.project_publish_payment_deadline diffColor:[UIColor colorWithHexString:@"0xF75288"]];
+    }else{
+        _payTipL.text = _setting.project_publish_payment_tip;
+    }
 }
 
 #pragma mark Nav_Back
@@ -340,7 +382,7 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
             }];
         }
         __weak typeof(self) weakSelf = self;
-        [ActionSheetStringPicker showPickerWithTitle:nil rows:@[list] initialSelection:@[@(curRow)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
+        [ActionSheetStringPicker showPickerWithTitle:@"招募角色" rows:@[list] initialSelection:@[@(curRow)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
             NSNumber *selectedRow = selectedIndex.firstObject;
             weakSelf.rewardToBePublished.roleTypes = @[_roleTypes[selectedRow.integerValue]].mutableCopy;
         } cancelBlock:nil origin:self.view];
@@ -355,7 +397,7 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
     if ([Login isLogin]) {
         NSString *tipStr = [self p_checkTip];
         if (!_topV.hidden) {
-            [self.tableView setContentOffset:CGPointMake(0, -20 - 40) animated:YES];
+            [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
         }else if (tipStr){
             [NSObject showHudTipStr:tipStr];
         }else{
@@ -407,7 +449,7 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
         [Reward deleteCurDraft];
     }
     if (![(RootTabViewController *)self.rdv_tabBarController checkUpdateTabVCListWithSelectedIndex:2]){
-        if (_rewardToBePublished.need_pay_prepayment.boolValue) {//跳转去支付
+        if (_rewardToBePublished.need_pay_prepayment.boolValue && _setting.project_publish_payment.floatValue > .1) {//跳转去支付
             [NSObject showHUDQueryStr:@"生成订单..."];
             WEAKSELF;
             [[Coding_NetAPIManager sharedManager] post_GenerateOrderWithRewardId:_rewardToBePublished.id block:^(id data, NSError *error) {
@@ -420,26 +462,23 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
                 }
             }];
         }else{
-            [self.navigationController popViewControllerAnimated:YES];
+            __block UIViewController *vc;
+            [self.navigationController.childViewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if ([obj isKindOfClass:[PublishedRewardsViewController class]]) {
+                    vc = obj;
+                    *stop = YES;
+                }
+            }];
+            if (vc) {
+                [self.navigationController popToViewController:vc animated:YES];
+            }else{
+                UINavigationController *nav = self.navigationController;
+                [nav popToRootViewControllerAnimated:NO];
+                PublishedRewardsViewController *publishedVC = [PublishedRewardsViewController storyboardVC];
+                [nav pushViewController:publishedVC animated:YES];
+            }
         }
     }
-//    if (![(RootTabViewController *)self.rdv_tabBarController checkUpdateTabVCListWithSelectedIndex:2]){
-//        __block UIViewController *vc;
-//        [self.navigationController.childViewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//            if ([obj isKindOfClass:[PublishedRewardsViewController class]]) {
-//                vc = obj;
-//                *stop = YES;
-//            }
-//        }];
-//        if (vc) {
-//            [self.navigationController popToViewController:vc animated:YES];
-//        }else{
-//            UINavigationController *nav = self.navigationController;
-//            [nav popToRootViewControllerAnimated:NO];
-//            PublishedRewardsViewController *publishedVC = [PublishedRewardsViewController storyboardVC];
-//            [nav pushViewController:publishedVC animated:YES];
-//        }
-//    }
     [EATipView showAllowNotificationTipInView:kKeyWindow];
 }
 
@@ -456,7 +495,7 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
 #pragma mark Table
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return _rewardToBePublished.need_pay_prepayment.boolValue? 4: 3;
+    return _setting == nil? 0: _rewardToBePublished.need_pay_prepayment.boolValue? 4: 3;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -524,7 +563,7 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
             curRow = curRow != NSNotFound? curRow: 0;
         }
         __weak typeof(self) weakSelf = self;
-        [ActionSheetStringPicker showPickerWithTitle:nil rows:@[list] initialSelection:@[@(curRow)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
+        [ActionSheetStringPicker showPickerWithTitle:@"项目类型" rows:@[list] initialSelection:@[@(curRow)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
             NSNumber *selectedRow = selectedIndex.firstObject;
             NSString *value = [[NSObject rewardTypeLongDict] objectForKey:list[selectedRow.integerValue]];
             weakSelf.rewardToBePublished.type = @(value.integerValue);

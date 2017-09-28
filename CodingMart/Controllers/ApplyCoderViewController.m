@@ -108,7 +108,7 @@
     return (section == 0? minHeight:
             section == 1? 10:
             section == 2? 10:
-            section == 3? 10:
+//            section == 3? 10:
             section == 4? _curCoderDetail.roles.count > 0? 35: minHeight:
             _curCoderDetail.projects.count > 0? 35: minHeight);
 }
@@ -255,7 +255,8 @@
             height = [MartTitleValueCell cellHeightWithStr:str];
         }
     }else if (indexPath.section == 3){
-        height = [CoderTitleButtonCell cellHeight];
+        height = 0;
+//        height = [CoderTitleButtonCell cellHeight];
     }else if (indexPath.section == 4){
         height = [SkillRoleCell cellHeightWithObj:_curCoderDetail.roles[indexPath.row]];
     }else{
