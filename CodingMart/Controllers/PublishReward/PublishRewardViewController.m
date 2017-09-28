@@ -70,7 +70,7 @@
 @property (weak, nonatomic) IBOutlet UIView *promoteV;
 
 
-@property (assign, nonatomic) BOOL isPhoneNeeded, isRewardNew;
+@property (assign, nonatomic) BOOL isPhoneNeeded, isRewardNew, isAgreeTIAOKUAN;
 
 @property (strong, nonatomic) NSArray<RewardRoleType *> *roleTypes;
 @property (strong, nonatomic) CodingSetting *setting;
@@ -99,6 +99,7 @@
         _isRewardNew = YES;
     }
     _isPhoneNeeded = [Login isLogin];
+    _isAgreeTIAOKUAN = YES;
     [self bindHeaderUI];
     self.tableView.tableFooterView.hidden = YES;
     [self refresh];
@@ -274,6 +275,16 @@
 
 #pragma mark - Button
 
+- (IBAction)agreeButtonClicked:(UIButton *)sender {
+    _isAgreeTIAOKUAN = !_isAgreeTIAOKUAN;
+    for (UIView *subV in sender.subviews) {
+        if ([subV isKindOfClass:[UIImageView class]]) {
+            [(UIImageView *)subV setImage:[UIImage imageNamed:_isAgreeTIAOKUAN? @"publish_checked": @"publish_uncheck"]];
+        }
+    }
+}
+
+
 - (IBAction)countryCodeBtnClicked:(id)sender {
     CountryCodeListViewController *vc = [CountryCodeListViewController storyboardVC];
     WEAKSELF;
@@ -424,7 +435,8 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
 
 - (NSString *)p_checkTip{
     NSString *tipStr = nil;
-    tipStr = (!_rewardToBePublished.type? @"请选择您的项目类型":
+    tipStr = (!_isAgreeTIAOKUAN? @"请同意遵守《码市用户权责条款》":
+              !_rewardToBePublished.type? @"请选择您的项目类型":
               !_rewardToBePublished.roleTypes? @"请选择您招募的开发者类型":
               _rewardToBePublished.name.length <= 0? @"请填写项目名称":
               _rewardToBePublished.industry.length <= 0? @"请填写行业信息":

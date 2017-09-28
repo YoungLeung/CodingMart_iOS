@@ -360,14 +360,8 @@
                             <rect key="frame" x="0.0" y="2015.5" width="320" height="120"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击「提交」，代表您同意《码市用户权责条款》" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mZ9-Fa-uaY" customClass="UITTTAttributedLabel">
-                                    <rect key="frame" x="25" y="15" width="270" height="14.5"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                    <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cvQ-wh-cAx" customClass="TableViewFooterButton">
-                                    <rect key="frame" x="15" y="44.5" width="290" height="44"/>
+                                    <rect key="frame" x="15" y="15" width="290" height="44"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="fiO-EV-FBF"/>
                                     </constraints>
@@ -376,14 +370,46 @@
                                         <action selector="nextStepBtnClicked:" destination="Hnk-g1-koc" eventType="touchUpInside" id="9L6-dU-LNY"/>
                                     </connections>
                                 </button>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fgi-x9-q1V" customClass="UIButton">
+                                    <rect key="frame" x="15" y="74" width="290" height="20"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="publish_checked" translatesAutoresizingMaskIntoConstraints="NO" id="EIe-rK-L6n">
+                                            <rect key="frame" x="47" y="1.5" width="16" height="16"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="16" id="743-az-1aO"/>
+                                                <constraint firstAttribute="width" constant="16" id="WWD-4T-Mtf"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="16" id="Wzd-FJ-UX4"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="16" id="klf-O7-mTA"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我同意遵守《码市用户权责条款》" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mZ9-Fa-uaY" customClass="UITTTAttributedLabel">
+                                            <rect key="frame" x="73" y="2.5" width="184" height="14.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstItem="mZ9-Fa-uaY" firstAttribute="centerX" secondItem="fgi-x9-q1V" secondAttribute="centerX" constant="20" id="Eqn-Ci-TW1"/>
+                                        <constraint firstAttribute="height" constant="20" id="Muw-Bx-BCu"/>
+                                        <constraint firstItem="EIe-rK-L6n" firstAttribute="centerY" secondItem="fgi-x9-q1V" secondAttribute="centerY" id="RQN-oU-AzI"/>
+                                        <constraint firstItem="mZ9-Fa-uaY" firstAttribute="leading" secondItem="EIe-rK-L6n" secondAttribute="trailing" constant="10" id="URl-HP-Bmw"/>
+                                        <constraint firstItem="mZ9-Fa-uaY" firstAttribute="centerY" secondItem="fgi-x9-q1V" secondAttribute="centerY" id="xWJ-Jz-jHt"/>
+                                    </constraints>
+                                    <connections>
+                                        <action selector="agreeButtonClicked:" destination="Hnk-g1-koc" eventType="touchUpInside" id="gI7-TP-O5e"/>
+                                    </connections>
+                                </view>
                             </subviews>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
+                                <constraint firstItem="fgi-x9-q1V" firstAttribute="leading" secondItem="Sgv-gE-Cs9" secondAttribute="leading" constant="15" id="69Z-q9-jep"/>
                                 <constraint firstAttribute="trailing" secondItem="cvQ-wh-cAx" secondAttribute="trailing" constant="15" id="766-Ml-SJI"/>
-                                <constraint firstItem="mZ9-Fa-uaY" firstAttribute="centerX" secondItem="Sgv-gE-Cs9" secondAttribute="centerX" id="Fyo-yK-9qR"/>
-                                <constraint firstItem="mZ9-Fa-uaY" firstAttribute="top" secondItem="Sgv-gE-Cs9" secondAttribute="top" constant="15" id="Z0b-Gf-mwB"/>
+                                <constraint firstItem="cvQ-wh-cAx" firstAttribute="top" secondItem="Sgv-gE-Cs9" secondAttribute="top" constant="15" id="VRa-zq-hOM"/>
                                 <constraint firstItem="cvQ-wh-cAx" firstAttribute="leading" secondItem="Sgv-gE-Cs9" secondAttribute="leading" constant="15" id="bfB-40-QY0"/>
-                                <constraint firstItem="cvQ-wh-cAx" firstAttribute="top" secondItem="mZ9-Fa-uaY" secondAttribute="bottom" constant="15" id="mDF-us-e4h"/>
+                                <constraint firstItem="fgi-x9-q1V" firstAttribute="top" secondItem="cvQ-wh-cAx" secondAttribute="bottom" constant="15" id="l8U-Qr-4I9"/>
+                                <constraint firstAttribute="trailing" secondItem="fgi-x9-q1V" secondAttribute="trailing" constant="15" id="liI-CQ-tcz"/>
                             </constraints>
                         </view>
                         <sections>
@@ -486,7 +512,7 @@
                                                     <rect key="frame" x="0.0" y="40" width="320" height="80"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="团队项目金额必须高于 10,000 元" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="6wu-gH-W0a">
-                                                            <rect key="frame" x="44" y="48" width="261" height="17"/>
+                                                            <rect key="frame" x="43" y="48" width="262" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.52941176470588236" green="0.58823529411764708" blue="0.6588235294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -499,7 +525,7 @@
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="招募团队" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fGx-d7-tgF">
-                                                            <rect key="frame" x="44" y="15" width="61.5" height="20"/>
+                                                            <rect key="frame" x="43" y="15" width="61.5" height="20"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="FyQ-oy-uqG"/>
                                                             </constraints>
@@ -512,10 +538,9 @@
                                                     <constraints>
                                                         <constraint firstItem="mUL-Ma-Vf1" firstAttribute="centerY" secondItem="PgC-xd-11j" secondAttribute="centerY" id="1lf-8x-M1F"/>
                                                         <constraint firstItem="fGx-d7-tgF" firstAttribute="top" secondItem="PgC-xd-11j" secondAttribute="top" constant="15" id="5FY-eo-S7B"/>
+                                                        <constraint firstItem="fGx-d7-tgF" firstAttribute="leading" secondItem="mUL-Ma-Vf1" secondAttribute="trailing" constant="12" id="AjG-mg-Ndy"/>
                                                         <constraint firstAttribute="height" constant="80" id="Djv-b3-qCL"/>
-                                                        <constraint firstItem="mUL-Ma-Vf1" firstAttribute="leading" secondItem="PgC-xd-11j" secondAttribute="leading" constant="15" id="Uu7-MR-dGJ"/>
                                                         <constraint firstItem="6wu-gH-W0a" firstAttribute="leading" secondItem="fGx-d7-tgF" secondAttribute="leading" id="VBc-cO-iek"/>
-                                                        <constraint firstItem="fGx-d7-tgF" firstAttribute="leading" secondItem="PgC-xd-11j" secondAttribute="leading" constant="44" id="gBS-iY-rsz"/>
                                                         <constraint firstAttribute="trailing" secondItem="6wu-gH-W0a" secondAttribute="trailing" constant="15" id="hqe-X4-e5K"/>
                                                         <constraint firstAttribute="bottom" secondItem="6wu-gH-W0a" secondAttribute="bottom" constant="15" id="iW6-0P-LTb"/>
                                                     </constraints>
@@ -526,6 +551,7 @@
                                                 <constraint firstItem="PgC-xd-11j" firstAttribute="top" secondItem="KnN-wO-zmv" secondAttribute="bottom" id="CBL-1h-Th3"/>
                                                 <constraint firstItem="KnN-wO-zmv" firstAttribute="top" secondItem="wbg-sk-Phg" secondAttribute="topMargin" constant="12" id="CSH-ZW-FSx"/>
                                                 <constraint firstItem="KnN-wO-zmv" firstAttribute="leading" secondItem="wbg-sk-Phg" secondAttribute="leadingMargin" constant="7" id="QSJ-qm-SOg"/>
+                                                <constraint firstItem="mUL-Ma-Vf1" firstAttribute="leading" secondItem="KnN-wO-zmv" secondAttribute="leading" id="g4h-8e-mhg"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="KnN-wO-zmv" secondAttribute="trailing" constant="7" id="meP-z8-pnx"/>
                                                 <constraint firstAttribute="trailing" secondItem="PgC-xd-11j" secondAttribute="trailing" id="tRy-7T-YuE"/>
                                             </constraints>
@@ -542,7 +568,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="招募个人" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ufq-zJ-dXP">
-                                                            <rect key="frame" x="44" y="15" width="61.5" height="20"/>
+                                                            <rect key="frame" x="43" y="15" width="61.5" height="20"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="dWa-eU-vhQ"/>
                                                             </constraints>
@@ -551,7 +577,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="个人项目金额必须低于 50,000 元" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Uzr-cK-bmA">
-                                                            <rect key="frame" x="44" y="48" width="261" height="17"/>
+                                                            <rect key="frame" x="43" y="48" width="262" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.52941176470588236" green="0.58823529411764708" blue="0.6588235294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -597,10 +623,9 @@
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="bottom" secondItem="Uzr-cK-bmA" secondAttribute="bottom" constant="15" id="6ly-ak-hBK"/>
-                                                        <constraint firstItem="WnR-bl-AoH" firstAttribute="leading" secondItem="nB8-8e-0DV" secondAttribute="leading" constant="15" id="GbA-bO-Zjf"/>
-                                                        <constraint firstItem="Ufq-zJ-dXP" firstAttribute="leading" secondItem="nB8-8e-0DV" secondAttribute="leading" constant="44" id="Hyk-MH-zzO"/>
                                                         <constraint firstAttribute="trailing" secondItem="JgU-aG-W94" secondAttribute="trailing" constant="15" id="IAT-Bv-Imv"/>
                                                         <constraint firstItem="Ufq-zJ-dXP" firstAttribute="top" secondItem="nB8-8e-0DV" secondAttribute="top" constant="15" id="MdB-FB-aC4"/>
+                                                        <constraint firstItem="Ufq-zJ-dXP" firstAttribute="leading" secondItem="WnR-bl-AoH" secondAttribute="trailing" constant="12" id="ODL-yI-Ktx"/>
                                                         <constraint firstAttribute="height" constant="80" id="bXk-DY-PKH"/>
                                                         <constraint firstAttribute="trailing" secondItem="Uzr-cK-bmA" secondAttribute="trailing" constant="15" id="cGD-0r-0ys"/>
                                                         <constraint firstItem="Uzr-cK-bmA" firstAttribute="leading" secondItem="Ufq-zJ-dXP" secondAttribute="leading" id="hgJ-Ng-nJX"/>
@@ -613,6 +638,7 @@
                                                 <constraint firstAttribute="trailing" secondItem="nB8-8e-0DV" secondAttribute="trailing" id="6WX-4F-ekB"/>
                                                 <constraint firstItem="nB8-8e-0DV" firstAttribute="leading" secondItem="WK9-MJ-XD1" secondAttribute="leading" id="WRF-WY-Dng"/>
                                                 <constraint firstItem="nB8-8e-0DV" firstAttribute="top" secondItem="WK9-MJ-XD1" secondAttribute="top" id="d7k-oW-q1h"/>
+                                                <constraint firstItem="WnR-bl-AoH" firstAttribute="leading" secondItem="WK9-MJ-XD1" secondAttribute="leadingMargin" constant="7" id="ssc-AF-yzd"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1957,6 +1983,7 @@
     <resources>
         <image name="button_arrow_left" width="15" height="15"/>
         <image name="icon_info" width="15" height="15"/>
+        <image name="publish_checked" width="16" height="16"/>
         <image name="publish_reward_step1_N" width="80" height="80"/>
         <image name="publish_reward_step1_Y" width="80" height="80"/>
         <image name="publish_reward_step2_N" width="80" height="80"/>

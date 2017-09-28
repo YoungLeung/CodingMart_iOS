@@ -68,16 +68,17 @@
     return curT? !curT.isTeam: NO;
 }
 - (BOOL)needToPay{
-        return ((_balance.floatValue > 0 &&
-                !_mpay.boolValue &&
-                (_status.integerValue == RewardStatusFresh ||
-                 _status.integerValue == RewardStatusAccepted ||
-                 _status.integerValue == RewardStatusRecruiting ||
-                 _status.integerValue == RewardStatusDeveloping ||
-                 _status.integerValue == RewardStatusPrepare))
-                ||
-                (_mpay.boolValue &&
-                 _need_pay_prepayment.boolValue));
+    return _need_pay_prepayment.boolValue;
+//        return ((_balance.floatValue > 0 &&
+//                !_mpay.boolValue &&
+//                (_status.integerValue == RewardStatusFresh ||
+//                 _status.integerValue == RewardStatusAccepted ||
+//                 _status.integerValue == RewardStatusRecruiting ||
+//                 _status.integerValue == RewardStatusDeveloping ||
+//                 _status.integerValue == RewardStatusPrepare))
+//                ||
+//                (_mpay.boolValue &&
+//                 _need_pay_prepayment.boolValue));
 }
 - (BOOL)hasPaidSome{
 //    return (_price_with_fee.floatValue - _balance.floatValue > 0);
