@@ -15,7 +15,7 @@
 #import "EAXibTipView.h"
 #import "JTSImageViewController.h"
 #import "Coding_NetAPIManager.h"
-#import <MBProgressHUD.h>
+#import <MBProgressHUD/MBProgressHUD.h>
 #import "EnterpriseAttachment.h"
 #import "EnterpriseCertificate.h"
 #import "IdentityResultViewController.h"

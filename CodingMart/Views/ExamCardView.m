@@ -12,8 +12,7 @@
 #import "ExamCardQuestionCell.h"
 #import "ExamCardTitleCell.h"
 
-#import <UITableView+FDTemplateLayoutCell.h>
-
+#import <UITableView+FDTemplateLayoutCell/UITableView+FDTemplateLayoutCell.h>
 
 
 @interface ExamCardView ()<UITableViewDataSource,UITableViewDelegate>

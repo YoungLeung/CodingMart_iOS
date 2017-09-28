@@ -18,7 +18,7 @@
 #import <UMengSocial/WXApi.h>
 #import "PayMethodViewController.h"
 #import <Google/Analytics.h>
-#import <FLEX/FLEXManager.h>
+//#import <FLEX/FLEXManager.h>
 #import "WelcomeViewController.h"
 #import "MPayDepositViewController.h"
 #import "PublishRewardViewController.h"
