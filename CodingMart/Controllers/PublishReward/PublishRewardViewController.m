@@ -235,7 +235,11 @@
         [self.navigationController pushViewController:vc animated:YES];
     }];
     
-    [self.nextStepBtn setTitle:_rewardToBePublished.need_pay_prepayment.boolValue? _setting.project_publish_payment.floatValue > .1? @"付款并发布": @"发布": @"提交" forState:UIControlStateNormal];
+    [self.nextStepBtn setTitle:
+     [[Login curLoginUser] isEnterpriseSide]? @"发布":
+     _rewardToBePublished.need_pay_prepayment.boolValue?
+     _setting.project_publish_payment.floatValue > .1? @"付款并发布": @"发布"
+                              :@"提交" forState:UIControlStateNormal];
     _priceL.text = [NSString stringWithFormat:@"￥%.1f", _setting.project_publish_payment.floatValue];
     _promoteL.text = _setting.project_publish_payment_color;
     _promoteV.hidden = _promoteL.text.length == 0;
@@ -463,7 +467,8 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
         [Reward deleteCurDraft];
     }
     if (![(RootTabViewController *)self.rdv_tabBarController checkUpdateTabVCListWithSelectedIndex:2]){
-        if (_rewardToBePublished.need_pay_prepayment.boolValue && _setting.project_publish_payment.floatValue > .1) {//跳转去支付
+        if (_rewardToBePublished.need_pay_prepayment.boolValue && _setting.project_publish_payment.floatValue > .1 &&
+            ![[Login curLoginUser] isEnterpriseSide]) {//跳转去支付
             [NSObject showHUDQueryStr:@"生成订单..."];
             WEAKSELF;
             [[Coding_NetAPIManager sharedManager] post_GenerateOrderWithRewardId:_rewardToBePublished.id block:^(id data, NSError *error) {
