@@ -88,6 +88,12 @@
 #pragma mark GoTo VC
 
 - (void)goToPublishWithType:(NSNumber *)type{
+    if (![Login isLogin]) {
+        LoginViewController *vc = [LoginViewController storyboardVCWithUserStr:nil];
+        [UIViewController presentVC:vc dismissBtnTitle:@"取消"];
+        return;
+    }
+    
     Reward *reward = [Reward rewardToBePublished];
     reward.type = type;
     PublishRewardViewController *vc = [PublishRewardViewController storyboardVCWithReward:reward];

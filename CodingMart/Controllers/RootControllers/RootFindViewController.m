@@ -24,6 +24,7 @@
 #import "IdentityViewController.h"
 #import "IdentityResultViewController.h"
 #import "RootQuoteViewController.h"
+#import "LoginViewController.h"
 
 @interface RootFindViewController ()
 @property(strong, nonatomic, readonly) NSArray *dataList;
@@ -218,6 +219,12 @@
 }
 
 - (void)goToPublish:(id)sender {
+    if (![Login isLogin]) {
+        LoginViewController *vc = [LoginViewController storyboardVCWithUserStr:nil];
+        [UIViewController presentVC:vc dismissBtnTitle:@"取消"];
+        return;
+    }
+
     [self.navigationController pushViewController:[PublishRewardViewController storyboardVCWithReward:[sender isKindOfClass:[Reward class]] ? sender : nil] animated:YES];
 }
 

@@ -29,6 +29,8 @@
 #import "EnterpriseMainViewController.h"
 #import "MPayRewardOrderPayViewController.h"
 #import "CodingSetting.h"
+#import "Login.h"
+#import "User.h"
 
 @interface PublishRewardViewController ()
 @property (strong, nonatomic) Reward *rewardToBePublished;
@@ -507,7 +509,9 @@ APP 主要有“热门推荐”、“理财超市”、“我的资产”、“�
 #pragma mark Table
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return _setting == nil? 0: _rewardToBePublished.need_pay_prepayment.boolValue? 4: 3;
+    return _setting == nil? 0:
+    [[Login curLoginUser] isEnterpriseSide]? 3:
+    _rewardToBePublished.need_pay_prepayment.boolValue? 4: 3;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
