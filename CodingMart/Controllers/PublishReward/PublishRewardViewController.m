@@ -92,8 +92,8 @@
     _typeList = @[@"Web 网站",
                   @"APP 开发",
                   @"微信公众号",
-                  @"小程序",
                   @"HTML5 应用",
+                  @"小程序",
                   @"其他"];
     
     if (!_rewardToBePublished) {
@@ -275,8 +275,9 @@
 
 #pragma mark Nav
 - (void)goToPublishAgreement{
-    NSString *pathForServiceterms = [[NSBundle mainBundle] pathForResource:@"publish_agreement" ofType:@"html"];
-    [self goToWebVCWithUrlStr:pathForServiceterms title:@"码市用户权责条款"];
+//    NSString *pathForServiceterms = [[NSBundle mainBundle] pathForResource:@"publish_agreement" ofType:@"html"];
+//    [self goToWebVCWithUrlStr:pathForServiceterms title:@"码市用户权责条款"];
+    [self goToWebVCWithUrlStr:@"/terms.html" title:@"码市用户权责条款"];
 }
 
 #pragma mark - Button

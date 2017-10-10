@@ -125,7 +125,7 @@
                     [_topTipL mas_makeConstraints:^(MASConstraintMaker *make) {
                         make.left.right.equalTo(self.view);
                         make.height.mas_equalTo(40);
-                        make.top.equalTo(self.view).offset([self navBottomY]);
+                        make.top.equalTo(self.view);
                     }];
                 }
                 _topTipL.text = ![loginUser canJoinReward]? @"您还不是认证码士，请前往完善开发者信息>>": @"您的账号还未激活，请前往 Coding 网站激活";

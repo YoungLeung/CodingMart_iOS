@@ -59,7 +59,7 @@
 - (void)titleViewBtnClicked{
     if (!_navDropBeginV) {
         _navDropBeginV = [UIView new];
-        _navDropBeginV.y = [self navBottomY];
+        _navDropBeginV.y = 0;
         [self.view addSubview:_navDropBeginV];
     }
     if (_navDropBeginV.easeDropListView.isShowing) {
@@ -73,7 +73,7 @@
                                     @"已取消",
                                     ];
         WEAKSELF
-        [_navDropBeginV showDropListWithData:statusNameList selectedIndex:_selectedStatusIndex inView:self.view maxHeight:kScreen_Height - [self navBottomY] - self.rdv_tabBarController.tabBar.height actionBlock:^(EaseDropListView *dropView, BOOL isComfirmed) {
+        [_navDropBeginV showDropListWithData:statusNameList selectedIndex:_selectedStatusIndex inView:self.view maxHeight:self.view.height - self.rdv_tabBarController.tabBar.height actionBlock:^(EaseDropListView *dropView, BOOL isComfirmed) {
             if (isComfirmed) {
                 weakSelf.selectedStatusIndex = dropView.selectedIndex;
             }

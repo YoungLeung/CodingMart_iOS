@@ -6,6 +6,8 @@
 //  Copyright © 2016年 net.coding. All rights reserved.
 //
 
+#define kFunctionalEvaluation_TopY 0.0
+
 #import "FunctionalEvaluationViewController.h"
 #import "UIView+BlocksKit.h"
 #import "FunctionMenu.h"
@@ -199,7 +201,7 @@
         _topMenuView = nil;
     }
     
-    _topMenuView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, 44)];
+    _topMenuView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, kFunctionalEvaluation_TopY, kScreen_Width, 44)];
     [_topMenuView setBackgroundColor:[UIColor whiteColor]];
     [_topMenuView setShowsHorizontalScrollIndicator:NO];
     [_topMenuView setShowsVerticalScrollIndicator:NO];
@@ -211,7 +213,7 @@
         [_lineView removeFromSuperview];
         _lineView = nil;
     }
-    _lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 64 + 44 - 0.5, _topMenuView.width, 0.5)];
+    _lineView = [[UIView alloc] initWithFrame:CGRectMake(0, kFunctionalEvaluation_TopY + 44 - 0.5, _topMenuView.width, 0.5)];
     [_lineView setBackgroundColor:[UIColor colorWithHexString:@"DDDDDD"]];
     [self.view addSubview:_lineView];
     
@@ -568,7 +570,7 @@
 
 - (void)addSecondMenu {
     [self generateSecondMenu];
-    _secondMenuTableView = [[UITableView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_firstMenuScrollView.frame), CGRectGetMaxY(_topMenuView.frame), kScreen_Width - _firstMenuScrollView.frame.size.width, kScreen_Height - 44 - 64 - 44)];
+    _secondMenuTableView = [[UITableView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_firstMenuScrollView.frame), CGRectGetMaxY(_topMenuView.frame), kScreen_Width - _firstMenuScrollView.frame.size.width, kScreen_Height - 44 - 64)];
     [_secondMenuTableView setBackgroundColor:[UIColor colorWithHexString:@"eaecee"]];
     [_secondMenuTableView setDelegate:self];
     [_secondMenuTableView setDataSource:self];
@@ -582,6 +584,7 @@
 - (void)addThirdMenu {
     [self generateThirdMenu];
     _thirdMenuTableView = [[UITableView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_secondMenuTableView.frame), CGRectGetMaxY(_topMenuView.frame), kScreen_Width - CGRectGetMaxX(_secondMenuTableView.frame), _secondMenuTableView.frame.size.height) style:UITableViewStylePlain];
+    _thirdMenuTableView.contentInset = UIEdgeInsetsMake(0, 0, _bottomMenuView.height, 0);
     [_thirdMenuTableView setDelegate:self];
     [_thirdMenuTableView setDataSource:self];
     [_thirdMenuTableView setSeparatorColor:[UIColor colorWithHexString:@"DDDDDD"]];
@@ -589,7 +592,8 @@
     [_thirdMenuTableView registerClass:[FunctionalThirdMutableCell class] forCellReuseIdentifier:[FunctionalThirdMutableCell cellID]];
     [_thirdMenuTableView registerClass:[FunctionalHeaderView class] forHeaderFooterViewReuseIdentifier:[FunctionalHeaderView viewID]];
     [_thirdMenuTableView setAllowsMultipleSelection:YES];
-    [self.view addSubview:_thirdMenuTableView];
+    [self.view insertSubview:_thirdMenuTableView belowSubview:_bottomMenuView];
+//    [self.view addSubview:_thirdMenuTableView];
 }
 
 - (void)generateThirdMenu {
@@ -622,7 +626,7 @@
 
 #pragma mark - 底部菜单栏
 - (void)addBottomMenu {
-    _bottomMenuView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreen_Height - 44, kScreen_Width, 44)];
+    _bottomMenuView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreen_Height - 44 - 64, kScreen_Width, 44)];
     [_bottomMenuView setBackgroundColor:[UIColor colorWithHexString:@"414952" andAlpha:0.9]];
     [_bottomMenuView setUserInteractionEnabled:YES];
     

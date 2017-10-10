@@ -155,7 +155,7 @@
 }
 
 - (void)messageInputView:(UIMessageInputView *)inputView heightToBottomChenged:(CGFloat)heightToBottom{
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake([self navBottomY], 0, MAX(CGRectGetHeight(inputView.frame), heightToBottom), 0);
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0, 0, MAX(CGRectGetHeight(inputView.frame), heightToBottom), 0);
     self.myTableView.contentInset = contentInsets;
     self.myTableView.scrollIndicatorInsets = contentInsets;
     //调整内容

@@ -102,8 +102,9 @@
 
 #pragma mark goTo
 - (void)goToServiceTerms{
-    NSString *pathForServiceterms = [[NSBundle mainBundle] pathForResource:@"service_terms" ofType:@"html"];
-    [self goToWebVCWithUrlStr:pathForServiceterms title:@"用户协议"];
+//    NSString *pathForServiceterms = [[NSBundle mainBundle] pathForResource:@"service_terms" ofType:@"html"];
+//    [self goToWebVCWithUrlStr:pathForServiceterms title:@"用户协议"];
+    [self goToWebVCWithUrlStr:@"/agreement.html" title:@"码市用户服务协议"];
 }
 
 

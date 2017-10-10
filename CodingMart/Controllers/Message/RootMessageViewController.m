@@ -56,7 +56,7 @@
 }
 
 - (void)tabBarItemClicked{
-    CGFloat contentOffsetY_Top = -[self navBottomY];
+    CGFloat contentOffsetY_Top = -0;
     if (_myTableView.contentOffset.y > contentOffsetY_Top) {
         [_myTableView setContentOffset:CGPointMake(0, contentOffsetY_Top) animated:YES];
     }else if (!_myTableView.pullRefreshCtrl.isRefreshing){

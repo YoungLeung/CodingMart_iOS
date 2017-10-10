@@ -119,6 +119,10 @@
     }];
 }
 - (IBAction)footerBtnClicked:(id)sender {
+    if ([_global_keyF.text substringToIndex:1].isPureInt) {
+        [NSObject showHudTipStr:@"用户名须以字母开头，且只能包含字母、数字、横线及下划线"];
+        return;
+    }
     [NSObject showHUDQueryStr:@"请稍等..."];
     WEAKSELF;
     [[Coding_NetAPIManager sharedManager] get_CheckGK:_global_keyF.text block:^(NSNumber *isExist, NSError *error0) {
@@ -143,12 +147,6 @@
             [NSObject hideHUDQuery];
         }
     }];
-}
-
-#pragma mark goTo
-- (void)goToServiceTerms{
-    NSString *pathForServiceterms = [[NSBundle mainBundle] pathForResource:@"service_terms" ofType:@"html"];
-    [self goToWebVCWithUrlStr:pathForServiceterms title:@"码市用户服务协议"];
 }
 
 #pragma mark - Navigation

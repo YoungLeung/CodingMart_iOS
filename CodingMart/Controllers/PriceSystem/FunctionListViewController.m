@@ -70,7 +70,7 @@
     NSString *string = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"price_template" ofType:@"html"] encoding:NSUTF8StringEncoding error:&error];
     if (_h5String) {
         string = [string stringByReplacingOccurrencesOfString:@"${webview_content}" withString:_h5String];
-        UIWebView *web = [[UIWebView alloc] initWithFrame:CGRectMake(0, 118+ 64, kScreen_Width, kScreen_Height - _topView.bottom - 64)];
+        UIWebView *web = [[UIWebView alloc] initWithFrame:CGRectMake(0, 118+ 0, kScreen_Width, kScreen_Height - _topView.bottom - 64)];
         [web loadHTMLString:string baseURL:nil];
         [self.view addSubview:web];
     }
@@ -138,7 +138,7 @@
     NSError *error = nil;
     NSString *string = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"price_template" ofType:@"html"] encoding:NSUTF8StringEncoding error:&error];
     string = [string stringByReplacingOccurrencesOfString:@"${webview_content}" withString:h5String];
-    UIWebView *web = [[UIWebView alloc] initWithFrame:CGRectMake(0, 118+ 64, kScreen_Width, kScreen_Height - _topView.bottom - 64)];
+    UIWebView *web = [[UIWebView alloc] initWithFrame:CGRectMake(0, 118+ 0, kScreen_Width, kScreen_Height - _topView.bottom - 64)];
     [web loadHTMLString:string baseURL:nil];
     [self.view addSubview:web];
 }

@@ -50,7 +50,7 @@
     self.title = @"计算结果";
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithIcon:@"price_selected_menu_list" showBadge:NO target:self action:@selector(toFunctionList)];
     
-    _backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 64 + 15, kScreen_Width, 222)];
+    _backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0 + 15, kScreen_Width, 222)];
     [_backgroundView setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:_backgroundView];
     

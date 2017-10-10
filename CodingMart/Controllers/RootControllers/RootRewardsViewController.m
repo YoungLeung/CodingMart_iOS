@@ -50,12 +50,20 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+//    _typeList = @[@"所有类型",
+//                  @"Web 网站",
+//                  @"APP 开发",
+//                  @"微信公众号",
+//                  @"HTML5 应用",
+//                  @"小程序",
+//                  @"咨询",
+//                  @"其他"];
     _typeList = @[@"所有类型",
                   @"Web 网站",
                   @"APP 开发",
                   @"微信公众号",
                   @"HTML5 应用",
-                  @"咨询",
+                  @"小程序",
                   @"其他"];
     _statusList = @[@"所有进度",
                     @"未开始",

@@ -84,11 +84,12 @@
         [weakSelf refreshOrdersMore:YES];
     }];
 
-
     if ([FillUserInfo infoFromLogin].reward_role.intValue == 2) {
         _withdrawI.image = [UIImage imageNamed:@"button_userinfo_mpay_out_disable"];
         _withdrawL.textColor = [UIColor colorWithHexString:@"0xFFADBBCB"];
     }
+    
+    [self scrollViewDidScroll:_myTableView];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -259,8 +260,8 @@
 #pragma mark header tab
 - (void)sectionHeaderBtnClicked:(UIButton *)sender {
     NSLog(@"HeaderBtn");
-    if (self.myTableView.contentOffset.y < CGRectGetHeight(_headerV.frame) - [self navBottomY]) {
-        [self.myTableView setContentOffset:CGPointMake(0, CGRectGetHeight(_headerV.frame) - [self navBottomY])];
+    if (self.myTableView.contentOffset.y < CGRectGetHeight(_headerV.frame) - 0) {
+        [self.myTableView setContentOffset:CGPointMake(0, CGRectGetHeight(_headerV.frame) - 0)];
     }
     NSInteger tag = sender.tag;
     if (self.sectionHeaderV.easeDropListView.isShowing && self.selectedTabIndex == tag) {
@@ -274,7 +275,7 @@
             helpDictionary = _statusDictionary;
         }
         NSArray *selectedList = tag == 0? @[_orders.time ?: _timeList[0]]: tag == 1? _orders.typeList: _orders.statusList;
-        CGFloat maxHeight = kScreen_Height - [self navBottomY] - self.sectionHeaderV.height;
+        CGFloat maxHeight = kScreen_Height - 0 - self.sectionHeaderV.height;
         WEAKSELF;
         [self.myTableView bringSubviewToFront:self.sectionHeaderV];
         [self.sectionHeaderV showDropListMutiple:(tag != 0) withData:list selectedDataList:selectedList
@@ -311,12 +312,12 @@
 
 #pragma mark scroll
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    _topConstraint.constant = MIN(0, scrollView.contentOffset.y + 64);
+    _topConstraint.constant = MIN(0, scrollView.contentOffset.y + 0);
     if (!_sectionHeaderV) {
-        self.sectionHeaderV.y = MAX([self navBottomY], CGRectGetHeight(_headerV.frame) - scrollView.contentOffset.y);
+        self.sectionHeaderV.y = MAX(0, CGRectGetHeight(_headerV.frame) - scrollView.contentOffset.y);
         [self.view addSubview:self.sectionHeaderV];
     }else{
-        self.sectionHeaderV.y = MAX([self navBottomY], CGRectGetHeight(_headerV.frame) - scrollView.contentOffset.y);
+        self.sectionHeaderV.y = MAX(0, CGRectGetHeight(_headerV.frame) - scrollView.contentOffset.y);
     }
 }
 

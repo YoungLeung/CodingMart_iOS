@@ -87,9 +87,8 @@
     [_topLabel setText:[NSString stringWithFormat:@"%@个平台，%@个功能模块", list.platformCount, list.moduleCount]];
     
     // 报价
-    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:NSForegroundColorAttributeName, [UIColor colorWithHexString:@"666666"], nil];
     NSString *priceString = [NSString stringWithFormat:@"预估报价：%@ - %@ 元", list.fromPrice, list.toPrice];
-    NSMutableAttributedString *priceAttributeString = [[NSMutableAttributedString alloc] initWithString:priceString attributes:dict];
+    NSMutableAttributedString *priceAttributeString = [[NSMutableAttributedString alloc] initWithString:priceString];
     [priceAttributeString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"EEA551"] range:NSMakeRange([priceString rangeOfString:@"预估报价："].length, priceString.length - [priceString rangeOfString:@"预估报价："].length - 1)];
     [_priceLabel setAttributedText:priceAttributeString];
     

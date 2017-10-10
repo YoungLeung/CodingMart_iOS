@@ -17,6 +17,7 @@
 #import "MPayRewardOrderGenerateViewController.h"
 #import "ConversationViewController.h"
 #import "MPayRewardOrderPayViewController.h"
+#import "RewardDetail.h"
 
 @interface PublishedRewardsViewController ()<UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
@@ -102,7 +103,19 @@
 #pragma mark VC
 
 - (void)goToPublish:(id)sender{
-    [self.navigationController pushViewController:[PublishRewardViewController storyboardVCWithReward:[sender isKindOfClass:[Reward class]]? sender: nil] animated:YES];
+    if ([sender isKindOfClass:[Reward class]]) {
+        Reward *curReward = sender;
+        [NSObject showHUDQueryStr:nil];
+        __weak typeof(self) weakSelf = self;
+        [[Coding_NetAPIManager sharedManager] get_RewardDetailWithId:curReward.id.integerValue block:^(id data, NSError *error) {
+            [NSObject hideHUDQuery];
+            if (data) {
+                [weakSelf.navigationController pushViewController:[PublishRewardViewController storyboardVCWithReward:[(RewardDetail *)data reward]] animated:YES];
+            }
+        }];
+    }else{
+        [self.navigationController pushViewController:[PublishRewardViewController storyboardVCWithReward:nil] animated:YES];
+    }
 }
 
 - (void)goToPrivateReward:(Reward *)reward{
