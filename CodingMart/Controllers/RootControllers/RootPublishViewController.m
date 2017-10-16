@@ -30,6 +30,7 @@
                   @"APP 开发",
                   @"微信公众号",
                   @"HTML5 应用",
+                  @"小程序",
                   @"其他"];
     self.tableView.tableHeaderView = [self p_tableHeaderFooterV];
     self.tableView.tableFooterView = [self p_tableHeaderFooterV];
@@ -59,15 +60,26 @@
 
 #pragma mark Table M
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _typeList.count;
+    return (_typeList.count + 1)/ 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     PublishTypeCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_PublishTypeCell forIndexPath:indexPath];
-    cell.title = _typeList[indexPath.row];
-    cell.imageName = [NSString stringWithFormat:@"icon_publish_type_%@", [NSObject rewardTypeLongDict][_typeList[indexPath.row]]];
-//    cell.bottomLineView.hidden = indexPath.row == _typeList.count- 1;
-    cell.bottomLineView.hidden = YES;
+    NSInteger leftIndex = indexPath.row * 2;
+    NSInteger rightIndex = leftIndex + 1;
+    __weak typeof(self) weakSelf = self;
+    cell.leftL.text = _typeList[leftIndex];
+    cell.leftImageV.image = [UIImage imageNamed:[NSString stringWithFormat:@"icon_publish_type_%@", [NSObject rewardTypeLongDict][_typeList[leftIndex]]]];
+    cell.leftBtnBlock = ^{
+        NSString *typeValue = [NSObject rewardTypeLongDict][weakSelf.typeList[leftIndex]];
+        [weakSelf goToPublishWithType:@(typeValue.integerValue)];
+    };
+    cell.rightL.text = _typeList[rightIndex];
+    cell.rightImageV.image = [UIImage imageNamed:[NSString stringWithFormat:@"icon_publish_type_%@", [NSObject rewardTypeLongDict][_typeList[rightIndex]]]];
+    cell.rightBtnBlock = ^{
+        NSString *typeValue = [NSObject rewardTypeLongDict][weakSelf.typeList[rightIndex]];
+        [weakSelf goToPublishWithType:@(typeValue.integerValue)];
+    };
     return cell;
 }
 
@@ -76,13 +88,13 @@
     contentHeight -= [self navBottomY];
     contentHeight -= CGRectGetHeight(self.rdv_tabBarController.tabBar.frame);
     contentHeight -= 2* [self p_tableHeaderFooterH];
-    return contentHeight/_typeList.count;
+    return contentHeight/((_typeList.count + 1)/ 2);
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSString *typeValue = [NSObject rewardTypeLongDict][_typeList[indexPath.row]];
-    [self goToPublishWithType:@(typeValue.integerValue)];
+//    NSString *typeValue = [NSObject rewardTypeLongDict][_typeList[indexPath.row]];
+//    [self goToPublishWithType:@(typeValue.integerValue)];
 }
 
 #pragma mark GoTo VC
