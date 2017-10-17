@@ -12,9 +12,6 @@
 #import "ExamCardQuestionCell.h"
 #import "ExamCardTitleCell.h"
 
-#import <UITableView+FDTemplateLayoutCell/UITableView+FDTemplateLayoutCell.h>
-
-
 @interface ExamCardView ()<UITableViewDataSource,UITableViewDelegate>
 @property(nonatomic,strong)UITableView *tableView;
 @property(nonatomic,strong)NSString *questionID;
