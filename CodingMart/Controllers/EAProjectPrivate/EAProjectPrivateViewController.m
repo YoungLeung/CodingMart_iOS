@@ -80,13 +80,22 @@
     UIView *tableFooterView = [UIView new];
     if ([_curProM.status isEqualToString:@"RECRUITING"] &&
         _curProM.applyList.count == 0) {
-        UIImageView *imageV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"blankpage_image_reward_list"]];
+        tableFooterView.backgroundColor = [UIColor whiteColor];
+        tableFooterView.size = CGSizeMake(kScreen_Width, 350);
+
+        UIImageView *imageV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"project_private_blank_apply"]];
         [tableFooterView addSubview:imageV];
         [imageV mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(tableFooterView);
+            make.centerX.equalTo(tableFooterView);
+            make.top.equalTo(tableFooterView).offset(100);
         }];
-        tableFooterView.backgroundColor = [UIColor whiteColor];
-        tableFooterView.size = CGSizeMake(kScreen_Width, 300);
+        UILabel *label = [UILabel labelWithFont:[UIFont systemFontOfSize:14] textColor:[UIColor colorWithHexString:@"0x8796A8"]];
+        label.text =@"项目正在招募中，等待开发者报名";
+        [tableFooterView addSubview:label];
+        [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(tableFooterView);
+            make.top.equalTo(imageV.mas_bottom).offset(15);
+        }];
     }
     self.myTableView.tableFooterView = tableFooterView;
 }
