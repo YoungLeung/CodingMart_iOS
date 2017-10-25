@@ -12,6 +12,7 @@
 #import "EATipView.h"
 #import "Coding_NetAPIManager.h"
 #import "RewardPrivateViewController.h"
+#import "EAProjectPrivateViewController.h"
 
 @interface ApplyCoderListViewController ()
 
@@ -155,7 +156,8 @@
 
     UIViewController *tipVC = nil;
     for (UIViewController *vc in self.navigationController.viewControllers) {
-        if ([vc isKindOfClass:[RewardPrivateViewController class]]) {
+//        if ([vc isKindOfClass:[RewardPrivateViewController class]]) {
+        if ([vc isKindOfClass:[EAProjectPrivateViewController class]]) {
             tipVC = vc;
             break;
         }

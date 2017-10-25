@@ -13,6 +13,7 @@
 #import "MartWebViewController.h"
 #import "Reward.h"
 #import "RewardActivitiesViewController.h"
+#import "EAProjectPrivateViewController.h"
 
 @interface PayResultViewController ()
 @property (strong, nonatomic) Reward *curReward;
@@ -53,7 +54,8 @@
 }
 
 - (IBAction)rewardDetailBtnClicked:(id)sender {
-    RewardPrivateViewController *vc = [RewardPrivateViewController vcWithReward:_curReward];
+//    RewardPrivateViewController *vc = [RewardPrivateViewController vcWithReward:_curReward];
+    EAProjectPrivateViewController *vc = [EAProjectPrivateViewController vcWithProjectId:_curReward.id];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

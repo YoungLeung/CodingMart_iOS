@@ -344,7 +344,7 @@
         block(nil, nil);
         return;
     }
-    NSString *path = @"api/cancel";
+    NSString *path = @"api/project/cancel";
     NSDictionary *params = @{@"id": reward.id,
             @"reason": reward.cancelReason};
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
@@ -688,6 +688,14 @@
     }];
 }
 
+- (void)post_MarkApply:(NSNumber *)applyId block:(void (^)(EAApplyModel *data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/apply/%@/marked", applyId];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
+        data = [NSObject objectOfClass:@"EAApplyModel" fromJSON:data];
+        block(data, error);
+    }];
+}
+
 - (void)get_ApplyContactParam:(NSNumber *)rewardId block:(void (^)(id data, NSError *error))block {
     NSString *path = [NSString stringWithFormat:@"api/reward/%@/apply/contact/param", rewardId];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
@@ -709,6 +717,49 @@
             data = [NSObject objectOfClass:@"MPayOrder" fromJSON:data];
         }
         block(data, error);
+    }];
+}
+
+#pragma mark Project
+- (void)get_ProjectWithId:(NSNumber *)projectId block:(void (^)(EAProjectModel *data, NSError *error))block{
+    NSString *proPath = [NSString stringWithFormat:@"api/project/%@", projectId];
+    NSString *ownerPath = [NSString stringWithFormat:@"api/project/%@/owner", projectId];
+    NSString *applyPath = [NSString stringWithFormat:@"api/apply/project/%@", projectId];
+    NSString *phasePath = [NSString stringWithFormat:@"api/project/%@/phase", projectId];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:proPath withParams:nil withMethodType:Get andBlock:^(id dataPro, NSError *errorPro) {
+        if (!errorPro) {
+            EAProjectModel *proM = [NSObject objectOfClass:@"EAProjectModel" fromJSON:dataPro];
+            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:ownerPath withParams:nil withMethodType:Get andBlock:^(id dataOwn, NSError *errorOwn) {
+                if (!errorOwn) {
+                    if ([dataOwn isKindOfClass:[NSDictionary class]]) {
+                        proM.owner = [NSObject objectOfClass:@"User" fromJSON:[dataOwn[@"user"] firstObject]];
+                    }
+                    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:applyPath withParams:@{@"page": @1, @"size": @500} withMethodType:Get andBlock:^(id dataApply, NSError *errorApply) {
+                        if (!errorApply) {
+                            if ([dataApply isKindOfClass:[NSDictionary class]]) {
+                                proM.applyList = [NSObject arrayFromJSON:dataApply[@"apply"] ofObjects:@"EAApplyModel"];
+                            }
+                            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:phasePath withParams:nil withMethodType:Get andBlock:^(id dataPha, NSError *errorPha) {
+                                if (!errorPha) {
+                                    if ([dataPha isKindOfClass:[NSDictionary class]]) {
+                                        proM.phases = [NSObject arrayFromJSON:dataPha[@"phases"] ofObjects:@"EAPhaseModel"];
+                                    }
+                                    block(proM, nil);
+                                }else{
+                                    block(nil, errorPha);
+                                }
+                            }];
+                        }else{
+                            block(nil, errorApply);
+                        }
+                    }];
+                }else{
+                    block(nil, errorOwn);
+                }
+            }];
+        }else{
+            block(nil, errorPro);
+        }
     }];
 }
 

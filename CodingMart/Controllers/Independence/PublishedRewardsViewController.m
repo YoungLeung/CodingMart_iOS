@@ -18,6 +18,7 @@
 #import "ConversationViewController.h"
 #import "MPayRewardOrderPayViewController.h"
 #import "RewardDetail.h"
+#import "EAProjectPrivateViewController.h"
 
 @interface PublishedRewardsViewController ()<UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
@@ -123,7 +124,8 @@
 //        [NSObject showHudTipStr:@"App 暂不支持，请前往网页版查看"];
 //        return;
 //    }
-    RewardPrivateViewController *vc = [RewardPrivateViewController vcWithReward:reward];
+//    RewardPrivateViewController *vc = [RewardPrivateViewController vcWithReward:reward];
+    EAProjectPrivateViewController *vc = [EAProjectPrivateViewController vcWithProjectId:reward.id];
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)goToPublicReward:(Reward *)reward{

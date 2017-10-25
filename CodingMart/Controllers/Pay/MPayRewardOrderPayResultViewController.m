@@ -9,6 +9,7 @@
 #import "MPayRewardOrderPayResultViewController.h"
 #import "RewardActivitiesViewController.h"
 #import "RewardPrivateViewController.h"
+#import "EAProjectPrivateViewController.h"
 
 @interface MPayRewardOrderPayResultViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *totalFeeL;
@@ -37,7 +38,8 @@
 }
 
 - (IBAction)rewardDetailBtnClicked:(id)sender {
-    RewardPrivateViewController *vc = [RewardPrivateViewController vcWithReward:_curReward];
+//    RewardPrivateViewController *vc = [RewardPrivateViewController vcWithReward:_curReward];
+    EAProjectPrivateViewController *vc = [EAProjectPrivateViewController vcWithProjectId:_curReward.id];
     UINavigationController *nav = self.navigationController;
     [nav popToRootViewControllerAnimated:NO];
     [nav pushViewController:vc animated:YES];

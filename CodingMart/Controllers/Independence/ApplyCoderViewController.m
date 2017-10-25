@@ -21,6 +21,7 @@
 #import "RewardPrivateViewController.h"
 #import "MPayRewardOrderPayViewController.h"
 #import "ConversationViewController.h"
+#import "EAProjectPrivateViewController.h"
 
 @interface ApplyCoderViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) RewardApplyCoder *curCoder;
@@ -392,7 +393,8 @@
     
     UIViewController *tipVC = nil;
     for (UIViewController *vc in self.navigationController.viewControllers) {
-        if ([vc isKindOfClass:[RewardPrivateViewController class]]) {
+//        if ([vc isKindOfClass:[RewardPrivateViewController class]]) {
+        if ([vc isKindOfClass:[EAProjectPrivateViewController class]]) {
             tipVC = vc;
             break;
         }

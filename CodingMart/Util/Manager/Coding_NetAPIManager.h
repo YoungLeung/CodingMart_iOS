@@ -16,7 +16,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
     PurposeToPasswordReset
 };
 
-@class Reward, FeedBackInfo, SettingNotificationInfo, VerifiedInfo, FillUserInfo, FillSkills, RewardDetail, JoinInfo, Rewards, SkillPro, SkillRole, MartSkill, RewardPrivate, Activities, MPayOrders, MPayPassword, MPayAccount, MPayAccounts, Withdraw, MartNotifications, FreezeRecords, ProjectIndustry, IdentityInfo, MartSurvey, CodingSetting;
+@class Reward, FeedBackInfo, SettingNotificationInfo, VerifiedInfo, FillUserInfo, FillSkills, RewardDetail, JoinInfo, Rewards, SkillPro, SkillRole, MartSkill, RewardPrivate, Activities, MPayOrders, MPayPassword, MPayAccount, MPayAccounts, Withdraw, MartNotifications, FreezeRecords, ProjectIndustry, IdentityInfo, MartSurvey, CodingSetting, EAApplyModel;
 
 
 @interface Coding_NetAPIManager : NSObject
@@ -65,9 +65,13 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)get_CoderDetailWithRewardId:(NSNumber *)rewardId applyId:(NSNumber *)applyId block:(void (^)(id data, NSError *error))block;
 - (void)post_RejectApply:(NSNumber *)applyId rejectResonIndex:(NSInteger)rejectResonIndex block:(void (^)(id data, NSError *error))block;
 - (void)post_AcceptApply:(NSNumber *)applyId block:(void (^)(id data, NSError *error))block;
+- (void)post_MarkApply:(NSNumber *)applyId block:(void (^)(EAApplyModel *data, NSError *error))block;
 - (void)get_ApplyContactParam:(NSNumber *)rewardId block:(void (^)(id data, NSError *error))block;
 - (void)get_ApplyContact:(NSNumber *)applyId block:(void (^)(id data, NSError *error))block;
 - (void)post_ApplyContactOrder:(NSNumber *)applyId block:(void (^)(id data, NSError *error))block;
+
+#pragma mark Project
+- (void)get_ProjectWithId:(NSNumber *)projectId block:(void (^)(EAProjectModel *data, NSError *error))block;
 
 #pragma mark Case
 - (void)get_CaseListWithType:(NSString *)type block:(void (^)(id data, NSError *error))block;

@@ -19,7 +19,9 @@
 @property (strong, nonatomic) User *developerManager;
 @property (strong, nonatomic) UserCounter *counter;
 @property (strong, nonatomic) Region *province, *city, *district;
-@property (strong, nonatomic) NSString *status, *identityStatus, *developerType, *demandType, *accountType, *freeTime;
+@property (strong, nonatomic) NSString *status, *identityStatus, *developerType, *demandType, *accountType, *freeTime, *vipType;
+
+//vipType: NOT_VIP = 0, SILVER = 1, GOLD = 2, DIAMOND = 3;
 
 //以下是旧属性 ------------------------------------------------------------------------
 @property (readonly, nonatomic, strong) NSString *global_key;
@@ -29,6 +31,9 @@
 @property (strong, nonatomic) IdentityInfo *info;//需要请求 get_IdentityInfoBlock 方法才能拿到
 
 @property (readwrite, nonatomic, strong) NSString *curPassword, *resetPassword, *resetPasswordConfirm;
+
+@property (assign, nonatomic, readonly) BOOL isDeveloperTeam, isDeveloperRenZheng, isBaoZhengJin, isYouXuan;
+@property (strong, nonatomic, readonly) NSString *freeTime_Display;
 
 + (User *)userWithGlobalKey:(NSString *)global_key;
 + (User *)userTourist;

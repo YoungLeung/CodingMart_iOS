@@ -29,6 +29,12 @@
     return self;
 }
 
+- (void)setRoles:(NSMutableArray *)roles{
+    if ([roles isKindOfClass:[NSMutableArray class]]) {
+        _roles = roles;
+    }
+}
+
 - (void)setFormat_content:(NSString *)format_content{
     _format_content = format_content;
     _format_contentMedia = [HtmlMedia htmlMediaWithString:format_content showType:MediaShowTypeAll];

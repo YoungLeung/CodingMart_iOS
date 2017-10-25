@@ -87,6 +87,31 @@
 //    return [[FillUserInfo infoCached] isPassedEnterpriseIdentity];
 }
 
+- (BOOL)isDeveloperTeam{
+    return [_developerType isEqualToString:@"TEAM"];
+}
+
+- (BOOL)isDeveloperRenZheng{
+    return _identityPassed.boolValue;
+}
+
+- (BOOL)isBaoZhengJin{
+    return _deposit.boolValue;
+}
+
+- (BOOL)isYouXuan{
+    return _excellent.boolValue;
+}
+
+- (NSString *)freeTime_Display{
+    NSDictionary *freeTimeDict = @{
+                                   @"LESS": @"较少时间兼职",
+                                   @"MORE": @"较多时间兼职",
+                                   @"SOHO": @"全职 SOHO",
+                                   };
+    return freeTimeDict[_freeTime ?: @"LESS"];
+}
+
 - (NSString *)toUserInfoPath{
     return [NSString stringWithFormat:@"api/user/key/%@", self.global_key];
 }

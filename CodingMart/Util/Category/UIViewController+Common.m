@@ -17,6 +17,7 @@
 #import "RootTabViewController.h"
 #import "AppDelegate.h"
 #import "PublishRewardViewController.h"
+#import "EAProjectPrivateViewController.h"
 
 @implementation UIViewController (Common)
 + (UIViewController *)presentingVC{
@@ -95,7 +96,8 @@
         resultVC = [RewardDetailViewController vcWithRewardId:reward_id.integerValue];
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:rewardPrivateRegexStr]).count > 0){
         NSString *reward_id = matchedCaptures[1];
-        resultVC = [RewardPrivateViewController vcWithRewardId:reward_id.integerValue];
+        resultVC = [EAProjectPrivateViewController vcWithProjectId:@(reward_id.integerValue)];
+//        resultVC = [RewardPrivateViewController vcWithRewardId:reward_id.integerValue];
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:userInfoRegexStr]).count > 0){
         resultVC = [FillTypesViewController storyboardVC];
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:publishRegexStr]).count > 0){
