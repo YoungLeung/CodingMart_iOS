@@ -51,17 +51,15 @@
                                      };
     NSDictionary *statusColorDict = @{@"CREATE": @"0xDDE3EB",
                                       @"UNPAID": @"0xDDE3EB",
-                                      @"DEVELOPING": @"0xFF5500",
-                                      @"TERMINATED": @"0xFF5500",
-                                      @"CHECKING": @"0xFF5500",
-                                      @"FINISHED": @"0xFF5500",
+                                      @"DEVELOPING": @"0x4289DB",
+                                      @"TERMINATED": @"0x979FA8",
+                                      @"CHECKING": @"0xE3935D",
+                                      @"FINISHED": @"0x61C279",
                                       @"EDIT_ADD": @"0xDDE3EB",
-                                      @"CHECK_FAILED": @"0xFF5500",
+                                      @"CHECK_FAILED": @"0xE72511",
                                       };
     _statusL.text = statusTextDict[_phaM.status];
     _statusL.textColor = [UIColor colorWithHexString:statusColorDict[_phaM.status]];
-//    _statusL.text = _phaM.status;
-//    _statusL.textColor = [@[@"CREATE", @"UNPAID", @"EDIT_ADD"] containsObject: _phaM.status]? kColorNewDD: kColorNewFF;
     _nameL.text = _phaM.name;
     _planDeliveryAtL.text = [_phaM.planDeliveryAt string_yyyy_MM_dd];
     _actualDeliveryAtL.text = [_phaM.actualDeliveryAt string_yyyy_MM_dd];
