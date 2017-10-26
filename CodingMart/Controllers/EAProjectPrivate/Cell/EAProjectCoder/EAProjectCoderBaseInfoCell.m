@@ -25,10 +25,10 @@
 - (void)setApplyM:(EAApplyModel *)applyM{
     _applyM = applyM;
     NSMutableString *placeStr = _applyM.user.province.name.mutableCopy;
-    if (_applyM.user.city) {
+    if (_applyM.user.city.name.length > 0) {
         [placeStr appendFormat:@" %@", _applyM.user.city.name];
     }
-    if (_applyM.user.district) {
+    if (_applyM.user.district.name.length > 0) {
         [placeStr appendFormat:@" %@", _applyM.user.district.name];
     }
     _placeL.text = placeStr;

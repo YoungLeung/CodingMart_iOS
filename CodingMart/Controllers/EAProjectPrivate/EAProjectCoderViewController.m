@@ -140,12 +140,11 @@
 
 - (NSString *)p_cellIdentifierForIndex:(NSIndexPath *)indexPath{
     NSString *cellIdentifier;
-    cellIdentifier = (indexPath.section == 0? [EAProjectCoderBaseInfoCell className]:
+    cellIdentifier = (indexPath.section == 0? [EAProjectCoderRemarkCell className]:
                       indexPath.section == 1? [EAProjectCoderBaseInfoCell className]:
                       indexPath.section == 2? kCell_EAProjectCoderContactCell:
                       indexPath.section == 3? (indexPath.row == 0? [EAProjectCoderHeaderCell className]: [EAProjectCoderRoleCell className]):
                       (indexPath.row == 0? [EAProjectCoderHeaderCell className]: [EAProjectCoderProCell className]));
-    DebugLog(@"cellIdentifier %@", cellIdentifier);
     return cellIdentifier;
 }
 

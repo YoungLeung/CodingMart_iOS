@@ -24,7 +24,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
-//    self.fd_enforceFrameLayout = YES;
+    self.fd_enforceFrameLayout = YES;
 }
 
 - (void)setProM:(EAProjectModel *)proM{
@@ -50,15 +50,15 @@
     }
 }
 
-//- (CGSize)sizeThatFits:(CGSize)size{
-//    if ([@[@"RECRUITING", @"DEVELOPING", @"FINISHED"] containsObject:_proM.status]) {
-//        size.height = 200;
-//    }else{
-//        size.height = 120;
-//    }
-//    size.height += MAX(0, [_nameL sizeThatFits:CGSizeMake(kScreen_Width - 30, CGFLOAT_MAX)].height - 24);
-//    return size;
-//}
+- (CGSize)sizeThatFits:(CGSize)size{
+    if ([@[@"RECRUITING", @"DEVELOPING", @"FINISHED"] containsObject:_proM.status]) {
+        size.height = 200;
+    }else{
+        size.height = 120;
+    }
+    size.height += MAX(0, [_nameL sizeThatFits:CGSizeMake(kScreen_Width - 30, CGFLOAT_MAX)].height - 24);
+    return size;
+}
 
 
 @end

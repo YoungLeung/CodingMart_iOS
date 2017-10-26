@@ -31,6 +31,8 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    self.fd_enforceFrameLayout = YES;
+    
     _deliverabilityRatingView = [_deliverabilityRateV makeRatingViewWithSmallStyle:NO];
     _communicationRatingView = [_communicationRateV makeRatingViewWithSmallStyle:NO];
     _responsibilityRatingView = [_responsibilityRateV makeRatingViewWithSmallStyle:NO];
@@ -40,15 +42,15 @@
     _evaM = evaM;
     
     _deliverabilityRateL.text = _evaM.deliverabilityRate.stringValue;
-    self.deliverabilityRatingView.value = _evaM.deliverabilityRate.floatValue + .2;
+    self.deliverabilityRatingView.value = _evaM.deliverabilityRate.floatValue;
     _deliverabilityRateContentL.text = [self p_deliverabilityContentDict][_evaM.deliverabilityRate];
 
     _communicationRateL.text = _evaM.communicationRate.stringValue;
-    self.communicationRatingView.value = _evaM.communicationRate.floatValue + .5;
+    self.communicationRatingView.value = _evaM.communicationRate.floatValue;
     _communicationRateContentL.text = [self p_communicationContentDict][_evaM.communicationRate];
 
     _responsibilityRateL.text = _evaM.responsibilityRate.stringValue;
-    self.responsibilityRatingView.value = _evaM.responsibilityRate.floatValue + .8;
+    self.responsibilityRatingView.value = _evaM.responsibilityRate.floatValue;
     _responsibilityRateContentL.text = [self p_responsibilityContentDict][_evaM.responsibilityRate];
 
     _contentL.text = _evaM.content ?: @"无";
@@ -83,4 +85,13 @@
              };
 }
 
+- (CGSize)sizeThatFits:(CGSize)size{
+    CGFloat contentWidth = kScreen_Width - 30;
+    size.height = 310;
+    size.height +=MAX(0, [_deliverabilityRateContentL sizeThatFits:CGSizeMake(contentWidth, CGFLOAT_MAX)].height - 20);
+    size.height +=MAX(0, [_communicationRateContentL sizeThatFits:CGSizeMake(contentWidth, CGFLOAT_MAX)].height - 20);
+    size.height +=MAX(0, [_responsibilityRateContentL sizeThatFits:CGSizeMake(contentWidth, CGFLOAT_MAX)].height - 20);
+    size.height +=MAX(0, [_contentL sizeThatFits:CGSizeMake(contentWidth, CGFLOAT_MAX)].height - 20);
+    return size;
+}
 @end

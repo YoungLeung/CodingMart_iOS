@@ -34,7 +34,7 @@
     NSDictionary *statusTextDict = @{@"CREATE": @"未启动",
                                      @"UNPAID": @"未启动",
                                      @"DEVELOPING": @"开发中",
-                                     @"TERMINATED": @"已终止",
+                                     @"TERMINATED": @"已中止",
                                      @"CHECKING": @"待验收",
                                      @"FINISHED": @"已验收",
                                      @"EDIT_ADD": @"未启动",

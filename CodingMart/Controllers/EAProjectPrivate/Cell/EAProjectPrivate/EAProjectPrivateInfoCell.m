@@ -33,6 +33,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    self.fd_enforceFrameLayout = YES;
 }
 
 - (void)setProM:(EAProjectModel *)proM{
@@ -71,6 +72,18 @@
     _contactNameL.text = _proM.contactName;
     _contactEmailL.text = _proM.contactEmail;
     _contactMobileL.text = _proM.contactMobile;
+}
+
+- (CGSize)sizeThatFits:(CGSize)size{
+    CGFloat contentWidth = kScreen_Width - 95 - 12 - 30;
+    size.height = 712;
+    size.height +=MAX(0, [_nameL sizeThatFits:CGSizeMake(contentWidth, CGFLOAT_MAX)].height - 20);
+    size.height +=MAX(0, [_industryNameL sizeThatFits:CGSizeMake(contentWidth, CGFLOAT_MAX)].height - 20);
+    size.height +=MAX(0, [_descriptionL sizeThatFits:CGSizeMake(contentWidth, CGFLOAT_MAX)].height - 20);
+    size.height +=MAX(0, [_sampleL sizeThatFits:CGSizeMake(contentWidth, CGFLOAT_MAX)].height - 20);
+    size.height +=MAX(0, [_fileL sizeThatFits:CGSizeMake(contentWidth, CGFLOAT_MAX)].height - 20);
+    size.height +=MAX(0, [_rewardDemandL sizeThatFits:CGSizeMake(contentWidth, CGFLOAT_MAX)].height - 20);
+    return size;
 }
 
 @end

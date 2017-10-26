@@ -29,7 +29,7 @@
 }
 
 - (CGSize)sizeThatFits:(CGSize)size{
-    size.height = 200;
+    size.height = 300;
     return size;
 }
 

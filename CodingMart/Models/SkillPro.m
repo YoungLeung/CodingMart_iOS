@@ -25,11 +25,11 @@
 }
 - (NSDate *)start_time{
     NSString *timeStr = _start_time_numerical ?: _startedAt;
-    return timeStr.length >= 10? [NSDate dateFromString:[timeStr substringToIndex:10] withFormat:@"yyyy-MM-dd"]: nil;
+    return timeStr.length >= 10? [NSDate dateFromString:[timeStr substringToIndex:10] withFormat:@"yyyy-MM-dd"]: _startTime;
 }
 - (NSDate *)finish_time{
     NSString *timeStr =  _finish_time_numerical ?: _endedAt;
-    return timeStr.length >= 10? [NSDate dateFromString:[timeStr substringToIndex:10] withFormat:@"yyyy-MM-dd"]: nil;
+    return timeStr.length >= 10? [NSDate dateFromString:[timeStr substringToIndex:10] withFormat:@"yyyy-MM-dd"]: _finishTime;
 }
 - (NSString *)link{
     return _link ?: _showUrl;

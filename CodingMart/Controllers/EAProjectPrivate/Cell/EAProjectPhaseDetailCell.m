@@ -33,6 +33,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    self.fd_enforceFrameLayout = YES;
     _myRatingView = [_evaluationV makeRatingViewWithSmallStyle:YES];
 }
 
@@ -42,7 +43,7 @@
     NSDictionary *statusTextDict = @{@"CREATE": @"未启动",
                                      @"UNPAID": @"未启动",
                                      @"DEVELOPING": @"开发中",
-                                     @"TERMINATED": @"已终止",
+                                     @"TERMINATED": @"已中止",
                                      @"CHECKING": @"待验收",
                                      @"FINISHED": @"已验收",
                                      @"EDIT_ADD": @"未启动",
@@ -72,6 +73,7 @@
     
     _actualDeliveryAtL.hidden = _actualDeliveryAtTitleL.hidden = (_phaM.actualDeliveryAt == nil);
     _actualPriceL.hidden = _actualPriceTitleL.hidden = (_phaM.actualPrice == nil);
+    _evaluationBtn.hidden = ![@[@"FINISHED", @"TERMINATED"] containsObject:_phaM.status];
 }
 - (IBAction)evaluationBtnClicked:(id)sender {
     if (!_phaM.evaluation.averageRate) {
@@ -83,5 +85,12 @@
     }
 }
 
+- (CGSize)sizeThatFits:(CGSize)size{
+    CGFloat contentWidth = kScreen_Width - 30;
+    size.height = 380;
+    size.height +=MAX(0, [_nameL sizeThatFits:CGSizeMake(contentWidth, CGFLOAT_MAX)].height - 20);
+    size.height +=MAX(0, [_deliveryNoteL sizeThatFits:CGSizeMake(contentWidth, CGFLOAT_MAX)].height - 20);
+    return size;
+}
 @end
 

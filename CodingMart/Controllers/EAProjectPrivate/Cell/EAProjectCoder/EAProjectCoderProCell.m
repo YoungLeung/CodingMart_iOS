@@ -26,6 +26,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    self.fd_enforceFrameLayout = YES;
 }
 
 - (void)setPro:(SkillPro *)pro{
@@ -57,4 +58,17 @@
     _descriptionL.text = _pro.description_mine.length > 0 ? _pro.description_mine: @"未填写";
 }
 
+- (CGSize)sizeThatFits:(CGSize)size{
+    size.height = 405;
+    
+    CGFloat contentWidth = kScreen_Width - 30 - 75 - 12;
+    size.height +=MAX(0, [_industryNameL sizeThatFits:CGSizeMake(contentWidth, CGFLOAT_MAX)].height - 20);
+    size.height +=MAX(0, [_linkL sizeThatFits:CGSizeMake(contentWidth, CGFLOAT_MAX)].height - 20);
+    size.height +=MAX(0, [_filesL sizeThatFits:CGSizeMake(contentWidth, CGFLOAT_MAX)].height - 20);
+    
+    contentWidth = kScreen_Width - 30 - 24;
+    size.height +=MAX(0, [_dutyL sizeThatFits:CGSizeMake(contentWidth, CGFLOAT_MAX)].height - 20);
+    size.height +=MAX(0, [_descriptionL sizeThatFits:CGSizeMake(contentWidth, CGFLOAT_MAX)].height - 20);
+    return size;
+}
 @end
