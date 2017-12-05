@@ -23,6 +23,9 @@
 }
 
 + (void)loginBlock:(void (^)(NSString *errorMsg))block{
+    block(nil);
+    return;
+    
     if ([TIMManager sharedInstance].getLoginStatus == TIM_STATUS_LOGINING) {
         return;
     }

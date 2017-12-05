@@ -1,6 +1,6 @@
 //
 //  EABaseModel.m
-//  EATastManagement
+//  CodingMart
 //
 //  Created by Easeeeeeeeee on 2017/7/25.
 //  Copyright © 2017年 ShuTong. All rights reserved.
