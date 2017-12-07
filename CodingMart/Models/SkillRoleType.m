@@ -13,10 +13,7 @@
     if (_data.length <= 0) {
         return nil;
     }
-    
-    NSString *jsonStr = [_data stringByReplacingOccurrencesOfString:@"good_at" withString:@"\"good_at\""];
-    
-    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:[jsonStr dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:nil];
+    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:[_data dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:nil];
     NSArray *list = [jsonDict[@"good_at"] valueForKey:@"name"];
     return list;
 }
