@@ -43,6 +43,23 @@
     self.attributedText = attrStr;
 }
 
+- (void)ea_setText:(NSString*)text lineSpacing:(CGFloat)lineSpacing{
+    if (lineSpacing < 0.01 || !text) {
+        self.text = text;
+        return;
+    }
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text];
+    [attributedString addAttribute:NSFontAttributeName value:self.font range:NSMakeRange(0, [text length])];
+    
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    [paragraphStyle setLineSpacing:lineSpacing];
+    [paragraphStyle setLineBreakMode:self.lineBreakMode];
+    [paragraphStyle setAlignment:self.textAlignment];
+    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [text length])];
+    
+    self.attributedText = attributedString;
+}
+
 + (instancetype)labelWithFont:(UIFont *)font textColor:(UIColor *)textColor{
     UILabel *label = [self new];
     label.font = font;

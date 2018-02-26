@@ -554,14 +554,25 @@
     }];
 }
     
-- (void)post_GenerateIdentityMartOrder:(NSDictionary *)params block:(void (^)(id data, NSError *error))block{
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/user/identity" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-        if (data) {
-            data = [NSObject objectOfClass:@"MPayOrder" fromJSON:data];
-        }
+//- (void)post_GenerateIdentityMartOrder:(NSDictionary *)params block:(void (^)(id data, NSError *error))block{
+//    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/user/identity" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+//        if (data) {
+//            data = [NSObject objectOfClass:@"MPayOrder" fromJSON:data];
+//        }
+//        block(data, error);
+//    }];
+//}
+
+- (void)post_CkeckIdentityInfo:(IdentityInfo *)info block:(void (^)(id data, NSError *error))block{
+    NSDictionary *params = @{@"name": info.name,
+                             @"identity": info.identity,
+                             @"confirm": @"true",
+                             };
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/user/identity" withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
         block(data, error);
     }];
 }
+
 
 
 - (void)get_Order:(NSString *)orderNo block:(void (^)(id data, NSError *error))block {
@@ -1042,14 +1053,14 @@
     }];
 }
 
-- (void)post_IdentityInfo:(IdentityInfo *)info block:(void (^)(id data, NSError *error))block {
-    NSString *path = @"api/user/identity";
-    NSDictionary *params = @{@"name": info.name,
-            @"identity": info.identity};
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
-        block(data, error);
-    }];
-}
+//- (void)post_IdentityInfo:(IdentityInfo *)info block:(void (^)(id data, NSError *error))block {
+//    NSString *path = @"api/user/identity";
+//    NSDictionary *params = @{@"name": info.name,
+//            @"identity": info.identity};
+//    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
+//        block(data, error);
+//    }];
+//}
 
 - (void)get_MartSurvey:(void (^)(id data, NSError *error))block {
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/app/survey" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {

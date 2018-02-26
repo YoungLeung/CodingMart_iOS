@@ -54,7 +54,7 @@
 //    Google Analytics
     [self registerGA];
 //    支付
-    [WXApi registerApp:kSocial_WX_ID withDescription:@"Coding 码市"];
+    [WXApi registerApp:kSocial_WX_ID withDescription:@"码市"];
 //    腾讯 IM
     [TIMManager setupConfig];
     

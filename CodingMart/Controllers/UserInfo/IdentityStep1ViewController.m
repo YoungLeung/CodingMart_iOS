@@ -14,6 +14,7 @@
 #import <UMengSocial/WXApi.h>
 #import <UMengSocial/WXApiObject.h>
 #import "MPayRewardOrderPayViewController.h"
+#import "IdentityPassedViewController.h"
 
 
 @interface IdentityStep1ViewController ()
@@ -24,6 +25,8 @@
 @property (strong, nonatomic) IBOutlet UIView *payV;
 @property (weak, nonatomic) IBOutlet UILabel *payNameL;
 @property (weak, nonatomic) IBOutlet UILabel *payIdentityL;
+
+@property (weak, nonatomic) IBOutlet UITTTAttributedLabel *headerContactL;
 
 @property (strong, nonatomic) EAXibTipView *payTipV;
 @end
@@ -37,13 +40,17 @@
     [_bottomL addLinkToStr:@"《身份认证授权与承诺书》" value:nil hasUnderline:NO clickedBlock:^(id value) {
         [weakSelf goToAgreement];
     }];
+    [_headerContactL addLinkToStr:@"联系客服" value:nil hasUnderline:NO clickedBlock:^(id value) {
+        [weakSelf goToTalk];
+    }];
+    [_authDescL ea_setText:_authDescL.text lineSpacing:kLineSpacing];
 //    _nameF.text = _info.name;
 //    _identityF.text = _info.identity;
 }
 
 #pragma mark Table
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return section == 0? 1.0/[UIScreen mainScreen].scale: 10;
+    return section == 0? 20: 10;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -56,12 +63,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat rowH;
-    if (indexPath.section == 0) {
-        rowH = 130;
-    }else if (indexPath.section == 1){
+    if (indexPath.section == 0){
         rowH = 220;
     }else{
-        rowH = 50 + 15 + 30 + [_authDescL.text getHeightWithFont:_authDescL.font constrainedToSize:CGSizeMake((kScreen_Width - 30 - 20), CGFLOAT_MAX)] + 2;//这个 +2 只是对高度计算不准确的冗余处理
+        rowH = 50 + 15 + 30 + [_authDescL sizeThatFits:CGSizeMake((kScreen_Width - 30 - 20), CGFLOAT_MAX)].height;
     }
     return rowH;
 }
@@ -70,22 +75,35 @@
 - (IBAction)bottomBtnClicked:(id)sender {
     if (_nameF.text.length <=0 || _identityF.text.length <= 0) {
         [NSObject showHudTipStr:_nameF.text.length <= 0? @"请正确填写姓名": @"请正确填写身份证号"];
-        return;
+    }else{
+        [self postCheck];
     }
+}
+
+- (void)postCheck{
     _info.name = _nameF.text;
     _info.identity = _identityF.text;
-    [self showPayTip];
+    __weak typeof(self) weakSelf = self;
+    [NSObject showHUDQueryStr:@"正在提交..."];
+    [[Coding_NetAPIManager sharedManager] post_CkeckIdentityInfo:_info block:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (!error) {
+            [weakSelf goToPassedVC];
+        }else{
+            kTipAlert(@"%@", [NSObject tipFromError:error]);
+        }
+    }];
 }
     
 - (void)afterPaySuccess{
     WEAKSELF
-    [NSObject showHUDQueryStr:@"请稍等..."];
+    [NSObject showHUDQueryStr:@"正在提交..."];
     [[Coding_NetAPIManager sharedManager] get_IdentityInfoBlock:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data) {
             weakSelf.info = data;
-            if (weakSelf.info.status.enum_identityStatus != EAIdentityStatus_REJECTED) {
-                [weakSelf goToStep2];
+            if (weakSelf.info.status.enum_identityStatus == EAIdentityStatus_CHECKED){
+                [weakSelf goToPassedVC];
             }else{
                 kTipAlert(@"验证失败！姓名或身份证号输入有误。");
             }
@@ -110,17 +128,18 @@
     [_payTipV dismiss];
 }
 - (IBAction)goToPay:(id)sender {
-    _info.name = _nameF.text;
-    _info.identity = _identityF.text;
-    NSDictionary *params = @{@"name": _info.name,
-                             @"identity": _info.identity};
-    __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] post_GenerateIdentityMartOrder:params block:^(id data, NSError *error) {
-        if (data) {
-            [weakSelf goToPayOrder:data];
-        }
-    }];
-//    
+//    _info.name = _nameF.text;
+//    _info.identity = _identityF.text;
+//    NSDictionary *params = @{@"name": _info.name,
+//                             @"identity": _info.identity};
+//    __weak typeof(self) weakSelf = self;
+//    [[Coding_NetAPIManager sharedManager] post_GenerateIdentityMartOrder:params block:^(id data, NSError *error) {
+//        if (data) {
+//            [weakSelf goToPayOrder:data];
+//        }
+//    }];
+
+    
 //    //ToDo
 ////    if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"weixin://"]]) {
 ////        [NSObject showHudTipStr:@"您还没有安装「微信」，无法完成支付"];
@@ -182,5 +201,12 @@
     [nav pushViewController:vc animated:YES];
 }
 
+- (void)goToPassedVC{
+    IdentityPassedViewController *vc = [IdentityPassedViewController vcInStoryboard:@"UserInfo"];
+    vc.info = _info;
+    UINavigationController *nav = self.navigationController;
+    [nav popViewControllerAnimated:NO];
+    [nav pushViewController:vc animated:YES];
+}
 
 @end

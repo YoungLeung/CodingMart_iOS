@@ -110,6 +110,7 @@
         [hud show:YES];
     }else{
         hud = [MBProgressHUD showHUDAddedTo:kKeyWindow animated:YES];
+        hud.removeFromSuperViewOnHide = YES;
         hud.tag = kHUDQueryViewTag;
         hud.labelFont = [UIFont boldSystemFontOfSize:15.0];
         hud.margin = 10.f;
@@ -122,7 +123,8 @@
     NSArray *huds = [MBProgressHUD allHUDsForView:kKeyWindow];
     [huds enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
         if (obj.tag == kHUDQueryViewTag) {
-            [obj removeFromSuperview];
+            [(MBProgressHUD *)obj hide:YES];
+//            [obj removeFromSuperview];
             count++;
         }
     }];

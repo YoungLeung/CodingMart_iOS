@@ -53,6 +53,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return _info.agreementLinkStr.length > 0? 155: 100;
+    return 120;
+//    return _info.agreementLinkStr.length > 0? 155: 100;
 }
 @end

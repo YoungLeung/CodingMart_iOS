@@ -20,7 +20,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title=@"Coding码市开发者服务指南";
+    self.title=@"码市开发者服务指南";
     [self buildUI];
     // Do any additional setup after loading the view.
 }

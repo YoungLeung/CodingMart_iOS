@@ -212,7 +212,7 @@ typedef NS_ENUM(NSInteger, IdentityStatusCode)
 - (void)goToIdetityStep:(IdentityInfo *)info{
     EAIdentityStatus identityStatus = info.status.enum_identityStatus;
     Class classObj = (identityStatus == EAIdentityStatus_CHECKED? [IdentityPassedViewController class]:
-                      identityStatus == EAIdentityStatus_CHECKING? [IdentityStep2ViewController class]:
+//                      identityStatus == EAIdentityStatus_CHECKING? [IdentityStep2ViewController class]:
                       [IdentityStep1ViewController class]);
     UIViewController *vc = [classObj vcInStoryboard:@"UserInfo"];
     [vc setValue:info forKey:@"info"];

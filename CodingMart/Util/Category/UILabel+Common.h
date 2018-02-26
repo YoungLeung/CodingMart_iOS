@@ -13,6 +13,8 @@
 - (void)addAttrDict:(NSDictionary *)attrDict toStr:(NSString *)str;
 - (void)addAttrDict:(NSDictionary *)attrDict toRange:(NSRange)range;
 
+- (void)ea_setText:(NSString*)text lineSpacing:(CGFloat)lineSpacing;
+
 + (instancetype)labelWithFont:(UIFont *)font textColor:(UIColor *)textColor;
 + (instancetype)labelWithSystemFontSize:(CGFloat)fontSize textColorHexString:(NSString *)stringToConvert;
 

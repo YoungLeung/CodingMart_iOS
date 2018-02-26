@@ -318,9 +318,9 @@
     if ([_objToShare isKindOfClass:[Reward class]]) {
         title = [(Reward *)_objToShare name];
     }else if ([_objToShare isKindOfClass:[UIWebView class]]){
-        title = @"Coding 码市";
+        title = @"码市";
     }else{
-        title = @"Coding 码市 - 基于云技术的软件外包服务平台";
+        title = @"码市 - 基于云技术的软件外包服务平台";
     }
     return title;
 }

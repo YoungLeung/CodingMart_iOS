@@ -49,7 +49,8 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)post_CancelJoinReward:(NSNumber *)reward_id block:(void (^)(id data, NSError *error))block;
 - (void)post_GenerateOrderWithReward:(Reward *)reward block:(void (^)(id data, NSError *error))block;
 - (void)post_GenerateIdentityOrderBlock:(void (^)(id data, NSError *error))block;
-- (void)post_GenerateIdentityMartOrder:(NSDictionary *)params block:(void (^)(id data, NSError *error))block;
+//- (void)post_GenerateIdentityMartOrder:(NSDictionary *)params block:(void (^)(id data, NSError *error))block;
+- (void)post_CkeckIdentityInfo:(IdentityInfo *)info block:(void (^)(id data, NSError *error))block;
 - (void)get_Order:(NSString *)orderNo block:(void (^)(id data, NSError *error))block;
 - (void)get_WithdrawOrder_NO:(NSString *)orderNo block:(void (^)(id data, NSError *error))block;
 - (void)get_SimpleStatisticsBlock:(void (^)(id data, NSError *error))block;
@@ -101,7 +102,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)post_SkillRoles:(NSArray *)role_ids block:(void (^)(id data, NSError *error))block;
 - (void)get_IndustriesBlock:(void (^)(id data, NSError *error))block;
 - (void)get_IdentityInfoBlock:(void (^)(id data, NSError *error))block;
-- (void)post_IdentityInfo:(IdentityInfo *)info block:(void (^)(id data, NSError *error))block;
+//- (void)post_IdentityInfo:(IdentityInfo *)info block:(void (^)(id data, NSError *error))block;
 - (void)get_MartSurvey:(void (^)(id data, NSError *error))block;
 - (void)post_MartSurvey:(MartSurvey *)survey block:(void (^)(id data, NSError *error))block;
 #pragma mark MPay
