@@ -15,7 +15,7 @@
 #import <UMengSocial/WXApiObject.h>
 #import "MPayRewardOrderPayViewController.h"
 #import "IdentityPassedViewController.h"
-
+#import "Login.h"
 
 @interface IdentityStep1ViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *nameF;
@@ -26,7 +26,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *payNameL;
 @property (weak, nonatomic) IBOutlet UILabel *payIdentityL;
 
-@property (weak, nonatomic) IBOutlet UITTTAttributedLabel *headerContactL;
+@property (weak, nonatomic) IBOutlet UITTTAttributedLabel *topTipL;
 
 @property (strong, nonatomic) EAXibTipView *payTipV;
 @end
@@ -36,11 +36,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _topTipL.text = [Login curLoginUser].isDeveloperTeam? @"请提供企业法人代表真实姓名和身份证号\n您的信息不会透露给任何第三方，请放心填写。联系客服": @"您的信息不会透露给任何第三方，请放心填写。联系客服";
     WEAKSELF
     [_bottomL addLinkToStr:@"《身份认证授权与承诺书》" value:nil hasUnderline:NO clickedBlock:^(id value) {
         [weakSelf goToAgreement];
     }];
-    [_headerContactL addLinkToStr:@"联系客服" value:nil hasUnderline:NO clickedBlock:^(id value) {
+    [_topTipL addLinkToStr:@"联系客服" value:nil hasUnderline:NO clickedBlock:^(id value) {
         [weakSelf goToTalk];
     }];
     [_authDescL ea_setText:_authDescL.text lineSpacing:kLineSpacing];
@@ -64,7 +65,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat rowH;
     if (indexPath.section == 0){
-        rowH = 220;
+        rowH = 75 * 2 + 15 + 15 + [_topTipL sizeThatFits:CGSizeMake((kScreen_Width - 30), CGFLOAT_MAX)].height;
     }else{
         rowH = 50 + 15 + 30 + [_authDescL sizeThatFits:CGSizeMake((kScreen_Width - 30 - 20), CGFLOAT_MAX)].height;
     }
