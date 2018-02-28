@@ -200,20 +200,22 @@
 
     NSURL *baseURL = [NSURL URLWithString:[self baseURLStr]];
     NSString *domainStr = baseURL.host;
-    if (![domainStr validateIP]) {
-        domainStr = [@"." stringByAppendingString:domainStr];
+    if (domainStr) {
+        if (![domainStr validateIP]) {
+            domainStr = [@"." stringByAppendingString:domainStr];
+        }
+        
+        NSHTTPCookie *cookie_code = [NSHTTPCookie cookieWithProperties:@{NSHTTPCookieName : @"code",
+                                                                         NSHTTPCookieValue : @"ios-audit%3Dtrue%2C5a585154",
+                                                                         NSHTTPCookieDomain : domainStr,
+                                                                         NSHTTPCookiePath : @"/"}];
+        NSHTTPCookie *cookie_exp = [NSHTTPCookie cookieWithProperties:@{NSHTTPCookieName : @"exp",
+                                                                        NSHTTPCookieValue : @"89cd78c2",
+                                                                        NSHTTPCookieDomain : domainStr,
+                                                                        NSHTTPCookiePath : @"/"}];
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie_code];
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie_exp];
     }
-    
-    NSHTTPCookie *cookie_code = [NSHTTPCookie cookieWithProperties:@{NSHTTPCookieName : @"code",
-                                                                     NSHTTPCookieValue : @"ios-audit%3Dtrue%2C5a585154",
-                                                                     NSHTTPCookieDomain : domainStr,
-                                                                     NSHTTPCookiePath : @"/"}];
-    NSHTTPCookie *cookie_exp = [NSHTTPCookie cookieWithProperties:@{NSHTTPCookieName : @"exp",
-                                                                     NSHTTPCookieValue : @"89cd78c2",
-                                                                     NSHTTPCookieDomain : domainStr,
-                                                                     NSHTTPCookiePath : @"/"}];
-    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie_code];
-    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie_exp];
 }
 
 @end

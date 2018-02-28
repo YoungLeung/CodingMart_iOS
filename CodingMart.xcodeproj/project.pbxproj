@@ -106,8 +106,6 @@
 		4E26939D1BC67A2700F9E332 /* JDStatusBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E26939A1BC67A2700F9E332 /* JDStatusBarView.m */; };
 		4E2693A01BC67A7100F9E332 /* Login.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E26939F1BC67A7100F9E332 /* Login.m */; };
 		4E2693A31BC67A8A00F9E332 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2693A21BC67A8A00F9E332 /* User.m */; };
-		4E2693A91BC67AD000F9E332 /* libXG-SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E2693A51BC67AD000F9E332 /* libXG-SDK.a */; };
-		4E2693AA1BC67AD000F9E332 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4E2693A61BC67AD000F9E332 /* ReleaseNotes.txt */; };
 		4E2693AD1BC67B1300F9E332 /* NSObject+ObjectMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2693AC1BC67B1300F9E332 /* NSObject+ObjectMap.m */; };
 		4E2693AF1BC67F2000F9E332 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E2693AE1BC67F2000F9E332 /* CFNetwork.framework */; };
 		4E2693B11BC67F4E00F9E332 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E2693B01BC67F4E00F9E332 /* SystemConfiguration.framework */; };
@@ -763,10 +761,6 @@
 		4E26939F1BC67A7100F9E332 /* Login.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Login.m; sourceTree = "<group>"; };
 		4E2693A11BC67A8A00F9E332 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		4E2693A21BC67A8A00F9E332 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
-		4E2693A51BC67AD000F9E332 /* libXG-SDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libXG-SDK.a"; sourceTree = "<group>"; };
-		4E2693A61BC67AD000F9E332 /* ReleaseNotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReleaseNotes.txt; sourceTree = "<group>"; };
-		4E2693A71BC67AD000F9E332 /* XGPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XGPush.h; sourceTree = "<group>"; };
-		4E2693A81BC67AD000F9E332 /* XGSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XGSetting.h; sourceTree = "<group>"; };
 		4E2693AB1BC67B1300F9E332 /* NSObject+ObjectMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+ObjectMap.h"; sourceTree = "<group>"; };
 		4E2693AC1BC67B1300F9E332 /* NSObject+ObjectMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ObjectMap.m"; sourceTree = "<group>"; };
 		4E2693AE1BC67F2000F9E332 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -1602,7 +1596,6 @@
 				4E2693B31BC67F5C00F9E332 /* CoreTelephony.framework in Frameworks */,
 				4E2693B11BC67F4E00F9E332 /* SystemConfiguration.framework in Frameworks */,
 				4E2693AF1BC67F2000F9E332 /* CFNetwork.framework in Frameworks */,
-				4E2693A91BC67AD000F9E332 /* libXG-SDK.a in Frameworks */,
 				42C5F3CBA371E6911114B5E8 /* libPods-CodingMart.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1966,17 +1959,6 @@
 				4E26939A1BC67A2700F9E332 /* JDStatusBarView.m */,
 			);
 			path = JDStatusBarNotification;
-			sourceTree = "<group>";
-		};
-		4E2693A41BC67AD000F9E332 /* XGPush */ = {
-			isa = PBXGroup;
-			children = (
-				4E2693A51BC67AD000F9E332 /* libXG-SDK.a */,
-				4E2693A61BC67AD000F9E332 /* ReleaseNotes.txt */,
-				4E2693A71BC67AD000F9E332 /* XGPush.h */,
-				4E2693A81BC67AD000F9E332 /* XGSetting.h */,
-			);
-			path = XGPush;
 			sourceTree = "<group>";
 		};
 		4E2693BA1BC75CE500F9E332 /* Cell */ = {
@@ -2560,7 +2542,6 @@
 				4EDAE3F11BC7BCBE00255FE8 /* NJKWebViewProgress */,
 				4EDAE3C41BC7BCAF00255FE8 /* SVWebViewController */,
 				4EDAE3921BC78CD400255FE8 /* SDWebImage */,
-				4E2693A41BC67AD000F9E332 /* XGPush */,
 				4E2693941BC67A2700F9E332 /* JDStatusBarNotification */,
 				4E2693871BC6781E00F9E332 /* YLGIFImage */,
 				4E26934B1BC676EB00F9E332 /* AFNetworking */,
@@ -3334,7 +3315,6 @@
 				4ECC64A01DDBFF6D00A1B029 /* HighPaidAreaCell.xib in Resources */,
 				4EFC8BAB1CA0F31A00532B5E /* Root.storyboard in Resources */,
 				4EDAE3E91BC7BCB000255FE8 /* SVWebViewControllerActivityReport-iPad@2x.png in Resources */,
-				4E2693AA1BC67AD000F9E332 /* ReleaseNotes.txt in Resources */,
 				4EDAE3ED1BC7BCB000255FE8 /* SVWebViewControllerActivitySafari-iPad@2x.png in Resources */,
 				4EBD7FA61CE327A300B3AF49 /* country_code.plist in Resources */,
 				4EDAE3E61BC7BCB000255FE8 /* SVWebViewControllerActivityChrome-iPad@2x.png in Resources */,
@@ -3397,13 +3377,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CodingMart-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		CB57B518C44EE3C71ED5F4B2 /* [CP] Embed Pods Frameworks */ = {
@@ -3427,9 +3410,24 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-CodingMart/Pods-CodingMart-resources.sh",
+				"${PODS_ROOT}/UMengSocial/Umeng_SDK_Social_iOS_ARM64_4.3/UMSocial_Sdk_4.3/UMSocialSDKResourcesNew.bundle",
+				"${PODS_ROOT}/UMengSocial/Umeng_SDK_Social_iOS_ARM64_4.3/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI/TencentOpenApi_IOS_Bundle.bundle",
+				"${PODS_ROOT}/UMengSocial/Umeng_SDK_Social_iOS_ARM64_4.3/UMSocial_Sdk_Extra_Frameworks/SinaSSO/WeiboSDK.bundle",
+				"${PODS_ROOT}/UMengSocial/Umeng_SDK_Social_iOS_ARM64_4.3/UMSocial_Sdk_4.3/SocialSDKXib/UMSCommentDetailController.xib",
+				"${PODS_ROOT}/UMengSocial/Umeng_SDK_Social_iOS_ARM64_4.3/UMSocial_Sdk_4.3/SocialSDKXib/UMSCommentInputController.xib",
+				"${PODS_ROOT}/UMengSocial/Umeng_SDK_Social_iOS_ARM64_4.3/UMSocial_Sdk_4.3/SocialSDKXib/UMSCommentInputControlleriPad.xib",
+				"${PODS_ROOT}/UMengSocial/Umeng_SDK_Social_iOS_ARM64_4.3/UMSocial_Sdk_4.3/SocialSDKXib/UMShareEditViewController.xib",
+				"${PODS_ROOT}/UMengSocial/Umeng_SDK_Social_iOS_ARM64_4.3/UMSocial_Sdk_4.3/SocialSDKXib/UMShareEditViewControlleriPad.xib",
+				"${PODS_ROOT}/UMengSocial/Umeng_SDK_Social_iOS_ARM64_4.3/UMSocial_Sdk_4.3/SocialSDKXib/UMSLoginViewController.xib",
+				"${PODS_ROOT}/UMengSocial/Umeng_SDK_Social_iOS_ARM64_4.3/UMSocial_Sdk_4.3/SocialSDKXib/UMSnsAccountViewController.xib",
+				"${PODS_ROOT}/UMengSocial/Umeng_SDK_Social_iOS_ARM64_4.3/UMSocial_Sdk_4.3/SocialSDKXib/UMSShareListController.xib",
+				"${PODS_ROOT}/UMengSocial/Umeng_SDK_Social_iOS_ARM64_4.3/UMSocial_Sdk_4.3/en.lproj",
+				"${PODS_ROOT}/UMengSocial/Umeng_SDK_Social_iOS_ARM64_4.3/UMSocial_Sdk_4.3/zh-Hans.lproj",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
@@ -4066,6 +4064,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/CodingMart/Vendor/XGPush",
+					"$(PROJECT_DIR)/CodingMart/Vendor/XGPush/idfa",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.coding.CodingMart;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4111,6 +4110,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/CodingMart/Vendor/XGPush",
+					"$(PROJECT_DIR)/CodingMart/Vendor/XGPush/idfa",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.coding.CodingMart;
 				PRODUCT_NAME = "$(TARGET_NAME)";

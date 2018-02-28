@@ -116,20 +116,10 @@
 }
 
 - (void)registerRemoteNotification{
-    [self registerPush];
-    
     //    信鸽推送
     [XGPush startApp:kXGPush_Id appKey:kXGPush_Key];
-    [Login setXGAccountWithCurUser];
-    //注销之后需要再次注册前的准备
-    __weak typeof(self) weakSelf = self;
-    void (^successCallback)(void) = ^(void){
-        //如果变成需要注册状态
-        if([XGPush isUnRegisterStatus] && [Login isLogin]){
-            [weakSelf registerPush];
-        }
-    };
-    [XGPush initForReregister:successCallback];
+
+    [self registerPush];
 }
 
 - (void)registerWebViewUserAgent{
@@ -271,9 +261,11 @@
 #pragma mark - XGPush Message
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    NSString * deviceTokenStr = [XGPush registerDevice:deviceToken];
-    NSLog(@"deviceTokenStr : %@", deviceTokenStr);
-    
+    if ([Login isLogin]) {
+        [XGPush registerDevice:deviceToken account:[Login curLoginUser].global_key ?: @"" successCallback:^{
+        } errorCallback:^{
+        }];
+    }    
     TIMTokenParam *param = [TIMTokenParam new];
 #if DEBUG
     param.busiId = kTimAppPushId_Debug;
@@ -291,7 +283,9 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     DebugLog(@"didReceiveRemoteNotification-userInfo:-----\n%@", userInfo);
-    [XGPush handleReceiveNotification:userInfo];
+    [XGPush handleReceiveNotification:userInfo successCallback:^{
+    } errorCallback:^{
+    }];
     [UIViewController handleNotificationInfo:userInfo applicationState:[application applicationState]];
 }
 

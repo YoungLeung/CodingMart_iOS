@@ -20,8 +20,9 @@ pod 'RDHCollectionViewGridLayout', '~> 1.2'
 pod 'UMengSocial', '4.3'
 pod 'UMengAnalytics-NO-IDFA', '3.6.5'
 
+pod 'QQ_XGPush', '~> 2.5.0'
 
-pod 'Google/Analytics', '~> 1.0.0'
+pod 'Google/Analytics', '~> 3.1.0'
 pod 'hpple', '0.2.0'
 pod 'FLEX', '~> 2.0', :configurations => ['Debug']
 
