@@ -247,7 +247,7 @@
         NSString *tipStr = [NSString stringWithFormat:@"%@%@", _setting.project_publish_payment_tip, _setting.project_publish_payment_deadline];
         [_payTipL setAttrStrWithStr:tipStr diffColorStr:_setting.project_publish_payment_deadline diffColor:[UIColor colorWithHexString:@"0xF75288"]];
     }else{
-        _payTipL.text = _setting.project_publish_payment_tip;
+        _payTipL.text = _setting.project_publish_payment_tip ?: @"";
     }
 }
 
