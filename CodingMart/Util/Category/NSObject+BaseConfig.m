@@ -6,7 +6,8 @@
 //  Copyright © 2015年 net.coding. All rights reserved.
 //
 
-#define kBaseURLStr @"https://mart.coding.net"
+//#define kBaseURLStr @"https://mart.coding.net"
+#define kBaseURLStr @"https://codemart.com"
 #define kCodingURLStr @"https://coding.net"
 
 
@@ -17,12 +18,12 @@
 
 @implementation NSObject (BaseConfig)
 + (NSString *)baseURLStr{
-//    NSString *baseURLStr = @"http://192.168.0.5:9020";//staging
+//    NSString *baseURLStr = @"https://192.168.0.5:9020";//staging
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     return [defaults valueForKey:kBaseURLStr] ?: kBaseURLStr;
 }
 + (NSString *)codingURLStr{
-//    NSString *codingURLStr = @"http://192.168.0.5";//staging
+//    NSString *codingURLStr = @"https://192.168.0.5";//staging
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     return [defaults valueForKey:kCodingURLStr] ?: kCodingURLStr;
 }

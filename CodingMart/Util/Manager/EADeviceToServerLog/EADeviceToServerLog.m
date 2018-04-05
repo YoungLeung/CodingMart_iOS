@@ -238,7 +238,7 @@
 }
 
 - (void)getLocalIPBlock:(void(^)(NSDictionary *dictLocalIP))block{
-    NSURL *url = [NSURL URLWithString:@"http://ip.cn"];
+    NSURL *url = [NSURL URLWithString:@"https://ip.cn/"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"GET";
     [request setValue:@"curl/7.41.0" forHTTPHeaderField:@"User-Agent"];

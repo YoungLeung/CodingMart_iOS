@@ -303,10 +303,19 @@
         }
     }
     if (!shouldStartLoad) {
-        UIViewController *vc = [UIViewController analyseVCFromLinkStr:request.URL.absoluteString];
-        [self.navigationController pushViewController:vc animated:YES];
+        if ([UIViewController presentingVC] == self) {//[码市顾问]按钮，点击一次，load 两次 request，简直诡异呃
+            UIViewController *vc = [UIViewController analyseVCFromLinkStr:request.URL.absoluteString];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     }
     return shouldStartLoad;
 }
 
+
+//https://codemart.kf5.com/supportbox/index?active_in_iframe=0
+//https://codemart.kf5.com/kchat/?lang=zh_CN&active_in_iframe=0
+//https://codemart.kf5.com/kchat/?lang=zh_CN&active_in_iframe=0#/
+
+//https://codemart.kf5.com/supportbox/index?lang=zh_CN&name=%E7%8E%8BH&email=wangyuanchuang@qq.com&phone=18620126943&metadata=%5B%7B%22name%22:%22global_key%22,%22value%22:%22ease%22%7D%5D
+//https://codemart.kf5.com/supportbox/index?lang=zh_CN&name=%E7%8E%8BH&email=wangyuanchuang@qq.com&phone=18620126943&metadata=%5B%7B%22name%22:%22global_key%22,%22value%22:%22ease%22%7D%5D
 @end

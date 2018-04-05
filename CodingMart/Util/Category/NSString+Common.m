@@ -89,7 +89,7 @@
         if (![self hasPrefix:@"http"]) {
             NSString *imageName = [self stringByMatching:@"/static/fruit_avatar/([a-zA-Z0-9\\-._]+)$" capture:1];
             if (imageName && imageName.length > 0) {
-                urlStr = [NSString stringWithFormat:@"http://coding-net-avatar.qiniudn.com/%@?imageMogr2/auto-orient/thumbnail/!%.0fx%.0fr", imageName, width, width];
+                urlStr = [NSString stringWithFormat:@"https://coding-net-avatar.qiniudn.com/%@?imageMogr2/auto-orient/thumbnail/!%.0fx%.0fr", imageName, width, width];
                 canCrop = YES;
             }else{
                 urlStr = [NSString stringWithFormat:@"%@%@", [NSObject codingURLStr], self];
