@@ -1,0 +1,178 @@
+//
+//  CodingMart-Prefix.pch
+//  CodingMart
+//
+//  Created by Ease on 15/10/8.
+//  Copyright © 2015年 net.coding. All rights reserved.
+//
+
+#ifndef CodingMart_Prefix_pch
+#define CodingMart_Prefix_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
+
+#import "UIColor+expanded.h"
+#import "NSString+Common.h"
+#import "UIView+Common.h"
+#import "UIImage+Common.h"
+#import "NSObject+BaseConfig.h"
+#import "NSObject+Common.h"
+#import "NSObject+ObjectMap.h"
+#import "NSDictionary+Common.h"
+#import "UIBarButtonItem+Common.h"
+#import "UITableView+Common.h"
+#import "UIViewController+Common.h"
+#import "UIActionSheet+Common.h"
+#import "UIDevice+Common.h"
+#import "NSURL+Common.h"
+#import "UILabel+Common.h"
+#import "UINavigationBar+Common.h"
+#import "UIActionSheet+Front.h"
+#import "UIScrollView+RefreshControl.h"
+#import "FunctionTipsManager.h"
+#import "UIWebView+Common.h"
+#import "UIImageView+WebCache.h"
+#import "NSDate+Common.h"
+#import "NSString+Enum.h"
+#import "UIView+HCSStarRatingView.h"
+
+#import "EABaseNavigationController.h"
+#import "EABaseViewController.h"
+#import "UtilsMacro.h"
+
+#import "RootTabViewController.h"
+
+#import <UMengAnalytics-NO-IDFA/MobClick.h>
+
+#import "TIMAdapter.h"
+
+#import <UITableView+FDTemplateLayoutCell/UITableView+FDTemplateLayoutCell.h>
+#import "EAModel.h"
+
+
+#endif
+
+#if DEBUG
+#define DebugLog(s, ...) NSLog(@"%s(%d): %@", __FUNCTION__, __LINE__, [NSString stringWithFormat:(s), ##__VA_ARGS__])
+#else
+#define DebugLog(s, ...)
+#endif
+#define kTrueValueForTest YES
+
+#define kTipAlert(_S_, ...)     [[[UIAlertView alloc] initWithTitle:@"提示" message:[NSString stringWithFormat:(_S_), ##__VA_ARGS__] delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil] show]
+
+//appStore地址
+#define kAppUrl  @"https://itunes.apple.com/app/id1048541582"
+#define kAppReviewURL   @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=1048541582"
+//Coding Mart 的专属链接
+#define kAppScheme @"mart-coding-net"
+#define kRegisterChannel @"codemart-ios"
+
+#define kDevice_Is_iPhone4 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)
+#define kDevice_Is_iPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
+#define kDevice_Is_iPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)
+#define kDevice_Is_iPhone6Plus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242, 2208), [[UIScreen mainScreen] currentMode].size) : NO)
+
+#define kScreen_Bounds [UIScreen mainScreen].bounds
+#define kPaddingLeftWidth 15.0
+#define kLine_MinHeight (1.0/ [UIScreen mainScreen].scale)
+#define kLineSpacing 5.0
+
+#define kScaleFrom_iPhone5_Desgin(_X_) (_X_ * (kScreen_Width/320))
+#define kScaleFrom_iPhone6_Desgin(_X_) (_X_ * (kScreen_Width/375))
+
+#define  kBackButtonFontSize 16
+#define  kNavTitleFontSize 18
+
+//Color
+#define kColorBrandBlue [UIColor colorWithHexString:@"0x4289DB"]
+#define kColorBarTint [UIColor colorWithRed:35.0/255 green:118.0/255 blue:215.0/255 alpha:1.0]
+#define kColorBGLight [UIColor colorWithHexString:@"0xF9F9F9"]
+#define kColorBGDark [UIColor colorWithHexString:@"0xF0F2F5"]
+#define kColorTextNormal [UIColor colorWithHexString:@"0x434A54"]
+#define kColorTextLight66 [UIColor colorWithHexString:@"0x666666"]
+#define kColorTextLight80 [UIColor colorWithHexString:@"0x808080"]
+#define kColorTextLight99 [UIColor colorWithHexString:@"0x999999"]
+#define kColorTextLightCC [UIColor colorWithHexString:@"0xCCCCCC"]
+#define kColorTextLightDD [UIColor colorWithHexString:@"0xDDDDDD"]
+#define kColorText22 [UIColor colorWithHexString:@"0x222222"]
+#define kColorBadgeBack [UIColor colorWithHexString:@"0xE84D60"]
+#define kColorBadgePadding [UIColor clearColor]
+
+#define kColorNewDD [UIColor colorWithHexString:@"0xDDE3EB"]
+#define kColorNew3C [UIColor colorWithHexString:@"0x3C4858"]
+#define kColorNewFF [UIColor colorWithHexString:@"0xFF5500"]
+
+
+
+//链接颜色
+#define kLinkAttributes     @{(__bridge NSString *)kCTUnderlineStyleAttributeName : [NSNumber numberWithBool:NO],(NSString *)kCTForegroundColorAttributeName : (__bridge id)kColorBrandBlue.CGColor}
+#define kLinkAttributesActive       @{(NSString *)kCTUnderlineStyleAttributeName : [NSNumber numberWithBool:NO],(NSString *)kCTForegroundColorAttributeName : (__bridge id)[[UIColor colorWithHexString:@"0x2D59A2"] CGColor]}
+
+//信鸽推送
+#define kXGPush_Id 2200152958
+#define kXGPush_Key @""
+//腾讯 IM
+#define kTimAccountType ([NSObject baseURLStrIsProduction]? @"9319": @"9352")
+#define kTimAppidAt3rd ([NSObject baseURLStrIsProduction]? @"1400021178": @"1400021252")
+#define kTimAppPushId ([NSObject baseURLStrIsProduction]? 3948: 3946)
+#define kTimAppPushId_Debug ([NSObject baseURLStrIsProduction]? 3947: 3945)
+
+#define kKeyWindow [UIApplication sharedApplication].keyWindow
+//友盟
+#define kUmeng_AppKey @""
+//Social Data
+#define kSocial_WX_ID @"wx68fa279578b1bda0"
+#define kSocial_WX_Secret @""
+#define kSocial_QQ_ID  @"1104833819"
+#define kSocial_QQ_Secret @""
+#define kSocial_Sina_RedirectURL @"https://sns.whalecloud.com/mart-coding/phone/callback"
+#define kSocial_Sina_OfficailAccount @"zhanghailong@coding.net"
+
+//Analytics
+#define kUmeng_Event_UserAction @"UserAction"
+
+#pragma mark - Weak Object
+/**
+ * @code
+ * ESWeak(imageView, weakImageView);
+ * [self testBlock:^(UIImage *image) {
+ *         ESStrong(weakImageView, strongImageView);
+ *         strongImageView.image = image;
+ * }];
+ *
+ * // `ESWeak_(imageView)` will create a var named `weak_imageView`
+ * ESWeak_(imageView);
+ * [self testBlock:^(UIImage *image) {
+ *         ESStrong_(imageView);
+ *   _imageView.image = image;
+ * }];
+ *
+ * // weak `self` and strong `self`
+ * ESWeakSelf;
+ * [self testBlock:^(UIImage *image) {
+ *         ESStrongSelf;
+ *         _self.image = image;
+ * }];
+ * @endcode
+ */
+
+#define ESWeak(var, weakVar) __weak __typeof(&*var) weakVar = var
+#define ESStrong_DoNotCheckNil(weakVar, _var) __typeof(&*weakVar) _var = weakVar
+#define ESStrong(weakVar, _var) ESStrong_DoNotCheckNil(weakVar, _var); if (!_var) return;
+
+#define ESWeak_(var) ESWeak(var, weak_##var);
+#define ESStrong_(var) ESStrong(weak_##var, _##var);
+
+/** defines a weak `self` named `__weakSelf` */
+#define ESWeakSelf      ESWeak(self, __weakSelf);
+/** defines a strong `self` named `_self` from `__weakSelf` */
+#define ESStrongSelf    ESStrong(__weakSelf, _self);
+
+#endif /* CodingMart_Prefix_pch */
