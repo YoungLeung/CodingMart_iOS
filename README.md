@@ -85,9 +85,9 @@
 码市 App 用的是 [MIT license][6] 。
 
 
-[1]: Screenshots/1.png
-[2]: Screenshots/2.png
-[3]: Screenshots/3.png
-[4]: Screenshots/4.png
-[5]: Screenshots/5.png
+[1]: Screenshots/1.jpg
+[2]: Screenshots/2.jpg
+[3]: Screenshots/3.jpg
+[4]: Screenshots/4.jpg
+[5]: Screenshots/5.jpg
 [6]: License
