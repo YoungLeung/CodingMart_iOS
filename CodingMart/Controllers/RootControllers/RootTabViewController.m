@@ -203,6 +203,8 @@ typedef NS_ENUM(NSInteger, TabVCType) {
 
     self.viewControllers = viewControllers;
     self.tabBar.translucent = YES;
+    [self.tabBar setHeight:49 + kSafeArea_Bottom];
+    [self.tabBar setContentEdgeInsets:UIEdgeInsetsMake(kSafeArea_Bottom / 2, 0, 0, 0)];
     for (NSInteger index = 0; index < self.tabBar.items.count; index++) {
         RDVTabBarItem *item = self.tabBar.items[index];
         item.titlePositionAdjustment = UIOffsetMake(0, 3);
@@ -216,6 +218,7 @@ typedef NS_ENUM(NSInteger, TabVCType) {
         UIImage *unselectedimage = [UIImage imageNamed:[NSString stringWithFormat:@"%@_normal", tabImageNames[index]]];
         [item setFinishedSelectedImage:selectedimage withFinishedUnselectedImage:unselectedimage];
         [item setTitle:[tabTitles objectAtIndex:index]];
+        item.badgePositionAdjustment = UIOffsetMake(0, kSafeArea_Bottom / 2);
     }
     self.delegate = self;
     

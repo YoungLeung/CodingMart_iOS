@@ -33,7 +33,7 @@
     CGFloat padding = 20;
     CGFloat width = (kScreen_Width - 3* padding)/ 2;
     CGFloat height = kScaleFrom_iPhone6_Desgin(50);
-    CGFloat buttonY = kScreen_Height - height - kScaleFrom_iPhone6_Desgin(40);
+    CGFloat buttonY = kScreen_Height - height - kScaleFrom_iPhone6_Desgin(40) - kSafeArea_Bottom;
     if (!_loginBtn) {
         _loginBtn = ({
             UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(padding, buttonY, width, height)];
@@ -90,7 +90,7 @@
         if (kScreen_Height == 480) {//矮屏尺寸的特殊搞一搞
             carouselY = 40;
         }
-        CGFloat carouselH = kScreen_Height - carouselY - kScaleFrom_iPhone6_Desgin(160);
+        CGFloat carouselH = kScreen_Height - carouselY - kScaleFrom_iPhone6_Desgin(160) - kSafeArea_Bottom;
         _myCarousel = ({
             iCarousel *icarousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, carouselY, kScreen_Width, carouselH)];
             icarousel.dataSource = self;
@@ -225,7 +225,7 @@
         [_imageV mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self);
             make.top.equalTo(self).offset(kScaleFrom_iPhone6_Desgin(30));
-            make.width.height.equalTo(self.mas_height).multipliedBy(0.6);
+            make.width.height.equalTo(self.mas_width);
         }];
         [_titleL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.imageV.mas_bottom).offset(5);
@@ -240,7 +240,8 @@
         [_detailTextL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(20);
             make.right.equalTo(self).offset(-20);
-            make.bottom.equalTo(self).offset(-40);
+            make.top.equalTo(self.imageV.mas_bottom).offset(5);
+//            make.bottom.equalTo(self).offset(-40);
         }];
     }
     return self;
@@ -248,7 +249,6 @@
 
 - (void)setImage:(NSString *)imageName title:(NSString *)title text:(NSString *)text{
     _imageV.image = [UIImage imageNamed:imageName];
-    
     BOOL hasTitle = title.length > 0;
     _titleL.hidden = !hasTitle;
     _textL.hidden = !hasTitle;

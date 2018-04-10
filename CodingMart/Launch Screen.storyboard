@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment version="2304" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cOY-uR-331" userLabel="SafeView">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="obG-Y5-kRd">
+                                        <rect key="frame" x="115.5" y="570.5" width="144.5" height="36.5"/>
+                                        <attributedString key="attributedText">
+                                            <fragment>
+                                                <string key="content">codemart.com
+</string>
+                                                <attributes>
+                                                    <color key="NSColor" red="0.46274509803921571" green="0.50196078431372548" blue="0.55686274509803924" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <font key="NSFont" size="13" name=".AppleSystemUIFont"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="truncatingTail" baseWritingDirection="natural" paragraphSpacing="5" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                            <fragment content="Copyright © 2014-2018">
+                                                <attributes>
+                                                    <color key="NSColor" red="0.46274509803921571" green="0.50196078431372548" blue="0.55686274509803924" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <font key="NSFont" size="13" name=".AppleSystemUIFont"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="truncatingTail" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcome_0" translatesAutoresizingMaskIntoConstraints="NO" id="d0r-3t-8fm">
+                                        <rect key="frame" x="56.5" y="64.5" width="262.5" height="262.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="d0r-3t-8fm" secondAttribute="height" id="CH0-q3-6DW"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="d0r-3t-8fm" firstAttribute="top" secondItem="cOY-uR-331" secondAttribute="bottom" multiplier="0.1" id="8bd-IP-Yuf"/>
+                                    <constraint firstItem="d0r-3t-8fm" firstAttribute="width" secondItem="cOY-uR-331" secondAttribute="width" multiplier="0.7" id="9rA-36-jjS"/>
+                                    <constraint firstAttribute="bottom" secondItem="obG-Y5-kRd" secondAttribute="bottom" constant="40" id="k35-Cd-jgq"/>
+                                    <constraint firstItem="obG-Y5-kRd" firstAttribute="centerX" secondItem="cOY-uR-331" secondAttribute="centerX" id="l92-AV-4jt"/>
+                                    <constraint firstItem="d0r-3t-8fm" firstAttribute="centerX" secondItem="cOY-uR-331" secondAttribute="centerX" id="q5Q-f1-y1O"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="cOY-uR-331" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="IHB-eh-ACp"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" secondItem="cOY-uR-331" secondAttribute="trailing" id="TVw-7E-tSR"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="bottom" secondItem="cOY-uR-331" secondAttribute="bottom" id="nCb-uZ-Ch7"/>
+                            <constraint firstItem="cOY-uR-331" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" id="wfK-2q-mh8"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-345" y="117"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="welcome_0" width="250" height="250"/>
+    </resources>
+</document>

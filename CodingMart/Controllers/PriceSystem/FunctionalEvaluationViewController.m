@@ -626,7 +626,8 @@
 
 #pragma mark - 底部菜单栏
 - (void)addBottomMenu {
-    _bottomMenuView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreen_Height - 44 - 64, kScreen_Width, 44)];
+    CGFloat bottomMenuHeight = 44 + kSafeArea_Bottom;
+    _bottomMenuView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreen_Height - 44 - kSafeArea_Top - bottomMenuHeight, kScreen_Width, bottomMenuHeight)];
     [_bottomMenuView setBackgroundColor:[UIColor colorWithHexString:@"414952" andAlpha:0.9]];
     [_bottomMenuView setUserInteractionEnabled:YES];
     
@@ -759,7 +760,7 @@
     if (count == 0) {
         return 0 ;
     }
-    float maxHeight = kScreen_Height * 0.7;
+    float maxHeight = kScreen_Height * 0.6;
     float allCellHeight = count * 44;
     float allSectionHeight = array.count * 30;
     float shoppingCarHeight = allCellHeight + allSectionHeight;
@@ -770,7 +771,7 @@
     float shoppingCarHeight = [self shoppingCarTableViewHeight];
     if (!_shoppingCarTableView) {
         // 背景
-        _bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kScreen_Height - 44)];
+        _bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kScreen_Height - _bottomMenuView.height)];
         UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideShoppingCar)];
         [_bgView addGestureRecognizer:tgr];
         [kKeyWindow addSubview:_bgView];
@@ -841,7 +842,7 @@
         // 显示
         [_bgView setHidden:NO];
         [UIView animateWithDuration:0.2 animations:^{
-            [_shoppingCarBgView setY:kScreen_Height - _shoppingCarBgView.height - 44];
+            [_shoppingCarBgView setY:kScreen_Height - _shoppingCarBgView.height - _bottomMenuView.height];
             [_bgView setBackgroundColor:[UIColor colorWithHexString:@"0x000000" andAlpha:0.4]];
         }];
     }
@@ -1217,6 +1218,8 @@
             // 计算结果
             _calcButton = [UIButton buttonWithType:UIButtonTypeCustom];
             [_calcButton setTitle:@"计算结果" forState:UIControlStateNormal];
+            _calcButton.contentVerticalAlignment = UIControlContentVerticalAlignmentTop;
+            _calcButton.titleEdgeInsets = UIEdgeInsetsMake(12, 0, -12, 0);
             [_calcButton setTitleColor:[UIColor colorWithHexString:@"ffffff" andAlpha:1.0f] forState:UIControlStateNormal];
             [_calcButton setTitleColor:[UIColor colorWithHexString:@"ffffff" andAlpha:0.5f] forState:UIControlStateDisabled];
             [_calcButton.titleLabel setFont:[UIFont systemFontOfSize:16.0f]];

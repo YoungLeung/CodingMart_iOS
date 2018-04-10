@@ -58,7 +58,7 @@
     loginL.textColor = [UIColor colorWithHexString:@"0x999999"];
     loginL.font = [UIFont systemFontOfSize:15];
     loginL.textAlignment = NSTextAlignmentCenter;
-    loginL.frame = CGRectMake(0, kScreen_Height - self.navBottomY - 60, kScreen_Width, 30);
+    loginL.frame = CGRectMake(0, kScreen_Height - self.navBottomY - 60 - kSafeArea_Bottom, kScreen_Width, 30);
     [self.view addSubview:loginL];
     [loginL setAttrStrWithStr:@"已有码市帐号，立即登录" diffColorStr:@"立即登录" diffColor:kColorBrandBlue];
     [loginL bk_whenTapped:^{

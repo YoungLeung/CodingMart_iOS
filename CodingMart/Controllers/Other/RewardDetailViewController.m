@@ -140,7 +140,7 @@
             }
         }
         //底部 按钮 + 状态
-        contentInset.bottom = 60;
+        contentInset.bottom = 60 + kSafeArea_Bottom;
         if (!_bottomV) {
             _bottomV = [UIView new];
             _bottomV.backgroundColor = self.view.backgroundColor;
@@ -148,7 +148,7 @@
             [self.view addSubview:_bottomV];
             [_bottomV mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.right.bottom.equalTo(self.view);
-                make.height.mas_equalTo(60);
+                make.height.mas_equalTo(60 + kSafeArea_Bottom);
             }];
         }
         [[_bottomV subviews] enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -161,14 +161,14 @@
             [_bottomV addSubview:bottomBtn];
             CGFloat btnLeftInset = _rewardDetal.joinStatus.integerValue == JoinStatusNotJoin? 15: (CGRectGetWidth(self.view.frame) - 15 - 110);//110
             [bottomBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.edges.equalTo(self.bottomV).insets(UIEdgeInsetsMake(10, btnLeftInset, 10, 15));
+                make.edges.equalTo(self.bottomV).insets(UIEdgeInsetsMake(10, btnLeftInset, 10 + kSafeArea_Bottom, 15));
             }];
         }
         UILabel *bottomL = [self p_bottomLWithStatus:_rewardDetal.joinStatus];
         if (bottomL) {
             [_bottomV addSubview:bottomL];
             [bottomL mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.edges.equalTo(self.bottomV).insets(UIEdgeInsetsMake(10, 15, 10, 140));
+                make.edges.equalTo(self.bottomV).insets(UIEdgeInsetsMake(10, 15, 10 + kSafeArea_Bottom, 140));
             }];
         }
     }else{

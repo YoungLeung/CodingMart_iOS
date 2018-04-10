@@ -474,6 +474,7 @@
 		5C329A955ED17A00C7434224 /* InvoiceAmoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C3297CB5A0259A485AABAC7 /* InvoiceAmoutViewController.m */; };
 		5C329C0DDD567346AFE7FB96 /* MPayOrderMapperTrade.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C329D51494F7701BB2B6DF8 /* MPayOrderMapperTrade.m */; };
 		5C329E938C1267FB6FDC6A1D /* EnterpriseCertificate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C329243467ACCE5D2CE3660 /* EnterpriseCertificate.m */; };
+		B101A357207C61FC00BEA256 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B101A356207C61FC00BEA256 /* Launch Screen.storyboard */; };
 		B1062EA21FA1F2E6007DED57 /* EAModel.h in Sources */ = {isa = PBXBuildFile; fileRef = B1D16C681F95F0B6000AD39A /* EAModel.h */; };
 		B1062EA31FA1F2E6007DED57 /* EABaseModel.h in Sources */ = {isa = PBXBuildFile; fileRef = B1D16C671F95F07C000AD39A /* EABaseModel.h */; };
 		B137B5541F98843900793F42 /* EAProjectPrivateUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B137B5461F98843500793F42 /* EAProjectPrivateUserCell.m */; };
@@ -1457,6 +1458,7 @@
 		5C329CB38D80CE77DE3B670E /* EnterpriseCertificate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnterpriseCertificate.h; sourceTree = "<group>"; };
 		5C329D51494F7701BB2B6DF8 /* MPayOrderMapperTrade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPayOrderMapperTrade.m; sourceTree = "<group>"; };
 		5C329F26FB6C235A42ADDC00 /* EnterpriseAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnterpriseAttachment.m; sourceTree = "<group>"; };
+		B101A356207C61FC00BEA256 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		B137B5461F98843500793F42 /* EAProjectPrivateUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAProjectPrivateUserCell.m; sourceTree = "<group>"; };
 		B137B5471F98843500793F42 /* EAProjectPrivateInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAProjectPrivateInfoCell.m; sourceTree = "<group>"; };
 		B137B5481F98843600793F42 /* EAProjectPrivatePhaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAProjectPrivatePhaseCell.m; sourceTree = "<group>"; };
@@ -2235,6 +2237,7 @@
 				4EBDC28C1BC645990037EB66 /* AppDelegate.m */,
 				4EBDC2991BC645990037EB66 /* Info.plist */,
 				4EBDC2C61BC653D60037EB66 /* CodingMart-Prefix.pch */,
+				B101A356207C61FC00BEA256 /* Launch Screen.storyboard */,
 				4EF5BDBF1D9BBB8C0018CEF5 /* Assets.xcassets */,
 				3272C2D81BF1E1B1005AD40B /* Macro */,
 				4EDFFF911BCA73C4007DF702 /* Resources */,
@@ -3342,6 +3345,7 @@
 				B1D16C531F95D870000AD39A /* EAProjectPrivate.storyboard in Resources */,
 				4E83AE801CF43A5C006BA3BB /* RewardDetailHeaderView.xib in Resources */,
 				B1D16C5D1F95DCB1000AD39A /* Independence.storyboard in Resources */,
+				B101A357207C61FC00BEA256 /* Launch Screen.storyboard in Resources */,
 				32F2F2B11BFC4BA100DC600D /* bgImage_HL@2x.png in Resources */,
 				4EDAE3E11BC7BCB000255FE8 /* SVWebViewController.strings in Resources */,
 				4EDAE3EC1BC7BCB000255FE8 /* SVWebViewControllerActivitySafari-iPad.png in Resources */,
@@ -4031,7 +4035,6 @@
 			baseConfigurationReference = 5AA3EAA49495099974D2B38F /* Pods-CodingMart.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = CodingMart/CodingMart.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -4059,7 +4062,7 @@
 					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
 				);
 				INFOPLIST_FILE = CodingMart/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4077,7 +4080,6 @@
 			baseConfigurationReference = FF0FB6CB1B25F0123643706A /* Pods-CodingMart.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = CodingMart/CodingMart.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -4105,7 +4107,7 @@
 					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
 				);
 				INFOPLIST_FILE = CodingMart/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
