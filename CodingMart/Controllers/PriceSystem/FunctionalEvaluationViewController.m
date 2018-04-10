@@ -816,7 +816,7 @@
 
 - (void)deleteItemFromShoppingCar {
     float shoppingCarHeight = [self shoppingCarTableViewHeight];
-    [_shoppingCarBgView setFrame:CGRectMake(0, kScreen_Height - shoppingCarHeight - 88, kScreen_Width, shoppingCarHeight + 44)];
+    [_shoppingCarBgView setFrame:CGRectMake(0, kScreen_Height - shoppingCarHeight - 44 - _bottomMenuView.height, kScreen_Width, shoppingCarHeight + 44)];
     [_shoppingCarTableView setFrame:CGRectMake(0, 44, kScreen_Width, shoppingCarHeight)];
     [_shoppingCarTableView reloadData];
 }
@@ -1194,7 +1194,7 @@
 - (void)updateShoppingCar {
     if (_bgView.hidden == NO) {
         float shoppingCarHeight = [self shoppingCarTableViewHeight];
-        [_shoppingCarBgView setFrame:CGRectMake(0, kScreen_Height - shoppingCarHeight - 88, kScreen_Width, shoppingCarHeight + 44)];
+        [_shoppingCarBgView setFrame:CGRectMake(0, kScreen_Height - shoppingCarHeight - 44 - _bottomMenuView.height, kScreen_Width, shoppingCarHeight + 44)];
         [_shoppingCarTableView setFrame:CGRectMake(0, 44, kScreen_Width, shoppingCarHeight)];
     }
     NSArray *array = [_shoppingDict allValues];
