@@ -48,7 +48,10 @@
 //    推送
     [self registerRemoteNotification];
 //    友盟统计
-    [MobClick startWithAppkey:kUmeng_AppKey reportPolicy:BATCH channelId:nil];
+    //    UMENG 统计
+    UMConfigInstance.appKey = kUmeng_AppKey;
+    [MobClick startWithConfigure:UMConfigInstance];
+
 //    友盟分享
     [self registerSocialData];
 //    Google Analytics
