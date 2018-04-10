@@ -18,7 +18,7 @@ pod 'UITableView+FDTemplateLayoutCell'
 pod 'RDHCollectionViewGridLayout', '~> 1.2'
 
 pod 'UMengSocial', '4.3'
-pod 'UMengAnalytics-NO-IDFA', '3.6.5'
+pod 'UMengAnalytics-NO-IDFA', '~> 4.2.5'
 
 pod 'QQ_XGPush', '~> 2.5.0'
 
