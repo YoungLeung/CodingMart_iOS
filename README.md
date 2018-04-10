@@ -43,23 +43,23 @@
 │   │   ├── Common //常用控件
 │   │   └── Manager //单例
 │   ├── Vendor //第三方类库
-│   │   ├── AFNetworking 、、网络请求
-│   │   ├── AGEmojiKeyboard 、、emoji 键盘
-│   │   ├── AMPopTip 、、Pop 提示
-│   │   ├── ActionSheetPicker 、、选择器
-│   │   ├── AlipaySDK 、、支付宝
-│   │   ├── AutoSlideScrollView 、、无限循环控件
-│   │   ├── JDStatusBarNotification 、、导航栏提示控件
-│   │   ├── JTSImageViewController 、、图片查看器
-│   │   ├── MJPhotoBrowser 、、图片查看器
-│   │   ├── NJKWebViewProgress 、、进度条
-│   │   ├── QBImagePickerController 、、图片选择器
-│   │   ├── RDVTabBarController 、、Tab 控制器
-│   │   ├── SDWebImage 、、图片下载
-│   │   ├── SVWebViewController 、、网页浏览器
-│   │   ├── TIMChat 、、腾讯云通信，私信
-│   │   ├── YLGIFImage 、、gif 图片
-│   │   └── iCarousel 、、轮播控件
+│   │   ├── AFNetworking //网络请求
+│   │   ├── AGEmojiKeyboard //emoji 键盘
+│   │   ├── AMPopTip //Pop 提示
+│   │   ├── ActionSheetPicker //选择器
+│   │   ├── AlipaySDK //支付宝
+│   │   ├── AutoSlideScrollView //无限循环控件
+│   │   ├── JDStatusBarNotification //导航栏提示控件
+│   │   ├── JTSImageViewController //图片查看器
+│   │   ├── MJPhotoBrowser //图片查看器
+│   │   ├── NJKWebViewProgress //进度条
+│   │   ├── QBImagePickerController //图片选择器
+│   │   ├── RDVTabBarController //Tab 控制器
+│   │   ├── SDWebImage //图片下载
+│   │   ├── SVWebViewController //网页浏览器
+│   │   ├── TIMChat //腾讯云通信，私信
+│   │   ├── YLGIFImage //gif 图片
+│   │   └── iCarousel //轮播控件
 │   └── Resources //资源文件
 ├── Cartfile //Carthage
 ├── Podfile //CocoaPods
