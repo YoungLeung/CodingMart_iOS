@@ -102,6 +102,11 @@ Main page|Project list|Message|Valuation|Userinfo
 
 The license of this repo is [MIT license][6]
 
+### Support
+
+***This repository is supported by [CODING](https://coding.net/)***
+
+
 [1]: Screenshots/1.jpg
 [2]: Screenshots/2.jpg
 [3]: Screenshots/3.jpg

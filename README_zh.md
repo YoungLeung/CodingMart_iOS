@@ -102,6 +102,11 @@
 码市 App 用的是 [MIT license][6] 。
 
 
+### 技术支持
+
+***本项目由 CODING 团队发布维护，可以 [点击这里](https://coding.net/) 来了解我们。***
+
+
 [1]: Screenshots/1.jpg
 [2]: Screenshots/2.jpg
 [3]: Screenshots/3.jpg
