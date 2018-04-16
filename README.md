@@ -12,11 +12,11 @@ This repository is the offical app of [Mart][7] platform, you can install it fro
 
 ### Mart App has done
 
-· Mass of developers
-· Simple way to publish a demand
-· Online valuation
-· Divide a demand by some small stages, manage by stage
-· Provide different features depend on the role of user (developers or demand side)
+- Mass of developers
+- Simple way to publish a demand
+- Online valuation
+- Divide a demand by some small stages, manage by stage
+- Provide different features depend on the role of user (developers or demand side)
 
 #### App features quick facts
 
