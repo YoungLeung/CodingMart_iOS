@@ -26,10 +26,10 @@ Main page|Project list|Message|Valuation|Userinfo
 
 ### Setup
 
-1. [Git][12]: `git clone https://github.com/Coding/CodingMart_iOS.git` 。
-2. [CocoaPods][10] : `pod install` 。
-3. [Carthage][11] : `carthage update` 。
-4. Fine the file `CodingMart/CodingMart-Prefix.pch.example`，copy it，and then reanme the copy with name : `CodingMart-Prefix.pch` 。
+1. [Git][12]: `git clone https://github.com/Coding/CodingMart_iOS.git` 
+2. [CocoaPods][10] : `pod install` 
+3. [Carthage][11] : `carthage update` 
+4. Find the file `CodingMart/CodingMart-Prefix.pch.example`，copy it，and then reanme the copy with name : `CodingMart-Prefix.pch` 
 
 ### File menu
 
